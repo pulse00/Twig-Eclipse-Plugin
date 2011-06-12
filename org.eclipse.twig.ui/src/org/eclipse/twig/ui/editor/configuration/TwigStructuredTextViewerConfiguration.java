@@ -38,6 +38,11 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
 /**
  * 
+ * Also copy/pasted from smarty.
+ * 
+ * TODO: review code and check if it can be cleaned up
+ * for the twig plugin.
+ * 
  * 
  * @see http://code.google.com/p/smartypdt/
  *
@@ -49,7 +54,12 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 	private IPropertyChangeListener propertyChangeListener;
 
 	public TwigStructuredTextViewerConfiguration() {
+		
+		
 	}
+	
+	
+	
 
 	/*
 	 * Returns an array of all the contentTypes (partition names) supported
@@ -88,7 +98,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		IContentAssistProcessor[] processors = null;
 
 		
-		System.err.println("get content assist processosr for " + partitionType);
+//		System.err.println("get content assist processosr for " + partitionType);
 		
 		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*||
 				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
@@ -96,7 +106,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 			processors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(processors);
 			
-			System.err.println("#### is twig partition type #####");
+//			System.err.println("#### is twig partition type #####");
 			
 		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
 			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);

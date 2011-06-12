@@ -13,8 +13,6 @@ public class TwigBuilder implements IBuildParticipantFactory {
 			throws CoreException {
 
 		
-		System.err.println("create twig builder");
-		
 		return new TwigBuildParticipant();
 	}
 

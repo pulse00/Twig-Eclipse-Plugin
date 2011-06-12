@@ -6,6 +6,7 @@ import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
+import org.eclipse.twig.ui.editor.configuration.TwigContributionContextTypeRegistry;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

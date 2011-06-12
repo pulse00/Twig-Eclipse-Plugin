@@ -1,32 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
-    Copyright (c) 2009 IBM Corporation and others.
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-    
-    Contributors:
-        IBM Corporation - initial API and implementation
-        Zend Technologies
- -->
-
+<?xml version="1.0" encoding="UTF-8"?>
 <templates>
 
-<!--  php templates -->
-
-<template
-	name="capture"
-	description="%CodeTemplates.capture"
-	id="org.eclipse.twig.ui.editor.templates.function.capture"
-	context="twig"
-	enabled="true" 
-	autoinsert="false">{capture name=${name} assign=${assign}}  ${cursor}{/capture}</template>
-
-<template
-	name="config_load"
-	description="%CodeTemplates.config_load1"
-	id="org.eclipse.twig.ui.editor.templates.function.config_load1"
-	context="twig"
-	enabled="true"
-	autoinsert="false">{config_load file="${config_file}"}${cursor}</template>
-<template	name="config_load"	description="%CodeTemplates.config_load2"	id="org.eclipse.twig.ui.editor.templates.function.config_load2"	context="twig"	enabled="true"	autoinsert="false">{config_load file="${config_file}" section="${section} scope="${scope} global="${global}}${cursor}</template><template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">{foreach item=${item} from=${dollar}${from}}    ${cursor}{foreachelse}{/foreach}</template><template	name="foreach"	description="%CodeTemplates.foreach2"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">{foreach item=${item} from=${dollar}${from} key=${key} name=${name}}    ${cursor}{foreachelse}{/foreach}</template><template	name="if"	description="%CodeTemplates.if"	id="org.eclipse.twig.ui.editor.templates.function.if"	context="twig"	enabled="true"	autoinsert="false">{if ${expression1}}    ${cursor}{elseif  ${expression2}}    {else}    {/if}</template><template	name="include"	description="%CodeTemplates.include1"	id="org.eclipse.twig.ui.editor.templates.function.include1"	context="twig"	enabled="true"	autoinsert="false">{include file='${file}'}${cursor}</template><template	name="include"	description="%CodeTemplates.include2"	id="org.eclipse.twig.ui.editor.templates.function.include2"	context="twig"	enabled="true"	autoinsert="false">{include file='${file}' assign=${variable}}${cursor}</template><template	name="include_php"	description="%CodeTemplates.include_php1"	id="org.eclipse.twig.ui.editor.templates.function.include_php1"	context="twig"	enabled="true"	autoinsert="false">{include_php file='${file}'}${cursor}</template><template	name="include_php"	description="%CodeTemplates.include_php2"	id="org.eclipse.twig.ui.editor.templates.function.include_php2"	context="twig"	enabled="true"	autoinsert="false">{include_php file='${file}' assign=${variable} once=${true}}${cursor}</template><template	name="insert"	description="%CodeTemplates.insert1"	id="org.eclipse.twig.ui.editor.templates.function.insert1"	context="twig"	enabled="true"	autoinsert="false">{insert name='${name}'}${cursor}</template><template	name="insert"	description="%CodeTemplates.insert2"	id="org.eclipse.twig.ui.editor.templates.function.insert2"	context="twig"	enabled="true"	autoinsert="false">{insert name='${name}' assign=${variable} script=${script_name}}${cursor}</template><template	name="ldelim"	description="%CodeTemplates.ldelim"	id="org.eclipse.twig.ui.editor.templates.function.ldelim"	context="twig"	enabled="true"	autoinsert="false">{ldelim}${cursor}</template><template	name="rdelim"	description="%CodeTemplates.rdelim"	id="org.eclipse.twig.ui.editor.templates.function.rdelim"	context="twig"	enabled="true"	autoinsert="false">{rdelim}${cursor}</template><template	name="literal"	description="%CodeTemplates.literal"	id="org.eclipse.twig.ui.editor.templates.function.literal"	context="twig"	enabled="true"	autoinsert="false">{literal}${cursor}{/literal}</template><template	name="php"	description="%CodeTemplates.php"	id="org.eclipse.twig.ui.editor.templates.function.php"	context="twig"	enabled="true"	autoinsert="false">{php}${cursor}{/php}</template><template	name="section"	description="%CodeTemplates.section1"	id="org.eclipse.twig.ui.editor.templates.function.section1"	context="twig"	enabled="true"	autoinsert="false">{section name=${name} loop=${dollar}${variable}}    ${cursor}{sectionelse}{/section}</template><template	name="section"	description="%CodeTemplates.section2"	id="org.eclipse.twig.ui.editor.templates.function.section2"	context="twig"	enabled="true"	autoinsert="false">{section name=${name} loop=${dollar}${variable} start=${0} step=${1} max=${max} show=${TRUE}}    ${cursor}{sectionelse}{/section}</template><template	name="strip"	description="%CodeTemplates.strip"	id="org.eclipse.twig.ui.editor.templates.function.strip"	context="twig"	enabled="true"	autoinsert="false">{strip}${cursor}{/strip}</template></templates>
+<!--  twig templates -->
+<template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">{% for ${item} in ${items} %}     ${cursor}{% endfor %}</template></templates>

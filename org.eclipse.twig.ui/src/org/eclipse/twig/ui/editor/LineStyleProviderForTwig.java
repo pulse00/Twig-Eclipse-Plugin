@@ -8,6 +8,10 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 /**
  * 
+ * {@link LineStyleProviderForTwig} adds TwigColors
+ * to the colorTypes of the {@link LineStyleProviderForPhp}.
+ *  
+ * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
@@ -16,7 +20,6 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
 
-	
 	static {
 		fColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);

@@ -6,6 +6,13 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.templates.TemplateContextType;
 
 
+/**
+ * Context for Twig code templates. 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class TwigTemplateContext extends ScriptTemplateContext {
 
 	protected TwigTemplateContext(TemplateContextType type, IDocument document,

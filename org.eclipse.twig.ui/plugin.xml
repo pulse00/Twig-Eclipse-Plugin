@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+
+	<!-- the TwigStructuredEditor -->
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -15,6 +17,9 @@
          </contentTypeBinding>
       </editor>
    </extension>
+   
+   
+   <!-- SourceEditor configuration-->
    <extension
          point="org.eclipse.wst.sse.ui.editorConfiguration">
 		<sourceViewerConfiguration
@@ -46,6 +51,7 @@
    </extension>
    
    
+   <!-- popup menus -->
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -70,7 +76,7 @@
       </objectContribution>
    </extension>
    
-      
+   <!-- preference pages -->
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -91,6 +97,8 @@
             name="%templatesPreferencePageName">
       </page>
    </extension>
+   
+   <!-- CompletionEngine - not used yet -->
    <extension
          point="org.eclipse.dltk.core.completionEngine">
       <completionEngine
@@ -105,6 +113,8 @@
             class="org.eclipse.twig.ui.preferences.TwigPreferenceInitializer">
       </initializer>
    </extension>
+   
+   <!-- ProposalComputer for CodeAssist and Templates -->
    <extension
          id="TwigCompletionProposalComputer"
          point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
@@ -117,6 +127,9 @@
          </partition>
       </scriptCompletionProposalComputer>
    </extension>
+   
+
+   <!-- Add support for twig eclipse templates --> 
    <extension
          point="org.eclipse.ui.editors.templates">
       <contextType

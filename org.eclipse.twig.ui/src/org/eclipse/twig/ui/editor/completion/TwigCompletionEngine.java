@@ -2,16 +2,24 @@ package org.eclipse.twig.ui.editor.completion;
 
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.CompletionProposal;
-import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IField;
 import org.eclipse.dltk.core.IMethod;
 import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.dltk.core.IModelElementVisitor;
 import org.eclipse.dltk.core.IType;
-import org.eclipse.dltk.core.ModelException;
 import org.eclipse.php.internal.core.codeassist.PHPCompletionEngine;
 
 
+/**
+ * 
+ * The {@link TwigCompletionEngine} is responsible to provide
+ * contextual code completion.
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigCompletionEngine extends PHPCompletionEngine {
 
@@ -25,34 +33,34 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 	public void complete(IModuleSource module, int position, int i) {
 
 		
-		System.err.println("#########################################");
-		System.err.println("#############  COMPLETE  ############################");
-		System.err.println("#########################################");		
+//		System.err.println("#########################################");
+//		System.err.println("#############  COMPLETE  ############################");
+//		System.err.println("#########################################");		
 		
-		String[] keywords = new String[] { "and", "del", "for", "is", "raise",
-				"assert", "elif", "from", "lambda", "break", "else", "global",
-				"not", "try", "class", "except", "if", "or", "while",
-				"continue", "exec", "import", "pass", "yield", "def",
-				"finally", "in", "print", "self", "return" };
-		for (int j = 0; j < keywords.length; j++) {
-			createProposal(keywords[j], null);
-		}
- 
-		// Completion for model elements.
-		try {
-			module.getModelElement().accept(new IModelElementVisitor() {
-				public boolean visit(IModelElement element) {
-					if (element.getElementType() > IModelElement.SOURCE_MODULE) {
-						createProposal(element.getElementName(), element);
-					}
-					return true;
-				}
-			});
-		} catch (ModelException e) {
-			if (DLTKCore.DEBUG) {
-				e.printStackTrace();
-			}
-		}
+//		String[] keywords = new String[] { "and", "del", "for", "is", "raise",
+//				"assert", "elif", "from", "lambda", "break", "else", "global",
+//				"not", "try", "class", "except", "if", "or", "while",
+//				"continue", "exec", "import", "pass", "yield", "def",
+//				"finally", "in", "print", "self", "return" };
+//		for (int j = 0; j < keywords.length; j++) {
+//			createProposal(keywords[j], null);
+//		}
+// 
+//		// Completion for model elements.
+//		try {
+//			module.getModelElement().accept(new IModelElementVisitor() {
+//				public boolean visit(IModelElement element) {
+//					if (element.getElementType() > IModelElement.SOURCE_MODULE) {
+//						createProposal(element.getElementName(), element);
+//					}
+//					return true;
+//				}
+//			});
+//		} catch (ModelException e) {
+//			if (DLTKCore.DEBUG) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 
 	}

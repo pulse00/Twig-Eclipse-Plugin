@@ -7,6 +7,8 @@ import org.eclipse.twig.ui.TwigUICorePlugin;
 
 /**
  * 
+ * Provide access to the eclipse code templates from the
+ * {@link IPreferenceStore} .
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>

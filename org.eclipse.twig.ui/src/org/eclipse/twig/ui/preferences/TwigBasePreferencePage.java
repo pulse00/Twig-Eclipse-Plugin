@@ -10,6 +10,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+
+/**
+ * 
+ * The base Twig preference page.
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class TwigBasePreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
