@@ -58,7 +58,6 @@ public class TwigModelHandler extends PHPModelHandler {
 	
 		super();
 		
-		System.err.println("instantiate model handler");
 		setId(ModelHandlerID);
 		setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 		
