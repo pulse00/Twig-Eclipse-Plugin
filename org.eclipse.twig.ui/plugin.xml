@@ -6,12 +6,12 @@
       <editor
             class="org.eclipse.twig.ui.editor.TwigStructuredEditor"
             contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
-            default="false"
+            default="true"
             id="org.eclipse.twig.editor"
             name="Twig Editor"
             symbolicFontName="org.eclipse.wst.sse.ui.textfont">
          <contentTypeBinding
-               contentTypeId="twigtemplate">
+               contentTypeId="org.eclipse.twig.core.twigtemplate">
          </contentTypeBinding>
       </editor>
    </extension>

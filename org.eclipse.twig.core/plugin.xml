@@ -25,15 +25,17 @@
      <modelHandler
             default="yes"
             class="org.eclipse.twig.core.documentModel.handler.TwigModelHandler"
-            associatedContentTypeId="org.eclipse.twig.core.template"
+            associatedContentTypeId="org.eclipse.twig.core.twigtemplate"
             id="org.eclipse.twig.core.documentModel.handler">
       </modelHandler>         
    </extension>
    <extension
+         id="org.eclipse.twig.core.documentfactories"
+         name="Twig Document Creation Factory"
          point="org.eclipse.core.filebuffers.documentCreation">
       <factory
             class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory"
-            contentTypeId="org.eclipse.twig.core.template">
+            contentTypeId="org.eclipse.twig.core.twigtemplate">
       </factory>
    </extension>
    <extension
