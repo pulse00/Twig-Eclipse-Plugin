@@ -1,7 +1,7 @@
 package org.eclipse.twig.ui.editor.templates;
 
+import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.php.internal.ui.editor.templates.PhpTemplateAccess;
 import org.eclipse.twig.ui.TwigUICorePlugin;
 
 
@@ -12,8 +12,7 @@ import org.eclipse.twig.ui.TwigUICorePlugin;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-@SuppressWarnings("restriction")
-public class TwigTemplateAccess extends PhpTemplateAccess {
+public class TwigTemplateAccess extends ScriptTemplateAccess {
 	
 	private static final String CUSTOM_TEMPLATES_KEY = "org.eclipse.twig.Templates"; //$NON-NLS-1$
 	
@@ -25,7 +24,6 @@ public class TwigTemplateAccess extends PhpTemplateAccess {
 			instance = new TwigTemplateAccess();
 		}
 
-		System.err.println("get access instance");
 		return instance;
 	}
 	
@@ -34,23 +32,19 @@ public class TwigTemplateAccess extends PhpTemplateAccess {
 	@Override
 	protected String getContextTypeId() {
 		
-		System.err.println("get context type id");
 		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
 	}
 
 	@Override
 	protected String getCustomTemplatesKey() {
 		
-		System.err.println("custom template key");
-
 		return CUSTOM_TEMPLATES_KEY;
+		
 	}
 
 	@Override
 	protected IPreferenceStore getPreferenceStore() {
 
-		
-		System.err.println("get pref store");
 		return TwigUICorePlugin.getDefault().getPreferenceStore();
 	}
 

@@ -19,8 +19,6 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 	public TwigCompletionEngine() {
 		super();
 		
-		System.err.println("created completion engine");
-		
 	}
 	
 	@Override

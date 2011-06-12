@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui;
+package org.eclipse.twig.ui.preferences;
 
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
 import org.eclipse.php.internal.ui.preferences.AbstractPreferencePage;

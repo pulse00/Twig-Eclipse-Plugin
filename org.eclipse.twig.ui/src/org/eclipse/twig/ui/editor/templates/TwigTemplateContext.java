@@ -12,7 +12,7 @@ public class TwigTemplateContext extends ScriptTemplateContext {
 			int completionOffset, int completionLength,
 			ISourceModule sourceModule) {
 		super(type, document, completionOffset, completionLength, sourceModule);
-		// TODO Auto-generated constructor stub
+
 	}
 
 }

@@ -3,7 +3,6 @@ package org.eclipse.twig.ui.preferences;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -21,15 +20,6 @@ public class TwigBasePreferencePage extends PreferencePage implements
 		setDescription("Twig");
 	}
 
-	public TwigBasePreferencePage(String title) {
-		super(title);
-
-	}
-
-	public TwigBasePreferencePage(String title, ImageDescriptor image) {
-		super(title, image);
-
-	}
 
 	@Override
 	public void init(IWorkbench workbench) {

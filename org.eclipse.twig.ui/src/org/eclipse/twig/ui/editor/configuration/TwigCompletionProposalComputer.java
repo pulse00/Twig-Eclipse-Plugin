@@ -27,8 +27,6 @@ public class TwigCompletionProposalComputer extends
 	protected TemplateCompletionProcessor createTemplateProposalComputer(
 			ScriptContentAssistInvocationContext context) {
 	
-
-		System.err.println("processor");
 		return new TwigTemplateCompletionProcessor(context);
 		
 		
@@ -38,8 +36,6 @@ public class TwigCompletionProposalComputer extends
 	@Override
 	protected ScriptCompletionProposalCollector createCollector(
 			ScriptContentAssistInvocationContext context) {
-
-		System.err.println("collector for " + context.getSourceModule().getElementName());
 
 		return new TwigCompletionProposalCollector(context.getDocument(), context.getSourceModule(), true);
 		

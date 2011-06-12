@@ -9,10 +9,10 @@ public class TwigTemplateContextType extends ScriptTemplateContextType {
 	
 	public static final String TWIG_CONTEXT_TYPE_ID = "twig"; //$NON-NLS-1$
 	
+	
 	@Override
 	public ScriptTemplateContext createContext(IDocument document, int offset, int length, ISourceModule sourceModule) {
 
-		System.err.println("template context");
 		return new TwigTemplateContext(this, document, offset, length, sourceModule);
 	}
 

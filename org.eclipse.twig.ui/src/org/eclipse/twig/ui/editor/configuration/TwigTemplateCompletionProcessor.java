@@ -1,13 +1,18 @@
 package org.eclipse.twig.ui.editor.configuration;
 
+
+
 import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.editor.templates.PhpTemplateCompletionProcessor;
+import org.eclipse.php.internal.ui.util.PHPPluginImages;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateAccess;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
 
@@ -19,27 +24,19 @@ import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigTemplateCompletionProcessor extends
-	PhpTemplateCompletionProcessor {
+public class TwigTemplateCompletionProcessor extends /*PhpTemplateCompletionProcessor*/ PhpTemplateCompletionProcessor {
 
-	public TwigTemplateCompletionProcessor(
-			ScriptContentAssistInvocationContext context) {
+	public TwigTemplateCompletionProcessor(ScriptContentAssistInvocationContext context) {
 		
 		super(context);
-		//setContextTypeId(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
+		setContextTypeId(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
 		
-		System.err.println("create coompletion processor");		
 
 	}
-	
-	
-	
 	
 	@Override
 	protected ScriptTemplateAccess getTemplateAccess() {
 
-		
-		System.err.println("get tempalte access");
 		return TwigTemplateAccess.getInstance();
 	}
 	
@@ -47,54 +44,44 @@ public class TwigTemplateCompletionProcessor extends
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
 			int offset) {
 	
-		
-		System.err.println("compute");
-		
-		ICompletionProposal[] prop =super.computeCompletionProposals(viewer, offset); 
-		
-		
-		System.err.println(prop.length);
-		
-		
+		ICompletionProposal[] prop = super.computeCompletionProposals(viewer, offset); 
 		return prop;
 	}
 	
 	@Override
 	protected String getContextTypeId() {
 		
-		System.err.println("get context type");
 		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
 	}
 	
+	
+//	@Override
+//	protected ICompletionProposal createProposal(Template template,
+//			TemplateContext context, IRegion region, int relevance) {
+//
+//		return new TwigTemplateProposal(template, context, region, getImage(template), relevance);
+//		
+//	}
+	
+	
 	@Override
-	protected ICompletionProposal createProposal(Template template,
-			TemplateContext context, IRegion region, int relevance) {
+	protected Image getImage(Template template) {
 
+		return TwigUICorePlugin.getImageDescriptorRegistry().get(PHPPluginImages.DESC_TEMPLATE);
 
-		System.err.println("create twig template proposal");
-		return new TwigTemplateProposal(template, context, region, getImage(template), relevance);
-		
 	}
 	
+	@Override
+	protected ContextTypeRegistry getTemplateContextRegistry() {
 	
-//	@Override
-//	protected Image getImage(Template template) {
-//
-//		return TwigUICorePlugin.getImageDescriptorRegistry().get(PHPPluginImages.DESC_TEMPLATE);
-//
-//	}
+		return TwigUICorePlugin.getDefault().getTemplateContextRegistry();
 	
-//	@Override
-//	protected ContextTypeRegistry getTemplateContextRegistry() {
-//	
-//		return TwigUICorePlugin.getDefault().getTemplateContextRegistry();
-//	
-//	}
-//	
-//	@Override
-//	protected TemplateStore getTemplateStore() {
-//		
-//		return TwigUICorePlugin.getDefault().getTemplateStore();
-//	}
+	}
+	
+	@Override
+	protected TemplateStore getTemplateStore() {
+		
+		return TwigUICorePlugin.getDefault().getTemplateStore();
+	}
 
 }

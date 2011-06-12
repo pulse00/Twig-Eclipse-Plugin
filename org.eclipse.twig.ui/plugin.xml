@@ -80,13 +80,13 @@
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
-            class="org.eclipse.twig.ui.TwigEditorPreferencePage"
+            class="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             name="%twigEditorPageName">
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
-            class="org.eclipse.twig.ui.TwigTemplatePreferencePage"
+            class="org.eclipse.twig.ui.preferences.TwigTemplatePreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigTemplatesPreferencePage"
             name="%templatesPreferencePageName">
       </page>
@@ -116,6 +116,18 @@
                type="org.eclipse.twig.TWIG_DEFAULT">
          </partition>
       </scriptCompletionProposalComputer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.templates">
+      <contextType
+            class="org.eclipse.twig.ui.editor.templates.TwigTemplateContextType"
+            id="twig"
+            name="Twig template">
+      </contextType>
+      <include
+            file="templates/twigdefault-templates.xml"
+            translations="templates/twigdefault-templates.properties">
+      </include>
    </extension>
 
 </plugin>
