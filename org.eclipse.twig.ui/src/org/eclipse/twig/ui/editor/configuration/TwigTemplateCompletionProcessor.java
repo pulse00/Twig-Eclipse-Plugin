@@ -1,13 +1,13 @@
 package org.eclipse.twig.ui.editor.configuration;
 
 import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
-import org.eclipse.dltk.ui.templates.ScriptTemplateCompletionProcessor;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.php.internal.ui.editor.templates.PhpTemplateCompletionProcessor;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateAccess;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
 
@@ -20,7 +20,7 @@ import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
  */
 @SuppressWarnings("restriction")
 public class TwigTemplateCompletionProcessor extends
-	ScriptTemplateCompletionProcessor {
+	PhpTemplateCompletionProcessor {
 
 	public TwigTemplateCompletionProcessor(
 			ScriptContentAssistInvocationContext context) {

@@ -12,6 +12,9 @@ public class TwigBuilder implements IBuildParticipantFactory {
 	public IBuildParticipant createBuildParticipant(IScriptProject project)
 			throws CoreException {
 
+		
+		System.err.println("create twig builder");
+		
 		return new TwigBuildParticipant();
 	}
 

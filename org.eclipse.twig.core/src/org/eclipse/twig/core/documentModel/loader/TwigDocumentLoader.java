@@ -1,9 +1,9 @@
 package org.eclipse.twig.core.documentModel.loader;
 
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.php.internal.core.documentModel.loader.PHPDocumentLoader;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigStructuredTextPartitioner;
-import org.eclipse.wst.html.core.internal.encoding.HTMLDocumentLoader;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 import org.eclipse.wst.sse.core.internal.ltk.parser.RegionParser;
 
@@ -17,7 +17,7 @@ import org.eclipse.wst.sse.core.internal.ltk.parser.RegionParser;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigDocumentLoader extends HTMLDocumentLoader {
+public class TwigDocumentLoader extends PHPDocumentLoader {
 	
 	
 	@Override

@@ -1,6 +1,5 @@
 package org.eclipse.twig.ui.editor.completion;
 
-import org.eclipse.dltk.codeassist.ScriptCompletionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.DLTKCore;
@@ -10,16 +9,23 @@ import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IModelElementVisitor;
 import org.eclipse.dltk.core.IType;
 import org.eclipse.dltk.core.ModelException;
+import org.eclipse.php.internal.core.codeassist.PHPCompletionEngine;
 
 
-public class TwigCompletionEngine extends ScriptCompletionEngine {
+@SuppressWarnings("restriction")
+public class TwigCompletionEngine extends PHPCompletionEngine {
 
+	
+	public TwigCompletionEngine() {
+		super();
+		
+		System.err.println("created completion engine");
+		
+	}
 	
 	@Override
 	public void complete(IModuleSource module, int position, int i) {
 
-		
-		
 		
 		System.err.println("#########################################");
 		System.err.println("#############  COMPLETE  ############################");
@@ -93,9 +99,5 @@ public class TwigCompletionEngine extends ScriptCompletionEngine {
 			this.requestor.accept(proposal);
 		} catch (Exception e) {
 		}
-	}	
-	
-	
-	
-
+	}
 }

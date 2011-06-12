@@ -1,7 +1,7 @@
 package org.eclipse.twig.ui.editor.templates;
 
-import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.php.internal.ui.editor.templates.PhpTemplateAccess;
 import org.eclipse.twig.ui.TwigUICorePlugin;
 
 
@@ -12,7 +12,8 @@ import org.eclipse.twig.ui.TwigUICorePlugin;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class TwigTemplateAccess extends ScriptTemplateAccess {
+@SuppressWarnings("restriction")
+public class TwigTemplateAccess extends PhpTemplateAccess {
 	
 	private static final String CUSTOM_TEMPLATES_KEY = "org.eclipse.twig.Templates"; //$NON-NLS-1$
 	

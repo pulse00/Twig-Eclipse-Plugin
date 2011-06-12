@@ -5,7 +5,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.twig.ui.editor.TwigStructuredEditor"
-            contributorClass="org.eclipse.wst.html.ui.internal.edit.ui.ActionContributorHTML"
+            contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
             default="true"
             id="org.eclipse.twig.editor"
             name="%editor.name"
@@ -21,11 +21,9 @@
 			class="org.eclipse.twig.ui.editor.configuration.TwigStructuredTextViewerConfiguration"
 			target="org.eclipse.twig.core.twigtemplate" />
 			
-
 		<contentOutlineConfiguration
-			class="org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration"
+			class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"
 			target="org.eclipse.twig.core.twigtemplate" />
-			
 		<propertySheetConfiguration
 			class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
 			target="org.eclipse.twig.core.twigtemplate" />
@@ -33,22 +31,18 @@
 			type="sourceeditingtexttools"
 			class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
 			target="org.eclipse.twig.core.twigtemplate" />
-			
 		<provisionalConfiguration
 			type="characterpairmatcher"
-			class="org.eclipse.twig.ui.text.TwigDocumentRegionEdgeMatcher"
+			class="org.eclipse.php.internal.ui.text.PHPDocumentRegionEdgeMatcher"
 			target="org.eclipse.twig.core.twigtemplate" />
-			
-		<!-- 
 		<provisionalConfiguration
 			type="structuredtextfoldingprovider"
 			class="org.eclipse.php.internal.ui.folding.PHPFoldingStructureProviderProxy"
 			target="org.eclipse.twig.core.twigtemplate" />
-		-->			
 		<provisionalDefinition
 			type="spellingregions"
-			value="XML_COMMENT_TEXT, XML_CONTENT"
-			target="org.eclipse.twig.core.twigtemplate" />         
+			value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT"
+			target="org.eclipse.twig.core.twigtemplate" />
    </extension>
    
    
@@ -101,7 +95,7 @@
          point="org.eclipse.dltk.core.completionEngine">
       <completionEngine
             class="org.eclipse.twig.ui.editor.completion.TwigCompletionEngine"
-            nature="org.eclipse.twig.core.TwigNature"
+            nature="org.eclipse.php.core.PHPNature"
             priority="100">
       </completionEngine>
    </extension>
@@ -110,6 +104,18 @@
       <initializer
             class="org.eclipse.twig.ui.preferences.TwigPreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         id="TwigCompletionProposalComputer"
+         point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
+      <scriptCompletionProposalComputer
+            categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
+            class="org.eclipse.twig.ui.editor.configuration.TwigCompletionProposalComputer"
+            toolkitId="org.eclipse.php.core.PHPNature">
+         <partition
+               type="org.eclipse.twig.TWIG_DEFAULT">
+         </partition>
+      </scriptCompletionProposalComputer>
    </extension>
 
 </plugin>

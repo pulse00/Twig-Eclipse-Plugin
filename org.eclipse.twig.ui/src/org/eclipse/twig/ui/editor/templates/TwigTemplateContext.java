@@ -5,6 +5,7 @@ import org.eclipse.dltk.ui.templates.ScriptTemplateContext;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.templates.TemplateContextType;
 
+
 public class TwigTemplateContext extends ScriptTemplateContext {
 
 	protected TwigTemplateContext(TemplateContextType type, IDocument document,
