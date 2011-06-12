@@ -5,12 +5,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.php.internal.core.PHPToolkitUtil;
-import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 
 /**
@@ -20,8 +19,7 @@ import org.eclipse.ui.IStorageEditorInput;
  * @see http://code.google.com/p/smartypdt/
  *
  */
-@SuppressWarnings("restriction")
-public class TwigStructuredEditor extends PHPStructuredEditor {
+public class TwigStructuredEditor extends StructuredTextEditor {
 
 	public TwigStructuredEditor() {
 		// TODO Auto-generated constructor stub
@@ -32,8 +30,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	protected void doSetInput(IEditorInput input) throws CoreException {
 
 		IResource resource = null;
-		isExternal = false;
-
 		if (input instanceof IFileEditorInput) {
 			// This is the existing workspace file
 			final IFileEditorInput fileInput = (IFileEditorInput) input;
@@ -53,7 +49,7 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		}
 
 		if (resource instanceof IFile) {
-			if (PHPToolkitUtil.isPhpFile((IFile) resource) || "tpl".equals(resource.getFullPath().getFileExtension())) {
+			if ("twig".equals(resource.getFullPath().getFileExtension())) {
 
 				TwigSourceParser.editFile.set(resource);
 
@@ -63,7 +59,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 				super.doSetInput(input);
 			}
 		} else {
-			isExternal = true;
 			super.doSetInput(input);
 		}
 
@@ -71,9 +66,9 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		if (imageDescriptor != null) {
 			setTitleImage(JFaceResources.getResources().createImageWithDefault(imageDescriptor));
 		}
-		if (isShowingOverrideIndicators()) {
-			installOverrideIndicator(true);
-		}		
+//		if (isShowingOverrideIndicators()) {
+//			installOverrideIndicator(true);
+//		}		
 	}
 
 }

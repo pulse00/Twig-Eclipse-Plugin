@@ -7,7 +7,7 @@ public class TwigCorePlugin extends Plugin {
 	
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.twig.core";
-	public static final String NATURE_ID = PLUGIN_ID + ".TwigNature";
+
 	
 	
 	// The shared instance	

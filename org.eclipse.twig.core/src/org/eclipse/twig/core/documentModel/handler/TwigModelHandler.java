@@ -1,12 +1,12 @@
 package org.eclipse.twig.core.documentModel.handler;
 
 import org.eclipse.php.internal.core.documentModel.encoding.PHPDocumentCharsetDetector;
-import org.eclipse.php.internal.core.documentModel.handler.PHPModelHandler;
 import org.eclipse.twig.core.documentModel.loader.TwigDocumentLoader;
 import org.eclipse.twig.core.documentModel.loader.TwigModelLoader;
 import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import org.eclipse.wst.sse.core.internal.document.IDocumentCharsetDetector;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
+import org.eclipse.wst.sse.core.internal.ltk.modelhandler.AbstractModelHandler;
 import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
 
 /**
@@ -48,7 +48,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigModelHandler extends PHPModelHandler {
+public class TwigModelHandler extends AbstractModelHandler {
 	
 	
 	private static String ModelHandlerID = "org.eclipse.twig.core.documentModel.handler"; //$NON-NLS-1$

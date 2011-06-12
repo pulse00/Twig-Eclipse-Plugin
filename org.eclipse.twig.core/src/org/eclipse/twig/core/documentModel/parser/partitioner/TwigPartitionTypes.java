@@ -17,14 +17,14 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 public class TwigPartitionTypes {
 	
 	
-	public static final String TWIG_DEFAULT = "org.eclipse.php.TWIG_DEFAULT"; //$NON-NLS-1$
-	public static final String TWIG_COMMENT = "org.eclipse.php.TWIG_COMMENT"; //$NON-NLS-1$
-	public static final String TWIG_STRING = "org.eclipse.php.TWIG_STRING"; //$NON-NLS-1$
-	public static final String TWIG_QUOTED_STRING = "org.eclipse.php.TWIG_QUOTED_STRING"; //$NON-NLS-1$
+	public static final String TWIG_DEFAULT = "org.eclipse.twig.TWIG_DEFAULT"; //$NON-NLS-1$
+	public static final String TWIG_COMMENT = "org.eclipse.twig.TWIG_COMMENT"; //$NON-NLS-1$
+	public static final String TWIG_STRING = "org.eclipse.twig.TWIG_STRING"; //$NON-NLS-1$
+	public static final String TWIG_QUOTED_STRING = "org.eclipse.twig.TWIG_QUOTED_STRING"; //$NON-NLS-1$
 
 	public final static String[] configuredPartitions = new String[] { TWIG_DEFAULT, TWIG_COMMENT, TWIG_STRING, TWIG_QUOTED_STRING};
 
-	public static boolean isSmartyPartition(String regionType) {
+	public static boolean isTwigPartition(String regionType) {
 		return regionType == TWIG_DEFAULT || regionType == TWIG_COMMENT || regionType == TWIG_STRING || regionType == TWIG_QUOTED_STRING;
 	}
 

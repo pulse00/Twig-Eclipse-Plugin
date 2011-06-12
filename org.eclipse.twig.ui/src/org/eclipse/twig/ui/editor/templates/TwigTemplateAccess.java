@@ -24,6 +24,7 @@ public class TwigTemplateAccess extends ScriptTemplateAccess {
 			instance = new TwigTemplateAccess();
 		}
 
+		System.err.println("get access instance");
 		return instance;
 	}
 	
@@ -32,18 +33,23 @@ public class TwigTemplateAccess extends ScriptTemplateAccess {
 	@Override
 	protected String getContextTypeId() {
 		
+		System.err.println("get context type id");
 		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
 	}
 
 	@Override
 	protected String getCustomTemplatesKey() {
+		
+		System.err.println("custom template key");
 
 		return CUSTOM_TEMPLATES_KEY;
 	}
 
 	@Override
 	protected IPreferenceStore getPreferenceStore() {
+
 		
+		System.err.println("get pref store");
 		return TwigUICorePlugin.getDefault().getPreferenceStore();
 	}
 

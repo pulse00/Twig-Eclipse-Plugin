@@ -27,6 +27,8 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 public class TwigSourceParser extends XMLSourceParser {
 
 
+	
+	@SuppressWarnings("rawtypes")
 	public static ThreadLocal editFile = new ThreadLocal();
 	private IProject project;
 
@@ -41,14 +43,14 @@ public class TwigSourceParser extends XMLSourceParser {
 	}
 
 	/*
-	 * Change the Tokenizer used by the XMLSourceParser to make it PHP aware
+	 * Change the Tokenizer used by the XMLSourceParser to make it Twig aware
 	 */
 	@Override
 	public BlockTokenizer getTokenizer() {
 		if (fTokenizer == null) {
-			TwigTokenizer phpTokenizer = new TwigTokenizer();
-			phpTokenizer.setProject(project);
-			fTokenizer = phpTokenizer;
+			TwigTokenizer twigTokenizer = new TwigTokenizer();
+			twigTokenizer.setProject(project);
+			fTokenizer = twigTokenizer;
 		}
 		return fTokenizer;
 	}

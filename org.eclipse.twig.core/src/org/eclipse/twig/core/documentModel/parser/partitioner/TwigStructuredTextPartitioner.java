@@ -2,8 +2,8 @@ package org.eclipse.twig.core.documentModel.parser.partitioner;
 
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITypedRegion;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
+import org.eclipse.wst.html.core.internal.text.StructuredTextPartitionerForHTML;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 
@@ -15,21 +15,32 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner {
+public class TwigStructuredTextPartitioner extends StructuredTextPartitionerForHTML {
 
 
 
+//	@Override
+//	public String getContentType(int offset, boolean preferOpenPartitions) {
+//
+//		final ITypedRegion partition = getPartition(offset);
+//		return partition == null ? null : partition.getType();		
+//
+//	}
+	
 	@Override
-	public String getContentType(int offset, boolean preferOpenPartitions) {
-
+	public String getContentType(int offset) {
+		
 		final ITypedRegion partition = getPartition(offset);
 		return partition == null ? null : partition.getType();		
-
+		
 	}
 
 	@Override
 	public String getPartitionType(ITextRegion region, int offset) {
 
+		
+		System.err.println("get partition type");
+		System.out.println(region.toString());
 
 		// if smarty region
 		final String type = region.getType();

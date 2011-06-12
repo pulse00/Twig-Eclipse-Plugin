@@ -1,12 +1,7 @@
 package org.eclipse.twig.ui;
 
-import java.io.IOException;
-
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
-import org.eclipse.php.internal.ui.Logger;
-import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
-import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -24,7 +19,7 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static TwigUICorePlugin plugin;
 	
-	private ImageDescriptorRegistry fImageDescriptorRegistry;
+	
 	protected ContextTypeRegistry contentTypeRegistry = null;
 	protected TemplateStore templateStore = null;
 	
@@ -62,15 +57,15 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	public static ImageDescriptorRegistry getImageDescriptorRegistry() {
-		return getDefault().internalGetImageDescriptorRegistry();
-	}
-	
-	private synchronized ImageDescriptorRegistry internalGetImageDescriptorRegistry() {
-		if (fImageDescriptorRegistry == null)
-			fImageDescriptorRegistry = new ImageDescriptorRegistry();
-		return fImageDescriptorRegistry;
-	}
+//	public static ImageDescriptorRegistry getImageDescriptorRegistry() {
+//		return getDefault().internalGetImageDescriptorRegistry();
+//	}
+//	
+//	private synchronized ImageDescriptorRegistry internalGetImageDescriptorRegistry() {
+//		if (fImageDescriptorRegistry == null)
+//			fImageDescriptorRegistry = new ImageDescriptorRegistry();
+//		return fImageDescriptorRegistry;
+//	}
 
 	public ContextTypeRegistry getTemplateContextRegistry() {
 		
@@ -88,17 +83,18 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 
 	public TemplateStore getTemplateStore() {
 		
-		if (templateStore == null) {
-			templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), PreferenceConstants.TEMPLATES_KEY);
-
-			try {
-				templateStore.load();
-			} catch (IOException e) {
-				//TODO change Logger to smarty's
-				Logger.logException(e);
-			}
-		}
-		return templateStore;
+//		if (templateStore == null) {
+//			templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), PreferenceConstants.TEMPLATES_KEY);
+//
+//			try {
+//				templateStore.load();
+//			} catch (IOException e) {
+//
+//				Logger.logException(e);
+//			}
+//		}
+//		return templateStore;
+		return null;
 		
 	}
 }

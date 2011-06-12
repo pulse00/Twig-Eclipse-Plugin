@@ -9,9 +9,6 @@ import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.ITextViewerExtension2;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -22,15 +19,12 @@ import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.autoEdit.CloseTagAutoEditStrategyPHP;
 import org.eclipse.php.internal.ui.autoEdit.MainAutoEditStrategy;
 import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
-import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
-import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration;
-import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
+import org.eclipse.wst.html.ui.StructuredTextViewerConfigurationHTML;
 import org.eclipse.wst.sse.ui.internal.contentassist.StructuredContentAssistant;
 import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
@@ -43,8 +37,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigStructuredTextViewerConfiguration extends
-	PHPStructuredTextViewerConfiguration {
+public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerConfigurationHTML {
 
 	private LineStyleProvider fLineStyleProvider;
 	private IPropertyChangeListener propertyChangeListener;
@@ -78,66 +71,77 @@ public class TwigStructuredTextViewerConfiguration extends
 
 	@Override
 	public LineStyleProvider[] getLineStyleProviders(ISourceViewer sourceViewer, String partitionType) {
-		if (TwigPartitionTypes.isSmartyPartition(partitionType)) {
+		if (TwigPartitionTypes.isTwigPartition(partitionType)) {
 			return new LineStyleProvider[] { getLineStyleProvider() };
 		}
 		return super.getLineStyleProviders(sourceViewer, partitionType);
 	}
 
-	@Override
-	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
-		IContentAssistProcessor[] processors = null;
-
-		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*||
-				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
-			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
-			processors = new IContentAssistProcessor[processorsList.size()];
-			processorsList.toArray(processors);
-		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
-			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
-			IContentAssistProcessor[] smartyProcessors = new IContentAssistProcessor[processorsList.size()];
-			processorsList.toArray(smartyProcessors);
-			IContentAssistProcessor[] phpProcessors = super.getContentAssistProcessors(sourceViewer, partitionType);
-			processors = new IContentAssistProcessor[smartyProcessors.length + phpProcessors.length]; 
-			System.arraycopy(smartyProcessors, 0, processors, 0, smartyProcessors.length);
-			System.arraycopy(phpProcessors, 0, processors, smartyProcessors.length, phpProcessors.length);
-		}else {
-			processors = super.getContentAssistProcessors(sourceViewer, partitionType);
-		}
-		return processors;
-	}
+//	@Override
+//	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
+//		IContentAssistProcessor[] processors = null;
+//
+//		
+//		System.err.println("get content assist processosr");
+//		
+//		
+//		System.err.println(partitionType);
+//		
+//		
+//		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*||
+//				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
+//			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
+//			processors = new IContentAssistProcessor[processorsList.size()];
+//			processorsList.toArray(processors);
+//			
+//			System.err.println("#### is twig partition type #####");
+//			
+//		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
+//			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
+//			IContentAssistProcessor[] twigProcessors = new IContentAssistProcessor[processorsList.size()];
+//			processorsList.toArray(twigProcessors);
+//			IContentAssistProcessor[] phpProcessors = super.getContentAssistProcessors(sourceViewer, partitionType);
+//			processors = new IContentAssistProcessor[twigProcessors.length + phpProcessors.length]; 
+//			System.arraycopy(twigProcessors, 0, processors, 0, twigProcessors.length);
+//			System.arraycopy(phpProcessors, 0, processors, twigProcessors.length, phpProcessors.length);
+//		}else {
+//			processors = super.getContentAssistProcessors(sourceViewer, partitionType);
+//		}
+//		return processors;
+//
+//	}
 
 	private ArrayList processors = null;
 
-	private ArrayList getPHPDefaultProcessors(ISourceViewer sourceViewer) {
-		if (processors != null) {
-			return processors;
-		}
-		processors = new ArrayList();
-		ITextEditor textEditor = ((PHPStructuredTextViewer)sourceViewer).getTextEditor();
-		processors.add(new PHPCompletionProcessor(textEditor, (ContentAssistant) getPHPContentAssistant(sourceViewer), TwigPartitionTypes.TWIG_DEFAULT));
-		String processorsExtensionName = "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
-
-		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(processorsExtensionName);
-		for (int i = 0; i < elements.length; i++) {
-			IConfigurationElement element = elements[i];
-			if (element.getName().equals("processor")) { //$NON-NLS-1$
-				ElementCreationProxy ecProxy = new ElementCreationProxy(element, processorsExtensionName);
-				IContentAssistProcessor processor = (IContentAssistProcessor) ecProxy.getObject();
-				if (processor != null) {
-					processors.add(processor);
-				}
-			}
-		}
-
-		return processors;
-	}
+//	private ArrayList getPHPDefaultProcessors(ISourceViewer sourceViewer) {
+//		if (processors != null) {
+//			return processors;
+//		}
+//		processors = new ArrayList();
+//		ITextEditor textEditor = ((PHPStructuredTextViewer)sourceViewer).getTextEditor();
+//		processors.add(new PHPCompletionProcessor(textEditor, (ContentAssistant) getPHPContentAssistant(sourceViewer), TwigPartitionTypes.TWIG_DEFAULT));
+//		String processorsExtensionName = "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
+//
+//		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(processorsExtensionName);
+//		for (int i = 0; i < elements.length; i++) {
+//			IConfigurationElement element = elements[i];
+//			if (element.getName().equals("processor")) { //$NON-NLS-1$
+//				ElementCreationProxy ecProxy = new ElementCreationProxy(element, processorsExtensionName);
+//				IContentAssistProcessor processor = (IContentAssistProcessor) ecProxy.getObject();
+//				if (processor != null) {
+//					processors.add(processor);
+//				}
+//			}
+//		}
+//
+//		return processors;
+//	}
 
 	private StructuredContentAssistant fContentAssistant = null;
-
-	public IContentAssistant getPHPContentAssistant(ISourceViewer sourceViewer) {
-		return getPHPContentAssistant(sourceViewer, false);
-	}
+//
+//	public IContentAssistant getPHPContentAssistant(ISourceViewer sourceViewer) {
+//		return getPHPContentAssistant(sourceViewer, false);
+//	}
 
 	private StructuredContentAssistant getPHPContentAssistantExtension() {
 		StructuredContentAssistant rv = null;

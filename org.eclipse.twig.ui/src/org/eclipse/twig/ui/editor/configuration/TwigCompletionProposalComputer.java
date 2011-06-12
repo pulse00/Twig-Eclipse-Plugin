@@ -1,8 +1,9 @@
 package org.eclipse.twig.ui.editor.configuration;
 
+import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
+import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalComputer;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
 import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
-import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalComputer;
 
 
 /**
@@ -15,7 +16,7 @@ import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalCom
  */
 @SuppressWarnings("restriction")
 public class TwigCompletionProposalComputer extends
-		PHPCompletionProposalComputer {
+	ScriptCompletionProposalComputer {
 
 	public TwigCompletionProposalComputer() {
 
@@ -26,8 +27,19 @@ public class TwigCompletionProposalComputer extends
 	protected TemplateCompletionProcessor createTemplateProposalComputer(
 			ScriptContentAssistInvocationContext context) {
 	
-		return new TwigTemplateCompletionProcessor(context);
+
+		return null;
+//		System.err.println("create template processor");
+//		return new TwigTemplateCompletionProcessor(context);
 		
+	}
+
+
+	@Override
+	protected ScriptCompletionProposalCollector createCollector(
+			ScriptContentAssistInvocationContext context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
