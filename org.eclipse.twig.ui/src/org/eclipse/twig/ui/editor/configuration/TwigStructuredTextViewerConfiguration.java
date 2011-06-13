@@ -19,7 +19,6 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
 import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
-import org.eclipse.php.internal.ui.autoEdit.CloseTagAutoEditStrategyPHP;
 import org.eclipse.php.internal.ui.autoEdit.MainAutoEditStrategy;
 import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
@@ -29,6 +28,7 @@ import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
+import org.eclipse.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
 import org.eclipse.wst.sse.ui.internal.contentassist.StructuredContentAssistant;
@@ -240,7 +240,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 	}
 
 	private static final IAutoEditStrategy mainAutoEditStrategy = new MainAutoEditStrategy();
-	private static final IAutoEditStrategy closeTagAutoEditStrategy = new CloseTagAutoEditStrategyPHP();
+	private static final IAutoEditStrategy closeTagAutoEditStrategy = new CloseTagAutoEditStrategyTwig();
 	private static final IAutoEditStrategy[] phpStrategies = new IAutoEditStrategy[] { mainAutoEditStrategy };
 
 	@Override
@@ -258,6 +258,9 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		final IAutoEditStrategy[] augAutoEditStrategies = new IAutoEditStrategy[length + 1];
 		System.arraycopy(autoEditStrategies, 0, augAutoEditStrategies, 0, length);
 		augAutoEditStrategies[length] = closeTagAutoEditStrategy;
+		
+		
+		System.err.println("get auto edit strategy from configuration");
 
 		return augAutoEditStrategies;
 	}
