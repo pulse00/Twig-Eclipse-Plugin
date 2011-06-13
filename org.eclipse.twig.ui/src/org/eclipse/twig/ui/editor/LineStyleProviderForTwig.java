@@ -23,6 +23,10 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 	static {
 		fColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+		
+		fColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN, PreferenceConstants.EDITOR_COMMENT_COLOR);
+		fColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE, PreferenceConstants.EDITOR_COMMENT_COLOR);
+		
 		fColorTypes.put(TwigRegionContext.TWIG_CONTENT, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);

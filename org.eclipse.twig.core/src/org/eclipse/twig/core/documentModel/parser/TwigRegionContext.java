@@ -18,6 +18,8 @@ public interface TwigRegionContext {
 	
 	public static final String TWIG_OPEN = "TWIG_OPEN"; //$NON-NLS-1$
 	public static final String TWIG_CLOSE = "TWIG_CLOSE"; //$NON-NLS-1$
+	public static final String TWIG_STMT_OPEN = "TWIG_STMT_OPEN"; //$NON-NLS-1$
+	public static final String TWIG_STMT_CLOSE = "TWIG_STMT_CLOSE"; //$NON-NLS-1$	
 	public static final String TWIG_CONTENT = "TWIG_CONTENT"; //$NON-NLS-1$
 	public static final String TWIG_COMMENT = "TWIG_COMMENT"; //$NON-NLS-1$
 	public static final String TWIG_VARIABLE = "TWIG_VARIABLE"; //$NON-NLS-1$

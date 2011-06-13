@@ -1939,7 +1939,7 @@ NUMBER=([0-9])+
 <YYINITIAL> {TW_STMT_DEL_LEFT} {
 
 	yybegin(ST_TWIG_CONTENT);
-	return TWIG_OPEN;
+	return TWIG_STMT_OPEN;
 
 }
 
@@ -1977,7 +1977,7 @@ NUMBER=([0-9])+
 	
 	
 	yybegin(YYINITIAL);
-	return TWIG_CLOSE;
+	return TWIG_STMT_CLOSE;
 }
 
 <ST_TWIG_CONTENT> "$"{LABEL} {
