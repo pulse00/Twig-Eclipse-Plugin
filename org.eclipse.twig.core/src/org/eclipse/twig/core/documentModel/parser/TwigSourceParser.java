@@ -259,7 +259,7 @@ public class TwigSourceParser extends XMLSourceParser {
 			if ((type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || (type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE)) {
 				currentNode.setEnded(true);
 				
-				System.err.println("########### TWIG CLOSE 2");
+				//System.err.println("########### TWIG CLOSE 2");
 			}
 			if (headNode == null && currentNode != null) {
 				headNode = currentNode;

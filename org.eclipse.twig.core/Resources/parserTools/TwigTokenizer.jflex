@@ -1937,6 +1937,8 @@ NUMBER=([0-9])+
 }
 // end DECLARATION handling
 
+// the twig grammar resided inside the XML_CONTENT which would
+// be returned normally here
 <YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
 	if(Debug.debugTokenizer)
 		dump("\nXML content");//$NON-NLS-1$
@@ -1946,6 +1948,13 @@ NUMBER=([0-9])+
 
 		// checks the twig case
 		return findTwigDelimiter(text, XML_CONTENT, allLeftDelimiters, TWIG_OPEN, ST_TWIG_CONTENT);		
+
+}
+
+
+<YYINITIAL> "{%" {
+
+	return TWIG_OPEN;
 
 }
 
