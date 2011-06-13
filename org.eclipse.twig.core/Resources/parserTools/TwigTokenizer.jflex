@@ -94,8 +94,13 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	private String internalContext = null;
 	
 	// The left and right delimiters
-	public static String twigLeftDelim = "{";
-	public static String twigRightDelim = "}";
+	public static String twigLeftDelim = "{{";
+	public static String twigRightDelim = "}}";
+
+	public static String twigLeftDelimStatement = "{%";
+	public static String twigRightDelimStatement = "%}";
+	
+	public static String[] allLeftDelimiters = new String[] {twigLeftDelim, twigLeftDelimStatement};	
 	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
@@ -1940,7 +1945,7 @@ NUMBER=([0-9])+
 		assert text != null;
 
 		// checks the twig case
-		return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);		
+		return findTwigDelimiter(text, XML_CONTENT, allLeftDelimiters, TWIG_OPEN, ST_TWIG_CONTENT);		
 
 }
 
@@ -1950,9 +1955,9 @@ NUMBER=([0-9])+
 	
 	/////////////////// START TWIG ADDITIONS
 
-	<ST_TWIG_CONTENT> "}" {
+	<ST_TWIG_CONTENT> "}}" {
 		//TODO: Figure out how to change the end delimiter, so that 
-		//this.rightSmartyDelimiter is used (so it can be changed in config)
+		//this.rightTwigDelimiter is used (so it can be changed in config)
 		yybegin(YYINITIAL);
 		return TWIG_CLOSE;
 	}
