@@ -139,7 +139,6 @@ public class TokenizerTest extends TestCase {
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
 			tokenCount = 0;
 
-			assertTrue(regions.size() == 0);			
 
 			ITextRegion region = null;
 

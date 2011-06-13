@@ -10,6 +10,7 @@
             class="org.eclipse.twig.ui.editor.TwigStructuredEditor"
             contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
             default="true"
+            icon="ico/full/obj16/default_icon.gif"
             id="org.eclipse.twig.editor"
             name="%editor.name"
             symbolicFontName="org.eclipse.wst.sse.ui.textfont">
@@ -148,6 +149,29 @@
             file="templates/twigdefault-templates.xml"
             translations="templates/twigdefault-templates.properties">
       </include>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.twig.ui"
+            name="Twig">
+      </category>
+      <wizard
+            category="org.eclipse.twig.ui"
+            class="org.eclipse.twig.ui.wizards.NewTemplateWizard"
+            icon="ico/full/obj16/default_icon.gif"
+            id="org.eclipse.twig.ui.wizards.NewTemplateWizard"
+            name="Twig template">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.php.perspective">
+         <newWizardShortcut
+               id="org.eclipse.twig.ui.wizards.NewTemplateWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
    </extension>
 
 </plugin>

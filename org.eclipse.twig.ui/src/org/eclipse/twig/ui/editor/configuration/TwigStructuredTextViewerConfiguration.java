@@ -259,9 +259,6 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		System.arraycopy(autoEditStrategies, 0, augAutoEditStrategies, 0, length);
 		augAutoEditStrategies[length] = closeTagAutoEditStrategy;
 		
-		
-		System.err.println("get auto edit strategy from configuration");
-
 		return augAutoEditStrategies;
 	}
 
