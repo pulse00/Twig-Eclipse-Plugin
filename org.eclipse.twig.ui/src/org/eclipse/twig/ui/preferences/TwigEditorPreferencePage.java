@@ -34,7 +34,8 @@ public class TwigEditorPreferencePage extends AbstractPreferencePage {
 
 		createHeader(parent);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.EDITOR_PREFERENCES);
-		return super.createContents(parent);		
+
+		return super.createContents(parent);
 
 	}
 

@@ -15,6 +15,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * 
  * The base Twig preference page.
  * 
+ * TODO: externalize all strings.
+ * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *

@@ -2,4 +2,4 @@
 <templates>
 
 <!--  twig templates -->
-<template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">{% for ${item} in ${items} %}     ${cursor}{% endfor %}</template></templates>
+<template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">%template.foreach1</template></templates>

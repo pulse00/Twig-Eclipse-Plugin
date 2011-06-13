@@ -179,12 +179,7 @@ public class TwigSourceParser extends XMLSourceParser {
 					|| (type == DOMRegionContext.XML_DECLARATION_CLOSE) || (type == DOMRegionContext.XML_CDATA_CLOSE)) {
 				
 				
-				System.err.println("######### TWIG CLOSE ########## " + region.getStart() + " " + region.getLength());
-				
 				int l  = region.getStart() + region.getLength() - currentNode.getStart();
-				
-//				if (type == TwigRegionContext.TWIG_CLOSE)
-//					l++;
 				
 				currentNode.setEnded(true);
 				currentNode.setLength(l);
@@ -257,9 +252,7 @@ public class TwigSourceParser extends XMLSourceParser {
 			// current layout
 			// ensures that they open StructuredDocumentRegions the same way
 			if ((type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || (type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE)) {
-				currentNode.setEnded(true);
-				
-				//System.err.println("########### TWIG CLOSE 2");
+				currentNode.setEnded(true);				
 			}
 			if (headNode == null && currentNode != null) {
 				headNode = currentNode;

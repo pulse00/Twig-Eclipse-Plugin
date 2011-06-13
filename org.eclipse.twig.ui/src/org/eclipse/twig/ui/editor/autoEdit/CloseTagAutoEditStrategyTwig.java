@@ -1,10 +1,11 @@
 package org.eclipse.twig.ui.editor.autoEdit;
 
-import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.ui.Logger;
+import org.eclipse.twig.ui.TwigUICorePlugin;
+import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -14,16 +15,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
  * 
  * Strategy for auto-closing twig tags.
  * 
- * TODO: Create preference page to turn this feature on and off
- * for different tags.
- * 
- * TODO: Add auto-close feature for single percentage charaterc:
- * 
- * <pre>
- * 
- *  %  <--- auto-creates {% | %} with the cursor in the center.
- * 
- * </pre>
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
@@ -59,9 +50,13 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 						autoClosePrintTag(node);
 					} else if (command.text.equals("%")) {  //$NON-NLS-1$
 
-						autoCloseStatementTag(node);						
-						
+						if (prefixedWith(document, command.offset, "{")) {							
+							autoCloseStatementTag(node);
+						} else if (prefixedWith(document, command.offset, " ")) {
+							autoCreateStatementTag(node);
+						}
 					}
+				
 				}
 			}
 		} finally {
@@ -71,25 +66,87 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 	}
 
 
-	private void autoCloseStatementTag(IDOMNode node) {
+	/**
+	 * Automatically create a twig statement tag
+	 * and insert the cursor in the middle.
+	 * 
+	 * <pre>
+	 * 
+	 *   {% | %}
+	 * </pre>
+	 * 
+	 */
+	private boolean autoCreateStatementTag(IDOMNode node) {
 
-		if (node != null
-				&& prefixedWithTwig(document, command.offset, "{")) { //$NON-NLS-1$ //$NON-NLS-2$
 
-			command.text += "  %}"; //$NON-NLS-1$
-			command.shiftsCaret = false;
-			command.caretOffset = command.offset + 2;
-			command.doit = false;
+		IPreferenceStore store = TwigUICorePlugin.getDefault().getPreferenceStore();
+		boolean autocreate = store.getBoolean(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS);
+		
+		if (autocreate == false || node == null)
+			return true;
 
-		}
+		command.text = "{%  %}"; //$NON-NLS-1$
+		command.shiftsCaret = false;
+		command.caretOffset = command.offset + 3;
+		command.doit = false;		
+		
+		return true;
 		
 	}
 
+	/**
+	 * Automatically close an open twig statement tag
+	 * and insert the cursor in the middle.
+	 * 
+	 * <pre>
+	 * 
+	 * 	 {|   <-- type "%" and get
+	 * 
+	 *   {% | %}
+	 *   
+	 * </pre>
+	 * 
+	 */
+	private boolean autoCloseStatementTag(IDOMNode node) {
 
+		IPreferenceStore store = TwigUICorePlugin.getDefault().getPreferenceStore();
+		boolean autoclose = store.getBoolean(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS);
+
+		if (autoclose == false || node == null)
+			return true;
+
+		command.text += "  %}"; //$NON-NLS-1$
+		command.shiftsCaret = false;
+		command.caretOffset = command.offset + 2;
+		command.doit = false;
+		return true;
+
+	}
+
+
+	/**
+	 * Automatically close an open twig print tag
+	 * and insert the cursor in the middle.
+	 * 
+	 * <pre>
+	 * 
+	 * 	 {|   <-- type "{" and get
+	 * 
+	 *   {{ | }}
+	 *   
+	 * </pre>
+	 * 
+	 */
 	private void autoClosePrintTag(IDOMNode node) {
 
+		IPreferenceStore store = TwigUICorePlugin.getDefault().getPreferenceStore();
+		boolean autoclose = store.getBoolean(PreferenceConstants.AUTOCLOSE_PRINT_TAGS);
+		
+		if (autoclose == false)
+			return;
+		
 		if (node != null
-				&& prefixedWithTwig(document, command.offset, "{")) { //$NON-NLS-1$ //$NON-NLS-2$
+				&& prefixedWith(document, command.offset, "{")) { //$NON-NLS-1$ //$NON-NLS-2$
 
 			command.text += "  }}"; //$NON-NLS-1$
 			command.shiftsCaret = false;
@@ -101,14 +158,21 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 
 
 
-	private boolean prefixedWithTwig(IDocument document, int offset, String string) {
+	private boolean prefixedWith(IDocument document, int offset, String string) {
 
 		try {
-			return document.getLength() >= string.length()
-					&& document.get(offset - string.length(), string.length())
-					.equals(string);
-		} catch (BadLocationException e) {
-			Logger.logException(e);
+			
+			boolean larger = document.getLength() >= string.length();
+			String prefix =  document.get(offset - string.length(), string.length());
+			
+			// we're at the beginning of the line and checking for whitespace
+			if (prefix.length() == 0 && string.equals(" "))
+				return true;
+			
+			return  larger && prefix.equals(string);
+			
+		} catch (Exception e) {
+						
 			return false;
 		}
 	}	

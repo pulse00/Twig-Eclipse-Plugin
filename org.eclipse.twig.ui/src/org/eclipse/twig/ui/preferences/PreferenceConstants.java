@@ -209,6 +209,13 @@ public class PreferenceConstants {
 	public static final String EDITOR_TEXT_HOVER_MODIFIERS = PHPUiPlugin.ID + "hoverModifiers"; //$NON-NLS-1$
 
 	public static final String TEMPLATES_KEY = "org.eclipse.php.smarty.ui.editor.templates"; //$NON-NLS-1$	
+
+	public static final String AUTOCLOSE_PRINT_TAGS = "autoclose_print_tags";
+
+	public static final String AUTOCLOSE_STATEMENT_TAGS = "autoclose_statement_tags";
+
+	public static final String AUTOCREATE_STATEMENT_TAGS = "autocreate_statement_tags";
+	
 	
 	public static void initializeDefaultValues() {
 

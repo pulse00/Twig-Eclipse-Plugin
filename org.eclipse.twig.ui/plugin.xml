@@ -97,6 +97,12 @@
             id="org.eclipse.twig.ui.preferences.TwigTemplatesPreferencePage"
             name="%templatesPreferencePageName">
       </page>
+      <page
+            category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            class="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
+            id="org.eclipse.twig.ui.page1"
+            name="%codeassistPreferencePageName">
+      </page>
    </extension>
    
    <!-- CompletionEngine - not used yet -->
