@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.configuration;
+package org.eclipse.twig.ui.editor.contentassist;
 
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;

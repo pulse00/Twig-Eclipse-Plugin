@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.configuration;
+package org.eclipse.twig.ui.editor.contentassist;
 
 
 

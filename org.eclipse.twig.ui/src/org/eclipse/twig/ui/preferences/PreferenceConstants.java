@@ -1,7 +1,8 @@
-package org.eclipse.twig.ui;
+package org.eclipse.twig.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
+import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;

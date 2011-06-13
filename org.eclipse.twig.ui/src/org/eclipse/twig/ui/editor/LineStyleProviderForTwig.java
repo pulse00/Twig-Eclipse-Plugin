@@ -3,7 +3,7 @@ package org.eclipse.twig.ui.editor;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.ui.PreferenceConstants;
+import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 /**

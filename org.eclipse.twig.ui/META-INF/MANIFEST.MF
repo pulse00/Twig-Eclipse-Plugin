@@ -26,4 +26,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.texteditor.templates
-Export-Package: org.eclipse.twig.ui.editor
+Export-Package: org.eclipse.twig.ui.editor,
+ org.eclipse.twig.ui.editor.completion

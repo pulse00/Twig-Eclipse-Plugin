@@ -1,5 +1,10 @@
 package org.eclipse.twig.ui.editor.completion;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IField;
@@ -23,6 +28,14 @@ import org.eclipse.php.internal.core.codeassist.PHPCompletionEngine;
 @SuppressWarnings("restriction")
 public class TwigCompletionEngine extends PHPCompletionEngine {
 
+	private static final String COMPLETION_PROVIDER_ID = "org.eclipse.twig.completion.provider";
+	
+
+	private String[] keywords = new String[] { "as", "filter", "endfilter", "macro", "endmacro",
+			"set", "import", "if", "elseif", "else", "endif", "for",
+			"in", "endfor", "autoescape", "endautoescape", "true", "false", "include",
+			"extends", "block", "endblock", "raw", "endraw", "spaceless",
+			"endspaceless" };
 	
 	public TwigCompletionEngine() {
 		super();
@@ -30,22 +43,13 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 	}
 	
 	@Override
-	public void complete(IModuleSource module, int position, int i) {
+	public void complete(final IModuleSource module, final int position, final int i) {
 
 		
-//		System.err.println("#########################################");
-//		System.err.println("#############  COMPLETE  ############################");
-//		System.err.println("#########################################");		
-		
-//		String[] keywords = new String[] { "and", "del", "for", "is", "raise",
-//				"assert", "elif", "from", "lambda", "break", "else", "global",
-//				"not", "try", "class", "except", "if", "or", "while",
-//				"continue", "exec", "import", "pass", "yield", "def",
-//				"finally", "in", "print", "self", "return" };
-//		for (int j = 0; j < keywords.length; j++) {
-//			createProposal(keywords[j], null);
-//		}
-// 
+		for (int j = 0; j < keywords.length; j++) {
+			createProposal(keywords[j], null);
+		}
+ 
 //		// Completion for model elements.
 //		try {
 //			module.getModelElement().accept(new IModelElementVisitor() {
@@ -62,7 +66,45 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 //			}
 //		}
 		
+		
+		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(COMPLETION_PROVIDER_ID);
+		
+		try {
+			
+			for (IConfigurationElement e : config) {
+				
+				final Object o = e.createExecutableExtension("class");
+				
+				if (o instanceof ITwigCompletionProvider) {
+					
+					ISafeRunnable runnable = new ISafeRunnable() {
+						
+						@Override
+						public void run() throws Exception {
+							ITwigCompletionProvider provider  = (ITwigCompletionProvider) o;							
+							String[] proposals = provider.provideCompletions(module, position, i);
+							
+							for (String prop : proposals) {
+								createProposal(prop, null);								
+							}
+							
+						}
+						
+						@Override
+						public void handleException(Throwable exception) {
+							System.out.println("exception in extension!");							
+						}
+					};
+					
+					SafeRunner.run(runnable);										
+				}
+			}
+			
+		} catch (CoreException e) {
+			
+			e.printStackTrace();
 
+		}
 	}
 	
 	private void createProposal(String name, IModelElement element) {

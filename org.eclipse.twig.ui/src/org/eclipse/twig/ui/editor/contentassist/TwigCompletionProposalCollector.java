@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.configuration;
+package org.eclipse.twig.ui.editor.contentassist;
 
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.IDocument;

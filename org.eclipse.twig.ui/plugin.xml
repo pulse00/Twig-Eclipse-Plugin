@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="org.eclipse.twig.completion.provider" name="Twig Completion Provider" schema="schema/org.eclipse.twig.completion.provider.exsd"/>
 
 	<!-- the TwigStructuredEditor -->
    <extension
@@ -120,7 +121,7 @@
          point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
       <scriptCompletionProposalComputer
             categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
-            class="org.eclipse.twig.ui.editor.configuration.TwigCompletionProposalComputer"
+            class="org.eclipse.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
             toolkitId="org.eclipse.php.core.PHPNature">
          <partition
                type="org.eclipse.twig.TWIG_DEFAULT">

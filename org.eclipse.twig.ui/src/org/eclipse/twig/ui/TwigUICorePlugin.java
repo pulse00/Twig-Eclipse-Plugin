@@ -8,6 +8,7 @@ import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
 import org.eclipse.twig.ui.editor.configuration.TwigContributionContextTypeRegistry;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
+import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -92,13 +93,11 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 		
 		if (templateStore == null) {
 			
-			System.err.println("create template stor");
 			templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), PreferenceConstants.TEMPLATES_KEY);
 
 			try {
 				templateStore.load();
 				
-				System.err.println("number of templates: " + templateStore.getTemplates().length);
 			} catch (IOException e) {
 
 				e.printStackTrace();
