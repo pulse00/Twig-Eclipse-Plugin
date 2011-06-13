@@ -1,6 +1,7 @@
 package org.eclipse.twig.test.testcases;
 
 import java.io.IOException;
+import java.util.Stack;
 
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
@@ -27,6 +28,7 @@ import junit.framework.TestCase;
 public class TokenizerTest extends TestCase {
 
 	private TwigTokenizer tokenizer;
+	private Stack<ContextRegion> regions;
 	private String tokens;
 	private int tokenCount;
 
@@ -50,19 +52,57 @@ public class TokenizerTest extends TestCase {
 		try {
 
 			tokens = "{%extends'::base.html.twig'%}";
-			
-			System.out.println(tokens);
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
 			tokenCount = 0;
 
+			regions = new Stack<ContextRegion>();
+			assertTrue(regions.size() == 0);
+			
 			while(!tokenizer.isEOF()) {
-
-
-				ITextRegion region = tokenizer.getNextToken();
-				
-				System.err.println(region.getType());
-
+				ContextRegion region = (ContextRegion) tokenizer.getNextToken();				
+				assertNotNull(region);
+				regions.push(region);
 			}
+			
+			assertTrue(regions.size() == 4);
+			assertEquals(regions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
+			assertEquals(regions.get(1).getType(), TwigRegionContext.TWIG_KEYWORD);
+			assertEquals(regions.get(2).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(regions.get(3).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			
+			tokens = "{% use \"blocks.html\" with sidebar as base_sidebar %}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			tokenCount = 0;
+
+			regions = new Stack<ContextRegion>();			
+			assertTrue(regions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ContextRegion region = (ContextRegion) tokenizer.getNextToken();				
+				assertNotNull(region);
+				regions.push(region);
+			}
+			
+			assertTrue(regions.size() == 16);
+			assertEquals(regions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
+			assertEquals(regions.get(1).getType(), TwigRegionContext.TWIG_KEYWORD);
+			assertEquals(regions.get(2).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(3).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_START);
+			assertEquals(regions.get(4).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT);
+			assertEquals(regions.get(5).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_END);
+			assertEquals(regions.get(6).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(7).getType(), TwigRegionContext.TWIG_KEYWORD);
+			assertEquals(regions.get(8).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(9).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(regions.get(10).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(11).getType(), TwigRegionContext.TWIG_KEYWORD);
+			assertEquals(regions.get(12).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(13).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(regions.get(14).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(15).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			
+			
+			
 
 		} catch (IOException e) {
 
@@ -78,40 +118,28 @@ public class TokenizerTest extends TestCase {
 		try {
 
 			tokens = "{{ }}";
-			tokenizer = new TwigTokenizer(tokens.toCharArray());			
-			tokenCount = 0;
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+
+			regions = new Stack<ContextRegion>();
+			assertTrue(regions.size() == 0);			
 
 			while(!tokenizer.isEOF()) {
 
 				ContextRegion region = (ContextRegion) tokenizer.getNextToken();				
 				assertNotNull(region);
-
-				switch (tokenCount++) {
-
-				case 0:					
-					assertEquals(region.getType(), TwigRegionContext.TWIG_OPEN);
-					break;
-
-				case 1:
-					assertEquals(region.getType(), TwigRegionContext.TWIG_WHITESPACE);
-					break;
-
-				case 2:
-					assertEquals(region.getType(), TwigRegionContext.TWIG_CLOSE);					
-					break;
-				default:
-					fail();
-					break;
-				}				
+				regions.push(region);
 			}
 
-			assertEquals(tokenCount, 3);
 
-
+			assertEquals(regions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
+			assertEquals(regions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(regions.get(2).getType(), TwigRegionContext.TWIG_CLOSE);					
+			
 			tokens = "  {{  }}  ";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
 			tokenCount = 0;
 
+			assertTrue(regions.size() == 0);			
 
 			ITextRegion region = null;
 
