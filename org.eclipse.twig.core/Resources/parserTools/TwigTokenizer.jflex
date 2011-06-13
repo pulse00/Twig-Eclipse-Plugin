@@ -1320,6 +1320,9 @@ TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
 TWIG_START = \{\{{WHITESPACE}*
 TWIG_COMMENT =([\*]([^*]|{WHITESPACE})*[\*])
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
+
+KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
+
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
@@ -1982,8 +1985,17 @@ NUMBER=([0-9])+
 
 <ST_TWIG_CONTENT> "$"{LABEL} {
 
+	if (Debug.debugTokenizer)
+		System.out.println("variable1");
+
 	return TWIG_VARIABLE;
 }
+
+<ST_TWIG_CONTENT> {KEYWORD} {
+
+	return TWIG_KEYWORD;
+}
+
 
 <ST_TWIG_CONTENT> {LABEL} {
 
@@ -2030,15 +2042,24 @@ NUMBER=([0-9])+
 
 <ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
 
+	if (Debug.debugTokenizer)
+		System.out.println("variable2");
+		
     return TWIG_VARIABLE;
 }
 
 <ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{NUMBER}[\]] {
 
+	if (Debug.debugTokenizer)
+		System.out.println("variable3");
+
     return TWIG_VARIABLE;
 }
 
 <ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{LABEL}[\]] {
+
+	if (Debug.debugTokenizer)
+		System.out.println("variable4");
 
     return TWIG_VARIABLE;
 }
@@ -2056,6 +2077,9 @@ NUMBER=([0-9])+
 }
 
 <ST_TWIG_DOUBLE_QUOTES_SPECIAL> "$"{LABEL} {
+
+	if (Debug.debugTokenizer)
+		System.out.println("variable5");
 
     return TWIG_VARIABLE;
 }

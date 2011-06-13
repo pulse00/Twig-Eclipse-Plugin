@@ -1,5 +1,7 @@
 package org.eclipse.twig.test.testcases;
 
+import java.io.IOException;
+
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
@@ -40,10 +42,39 @@ public class TokenizerTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-	
+
+
+	@Test
+	public void testStatementKeyword() {
+
+		try {
+
+			tokens = "{%extends'::base.html.twig'%}";
+			
+			System.out.println(tokens);
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			tokenCount = 0;
+
+			while(!tokenizer.isEOF()) {
+
+
+				ITextRegion region = tokenizer.getNextToken();
+				
+				System.err.println(region.getType());
+
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+
 	@Test
 	public void testPrintOpenClose() {
-		
+
 		try {
 
 			tokens = "{{ }}";
@@ -73,17 +104,17 @@ public class TokenizerTest extends TestCase {
 					break;
 				}				
 			}
-			
+
 			assertEquals(tokenCount, 3);
-			
-			
+
+
 			tokens = "  {{  }}  ";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
 			tokenCount = 0;
 
-			
+
 			ITextRegion region = null;
-			
+
 			while(!tokenizer.isEOF()) {
 
 				region = tokenizer.getNextToken();				
@@ -103,7 +134,7 @@ public class TokenizerTest extends TestCase {
 				case 2:
 					assertEquals(region.getType(), TwigRegionContext.TWIG_WHITESPACE);
 					break;
-					
+
 				case 3:
 					assertEquals(region.getType(), TwigRegionContext.TWIG_CLOSE);					
 					break;
@@ -112,16 +143,16 @@ public class TokenizerTest extends TestCase {
 					XMLContentRegion xmlEnd = (XMLContentRegion) region;
 					assertNotNull(xmlEnd);
 					break;
-					
+
 				default:
 					fail();
 					break;
 				}				
 			}
-			
+
 			assertEquals(tokenCount, 5);
-			
-			
+
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -166,16 +197,16 @@ public class TokenizerTest extends TestCase {
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
 			tokenCount = 0;
 
-			
+
 			ITextRegion region = null;
-			
-			
+
+
 			while(!tokenizer.isEOF()) {
 
 				switch (tokenCount++) {
 
 				case 0:					
-					
+
 					region = (ContextRegion) tokenizer.getNextToken();					
 					assertNotNull(region);					
 					assertEquals(region.getType(), TwigRegionContext.TWIG_STMT_OPEN);
@@ -192,13 +223,13 @@ public class TokenizerTest extends TestCase {
 					region = (XMLContentRegion) tokenizer.getNextToken();
 					assertNotNull(region);					
 					break;
-					
+
 				default:
 					fail();
 					break;
 				}				
 			}
-			
+
 			assertEquals(tokenCount, 3);			
 
 		} catch (Exception e) {			
