@@ -8,7 +8,6 @@
  * Contributors:
  *   Zend and IBM - Initial implementation
  *******************************************************************************/
-
 /*nlsXXX*/
 package org.eclipse.twig.core.documentModel.parser;
 
@@ -20,16 +19,16 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.php.internal.core.PHPVersion;
-import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
-import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
-import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
+import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
+import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
+import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
 import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import org.eclipse.wst.sse.core.internal.util.Debug;
+import org.eclipse.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.Logger;
 import org.eclipse.wst.xml.core.internal.parser.ContextRegionContainer;
@@ -93,14 +92,8 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	private String internalTagName = null;
 	private String internalContext = null;
 	
-	// The left and right delimiters
 	public static String twigLeftDelim = "{{";
 	public static String twigRightDelim = "}}";
-
-	public static String twigLeftDelimStatement = "{%";
-	public static String twigRightDelimStatement = "%}";
-	
-	public static String[] allLeftDelimiters = new String[] {twigLeftDelim, twigLeftDelimStatement};	
 	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
@@ -932,7 +925,7 @@ private final String scanXMLCommentText() throws IOException {
 %state ST_BLOCK_TAG_INTERNAL_SCAN
 %state ST_ABORT_EMBEDDED
 
-// added states to TWIG
+// added states to TWIG 
 %state ST_TWIG_CONTENT
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
@@ -1314,25 +1307,25 @@ Digit =  [\u0030-\u0039\u0660-\u0669\u06F0-\u06F9\u0966-\u096F\u09E6-\u09EF\u0A6
 // | [#x30FC-#x30FE]
 Extender = [\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005\u3031-\u3035\u309D-\u309E\u30FC-\u30FE]
 
+
+
 //PHP MACROS
 WHITESPACE = [\n\r \t]
-//PHP_START = {WHITESPACE}*(<\?{WHITESPACE}*)|(<\?[Pp][Hh][P|p]{WHITESPACE}+)
 PHP_START       = <\?[Pp][Hh][P|p]{WHITESPACE}*
-//PIend = \?>
 PHP_ASP_START=<%
 PHP_ASP_END=%>
 
-
 // TWIG MACROS
-TWIG_START = \{
-TWIG_END = \}
+TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
+TWIG_START = \{\{{WHITESPACE}*
 TWIG_COMMENT =([\*]([^*]|{WHITESPACE})*[\*])
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 TWIG_WHITESPACE=[ \n\r\t]+
-TOKENS=[:,.\[\]()|\^&+-//*=%!~$<>?@]
+TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
-%%
 
+
+%%
 
 
 /* white space within a tag */
@@ -1341,6 +1334,7 @@ NUMBER=([0-9])+
 		dump("white space");//$NON-NLS-1$
         return WHITE_SPACE;
 }
+
 
 // BEGIN REGULAR XML
 /* handle opening a new tag almost anywhere */
@@ -1561,6 +1555,8 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 // END NESTED XML
+
+
 
 
 {PHP_START} | {PHP_ASP_START} | {PIstart} {
@@ -1937,24 +1933,28 @@ NUMBER=([0-9])+
 }
 // end DECLARATION handling
 
-// the twig grammar resided inside the XML_CONTENT which would
-// be returned normally here
-<YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
-	if(Debug.debugTokenizer)
-		dump("\nXML content");//$NON-NLS-1$
-		
-		final String text = yytext();
-		assert text != null;
 
-		// checks the twig case
-		return findTwigDelimiter(text, XML_CONTENT, allLeftDelimiters, TWIG_OPEN, ST_TWIG_CONTENT);		
+// this is the "normal" xml content
+
+<YYINITIAL> {TW_STMT_DEL_LEFT} {
+
+	yybegin(ST_TWIG_CONTENT);
+	return TWIG_OPEN;
 
 }
 
 
-<YYINITIAL> "{%" {
 
-	return TWIG_OPEN;
+<YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
+	if(Debug.debugTokenizer)
+		dump("\nXML content");//$NON-NLS-1$
+
+	final String text = yytext();
+	assert text != null;
+
+	// checks the smarty case
+	return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);
+
 
 }
 
@@ -1962,100 +1962,130 @@ NUMBER=([0-9])+
 		return doBlockTagScan();
 	}
 	
-	/////////////////// START TWIG ADDITIONS
+<ST_TWIG_CONTENT> "}}" {
+	//TODO: Figure out how to change the end delimiter, so that 
+	//this.rightSmartyDelimiter is used (so it can be changed in config)
+	
+	
+	yybegin(YYINITIAL);
+	return TWIG_CLOSE;
+}
 
-	<ST_TWIG_CONTENT> "}}" {
-		//TODO: Figure out how to change the end delimiter, so that 
-		//this.rightTwigDelimiter is used (so it can be changed in config)
-		yybegin(YYINITIAL);
-		return TWIG_CLOSE;
-	}
+<ST_TWIG_CONTENT> "%}" {
+	//TODO: Figure out how to change the end delimiter, so that 
+	//this.rightSmartyDelimiter is used (so it can be changed in config)
+	
+	
+	yybegin(YYINITIAL);
+	return TWIG_CLOSE;
+}
 
-	<ST_TWIG_CONTENT> "$"{LABEL} {
-		return TWIG_VARIABLE;
-	}
+<ST_TWIG_CONTENT> "$"{LABEL} {
 
-	<ST_TWIG_CONTENT> {LABEL} {
-		return TWIG_LABEL;
-	}
+	return TWIG_VARIABLE;
+}
 
-	<ST_TWIG_CONTENT> {NUMBER} {
-	    return TWIG_NUMBER;
-	}
+<ST_TWIG_CONTENT> {LABEL} {
 
-	<ST_TWIG_CONTENT> {TWIG_COMMENT} {
-		return TWIG_COMMENT;
-	}
+	return TWIG_LABEL;
+}
 
-	<ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
-		return TWIG_WHITESPACE;
-	}
+<ST_TWIG_CONTENT> {NUMBER} {
 
-	<ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
-	    return TWIG_CONSTANT_ENCAPSED_STRING;
-	}
+    return TWIG_NUMBER;
+}
 
-	// ST_TWIG_DOUBLE_QUOTES // 
-	<ST_TWIG_CONTENT>([\"]) {
-		yybegin(ST_TWIG_DOUBLE_QUOTES);
-	    return TWIG_DOUBLE_QUOTES_START;
-	}
+<ST_TWIG_CONTENT> {TWIG_COMMENT} {
 
-	<ST_TWIG_DOUBLE_QUOTES>([\"]) {
-		yybegin(ST_TWIG_CONTENT);
-	    return TWIG_DOUBLE_QUOTES_END;
-	}
+	return TWIG_COMMENT;
+}
 
-	<ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
-	    return TWIG_DOUBLE_QUOTES_CONTENT;
-	}
+<ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
 
-	<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
-	    return TWIG_VARIABLE;
-	}
+	return TWIG_WHITESPACE;
+}
 
-	<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{NUMBER}[\]] {
-	    return TWIG_VARIABLE;
-	}
+<ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
 
-	<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{LABEL}[\]] {
-	    return TWIG_VARIABLE;
-	}
+    return TWIG_CONSTANT_ENCAPSED_STRING;
+}
 
-	<ST_TWIG_DOUBLE_QUOTES> ([\`]) {
-		yybegin(ST_TWIG_DOUBLE_QUOTES_SPECIAL);
-	    return TWIG_BACKTICK_START;
-	}
+// ST_TWIG_DOUBLE_QUOTES // 
+<ST_TWIG_CONTENT>([\"]) {
 
-	<ST_TWIG_DOUBLE_QUOTES_SPECIAL> ([\`]) {
-		yybegin(ST_TWIG_DOUBLE_QUOTES);
-	    return TWIG_BACKTICK_END;
-	}
+	yybegin(ST_TWIG_DOUBLE_QUOTES);
+    return TWIG_DOUBLE_QUOTES_START;
+}
 
-	<ST_TWIG_DOUBLE_QUOTES_SPECIAL> "$"{LABEL} {
-	    return TWIG_VARIABLE;
-	}
+<ST_TWIG_DOUBLE_QUOTES>([\"]) {
 
-	<ST_TWIG_DOUBLE_QUOTES_SPECIAL> [\.\-\>()] {
-	    return TWIG_DELIMITER;
-	}
+	yybegin(ST_TWIG_CONTENT);
+    return TWIG_DOUBLE_QUOTES_END;
+}
 
-	<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {NUMBER} {
-	    return TWIG_NUMBER;
-	}
+<ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
 
-	<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {LABEL} {
-	    return TWIG_LABEL;
-	}
+    return TWIG_DOUBLE_QUOTES_CONTENT;
+}
 
-	<ST_TWIG_CONTENT> {TOKENS} {
-		return TWIG_DELIMITER;
-	}
+<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
 
-	<ST_TWIG_CONTENT> .|\n|\r {
-		return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
-	}
-	/////////////////// END TWIG ADDITIONS	
+    return TWIG_VARIABLE;
+}
+
+<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{NUMBER}[\]] {
+
+    return TWIG_VARIABLE;
+}
+
+<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{LABEL}[\]] {
+
+    return TWIG_VARIABLE;
+}
+
+<ST_TWIG_DOUBLE_QUOTES> ([\`]) {
+
+	yybegin(ST_TWIG_DOUBLE_QUOTES_SPECIAL);
+    return TWIG_BACKTICK_START;
+}
+
+<ST_TWIG_DOUBLE_QUOTES_SPECIAL> ([\`]) {
+
+	yybegin(ST_TWIG_DOUBLE_QUOTES);
+    return TWIG_BACKTICK_END;
+}
+
+<ST_TWIG_DOUBLE_QUOTES_SPECIAL> "$"{LABEL} {
+
+    return TWIG_VARIABLE;
+}
+
+<ST_TWIG_DOUBLE_QUOTES_SPECIAL> [\.\-\>()] {
+
+    return TWIG_DELIMITER;
+}
+
+<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {NUMBER} {
+
+    return TWIG_NUMBER;
+}
+
+<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {LABEL} {
+
+    return TWIG_LABEL;
+}
+
+<ST_TWIG_CONTENT> {TOKENS} {
+
+	return TWIG_DELIMITER;
+}
+
+<ST_TWIG_CONTENT> .|\n|\r {
+
+	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
+}	
+
+
 
 //PHP PROCESSING ACTIONS
 <YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {PHP_START} | {PHP_ASP_START} {
@@ -2108,6 +2138,8 @@ NUMBER=([0-9])+
 	yybegin(ST_XML_TAG_NAME);
 	return XML_TAG_OPEN;
 }
+
+
 
 <ST_PHP_CONTENT> {PIend} | {PHP_ASP_END} {
 	yybegin(fStateStack.pop());
