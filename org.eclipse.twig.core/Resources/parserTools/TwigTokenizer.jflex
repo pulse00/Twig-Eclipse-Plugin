@@ -2277,19 +2277,56 @@ NUMBER=([0-9])+
 	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 }	
 
+//TWIG PROCESSING ACTIONS
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
 
-<ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
-
-	if (Debug.debugTokenizer) {
-	
-	  dump("TW START YYINITIAL");
-	
+	if (Debug.debugTokenizer) {	
+	  dump("TW START EMBEDDED");
 	}
 	
-	yybegin(ST_TWIG_CONTENT);				
-	return TWIG_OPEN;
+	//removeing trailing whitespaces for the twig open
+	String twigStart = yytext();
+	int i = twigStart.length() - 1; 
+	while(i >= 0 && Character.isWhitespace(twigStart.charAt(i--))){
+		yypushback(1);
+	}
 
-
+	fStateStack.push(yystate());
+	if(fStateStack.peek()==YYINITIAL) {
+		// the simple case, just a regular scriptlet out in content
+		yybegin(ST_TWIG_CONTENT);
+		return TWIG_OPEN;
+	}
+	else {
+		if(yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+		else if(yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+		else if(yystate() == ST_CDATA_TEXT) {
+			fEmbeddedPostState = ST_CDATA_TEXT;
+			fEmbeddedHint = XML_CDATA_TEXT;
+		}
+		yybegin(ST_TWIG_CONTENT);
+		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
+		if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
+			yybegin(ST_BLOCK_TAG_SCAN);
+			return BLOCK_TEXT;
+		}
+		// required help for successive embedded regions
+		if(yystate() == ST_XML_TAG_NAME) {
+			fEmbeddedHint = XML_TAG_NAME;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		else if((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+			fEmbeddedPostState = ST_XML_EQUALS;
+		}
+		else if(yystate() == ST_XML_ATTRIBUTE_VALUE) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		return PROXY_CONTEXT;
+	}
 }
 
 
