@@ -13,7 +13,6 @@ The plugin is still in development.
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
-The Plugin is currently available as a zip archive (see download button above).
 
 It requires Eclipse >= 3.6.
 
@@ -22,8 +21,8 @@ It requires Eclipse >= 3.6.
 * Help
 * Install new Software...
 * Click "add" to add a new software site
-* Select "Archive..." and browse to the downloaded zip archive
-* Select the "Twig Editor" from the new software site and click finish
+* Put the update-site in the location field: http://pulse00.github.com/Twig-Eclipse-Plugin/
+* Select the "Twig Editor Feature" from the new software site and click finish
 
 
 The plugin should download all dependencies (PHP Development tools) automatically.
