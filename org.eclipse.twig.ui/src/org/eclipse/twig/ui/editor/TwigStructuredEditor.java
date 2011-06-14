@@ -20,13 +20,12 @@ import org.eclipse.ui.IStorageEditorInput;
  * @see http://code.google.com/p/smartypdt/
  *
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "unchecked"})
 public class TwigStructuredEditor extends PHPStructuredEditor {
 
 	public TwigStructuredEditor() {
 
 	}
-
 
 	/**
 	 * TODO: check if this smarty code still applies in the twig
@@ -55,7 +54,11 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		}
 
 		if (resource instanceof IFile) {
-			if ("twig".equals(resource.getFullPath().getFileExtension())) {
+			
+			String ext = resource.getFileExtension();
+			
+			//TODO: make this configurable via preferences
+			if ("twig".equals(ext) || "html".equals("html")) {
 
 				TwigSourceParser.editFile.set(resource);
 
