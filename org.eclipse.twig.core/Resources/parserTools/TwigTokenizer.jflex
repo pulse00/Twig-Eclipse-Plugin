@@ -461,7 +461,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 
 				ITextRegion newToken;
 				// if it is php content we extract the tokens
-				if (internalContext == PHP_CONTENT) {
+				if (internalContext == TWIG_CONTENT) {
 					newToken = bufferedTextRegion; 
 					bufferedTextRegion.adjustStart(-containerStart);
 				} else {
@@ -519,7 +519,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 
 					ITextRegion newToken;
 					// if it is php content we extract the tokens
-					if (internalContext == PHP_CONTENT) {
+					if (internalContext == TWIG_CONTENT) {
 						newToken = bufferedTextRegion; 
 						bufferedTextRegion.adjustStart(-containerStart);
 					} else {
@@ -725,7 +725,7 @@ public final ITextRegion getNextToken() throws IOException {
 	fTokenCount++;
 
 	// if it is php content we extract the tokens
-	if (context == PHP_CONTENT) {
+	if (context == TWIG_CONTENT) {
 		return bufferedTextRegion; 
 	} else {
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
@@ -878,6 +878,8 @@ private final String scanXMLCommentText() throws IOException {
 %unicode
 %pack
 
+// START STATE DECLARATIONS
+
 %state ST_CDATA_TEXT
 %state ST_CDATA_END
 %state ST_XML_COMMENT
@@ -976,7 +978,11 @@ Nmtokens = ({Nmtoken} ({S} {Nmtoken})*)
 EntityValue = (\" ([^%&\"] | {PEReference} | {Reference})* \" |  \' ([^%&\'] | {PEReference} | {Reference})* \')
 
 // [10] AttValue ::= '"' ([^<&"] | Reference)* '"' |  "'" ([^<&'] | Reference)* "'"
-AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+//AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+
+AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+
+//TwigAttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
 // [11] SystemLiteral ::= ('"' [^"]* '"') | ("'" [^']* "'") 
 SystemLiteral = ((\" [^\"]* \") | (\' [^\']* \')) 
@@ -1316,6 +1322,9 @@ PHP_ASP_START=<%
 PHP_ASP_END=%>
 
 // TWIG MACROS
+
+TW_START = \{\{{WHITESPACE}*
+
 TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
 TWIG_START = \{\{{WHITESPACE}*
 TWIG_COMMENT =([\*]([^*]|{WHITESPACE})*[\*])
@@ -1334,7 +1343,7 @@ NUMBER=([0-9])+
 /* white space within a tag */
 <ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_PI, ST_XML_PI_EQUALS, ST_XML_PI_ATTRIBUTE_NAME, ST_XML_PI_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID> {S}* {
 	if(Debug.debugTokenizer)
-		dump("white space");//$NON-NLS-1$
+		dump("WHITE SPACE");//$NON-NLS-1$
         return WHITE_SPACE;
 }
 
@@ -1353,12 +1362,25 @@ NUMBER=([0-9])+
 /* VERY special cases for tags as values */
 /* quoted Php */
 <ST_XML_ATTRIBUTE_VALUE_DQUOTED> [\"] {
+
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE DQUOTED");
+	}
+
 	return XML_TAG_ATTRIBUTE_VALUE_DQUOTE;
 }
 <ST_XML_ATTRIBUTE_VALUE_SQUOTED> ['] {
+
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE SQUOTED");
+	}
+
 	return XML_TAG_ATTRIBUTE_VALUE_SQUOTE;
 }
+
+
 <ST_XML_ATTRIBUTE_VALUE> [\"] {
+
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
 	yybegin(ST_XML_ATTRIBUTE_VALUE_DQUOTED);
@@ -1368,6 +1390,11 @@ NUMBER=([0-9])+
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
 	yybegin(ST_XML_ATTRIBUTE_NAME);
+	
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE \"");
+	}
+	
 	return PROXY_CONTEXT;
 }
 <ST_XML_ATTRIBUTE_VALUE> ['] {
@@ -1382,13 +1409,28 @@ NUMBER=([0-9])+
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
         yybegin(ST_XML_ATTRIBUTE_NAME);
+        
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE '");
+	}
+        
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^<\"\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^\{\"\x24\x23]|[\x24\x23][^\x7b])+ {
+
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE X");
+	}
+
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^<'\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^\{'\x24\x23]|[\x24\x23][^\x7b])+ {
+
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE XX");
+	}
+
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
 
@@ -1402,6 +1444,12 @@ NUMBER=([0-9])+
 	assembleEmbeddedContainer(XML_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	if(yystate() != ST_ABORT_EMBEDDED)
         yybegin(incomingState);
+        
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE EMBEDDED");
+	}
+        
+        
 	return PROXY_CONTEXT;
 }
 <ST_XML_ATTRIBUTE_VALUE_DQUOTED,ST_XML_ATTRIBUTE_VALUE_SQUOTED> {genericEndTagOpen} {
@@ -1414,6 +1462,11 @@ NUMBER=([0-9])+
 	assembleEmbeddedContainer(XML_END_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	if(yystate() != ST_ABORT_EMBEDDED)
         yybegin(incomingState);
+        
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE EMBEDDED 2");
+	}
+        
 	return PROXY_CONTEXT;
 }
 
@@ -1430,6 +1483,11 @@ NUMBER=([0-9])+
         yybegin(ST_XML_ATTRIBUTE_NAME);
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
+	
+	if (Debug.debugTokenizer) {
+	   dump("XML ATTR VALUE generic open");
+	}
+	
 	return PROXY_CONTEXT;
 }
 
@@ -1437,18 +1495,28 @@ NUMBER=([0-9])+
 	// end tag open
 	fEmbeddedHint = XML_TAG_NAME;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-        yybegin(ST_XML_TAG_NAME);
-        return XML_END_TAG_OPEN;
+    yybegin(ST_XML_TAG_NAME);
+    
+	if (Debug.debugTokenizer) {
+	   dump("XML INITIAL generic end");
+	}
+    
+    return XML_END_TAG_OPEN;
 }
 
 /* the tag's name was found, start scanning for attributes */
 <ST_XML_TAG_NAME> {Name} {
 	if(Debug.debugTokenizer)
-		dump("tag name");//$NON-NLS-1$
+		dump("TAG NAME");//$NON-NLS-1$
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
-        yybegin(ST_XML_ATTRIBUTE_NAME);
-        return XML_TAG_NAME;
+    yybegin(ST_XML_ATTRIBUTE_NAME);
+    
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_TAG_NAME");
+	}
+    
+    return XML_TAG_NAME;
 }
 
 /* another attribute name was found, resume looking for the equals sign */
@@ -1456,25 +1524,51 @@ NUMBER=([0-9])+
 	// attr name
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-        yybegin(ST_XML_EQUALS);
-        return XML_TAG_ATTRIBUTE_NAME;
+    yybegin(ST_XML_EQUALS);
+    
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_ATTR_NAME");
+	}
+    
+    
+    return XML_TAG_ATTRIBUTE_NAME;
 }
 /* an equal sign was found, what's next is the value */
 <ST_XML_EQUALS> {Eq} {
 	// equals
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-        yybegin(ST_XML_ATTRIBUTE_VALUE);
-        return XML_TAG_ATTRIBUTE_EQUALS;
+    yybegin(ST_XML_ATTRIBUTE_VALUE);
+    
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_EQUALS");
+	}
+    
+    return XML_TAG_ATTRIBUTE_EQUALS;
 }
+
+
+// this should detect twig syntax in xml attributes
+// ie <a href="{{ foo.href }}">{{ foo.title }}</a>
+
 /* the value was found, look for the next name */
 <ST_XML_ATTRIBUTE_VALUE> {AttValue} {
+	
 	// attr value
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
-        yybegin(ST_XML_ATTRIBUTE_NAME);
-        return XML_TAG_ATTRIBUTE_VALUE;
+   	yybegin(ST_XML_ATTRIBUTE_NAME);
+    
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_ATTRIBUTE_VALUE");
+	}
+    
+    return XML_TAG_ATTRIBUTE_VALUE;	
+
 }
+
+
+
 /* the tag's close was found */
 <ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE> {genericTagClose} {
 	// tag close
@@ -1484,14 +1578,23 @@ NUMBER=([0-9])+
 		fEmbeddedPostState = ST_BLOCK_TAG_SCAN;
         	yybegin(ST_BLOCK_TAG_SCAN);
 	}
-	else
-        	yybegin(YYINITIAL);
-        return XML_TAG_CLOSE;
+	else yybegin(YYINITIAL);
+	
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_TAG_NAME closing");
+	}
+	
+    return XML_TAG_CLOSE;
 }
 /* the tag's close was found, but the tag doesn't need a matching end tag */
 <ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE> {genericEmptyTagClose} {
-        yybegin(YYINITIAL);
+    yybegin(YYINITIAL);
 	fEmbeddedHint = UNDEFINED;
+	
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_TAG_NAME closing empty");
+	}
+	
 	// empty tag close
     return XML_EMPTY_TAG_CLOSE;
 }
@@ -1504,7 +1607,13 @@ NUMBER=([0-9])+
 		return XML_TAG_ATTRIBUTE_VALUE;
 	}
 	yybegin(YYINITIAL);
-        return XML_CONTENT;
+	
+	if (Debug.debugTokenizer) {
+	   dump("ST_XML_TAG_NAME X");
+	}
+	
+	
+    return XML_CONTENT;
 }
 // END REGULAR XML
 
@@ -1560,6 +1669,14 @@ NUMBER=([0-9])+
 // END NESTED XML
 
 
+<ST_XML_ATTRIBUTE_VALUE> "{{" {
+
+	if (Debug.debugTokenizer) {	
+	   dump("TW START");//$NON-NLS-1$
+	
+	}
+
+}
 
 
 {PHP_START} | {PHP_ASP_START} | {PIstart} {
@@ -1724,6 +1841,11 @@ NUMBER=([0-9])+
         return XML_TAG_NAME;
 }
 <ST_PI_WS> {S}+ {
+
+	if (Debug.debugTokenizer) {
+	   dump("ST_PI_WS S");
+	}
+
         yybegin(ST_PI_CONTENT);
         return WHITE_SPACE;
 }
@@ -1736,12 +1858,23 @@ NUMBER=([0-9])+
 }
 <ST_PI_CONTENT> . {
 		// block scan until close is found
+		
+	if (Debug.debugTokenizer) {
+	   dump("ST_PI_CONTENT");
+	}
+		
 	return doScan("?>", false, false, XML_PI_CONTENT, ST_XML_PI_TAG_CLOSE, ST_XML_PI_TAG_CLOSE);
 }
 <ST_PI_CONTENT,ST_XML_PI_TAG_CLOSE> \?> {
 		// ended with nothing inside
 		fEmbeddedHint = UNDEFINED;
         yybegin(YYINITIAL);
+        
+		
+	if (Debug.debugTokenizer) {
+	   dump("PI_CLOSE");
+	}
+        
         return XML_PI_CLOSE;
 }
 
@@ -1937,17 +2070,21 @@ NUMBER=([0-9])+
 // end DECLARATION handling
 
 
-// this is the "normal" xml content
 
 <YYINITIAL> {TW_STMT_DEL_LEFT} {
 
 	yybegin(ST_TWIG_CONTENT);
+	
+	if (Debug.debugTokenizer) {
+	   dump("TWIG CONTENT");
+	}
+	
 	return TWIG_STMT_OPEN;
 
 }
 
 
-
+// this is the "normal" xml content
 <YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
 	if(Debug.debugTokenizer)
 		dump("\nXML content");//$NON-NLS-1$
@@ -1969,6 +2106,8 @@ NUMBER=([0-9])+
 	//TODO: Figure out how to change the end delimiter, so that 
 	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
+	if(Debug.debugTokenizer)
+		dump("TWIG CLOSE");
 	
 	yybegin(YYINITIAL);
 	return TWIG_CLOSE;
@@ -1978,6 +2117,8 @@ NUMBER=([0-9])+
 	//TODO: Figure out how to change the end delimiter, so that 
 	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
+	if(Debug.debugTokenizer)
+		dump("TWIG STMT CLOSE");
 	
 	yybegin(YYINITIAL);
 	return TWIG_STMT_CLOSE;
@@ -1986,12 +2127,15 @@ NUMBER=([0-9])+
 <ST_TWIG_CONTENT> "$"{LABEL} {
 
 	if (Debug.debugTokenizer)
-		System.out.println("variable1");
+		dump("TWIG VARIABLE");
 
 	return TWIG_VARIABLE;
 }
 
 <ST_TWIG_CONTENT> {KEYWORD} {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG KEYWORD");
 
 	return TWIG_KEYWORD;
 }
@@ -1999,25 +2143,40 @@ NUMBER=([0-9])+
 
 <ST_TWIG_CONTENT> {LABEL} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG LABEL");
+
 	return TWIG_LABEL;
 }
 
 <ST_TWIG_CONTENT> {NUMBER} {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG NUMBER");
 
     return TWIG_NUMBER;
 }
 
 <ST_TWIG_CONTENT> {TWIG_COMMENT} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG COMMENT");
+
 	return TWIG_COMMENT;
 }
 
 <ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG WHITESPACE");
+
 	return TWIG_WHITESPACE;
 }
 
 <ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG CONSTANT");
 
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
@@ -2025,11 +2184,17 @@ NUMBER=([0-9])+
 // ST_TWIG_DOUBLE_QUOTES // 
 <ST_TWIG_CONTENT>([\"]) {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES START");
+
 	yybegin(ST_TWIG_DOUBLE_QUOTES);
     return TWIG_DOUBLE_QUOTES_START;
 }
 
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES END");
 
 	yybegin(ST_TWIG_CONTENT);
     return TWIG_DOUBLE_QUOTES_END;
@@ -2037,13 +2202,16 @@ NUMBER=([0-9])+
 
 <ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES CONTENT");
+
     return TWIG_DOUBLE_QUOTES_CONTENT;
 }
 
 <ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
 
 	if (Debug.debugTokenizer)
-		System.out.println("variable2");
+		dump("TWIG DOLLAR VAR");
 		
     return TWIG_VARIABLE;
 }
@@ -2109,10 +2277,66 @@ NUMBER=([0-9])+
 	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 }	
 
+//TWIG PROCESSING ACTIONS
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
+
+	if (Debug.debugTokenizer) {	
+	  dump("TW START EMBEDDED");
+	}
+	
+	//removeing trailing whitespaces for the twig open
+	String twigStart = yytext();
+	int i = twigStart.length() - 1; 
+	while(i >= 0 && Character.isWhitespace(twigStart.charAt(i--))){
+		yypushback(1);
+	}
+
+	fStateStack.push(yystate());
+	if(fStateStack.peek()==YYINITIAL) {
+		// the simple case, just a regular scriptlet out in content
+		yybegin(ST_TWIG_CONTENT);
+		return TWIG_OPEN;
+	}
+	else {
+		if(yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+		else if(yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+		else if(yystate() == ST_CDATA_TEXT) {
+			fEmbeddedPostState = ST_CDATA_TEXT;
+			fEmbeddedHint = XML_CDATA_TEXT;
+		}
+		yybegin(ST_TWIG_CONTENT);
+		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
+		if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
+			yybegin(ST_BLOCK_TAG_SCAN);
+			return BLOCK_TEXT;
+		}
+		// required help for successive embedded regions
+		if(yystate() == ST_XML_TAG_NAME) {
+			fEmbeddedHint = XML_TAG_NAME;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		else if((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+			fEmbeddedPostState = ST_XML_EQUALS;
+		}
+		else if(yystate() == ST_XML_ATTRIBUTE_VALUE) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		return PROXY_CONTEXT;
+	}
+}
 
 
 //PHP PROCESSING ACTIONS
 <YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {PHP_START} | {PHP_ASP_START} {
+
+	if (Debug.debugTokenizer) {	
+		dump("PHP PROCESSING START");	
+	}
+	
     if (ProjectOptions.isSupportingAspTags(project) ||yytext().charAt(1) != '%') {
 		//removeing trailing whitespaces for the php open
 		String phpStart = yytext();
@@ -2167,10 +2391,20 @@ NUMBER=([0-9])+
 
 <ST_PHP_CONTENT> {PIend} | {PHP_ASP_END} {
 	yybegin(fStateStack.pop());
+	
+	if (Debug.debugTokenizer) {
+	   dump("PHP_CLOSE");
+	}
+	
 	return PHP_CLOSE;
 	
 }
 <ST_PHP_CONTENT> .|\n|\r {
+
+	if (Debug.debugTokenizer) {
+	   dump("ST_PHP_CONTENT");
+	}
+
 	return doScanEndPhp(ProjectOptions.isSupportingAspTags(project), PHP_CONTENT, ST_PHP_CONTENT, ST_PHP_CONTENT);
 }
 

@@ -49,7 +49,7 @@ public class TwigSourceParser extends XMLSourceParser {
 	public BlockTokenizer getTokenizer() {
 		if (fTokenizer == null) {
 			TwigTokenizer twigTokenizer = new TwigTokenizer();
-			twigTokenizer.setProject(project);
+//			twigTokenizer.setProject(project);
 			fTokenizer = twigTokenizer;
 		}
 		return fTokenizer;
@@ -59,7 +59,7 @@ public class TwigSourceParser extends XMLSourceParser {
 	public RegionParser newInstance() {
 		TwigSourceParser newInstance = new TwigSourceParser();
 		TwigTokenizer tokenizer = (TwigTokenizer) getTokenizer().newInstance();
-		tokenizer.setProject(project);
+//		tokenizer.setProject(project);
 		newInstance.setTokenizer(tokenizer);
 		return newInstance;
 	}
