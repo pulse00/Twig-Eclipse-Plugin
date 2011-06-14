@@ -44,6 +44,40 @@ public class TokenizerTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
+	
+	
+	@Test
+	public void testEmbeddedAttributes() {
+		
+		try {
+			
+			tokens = "<a href=\"{{ }}\"></a>";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			tokenCount = 0;
+
+			regions = new Stack<ContextRegion>();
+			assertTrue(regions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+			
+				ITextRegion region = tokenizer.getNextToken();
+				//Thread.sleep(500);
+//				System.err.println(region.getType());
+			
+			}
+			
+			fail();
+			
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+		
+	}
 
 
 	@Test

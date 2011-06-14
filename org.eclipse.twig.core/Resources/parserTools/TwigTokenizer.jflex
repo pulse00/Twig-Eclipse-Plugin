@@ -461,7 +461,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 
 				ITextRegion newToken;
 				// if it is php content we extract the tokens
-				if (internalContext == PHP_CONTENT) {
+				if (internalContext == TWIG_CONTENT) {
 					newToken = bufferedTextRegion; 
 					bufferedTextRegion.adjustStart(-containerStart);
 				} else {
@@ -519,7 +519,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 
 					ITextRegion newToken;
 					// if it is php content we extract the tokens
-					if (internalContext == PHP_CONTENT) {
+					if (internalContext == TWIG_CONTENT) {
 						newToken = bufferedTextRegion; 
 						bufferedTextRegion.adjustStart(-containerStart);
 					} else {
@@ -725,7 +725,7 @@ public final ITextRegion getNextToken() throws IOException {
 	fTokenCount++;
 
 	// if it is php content we extract the tokens
-	if (context == PHP_CONTENT) {
+	if (context == TWIG_CONTENT) {
 		return bufferedTextRegion; 
 	} else {
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
@@ -978,9 +978,9 @@ Nmtokens = ({Nmtoken} ({S} {Nmtoken})*)
 EntityValue = (\" ([^%&\"] | {PEReference} | {Reference})* \" |  \' ([^%&\'] | {PEReference} | {Reference})* \')
 
 // [10] AttValue ::= '"' ([^<&"] | Reference)* '"' |  "'" ([^<&'] | Reference)* "'"
-AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+//AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
-//AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
 //TwigAttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
@@ -1343,7 +1343,7 @@ NUMBER=([0-9])+
 /* white space within a tag */
 <ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_PI, ST_XML_PI_EQUALS, ST_XML_PI_ATTRIBUTE_NAME, ST_XML_PI_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID> {S}* {
 	if(Debug.debugTokenizer)
-		dump("white space");//$NON-NLS-1$
+		dump("WHITE SPACE");//$NON-NLS-1$
         return WHITE_SPACE;
 }
 
@@ -1417,7 +1417,7 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^<\"\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^\{\"\x24\x23]|[\x24\x23][^\x7b])+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE X");
@@ -1425,7 +1425,7 @@ NUMBER=([0-9])+
 
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^<'\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^\{'\x24\x23]|[\x24\x23][^\x7b])+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE XX");
@@ -1507,7 +1507,7 @@ NUMBER=([0-9])+
 /* the tag's name was found, start scanning for attributes */
 <ST_XML_TAG_NAME> {Name} {
 	if(Debug.debugTokenizer)
-		dump("tag name");//$NON-NLS-1$
+		dump("TAG NAME");//$NON-NLS-1$
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
 	fEmbeddedPostState = ST_XML_EQUALS;
     yybegin(ST_XML_ATTRIBUTE_NAME);
@@ -1669,7 +1669,7 @@ NUMBER=([0-9])+
 // END NESTED XML
 
 
-{TW_START} {
+<ST_XML_ATTRIBUTE_VALUE> "{{" {
 
 	if (Debug.debugTokenizer) {	
 	   dump("TW START");//$NON-NLS-1$
@@ -2106,6 +2106,8 @@ NUMBER=([0-9])+
 	//TODO: Figure out how to change the end delimiter, so that 
 	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
+	if(Debug.debugTokenizer)
+		dump("TWIG CLOSE");
 	
 	yybegin(YYINITIAL);
 	return TWIG_CLOSE;
@@ -2115,6 +2117,8 @@ NUMBER=([0-9])+
 	//TODO: Figure out how to change the end delimiter, so that 
 	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
+	if(Debug.debugTokenizer)
+		dump("TWIG STMT CLOSE");
 	
 	yybegin(YYINITIAL);
 	return TWIG_STMT_CLOSE;
@@ -2123,12 +2127,15 @@ NUMBER=([0-9])+
 <ST_TWIG_CONTENT> "$"{LABEL} {
 
 	if (Debug.debugTokenizer)
-		System.out.println("variable1");
+		dump("TWIG VARIABLE");
 
 	return TWIG_VARIABLE;
 }
 
 <ST_TWIG_CONTENT> {KEYWORD} {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG KEYWORD");
 
 	return TWIG_KEYWORD;
 }
@@ -2136,25 +2143,40 @@ NUMBER=([0-9])+
 
 <ST_TWIG_CONTENT> {LABEL} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG LABEL");
+
 	return TWIG_LABEL;
 }
 
 <ST_TWIG_CONTENT> {NUMBER} {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG NUMBER");
 
     return TWIG_NUMBER;
 }
 
 <ST_TWIG_CONTENT> {TWIG_COMMENT} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG COMMENT");
+
 	return TWIG_COMMENT;
 }
 
 <ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG WHITESPACE");
+
 	return TWIG_WHITESPACE;
 }
 
 <ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG CONSTANT");
 
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
@@ -2162,11 +2184,17 @@ NUMBER=([0-9])+
 // ST_TWIG_DOUBLE_QUOTES // 
 <ST_TWIG_CONTENT>([\"]) {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES START");
+
 	yybegin(ST_TWIG_DOUBLE_QUOTES);
     return TWIG_DOUBLE_QUOTES_START;
 }
 
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES END");
 
 	yybegin(ST_TWIG_CONTENT);
     return TWIG_DOUBLE_QUOTES_END;
@@ -2174,13 +2202,16 @@ NUMBER=([0-9])+
 
 <ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES CONTENT");
+
     return TWIG_DOUBLE_QUOTES_CONTENT;
 }
 
 <ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
 
 	if (Debug.debugTokenizer)
-		System.out.println("variable2");
+		dump("TWIG DOLLAR VAR");
 		
     return TWIG_VARIABLE;
 }
@@ -2247,14 +2278,16 @@ NUMBER=([0-9])+
 }	
 
 
-<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
-
+<ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
 
 	if (Debug.debugTokenizer) {
 	
 	  dump("TW START YYINITIAL");
 	
 	}
+	
+	yybegin(ST_TWIG_CONTENT);				
+	return TWIG_OPEN;
 
 
 }
