@@ -3,17 +3,16 @@ package org.eclipse.twig.test.testcases;
 import java.io.IOException;
 import java.util.Stack;
 
+import junit.framework.TestCase;
+
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.xml.core.internal.parser.regions.TagOpenRegion;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLContentRegion;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -49,16 +48,63 @@ public class TokenizerTest extends TestCase {
 	
 	
 	@Test
+	public void testComments() {
+		
+		
+		try {
+
+			tokens = "{# aha #}";
+			System.err.println(tokens);
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			tokenCount = 0;
+
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+
+			System.err.println();
+			System.err.println("###");
+			System.err.println();
+			
+			tokens = "<!-- aha -->";
+			System.err.println(tokens);
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			tokenCount = 0;
+
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+			
+			
+			fail();
+			
+		} catch (Exception e) {
+			
+			fail();
+
+		}
+	}
+	
+	
+	@Test
 	public void testEmbeddedDoubleQuotes() {
 		
-		testEmbeddedQuotes("<div id=\"{{ for foo in bar  }}\"></div>");
+		testEmbeddedQuotes("<div id=\"{{ some.id  }}\"></div>");
 		
 	}
 	
 	@Test
 	public void textEmbeddedSingleQuotes() {
 		
-		testEmbeddedQuotes("<div id='{{ for foo in bar  }}'></div>");
+		testEmbeddedQuotes("<div id='{{ some.id  }}'></div>");
 		
 	}
 	
@@ -67,7 +113,7 @@ public class TokenizerTest extends TestCase {
 		try {
 
 			tokens = text;
-			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
 			tokenCount = 0;
 
 			textRegions = new Stack<ITextRegion>();

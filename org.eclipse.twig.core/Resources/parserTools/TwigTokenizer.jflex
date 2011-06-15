@@ -862,6 +862,16 @@ private final String scanXMLCommentText() throws IOException {
 	//  context as usual.
 	return doScan("-->", true, false,  XML_COMMENT_TEXT, ST_XML_COMMENT_END, ST_XML_COMMENT_END);
 }
+
+/* user method */
+private final String scanTwigCommentText() throws IOException {
+	// Scan for '-->' and return the text up to that point as
+	//   TWIG_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+	//  case change to the ST_TWIG_COMMENT_END state and return the next
+	//  context as usual.
+	return doScan("#}", true, false,  TWIG_COMMENT_TEXT, ST_TWIG_COMMENT_END, ST_TWIG_COMMENT_END);
+}
+
 %}
 
 %eof{
@@ -929,6 +939,8 @@ private final String scanXMLCommentText() throws IOException {
 
 // added states to TWIG 
 %state ST_TWIG_CONTENT
+%state ST_TWIG_COMMENT
+%state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
 
@@ -1001,6 +1013,11 @@ CharData = ([^<&(\]\]>)]*)
 CommentStart = (<!\-\-)
 CommentEnd   = (\-\->)
 Comment = ({CommentStart}.*{CommentEnd})
+
+TwigCommentStart = (\{\#)
+TwigCommentEnd   = (\#\})
+TwigComment = ({TwigCommentStart}.*{TwigCommentEnd})
+
 
 // [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
 //PI = (<\?{PITarget} {Char}* \?>)
@@ -1327,7 +1344,6 @@ TW_START = \{\{{WHITESPACE}*
 
 TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
 TWIG_START = \{\{{WHITESPACE}*
-TWIG_COMMENT =([\*]([^*]|{WHITESPACE})*[\*])
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
@@ -1732,6 +1748,37 @@ NUMBER=([0-9])+
 	}
 
 }
+
+// Twig Comments
+
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#" {
+	if(Debug.debugTokenizer)
+		dump("twig comment start");//$NON-NLS-1$
+	fEmbeddedHint = TWIG_COMMENT_TEXT;
+	fEmbeddedPostState = ST_TWIG_COMMENT;
+	yybegin(ST_TWIG_COMMENT);
+	return TWIG_COMMENT_OPEN;
+}
+
+<ST_TWIG_COMMENT> .|\r|\n {
+
+	if(Debug.debugTokenizer)
+		dump("twig comment content");//$NON-NLS-1$
+		
+	String ret = scanTwigCommentText(); 
+	return ret;
+}
+
+<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
+
+	if(Debug.debugTokenizer)
+		dump("twig comment end");//$NON-NLS-1$
+	fEmbeddedHint = UNDEFINED;
+	yybegin(YYINITIAL);
+	return TWIG_COMMENT_CLOSE;
+}
+
+
 // XML & PHP Comments
 
 <YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> {CommentStart} {
@@ -2071,6 +2118,8 @@ NUMBER=([0-9])+
 
 
 
+
+
 <YYINITIAL> {TW_STMT_DEL_LEFT} {
 
 	yybegin(ST_TWIG_CONTENT);
@@ -2086,6 +2135,7 @@ NUMBER=([0-9])+
 
 // this is the "normal" xml content
 <YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
+
 	if(Debug.debugTokenizer)
 		dump("\nXML content");//$NON-NLS-1$
 
@@ -2094,7 +2144,6 @@ NUMBER=([0-9])+
 
 	// checks the smarty case
 	return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);
-
 
 }
 
@@ -2157,13 +2206,17 @@ NUMBER=([0-9])+
     return TWIG_NUMBER;
 }
 
-<ST_TWIG_CONTENT> {TWIG_COMMENT} {
+<ST_TWIG_CONTENT> "#}" {
+
 
 	if(Debug.debugTokenizer)
-		dump("TWIG COMMENT");
-
-	return TWIG_COMMENT;
+		dump("TWIG COMMENT CLOSE");
+		
+	yybegin(YYINITIAL);
+	return TWIG_COMMENT_CLOSE;
 }
+
+
 
 <ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
 

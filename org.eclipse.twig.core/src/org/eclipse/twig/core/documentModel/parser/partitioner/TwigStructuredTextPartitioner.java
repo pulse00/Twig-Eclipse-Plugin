@@ -46,7 +46,7 @@ public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner 
 		final String type = region.getType();
 		if (type.startsWith("TWIG_")) {
 			if (type == TwigRegionContext.TWIG_COMMENT) {
-				return TwigPartitionTypes.TWIG_COMMENT;
+				return TwigPartitionTypes.TWIG_COMMENT_TEXT;
 			} else if (type == TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING) {
 				return TwigPartitionTypes.TWIG_STRING;
 			} else if (type == TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT) {

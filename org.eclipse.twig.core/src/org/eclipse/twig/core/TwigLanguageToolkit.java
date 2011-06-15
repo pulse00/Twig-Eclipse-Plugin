@@ -18,7 +18,6 @@ public class TwigLanguageToolkit extends AbstractLanguageToolkit {
 	@Override
 	public String getLanguageContentType() {
 
-		System.err.println("get content type");
 		return "org.eclipse.twig.core.twigtemplate";
 		
 	}
@@ -26,14 +25,12 @@ public class TwigLanguageToolkit extends AbstractLanguageToolkit {
 	@Override
 	public String getNatureId() {
 
-		System.err.println("get language id");
 		return TwigNature.NATURE_ID;
 	}
 
 	@Override
 	public String getLanguageName() {
 
-		System.err.println("get language name");
 		return "Twig";
 
 	}

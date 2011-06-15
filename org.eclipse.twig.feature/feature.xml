@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.twig.feature"
       label="Twig Editor Feature"
-      version="1.0.1.qualifier"
+      version="1.0.2.qualifier"
       provider-name="org.eclipse.twig">
 
    <description url="https://github.com/pulse00/Twig-Eclipse-Plugin">

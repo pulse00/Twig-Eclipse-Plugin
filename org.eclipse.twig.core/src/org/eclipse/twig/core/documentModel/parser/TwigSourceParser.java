@@ -30,15 +30,14 @@ public class TwigSourceParser extends XMLSourceParser {
 	
 	@SuppressWarnings("rawtypes")
 	public static ThreadLocal editFile = new ThreadLocal();
-	private IProject project;
-
+	
+	
 	public TwigSourceParser() {
 		super();
 		IResource resource = (IResource) editFile.get();
 		if (resource instanceof IProject) {
-			project = (IProject) resource;
 		} else if (resource instanceof IFile) {
-			project = ((IFile) resource).getProject();
+			((IFile) resource).getProject();
 		}
 	}
 
