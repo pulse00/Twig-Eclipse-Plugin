@@ -943,6 +943,7 @@ private final String scanTwigCommentText() throws IOException {
 %state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
+%state ST_TWIG_JSON
 
 
 
@@ -2225,6 +2226,28 @@ NUMBER=([0-9])+
 
 	return TWIG_WHITESPACE;
 }
+
+<ST_TWIG_CONTENT> "{" {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG JSON START");
+
+	//yybegin(ST_TWIG_JSON)
+
+    return TWIG_JSON_START;
+}
+
+<ST_TWIG_CONTENT> "}" {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG JSON END");
+
+	//yybegin(ST_TWIG_JSON)
+
+    return TWIG_JSON_END;
+}
+
+
 
 <ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
 

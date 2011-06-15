@@ -37,5 +37,8 @@ public interface TwigRegionContext {
 	public static final String TWIG_DOUBLE_QUOTES_END 				= "TWIG_DOUBLE_QUOTES_END"; //$NON-NLS-1$
 	public static final String TWIG_BACKTICK_END 					= "ST_TWIG_BACKTICK_END"; //$NON-NLS-1$	
 	public static final String TWIG_BACKTICK_START 					= "TWIG_BACKTICK_START"; //$NON-NLS-1$		
+	
+	public static final String TWIG_JSON_START 						= "TWIG_JSON_START"; //$NON-NLS-1$
+	public static final String TWIG_JSON_END 						= "TWIG_JSON_END"; //$NON-NLS-1$	
 
 }

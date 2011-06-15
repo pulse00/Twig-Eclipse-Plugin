@@ -45,6 +45,80 @@ public class TokenizerTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
+	
+	
+	@Test
+	public void testMultiParams() {
+						
+		try {
+			
+			tokens = "{{ path('_ipsum',{'foo': 'bar'}) }}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+			
+			assertEquals(textRegions.size(), 15);
+			
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(textRegions.get(3).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(4).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(textRegions.get(5).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(6).getType(), TwigRegionContext.TWIG_JSON_START);
+			assertEquals(textRegions.get(7).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(textRegions.get(8).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(9).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(10).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(textRegions.get(11).getType(), TwigRegionContext.TWIG_JSON_END);
+			assertEquals(textRegions.get(12).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(13).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(14).getType(), TwigRegionContext.TWIG_CLOSE);
+			
+			
+			tokens = "{{ path('_ipsum',{ \"foo\": 'bar' }) }}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+			
+
+			assertEquals(textRegions.size(), 19);
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(textRegions.get(3).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(4).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(textRegions.get(5).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(6).getType(), TwigRegionContext.TWIG_JSON_START);
+			assertEquals(textRegions.get(7).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(8).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_START);
+			assertEquals(textRegions.get(9).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT);
+			assertEquals(textRegions.get(10).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_END);
+			assertEquals(textRegions.get(11).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(12).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(13).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
+			assertEquals(textRegions.get(14).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(15).getType(), TwigRegionContext.TWIG_JSON_END);
+			assertEquals(textRegions.get(16).getType(), TwigRegionContext.TWIG_DELIMITER);
+			assertEquals(textRegions.get(17).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(textRegions.get(18).getType(), TwigRegionContext.TWIG_CLOSE);			
+			
+			
+		} catch (Exception e) {
+
+			fail();
+		}		
+	}
 
 	
 	public void testMultilineComment() {
