@@ -45,6 +45,11 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 	@Override
 	public void complete(final IModuleSource module, final int position, final int i) {
 
+		String ext = module.getModelElement().getResource().getFileExtension();
+		
+		if (!ext.equals("twig") && !ext.equals("html"))
+			return;
+		
 		
 		for (int j = 0; j < keywords.length; j++) {
 			createProposal(keywords[j], null);

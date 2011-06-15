@@ -101,8 +101,14 @@
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             class="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
-            id="org.eclipse.twig.ui.page1"
+            id="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
             name="%codeassistPreferencePageName">
+      </page>
+      <page
+            category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            class="org.eclipse.twig.ui.TwigSyntaxColoringPage"
+            id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
+            name="%syntaxColorPreferencePageName">
       </page>
    </extension>
    
