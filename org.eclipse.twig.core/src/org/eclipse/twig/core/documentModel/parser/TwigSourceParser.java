@@ -132,8 +132,14 @@ public class TwigSourceParser extends XMLSourceParser {
 				}
 			}
 			// the following contexts OPEN new StructuredDocumentRegions
-			else if ((currentNode != null && currentNode.isEnded()) || (type == PHPRegionContext.PHP_OPEN) || (type == TwigRegionContext.TWIG_OPEN) || (type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || (type == DOMRegionContext.XML_ENTITY_REFERENCE)
-					|| (type == DOMRegionContext.XML_TAG_OPEN) || (type == DOMRegionContext.XML_END_TAG_OPEN) || (type == DOMRegionContext.XML_COMMENT_OPEN) || (type == DOMRegionContext.XML_CDATA_OPEN) || (type == DOMRegionContext.XML_DECLARATION_OPEN)) {
+			else if ((currentNode != null && currentNode.isEnded()) || 
+					(type == PHPRegionContext.PHP_OPEN) || (type == TwigRegionContext.TWIG_OPEN) ||
+					(type == TwigRegionContext.TWIG_STMT_OPEN) ||
+					(type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || 
+					(type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == DOMRegionContext.XML_TAG_OPEN) || 
+					(type == DOMRegionContext.XML_END_TAG_OPEN) || (type == DOMRegionContext.XML_COMMENT_OPEN) || 
+					(type == DOMRegionContext.XML_CDATA_OPEN) || (type == DOMRegionContext.XML_DECLARATION_OPEN)) {
+				
 				if (currentNode != null) {
 					// ensure that any existing node is at least terminated
 					if (!currentNode.isEnded()) {
@@ -161,8 +167,12 @@ public class TwigSourceParser extends XMLSourceParser {
 			}
 			// the following contexts neither open nor close
 			// StructuredDocumentRegions; just add to them
-			else if ((type == DOMRegionContext.XML_TAG_NAME) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_NAME) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_EQUALS) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE) || (type == DOMRegionContext.XML_COMMENT_TEXT)
-					|| (type == DOMRegionContext.XML_PI_CONTENT) || (type == DOMRegionContext.XML_DOCTYPE_INTERNAL_SUBSET) || (type == PHPRegionContext.PHP_CONTENT) || (type == TwigRegionContext.TWIG_CONTENT)) {
+			else if ((type == DOMRegionContext.XML_TAG_NAME) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_NAME) || 
+					(type == DOMRegionContext.XML_TAG_ATTRIBUTE_EQUALS) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE) || 
+					(type == DOMRegionContext.XML_COMMENT_TEXT) || (type == DOMRegionContext.XML_PI_CONTENT) || 
+					(type == DOMRegionContext.XML_DOCTYPE_INTERNAL_SUBSET) || (type == PHPRegionContext.PHP_CONTENT) || 
+					(type == TwigRegionContext.TWIG_CONTENT )) {
+				
 				currentNode.addRegion(region);
 				currentNode.setLength(region.getStart() + region.getLength() - currentNode.getStart());
 				region.adjustStart(-currentNode.getStart());
@@ -174,9 +184,11 @@ public class TwigSourceParser extends XMLSourceParser {
 			}
 			// the following contexts close off StructuredDocumentRegions
 			// cleanly
-			else if ((type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE) || (type == DOMRegionContext.XML_PI_CLOSE) || (type == DOMRegionContext.XML_TAG_CLOSE) || (type == DOMRegionContext.XML_EMPTY_TAG_CLOSE) || (type == DOMRegionContext.XML_COMMENT_CLOSE)
+			else if ((type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE) ||
+					(type == TwigRegionContext.TWIG_STMT_CLOSE) ||
+					(type == DOMRegionContext.XML_PI_CLOSE) || (type == DOMRegionContext.XML_TAG_CLOSE) || 
+					(type == DOMRegionContext.XML_EMPTY_TAG_CLOSE) || (type == DOMRegionContext.XML_COMMENT_CLOSE)
 					|| (type == DOMRegionContext.XML_DECLARATION_CLOSE) || (type == DOMRegionContext.XML_CDATA_CLOSE)) {
-				
 				
 				int l  = region.getStart() + region.getLength() - currentNode.getStart();
 				
@@ -239,6 +251,7 @@ public class TwigSourceParser extends XMLSourceParser {
 				if (region instanceof ITextRegionContainer) {
 					((ITextRegionContainer) region).setParent(currentNode);
 				}
+				
 				if (Debug.debugTokenizer)
 					System.out.println(getClass().getName() + " found region of not specifically handled type " + region.getType() + " @ " + region.getStart() + "[" + region.getLength() + "]"); //$NON-NLS-4$//$NON-NLS-3$//$NON-NLS-2$//$NON-NLS-1$
 				//$NON-NLS-3$//$NON-NLS-2$//$NON-NLS-1$
@@ -250,7 +263,9 @@ public class TwigSourceParser extends XMLSourceParser {
 			// be more readable if that is handled here as well, but the
 			// current layout
 			// ensures that they open StructuredDocumentRegions the same way
-			if ((type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || (type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE)) {
+			if ((type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || 
+				(type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == PHPRegionContext.PHP_CLOSE) || 
+				(type == TwigRegionContext.TWIG_CLOSE) || (type == TwigRegionContext.TWIG_STMT_CLOSE)) {
 				currentNode.setEnded(true);				
 			}
 			if (headNode == null && currentNode != null) {

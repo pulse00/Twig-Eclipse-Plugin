@@ -2227,12 +2227,21 @@ NUMBER=([0-9])+
 	return TWIG_WHITESPACE;
 }
 
+<ST_TWIG_COMMENT> "{" {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG BRACKET IN COMMENT");
+
+	String ret = scanTwigCommentText(); 
+	return ret;
+}
+
+
 <ST_TWIG_CONTENT> "{" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON START");
 
-	//yybegin(ST_TWIG_JSON)
 
     return TWIG_JSON_START;
 }
