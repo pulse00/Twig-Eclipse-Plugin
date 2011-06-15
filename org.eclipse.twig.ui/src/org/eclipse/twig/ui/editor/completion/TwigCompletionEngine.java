@@ -47,8 +47,13 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 
 		String ext = module.getModelElement().getResource().getFileExtension();
 		
-		if (!ext.equals("twig") && !ext.equals("html"))
+		if (!ext.equals("twig") && !ext.equals("html")) {
+			
+			if (ext.equals("php")) {
+				super.complete(module, position, i);
+			}
 			return;
+		}
 		
 		
 		for (int j = 0; j < keywords.length; j++) {

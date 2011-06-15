@@ -218,6 +218,35 @@ public class TokenizerTest extends TestCase {
 			fail();
 		}
 	}
+	
+	
+	@Test
+	public void testPrintInsideDiv() {
+		
+		
+		try {
+		
+			tokens = "<div> {{ foo in bar }} </div>";			
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);			
+
+			while(!tokenizer.isEOF()) {
+
+				ITextRegion region =  tokenizer.getNextToken();
+				textRegions.push(region);
+				
+			}
+			
+			assertEquals(textRegions.size(), 17);
+			
+			
+		} catch (Exception e) {
+			
+			fail();
+		}
+	}
 
 
 	@Test

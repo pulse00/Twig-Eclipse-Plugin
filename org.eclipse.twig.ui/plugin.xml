@@ -112,13 +112,15 @@
       </page>
    </extension>
    
-   <!-- CompletionEngine - not used yet -->
+   <!-- CompletionEngine -->
+   
+   <!-- org.eclipse.php.core.PHPNature  |  org.eclipse.twig.core.TwigNature -->
    <extension
          point="org.eclipse.dltk.core.completionEngine">
       <completionEngine
             class="org.eclipse.twig.ui.editor.completion.TwigCompletionEngine"
             nature="org.eclipse.php.core.PHPNature"
-            priority="100">
+            priority="0">
       </completionEngine>
    </extension>
    <extension
