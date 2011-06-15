@@ -142,7 +142,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	@Override
 	public void init(IWorkbench workbench) {
 
-		setDescription(SSEUIMessages.SyntaxColoring_Description);
+		setDescription("Syntax Colors");
 
 		fStyleToDescriptionMap = new HashMap<String, String>();
 		fContextToStyleMap = new HashMap<String, String>();
