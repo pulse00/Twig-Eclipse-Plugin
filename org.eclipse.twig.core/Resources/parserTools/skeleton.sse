@@ -243,12 +243,12 @@
 			//System.err.println("a");
 			//go to the char right before the text, so it doesnt mark the whole thing red...
 			if (startChar > 0){
-				System.err.println("b");
+//				System.err.println("b");
 				//push to right before the delim
 				yypushback(yylength() - startChar);
 				//return YYINITIAL;
 			} else {
-				System.err.println("c");
+//				System.err.println("c");
 				yybegin(afterDelimType);
 				// pushback to just after the closing bracket
 				int delemLen = delim.length();

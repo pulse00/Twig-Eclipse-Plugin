@@ -45,16 +45,42 @@ public class TokenizerTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
+
+	
+	public void testMultilineComment() {
+		
+		try {
+
+			tokens = "{# \naha \nsome \ntext #}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			tokenCount = 0;
+
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+
+			assertEquals(textRegions.size(), 3);
+			assertEquals(textRegions.get(0).getType(), "TWIG_COMMENT_OPEN");			
+			assertEquals(textRegions.get(1).getType(), "TWIG_COMMENT_TEXT");
+			assertEquals(textRegions.get(2).getType(), "TWIG_COMMENT_CLOSE");
+			
+			
+		} catch (Exception e) {			
+			fail();
+		}
+	}
 	
 	
 	@Test
-	public void testComments() {
-		
+	public void testSinglelineComments() {
 		
 		try {
 
 			tokens = "{# aha #}";
-			System.err.println(tokens);
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
 			tokenCount = 0;
 
@@ -66,30 +92,14 @@ public class TokenizerTest extends TestCase {
 				textRegions.push(region);
 			}
 
-			System.err.println();
-			System.err.println("###");
-			System.err.println();
-			
-			tokens = "<!-- aha -->";
-			System.err.println(tokens);
-			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			tokenCount = 0;
-
-			textRegions = new Stack<ITextRegion>();
-			assertTrue(textRegions.size() == 0);
-			
-			while(!tokenizer.isEOF()) {
-				ITextRegion region = tokenizer.getNextToken();
-				textRegions.push(region);
-			}
+			assertEquals(textRegions.size(), 3);
+			assertEquals(textRegions.get(0).getType(), "TWIG_COMMENT_OPEN");			
+			assertEquals(textRegions.get(1).getType(), "TWIG_COMMENT_TEXT");
+			assertEquals(textRegions.get(2).getType(), "TWIG_COMMENT_CLOSE");
 			
 			
+		} catch (Exception e) {			
 			fail();
-			
-		} catch (Exception e) {
-			
-			fail();
-
 		}
 	}
 	
