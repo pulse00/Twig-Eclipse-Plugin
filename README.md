@@ -1,6 +1,5 @@
 #Twig Eclipse Plugin
 
-
 The plugin is still in development.
 
 
@@ -13,8 +12,7 @@ The plugin is still in development.
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
-
-It requires Eclipse >= 3.6.
+The plugin requires Eclipse >= 3.6.
 
 ## Installation
 
@@ -25,6 +23,16 @@ It requires Eclipse >= 3.6.
 * Select the "Twig Editor Feature" from the new software site and click finish
 
 
-The plugin should download all dependencies (PHP Development tools) automatically.
+All dependencies (PHP Development tools) should be downloaded automatically during the installation process.
 
 Please use the github issue tracker to report bugs and feature requests.
+
+
+## Contribute
+
+Any contributions to the project are welcome, including:
+
+* Code contributions
+* Provide code-templates for standard twig control structures
+* Report bugs
+* Give feedback to the usage of the plugin
