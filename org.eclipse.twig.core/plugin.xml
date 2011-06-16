@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+
+<!--
+org.eclipse.php.core.PHPNature
+org.eclipse.twig.core.TwigNature
+ -->
+
    <extension
          id="TwigNature"
          name="Twig"
@@ -39,7 +45,7 @@
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
-            base-type="org.eclipse.wst.html.core.htmlsource"
+            base-type="org.eclipse.php.core.phpsource"
             file-extensions="twig"
             id="twigtemplate"
             name="Twig Template"
@@ -65,25 +71,10 @@
       </factory>
    </extension>
    <extension
-         point="org.eclipse.dltk.core.sourceParsers">
-      <parserContribution
-            natureId="org.eclipse.twig.core.TwigNature">
-         <parser
-               class="org.eclipse.twig.core.TwigSourceParserFactory"
-               description="org.eclipse.twig.core.twigparser"
-               id="org.eclipse.twig.core.twigparser"
-               name="org.eclipse.twig.core.twigparser"
-               priority="0">
-         </parser>
-      </parserContribution>
-   </extension>
-   <extension
-         point="org.eclipse.dltk.core.sourceElementParsers">
-      <parser
-            class="org.eclipse.twig.core.TwigSourceElementParser"
-            nature="org.eclipse.twig.core.TwigNature"
-            priority="0">
-      </parser>
+         point="org.eclipse.php.core.phpSourceElementRequestors">
+      <requestor
+            class="org.eclipse.twig.core.documentModel.parser.TwigSourceElementRequestorExtension">
+      </requestor>
    </extension>
 
 </plugin>
