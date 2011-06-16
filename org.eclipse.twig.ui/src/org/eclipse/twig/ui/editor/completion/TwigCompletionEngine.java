@@ -14,7 +14,12 @@ import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IModelElementVisitor;
 import org.eclipse.dltk.core.IType;
 import org.eclipse.dltk.core.ModelException;
+import org.eclipse.php.core.codeassist.ICompletionContextResolver;
+import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
+import org.eclipse.php.internal.core.codeassist.CompletionCompanion;
 import org.eclipse.php.internal.core.codeassist.PHPCompletionEngine;
+import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
+import org.eclipse.php.internal.core.codeassist.strategies.CompletionStrategyFactory;
 
 
 /**
@@ -53,10 +58,23 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 		if (!ext.equals("twig") && !ext.equals("html")) {
 			
 			if (ext.equals("php")) {
-				super.complete(module, position, i);
+//				super.complete(module, position, i);
 			}
 			return;
 		}
+		
+		
+//		ICompletionContextResolver[] contextResolvers = CompletionContextResolver
+//				.getActive();
+//		ICompletionStrategyFactory[] strategyFactories = CompletionStrategyFactory
+//				.getActive();
+//		
+//		
+//		CompletionCompanion companion = new CompletionCompanion();
+//		org.eclipse.dltk.core.ISourceModule sourceModule = (org.eclipse.dltk.core.ISourceModule) module
+//				.getModelElement();
+		
+		
 		
 		
 //		for (int j = 0; j < keywords.length; j++) {
@@ -64,66 +82,66 @@ public class TwigCompletionEngine extends PHPCompletionEngine {
 //		}
  
 		// Completion for model elements.
-		try {
-			module.getModelElement().accept(new IModelElementVisitor() {
-				
-				
-				public boolean visit(IModelElement element) {
-					
-				
-					System.err.println("completing element: " + element.getElementName());
-					if (element.getElementType() > IModelElement.SOURCE_MODULE) {
-						createProposal(element.getElementName(), element);
-					}
-					return true;
-				}
-				
-			});
-		} catch (ModelException e) {
-			if (DLTKCore.DEBUG) {
-				e.printStackTrace();
-			}
-		}
+//		try {
+//			module.getModelElement().accept(new IModelElementVisitor() {
+//				
+//				public boolean visit(IModelElement element) {
+//					
+//				
+//					if (element.getElementType() > IModelElement.SOURCE_MODULE) {
+//						createProposal(element.getElementName(), element);
+//					}
+//					return true;
+//				}
+//				
+//			});
+//		} catch (ModelException e) {
+//			if (DLTKCore.DEBUG) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		
-		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(COMPLETION_PROVIDER_ID);
 		
-		try {
-			
-			for (IConfigurationElement e : config) {
-				
-				final Object o = e.createExecutableExtension("class");
-				
-				if (o instanceof ITwigCompletionProvider) {
-					
-					ISafeRunnable runnable = new ISafeRunnable() {
-						
-						@Override
-						public void run() throws Exception {
-							ITwigCompletionProvider provider  = (ITwigCompletionProvider) o;							
-							String[] proposals = provider.provideCompletions(module, position, i);
-							
-							for (String prop : proposals) {
-								createProposal(prop, null);								
-							}
-							
-						}
-						
-						@Override
-						public void handleException(Throwable exception) {
-							System.out.println("exception in extension!");							
-						}
-					};
-					
-					SafeRunner.run(runnable);										
-				}
-			}
-			
-		} catch (CoreException e) {
-			
-			e.printStackTrace();
-
-		}
+		// call extension points
+//		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(COMPLETION_PROVIDER_ID);
+//		
+//		try {
+//			
+//			for (IConfigurationElement e : config) {
+//				
+//				final Object o = e.createExecutableExtension("class");
+//				
+//				if (o instanceof ITwigCompletionProvider) {
+//					
+//					ISafeRunnable runnable = new ISafeRunnable() {
+//						
+//						@Override
+//						public void run() throws Exception {
+//							ITwigCompletionProvider provider  = (ITwigCompletionProvider) o;							
+//							String[] proposals = provider.provideCompletions(module, position, i);
+//							
+//							for (String prop : proposals) {
+//								createProposal(prop, null);								
+//							}
+//							
+//						}
+//						
+//						@Override
+//						public void handleException(Throwable exception) {
+//							System.out.println("exception in extension!");							
+//						}
+//					};
+//					
+//					SafeRunner.run(runnable);										
+//				}
+//			}
+//			
+//		} catch (CoreException e) {
+//			
+//			e.printStackTrace();
+//
+//		}
 	}
 	
 	private void createProposal(String name, IModelElement element) {

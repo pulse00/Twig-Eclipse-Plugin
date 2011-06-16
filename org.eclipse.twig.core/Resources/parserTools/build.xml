@@ -1,11 +1,28 @@
-<?xml version="1.0" ?>
-<project name="twigTokenizer" default="generateTokenizer" basedir=".">
-	<target name="generateTokenizer">
-		<property name="destination" value="../../src/org/eclipse/twig/core/documentModel/parser" />
-		<java classpath="JFlex.jar" classname="JFlex.Main">
-			<arg line="-skel skeleton.sse" />
-			<arg value="TwigTokenizer.jflex" />
-		</java>
-		<move file="TwigTokenizer.java" todir="${destination}" />
+<!--
+    Copyright (c) 2009 IBM Corporation and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+        IBM Corporation - initial API and implementation
+        Zend Technologies
+ -->
+<project name="Builds all parser classes" default="main">
+	
+	<target name="main">
+		<dirname property="antfile.dir" file="${ant.file}"/>
+		
+		
+		<!-- PHP 5.3 AST -->
+		<ant dir="${antfile.dir}/parser/" antfile="generateAstParser.xml" />
+		<ant dir="${antfile.dir}/parser/" antfile="generateAstScanner.xml" />
+		<ant dir="${antfile.dir}/parser/" antfile="generateCompilerAstParser.xml" />
+		
+		<ant dir="${antfile.dir}/highlighting/twig" antfile="generateHighlightingScanner.xml" />		
+		<!-- <ant dir="${antfile.dir}/highlighting/" antfile="generatePHPTokenizer.xml" /> -->
+		
 	</target>
+	
 </project>
