@@ -1,6 +1,8 @@
 package org.eclipse.twig.core;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
 
 public class TwigCorePlugin extends Plugin {
@@ -8,7 +10,7 @@ public class TwigCorePlugin extends Plugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.twig.core";
 
-	
+	public static final int INTERNAL_ERROR = 10001;	
 	
 	// The shared instance	
 	private static TwigCorePlugin plugin;
@@ -37,7 +39,17 @@ public class TwigCorePlugin extends Plugin {
 		return plugin;		
 		
 	}
-	
-	
+
+	public static void log(Exception e) {
+		
+		log(new Status(IStatus.ERROR, PLUGIN_ID, INTERNAL_ERROR,
+				"PHPCore plugin internal error", e)); //$NON-NLS-1$
+		
+	}
+
+	private static void log(Status status) {
+		getDefault().getLog().log(status);
+		
+	}
 
 }

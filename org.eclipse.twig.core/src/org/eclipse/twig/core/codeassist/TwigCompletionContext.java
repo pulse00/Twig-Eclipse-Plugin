@@ -1,33 +1,53 @@
 package org.eclipse.twig.core.codeassist;
 
-import java.io.IOException;
-
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.php.internal.core.codeassist.contexts.AbstractCompletionContext;
-import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
-import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
+import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.wst.sse.core.internal.provisional.exceptions.ResourceAlreadyExists;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 
+
+/**
+ * 
+ * The {@link TwigCompletionContext} checks if we're inside a twig structure:
+ * 
+ * <pre>
+ * 
+ * 	{{ ... | ... }}
+ * 
+ *  or 
+ *  
+ *  {% ... | .. %}
+ * 
+ * </pre>
+ * 
+ * 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigCompletionContext extends AbstractCompletionContext {
 
 	private ITwigScriptRegion twigScriptRegion;
+	
+	
+	public ITwigScriptRegion getTwigScriptRegion() {
+		return twigScriptRegion;
+	}
+
 
 	@Override
 	public boolean isValid(ISourceModule sourceModule, int offset,
 			CompletionRequestor requestor) {
 
 		try {
+			
 			IStructuredDocument document = determineDocument(sourceModule, requestor);
-
 
 			if (document != null) {
 
@@ -39,82 +59,49 @@ public class TwigCompletionContext extends AbstractCompletionContext {
 					ITextRegionCollection regionCollection = determineRegionCollection(document,
 							structuredDocumentRegion, offset);
 
-
 					if (regionCollection != null) {
 
 						ITwigScriptRegion twigScriptRegion = determineTwigRegion(document,
 								regionCollection, offset);
 												
-						if (twigScriptRegion != null) {
-							
-							System.err.println("got script region");
-							
-						} else {
-														
-							System.err.println("no script region");
-							
+						if (twigScriptRegion != null) {							
+							return true;
+
 						}
-
 					}
-
 				} 
-
 			}
-
-		} catch (ResourceAlreadyExists e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			TwigCorePlugin.log(e);
 		}		
 
-
-
-		System.err.println("is not valid");
 		return false;
-
 
 	}
 	
+
 	protected ITwigScriptRegion determineTwigRegion(IStructuredDocument document,
 			ITextRegionCollection regionCollection, int offset) {
+		
+		
+//		for (ITextRegion region : regionCollection.getRegions().toArray()) {
+//			if(region instanceof TwigScriptRegion) {
+//				ITwigScriptRegion twigRegion = (TwigScriptRegion) region;
+//				System.err.println("twig region between " + twigRegion.getStart() + " " + twigRegion.getEnd());
+//			} else {
+//				System.out.println("normal region between " + region.getStart() + " " + region.getEnd());
+//			}
+//		}
+
 		ITextRegion textRegion = determineTextRegion(document,
 				regionCollection, offset);
 		
-		
-		
-		/**
-		 * @see doScanEndPhp method in TwigTokenizer
-		 * needs some more jflex interaction :(
-		 */
 		twigScriptRegion = null;
 		
-		
-		if (textRegion != null) {
-			if (textRegion.getType() == TwigRegionContext.TWIG_OPEN) {
-				return null;
-			} else if (textRegion.getType() == TwigRegionContext.TWIG_CLOSE) {
-				if (regionCollection.getStartOffset(textRegion) == offset) {
-					textRegion = regionCollection
-							.getRegionAtCharacterOffset(offset - 1);
-				} else {
-					return null;
-				}
-			}
-		}
-
-		
-		System.out.println("region: " + textRegion.getClass());
 		if (textRegion instanceof ITwigScriptRegion) {
 			twigScriptRegion = (ITwigScriptRegion) textRegion;
 		}
 
 		return twigScriptRegion;
 	}
-	
-
 }

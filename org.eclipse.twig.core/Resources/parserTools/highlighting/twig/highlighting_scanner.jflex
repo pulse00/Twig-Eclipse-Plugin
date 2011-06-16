@@ -144,37 +144,7 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
 **************************************** P  H  P ***********************************************
 ***********************************************************************************************/
 
-<ST_PHP_IN_SCRIPTING> "exit" {
-    return PHP_EXIT;
-}
 
-<ST_PHP_IN_SCRIPTING>"die" {
-    return PHP_DIE;
-}
-
-<ST_PHP_IN_SCRIPTING>"function" {
-    return PHP_FUNCTION;
-}
-
-<ST_PHP_IN_SCRIPTING>"const" {
-    return PHP_CONST;
-}
-
-<ST_PHP_IN_SCRIPTING>"return" {
-    return PHP_RETURN;
-}
-
-<ST_PHP_IN_SCRIPTING>"try" {
-    return PHP_TRY;
-}
-
-<ST_PHP_IN_SCRIPTING>"catch" {
-    return PHP_CATCH;
-}
-
-<ST_PHP_IN_SCRIPTING>"throw" {
-    return PHP_THROW;
-}
 
 <ST_PHP_IN_SCRIPTING>"if" {
     return PHP_IF;
@@ -192,17 +162,6 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
     return PHP_ELSE;
 }
 
-<ST_PHP_IN_SCRIPTING>"while" {
-    return PHP_WHILE;
-}
-
-<ST_PHP_IN_SCRIPTING>"endwhile" {
-    return PHP_ENDWHILE;
-}
-
-<ST_PHP_IN_SCRIPTING>"do" {
-    return PHP_DO;
-}
 
 <ST_PHP_IN_SCRIPTING>"for" {
     return PHP_FOR;
@@ -212,90 +171,16 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
     return PHP_ENDFOR;
 }
 
-<ST_PHP_IN_SCRIPTING>"foreach" {
-    return PHP_FOREACH;
-}
-
-<ST_PHP_IN_SCRIPTING>"endforeach" {
-    return PHP_ENDFOREACH;
-}
-
-<ST_PHP_IN_SCRIPTING>"declare" {
-    return PHP_DECLARE;
-}
-
-<ST_PHP_IN_SCRIPTING>"enddeclare" {
-    return PHP_ENDDECLARE;
-}
-
-<ST_PHP_IN_SCRIPTING>"instanceof" {
-    return PHP_INSTANCEOF;
-}
 
 <ST_PHP_IN_SCRIPTING>"as" {
     return PHP_AS;
 }
 
-<ST_PHP_IN_SCRIPTING>"switch" {
-    return PHP_SWITCH;
-}
-
-<ST_PHP_IN_SCRIPTING>"endswitch" {
-    return PHP_ENDSWITCH;
-}
-
-<ST_PHP_IN_SCRIPTING>"case" {
-    return PHP_CASE;
-}
-
-<ST_PHP_IN_SCRIPTING>"default" {
-    return PHP_DEFAULT;
-}
-
-<ST_PHP_IN_SCRIPTING>"break" {
-    return PHP_BREAK;
-}
-
-<ST_PHP_IN_SCRIPTING>"continue" {
-    return PHP_CONTINUE;
-}
-
-<ST_PHP_IN_SCRIPTING>"echo" {
-    return PHP_ECHO;
-}
-
-<ST_PHP_IN_SCRIPTING>"goto" {
- 	return PHP_GOTO;
-}
-
-<ST_PHP_IN_SCRIPTING>"print" {
-    return PHP_PRINT;
-}
-
-<ST_PHP_IN_SCRIPTING>"class" {
-    return PHP_CLASS;
-}
-
-<ST_PHP_IN_SCRIPTING>"interface" {
-    return PHP_INTERFACE;
-}
 
 <ST_PHP_IN_SCRIPTING>"extends" {
     return PHP_EXTENDS;
 }
 
-<ST_PHP_IN_SCRIPTING>"implements" {
-    return PHP_IMPLEMENTS;
-}
-
-<ST_PHP_IN_SCRIPTING>"self" {
-    return PHP_SELF;
-}
-
-<ST_PHP_IN_SCRIPTING>"->" {
-    pushState(ST_PHP_LOOKING_FOR_PROPERTY);
-    return PHP_OBJECT_OPERATOR;
-}
 
 <ST_PHP_QUOTES_AFTER_VARIABLE> {
     "->" {
@@ -335,137 +220,7 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
 	return PHP_NS_SEPARATOR;
 }
 
-<ST_PHP_IN_SCRIPTING>"new" {
-    return PHP_NEW;
-}
 
-<ST_PHP_IN_SCRIPTING>"clone" {
-    return PHP_CLONE;
-}
-
-<ST_PHP_IN_SCRIPTING>"var" {
-    return PHP_VAR;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}("int"|"integer"){TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}("real"|"double"|"float"){TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}"string"{TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}"binary"{TABS_AND_SPACES}")" {
-	return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}"array"{TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}"object"{TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}("bool"|"boolean"){TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"("{TABS_AND_SPACES}("unset"){TABS_AND_SPACES}")" {
-    return PHP_CASTING;
-}
-
-<ST_PHP_IN_SCRIPTING>"eval" {
-    return PHP_EVAL;
-}
-
-<ST_PHP_IN_SCRIPTING>"include" {
-    return PHP_INCLUDE;
-}
-
-<ST_PHP_IN_SCRIPTING>"include_once" {
-    return PHP_INCLUDE_ONCE;
-}
-
-<ST_PHP_IN_SCRIPTING>"require" {
-    return PHP_REQUIRE;
-}
-
-<ST_PHP_IN_SCRIPTING>"require_once" {
-    return PHP_REQUIRE_ONCE;
-}
-
-<ST_PHP_IN_SCRIPTING>"namespace" {
- 	return PHP_NAMESPACE;
-}
-
-<ST_PHP_IN_SCRIPTING>"use" {
-    return PHP_USE;
-}
-
-<ST_PHP_IN_SCRIPTING>"global" {
-    return PHP_GLOBAL;
-}
-
-<ST_PHP_IN_SCRIPTING>"isset" {
-    return PHP_ISSET;
-}
-
-<ST_PHP_IN_SCRIPTING>"empty" {
-    return PHP_EMPTY;
-}
-
-<ST_PHP_IN_SCRIPTING>"__halt_compiler" {
-	return PHP_HALT_COMPILER;
-}
-
-<ST_PHP_IN_SCRIPTING>"static" {
-    return PHP_STATIC;
-}
-
-<ST_PHP_IN_SCRIPTING>"abstract" {
-    return PHP_ABSTRACT;
-}
-
-<ST_PHP_IN_SCRIPTING>"final" {
-    return PHP_FINAL;
-}
-
-<ST_PHP_IN_SCRIPTING>"private" {
-    return PHP_PRIVATE;
-}
-
-<ST_PHP_IN_SCRIPTING>"protected" {
-    return PHP_PROTECTED;
-}
-
-<ST_PHP_IN_SCRIPTING>"public" {
-    return PHP_PUBLIC;
-}
-
-<ST_PHP_IN_SCRIPTING>"unset" {
-    return PHP_UNSET;
-}
-
-<ST_PHP_IN_SCRIPTING>"list" {
-    return PHP_LIST;
-}
-
-<ST_PHP_IN_SCRIPTING>"array" {
-    return PHP_ARRAY;
-}
-
-<ST_PHP_IN_SCRIPTING>"parent" {
-    return PHP_PARENT;
-}
-
-<ST_PHP_IN_SCRIPTING>"from" {
-    return PHP_FROM;
-}
 
 <ST_PHP_IN_SCRIPTING>"true" {
     return PHP_TRUE;
@@ -523,37 +278,6 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
     return PHP_NUMBER;
 }
 
-<ST_PHP_IN_SCRIPTING>"__CLASS__" {
-    return PHP__CLASS__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__FUNCTION__" {
-    return PHP__FUNCTION__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__METHOD__" {
-    return PHP__METHOD__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__LINE__" {
-    return PHP__LINE__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__FILE__" {
-    return PHP__FILE__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__DIR__" {
- 	return PHP__DIR__;
-}
-
-<ST_PHP_IN_SCRIPTING>"__NAMESPACE__" {
-	return PHP__NAMESPACE__;
-}
-
-<ST_PHP_IN_SCRIPTING>"$this" {
-    return PHP_THIS;
-}
 
 <ST_PHP_IN_SCRIPTING>"$"{LABEL} {
     return PHP_VARIABLE;
@@ -633,46 +357,6 @@ PHP_OPERATOR="=>"|"++"|"--"|"==="|"!=="|"=="|"!="|"<>"|"<="|">="|"+="|"-="|"*="|
 <ST_PHP_IN_SCRIPTING>"/**"(#@\+)?{WHITESPACE} {
     pushState(ST_PHP_DOC_COMMENT);
     return PHPDOC_COMMENT_START;
-}
-
-<ST_PHP_DOC_COMMENT>{
-
-    "@access"        {return PHPDOC_ACCESS;}
-    "@abstract"      {return PHPDOC_ABSTRACT;}
-    "@author"        {return PHPDOC_AUTHOR;}
-    "@category"      {return PHPDOC_CATEGORY;}
-    "@copyright"     {return PHPDOC_COPYRIGHT;}
-    "@deprecated"    {return PHPDOC_DEPRECATED;}
-    "@desc"          {return PHPDOC_DESC;}
-    "@example"       {return PHPDOC_EXAMPLE;}
-    "@exception"     {return PHPDOC_EXCEPTION;}
-    "@final"         {return PHPDOC_FINAL;}
-    "@filesource"    {return PHPDOC_FILESOURCE;}
-    "@global"        {return PHPDOC_GLOBAL;}
-    "@ignore"        {return PHPDOC_IGNORE;}
-    "@internal"      {return PHPDOC_INTERNAL;}
-    "@license"       {return PHPDOC_LICENSE;}
-    "@link"          {return PHPDOC_LINK;}
-    "@magic"         {return PHPDOC_MAGIC;}
-    "@method"        {return PHPDOC_METHOD;}    
-    "@name"          {return PHPDOC_NAME;}
-    "@package"       {return PHPDOC_PACKAGE;}
-    "@param"         {return PHPDOC_PARAM;}
-    "@property"      {return PHPDOC_PROPERTY;}
-    "@return"        {return PHPDOC_RETURN;}
-    "@see"           {return PHPDOC_SEE;}
-    "@since"         {return PHPDOC_SINCE;}
-    "@static"        {return PHPDOC_STATIC;}
-    "@staticvar"     {return PHPDOC_STATICVAR;}
-    "@subpackage"    {return PHPDOC_SUBPACKAGE;}
-    "@throws"        {return PHPDOC_THROWS;}
-    "@todo"          {return PHPDOC_TODO;}
-    "@tutorial"      {return PHPDOC_TUTORIAL;}
-    "@uses"		     {return PHPDOC_USES;}
-    "@var"           {return PHPDOC_VAR;}
-    "@version"       {return PHPDOC_VERSION;}
-
-   {ANY_CHAR}     {return PHPDOC_COMMENT;}
 }
 
 <ST_PHP_IN_SCRIPTING>"/*" {

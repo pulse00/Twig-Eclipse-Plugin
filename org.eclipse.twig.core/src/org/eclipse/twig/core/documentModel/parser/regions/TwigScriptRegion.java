@@ -12,6 +12,8 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 	public TwigScriptRegion(String newContext, int newStart, int newTextLength,
 			int newLength) {
 		super(newContext, newStart, newTextLength, newLength);
+		
+		
 
 	}
 	
@@ -20,6 +22,4 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 		super(newContext, startOffset, 0, 0, TwigScriptRegion.TWIG_SCRIPT);
 		
 	}
-	
-
 }

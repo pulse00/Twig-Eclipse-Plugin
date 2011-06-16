@@ -86,5 +86,11 @@ org.eclipse.twig.core.TwigNature
             class="org.eclipse.twig.core.codeassist.TwigCompletionContextResolver">
       </resolver>
    </extension>
+   <extension
+         point="org.eclipse.php.core.completionStrategyFactories">
+      <factory
+            class="org.eclipse.twig.core.codeassist.strategies.TwigCompletionStrategyFactory">
+      </factory>
+   </extension>
 
 </plugin>

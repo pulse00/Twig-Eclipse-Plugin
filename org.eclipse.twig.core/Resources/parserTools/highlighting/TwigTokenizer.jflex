@@ -403,7 +403,13 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
  * @throws IOException
  */
 //private ITextRegion bufferedTextRegion = null;
-private final String doScanEndTwig(boolean isAsp, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+private final String doScanEndTwig(String searchContext, int exitState, int immediateFallbackState) throws IOException {
+
+	if (Debug.debugTokenizer) {
+	
+		System.err.println("do scan end twig");
+	
+	}
 	yypushback(1); // begin with the last char
 	
 	final AbstractTwigLexer phpLexer = getTwigLexer(); 
@@ -780,10 +786,25 @@ public final ITextRegion getNextToken() throws IOException {
 	}
 	fTokenCount++;
 
-	// if it is php content we extract the tokens
-	if (context == TWIG_CONTENT) {
-		return bufferedTextRegion; 
+	// if it is twig content we create a twig script region
+	if ((context == TWIG_CLOSE) ||
+		(context == TWIG_OPEN) ||
+		(context == TWIG_STMT_OPEN) ||
+		(context == TWIG_STMT_CLOSE) ||
+		(context == TWIG_KEYWORD) ||
+		(context == TWIG_LABEL) ||
+		(context == TWIG_WHITESPACE) )
+	{
+	
+		if (Debug.debugTokenizer)
+			System.err.println("return buffered region");
+		
+		return new TwigScriptRegion(context, start, textLength, length);
+				
+		//TODO: the complete php-bufferedTextRegion code can basically be thrown away...
+		//return bufferedTextRegion; 
 	} else {
+
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 	}
 }
@@ -2413,9 +2434,18 @@ NUMBER=([0-9])+
 	return TWIG_DELIMITER;
 }
 
+
+// this is important:
+// it means that we're at the beginning of a 
+// twig script region. call doScanEndTwig()
+// at this point which will scan until a twig
+// end delimiter is found and build up
+// the AST with the TwigLexer for the elements
+// in between.
 <ST_TWIG_CONTENT> .|\n|\r {
 
-	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
+	return doScanEndTwig(TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
+//	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 }	
 
 //TWIG PROCESSING ACTIONS
