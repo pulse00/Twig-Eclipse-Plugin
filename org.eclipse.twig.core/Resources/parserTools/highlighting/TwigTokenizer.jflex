@@ -797,13 +797,16 @@ public final ITextRegion getNextToken() throws IOException {
 	{
 	
 		if (Debug.debugTokenizer)
-			System.err.println("return buffered region");
+			System.err.println("create twig region " + context);
 		
 		return new TwigScriptRegion(context, start, textLength, length);
 				
 		//TODO: the complete php-bufferedTextRegion code can basically be thrown away...
 		//return bufferedTextRegion; 
 	} else {
+
+		if (Debug.debugTokenizer)
+			System.err.println("create standard region " + context);
 
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 	}
