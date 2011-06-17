@@ -1,6 +1,8 @@
 package org.eclipse.twig.core.documentModel.parser.regions;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -29,6 +31,13 @@ public class TwigTokenContainer {
 		tokensIterator = null;
 
 	}
+	
+	
+	public int size() {
+		
+		return twigTokens.size();
+		
+	}
 
 	public void reset() {
 		this.twigTokens.clear();
@@ -45,8 +54,8 @@ public class TwigTokenContainer {
 	}
 	
 
-	public synchronized void addLast(String yylex, int start,
-			int yylengthLength, int yylength, Object lexerState) {
+	public synchronized void addLast(String yylex, int start, int yylengthLength, int yylength, Object lexerState) {
+
 
 		assert (twigTokens.size() == 0 || getLastToken().getEnd() == start)
 		&& tokensIterator == null;
@@ -187,6 +196,28 @@ public class TwigTokenContainer {
 					"offset " + offset + " is out of [0, " + lastRegion.getEnd() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
+	
+	
+	public synchronized ITextRegion[] getTokens(final int offset,
+			final int length) throws BadLocationException {
+		assert length >= 0;
+		List<ITextRegion> result = new ArrayList<ITextRegion>(); // list of
+		// ITextRegion
+
+		ITextRegion token = getToken(offset);
+		if (token != null) {
+			result.add(token);
+		}
+
+		while (tokensIterator.hasNext() && token != null
+				&& token.getEnd() <= offset + length) {
+			token = tokensIterator.next();
+			result.add(token);
+		}
+
+		return result.toArray(new ITextRegion[result.size()]);
+	}
+	
 	
 
 

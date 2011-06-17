@@ -7,6 +7,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 public interface ITwigScriptRegion extends ITextRegion {
 
 	ITextRegion getTwigToken(int i) throws BadLocationException;
+	ITextRegion[] getTwigTokens(int i, int j) throws BadLocationException;
 		
 
 

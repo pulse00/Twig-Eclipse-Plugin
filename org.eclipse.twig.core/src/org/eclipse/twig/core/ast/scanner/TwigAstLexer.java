@@ -13,17 +13,16 @@
 
 package org.eclipse.twig.core.ast.scanner;
 
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
-import org.eclipse.php.internal.core.ast.nodes.IDocumentorLexer;
-import org.eclipse.php.internal.core.ast.nodes.Comment;
 import java_cup.sym;
-import org.eclipse.php.internal.core.ast.nodes.AST;
 import java_cup.runtime.Symbol;
-import org.eclipse.php.internal.core.ast.scanner.StateStack;
+
 import org.eclipse.php.internal.core.PHPVersion;
+import org.eclipse.php.internal.core.ast.nodes.AST;
+import org.eclipse.php.internal.core.ast.nodes.Comment;
+import org.eclipse.php.internal.core.ast.nodes.IDocumentorLexer;
+import org.eclipse.php.internal.core.ast.scanner.StateStack;
 
 
 /**

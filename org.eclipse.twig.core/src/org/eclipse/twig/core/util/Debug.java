@@ -11,6 +11,8 @@ package org.eclipse.twig.core.util;
  */
 public class Debug {
 	
-	public final static boolean debugTokenizer = true;
+	public final static boolean debugTokenizer = false;
+	
+	public final static boolean syntaxHighlighting = false;
 
 }

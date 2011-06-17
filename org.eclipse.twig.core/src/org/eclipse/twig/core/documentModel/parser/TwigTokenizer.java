@@ -2778,7 +2778,7 @@ protected final boolean containsTagName(String markerTagName) {
           { 
 
 
-	System.err.println("do scan text: " + yytext());
+
 
 	return doScanEndTwig(TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 //	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);

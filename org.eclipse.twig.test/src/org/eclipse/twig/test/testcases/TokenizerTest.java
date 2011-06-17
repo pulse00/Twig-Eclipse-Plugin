@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
+import org.eclipse.twig.core.documentModel.parser.regions.TwigScriptRegion;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLContentRegion;
@@ -47,29 +48,6 @@ public class TokenizerTest extends TestCase {
 	}
 	
 	
-	@Test
-	public void testRegions() {
-
-		try {
-
-			tokens = "{{ for item in items }}";
-			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			
-			while(!tokenizer.isEOF()) {
-				ITextRegion region = tokenizer.getNextToken();
-				System.err.println(region.getType());
-
-			}
-			
-			
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			fail();
-		}
-		
-	}
-	
 	
 	@Test
 	public void testMultiParams() {
@@ -86,57 +64,22 @@ public class TokenizerTest extends TestCase {
 				textRegions.push(region);
 			}
 			
-			assertEquals(textRegions.size(), 15);
+			assertEquals(textRegions.size(), 3);
 			
 			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
-			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_LABEL);
-			assertEquals(textRegions.get(3).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(4).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(textRegions.get(5).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(6).getType(), TwigRegionContext.TWIG_JSON_START);
-			assertEquals(textRegions.get(7).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(textRegions.get(8).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(9).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(10).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(textRegions.get(11).getType(), TwigRegionContext.TWIG_JSON_END);
-			assertEquals(textRegions.get(12).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(13).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(14).getType(), TwigRegionContext.TWIG_CLOSE);
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_CLOSE);
 			
+			TwigScriptRegion scriptRegion = (TwigScriptRegion) textRegions.get(1);			
+			assertNotNull(scriptRegion);
 			
-			tokens = "{{ path('_ipsum',{ \"foo\": 'bar' }) }}";
-			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			textRegions = new Stack<ITextRegion>();
-			assertTrue(textRegions.size() == 0);
+			assertEquals(13, scriptRegion.getTokenCount());
 			
-			while(!tokenizer.isEOF()) {
-				ITextRegion region = tokenizer.getNextToken();
-				textRegions.push(region);
-			}
-			
-
-			assertEquals(textRegions.size(), 19);
-			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
-			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_LABEL);
-			assertEquals(textRegions.get(3).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(4).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(textRegions.get(5).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(6).getType(), TwigRegionContext.TWIG_JSON_START);
-			assertEquals(textRegions.get(7).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(8).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_START);
-			assertEquals(textRegions.get(9).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT);
-			assertEquals(textRegions.get(10).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_END);
-			assertEquals(textRegions.get(11).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(12).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(13).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(textRegions.get(14).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(15).getType(), TwigRegionContext.TWIG_JSON_END);
-			assertEquals(textRegions.get(16).getType(), TwigRegionContext.TWIG_DELIMITER);
-			assertEquals(textRegions.get(17).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(textRegions.get(18).getType(), TwigRegionContext.TWIG_CLOSE);			
-			
+			assertEquals(scriptRegion.getTwigToken(0).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			assertEquals(scriptRegion.getTwigToken(1).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(scriptRegion.getTwigToken(2).getType(), TwigRegionContext.TWIG_LABEL);
+			assertEquals(scriptRegion.getTwigToken(7).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);			
+			assertEquals(scriptRegion.getTwigToken(17).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);			
 			
 		} catch (Exception e) {
 
@@ -359,66 +302,58 @@ public class TokenizerTest extends TestCase {
 			assertTrue(contextRegions.size() == 0);			
 
 			while(!tokenizer.isEOF()) {
-
-				ContextRegion region = (ContextRegion) tokenizer.getNextToken();				
+				ContextRegion region = (ContextRegion) tokenizer.getNextToken();
+				System.err.println(region.getClass());
 				assertNotNull(region);
 				contextRegions.push(region);
 			}
 
-
 			assertEquals(contextRegions.get(0).getType(), TwigRegionContext.TWIG_OPEN);
-			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_CLOSE);					
+			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_CLOSE);
+			assertTrue(contextRegions.get(1) instanceof TwigScriptRegion);
+			
+			TwigScriptRegion twigRegion = (TwigScriptRegion) contextRegions.get(1);
+			assertEquals(twigRegion.getTwigToken(0).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEmptyPrintStatement() {
+		
+		
+		try {
 			
 			tokens = "  {{  }}  ";
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);						
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
-			tokenCount = 0;
 
 
 			ITextRegion region = null;
 
 			while(!tokenizer.isEOF()) {
+				region = tokenizer.getNextToken();
+				assertNotNull(region);				
+				textRegions.push(region);
 
-				region = tokenizer.getNextToken();				
-				assertNotNull(region);
-
-				switch (tokenCount++) {
-
-				case 0:
-					XMLContentRegion xmlStart = (XMLContentRegion) region;
-					assertNotNull(xmlStart);
-					break;
-
-				case 1:
-					assertEquals(region.getType(), TwigRegionContext.TWIG_OPEN);
-					break;
-
-				case 2:
-					assertEquals(region.getType(), TwigRegionContext.TWIG_WHITESPACE);
-					break;
-
-				case 3:
-					assertEquals(region.getType(), TwigRegionContext.TWIG_CLOSE);					
-					break;
-
-				case 4:
-					XMLContentRegion xmlEnd = (XMLContentRegion) region;
-					assertNotNull(xmlEnd);
-					break;
-
-				default:
-					fail();
-					break;
-				}				
 			}
 
-			assertEquals(tokenCount, 5);
-
-
+			assertEquals(5, textRegions.size());			
+			TwigScriptRegion twigRegion = (TwigScriptRegion) textRegions.get(2);
+			assertNotNull(twigRegion);
+			assertEquals(twigRegion.getTwigToken(0).getType(), TwigRegionContext.TWIG_WHITESPACE);
+			
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();
 			fail();
+			
 		}
 	}
 

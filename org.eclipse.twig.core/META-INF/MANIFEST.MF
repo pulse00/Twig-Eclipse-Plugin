@@ -25,4 +25,6 @@ Export-Package: org.eclipse.twig.core,
  org.eclipse.twig.core.documentModel.loader,
  org.eclipse.twig.core.documentModel.parser,
  org.eclipse.twig.core.documentModel.parser.partitioner,
- org.eclipse.twig.core.documentModel.provisional.contenttype
+ org.eclipse.twig.core.documentModel.parser.regions,
+ org.eclipse.twig.core.documentModel.provisional.contenttype,
+ org.eclipse.twig.core.util

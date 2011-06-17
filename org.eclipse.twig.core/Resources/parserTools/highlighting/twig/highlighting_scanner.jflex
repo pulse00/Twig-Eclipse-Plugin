@@ -102,7 +102,7 @@ import org.eclipse.twig.core.util.Debug;
 	
 	private final void dump(String s) {
 		if (Debug.debugTokenizer) {
-			System.out.println(s + " (" + yychar + "-" + //$NON-NLS-2$//$NON-NLS-1$
+			System.out.println("lexer: " + s + " (" + yychar + "-" + //$NON-NLS-2$//$NON-NLS-1$
 				(yylength() + yychar) + "):\'" +//$NON-NLS-1$
 					StringUtils.escape(yytext()) + "\'");//$NON-NLS-1$
 		}
@@ -212,22 +212,22 @@ NUMBER=([0-9])+
     return TWIG_JSON_START;
 }
 
-//<ST_TWIG_CONTENT> "}" {
+<ST_TWIG_CONTENT> "}" {
 
-//	if(Debug.debugTokenizer)
-//		dump("TWIG JSON END");
+	if(Debug.debugTokenizer)
+		dump("TWIG JSON END");
 
 	//yybegin(ST_TWIG_JSON)
 
-//    return TWIG_JSON_END;
-//}
+    return TWIG_JSON_END;
+}
 
 
 
 <ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG CONSTANT");
+		dump("TWIG_CONSTANT_ENCAPSED_STRING");
 
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
