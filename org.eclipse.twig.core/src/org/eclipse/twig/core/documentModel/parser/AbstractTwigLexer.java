@@ -18,8 +18,10 @@ import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes
 import org.eclipse.php.internal.core.preferences.TaskPatternsProvider;
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
+import org.eclipse.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+import org.eclipse.wst.sse.core.utils.StringUtils;
 
 
 /**
@@ -63,8 +65,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 
 	public abstract int yystate();
 
-	protected abstract boolean isHeredocState(int state);
-
 	public abstract int[] getParamenters();
 
 	/**
@@ -91,7 +91,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	protected String nowdoc = null;
 	protected int heredoc_len = 0;
 	protected int nowdoc_len = 0;
-	protected StateStack phpStack;
+	protected StateStack twigStack;
 
 	/**
 	 * build a key that represents the current state of the lexer.
@@ -99,8 +99,8 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	private int buildStateKey() {
 		int rv = getZZLexicalState();
 
-		for (int i = 0; i < phpStack.size(); i++)
-			rv = 31 * rv + phpStack.get(i);
+		for (int i = 0; i < twigStack.size(); i++)
+			rv = 31 * rv + twigStack.get(i);
 		for (int i = 0; i < heredoc_len; i++)
 			rv = 31 * rv + heredoc.charAt(i);
 		for (int i = 0; i < nowdoc_len; i++)
@@ -119,8 +119,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		Object state = getLexerStates().get(key);
 		if (state == null) {
 			state = new BasicLexerState(this);
-			if (isHeredocState(getZZLexicalState()))
-				state = new HeredocState((BasicLexerState) state, this);
 			getLexerStates().put(key, state);
 		}
 		return state;
@@ -171,7 +169,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	}
 
 	public void initialize(final int state) {
-		phpStack = new StateStack();
+		twigStack = new StateStack();		
 		yybegin(state);
 	}
 
@@ -201,11 +199,11 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	}
 
 	protected void popState() {
-		yybegin(phpStack.popStack());
+		yybegin(twigStack.popStack());
 	}
 
 	protected void pushState(final int state) {
-		phpStack.pushStack(getZZLexicalState());
+		twigStack.pushStack(getZZLexicalState());
 		yybegin(state);
 	}
 
@@ -260,7 +258,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			yylex = removeFromBuffer();
 		}
 
-		if (yylex == PHP_CLOSETAG) {
+		if (yylex == TWIG_CLOSE) {
 			pushBack(getLength());
 		}
 
@@ -406,8 +404,8 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		private StateStack phpStack;
 
 		public BasicLexerState(AbstractTwigLexer lexer) {
-			if (!lexer.phpStack.isEmpty()) {
-				phpStack = lexer.phpStack.createClone();
+			if (!lexer.twigStack.isEmpty()) {
+				phpStack = lexer.twigStack.createClone();
 			}
 			lexicalState = (byte) lexer.getZZLexicalState();
 		}
@@ -471,9 +469,9 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			final AbstractTwigLexer lexer = (AbstractTwigLexer) scanner;
 
 			if (phpStack == null)
-				lexer.phpStack.clear();
+				lexer.twigStack.clear();
 			else
-				lexer.phpStack.copyFrom(phpStack);
+				lexer.twigStack.copyFrom(phpStack);
 
 			lexer.yybegin(lexicalState);
 		}
@@ -572,5 +570,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			}
 		}
 	}
+	
+	
 
 }

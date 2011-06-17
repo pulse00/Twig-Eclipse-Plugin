@@ -47,6 +47,28 @@ public class TokenizerTest extends TestCase {
 	}
 	
 	
+	@Test
+	public void testRegions() {
+
+		try {
+
+			tokens = "{{ for item in items }}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				System.err.println(region.getType());
+
+			}
+			
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			fail();
+		}
+		
+	}
 	
 	
 	@Test

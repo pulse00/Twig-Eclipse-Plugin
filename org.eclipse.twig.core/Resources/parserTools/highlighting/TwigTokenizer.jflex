@@ -405,18 +405,27 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
 //private ITextRegion bufferedTextRegion = null;
 private final String doScanEndTwig(String searchContext, int exitState, int immediateFallbackState) throws IOException {
 
-	if (Debug.debugTokenizer) {
-	
-		System.err.println("do scan end twig");
-	
+	if (Debug.debugTokenizer) {	
+		System.err.println("do scan end twig, current pos: " + yy_currentPos);	
 	}
+	
 	yypushback(1); // begin with the last char
 	
-	final AbstractTwigLexer phpLexer = getTwigLexer(); 
-	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, phpLexer);
+	// the phpLexer should read until the last token, so
+	// the position after this method should match
+	// <ST_TWIG_CONTENT> "}}" otherwise we'll
+	// get an infinite loop ;)
+	final AbstractTwigLexer twigLexer = getTwigLexer(); 
+	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer);
 
 	// restore the locations / states
-	reset(yy_reader, phpLexer.getZZBuffer(), phpLexer.getParamenters());
+	reset(yy_reader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
+	
+	
+	if (Debug.debugTokenizer) {	
+		System.err.println("end scan, position: " + yy_currentPos);	
+	}
+	
 	
 	yybegin(exitState);
 	return searchContext;
@@ -459,7 +468,7 @@ private AbstractTwigLexer getTwigLexer() {
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
 		// of this state in specific PHP version lexer 
-		currentParameters[6] = lexer.getClass().getField("ST_PHP_IN_SCRIPTING").getInt(lexer);
+		currentParameters[6] = lexer.getClass().getField("ST_TWIG_CONTENT").getInt(lexer);
 	} catch (Exception e) {
 		Logger.logException(e);
 	}
@@ -787,22 +796,12 @@ public final ITextRegion getNextToken() throws IOException {
 	fTokenCount++;
 
 	// if it is twig content we create a twig script region
-	if ((context == TWIG_CLOSE) ||
-		(context == TWIG_OPEN) ||
-		(context == TWIG_STMT_OPEN) ||
-		(context == TWIG_STMT_CLOSE) ||
-		(context == TWIG_KEYWORD) ||
-		(context == TWIG_LABEL) ||
-		(context == TWIG_WHITESPACE) )
-	{
-	
+	if ((context == TWIG_CONTENT))
+	{	
 		if (Debug.debugTokenizer)
 			System.err.println("create twig region " + context);
 		
-		return new TwigScriptRegion(context, start, textLength, length);
-				
-		//TODO: the complete php-bufferedTextRegion code can basically be thrown away...
-		//return bufferedTextRegion; 
+		return bufferedTextRegion; 
 	} else {
 
 		if (Debug.debugTokenizer)
@@ -1019,11 +1018,11 @@ private final String scanTwigCommentText() throws IOException {
 
 // added states to TWIG 
 %state ST_TWIG_CONTENT
-%state ST_TWIG_COMMENT
+//%state ST_TWIG_COMMENT
 %state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
-%state ST_TWIG_JSON
+//%state ST_TWIG_JSON
 
 
 
@@ -1832,32 +1831,32 @@ NUMBER=([0-9])+
 
 // Twig Comments
 
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#" {
-	if(Debug.debugTokenizer)
-		dump("twig comment start");//$NON-NLS-1$
-	fEmbeddedHint = TWIG_COMMENT_TEXT;
-	fEmbeddedPostState = ST_TWIG_COMMENT;
-	yybegin(ST_TWIG_COMMENT);
-	return TWIG_COMMENT_OPEN;
-}
+//<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#" {
+//	if(Debug.debugTokenizer)
+		//dump("twig comment start");//$NON-NLS-1$
+//	fEmbeddedHint = TWIG_COMMENT_TEXT;
+//	fEmbeddedPostState = ST_TWIG_COMMENT;
+//	yybegin(ST_TWIG_COMMENT);
+//	return TWIG_COMMENT_OPEN;
+//}
 
-<ST_TWIG_COMMENT> .|\r|\n {
+//<ST_TWIG_COMMENT> .|\r|\n {
 
-	if(Debug.debugTokenizer)
-		dump("twig comment content");//$NON-NLS-1$
+//	if(Debug.debugTokenizer)
+//		dump("twig comment content");//$NON-NLS-1$
 		
-	String ret = scanTwigCommentText(); 
-	return ret;
-}
+//	String ret = scanTwigCommentText(); 
+//	return ret;
+//}
 
-<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
+//<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
 
-	if(Debug.debugTokenizer)
-		dump("twig comment end");//$NON-NLS-1$
-	fEmbeddedHint = UNDEFINED;
-	yybegin(YYINITIAL);
-	return TWIG_COMMENT_CLOSE;
-}
+//	if(Debug.debugTokenizer)
+		//dump("twig comment end");//$NON-NLS-1$
+	//fEmbeddedHint = UNDEFINED;
+//	yybegin(YYINITIAL);
+//	return TWIG_COMMENT_CLOSE;
+//}
 
 
 // XML & PHP Comments
@@ -2254,38 +2253,6 @@ NUMBER=([0-9])+
 	return TWIG_STMT_CLOSE;
 }
 
-<ST_TWIG_CONTENT> "$"{LABEL} {
-
-	if (Debug.debugTokenizer)
-		dump("TWIG VARIABLE");
-
-	return TWIG_VARIABLE;
-}
-
-<ST_TWIG_CONTENT> {KEYWORD} {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG KEYWORD");
-
-	return TWIG_KEYWORD;
-}
-
-
-<ST_TWIG_CONTENT> {LABEL} {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG LABEL");
-
-	return TWIG_LABEL;
-}
-
-<ST_TWIG_CONTENT> {NUMBER} {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG NUMBER");
-
-    return TWIG_NUMBER;
-}
 
 <ST_TWIG_CONTENT> "#}" {
 
@@ -2298,63 +2265,6 @@ NUMBER=([0-9])+
 }
 
 
-
-<ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG WHITESPACE");
-
-	return TWIG_WHITESPACE;
-}
-
-<ST_TWIG_COMMENT> "{" {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG BRACKET IN COMMENT");
-
-	String ret = scanTwigCommentText(); 
-	return ret;
-}
-
-
-<ST_TWIG_CONTENT> "{" {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG JSON START");
-
-
-    return TWIG_JSON_START;
-}
-
-<ST_TWIG_CONTENT> "}" {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG JSON END");
-
-	//yybegin(ST_TWIG_JSON)
-
-    return TWIG_JSON_END;
-}
-
-
-
-<ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG CONSTANT");
-
-    return TWIG_CONSTANT_ENCAPSED_STRING;
-}
-
-// ST_TWIG_DOUBLE_QUOTES // 
-<ST_TWIG_CONTENT>([\"]) {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG DOUBLE QUOTES START");
-
-	yybegin(ST_TWIG_DOUBLE_QUOTES);
-    return TWIG_DOUBLE_QUOTES_START;
-}
 
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
 
@@ -2432,10 +2342,6 @@ NUMBER=([0-9])+
     return TWIG_LABEL;
 }
 
-<ST_TWIG_CONTENT> {TOKENS} {
-
-	return TWIG_DELIMITER;
-}
 
 
 // this is important:
@@ -2446,6 +2352,9 @@ NUMBER=([0-9])+
 // the AST with the TwigLexer for the elements
 // in between.
 <ST_TWIG_CONTENT> .|\n|\r {
+
+
+	System.err.println("do scan text: " + yytext());
 
 	return doScanEndTwig(TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 //	return doScan(twigRightDelim, false, false, TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
