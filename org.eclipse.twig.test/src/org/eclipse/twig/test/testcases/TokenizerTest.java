@@ -10,7 +10,6 @@ import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigScriptRegion;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.xml.core.internal.parser.regions.XMLContentRegion;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,9 +31,9 @@ public class TokenizerTest extends TestCase {
 	private Stack<ContextRegion> contextRegions;
 	private Stack<ITextRegion> textRegions;
 	private String tokens;
-	private int tokenCount;
-
-
+	
+	
+	
 	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -94,8 +93,6 @@ public class TokenizerTest extends TestCase {
 
 			tokens = "{# \naha \nsome \ntext #}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			tokenCount = 0;
-
 			textRegions = new Stack<ITextRegion>();
 			assertTrue(textRegions.size() == 0);
 			
@@ -123,8 +120,6 @@ public class TokenizerTest extends TestCase {
 
 			tokens = "{# asdf #}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			tokenCount = 0;
-
 			textRegions = new Stack<ITextRegion>();
 			assertTrue(textRegions.size() == 0);
 			
@@ -165,8 +160,6 @@ public class TokenizerTest extends TestCase {
 
 			tokens = text;
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
-			tokenCount = 0;
-
 			textRegions = new Stack<ITextRegion>();
 			assertTrue(textRegions.size() == 0);
 			
@@ -202,8 +195,6 @@ public class TokenizerTest extends TestCase {
 
 			tokens = "{%extends'::base.html.twig'%}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
-			tokenCount = 0;
-
 			contextRegions = new Stack<ContextRegion>();
 			assertTrue(contextRegions.size() == 0);
 			
@@ -220,8 +211,6 @@ public class TokenizerTest extends TestCase {
 			
 			tokens = "{% use \"blocks.html\" with sidebar as base_sidebar %}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
-			tokenCount = 0;
-
 			contextRegions = new Stack<ContextRegion>();			
 			assertTrue(contextRegions.size() == 0);
 			
@@ -349,25 +338,6 @@ public class TokenizerTest extends TestCase {
 
 		try {
 
-			//tokens = "{% foobar %}";
-			tokens = "{{ foobar }}";
-			tokenizer = new TwigTokenizer(tokens.toCharArray());			
-			contextRegions = new Stack<ContextRegion>();
-			assertTrue(contextRegions.size() == 0);			
-
-			while(!tokenizer.isEOF()) {
-
-				ContextRegion region = (ContextRegion) tokenizer.getNextToken();
-				contextRegions.push(region);
-				System.err.println(region.getType());
-
-			}
-
-			//assertEquals(2, contextRegions.size());
-			
-			
-			System.err.println("++++++++++++++");
-			
 			tokens = "{% foobar %}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
 			contextRegions = new Stack<ContextRegion>();
@@ -381,47 +351,51 @@ public class TokenizerTest extends TestCase {
 
 			}
 
-			//assertEquals(2, contextRegions.size());
+			assertEquals(3, contextRegions.size());
+			assertEquals(contextRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
+			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			assertTrue(contextRegions.get(1) instanceof TwigScriptRegion);
+			
+			tokens = "{% foobar %}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			contextRegions = new Stack<ContextRegion>();
+			assertTrue(contextRegions.size() == 0);			
+
+			while(!tokenizer.isEOF()) {
+
+				ContextRegion region = (ContextRegion) tokenizer.getNextToken();
+				contextRegions.push(region);
+
+			}
+
+			assertEquals(3, contextRegions.size());
+			assertEquals(contextRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
+			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			assertTrue(contextRegions.get(1) instanceof TwigScriptRegion);
+			
+			
+			tokens = "  {%   %}   ";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);			
+
+
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+
+			}
+			
+			assertEquals(4, textRegions.size());
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			assertTrue(textRegions.get(1) instanceof TwigScriptRegion);
 			
 
-//			tokens = "  {%   %}   ";
-//			tokenizer = new TwigTokenizer(tokens.toCharArray());
-//			tokenCount = 0;
-//
-//
-//			ITextRegion region = null;
-//
-//
-//			while(!tokenizer.isEOF()) {
-//
-//				switch (tokenCount++) {
-//
-//				case 0:					
-//
-//					region = (ContextRegion) tokenizer.getNextToken();					
-//					assertNotNull(region);					
-//					assertEquals(region.getType(), TwigRegionContext.TWIG_STMT_OPEN);
-//					break;
-//
-//				case 1:
-//					region = (ContextRegion) tokenizer.getNextToken();
-//					assertNotNull(region);										
-//					assertEquals(region.getType(), TwigRegionContext.TWIG_STMT_CLOSE);
-//					break;
-//
-//				case 2:
-//
-//					region = (XMLContentRegion) tokenizer.getNextToken();
-//					assertNotNull(region);					
-//					break;
-//
-//				default:
-//					fail();
-//					break;
-//				}				
-//			}
-//
-//			assertEquals(tokenCount, 3);			
+			
 
 		} catch (Exception e) {			
 			e.printStackTrace();
