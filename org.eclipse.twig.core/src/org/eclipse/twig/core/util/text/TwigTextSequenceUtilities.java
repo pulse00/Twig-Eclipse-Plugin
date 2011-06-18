@@ -109,14 +109,20 @@ public class TwigTextSequenceUtilities  {
 	private static boolean isTwigRegion(String context) {
 
 		return context == TwigRegionContext.TWIG_CONTENT;
+	}
+
+
+	public static int readIdentifierStartIndex(TextSequence textSequence, int startPosition) {
+
+		while (startPosition > 0) {
+			char ch = textSequence.charAt(startPosition - 1);
+			if (!Character.isLetterOrDigit(ch) && ch != '_' && ch != '.') {
+				break;
+			}
+			startPosition--;
+		}
 		
-//		return ((context == TwigRegionContext.TWIG_CLOSE) ||
-//				(context == TwigRegionContext.TWIG_OPEN) ||
-//				(context == TwigRegionContext.TWIG_STMT_OPEN) ||
-//				(context == TwigRegionContext.TWIG_STMT_CLOSE) ||
-//				(context == TwigRegionContext.TWIG_KEYWORD) ||
-//				(context == TwigRegionContext.TWIG_LABEL) ||
-//				(context == TwigRegionContext.TWIG_WHITESPACE) );
+		return startPosition;
 
 	}
 }

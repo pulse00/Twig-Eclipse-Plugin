@@ -417,6 +417,9 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	// get an infinite loop ;)
 	final AbstractTwigLexer twigLexer = getTwigLexer(); 
 	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer);
+	
+	if (Debug.debugTokenizer)
+		System.err.println("created twig script region between " + bufferedTextRegion.getStart() + " and " + bufferedTextRegion.getEnd());	
 
 	// restore the locations / states
 	reset(yy_reader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
@@ -2213,7 +2216,6 @@ NUMBER=([0-9])+
 	return TWIG_STMT_OPEN;
 
 }
-
 
 // this is the "normal" xml content
 <YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {

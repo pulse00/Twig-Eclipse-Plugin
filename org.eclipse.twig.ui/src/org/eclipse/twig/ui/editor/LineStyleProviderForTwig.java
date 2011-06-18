@@ -66,8 +66,9 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
 	@Override
 	public TextAttribute getAttributeFor(ITextRegion region) {
+		
 		final String type = region.getType();
-
+		
 		if (type != null && type.startsWith("TWIG_")) {
 			return getAttributeFor(type);
 		}
@@ -87,7 +88,6 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 	public boolean prepareTextRegion(ITextRegionCollection blockedRegion,
 			int partitionStartOffset, int partitionLength,
 			Collection<StyleRange> holdResults) {
-
 
 		boolean handled = false;
 		final int partitionEndOffset = partitionStartOffset + partitionLength
@@ -159,6 +159,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 			ITwigScriptRegion region, int regionStart, int partitionStartOffset,
 			int partitionLength) {
 
+		
+		//System.err.println("prepare twig regions " + region.getType() + " " +  region.getStart() + " " + region.getLength());
 		assert region.getType() == TwigRegionContext.TWIG_CONTENT;
 
 		StyleRange styleRange = null;
@@ -306,6 +308,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 			IStructuredDocumentRegion structuredDocumentRegion,
 			int partitionStartOffset, int partitionLength,
 			Collection<StyleRange> holdResults) {
+
 
 
 		boolean handled = false;

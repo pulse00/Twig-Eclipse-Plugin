@@ -11,13 +11,19 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+/**
+ * 
+ * Tests for the {@link TwigTextSequenceUtilities} 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigTextSequenceUtilitiesTest extends TestCase {
 
@@ -81,21 +87,35 @@ public class TwigTextSequenceUtilitiesTest extends TestCase {
 		}
 	}
 	
+	
+	@Test
+	public void testSinglePrint() {
+		
+		
+		
+		try {
+			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
 
-	protected ITextRegion determineTextRegion(IStructuredDocument document,
-			ITextRegionCollection regionCollection, int offset) {
-		ITextRegion textRegion;
-		// in case we are at the end of the document, asking for completion
+			IStructuredDocument  fDoc = model.getStructuredDocument();
+			String fText = "{{ endblock }}";
+			fDoc.set(fText);			
+			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
+			
+			assertEquals(1, regions.length);
+			int offset = 5;
 
-		System.err.println("collection: " + regionCollection.getText());
-		if (offset == document.getLength()) {
-			textRegion = regionCollection.getLastRegion();
-		} else {
-			textRegion = regionCollection.getRegionAtCharacterOffset(offset);
+			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
+			assertEquals("en", statement.toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+
 		}
-		return textRegion;
+		
+		
 	}
-
+	
 
 	private IStructuredModel createModel(String contentTypeID) {
 

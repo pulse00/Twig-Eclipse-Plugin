@@ -40,6 +40,13 @@ public class TwigSourceParser extends XMLSourceParser {
 			((IFile) resource).getProject();
 		}
 	}
+	
+	
+	@Override
+	public IStructuredDocumentRegion getDocumentRegions() {
+	
+		return super.getDocumentRegions();
+	}
 
 	/*
 	 * Change the Tokenizer used by the XMLSourceParser to make it Twig aware
@@ -69,6 +76,9 @@ public class TwigSourceParser extends XMLSourceParser {
 
 	private IStructuredDocumentRegion currentNode = null;
 
+	
+	
+	
 	@Override
 	protected IStructuredDocumentRegion parseNodes() {
 		// regions are initially reported as complete offsets within the
@@ -78,12 +88,25 @@ public class TwigSourceParser extends XMLSourceParser {
 
 		// reset the state
 		headNode = lastNode = currentNode = null;
+		
+		System.err.println("PARSE TWIG NODES");
+		
+		
+//		for(StackTraceElement stack : Thread.currentThread().getStackTrace()) {
+//			
+//			System.out.println(stack.getClassName() + " " + stack.getLineNumber());
+//			
+//		}
+		
 
 		ITextRegion region = null;
 		String type = null;
 
 		while ((region = getNextRegion()) != null) {
 			type = region.getType();
+			
+			
+
 
 			// these types (might) demand a IStructuredDocumentRegion for each
 			// of them
@@ -101,6 +124,7 @@ public class TwigSourceParser extends XMLSourceParser {
 					}
 				} else {
 					// not continuing a IStructuredDocumentRegion
+					System.err.println("not continuing");
 					if (currentNode != null) {
 						// ensure that any existing node is at least
 						// terminated
@@ -268,6 +292,7 @@ public class TwigSourceParser extends XMLSourceParser {
 				(type == TwigRegionContext.TWIG_CLOSE) || (type == TwigRegionContext.TWIG_STMT_CLOSE)) {
 				currentNode.setEnded(true);				
 			}
+			
 			if (headNode == null && currentNode != null) {
 				headNode = currentNode;
 			}
@@ -278,6 +303,18 @@ public class TwigSourceParser extends XMLSourceParser {
 		}
 		// fStringInput = null;
 		primReset();
+		
+		if (headNode != null) {
+			System.err.println("HEAD NODE: " + headNode.getType() + " " + headNode.getStart() + " " + headNode.getEnd());
+		}
+		
+		if (currentNode != null) {			
+			System.err.println("CURRENT NODE: " + currentNode.getType() + " " + currentNode.getStart() + " " + currentNode.getEnd());
+		}
+		
+		
+		System.err.println();
+		
 		return headNode;
 	}
 

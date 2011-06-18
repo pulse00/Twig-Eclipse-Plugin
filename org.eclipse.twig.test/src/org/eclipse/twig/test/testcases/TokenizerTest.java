@@ -47,6 +47,30 @@ public class TokenizerTest extends TestCase {
 	}
 	
 	
+	@Test
+	public void testEmbeddedRegion() {
+		
+		try {
+			String tokens = "<a href=\"{{ }}\"></a>";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+				System.err.println(region.getType());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	
 	
 	@Test
 	public void testMultiParams() {

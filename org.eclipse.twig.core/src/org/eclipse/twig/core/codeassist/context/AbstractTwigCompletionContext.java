@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist;
+package org.eclipse.twig.core.codeassist.context;
 
 import java.io.IOException;
 
@@ -8,10 +8,10 @@ import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.PHPVersion;
 import org.eclipse.php.internal.core.codeassist.CompletionCompanion;
 import org.eclipse.php.internal.core.codeassist.IPHPCompletionRequestor;
+import org.eclipse.php.internal.core.codeassist.contexts.AbstractCompletionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
@@ -31,7 +31,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
 /**
  * 
- * The {@link TwigCompletionContext} checks if we're inside a twig structure:
+ * The {@link AbstractTwigCompletionContext} checks if we're inside a twig structure:
  * 
  * <pre>
  * 
@@ -49,7 +49,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigCompletionContext /*extends AbstractCompletionContext*/ implements ICompletionContext {
+public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 
 
 	private IStructuredDocument document;
@@ -102,12 +102,12 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 
 					if (regionCollection != null) {
 
+						System.err.println("got region collection");
 						twigScriptRegion = determineTwigRegion(document,
 								regionCollection, offset);
 												
-						if (twigScriptRegion != null) {					
+						if (twigScriptRegion != null) {
 							
-							System.err.println("let complete at offset " + offset);
 							return true;
 
 						}
@@ -126,16 +126,6 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	protected ITwigScriptRegion determineTwigRegion(IStructuredDocument document,
 			ITextRegionCollection regionCollection, int offset) {
 		
-		
-//		for (ITextRegion region : regionCollection.getRegions().toArray()) {
-//			if(region instanceof TwigScriptRegion) {
-//				ITwigScriptRegion twigRegion = (TwigScriptRegion) region;
-//				System.err.println("twig region between " + twigRegion.getStart() + " " + twigRegion.getEnd());
-//			} else {
-//				System.out.println("normal region between " + region.getStart() + " " + region.getEnd());
-//			}
-//		}
-
 		ITextRegion textRegion = determineTextRegion(document,
 				regionCollection, offset);
 		
@@ -147,6 +137,7 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 
 		return twigScriptRegion;
 	}
+	
 	
 	public boolean isExclusive() {
 		return false;
@@ -163,15 +154,8 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 			IStructuredDocument document, int offset) {
 
 		IStructuredDocumentRegion sdRegion = null;
-		
 		IStructuredDocumentRegion[] regions = document.getStructuredDocumentRegions();
 		
-		System.err.println(document.getText());
-		
-		for (IStructuredDocumentRegion r : regions) {			
-			System.err.println(r.getType() + " start " + r.getStart() + " end " + r.getEnd());
-		}
-		System.err.println("region count: " + regions.length);
 
 		int lastOffset = offset;
 		// find the structured document region:
@@ -347,7 +331,6 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	 */
 	public TextSequence getStatementText() {
 		
-		System.err.println("offset: " + offset);
 		return TwigTextSequenceUtilities.getStatement(offset,
 				structuredDocumentRegion, true);
 	}
@@ -361,6 +344,8 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	 */
 	public boolean hasWhitespaceBeforeCursor() {
 		TextSequence statementText = getStatementText();
+		
+		assert statementText != null;
 
 		// determine whether there are whitespaces before the cursor
 		int statementLength = statementText.length();
@@ -494,6 +479,7 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	}
 
 	public String getPrefixWithoutProcessing() {
+		
 		if (hasWhitespaceBeforeCursor()) {
 			return ""; //$NON-NLS-1$
 		}
@@ -501,8 +487,10 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 		int statementLength = statementText.length();
 		int prefixEnd = PHPTextSequenceUtilities.readBackwardSpaces(
 				statementText, statementLength); // read whitespace
-		int prefixStart = PHPTextSequenceUtilities.readIdentifierStartIndex(
-				phpVersion, statementText, prefixEnd, true);
+		
+		int prefixStart = TwigTextSequenceUtilities.readIdentifierStartIndex(statementText, prefixEnd);
+		
+		System.err.println("pre: " + prefixStart + " " + prefixEnd);
 		return statementText.subSequence(prefixStart, prefixEnd).toString();
 	}
 
@@ -530,16 +518,16 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	 */
 	public ITextRegion getNextTwigToken() throws BadLocationException {
 		
-		ITextRegion phpToken = getTwigToken();
+		ITextRegion twigToken = getTwigToken();
 		do {
-			phpToken = twigScriptRegion.getTwigToken(phpToken.getEnd());
-			if (!PHPPartitionTypes.isPHPCommentState(phpToken.getType())
-					&& phpToken.getType() != PHPRegionTypes.WHITESPACE) {
+			twigToken = twigScriptRegion.getTwigToken(twigToken.getEnd());
+			if (!PHPPartitionTypes.isPHPCommentState(twigToken.getType())
+					&& twigToken.getType() != PHPRegionTypes.WHITESPACE) {
 				break;
 			}
-		} while (phpToken.getEnd() < twigScriptRegion.getLength());
+		} while (twigToken.getEnd() < twigScriptRegion.getLength());
 
-		return phpToken;
+		return twigToken;
 		
 	}
 
@@ -572,11 +560,11 @@ public class TwigCompletionContext /*extends AbstractCompletionContext*/ impleme
 	 * @throws BadLocationException
 	 */
 	public String getNextWord() throws BadLocationException {
-		ITextRegion nextPHPToken = getNextTwigToken();
+		ITextRegion nextTwigToken = getNextTwigToken();
 		return document
 				.get(regionCollection.getStartOffset()
-						+ twigScriptRegion.getStart() + nextPHPToken.getStart(),
-						nextPHPToken.getTextLength());
+						+ twigScriptRegion.getStart() + nextTwigToken.getStart(),
+						nextTwigToken.getTextLength());
 	}
 
 	public String getNextWord(int times) throws BadLocationException {

@@ -89,7 +89,7 @@ org.eclipse.twig.core.TwigNature
    <extension
          point="org.eclipse.php.core.completionStrategyFactories">
       <factory
-            class="org.eclipse.twig.core.codeassist.strategies.TwigCompletionStrategyFactory">
+            class="org.eclipse.twig.core.codeassist.TwigCompletionStrategyFactory">
       </factory>
    </extension>
 
