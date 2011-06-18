@@ -78,7 +78,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 			Object state = lexer.createLexicalStateMemento();
 			String yylex = lexer.getNextToken();
 			int yylength = 0;
-			while (yylex != null && yylex != TwigRegionTypes.TWIG_CLOSE) {
+			while (yylex != null && (yylex != TwigRegionTypes.TWIG_CLOSE && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
 				yylength = lexer.getLength();
 				this.tokensContainer.addLast(yylex, start, yylength, yylength, state);
 				start += yylength;

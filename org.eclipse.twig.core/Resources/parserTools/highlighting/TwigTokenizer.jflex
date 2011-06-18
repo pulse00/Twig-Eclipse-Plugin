@@ -1018,11 +1018,11 @@ private final String scanTwigCommentText() throws IOException {
 
 // added states to TWIG 
 %state ST_TWIG_CONTENT
-//%state ST_TWIG_COMMENT
+%state ST_TWIG_COMMENT
 %state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
-//%state ST_TWIG_JSON
+
 
 
 
@@ -1422,7 +1422,7 @@ PHP_ASP_END=%>
 
 TW_START = \{\{{WHITESPACE}*
 
-TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
+TW_STMT_DEL_LEFT = {WHITESPACE}*\{%
 TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
@@ -1831,32 +1831,34 @@ NUMBER=([0-9])+
 
 // Twig Comments
 
-//<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#" {
-//	if(Debug.debugTokenizer)
-		//dump("twig comment start");//$NON-NLS-1$
-//	fEmbeddedHint = TWIG_COMMENT_TEXT;
-//	fEmbeddedPostState = ST_TWIG_COMMENT;
-//	yybegin(ST_TWIG_COMMENT);
-//	return TWIG_COMMENT_OPEN;
-//}
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#"{WHITESPACE}* {
 
-//<ST_TWIG_COMMENT> .|\r|\n {
+	if(Debug.debugTokenizer)
+		dump("twig comment start");//$NON-NLS-1$
+	fEmbeddedHint = TWIG_COMMENT_TEXT;
+	fEmbeddedPostState = ST_TWIG_COMMENT;
+	yybegin(ST_TWIG_COMMENT);
+	return TWIG_COMMENT_OPEN;
+	
+}
 
-//	if(Debug.debugTokenizer)
-//		dump("twig comment content");//$NON-NLS-1$
+<ST_TWIG_COMMENT> .|\r|\n {
+
+	if(Debug.debugTokenizer)
+		dump("twig comment content");//$NON-NLS-1$
 		
-//	String ret = scanTwigCommentText(); 
-//	return ret;
-//}
+	String ret = scanTwigCommentText(); 
+	return ret;
+}
 
-//<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
+<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
 
-//	if(Debug.debugTokenizer)
-		//dump("twig comment end");//$NON-NLS-1$
-	//fEmbeddedHint = UNDEFINED;
-//	yybegin(YYINITIAL);
-//	return TWIG_COMMENT_CLOSE;
-//}
+	if(Debug.debugTokenizer)
+		dump("twig comment end");//$NON-NLS-1$
+	fEmbeddedHint = UNDEFINED;
+	yybegin(YYINITIAL);
+	return TWIG_COMMENT_CLOSE;
+}
 
 
 // XML & PHP Comments
@@ -2205,7 +2207,7 @@ NUMBER=([0-9])+
 	yybegin(ST_TWIG_CONTENT);
 	
 	if (Debug.debugTokenizer) {
-	   dump("TWIG CONTENT");
+	   dump("ST_TWIG_CONTENT");
 	}
 	
 	return TWIG_STMT_OPEN;
@@ -2232,8 +2234,6 @@ NUMBER=([0-9])+
 	}
 	
 <ST_TWIG_CONTENT> "}}" {
-	//TODO: Figure out how to change the end delimiter, so that 
-	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
 	if(Debug.debugTokenizer)
 		dump("TWIG CLOSE");
@@ -2243,8 +2243,6 @@ NUMBER=([0-9])+
 }
 
 <ST_TWIG_CONTENT> "%}" {
-	//TODO: Figure out how to change the end delimiter, so that 
-	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	
 	if(Debug.debugTokenizer)
 		dump("TWIG STMT CLOSE");

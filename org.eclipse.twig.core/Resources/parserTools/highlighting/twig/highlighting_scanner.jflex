@@ -177,9 +177,21 @@ NUMBER=([0-9])+
 }
 
 <ST_TWIG_CONTENT> "}}"{TWIG_WHITESPACE}? {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG_CLOSE");
+
 	return TWIG_CLOSE;
 }
 
+
+<ST_TWIG_CONTENT> "%}"{TWIG_WHITESPACE}? {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG_STMT_CLOSE");
+
+	return TWIG_STMT_CLOSE;
+}
 
 
 

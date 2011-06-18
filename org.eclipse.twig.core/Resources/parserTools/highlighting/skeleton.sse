@@ -265,28 +265,28 @@
 //			System.err.println("Delim: "+delim+" looking in: '"+text+"' startChar2: "+startChar2);
 		}
 			
-//		if (startChar2 != -1) {
-//			System.err.println("aa");
-//			//go to the char right before the text, so it doesnt mark the whole thing red...
-//			if (startChar2 > 0){
-//				System.err.println("bb");
+		if (startChar2 != -1) {
+			System.err.println("aa");
+			//go to the char right before the text, so it doesnt mark the whole thing red...
+			if (startChar2 > 0){
+				System.err.println("bb");
 				//push to right before the delim
-//				yypushback(yylength() - startChar2);
+				yypushback(yylength() - startChar2);
 				//return YYINITIAL;
-//			} else {
-//				System.err.println("cc");
+			} else {
+				System.err.println("cc");
 
-//				fEmbeddedHint = TWIG_COMMENT_TEXT;
-//				fEmbeddedPostState = ST_TWIG_COMMENT;
+				fEmbeddedHint = TWIG_COMMENT_TEXT;
+				fEmbeddedPostState = ST_TWIG_COMMENT;
 
 
-//				yybegin(ST_TWIG_COMMENT);
+				yybegin(ST_TWIG_COMMENT);
 				// pushback to just after the closing bracket
-//				int delemLen = delim.length();
-//				yypushback(yylength() - startChar2 - delemLen);
-//				return TWIG_COMMENT_OPEN;
-//			}
-//		}
+				int delemLen = delim.length();
+				yypushback(yylength() - startChar2 - delemLen);
+				return TWIG_COMMENT_OPEN;
+			}
+		}
 		
 		//System.err.println("d"+insideOf);
 		return insideOf;

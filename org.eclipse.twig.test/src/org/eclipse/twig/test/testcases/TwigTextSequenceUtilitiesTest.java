@@ -28,7 +28,8 @@ public class TwigTextSequenceUtilitiesTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-
+	
+	
 	@Test
 	public void test() {
 
