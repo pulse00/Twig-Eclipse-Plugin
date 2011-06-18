@@ -3,7 +3,9 @@ package org.eclipse.twig.test.testcases;
 
 import junit.framework.TestCase;
 
+import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
+import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -31,54 +33,54 @@ public class TwigTextSequenceUtilitiesTest extends TestCase {
 	
 	
 	@Test
-	public void test() {
+	public void testStatement() {
 
 		try {
 			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
 
 			IStructuredDocument  fDoc = model.getStructuredDocument();
-			String fText = "{{Êfor item in items }}";
-			//String fText = "<?php $fo; ?>";
+			String fText = "{% for item in items %}";
 			fDoc.set(fText);			
 			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
+			
+			assertEquals(1, regions.length);
 			int offset = 8;
 
-
-
-			for (IStructuredDocumentRegion region : regions) {
-
-				ITextRegionCollection regionCollection = region;
-
-				ITextRegion textRegion = determineTextRegion(fDoc, region, offset);
-
-				if (textRegion != null) {
-
-					System.err.println("+++ " + textRegion.getType());
-				} else {
-					System.err.println("no textregion");
-				}
-
-				if (textRegion instanceof ITextRegionContainer) {
-					regionCollection = (ITextRegionContainer) textRegion;
-				}
-
-				System.err.println(region.getType()  + " " + region.getClass());
-			}
-
-
-
-
-
-			System.err.println("regions: " + regions.length);
+			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
+			assertEquals("for i", statement.toString());
+			
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			fail();
 
 		}
-
-
 	}
+	
+
+	@Test
+	public void testPrint() {
+
+		try {
+			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
+
+			IStructuredDocument  fDoc = model.getStructuredDocument();
+			String fText = "{{ item.href }}";
+			fDoc.set(fText);			
+			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
+			
+			assertEquals(1, regions.length);
+			int offset = 8;
+
+			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
+			assertEquals("item.", statement.toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+
+		}
+	}
+	
 
 	protected ITextRegion determineTextRegion(IStructuredDocument document,
 			ITextRegionCollection regionCollection, int offset) {
