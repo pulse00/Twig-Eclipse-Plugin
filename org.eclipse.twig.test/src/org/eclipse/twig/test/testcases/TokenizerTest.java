@@ -213,11 +213,10 @@ public class TokenizerTest extends TestCase {
 				contextRegions.push(region);
 			}
 			
-			assertTrue(contextRegions.size() == 4);
+			assertEquals(3, contextRegions.size());
 			assertEquals(contextRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
-			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_KEYWORD);
-			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-			assertEquals(contextRegions.get(3).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
 			
 			tokens = "{% use \"blocks.html\" with sidebar as base_sidebar %}";
 			tokenizer = new TwigTokenizer(tokens.toCharArray());			
@@ -232,24 +231,10 @@ public class TokenizerTest extends TestCase {
 				contextRegions.push(region);
 			}
 			
-			assertTrue(contextRegions.size() == 16);
+			assertEquals(3, contextRegions.size());
 			assertEquals(contextRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
-			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_KEYWORD);
-			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(3).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_START);
-			assertEquals(contextRegions.get(4).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT);
-			assertEquals(contextRegions.get(5).getType(), TwigRegionContext.TWIG_DOUBLE_QUOTES_END);
-			assertEquals(contextRegions.get(6).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(7).getType(), TwigRegionContext.TWIG_KEYWORD);
-			assertEquals(contextRegions.get(8).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(9).getType(), TwigRegionContext.TWIG_LABEL);
-			assertEquals(contextRegions.get(10).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(11).getType(), TwigRegionContext.TWIG_KEYWORD);
-			assertEquals(contextRegions.get(12).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(13).getType(), TwigRegionContext.TWIG_LABEL);
-			assertEquals(contextRegions.get(14).getType(), TwigRegionContext.TWIG_WHITESPACE);
-			assertEquals(contextRegions.get(15).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
-			
+			assertEquals(contextRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
+			assertEquals(contextRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
 			
 			
 
@@ -280,7 +265,7 @@ public class TokenizerTest extends TestCase {
 				
 			}
 			
-			assertEquals(textRegions.size(), 17);
+			assertEquals(textRegions.size(), 11);
 			
 			
 		} catch (Exception e) {
