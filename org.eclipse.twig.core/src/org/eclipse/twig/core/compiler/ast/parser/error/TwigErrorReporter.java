@@ -42,9 +42,9 @@ public class TwigErrorReporter implements IErrorReporter {
 	public void reportError(String header, String message,
 			RecognitionException e) {
 
-		ProblemSeverity severity = TwigCorePreferences.getAnnotationSeverity();
+		ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
 		
-		if (severity == ProblemSeverity.IGNORE)
+		if (severity == null || severity == ProblemSeverity.IGNORE)
 			return;
 		
 		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
