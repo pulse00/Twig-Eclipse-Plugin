@@ -1,0 +1,5 @@
+1.0.62
+
+* added syntaxerror reporting
+* added preference page to set syntax-error level
+* added built-in filters to codeassist
