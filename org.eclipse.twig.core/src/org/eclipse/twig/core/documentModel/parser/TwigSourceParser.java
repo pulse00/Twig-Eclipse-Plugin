@@ -88,15 +88,11 @@ public class TwigSourceParser extends XMLSourceParser {
 
 		// reset the state
 		headNode = lastNode = currentNode = null;
+
+
+		if (org.eclipse.twig.core.util.Debug.documentReParser)
+			System.err.println("PARSE TWIG NODES");
 		
-		System.err.println("PARSE TWIG NODES");
-		
-		
-//		for(StackTraceElement stack : Thread.currentThread().getStackTrace()) {
-//			
-//			System.out.println(stack.getClassName() + " " + stack.getLineNumber());
-//			
-//		}
 		
 
 		ITextRegion region = null;
@@ -124,7 +120,7 @@ public class TwigSourceParser extends XMLSourceParser {
 					}
 				} else {
 					// not continuing a IStructuredDocumentRegion
-					System.err.println("not continuing");
+
 					if (currentNode != null) {
 						// ensure that any existing node is at least
 						// terminated
@@ -304,22 +300,26 @@ public class TwigSourceParser extends XMLSourceParser {
 		// fStringInput = null;
 		primReset();
 		
-		if (headNode != null) {
-			System.err.println("HEAD NODE: " + headNode.getType() + " " + headNode.getStart() + " " + headNode.getEnd());
+		if (org.eclipse.twig.core.util.Debug.documentReParser){			
+			if (headNode != null) {
+				System.err.println("HEAD NODE: " + headNode.getType() + " " + headNode.getStart() + " " + headNode.getEnd());
+			}
+			
+			if (currentNode != null) {			
+				System.err.println("CURRENT NODE: " + currentNode.getType() + " " + currentNode.getStart() + " " + currentNode.getEnd());
+			}
+			System.err.println();	
 		}
 		
-		if (currentNode != null) {			
-			System.err.println("CURRENT NODE: " + currentNode.getType() + " " + currentNode.getStart() + " " + currentNode.getEnd());
-		}
 		
 		
-		System.err.println();
 		
 		return headNode;
 	}
 
 	@Override
 	public void reset(Reader reader, int position) {
+		
 		super.reset(reader, position);
 	}	
 

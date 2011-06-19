@@ -18,10 +18,8 @@ import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes
 import org.eclipse.php.internal.core.preferences.TaskPatternsProvider;
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import org.eclipse.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.core.utils.StringUtils;
 
 
 /**
@@ -570,6 +568,15 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			}
 		}
 	}
+	
+	protected void reportError() {
+
+		
+		System.err.println("report error!");
+		
+		
+	}
+	
 	
 	
 

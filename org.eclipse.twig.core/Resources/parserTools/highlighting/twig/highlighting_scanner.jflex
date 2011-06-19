@@ -106,6 +106,7 @@ import org.eclipse.twig.core.util.Debug;
 		}
 	}
 	
+	
 
  // End user code
 %}
@@ -353,6 +354,7 @@ NUMBER=([0-9])+
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");
 
+	reportError();
     yypushback(1);
     pushState(ST_TWIG_HIGHLIGHTING_ERROR);
 

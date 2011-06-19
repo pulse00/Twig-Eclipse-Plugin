@@ -18,6 +18,7 @@ import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import org.eclipse.twig.core.util.Debug;
 import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -87,6 +88,10 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 			this.requestor = requestor;
 			this.sourceModule = sourceModule;
 			this.offset = offset;
+			
+			if (sourceModule.getUnderlyingResource().getFileExtension().equals("php")) {				
+				return false;
+			}
 
 			document = determineDocument(sourceModule, requestor);
 
@@ -102,7 +107,8 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 
 					if (regionCollection != null) {
 
-						System.err.println("got region collection");
+						if (Debug.debugCodeassist)
+							System.err.println("got region collection");
 						twigScriptRegion = determineTwigRegion(document,
 								regionCollection, offset);
 												
@@ -490,7 +496,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 		
 		int prefixStart = TwigTextSequenceUtilities.readIdentifierStartIndex(statementText, prefixEnd);
 		
-		System.err.println("pre: " + prefixStart + " " + prefixEnd);
 		return statementText.subSequence(prefixStart, prefixEnd).toString();
 	}
 

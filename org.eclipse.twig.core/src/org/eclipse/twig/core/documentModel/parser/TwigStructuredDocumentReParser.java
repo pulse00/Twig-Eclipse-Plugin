@@ -1,5 +1,6 @@
 package org.eclipse.twig.core.documentModel.parser;
 
+import org.eclipse.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.internal.provisional.events.RegionChangedEvent;
 import org.eclipse.wst.sse.core.internal.provisional.events.StructuredDocumentEvent;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
@@ -39,8 +40,10 @@ public class TwigStructuredDocumentReParser extends
 	@Override
 	protected void findDirtyStart(int start) {
 		
+
+		if (Debug.documentReParser)
+			System.err.println("search dirty start at " + start);
 		
-		System.err.println("search dirty start at " + start);
 	    IStructuredDocumentRegion result = fStructuredDocument.getRegionAtCharacterOffset(start);
         // heuristic: if the postion is exactly equal to the start, then
         // go back one more, if it exists. This prevents problems with
@@ -54,7 +57,9 @@ public class TwigStructuredDocumentReParser extends
 	    
         if (result != null) {
         	
-        	System.err.println("found region to be " + result.getClass() + " " +  result.getType() + " " + result.getStart() + " " + result.getEnd());
+    		if (Debug.documentReParser)
+    			System.err.println("found region to be " + result.getClass() + " " +  result.getType() + " " + result.getStart() + " " + result.getEnd());
+    		
             IStructuredDocumentRegion previous = result.getPrevious();
             if ((previous != null) && ((!(previous.isEnded())) || (start == result.getStart()))) {
                 result = previous;
@@ -74,23 +79,28 @@ public class TwigStructuredDocumentReParser extends
         
         dirtyStart = result;
         
-        if (dirtyStart != null)
-        	System.err.println("dirty start: " + dirtyStart.getStart() + " " + dirtyStart.getEnd());
-        else System.err.println("no dirty start");
         
+        if (Debug.documentReParser) {
+            if (Debug.documentReParser)
+            	System.err.println("dirty start: " + dirtyStart.getStart() + " " + dirtyStart.getEnd());
+            else System.err.println("no dirty start");        	
+        }        
 	}
 	
 	@Override
 	protected IStructuredDocumentRegion findDirtyEnd(int end) {
 	
-		System.err.println();
-		System.err.println("search dirty end at " + end);
+		
+		if (Debug.documentReParser)
+			System.err.println("search dirty end at " + end);
 		  // Caution: here's one place we have to cast
         IStructuredDocumentRegion result = fStructuredDocument.getRegionAtCharacterOffset(end);
         // if not well formed, get one past, if there is something there
         
-        if (result != null)
+        if (result != null && Debug.documentReParser) {        
         	System.err.println("got dirty region " + result.getClass() + " " + result.getType() + " " + result.getStart() + " " + result.getEnd());
+        }
+        
         if ((result != null) && (!result.isEnded())) {
             if (result.getNext() != null) {
                 result = result.getNext();
@@ -120,10 +130,12 @@ public class TwigStructuredDocumentReParser extends
             fStructuredDocument.setCachedDocumentRegion(result);
         dirtyEnd = result;
 
+        if (Debug.documentReParser) {
+            if (dirtyEnd != null)
+            	System.err.println("dirty end " + dirtyEnd.getStart() + " " + dirtyEnd.getEnd());
+            else System.err.println("no dirty end");
+        }
         
-        if (dirtyEnd != null)
-        	System.err.println("dirty end " + dirtyEnd.getStart() + " " + dirtyEnd.getEnd());
-        else System.err.println("no dirty end");
         return dirtyEnd;	
      }
 	
@@ -133,8 +145,9 @@ public class TwigStructuredDocumentReParser extends
 		final StructuredDocumentEvent event = super.regionCheck(oldNode,
 				newNode);
 
+		if (Debug.documentReParser)
+			System.err.println("region check");
 		
-		System.err.println("region chek");
 		if (event instanceof RegionChangedEvent) {
 			RegionChangedEvent changedEvent = (RegionChangedEvent) event;
 

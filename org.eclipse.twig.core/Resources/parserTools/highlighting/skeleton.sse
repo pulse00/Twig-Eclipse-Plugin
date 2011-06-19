@@ -266,15 +266,23 @@
 		}
 			
 		if (startChar2 != -1) {
-			System.err.println("aa");
+		
+			if (Debug.debugTokenizer)		
+				System.err.println("aa");
+				
 			//go to the char right before the text, so it doesnt mark the whole thing red...
 			if (startChar2 > 0){
-				System.err.println("bb");
+			
+				if (Debug.debugTokenizer)
+					System.err.println("bb");
+					
 				//push to right before the delim
 				yypushback(yylength() - startChar2);
 				//return YYINITIAL;
 			} else {
-				System.err.println("cc");
+			
+				if (Debug.debugTokenizer)
+					System.err.println("cc");
 
 				fEmbeddedHint = TWIG_COMMENT_TEXT;
 				fEmbeddedPostState = ST_TWIG_COMMENT;

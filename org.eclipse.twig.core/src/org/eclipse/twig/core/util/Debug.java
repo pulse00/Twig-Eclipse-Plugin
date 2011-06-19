@@ -13,6 +13,10 @@ public class Debug {
 	
 	public final static boolean debugTokenizer = false;
 	
-	public final static boolean syntaxHighlighting = true;
+	public final static boolean syntaxHighlighting = false;
+	
+	public final static boolean documentReParser = false;
+
+	public static boolean debugCodeassist = false;
 
 }
