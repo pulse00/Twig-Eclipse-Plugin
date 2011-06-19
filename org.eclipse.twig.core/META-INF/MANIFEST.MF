@@ -29,3 +29,5 @@ Export-Package: org.eclipse.twig.core,
  org.eclipse.twig.core.documentModel.provisional.contenttype,
  org.eclipse.twig.core.util
 Bundle-Vendor: http://www.twig-project.org/
+Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.3.jar,
+ .

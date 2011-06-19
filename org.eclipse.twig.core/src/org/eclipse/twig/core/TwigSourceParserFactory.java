@@ -29,17 +29,8 @@ public class TwigSourceParserFactory extends PHPSourceParserFactory {
 			IProblemReporter reporter) {
 
 		if (!module.getFileName().endsWith(".twig")) {
-			
-			if (Debug.debugSourceParser)
-				System.err.println("passing parse method to super implementation");
-			
 			return super.parse(module, reporter);
 		}
-
-		
-		if (Debug.debugSourceParser)
-			System.err.println("parse twig");
-			
 		
 		final String fileName = module.getFileName();
 		TwigSourceParser parser = new TwigSourceParser(fileName);		

@@ -42,7 +42,6 @@ public class TwigParserTest extends TestCase {
 		
 		try {
 
-			
 			CharStream content = new ANTLRStringStream(tokens);
 			TwigLexer lexer = new TwigLexer(content, reporter);
 
