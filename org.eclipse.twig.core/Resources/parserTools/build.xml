@@ -15,10 +15,6 @@
 		<dirname property="antfile.dir" file="${ant.file}"/>
 		
 		
-		<ant dir="${antfile.dir}/parser/" antfile="generateAstParser.xml" />
-		<ant dir="${antfile.dir}/parser/" antfile="generateAstScanner.xml" />
-		<ant dir="${antfile.dir}/parser/" antfile="generateCompilerAstParser.xml" />
-		
 		<ant dir="${antfile.dir}/highlighting/twig" antfile="generateHighlightingScanner.xml" />		
 		<!-- <ant dir="${antfile.dir}/highlighting/" antfile="generatePHPTokenizer.xml" /> -->
 		

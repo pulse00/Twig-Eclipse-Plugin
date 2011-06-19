@@ -36,22 +36,24 @@ ISourceParser {
 	public IModuleDeclaration parse(Reader in, IProblemReporter reporter,
 			boolean useShortTags) throws Exception {
 
-		CompilerAstLexer lexer = new CompilerAstLexer(in);
-		CompilerAstParser parser = new CompilerAstParser(lexer);
-
-		try {
-
-			parser.setProblemReporter(reporter);
-			parser.setFileName(fileName);
-			parser.parse();
-			
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			// XXX: add recovery
-			return new ModuleDeclaration(0);
-		}
-		return parser.getModuleDeclaration();
+		return new ModuleDeclaration(0);
+		
+//		CompilerAstLexer lexer = new CompilerAstLexer(in);
+//		CompilerAstParser parser = new CompilerAstParser(lexer);
+//
+//		try {
+//
+//			parser.setProblemReporter(reporter);
+//			parser.setFileName(fileName);
+//			parser.parse();
+//			
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//			// XXX: add recovery
+//			return new ModuleDeclaration(0);
+//		}
+//		return parser.getModuleDeclaration();
 
 	}
 }
