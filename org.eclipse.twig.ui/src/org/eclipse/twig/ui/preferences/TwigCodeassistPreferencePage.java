@@ -111,7 +111,7 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage {
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 
 		autoclosePrintTags = new Button(doubleClickGroup, SWT.CHECK);
-		autoclosePrintTags.setText("Print tags {{Ê}}"); //$NON-NLS-1$
+		autoclosePrintTags.setText("Print tags {{ }}"); //$NON-NLS-1$
 		autoclosePrintTags.setLayoutData(gd);
 		
 		autocloseStatementTags = new Button(doubleClickGroup, SWT.CHECK);

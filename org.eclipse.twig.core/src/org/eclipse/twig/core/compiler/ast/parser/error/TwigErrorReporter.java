@@ -5,6 +5,8 @@ import org.eclipse.dltk.compiler.problem.DefaultProblem;
 import org.eclipse.dltk.compiler.problem.IProblem;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.dltk.compiler.problem.ProblemSeverity;
+import org.eclipse.twig.core.TwigCorePlugin;
+import org.eclipse.twig.core.TwigCorePreferences;
 
 
 /**
@@ -40,11 +42,15 @@ public class TwigErrorReporter implements IErrorReporter {
 	public void reportError(String header, String message,
 			RecognitionException e) {
 
-		//ProblemSeverity severity = SymfonyCorePreferences.getAnnotationSeverity();
+		ProblemSeverity severity = TwigCorePreferences.getAnnotationSeverity();
+		
+		
+		if (severity == ProblemSeverity.IGNORE)
+			return;
+		
 		
 		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
-				new String[0], ProblemSeverity.ERROR, offset, offset+1, line);
-		
+				new String[0], severity, offset, offset+1, line);
 		
 		reporter.reportProblem(problem);
 

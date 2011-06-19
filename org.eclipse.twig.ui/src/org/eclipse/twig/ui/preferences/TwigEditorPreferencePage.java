@@ -1,7 +1,8 @@
 package org.eclipse.twig.ui.preferences;
 
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
-import org.eclipse.php.internal.ui.preferences.AbstractPreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -10,6 +11,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.twig.core.TwigCoreConstants;
+import org.eclipse.twig.ui.TwigUICorePlugin;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -23,21 +28,32 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigEditorPreferencePage extends AbstractPreferencePage {
+public class TwigEditorPreferencePage extends FieldEditorPreferencePage
+implements IWorkbenchPreferencePage {
 
+	
 	public TwigEditorPreferencePage() {
+		
+		super(GRID);
+		setPreferenceStore(TwigUICorePlugin.getDefault().getPreferenceStore());
+		
 
 	}
 
 	@Override
 	protected Control createContents(Composite parent) {
 
+		
 		createHeader(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.EDITOR_PREFERENCES);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.EDITOR_PREFERENCES);		
 
+		
 		return super.createContents(parent);
 
 	}
+	
+	
+	
 
 	private void createHeader(Composite contents) {
 		final Shell shell = contents.getShell();
@@ -56,6 +72,30 @@ public class TwigEditorPreferencePage extends AbstractPreferencePage {
 		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gridData.widthHint = 150; // only expand further if anyone else requires it
 		link.setLayoutData(gridData);
-	}	
+	}
+
+	@Override
+	public void init(IWorkbench workbench) {
+
+		
+	}
+
+	@Override
+	protected void createFieldEditors() {
+
+		String[][] options = new String[][] 
+		{ 
+				{ TwigCoreConstants.SYNTAX_ERROR, TwigCoreConstants.SYNTAX_ERROR }, 
+				{ TwigCoreConstants.SYNTAX_WARNING, TwigCoreConstants.SYNTAX_WARNING },
+				{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
+		};
+		
+
+		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, "Syntax Errors", options, getFieldEditorParent()));
+		
+		
+	}
+	
+	
 
 }
