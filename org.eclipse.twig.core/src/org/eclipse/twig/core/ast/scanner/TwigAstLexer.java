@@ -31,7 +31,8 @@ import org.eclipse.php.internal.core.ast.scanner.StateStack;
  * on 6/16/11 8:32 PM from the specification file
  * <tt>ast_scanner.flex</tt>
  */
-public class TwigAstLexer implements org.eclipse.php.internal.core.ast.scanner.AstLexer {
+@SuppressWarnings("restriction")
+public class TwigAstLexer implements AstLexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;

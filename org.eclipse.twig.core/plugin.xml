@@ -92,5 +92,18 @@ org.eclipse.twig.core.TwigNature
             class="org.eclipse.twig.core.codeassist.TwigCompletionStrategyFactory">
       </factory>
    </extension>
+   <extension
+         point="org.eclipse.dltk.core.sourceParsers">
+      <parserContribution
+            natureId="org.eclipse.php.core.PHPNature">
+         <parser
+               class="org.eclipse.twig.core.TwigSourceParserFactory"
+               description="Creates a Twig source parser"
+               id="org.eclipse.twig.core.TwigSourceParserFactory"
+               name="Twig source parser factory"
+               priority="10">
+         </parser>
+      </parserContribution>
+   </extension>
 
 </plugin>

@@ -1,4 +1,4 @@
-<project name="Builds all parser classes" default="sign">
+<project name="Signs all jars" default="sign">
 
 	<target name="sign">
 		<!-- Features -->
