@@ -20,7 +20,7 @@
 
 	<target name="generateParser" depends="checkUpToDate" unless="upToDate">
 		<java 
-			classpath="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.core.parser"
+			classpath="../../../../org.eclipse.twig.parser"
 			classname="java_cup.Main"
 			input="twig_ast_parser.cup"
 			fork="true">

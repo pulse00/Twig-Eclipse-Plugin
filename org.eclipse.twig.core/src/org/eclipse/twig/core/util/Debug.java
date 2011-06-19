@@ -20,5 +20,7 @@ public class Debug {
 	public final static boolean debugCodeassist = false;
 	
 	public final static boolean debugSourceParser = true;
+	
+	public final static boolean debugLexer = true;
 
 }

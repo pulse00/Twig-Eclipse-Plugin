@@ -2,21 +2,15 @@ package org.eclipse.twig.core.ast.scanner;
 
 import java.util.List;
 
-import org.eclipse.php.internal.core.PHPVersion;
-
 import java_cup.runtime.Scanner;
 
-@SuppressWarnings("restriction")
+
 public interface AstLexer extends Scanner {
 	
 	public void resetCommentList();
 
 	@SuppressWarnings("rawtypes")
 	public List getCommentList();
-
-	public void setUseAspTagsAsPhp(boolean useAspTagsAsPhp);
-
-	public void setUseShortTags(boolean useShortTags);
 
 	public int getCurrentLine();
 
@@ -81,11 +75,5 @@ public interface AstLexer extends Scanner {
 	 */
 	public void setInScriptingState();
 
-	/**
-	 * Returns the PHP version for this lexer.
-	 * 
-	 * @return {@link PHPVersion}
-	 */
-	public PHPVersion getPHPVersion();	
 
 }

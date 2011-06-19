@@ -4,7 +4,6 @@ import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.parser.ISourceParser;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
-import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
 import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
 import org.eclipse.twig.core.compiler.ast.parser.TwigSourceParser;
 import org.eclipse.twig.core.util.Debug;
@@ -22,17 +21,9 @@ import org.eclipse.twig.core.util.Debug;
 public class TwigSourceParserFactory extends PHPSourceParserFactory {
 
 	public TwigSourceParserFactory() {
-		
-		System.err.println("create source parser factory");
 
 	}
 
-	@Override
-	public ISourceParser createSourceParser() {
-
-		return this;
-
-	}
 
 	@Override
 	public IModuleDeclaration parse(IModuleSource module,

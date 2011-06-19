@@ -15,7 +15,6 @@
 		<dirname property="antfile.dir" file="${ant.file}"/>
 		
 		
-		<!-- PHP 5.3 AST -->
 		<ant dir="${antfile.dir}/parser/" antfile="generateAstParser.xml" />
 		<ant dir="${antfile.dir}/parser/" antfile="generateAstScanner.xml" />
 		<ant dir="${antfile.dir}/parser/" antfile="generateCompilerAstParser.xml" />

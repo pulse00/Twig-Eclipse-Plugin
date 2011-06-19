@@ -9,6 +9,17 @@ import org.eclipse.dltk.ast.parser.ISourceParser;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
 
+
+/**
+ * 
+ * The {@link TwigSourceParser} is responsible for 
+ * reporting syntax errors during source parsing.
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigSourceParser extends AbstractPHPSourceParser implements
 ISourceParser {
@@ -16,8 +27,8 @@ ISourceParser {
 	private String fileName;
 
 
-	public TwigSourceParser(String fileName2) {
-		super(fileName2);
+	public TwigSourceParser(String filename) {
+		super(filename);
 	}
 
 
@@ -26,18 +37,15 @@ ISourceParser {
 			boolean useShortTags) throws Exception {
 
 		CompilerAstLexer lexer = new CompilerAstLexer(in);
-		lexer.setUseShortTags(true);
 		CompilerAstParser parser = new CompilerAstParser(lexer);
 
 		try {
 
 			parser.setProblemReporter(reporter);
-
 			parser.setFileName(fileName);
-
 			parser.parse();
+			
 		} catch (Exception e) {
-			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=316077
 
 			e.printStackTrace();
 			// XXX: add recovery
