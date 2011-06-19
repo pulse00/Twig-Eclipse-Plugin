@@ -355,6 +355,36 @@ public class TokenizerTest extends TestCase {
 		}
 	}
 	
+	@Test
+	public void testPercentageAtEndOfStatement() {
+		
+		try {
+			
+			tokens = "{% for item in items %";			
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);						
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+
+			ITextRegion region = null;
+
+			while(!tokenizer.isEOF()) {
+				region = tokenizer.getNextToken();
+				assertNotNull(region);				
+				textRegions.push(region);
+
+			}
+			
+			assertEquals(2, textRegions.size());
+			assertEquals(TwigRegionContext.TWIG_STMT_OPEN, textRegions.get(0).getType());
+			assertEquals(TwigRegionContext.TWIG_CONTENT, textRegions.get(1).getType());
+			
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			fail();
+		}
+	}
 	
 
 	@Test

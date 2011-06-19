@@ -7,7 +7,7 @@
  *
  * Contributors:
  *   Zend and IBM - Initial implementation
- *******************************************************************************/
+ ********************************************************************************/
 
 package org.eclipse.twig.core.documentModel.parser;
 
@@ -25,11 +25,9 @@ import org.eclipse.twig.core.util.Debug;
 %caseless
 
 %state ST_TWIG_CONTENT
-//%state ST_TWIG_COMMENT
-//%state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
-//%state ST_TWIG_JSON
+%state ST_TWIG_HIGHLIGHTING_ERROR
 
 
 %{
@@ -335,21 +333,27 @@ NUMBER=([0-9])+
 	return TWIG_DELIMITER;
 }
 
-
 /* ============================================
    Stay in this state until we find a whitespace.
    After we find a whitespace we go the the prev state and try again from the next token.
    ============================================ */
-//<ST_PHP_HIGHLIGHTING_ERROR> {
-//	{WHITESPACE}	{popState();return WHITESPACE;}
-//    .   	        {return UNKNOWN_TOKEN;}
-//}
+<ST_TWIG_HIGHLIGHTING_ERROR> {
+
+	{TWIG_WHITESPACE}	{popState();return TWIG_WHITESPACE;}
+    .   	        	{return UNKNOWN_TOKEN;}
+}
+
 
 /* ============================================
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-//<ST_PHP_IN_SCRIPTING,ST_PHP_DOUBLE_QUOTES,ST_PHP_VAR_OFFSET,ST_PHP_BACKQUOTE,ST_PHP_HEREDOC,ST_PHP_END_HEREDOC,ST_PHP_END_NOWDOC,ST_PHP_NOWDOC>. {
-//    yypushback(1);
-//    pushState(ST_PHP_HIGHLIGHTING_ERROR);
-//}
+<ST_TWIG_CONTENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_DOUBLE_QUOTES_SPECIAL>. {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG HIGHLIGHT ERROR");
+
+    yypushback(1);
+    pushState(ST_TWIG_HIGHLIGHTING_ERROR);
+
+}
