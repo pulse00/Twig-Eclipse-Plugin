@@ -50,22 +50,50 @@ import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
 // control characters
 PRINT_OPEN		: '{{';
 PRINT_CLOSE		: '}}';
-STMT_OPEN		: '{%';
-STMT_CLOSE		: '%}';
+CTRL_OPEN		: '{%';
+CTRL_CLOSE		: '%}';
 METHOD_START	: '(';
 METHOD_END		: ')';
+ARRAY_START		: '[';
+ARRAY_END		: ']';
 ASIG 			: '=';
+TILDE			: '~';
 PIPE 			: '|';
+DDOT 			: '..';
 DOT 			: '.';
+COLON 			: ':';
 COMMA			: ( ' '* ',' ' '*);
-BSLASH			: '\\';an
+BSLASH			: '\\';
 JSON_START  	: '{' ;
 JSON_END		: '}' ;
+QM				: '?';
+
+FOR				: 'for';
+ENDFOR			: 'endfor';
+ELSE			: 'else';
+IF				: 'if';
+ELSEIF			: 'elseif';
+ENDIF			: 'endif';
+IN				: 'in';
+TWIG_AS			: 'as';
+MACRO			: 'macro';
+ENDMACRO		: 'endmacro';
+IMPORT			: 'import';
+FROM			: 'from';
+SET				: 'set';
+ENDSET			: 'endset';
+INCLUDE			: 'include';
+WITH			: 'with';
+ONLY			: 'only';
+
+
 
 // strings
 
 
+NUMBER : DIGIT+;
 STRING : STRING_CHAR+;
+
 
 
 STRING_LITERAL
@@ -80,6 +108,6 @@ fragment LOWER	: 'a'..'z';
 fragment UPPER	: 'A'..'Z';
 fragment DIGIT	: '0'..'9';
 fragment UNDER : '_';
-fragment SYMBOL: UNDER | '-' | '/' | ':' | '<' | '>';
+fragment SYMBOL: UNDER | '-' | '/' | ':' | '<' | '>' | ' ' | '%' | '.' | '|';
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };
