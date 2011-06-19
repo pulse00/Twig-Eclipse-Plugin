@@ -2,19 +2,19 @@
 <feature
       id="org.eclipse.twig.feature"
       label="Twig Editor Feature"
-      version="1.0.57.qualifier"
+      version="1.0.6.qualifier"
       provider-name="org.eclipse.twig">
 
    <description url="https://github.com/pulse00/Twig-Eclipse-Plugin">
       Lets Eclipse speak Twig.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="http://www.opensource.org/licenses/mit-license.php">
+      http://www.opensource.org/licenses/mit-license.php
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://www.opensource.org/licenses/mit-license.php">
+      http://www.opensource.org/licenses/mit-license.php
    </license>
 
    <url>
@@ -34,6 +34,13 @@
 
    <plugin
          id="org.eclipse.twig.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.twig.parser"
          download-size="0"
          install-size="0"
          version="0.0.0"

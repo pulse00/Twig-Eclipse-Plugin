@@ -1,0 +1,19 @@
+<project name="Builds all parser classes" default="sign">
+
+	<target name="sign">
+		<!-- Features -->
+		<signjar alias="${alias}" storepass="${password}" keystore="${keystorelocation}" verbose="true">
+			<fileset dir="${updatesite}/features">
+				<include name="**/*.jar" />
+			</fileset>
+		</signjar>
+
+		<!-- Plugins -->
+		<signjar alias="${alias}" storepass="${password}" keystore="${keystorelocation}" verbose="true">
+			<fileset dir="${updatesite}/plugins">
+				<include name="**/*.jar" />
+			</fileset>
+		</signjar>
+		
+	</target>
+</project>
