@@ -44,10 +44,8 @@ public class TwigErrorReporter implements IErrorReporter {
 
 		ProblemSeverity severity = TwigCorePreferences.getAnnotationSeverity();
 		
-		
 		if (severity == ProblemSeverity.IGNORE)
 			return;
-		
 		
 		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
 				new String[0], severity, offset, offset+1, line);

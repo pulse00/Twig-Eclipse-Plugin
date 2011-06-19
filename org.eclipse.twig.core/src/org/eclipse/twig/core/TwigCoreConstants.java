@@ -1,5 +1,15 @@
 package org.eclipse.twig.core;
 
+
+/**
+ * 
+ * CoreConstants.
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class TwigCoreConstants {
 
 	public static final String SYNTAX_ERROR = "Error";

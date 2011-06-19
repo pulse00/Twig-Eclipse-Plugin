@@ -572,12 +572,5 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	protected void reportError() {
 
 		
-		System.err.println("report error!");
-		
-		
 	}
-	
-	
-	
-
 }

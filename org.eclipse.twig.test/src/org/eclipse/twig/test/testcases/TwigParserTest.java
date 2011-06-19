@@ -35,6 +35,8 @@ public class TwigParserTest extends TestCase {
 	@Test
 	public void testForStatement() {
 		
+		
+		assertValidTokenstream("{% for item in items %}");
 		assertValidTokenstream("{% for i in 0..10 %}");
 		assertValidTokenstream("{% for key in value %}");
 		assertValidTokenstream("{% for letter in 'a'..'z' %}");

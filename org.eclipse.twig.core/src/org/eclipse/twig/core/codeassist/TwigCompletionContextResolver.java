@@ -4,6 +4,7 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.core.codeassist.ICompletionContextResolver;
 import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
 import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
+import org.eclipse.twig.core.codeassist.context.TwigFilterContext;
 import org.eclipse.twig.core.codeassist.context.TwigKeywordContext;
 
 
@@ -25,7 +26,8 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 
 		return new ICompletionContext[] { 
 				new AbstractTwigCompletionContext(),
-				new TwigKeywordContext()
+				new TwigKeywordContext(),
+				new TwigFilterContext(),
 		};
 	}	
 }

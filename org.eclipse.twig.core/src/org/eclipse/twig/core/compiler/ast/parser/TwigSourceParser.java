@@ -36,6 +36,9 @@ ISourceParser {
 	public static final String TWIG_OPEN = "{{";
 	public static final String TWIG_CLOSE = "}}";
 
+	public static final String STMT_OPEN = "{%";
+	public static final String STMT_CLOSE = "%}";
+	
 
 	public TwigSourceParser(String filename) {
 		super(filename);
@@ -54,9 +57,6 @@ ISourceParser {
 		String line;
 		
 		int current = 0;
-
-		int start = 0;
-		int end = 0;
 		int lineNumber = 0;
 		
 		while( (line = br.readLine()) != null) {
@@ -65,32 +65,10 @@ ISourceParser {
 			current += line.length();
 			
 			if (line.contains(TWIG_OPEN)) {
-
-				start = end = 0;
-				
-				while( (start = line.indexOf(TWIG_OPEN)) >= 0) {
-					
-					end = line.indexOf(TWIG_CLOSE);
-					
-					if (end == -1) {
-						//TODO: report error
-						break;
-					}
-					
-					String twig = line.substring(start, end+2);
-					parseTwig(twig, current + start, lineNumber);
-					
-					if (line.length() > end +1) {						
-						//TODO: report error
-						break;
-					}
-					
-					line = line.substring(end + 2);
-					
-				}
+				parseStatement(line, TWIG_OPEN, TWIG_CLOSE, lineNumber, current);				
+			} else if (line.contains(STMT_OPEN)) {
+				parseStatement(line, STMT_OPEN, STMT_CLOSE, lineNumber, current);								
 			}
-			
-			
 		}
 				
 		//return an empty moduledeclaration
@@ -98,6 +76,33 @@ ISourceParser {
 
 	}
 	
+	
+	private void parseStatement(String line, String open, String close, int lineNumber, int current) {
+		
+		int start = 0;
+		int end = 0;
+		
+		while( (start = line.indexOf(open)) >= 0) {
+			
+			end = line.indexOf(close);
+			
+			if (end == -1) {
+				//TODO: report error
+				break;
+			}
+			
+			String twig = line.substring(start, end+2);
+			parseTwig(twig, current + start, lineNumber);
+			
+			if (line.length() > end +1) {						
+				//TODO: report error
+				break;
+			}
+			
+			line = line.substring(end + 2);
+			
+		}
+	}	
 	
 	private void parseTwig(String source, int offset, int line) {
 		
@@ -111,16 +116,16 @@ ISourceParser {
 			parser.setErrorReporter(reporter);
 
 			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_print_statement_return root;
+			TwigParser.twig_source_return root;
 
-			root = parser.twig_print_statement();
+			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			TwigNodeVisitor visitor = new TwigNodeVisitor();
 			tree.accept(visitor);
 
 
 		} catch (Exception e) {
-
+			//e.printStackTrace();
 		}
 	}
 }
