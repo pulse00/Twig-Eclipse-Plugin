@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.twig.feature_1.0.6.201106191418.jar" id="org.eclipse.twig.feature" version="1.0.6.201106191418">
+   <feature url="features/org.eclipse.twig.feature_1.0.61.201106191431.jar" id="org.eclipse.twig.feature" version="1.0.61.201106191431">
       <category name="org.eclipse.twig"/>
    </feature>
    <category-def name="org.eclipse.twig" label="Twig"/>
