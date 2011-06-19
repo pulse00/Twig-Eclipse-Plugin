@@ -1,3 +1,7 @@
+1.0.63
+
+* fix for missing content-type problem
+
 1.0.62
 
 * added syntaxerror reporting
