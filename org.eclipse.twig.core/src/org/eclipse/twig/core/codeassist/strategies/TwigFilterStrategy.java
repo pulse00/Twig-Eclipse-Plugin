@@ -1,10 +1,13 @@
 package org.eclipse.twig.core.codeassist.strategies;
 
+import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceRange;
+import org.eclipse.dltk.internal.core.hierarchy.FakeType;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
+import org.eclipse.php.internal.core.typeinference.FakeMethod;
 import org.eclipse.twig.core.codeassist.context.TwigFilterContext;
 
 /**
@@ -36,14 +39,19 @@ public class TwigFilterStrategy extends AbstractCompletionStrategy {
 
 			TwigFilterContext ctx = (TwigFilterContext) getContext();
 
+			
 			String prefix = ctx.getPrefix();
 			SourceRange range = getReplacementRange(getContext());
 			String suffix = "";
 			
+			FakeType type = new FakeType((ModelElement) ctx.getSourceModule(), "filter");
+			
 			for (String keyword : FILTERS) {		
 				if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
-					
-					reporter.reportKeyword(keyword, suffix, range);
+										
+					FakeMethod method = new FakeMethod(type, keyword);
+					reporter.reportMethod(method, "", range);
+//					reporter.reportKeyword(keyword, suffix, range);
 
 				}
 			}
