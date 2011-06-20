@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.eclipse.twig.ui" default="build.jars" basedir=".">
+
+	<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo"/>
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>
+	<property name="bundleId" value="org.eclipse.twig.ui"/>
+	<property name="bundleVersion" value="1.0.65.201106201116"/>
+	<property name="p2.publishonerror" value="false"/>
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="logExtension" value=".log"/>
+	<property name="compilerArg" value=""/>
+	<property name="compilation.prereq.log" value="${buildDirectory}/prereqErrors.log"/>
+	<property name="javacSource" value="1.3"/>
+	<property name="javacTarget" value="1.2"/>
+	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
+		<os family="mac"/>
+	</condition>
+	<property name="dir_bootclasspath" value="${java.home}/lib"/>
+	<path id="path_bootclasspath">
+		<fileset dir="${dir_bootclasspath}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<property name="bootclasspath" refid="path_bootclasspath"/>
+	<condition property="bundleBootClasspath" value="${JavaSE-1.6}"	>
+		<isset property="JavaSE-1.6"/>
+	</condition>
+	<condition property="bundleJavacSource" value="1.6"	>
+		<isset property="JavaSE-1.6"/>
+	</condition>
+	<condition property="bundleJavacTarget" value="1.6"	>
+		<isset property="JavaSE-1.6"/>
+	</condition>
+	<property name="bundleJavacSource" value="${javacSource}"/>
+	<property name="bundleJavacTarget" value="${javacTarget}"/>
+	<property name="bundleBootClasspath" value="${bootclasspath}"/>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins"		>
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.twig.ui_1.0.65.201106201116"		>
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+		<condition property="p2.publish.parts" value="true"		>
+			<istrue value="${p2.gathering}"/>
+		</condition>
+		<property name="compilation.problem.marker" value="${build.result.folder}/compilation.problem"/>
+		<condition property="compilation.problem.marker.exists" value="true"		>
+			<and>
+			<available file="${compilation.problem.marker}"/>
+			<isfalse value="${p2.publishonerror}"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.twig.ui for an update site.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<jar destfile="${plugin.destination}/org.eclipse.twig.ui_1.0.65.201106201116.jar" basedir="${temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" filesetmanifest="merge"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="@dot.nestedJars">
+		<mkdir dir="${buildDirectory}/nestedJars/com.ibm.icu_4.4.2.v20110208"/>
+		<unzip src="../../../../../../Applications/eclipse_new/plugins/com.ibm.icu_4.4.2.v20110208.jar" dest="${buildDirectory}/nestedJars/com.ibm.icu_4.4.2.v20110208" overwrite="false">
+			<patternset includes="icu-data.jar"/>
+		</unzip>
+		<mkdir dir="${buildDirectory}/nestedJars/org.eclipse.equinox.registry_3.5.100.v20110502"/>
+		<unzip src="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.registry_3.5.100.v20110502.jar" dest="${buildDirectory}/nestedJars/org.eclipse.equinox.registry_3.5.100.v20110502" overwrite="false">
+			<patternset includes="runtime_registry_compatibility.jar"/>
+		</unzip>
+		<mkdir dir="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100"/>
+		<unzip src="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar" dest="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100" overwrite="false">
+			<patternset includes="e4-workbench.jar"/>
+		</unzip>
+		<mkdir dir="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100"/>
+		<unzip src="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar" dest="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100" overwrite="false">
+			<patternset includes="compatibility.jar"/>
+		</unzip>
+		<mkdir dir="${buildDirectory}/nestedJars/org.eclipse.ui.ide_3.7.0.I20110519-0100"/>
+		<unzip src="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.ide_3.7.0.I20110519-0100.jar" dest="${buildDirectory}/nestedJars/org.eclipse.ui.ide_3.7.0.I20110519-0100" overwrite="false">
+			<patternset includes="e4-ide.jar"/>
+		</unzip>
+	</target>
+	<target name="@dot" depends="init,@dot.nestedJars" unless="@dot" description="Create jar: org.eclipse.twig.ui @dot.">
+		<delete dir="${build.result.folder}/@dot"/>
+		<mkdir dir="${build.result.folder}/@dot"/>
+		<path id="@dot.classpath">
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench.texteditor_3.7.0.v20110505-0800.jar"/>
+			<pathelement path="${buildDirectory}/nestedJars/com.ibm.icu_4.4.2.v20110208/icu-data.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/com.ibm.icu_4.4.2.v20110208.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.runtime_3.7.0.v20110110.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.osgi_3.7.0.v20110513.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.common_3.6.0.v20110506.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.jobs_3.5.100.v20110404.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.runtime.compatibility.registry_3.5.0.v20110505/runtime_registry_compatibility.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.runtime.compatibility.registry_3.5.0.v20110505"/>
+			<pathelement path="${buildDirectory}/nestedJars/org.eclipse.equinox.registry_3.5.100.v20110502/runtime_registry_compatibility.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.registry_3.5.100.v20110502.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.preferences_3.4.0.v20110502.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.contenttype_3.4.100.v20110423-0524.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.runtime.compatibility.auth_3.2.200.v20110110.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.app_1.3.100.v20110321.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.osgi.services_3.3.0.v20110513.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/javax.servlet_2.5.0.v201103041518.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.compare.core_3.5.200.I20110208-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.expressions_3.4.300.v20110228.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jface.text_3.7.0.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.text_3.5.100.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.swt_3.7.0.v3735.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.swt.cocoa.macosx_3.7.0.v3735.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jface_3.7.0.I20110504-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui_3.7.0.I20110519-0100.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.cocoa_1.1.0.I20101109-0800.jar"/>
+			<pathelement path="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100/e4-workbench.jar"/>
+			<pathelement path="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.7.0.I20110519-0100/compatibility.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench.compatibility_3.2.100.I20110413-1600/compatibility.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench.compatibility_3.2.100.I20110413-1600/e4-workbench.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.workbench.compatibility_3.2.100.I20110413-1600"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.help_3.5.100.v20110426.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jface.databinding_1.5.0.I20100907-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.databinding.observable_1.4.0.I20110222-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.databinding.property_1.4.0.I20110222-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.databinding_1.4.0.I20110111-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.resources_3.7.100.v20110510-0712.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ant.core_3.2.300.v20110511.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.variables_3.2.500.v20110511.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.filesystem_1.3.100.v20110423-0524.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.filesystem.macosx_1.3.0.v20110423-0524.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.core/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.core/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.filebuffers_3.5.200.v20110505-0800.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.emf.ecore_2.7.0.v20110527-1609.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.emf.common_2.7.0.v20110527-1609.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.emf.ecore.xmi_2.7.0.v20110520-1406.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.validation_1.2.300.v201104190230.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.frameworks_1.2.100.v201105122000.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.environment_1.0.400.v200912181832.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.osgi.util_3.2.200.v20110110.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/javax.xml_1.3.4.v201005080400.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.core_1.2.0.v200908252030.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.project.facet.core_1.4.200.v201103170332.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.sse.core_1.1.600.v201105162116.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.uriresolver_1.1.401.v201004280700.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.html.core_1.1.500.v201104191551.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.xml.core_1.1.600.v201104251227.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.apache.xerces_2.9.0.v201101211617.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.apache.xml.resolver_1.2.0.v201005080400.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.apache.xml.serializer_2.7.1.v201005080400.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jem.util_2.1.100.v201103021400.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.emf_1.2.100.v201101101900.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.emfworkbench.integration_1.2.100.v201011172300.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.emf.edit_2.7.0.v20110530-1010.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.emf.ecore.change_2.7.0.v20110408-2116.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.css.core_1.1.500.v201104191926.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.modulecore_1.2.100.v201105191800.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.core.parser"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.core.parser/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core.index.sql/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core.index.sql/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.ui/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.ui/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.compare_3.5.200.I20110510-0800.jar"/>
+			<pathelement path="${buildDirectory}/nestedJars/org.eclipse.ui.ide_3.7.0.I20110519-0100/e4-ide.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.ide_3.7.0.I20110519-0100.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.views_3.6.0.I20110412-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.forms_3.5.100.v20110425.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.p2.engine_2.1.0.v20110511.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.p2.core_2.1.0.v20110502-1955.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.p2.metadata_2.1.0.v20110510.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.p2.metadata.repository_1.2.0.v20110511-1359.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.p2.repository_2.1.0.v20110510.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.security_1.1.0.v20110502.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.security.macosx_1.100.100.v20100503.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.editors_3.7.0.v20110517-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.search_3.7.0.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ltk.core.refactoring_3.5.200.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ltk.ui.refactoring_3.6.0.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.navigator_3.5.100.I20110519-0100.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.team.core_3.6.0.I20110514-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.team.ui_3.6.100.I20110510-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.debug.ui_3.7.0.v20110518.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.console_3.5.100.v20110511.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.debug.core_3.7.0.v20110518.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.ui/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.ui/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.launching/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.launching/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.debug/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.debug/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core.manipulation/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.dltk.core.manipulation/@dot"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.server.core/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.server.core/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/com.jcraft.jsch_0.1.41.v201101211617.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jsch.core_1.1.300.I20110514-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.core.net_1.2.100.I20110511-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.sse.ui_1.3.0.v201105101529.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.frameworks.ui_1.2.100.v201105122000.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.web_1.1.500.v201104251400.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.server.core_1.1.302.v20110518.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.update.core_3.2.500.v20110330.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.update.configurator_3.3.100.v20100512.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.html.ui_1.0.600.v201104211436.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.xml.ui_1.1.200.v201105111835.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.common.ui_1.1.500.v200911190730.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.css.ui_1.0.600.v201103022054.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.jsdt.web.core_1.0.400.v201104190230.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.jsdt.core_1.1.100.v201104272153.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.jsdt.web.ui_1.0.400.v201103080228.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.jsdt.ui_1.1.100.v201105041953.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.wst.jsdt.manipulation_1.0.300.v201104272153.jar"/>
+			<pathelement path="../org.eclipse.twig.core/bin"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.core_1.0.65.201106201116/bin"/>
+			<pathelement path="../org.eclipse.twig.core/Resources/parserTools/parser/antlr-runtime-3.3.jar"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.core_1.0.65.201106201116/Resources/parserTools/parser/antlr-runtime-3.3.jar"/>
+			<pathelement path="../org.eclipse.twig.core/bin/"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.core_1.0.65.201106201116/bin/"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.core/@dot"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.core_1.0.65.201106201116/@dot"/>
+			<pathelement path="../org.eclipse.twig.test/bin/"/>
+			<pathelement path="../org.eclipse.twig.test/@dot"/>
+			<pathelement path="../org.eclipse.twig.test/Resources/parserTools/parser/antlr-runtime-3.3.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.debug.core/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.debug.core/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.browser_3.3.100.v20110426.jar"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.debug.daemon/bin/"/>
+			<pathelement path="../../jetzt_aber/org.eclipse.php.debug.daemon/@dot"/>
+			<pathelement path="../org.eclipse.twig.parser"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.parser_1.0.62.201106201116/."/>
+			<pathelement path="../org.eclipse.twig.parser/@dot"/>
+			<pathelement path="${build.result.folder}/../org.eclipse.twig.parser_1.0.62.201106201116/@dot"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.junit_3.7.0.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.core_3.7.0.v_B60.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.compiler.apt_1.0.400.v0110509-1300.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.compiler.tool_1.0.100.v_B60.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.ui_3.7.0.v20110517-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.launching_3.6.0.v20110509.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.debug_3.7.0.v20110509/jdi.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.debug_3.7.0.v20110509/jdimodel.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.debug_3.7.0.v20110509/tools.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.navigator.resources_3.4.300.I20110421-1800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.ui.views.properties.tabbed_3.5.200.I20110201-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.core.manipulation_1.4.0.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.debug.ui_3.6.0.v20110512.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.junit.runtime_3.4.300.v20110505-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.junit_4.8.2.v4_8_2_v20110321-1705/junit.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.jdt.junit.core_3.7.0.v20110518-0800.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.simpleconfigurator.manipulator_2.0.0.v20110502-1955.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.frameworkadmin_2.0.0.v20110502-1955.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.frameworkadmin.equinox_1.0.300.v20110506.jar"/>
+			<pathelement path="../../../../../../Applications/eclipse_new/plugins/org.eclipse.equinox.simpleconfigurator_1.0.200.v20110502-1955.jar"/>
+		</path>
+		<!-- compile the source code -->
+		<javac destdir="${build.result.folder}/@dot" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<compilerarg line="${compilerArg}" compiler="${build.compiler}"/>
+			<classpath refid="@dot.classpath" />
+			<src path="src/"			/>
+			<compilerarg value="@${basedir}/javaCompiler...args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"			/>
+			<compilerarg line="-log &apos;${build.result.folder}/@dot${logExtension}&apos;" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"			/>
+		</javac>
+		<antcall target="checkCompilationResults"/>
+		<!-- Copy necessary resources -->
+		<copy todir="${build.result.folder}/@dot" failonerror="true" overwrite="false">
+			<fileset dir="src/">
+				<exclude name="**/*.java"/>
+				<exclude name="**/package.htm*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="src.zip" depends="init" unless="src.zip">
+		<mkdir dir="${build.result.folder}"/>
+		<antcall target="zip.src.zip"/>
+	</target>
+	<target name="zip.src.zip">
+		<zip destfile="${build.result.folder}/src.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</zip>
+	</target>
+	<target name="copy.src.zip">
+		<copy todir="${source.destination.folder}/" failonerror="true" overwrite="true">
+			<fileset dir="src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: org.eclipse.twig.ui.">
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+		<available property="@dot" file="${build.result.folder}/@dot"/>
+		<antcall target="@dot"/>
+	</target>
+
+	<target name="checkCompilationResults" if="compilation.error.occured">
+		<echo file="${compilation.problem.marker}" message="org.eclipse.twig.ui_1.0.65.201106201116${line.separator}compilation.error.occured=${compilation.error.occured}"/>
+		<eclipse.logCompileError bundle="org.eclipse.twig.ui_1.0.65.201106201116" log="${compilation.prereq.log}">
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.debug.daemon/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.debug.daemon_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.core/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.core_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.ui/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.ui_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.core.index.sql/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.core.index.sql_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.launching/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.launching_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/Twig-Eclipse-Plugin/org.eclipse.twig.test/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.twig.test_1.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/Twig-Eclipse-Plugin/org.eclipse.twig.parser/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.twig.parser_1.0.62.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.server.core/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.server.core_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.core/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.core_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.ui/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.ui_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.core.manipulation/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.core.manipulation_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.dltk.debug/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.dltk.debug_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/Twig-Eclipse-Plugin/org.eclipse.twig.core/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.twig.core_1.0.65.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.debug.core/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.debug.core_3.0.0.201106201116/compilation.problem"/>
+			<include name="/Users/sobert/Documents/workspaces/jetzt_aber/org.eclipse.php.core.parser/compilation.problem"/>
+			<include name="${pluginTemp}/org.eclipse.php.core.parser_3.0.0.201106201116/compilation.problem"/>
+		</eclipse.logCompileError>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="src.zip" file="${build.result.folder}/src.zip"/>
+		<antcall target="src.zip"/>
+	</target>
+
+	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
+		<mkdir dir="${build.result.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="META-INF/MANIFEST.MF"/>
+				<include name="plugin.xml"/>
+				<include name="fragment.xml"/>
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${build.result.folder}" version="1.0.65.201106201116"/>
+		<antcall target="apitools.generation">
+			<param name="target.folder" value="${build.result.folder}"/>
+			<param name="projectLocation" value="${basedir}"/>
+			<param name="binary.folders" value="${build.result.folder}/@dot"/>
+			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
+		</antcall>
+		<eclipse.gatherBundle 
+		   metadataRepository="${p2.build.repo}"
+		   artifactRepository="${p2.build.repo}"
+		   buildResultFolder="${build.result.folder}"
+		   unpack="false"
+		   baseDirectory="${basedir}"
+		/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" failonerror="true" overwrite="false">
+			<fileset dir="${build.result.folder}/@dot">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy todir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="META-INF/"/>
+				<include name="plugin.xml"/>
+				<include name="plugin.properties"/>
+				<include name="ico/"/>
+				<include name="templates/"/>
+				<include name="OSGI-INF/l10n/bundle.properties"/>
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" version="1.0.65.201106201116"/>
+		<antcall target="apitools.generation">
+			<param name="target.folder" value="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+			<param name="projectLocation" value="${basedir}"/>
+			<param name="binary.folders" value="${build.result.folder}/@dot"/>
+			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
+		</antcall>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" failonerror="false" overwrite="false"/>
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+		</antcall>
+	</target>
+
+	<target name="gather.individual.sources" depends="init">
+		<antcall target="copy.src.zip">
+			<param name="source.destination.folder" value="${destination.temp.folder}"/>
+		</antcall>
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}"/>
+		</antcall>
+	</target>
+
+	<target name="copy.src.includes" depends="init">
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.twig.ui_1.0.65.201106201116" failonerror="false" overwrite="false">
+			<fileset dir="${build.result.folder}">
+				<include name="@dot${logExtension}"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.twig.ui of all the zips, jars and logs created.">
+		<delete dir="${build.result.folder}/@dot"/>
+		<delete file="${build.result.folder}/src.zip"/>
+		<delete file="${plugin.destination}/org.eclipse.twig.ui_1.0.65.201106201116.jar"/>
+		<delete file="${plugin.destination}/org.eclipse.twig.ui_1.0.65.201106201116.zip"/>
+		<delete dir="${temp.folder}"/>
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="/Users/sobert/Documents/workspaces/Twig-Eclipse-Plugin/org.eclipse.twig.ui" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.twig.ui.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}">
+				<include name="**/*.bin${logExtension}"/>
+			</fileset>
+		</delete>
+		<zip destfile="${plugin.destination}/org.eclipse.twig.ui_1.0.65.201106201116.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="apitools.generation" if="generateAPIDescription">
+		<apitooling.apigeneration  projectName="${projectName}" project="${projectLocation}" binary="${binary.folders}" target="${target.folder}" extramanifests="${extraManifests}" allownonapiproject="${allowNonApiProject}"		/>
+	</target>
+
+</project>

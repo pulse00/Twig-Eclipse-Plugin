@@ -42,15 +42,19 @@ public class TwigErrorReporter implements IErrorReporter {
 	public void reportError(String header, String message,
 			RecognitionException e) {
 
-		ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
-		
-		if (severity == null || severity == ProblemSeverity.IGNORE)
-			return;
-		
-		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
-				new String[0], severity, offset, offset+1, line);
-		
-		reporter.reportProblem(problem);
+
+		// disabled due to 3.6 incompatibility
+		// see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
+		return;
+//		ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
+//		
+//		if (severity == null || severity == ProblemSeverity.IGNORE)
+//			return;
+//		
+//		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
+//				new String[0], severity, offset, offset+1, line);
+//		
+//		reporter.reportProblem(problem);
 
 	}
 
