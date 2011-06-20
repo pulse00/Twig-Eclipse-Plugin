@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-06-19 21:51:04
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-06-20 09:56:44
 
 package org.eclipse.twig.core.compiler.ast.parser;
 
@@ -221,7 +221,7 @@ public class TwigParser extends Parser {
     };
 
     // $ANTLR start "twig_control_statement"
-    // TwigParser.g:67:1: twig_control_statement : CTRL_OPEN twig_control CTRL_CLOSE ;
+    // TwigParser.g:67:1: twig_control_statement : CTRL_OPEN ( twig_control )? CTRL_CLOSE ;
     public final TwigParser.twig_control_statement_return twig_control_statement() throws RecognitionException {
         TwigParser.twig_control_statement_return retval = new TwigParser.twig_control_statement_return();
         retval.start = input.LT(1);
@@ -237,8 +237,8 @@ public class TwigParser extends Parser {
         TwigCommonTree CTRL_CLOSE5_tree=null;
 
         try {
-            // TwigParser.g:68:3: ( CTRL_OPEN twig_control CTRL_CLOSE )
-            // TwigParser.g:68:5: CTRL_OPEN twig_control CTRL_CLOSE
+            // TwigParser.g:68:3: ( CTRL_OPEN ( twig_control )? CTRL_CLOSE )
+            // TwigParser.g:68:5: CTRL_OPEN ( twig_control )? CTRL_CLOSE
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
@@ -246,13 +246,30 @@ public class TwigParser extends Parser {
             CTRL_OPEN3_tree = (TwigCommonTree)adaptor.create(CTRL_OPEN3);
             adaptor.addChild(root_0, CTRL_OPEN3_tree);
 
-            pushFollow(FOLLOW_twig_control_in_twig_control_statement91);
-            twig_control4=twig_control();
+            // TwigParser.g:68:15: ( twig_control )?
+            int alt2=2;
+            int LA2_0 = input.LA(1);
 
-            state._fsp--;
+            if ( ((LA2_0>=FOR && LA2_0<=ENDIF)||(LA2_0>=MACRO && LA2_0<=INCLUDE)||LA2_0==STRING) ) {
+                alt2=1;
+            }
+            switch (alt2) {
+                case 1 :
+                    // TwigParser.g:68:15: twig_control
+                    {
+                    pushFollow(FOLLOW_twig_control_in_twig_control_statement91);
+                    twig_control4=twig_control();
 
-            adaptor.addChild(root_0, twig_control4.getTree());
-            CTRL_CLOSE5=(CommonToken)match(input,CTRL_CLOSE,FOLLOW_CTRL_CLOSE_in_twig_control_statement93); 
+                    state._fsp--;
+
+                    adaptor.addChild(root_0, twig_control4.getTree());
+
+                    }
+                    break;
+
+            }
+
+            CTRL_CLOSE5=(CommonToken)match(input,CTRL_CLOSE,FOLLOW_CTRL_CLOSE_in_twig_control_statement94); 
             CTRL_CLOSE5_tree = (TwigCommonTree)adaptor.create(CTRL_CLOSE5);
             adaptor.addChild(root_0, CTRL_CLOSE5_tree);
 
@@ -314,76 +331,76 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:73:3: ( twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include )
-            int alt2=10;
+            int alt3=10;
             switch ( input.LA(1) ) {
             case FOR:
                 {
-                alt2=1;
+                alt3=1;
                 }
                 break;
             case ENDFOR:
                 {
-                alt2=2;
+                alt3=2;
                 }
                 break;
             case ELSE:
                 {
-                alt2=3;
+                alt3=3;
                 }
                 break;
             case IF:
             case STRING:
                 {
-                alt2=4;
+                alt3=4;
                 }
                 break;
             case ELSEIF:
                 {
-                alt2=5;
+                alt3=5;
                 }
                 break;
             case ENDIF:
                 {
-                alt2=6;
+                alt3=6;
                 }
                 break;
             case MACRO:
             case ENDMACRO:
                 {
-                alt2=7;
+                alt3=7;
                 }
                 break;
             case IMPORT:
             case FROM:
                 {
-                alt2=8;
+                alt3=8;
                 }
                 break;
             case SET:
             case ENDSET:
                 {
-                alt2=9;
+                alt3=9;
                 }
                 break;
             case INCLUDE:
                 {
-                alt2=10;
+                alt3=10;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 2, 0, input);
+                    new NoViableAltException("", 3, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt2) {
+            switch (alt3) {
                 case 1 :
                     // TwigParser.g:73:5: twig_for
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_for_in_twig_control107);
+                    pushFollow(FOLLOW_twig_for_in_twig_control108);
                     twig_for6=twig_for();
 
                     state._fsp--;
@@ -397,7 +414,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    ENDFOR7=(CommonToken)match(input,ENDFOR,FOLLOW_ENDFOR_in_twig_control111); 
+                    ENDFOR7=(CommonToken)match(input,ENDFOR,FOLLOW_ENDFOR_in_twig_control112); 
                     ENDFOR7_tree = (TwigCommonTree)adaptor.create(ENDFOR7);
                     adaptor.addChild(root_0, ENDFOR7_tree);
 
@@ -409,7 +426,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    ELSE8=(CommonToken)match(input,ELSE,FOLLOW_ELSE_in_twig_control115); 
+                    ELSE8=(CommonToken)match(input,ELSE,FOLLOW_ELSE_in_twig_control116); 
                     ELSE8_tree = (TwigCommonTree)adaptor.create(ELSE8);
                     adaptor.addChild(root_0, ELSE8_tree);
 
@@ -421,7 +438,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_if_in_twig_control119);
+                    pushFollow(FOLLOW_twig_if_in_twig_control120);
                     twig_if9=twig_if();
 
                     state._fsp--;
@@ -435,7 +452,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_elseif_in_twig_control123);
+                    pushFollow(FOLLOW_twig_elseif_in_twig_control124);
                     twig_elseif10=twig_elseif();
 
                     state._fsp--;
@@ -449,7 +466,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    ENDIF11=(CommonToken)match(input,ENDIF,FOLLOW_ENDIF_in_twig_control127); 
+                    ENDIF11=(CommonToken)match(input,ENDIF,FOLLOW_ENDIF_in_twig_control128); 
                     ENDIF11_tree = (TwigCommonTree)adaptor.create(ENDIF11);
                     adaptor.addChild(root_0, ENDIF11_tree);
 
@@ -461,7 +478,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_macro_in_twig_control131);
+                    pushFollow(FOLLOW_twig_macro_in_twig_control132);
                     twig_macro12=twig_macro();
 
                     state._fsp--;
@@ -475,7 +492,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_import_in_twig_control135);
+                    pushFollow(FOLLOW_twig_import_in_twig_control136);
                     twig_import13=twig_import();
 
                     state._fsp--;
@@ -489,7 +506,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_set_in_twig_control139);
+                    pushFollow(FOLLOW_twig_set_in_twig_control140);
                     twig_set14=twig_set();
 
                     state._fsp--;
@@ -503,7 +520,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_twig_include_in_twig_control143);
+                    pushFollow(FOLLOW_twig_include_in_twig_control144);
                     twig_include15=twig_include();
 
                     state._fsp--;
@@ -559,44 +576,44 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            INCLUDE16=(CommonToken)match(input,INCLUDE,FOLLOW_INCLUDE_in_twig_include158); 
+            INCLUDE16=(CommonToken)match(input,INCLUDE,FOLLOW_INCLUDE_in_twig_include159); 
             INCLUDE16_tree = (TwigCommonTree)adaptor.create(INCLUDE16);
             adaptor.addChild(root_0, INCLUDE16_tree);
 
             // TwigParser.g:77:13: ( include_ternary | include_statement )
-            int alt3=2;
-            int LA3_0 = input.LA(1);
+            int alt4=2;
+            int LA4_0 = input.LA(1);
 
-            if ( (LA3_0==STRING_LITERAL) ) {
-                int LA3_1 = input.LA(2);
+            if ( (LA4_0==STRING_LITERAL) ) {
+                int LA4_1 = input.LA(2);
 
-                if ( (LA3_1==QM) ) {
-                    alt3=1;
+                if ( (LA4_1==QM) ) {
+                    alt4=1;
                 }
-                else if ( (LA3_1==CTRL_CLOSE||(LA3_1>=WITH && LA3_1<=ONLY)) ) {
-                    alt3=2;
+                else if ( (LA4_1==CTRL_CLOSE||(LA4_1>=WITH && LA4_1<=ONLY)) ) {
+                    alt4=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 3, 1, input);
+                        new NoViableAltException("", 4, 1, input);
 
                     throw nvae;
                 }
             }
-            else if ( (LA3_0==NUMBER||LA3_0==STRING) ) {
-                alt3=1;
+            else if ( (LA4_0==NUMBER||LA4_0==STRING) ) {
+                alt4=1;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 3, 0, input);
+                    new NoViableAltException("", 4, 0, input);
 
                 throw nvae;
             }
-            switch (alt3) {
+            switch (alt4) {
                 case 1 :
                     // TwigParser.g:77:14: include_ternary
                     {
-                    pushFollow(FOLLOW_include_ternary_in_twig_include161);
+                    pushFollow(FOLLOW_include_ternary_in_twig_include162);
                     include_ternary17=include_ternary();
 
                     state._fsp--;
@@ -608,7 +625,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:77:32: include_statement
                     {
-                    pushFollow(FOLLOW_include_statement_in_twig_include165);
+                    pushFollow(FOLLOW_include_statement_in_twig_include166);
                     include_statement18=include_statement();
 
                     state._fsp--;
@@ -666,24 +683,24 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_twig_ternary_in_include_ternary181);
+            pushFollow(FOLLOW_twig_ternary_in_include_ternary182);
             twig_ternary19=twig_ternary();
 
             state._fsp--;
 
             adaptor.addChild(root_0, twig_ternary19.getTree());
             // TwigParser.g:81:18: ( ONLY )?
-            int alt4=2;
-            int LA4_0 = input.LA(1);
+            int alt5=2;
+            int LA5_0 = input.LA(1);
 
-            if ( (LA4_0==ONLY) ) {
-                alt4=1;
+            if ( (LA5_0==ONLY) ) {
+                alt5=1;
             }
-            switch (alt4) {
+            switch (alt5) {
                 case 1 :
                     // TwigParser.g:81:18: ONLY
                     {
-                    ONLY20=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_ternary183); 
+                    ONLY20=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_ternary184); 
                     ONLY20_tree = (TwigCommonTree)adaptor.create(ONLY20);
                     adaptor.addChild(root_0, ONLY20_tree);
 
@@ -754,7 +771,7 @@ public class TwigParser extends Parser {
             // TwigParser.g:85:5: ( STRING_LITERAL )
             // TwigParser.g:85:6: STRING_LITERAL
             {
-            STRING_LITERAL21=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_include_statement200); 
+            STRING_LITERAL21=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_include_statement201); 
             STRING_LITERAL21_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL21);
             adaptor.addChild(root_0, STRING_LITERAL21_tree);
 
@@ -762,17 +779,17 @@ public class TwigParser extends Parser {
             }
 
             // TwigParser.g:85:22: ( ONLY )?
-            int alt5=2;
-            int LA5_0 = input.LA(1);
+            int alt6=2;
+            int LA6_0 = input.LA(1);
 
-            if ( (LA5_0==ONLY) ) {
-                alt5=1;
+            if ( (LA6_0==ONLY) ) {
+                alt6=1;
             }
-            switch (alt5) {
+            switch (alt6) {
                 case 1 :
                     // TwigParser.g:85:22: ONLY
                     {
-                    ONLY22=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_statement203); 
+                    ONLY22=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_statement204); 
                     ONLY22_tree = (TwigCommonTree)adaptor.create(ONLY22);
                     adaptor.addChild(root_0, ONLY22_tree);
 
@@ -783,28 +800,28 @@ public class TwigParser extends Parser {
             }
 
             // TwigParser.g:85:28: ( WITH ( variable | STRING_LITERAL | method | json ) ( ONLY )? )?
-            int alt8=2;
-            int LA8_0 = input.LA(1);
+            int alt9=2;
+            int LA9_0 = input.LA(1);
 
-            if ( (LA8_0==WITH) ) {
-                alt8=1;
+            if ( (LA9_0==WITH) ) {
+                alt9=1;
             }
-            switch (alt8) {
+            switch (alt9) {
                 case 1 :
                     // TwigParser.g:85:29: WITH ( variable | STRING_LITERAL | method | json ) ( ONLY )?
                     {
-                    WITH23=(CommonToken)match(input,WITH,FOLLOW_WITH_in_include_statement207); 
+                    WITH23=(CommonToken)match(input,WITH,FOLLOW_WITH_in_include_statement208); 
                     WITH23_tree = (TwigCommonTree)adaptor.create(WITH23);
                     adaptor.addChild(root_0, WITH23_tree);
 
                     // TwigParser.g:85:34: ( variable | STRING_LITERAL | method | json )
-                    int alt6=4;
-                    alt6 = dfa6.predict(input);
-                    switch (alt6) {
+                    int alt7=4;
+                    alt7 = dfa7.predict(input);
+                    switch (alt7) {
                         case 1 :
                             // TwigParser.g:85:35: variable
                             {
-                            pushFollow(FOLLOW_variable_in_include_statement210);
+                            pushFollow(FOLLOW_variable_in_include_statement211);
                             variable24=variable();
 
                             state._fsp--;
@@ -816,7 +833,7 @@ public class TwigParser extends Parser {
                         case 2 :
                             // TwigParser.g:85:46: STRING_LITERAL
                             {
-                            STRING_LITERAL25=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_include_statement214); 
+                            STRING_LITERAL25=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_include_statement215); 
                             STRING_LITERAL25_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL25);
                             adaptor.addChild(root_0, STRING_LITERAL25_tree);
 
@@ -826,7 +843,7 @@ public class TwigParser extends Parser {
                         case 3 :
                             // TwigParser.g:85:63: method
                             {
-                            pushFollow(FOLLOW_method_in_include_statement218);
+                            pushFollow(FOLLOW_method_in_include_statement219);
                             method26=method();
 
                             state._fsp--;
@@ -838,7 +855,7 @@ public class TwigParser extends Parser {
                         case 4 :
                             // TwigParser.g:85:72: json
                             {
-                            pushFollow(FOLLOW_json_in_include_statement222);
+                            pushFollow(FOLLOW_json_in_include_statement223);
                             json27=json();
 
                             state._fsp--;
@@ -851,17 +868,17 @@ public class TwigParser extends Parser {
                     }
 
                     // TwigParser.g:85:78: ( ONLY )?
-                    int alt7=2;
-                    int LA7_0 = input.LA(1);
+                    int alt8=2;
+                    int LA8_0 = input.LA(1);
 
-                    if ( (LA7_0==ONLY) ) {
-                        alt7=1;
+                    if ( (LA8_0==ONLY) ) {
+                        alt8=1;
                     }
-                    switch (alt7) {
+                    switch (alt8) {
                         case 1 :
                             // TwigParser.g:85:78: ONLY
                             {
-                            ONLY28=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_statement225); 
+                            ONLY28=(CommonToken)match(input,ONLY,FOLLOW_ONLY_in_include_statement226); 
                             ONLY28_tree = (TwigCommonTree)adaptor.create(ONLY28);
                             adaptor.addChild(root_0, ONLY28_tree);
 
@@ -925,22 +942,22 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:89:3: ( ( SET twig_assignment ( COMMA twig_assignment )* ) | ENDSET )
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            int alt11=2;
+            int LA11_0 = input.LA(1);
 
-            if ( (LA10_0==SET) ) {
-                alt10=1;
+            if ( (LA11_0==SET) ) {
+                alt11=1;
             }
-            else if ( (LA10_0==ENDSET) ) {
-                alt10=2;
+            else if ( (LA11_0==ENDSET) ) {
+                alt11=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 10, 0, input);
+                    new NoViableAltException("", 11, 0, input);
 
                 throw nvae;
             }
-            switch (alt10) {
+            switch (alt11) {
                 case 1 :
                     // TwigParser.g:89:5: ( SET twig_assignment ( COMMA twig_assignment )* )
                     {
@@ -949,36 +966,36 @@ public class TwigParser extends Parser {
                     // TwigParser.g:89:5: ( SET twig_assignment ( COMMA twig_assignment )* )
                     // TwigParser.g:89:6: SET twig_assignment ( COMMA twig_assignment )*
                     {
-                    SET29=(CommonToken)match(input,SET,FOLLOW_SET_in_twig_set244); 
+                    SET29=(CommonToken)match(input,SET,FOLLOW_SET_in_twig_set245); 
                     SET29_tree = (TwigCommonTree)adaptor.create(SET29);
                     adaptor.addChild(root_0, SET29_tree);
 
-                    pushFollow(FOLLOW_twig_assignment_in_twig_set246);
+                    pushFollow(FOLLOW_twig_assignment_in_twig_set247);
                     twig_assignment30=twig_assignment();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, twig_assignment30.getTree());
                     // TwigParser.g:89:26: ( COMMA twig_assignment )*
-                    loop9:
+                    loop10:
                     do {
-                        int alt9=2;
-                        int LA9_0 = input.LA(1);
+                        int alt10=2;
+                        int LA10_0 = input.LA(1);
 
-                        if ( (LA9_0==COMMA) ) {
-                            alt9=1;
+                        if ( (LA10_0==COMMA) ) {
+                            alt10=1;
                         }
 
 
-                        switch (alt9) {
+                        switch (alt10) {
                     	case 1 :
                     	    // TwigParser.g:89:27: COMMA twig_assignment
                     	    {
-                    	    COMMA31=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_set249); 
+                    	    COMMA31=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_set250); 
                     	    COMMA31_tree = (TwigCommonTree)adaptor.create(COMMA31);
                     	    adaptor.addChild(root_0, COMMA31_tree);
 
-                    	    pushFollow(FOLLOW_twig_assignment_in_twig_set251);
+                    	    pushFollow(FOLLOW_twig_assignment_in_twig_set252);
                     	    twig_assignment32=twig_assignment();
 
                     	    state._fsp--;
@@ -989,7 +1006,7 @@ public class TwigParser extends Parser {
                     	    break;
 
                     	default :
-                    	    break loop9;
+                    	    break loop10;
                         }
                     } while (true);
 
@@ -1004,7 +1021,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    ENDSET33=(CommonToken)match(input,ENDSET,FOLLOW_ENDSET_in_twig_set258); 
+                    ENDSET33=(CommonToken)match(input,ENDSET,FOLLOW_ENDSET_in_twig_set259); 
                     ENDSET33_tree = (TwigCommonTree)adaptor.create(ENDSET33);
                     adaptor.addChild(root_0, ENDSET33_tree);
 
@@ -1058,28 +1075,28 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_twig_left_assignment_in_twig_assignment273);
+            pushFollow(FOLLOW_twig_left_assignment_in_twig_assignment274);
             twig_left_assignment34=twig_left_assignment();
 
             state._fsp--;
 
             adaptor.addChild(root_0, twig_left_assignment34.getTree());
             // TwigParser.g:93:27: ( ASIG twig_right_assignment )?
-            int alt11=2;
-            int LA11_0 = input.LA(1);
+            int alt12=2;
+            int LA12_0 = input.LA(1);
 
-            if ( (LA11_0==ASIG) ) {
-                alt11=1;
+            if ( (LA12_0==ASIG) ) {
+                alt12=1;
             }
-            switch (alt11) {
+            switch (alt12) {
                 case 1 :
                     // TwigParser.g:93:28: ASIG twig_right_assignment
                     {
-                    ASIG35=(CommonToken)match(input,ASIG,FOLLOW_ASIG_in_twig_assignment276); 
+                    ASIG35=(CommonToken)match(input,ASIG,FOLLOW_ASIG_in_twig_assignment277); 
                     ASIG35_tree = (TwigCommonTree)adaptor.create(ASIG35);
                     adaptor.addChild(root_0, ASIG35_tree);
 
-                    pushFollow(FOLLOW_twig_right_assignment_in_twig_assignment278);
+                    pushFollow(FOLLOW_twig_right_assignment_in_twig_assignment279);
                     twig_right_assignment36=twig_right_assignment();
 
                     state._fsp--;
@@ -1142,38 +1159,38 @@ public class TwigParser extends Parser {
             // TwigParser.g:97:5: ( variable ( COMMA variable )* )
             // TwigParser.g:97:6: variable ( COMMA variable )*
             {
-            pushFollow(FOLLOW_variable_in_twig_left_assignment296);
+            pushFollow(FOLLOW_variable_in_twig_left_assignment297);
             variable37=variable();
 
             state._fsp--;
 
             adaptor.addChild(root_0, variable37.getTree());
             // TwigParser.g:97:15: ( COMMA variable )*
-            loop12:
+            loop13:
             do {
-                int alt12=2;
-                int LA12_0 = input.LA(1);
+                int alt13=2;
+                int LA13_0 = input.LA(1);
 
-                if ( (LA12_0==COMMA) ) {
-                    int LA12_2 = input.LA(2);
+                if ( (LA13_0==COMMA) ) {
+                    int LA13_2 = input.LA(2);
 
-                    if ( (LA12_2==STRING) ) {
-                        alt12=1;
+                    if ( (LA13_2==STRING) ) {
+                        alt13=1;
                     }
 
 
                 }
 
 
-                switch (alt12) {
+                switch (alt13) {
             	case 1 :
             	    // TwigParser.g:97:16: COMMA variable
             	    {
-            	    COMMA38=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_left_assignment299); 
+            	    COMMA38=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_left_assignment300); 
             	    COMMA38_tree = (TwigCommonTree)adaptor.create(COMMA38);
             	    adaptor.addChild(root_0, COMMA38_tree);
 
-            	    pushFollow(FOLLOW_variable_in_twig_left_assignment301);
+            	    pushFollow(FOLLOW_variable_in_twig_left_assignment302);
             	    variable39=variable();
 
             	    state._fsp--;
@@ -1184,7 +1201,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop12;
+            	    break loop13;
                 }
             } while (true);
 
@@ -1260,13 +1277,13 @@ public class TwigParser extends Parser {
             root_0 = (TwigCommonTree)adaptor.nil();
 
             // TwigParser.g:101:5: ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )
-            int alt13=6;
-            alt13 = dfa13.predict(input);
-            switch (alt13) {
+            int alt14=6;
+            alt14 = dfa14.predict(input);
+            switch (alt14) {
                 case 1 :
                     // TwigParser.g:101:6: STRING_LITERAL
                     {
-                    STRING_LITERAL40=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_right_assignment320); 
+                    STRING_LITERAL40=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_right_assignment321); 
                     STRING_LITERAL40_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL40);
                     adaptor.addChild(root_0, STRING_LITERAL40_tree);
 
@@ -1276,7 +1293,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:101:23: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_right_assignment324);
+                    pushFollow(FOLLOW_variable_in_twig_right_assignment325);
                     variable41=variable();
 
                     state._fsp--;
@@ -1288,7 +1305,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:101:34: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_right_assignment328);
+                    pushFollow(FOLLOW_method_in_twig_right_assignment329);
                     method42=method();
 
                     state._fsp--;
@@ -1300,7 +1317,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:101:43: array
                     {
-                    pushFollow(FOLLOW_array_in_twig_right_assignment332);
+                    pushFollow(FOLLOW_array_in_twig_right_assignment333);
                     array43=array();
 
                     state._fsp--;
@@ -1312,7 +1329,7 @@ public class TwigParser extends Parser {
                 case 5 :
                     // TwigParser.g:101:51: json
                     {
-                    pushFollow(FOLLOW_json_in_twig_right_assignment336);
+                    pushFollow(FOLLOW_json_in_twig_right_assignment337);
                     json44=json();
 
                     state._fsp--;
@@ -1324,7 +1341,7 @@ public class TwigParser extends Parser {
                 case 6 :
                     // TwigParser.g:101:58: twig_tilde_argument
                     {
-                    pushFollow(FOLLOW_twig_tilde_argument_in_twig_right_assignment340);
+                    pushFollow(FOLLOW_twig_tilde_argument_in_twig_right_assignment341);
                     twig_tilde_argument45=twig_tilde_argument();
 
                     state._fsp--;
@@ -1337,38 +1354,38 @@ public class TwigParser extends Parser {
             }
 
             // TwigParser.g:101:79: ( COMMA ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument ) )*
-            loop15:
+            loop16:
             do {
-                int alt15=2;
-                int LA15_0 = input.LA(1);
+                int alt16=2;
+                int LA16_0 = input.LA(1);
 
-                if ( (LA15_0==COMMA) ) {
-                    int LA15_1 = input.LA(2);
+                if ( (LA16_0==COMMA) ) {
+                    int LA16_1 = input.LA(2);
 
-                    if ( (LA15_1==ARRAY_START||LA15_1==JSON_START||LA15_1==STRING||LA15_1==STRING_LITERAL) ) {
-                        alt15=1;
+                    if ( (LA16_1==ARRAY_START||LA16_1==JSON_START||LA16_1==STRING||LA16_1==STRING_LITERAL) ) {
+                        alt16=1;
                     }
 
 
                 }
 
 
-                switch (alt15) {
+                switch (alt16) {
             	case 1 :
             	    // TwigParser.g:101:80: COMMA ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )
             	    {
-            	    COMMA46=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_right_assignment344); 
+            	    COMMA46=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_right_assignment345); 
             	    COMMA46_tree = (TwigCommonTree)adaptor.create(COMMA46);
             	    adaptor.addChild(root_0, COMMA46_tree);
 
             	    // TwigParser.g:101:86: ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )
-            	    int alt14=6;
-            	    alt14 = dfa14.predict(input);
-            	    switch (alt14) {
+            	    int alt15=6;
+            	    alt15 = dfa15.predict(input);
+            	    switch (alt15) {
             	        case 1 :
             	            // TwigParser.g:101:87: STRING_LITERAL
             	            {
-            	            STRING_LITERAL47=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_right_assignment347); 
+            	            STRING_LITERAL47=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_right_assignment348); 
             	            STRING_LITERAL47_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL47);
             	            adaptor.addChild(root_0, STRING_LITERAL47_tree);
 
@@ -1378,7 +1395,7 @@ public class TwigParser extends Parser {
             	        case 2 :
             	            // TwigParser.g:101:104: variable
             	            {
-            	            pushFollow(FOLLOW_variable_in_twig_right_assignment351);
+            	            pushFollow(FOLLOW_variable_in_twig_right_assignment352);
             	            variable48=variable();
 
             	            state._fsp--;
@@ -1390,7 +1407,7 @@ public class TwigParser extends Parser {
             	        case 3 :
             	            // TwigParser.g:101:115: method
             	            {
-            	            pushFollow(FOLLOW_method_in_twig_right_assignment355);
+            	            pushFollow(FOLLOW_method_in_twig_right_assignment356);
             	            method49=method();
 
             	            state._fsp--;
@@ -1402,7 +1419,7 @@ public class TwigParser extends Parser {
             	        case 4 :
             	            // TwigParser.g:101:124: array
             	            {
-            	            pushFollow(FOLLOW_array_in_twig_right_assignment359);
+            	            pushFollow(FOLLOW_array_in_twig_right_assignment360);
             	            array50=array();
 
             	            state._fsp--;
@@ -1414,7 +1431,7 @@ public class TwigParser extends Parser {
             	        case 5 :
             	            // TwigParser.g:101:132: json
             	            {
-            	            pushFollow(FOLLOW_json_in_twig_right_assignment363);
+            	            pushFollow(FOLLOW_json_in_twig_right_assignment364);
             	            json51=json();
 
             	            state._fsp--;
@@ -1426,7 +1443,7 @@ public class TwigParser extends Parser {
             	        case 6 :
             	            // TwigParser.g:101:139: twig_tilde_argument
             	            {
-            	            pushFollow(FOLLOW_twig_tilde_argument_in_twig_right_assignment367);
+            	            pushFollow(FOLLOW_twig_tilde_argument_in_twig_right_assignment368);
             	            twig_tilde_argument52=twig_tilde_argument();
 
             	            state._fsp--;
@@ -1443,7 +1460,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop15;
+            	    break loop16;
                 }
             } while (true);
 
@@ -1512,13 +1529,13 @@ public class TwigParser extends Parser {
             root_0 = (TwigCommonTree)adaptor.nil();
 
             // TwigParser.g:105:5: ( STRING_LITERAL | variable | method | array | json )
-            int alt16=5;
-            alt16 = dfa16.predict(input);
-            switch (alt16) {
+            int alt17=5;
+            alt17 = dfa17.predict(input);
+            switch (alt17) {
                 case 1 :
                     // TwigParser.g:105:6: STRING_LITERAL
                     {
-                    STRING_LITERAL53=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_tilde_argument386); 
+                    STRING_LITERAL53=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_tilde_argument387); 
                     STRING_LITERAL53_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL53);
                     adaptor.addChild(root_0, STRING_LITERAL53_tree);
 
@@ -1528,7 +1545,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:105:23: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_tilde_argument390);
+                    pushFollow(FOLLOW_variable_in_twig_tilde_argument391);
                     variable54=variable();
 
                     state._fsp--;
@@ -1540,7 +1557,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:105:34: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_tilde_argument394);
+                    pushFollow(FOLLOW_method_in_twig_tilde_argument395);
                     method55=method();
 
                     state._fsp--;
@@ -1552,7 +1569,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:105:43: array
                     {
-                    pushFollow(FOLLOW_array_in_twig_tilde_argument398);
+                    pushFollow(FOLLOW_array_in_twig_tilde_argument399);
                     array56=array();
 
                     state._fsp--;
@@ -1564,7 +1581,7 @@ public class TwigParser extends Parser {
                 case 5 :
                     // TwigParser.g:105:51: json
                     {
-                    pushFollow(FOLLOW_json_in_twig_tilde_argument402);
+                    pushFollow(FOLLOW_json_in_twig_tilde_argument403);
                     json57=json();
 
                     state._fsp--;
@@ -1576,18 +1593,18 @@ public class TwigParser extends Parser {
 
             }
 
-            TILDE58=(CommonToken)match(input,TILDE,FOLLOW_TILDE_in_twig_tilde_argument405); 
+            TILDE58=(CommonToken)match(input,TILDE,FOLLOW_TILDE_in_twig_tilde_argument406); 
             TILDE58_tree = (TwigCommonTree)adaptor.create(TILDE58);
             adaptor.addChild(root_0, TILDE58_tree);
 
             // TwigParser.g:105:63: ( STRING_LITERAL | variable | method | array | json )
-            int alt17=5;
-            alt17 = dfa17.predict(input);
-            switch (alt17) {
+            int alt18=5;
+            alt18 = dfa18.predict(input);
+            switch (alt18) {
                 case 1 :
                     // TwigParser.g:105:64: STRING_LITERAL
                     {
-                    STRING_LITERAL59=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_tilde_argument408); 
+                    STRING_LITERAL59=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_tilde_argument409); 
                     STRING_LITERAL59_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL59);
                     adaptor.addChild(root_0, STRING_LITERAL59_tree);
 
@@ -1597,7 +1614,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:105:81: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_tilde_argument412);
+                    pushFollow(FOLLOW_variable_in_twig_tilde_argument413);
                     variable60=variable();
 
                     state._fsp--;
@@ -1609,7 +1626,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:105:92: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_tilde_argument416);
+                    pushFollow(FOLLOW_method_in_twig_tilde_argument417);
                     method61=method();
 
                     state._fsp--;
@@ -1621,7 +1638,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:105:101: array
                     {
-                    pushFollow(FOLLOW_array_in_twig_tilde_argument420);
+                    pushFollow(FOLLOW_array_in_twig_tilde_argument421);
                     array62=array();
 
                     state._fsp--;
@@ -1633,7 +1650,7 @@ public class TwigParser extends Parser {
                 case 5 :
                     // TwigParser.g:105:109: json
                     {
-                    pushFollow(FOLLOW_json_in_twig_tilde_argument424);
+                    pushFollow(FOLLOW_json_in_twig_tilde_argument425);
                     json63=json();
 
                     state._fsp--;
@@ -1706,24 +1723,24 @@ public class TwigParser extends Parser {
             root_0 = (TwigCommonTree)adaptor.nil();
 
             // TwigParser.g:109:5: ( FROM ( STRING_LITERAL ) )?
-            int alt18=2;
-            int LA18_0 = input.LA(1);
+            int alt19=2;
+            int LA19_0 = input.LA(1);
 
-            if ( (LA18_0==FROM) ) {
-                alt18=1;
+            if ( (LA19_0==FROM) ) {
+                alt19=1;
             }
-            switch (alt18) {
+            switch (alt19) {
                 case 1 :
                     // TwigParser.g:109:6: FROM ( STRING_LITERAL )
                     {
-                    FROM64=(CommonToken)match(input,FROM,FOLLOW_FROM_in_twig_import441); 
+                    FROM64=(CommonToken)match(input,FROM,FOLLOW_FROM_in_twig_import442); 
                     FROM64_tree = (TwigCommonTree)adaptor.create(FROM64);
                     adaptor.addChild(root_0, FROM64_tree);
 
                     // TwigParser.g:109:11: ( STRING_LITERAL )
                     // TwigParser.g:109:12: STRING_LITERAL
                     {
-                    STRING_LITERAL65=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_import444); 
+                    STRING_LITERAL65=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_import445); 
                     STRING_LITERAL65_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL65);
                     adaptor.addChild(root_0, STRING_LITERAL65_tree);
 
@@ -1736,31 +1753,31 @@ public class TwigParser extends Parser {
 
             }
 
-            IMPORT66=(CommonToken)match(input,IMPORT,FOLLOW_IMPORT_in_twig_import449); 
+            IMPORT66=(CommonToken)match(input,IMPORT,FOLLOW_IMPORT_in_twig_import450); 
             IMPORT66_tree = (TwigCommonTree)adaptor.create(IMPORT66);
             adaptor.addChild(root_0, IMPORT66_tree);
 
             // TwigParser.g:109:37: ( STRING_LITERAL | variable )
-            int alt19=2;
-            int LA19_0 = input.LA(1);
+            int alt20=2;
+            int LA20_0 = input.LA(1);
 
-            if ( (LA19_0==STRING_LITERAL) ) {
-                alt19=1;
+            if ( (LA20_0==STRING_LITERAL) ) {
+                alt20=1;
             }
-            else if ( (LA19_0==STRING) ) {
-                alt19=2;
+            else if ( (LA20_0==STRING) ) {
+                alt20=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 19, 0, input);
+                    new NoViableAltException("", 20, 0, input);
 
                 throw nvae;
             }
-            switch (alt19) {
+            switch (alt20) {
                 case 1 :
                     // TwigParser.g:109:38: STRING_LITERAL
                     {
-                    STRING_LITERAL67=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_import452); 
+                    STRING_LITERAL67=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_import453); 
                     STRING_LITERAL67_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL67);
                     adaptor.addChild(root_0, STRING_LITERAL67_tree);
 
@@ -1770,7 +1787,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:109:55: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_import456);
+                    pushFollow(FOLLOW_variable_in_twig_import457);
                     variable68=variable();
 
                     state._fsp--;
@@ -1783,47 +1800,47 @@ public class TwigParser extends Parser {
             }
 
             // TwigParser.g:109:65: ( TWIG_AS ( STRING ( COMMA STRING )* ) )?
-            int alt21=2;
-            int LA21_0 = input.LA(1);
+            int alt22=2;
+            int LA22_0 = input.LA(1);
 
-            if ( (LA21_0==TWIG_AS) ) {
-                alt21=1;
+            if ( (LA22_0==TWIG_AS) ) {
+                alt22=1;
             }
-            switch (alt21) {
+            switch (alt22) {
                 case 1 :
                     // TwigParser.g:109:66: TWIG_AS ( STRING ( COMMA STRING )* )
                     {
-                    TWIG_AS69=(CommonToken)match(input,TWIG_AS,FOLLOW_TWIG_AS_in_twig_import460); 
+                    TWIG_AS69=(CommonToken)match(input,TWIG_AS,FOLLOW_TWIG_AS_in_twig_import461); 
                     TWIG_AS69_tree = (TwigCommonTree)adaptor.create(TWIG_AS69);
                     adaptor.addChild(root_0, TWIG_AS69_tree);
 
                     // TwigParser.g:109:74: ( STRING ( COMMA STRING )* )
                     // TwigParser.g:109:75: STRING ( COMMA STRING )*
                     {
-                    STRING70=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_import463); 
+                    STRING70=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_import464); 
                     STRING70_tree = (TwigCommonTree)adaptor.create(STRING70);
                     adaptor.addChild(root_0, STRING70_tree);
 
                     // TwigParser.g:109:82: ( COMMA STRING )*
-                    loop20:
+                    loop21:
                     do {
-                        int alt20=2;
-                        int LA20_0 = input.LA(1);
+                        int alt21=2;
+                        int LA21_0 = input.LA(1);
 
-                        if ( (LA20_0==COMMA) ) {
-                            alt20=1;
+                        if ( (LA21_0==COMMA) ) {
+                            alt21=1;
                         }
 
 
-                        switch (alt20) {
+                        switch (alt21) {
                     	case 1 :
                     	    // TwigParser.g:109:83: COMMA STRING
                     	    {
-                    	    COMMA71=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_import466); 
+                    	    COMMA71=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_twig_import467); 
                     	    COMMA71_tree = (TwigCommonTree)adaptor.create(COMMA71);
                     	    adaptor.addChild(root_0, COMMA71_tree);
 
-                    	    STRING72=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_import468); 
+                    	    STRING72=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_import469); 
                     	    STRING72_tree = (TwigCommonTree)adaptor.create(STRING72);
                     	    adaptor.addChild(root_0, STRING72_tree);
 
@@ -1832,7 +1849,7 @@ public class TwigParser extends Parser {
                     	    break;
 
                     	default :
-                    	    break loop20;
+                    	    break loop21;
                         }
                     } while (true);
 
@@ -1891,22 +1908,22 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:113:3: ( ( MACRO ( variable | method ) ) | ENDMACRO )
-            int alt23=2;
-            int LA23_0 = input.LA(1);
+            int alt24=2;
+            int LA24_0 = input.LA(1);
 
-            if ( (LA23_0==MACRO) ) {
-                alt23=1;
+            if ( (LA24_0==MACRO) ) {
+                alt24=1;
             }
-            else if ( (LA23_0==ENDMACRO) ) {
-                alt23=2;
+            else if ( (LA24_0==ENDMACRO) ) {
+                alt24=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 23, 0, input);
+                    new NoViableAltException("", 24, 0, input);
 
                 throw nvae;
             }
-            switch (alt23) {
+            switch (alt24) {
                 case 1 :
                     // TwigParser.g:113:5: ( MACRO ( variable | method ) )
                     {
@@ -1915,18 +1932,18 @@ public class TwigParser extends Parser {
                     // TwigParser.g:113:5: ( MACRO ( variable | method ) )
                     // TwigParser.g:113:6: MACRO ( variable | method )
                     {
-                    MACRO73=(CommonToken)match(input,MACRO,FOLLOW_MACRO_in_twig_macro490); 
+                    MACRO73=(CommonToken)match(input,MACRO,FOLLOW_MACRO_in_twig_macro491); 
                     MACRO73_tree = (TwigCommonTree)adaptor.create(MACRO73);
                     adaptor.addChild(root_0, MACRO73_tree);
 
                     // TwigParser.g:113:12: ( variable | method )
-                    int alt22=2;
-                    alt22 = dfa22.predict(input);
-                    switch (alt22) {
+                    int alt23=2;
+                    alt23 = dfa23.predict(input);
+                    switch (alt23) {
                         case 1 :
                             // TwigParser.g:113:13: variable
                             {
-                            pushFollow(FOLLOW_variable_in_twig_macro493);
+                            pushFollow(FOLLOW_variable_in_twig_macro494);
                             variable74=variable();
 
                             state._fsp--;
@@ -1938,7 +1955,7 @@ public class TwigParser extends Parser {
                         case 2 :
                             // TwigParser.g:113:24: method
                             {
-                            pushFollow(FOLLOW_method_in_twig_macro497);
+                            pushFollow(FOLLOW_method_in_twig_macro498);
                             method75=method();
 
                             state._fsp--;
@@ -1961,7 +1978,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    ENDMACRO76=(CommonToken)match(input,ENDMACRO,FOLLOW_ENDMACRO_in_twig_macro503); 
+                    ENDMACRO76=(CommonToken)match(input,ENDMACRO,FOLLOW_ENDMACRO_in_twig_macro504); 
                     ENDMACRO76_tree = (TwigCommonTree)adaptor.create(ENDMACRO76);
                     adaptor.addChild(root_0, ENDMACRO76_tree);
 
@@ -2011,32 +2028,32 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:117:3: ( IF variable | method )
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA24_0==IF) ) {
-                alt24=1;
+            if ( (LA25_0==IF) ) {
+                alt25=1;
             }
-            else if ( (LA24_0==STRING) ) {
-                alt24=2;
+            else if ( (LA25_0==STRING) ) {
+                alt25=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 24, 0, input);
+                    new NoViableAltException("", 25, 0, input);
 
                 throw nvae;
             }
-            switch (alt24) {
+            switch (alt25) {
                 case 1 :
                     // TwigParser.g:117:5: IF variable
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    IF77=(CommonToken)match(input,IF,FOLLOW_IF_in_twig_if518); 
+                    IF77=(CommonToken)match(input,IF,FOLLOW_IF_in_twig_if519); 
                     IF77_tree = (TwigCommonTree)adaptor.create(IF77);
                     adaptor.addChild(root_0, IF77_tree);
 
-                    pushFollow(FOLLOW_variable_in_twig_if520);
+                    pushFollow(FOLLOW_variable_in_twig_if521);
                     variable78=variable();
 
                     state._fsp--;
@@ -2050,7 +2067,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_method_in_twig_if524);
+                    pushFollow(FOLLOW_method_in_twig_if525);
                     method79=method();
 
                     state._fsp--;
@@ -2106,18 +2123,18 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            ELSEIF80=(CommonToken)match(input,ELSEIF,FOLLOW_ELSEIF_in_twig_elseif539); 
+            ELSEIF80=(CommonToken)match(input,ELSEIF,FOLLOW_ELSEIF_in_twig_elseif540); 
             ELSEIF80_tree = (TwigCommonTree)adaptor.create(ELSEIF80);
             adaptor.addChild(root_0, ELSEIF80_tree);
 
             // TwigParser.g:121:12: ( variable | method )
-            int alt25=2;
-            alt25 = dfa25.predict(input);
-            switch (alt25) {
+            int alt26=2;
+            alt26 = dfa26.predict(input);
+            switch (alt26) {
                 case 1 :
                     // TwigParser.g:121:13: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_elseif542);
+                    pushFollow(FOLLOW_variable_in_twig_elseif543);
                     variable81=variable();
 
                     state._fsp--;
@@ -2129,7 +2146,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:121:24: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_elseif546);
+                    pushFollow(FOLLOW_method_in_twig_elseif547);
                     method82=method();
 
                     state._fsp--;
@@ -2191,19 +2208,19 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            FOR83=(CommonToken)match(input,FOR,FOLLOW_FOR_in_twig_for562); 
+            FOR83=(CommonToken)match(input,FOR,FOLLOW_FOR_in_twig_for563); 
             FOR83_tree = (TwigCommonTree)adaptor.create(FOR83);
             adaptor.addChild(root_0, FOR83_tree);
 
-            STRING84=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_for564); 
+            STRING84=(CommonToken)match(input,STRING,FOLLOW_STRING_in_twig_for565); 
             STRING84_tree = (TwigCommonTree)adaptor.create(STRING84);
             adaptor.addChild(root_0, STRING84_tree);
 
-            IN85=(CommonToken)match(input,IN,FOLLOW_IN_in_twig_for566); 
+            IN85=(CommonToken)match(input,IN,FOLLOW_IN_in_twig_for567); 
             IN85_tree = (TwigCommonTree)adaptor.create(IN85);
             adaptor.addChild(root_0, IN85_tree);
 
-            pushFollow(FOLLOW_for_arguments_in_twig_for568);
+            pushFollow(FOLLOW_for_arguments_in_twig_for569);
             for_arguments86=for_arguments();
 
             state._fsp--;
@@ -2257,32 +2274,32 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_for_value_in_for_arguments583);
+            pushFollow(FOLLOW_for_value_in_for_arguments584);
             for_value87=for_value();
 
             state._fsp--;
 
             adaptor.addChild(root_0, for_value87.getTree());
             // TwigParser.g:129:15: ( PIPE for_value )*
-            loop26:
+            loop27:
             do {
-                int alt26=2;
-                int LA26_0 = input.LA(1);
+                int alt27=2;
+                int LA27_0 = input.LA(1);
 
-                if ( (LA26_0==PIPE) ) {
-                    alt26=1;
+                if ( (LA27_0==PIPE) ) {
+                    alt27=1;
                 }
 
 
-                switch (alt26) {
+                switch (alt27) {
             	case 1 :
             	    // TwigParser.g:129:16: PIPE for_value
             	    {
-            	    PIPE88=(CommonToken)match(input,PIPE,FOLLOW_PIPE_in_for_arguments586); 
+            	    PIPE88=(CommonToken)match(input,PIPE,FOLLOW_PIPE_in_for_arguments587); 
             	    PIPE88_tree = (TwigCommonTree)adaptor.create(PIPE88);
             	    adaptor.addChild(root_0, PIPE88_tree);
 
-            	    pushFollow(FOLLOW_for_value_in_for_arguments588);
+            	    pushFollow(FOLLOW_for_value_in_for_arguments589);
             	    for_value89=for_value();
 
             	    state._fsp--;
@@ -2293,7 +2310,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop26;
+            	    break loop27;
                 }
             } while (true);
 
@@ -2343,31 +2360,31 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:133:3: ( STRING | STRING_LITERAL | method | range )
-            int alt27=4;
+            int alt28=4;
             switch ( input.LA(1) ) {
             case STRING:
                 {
                 switch ( input.LA(2) ) {
                 case DDOT:
                     {
-                    alt27=4;
+                    alt28=4;
                     }
                     break;
                 case CTRL_CLOSE:
                 case PIPE:
                     {
-                    alt27=1;
+                    alt28=1;
                     }
                     break;
                 case METHOD_START:
                 case DOT:
                     {
-                    alt27=3;
+                    alt28=3;
                     }
                     break;
                 default:
                     NoViableAltException nvae =
-                        new NoViableAltException("", 27, 1, input);
+                        new NoViableAltException("", 28, 1, input);
 
                     throw nvae;
                 }
@@ -2376,17 +2393,17 @@ public class TwigParser extends Parser {
                 break;
             case STRING_LITERAL:
                 {
-                int LA27_2 = input.LA(2);
+                int LA28_2 = input.LA(2);
 
-                if ( (LA27_2==DDOT) ) {
-                    alt27=4;
+                if ( (LA28_2==DDOT) ) {
+                    alt28=4;
                 }
-                else if ( (LA27_2==CTRL_CLOSE||LA27_2==PIPE) ) {
-                    alt27=2;
+                else if ( (LA28_2==CTRL_CLOSE||LA28_2==PIPE) ) {
+                    alt28=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 27, 2, input);
+                        new NoViableAltException("", 28, 2, input);
 
                     throw nvae;
                 }
@@ -2394,23 +2411,23 @@ public class TwigParser extends Parser {
                 break;
             case NUMBER:
                 {
-                alt27=4;
+                alt28=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 27, 0, input);
+                    new NoViableAltException("", 28, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt27) {
+            switch (alt28) {
                 case 1 :
                     // TwigParser.g:133:5: STRING
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING90=(CommonToken)match(input,STRING,FOLLOW_STRING_in_for_value605); 
+                    STRING90=(CommonToken)match(input,STRING,FOLLOW_STRING_in_for_value606); 
                     STRING90_tree = (TwigCommonTree)adaptor.create(STRING90);
                     adaptor.addChild(root_0, STRING90_tree);
 
@@ -2422,7 +2439,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING_LITERAL91=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_for_value609); 
+                    STRING_LITERAL91=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_for_value610); 
                     STRING_LITERAL91_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL91);
                     adaptor.addChild(root_0, STRING_LITERAL91_tree);
 
@@ -2434,7 +2451,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_method_in_for_value613);
+                    pushFollow(FOLLOW_method_in_for_value614);
                     method92=method();
 
                     state._fsp--;
@@ -2448,7 +2465,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_range_in_for_value617);
+                    pushFollow(FOLLOW_range_in_for_value618);
                     range93=range();
 
                     state._fsp--;
@@ -2515,7 +2532,7 @@ public class TwigParser extends Parser {
                 throw mse;
             }
 
-            DDOT95=(CommonToken)match(input,DDOT,FOLLOW_DDOT_in_range644); 
+            DDOT95=(CommonToken)match(input,DDOT,FOLLOW_DDOT_in_range645); 
             DDOT95_tree = (TwigCommonTree)adaptor.create(DDOT95);
             adaptor.addChild(root_0, DDOT95_tree);
 
@@ -2601,13 +2618,13 @@ public class TwigParser extends Parser {
             root_0 = (TwigCommonTree)adaptor.nil();
 
             // TwigParser.g:141:5: ( STRING_LITERAL | NUMBER | variable | method )
-            int alt28=4;
-            alt28 = dfa28.predict(input);
-            switch (alt28) {
+            int alt29=4;
+            alt29 = dfa29.predict(input);
+            switch (alt29) {
                 case 1 :
                     // TwigParser.g:141:6: STRING_LITERAL
                     {
-                    STRING_LITERAL97=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary673); 
+                    STRING_LITERAL97=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary674); 
                     STRING_LITERAL97_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL97);
                     adaptor.addChild(root_0, STRING_LITERAL97_tree);
 
@@ -2617,7 +2634,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:141:23: NUMBER
                     {
-                    NUMBER98=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary677); 
+                    NUMBER98=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary678); 
                     NUMBER98_tree = (TwigCommonTree)adaptor.create(NUMBER98);
                     adaptor.addChild(root_0, NUMBER98_tree);
 
@@ -2627,7 +2644,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:141:32: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_ternary681);
+                    pushFollow(FOLLOW_variable_in_twig_ternary682);
                     variable99=variable();
 
                     state._fsp--;
@@ -2639,7 +2656,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:141:43: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_ternary685);
+                    pushFollow(FOLLOW_method_in_twig_ternary686);
                     method100=method();
 
                     state._fsp--;
@@ -2651,18 +2668,18 @@ public class TwigParser extends Parser {
 
             }
 
-            QM101=(CommonToken)match(input,QM,FOLLOW_QM_in_twig_ternary688); 
+            QM101=(CommonToken)match(input,QM,FOLLOW_QM_in_twig_ternary689); 
             QM101_tree = (TwigCommonTree)adaptor.create(QM101);
             adaptor.addChild(root_0, QM101_tree);
 
             // TwigParser.g:141:54: ( STRING_LITERAL | NUMBER | variable | method )
-            int alt29=4;
-            alt29 = dfa29.predict(input);
-            switch (alt29) {
+            int alt30=4;
+            alt30 = dfa30.predict(input);
+            switch (alt30) {
                 case 1 :
                     // TwigParser.g:141:55: STRING_LITERAL
                     {
-                    STRING_LITERAL102=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary691); 
+                    STRING_LITERAL102=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary692); 
                     STRING_LITERAL102_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL102);
                     adaptor.addChild(root_0, STRING_LITERAL102_tree);
 
@@ -2672,7 +2689,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:141:72: NUMBER
                     {
-                    NUMBER103=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary695); 
+                    NUMBER103=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary696); 
                     NUMBER103_tree = (TwigCommonTree)adaptor.create(NUMBER103);
                     adaptor.addChild(root_0, NUMBER103_tree);
 
@@ -2682,7 +2699,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:141:81: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_ternary699);
+                    pushFollow(FOLLOW_variable_in_twig_ternary700);
                     variable104=variable();
 
                     state._fsp--;
@@ -2694,7 +2711,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:141:92: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_ternary703);
+                    pushFollow(FOLLOW_method_in_twig_ternary704);
                     method105=method();
 
                     state._fsp--;
@@ -2706,18 +2723,18 @@ public class TwigParser extends Parser {
 
             }
 
-            COLON106=(CommonToken)match(input,COLON,FOLLOW_COLON_in_twig_ternary706); 
+            COLON106=(CommonToken)match(input,COLON,FOLLOW_COLON_in_twig_ternary707); 
             COLON106_tree = (TwigCommonTree)adaptor.create(COLON106);
             adaptor.addChild(root_0, COLON106_tree);
 
             // TwigParser.g:141:106: ( STRING_LITERAL | NUMBER | variable | method )
-            int alt30=4;
-            alt30 = dfa30.predict(input);
-            switch (alt30) {
+            int alt31=4;
+            alt31 = dfa31.predict(input);
+            switch (alt31) {
                 case 1 :
                     // TwigParser.g:141:107: STRING_LITERAL
                     {
-                    STRING_LITERAL107=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary709); 
+                    STRING_LITERAL107=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_twig_ternary710); 
                     STRING_LITERAL107_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL107);
                     adaptor.addChild(root_0, STRING_LITERAL107_tree);
 
@@ -2727,7 +2744,7 @@ public class TwigParser extends Parser {
                 case 2 :
                     // TwigParser.g:141:124: NUMBER
                     {
-                    NUMBER108=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary713); 
+                    NUMBER108=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_twig_ternary714); 
                     NUMBER108_tree = (TwigCommonTree)adaptor.create(NUMBER108);
                     adaptor.addChild(root_0, NUMBER108_tree);
 
@@ -2737,7 +2754,7 @@ public class TwigParser extends Parser {
                 case 3 :
                     // TwigParser.g:141:133: variable
                     {
-                    pushFollow(FOLLOW_variable_in_twig_ternary717);
+                    pushFollow(FOLLOW_variable_in_twig_ternary718);
                     variable109=variable();
 
                     state._fsp--;
@@ -2749,7 +2766,7 @@ public class TwigParser extends Parser {
                 case 4 :
                     // TwigParser.g:141:144: method
                     {
-                    pushFollow(FOLLOW_method_in_twig_ternary721);
+                    pushFollow(FOLLOW_method_in_twig_ternary722);
                     method110=method();
 
                     state._fsp--;
@@ -2788,7 +2805,7 @@ public class TwigParser extends Parser {
     };
 
     // $ANTLR start "twig_print_statement"
-    // TwigParser.g:146:1: twig_print_statement : PRINT_OPEN twig_print PRINT_CLOSE -> ^( TWIG_PR_STMT twig_print ) ;
+    // TwigParser.g:146:1: twig_print_statement : PRINT_OPEN ( twig_print )? PRINT_CLOSE -> ^( TWIG_PR_STMT ( twig_print )? ) ;
     public final TwigParser.twig_print_statement_return twig_print_statement() throws RecognitionException {
         TwigParser.twig_print_statement_return retval = new TwigParser.twig_print_statement_return();
         retval.start = input.LT(1);
@@ -2806,19 +2823,36 @@ public class TwigParser extends Parser {
         RewriteRuleTokenStream stream_PRINT_CLOSE=new RewriteRuleTokenStream(adaptor,"token PRINT_CLOSE");
         RewriteRuleSubtreeStream stream_twig_print=new RewriteRuleSubtreeStream(adaptor,"rule twig_print");
         try {
-            // TwigParser.g:147:3: ( PRINT_OPEN twig_print PRINT_CLOSE -> ^( TWIG_PR_STMT twig_print ) )
-            // TwigParser.g:147:6: PRINT_OPEN twig_print PRINT_CLOSE
+            // TwigParser.g:147:3: ( PRINT_OPEN ( twig_print )? PRINT_CLOSE -> ^( TWIG_PR_STMT ( twig_print )? ) )
+            // TwigParser.g:147:6: PRINT_OPEN ( twig_print )? PRINT_CLOSE
             {
-            PRINT_OPEN111=(CommonToken)match(input,PRINT_OPEN,FOLLOW_PRINT_OPEN_in_twig_print_statement739);  
+            PRINT_OPEN111=(CommonToken)match(input,PRINT_OPEN,FOLLOW_PRINT_OPEN_in_twig_print_statement740);  
             stream_PRINT_OPEN.add(PRINT_OPEN111);
 
-            pushFollow(FOLLOW_twig_print_in_twig_print_statement741);
-            twig_print112=twig_print();
+            // TwigParser.g:147:17: ( twig_print )?
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            state._fsp--;
+            if ( (LA32_0==ARRAY_START||LA32_0==STRING||LA32_0==STRING_LITERAL) ) {
+                alt32=1;
+            }
+            switch (alt32) {
+                case 1 :
+                    // TwigParser.g:147:17: twig_print
+                    {
+                    pushFollow(FOLLOW_twig_print_in_twig_print_statement742);
+                    twig_print112=twig_print();
 
-            stream_twig_print.add(twig_print112.getTree());
-            PRINT_CLOSE113=(CommonToken)match(input,PRINT_CLOSE,FOLLOW_PRINT_CLOSE_in_twig_print_statement743);  
+                    state._fsp--;
+
+                    stream_twig_print.add(twig_print112.getTree());
+
+                    }
+                    break;
+
+            }
+
+            PRINT_CLOSE113=(CommonToken)match(input,PRINT_CLOSE,FOLLOW_PRINT_CLOSE_in_twig_print_statement745);  
             stream_PRINT_CLOSE.add(PRINT_CLOSE113);
 
 
@@ -2834,14 +2868,19 @@ public class TwigParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (TwigCommonTree)adaptor.nil();
-            // 148:5: -> ^( TWIG_PR_STMT twig_print )
+            // 148:5: -> ^( TWIG_PR_STMT ( twig_print )? )
             {
-                // TwigParser.g:148:7: ^( TWIG_PR_STMT twig_print )
+                // TwigParser.g:148:7: ^( TWIG_PR_STMT ( twig_print )? )
                 {
                 TwigCommonTree root_1 = (TwigCommonTree)adaptor.nil();
                 root_1 = (TwigCommonTree)adaptor.becomeRoot((TwigCommonTree)adaptor.create(TWIG_PR_STMT, "TWIG_PR_STMT"), root_1);
 
-                adaptor.addChild(root_1, stream_twig_print.nextTree());
+                // TwigParser.g:148:22: ( twig_print )?
+                if ( stream_twig_print.hasNext() ) {
+                    adaptor.addChild(root_1, stream_twig_print.nextTree());
+
+                }
+                stream_twig_print.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -2896,32 +2935,32 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_input_in_twig_print769);
+            pushFollow(FOLLOW_p_input_in_twig_print772);
             p_input114=p_input();
 
             state._fsp--;
 
             adaptor.addChild(root_0, p_input114.getTree());
             // TwigParser.g:152:13: ( PIPE p_input )*
-            loop31:
+            loop33:
             do {
-                int alt31=2;
-                int LA31_0 = input.LA(1);
+                int alt33=2;
+                int LA33_0 = input.LA(1);
 
-                if ( (LA31_0==PIPE) ) {
-                    alt31=1;
+                if ( (LA33_0==PIPE) ) {
+                    alt33=1;
                 }
 
 
-                switch (alt31) {
+                switch (alt33) {
             	case 1 :
             	    // TwigParser.g:152:14: PIPE p_input
             	    {
-            	    PIPE115=(CommonToken)match(input,PIPE,FOLLOW_PIPE_in_twig_print772); 
+            	    PIPE115=(CommonToken)match(input,PIPE,FOLLOW_PIPE_in_twig_print775); 
             	    PIPE115_tree = (TwigCommonTree)adaptor.create(PIPE115);
             	    adaptor.addChild(root_0, PIPE115_tree);
 
-            	    pushFollow(FOLLOW_p_input_in_twig_print774);
+            	    pushFollow(FOLLOW_p_input_in_twig_print777);
             	    p_input116=p_input();
 
             	    state._fsp--;
@@ -2932,7 +2971,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop31;
+            	    break loop33;
                 }
             } while (true);
 
@@ -2982,15 +3021,15 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:156:3: ( variable | method | array | STRING_LITERAL )
-            int alt32=4;
-            alt32 = dfa32.predict(input);
-            switch (alt32) {
+            int alt34=4;
+            alt34 = dfa34.predict(input);
+            switch (alt34) {
                 case 1 :
                     // TwigParser.g:156:5: variable
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_variable_in_p_input791);
+                    pushFollow(FOLLOW_variable_in_p_input794);
                     variable117=variable();
 
                     state._fsp--;
@@ -3004,7 +3043,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_method_in_p_input795);
+                    pushFollow(FOLLOW_method_in_p_input798);
                     method118=method();
 
                     state._fsp--;
@@ -3018,7 +3057,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_array_in_p_input799);
+                    pushFollow(FOLLOW_array_in_p_input802);
                     array119=array();
 
                     state._fsp--;
@@ -3032,7 +3071,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING_LITERAL120=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_p_input803); 
+                    STRING_LITERAL120=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_p_input806); 
                     STRING_LITERAL120_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL120);
                     adaptor.addChild(root_0, STRING_LITERAL120_tree);
 
@@ -3086,17 +3125,17 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            ARRAY_START121=(CommonToken)match(input,ARRAY_START,FOLLOW_ARRAY_START_in_array821); 
+            ARRAY_START121=(CommonToken)match(input,ARRAY_START,FOLLOW_ARRAY_START_in_array824); 
             ARRAY_START121_tree = (TwigCommonTree)adaptor.create(ARRAY_START121);
             adaptor.addChild(root_0, ARRAY_START121_tree);
 
-            pushFollow(FOLLOW_array_elements_in_array823);
+            pushFollow(FOLLOW_array_elements_in_array826);
             array_elements122=array_elements();
 
             state._fsp--;
 
             adaptor.addChild(root_0, array_elements122.getTree());
-            ARRAY_END123=(CommonToken)match(input,ARRAY_END,FOLLOW_ARRAY_END_in_array825); 
+            ARRAY_END123=(CommonToken)match(input,ARRAY_END,FOLLOW_ARRAY_END_in_array828); 
             ARRAY_END123_tree = (TwigCommonTree)adaptor.create(ARRAY_END123);
             adaptor.addChild(root_0, ARRAY_END123_tree);
 
@@ -3148,32 +3187,32 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_array_element_in_array_elements840);
+            pushFollow(FOLLOW_array_element_in_array_elements843);
             array_element124=array_element();
 
             state._fsp--;
 
             adaptor.addChild(root_0, array_element124.getTree());
             // TwigParser.g:165:19: ( COMMA array_element )*
-            loop33:
+            loop35:
             do {
-                int alt33=2;
-                int LA33_0 = input.LA(1);
+                int alt35=2;
+                int LA35_0 = input.LA(1);
 
-                if ( (LA33_0==COMMA) ) {
-                    alt33=1;
+                if ( (LA35_0==COMMA) ) {
+                    alt35=1;
                 }
 
 
-                switch (alt33) {
+                switch (alt35) {
             	case 1 :
             	    // TwigParser.g:165:20: COMMA array_element
             	    {
-            	    COMMA125=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_array_elements843); 
+            	    COMMA125=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_array_elements846); 
             	    COMMA125_tree = (TwigCommonTree)adaptor.create(COMMA125);
             	    adaptor.addChild(root_0, COMMA125_tree);
 
-            	    pushFollow(FOLLOW_array_element_in_array_elements845);
+            	    pushFollow(FOLLOW_array_element_in_array_elements848);
             	    array_element126=array_element();
 
             	    state._fsp--;
@@ -3184,7 +3223,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop33;
+            	    break loop35;
                 }
             } while (true);
 
@@ -3234,42 +3273,42 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:169:3: ( STRING | STRING_LITERAL | NUMBER | json )
-            int alt34=4;
+            int alt36=4;
             switch ( input.LA(1) ) {
             case STRING:
                 {
-                alt34=1;
+                alt36=1;
                 }
                 break;
             case STRING_LITERAL:
                 {
-                alt34=2;
+                alt36=2;
                 }
                 break;
             case NUMBER:
                 {
-                alt34=3;
+                alt36=3;
                 }
                 break;
             case JSON_START:
                 {
-                alt34=4;
+                alt36=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 34, 0, input);
+                    new NoViableAltException("", 36, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt34) {
+            switch (alt36) {
                 case 1 :
                     // TwigParser.g:169:5: STRING
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING127=(CommonToken)match(input,STRING,FOLLOW_STRING_in_array_element862); 
+                    STRING127=(CommonToken)match(input,STRING,FOLLOW_STRING_in_array_element865); 
                     STRING127_tree = (TwigCommonTree)adaptor.create(STRING127);
                     adaptor.addChild(root_0, STRING127_tree);
 
@@ -3281,7 +3320,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING_LITERAL128=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_array_element866); 
+                    STRING_LITERAL128=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_array_element869); 
                     STRING_LITERAL128_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL128);
                     adaptor.addChild(root_0, STRING_LITERAL128_tree);
 
@@ -3293,7 +3332,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    NUMBER129=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_array_element870); 
+                    NUMBER129=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_array_element873); 
                     NUMBER129_tree = (TwigCommonTree)adaptor.create(NUMBER129);
                     adaptor.addChild(root_0, NUMBER129_tree);
 
@@ -3305,7 +3344,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_json_in_array_element874);
+                    pushFollow(FOLLOW_json_in_array_element877);
                     json130=json();
 
                     state._fsp--;
@@ -3361,31 +3400,31 @@ public class TwigParser extends Parser {
             // TwigParser.g:173:3: (param= STRING ( DOT ( STRING ) )* -> ^( TWIG_VAR $param) )
             // TwigParser.g:173:5: param= STRING ( DOT ( STRING ) )*
             {
-            param=(CommonToken)match(input,STRING,FOLLOW_STRING_in_variable891);  
+            param=(CommonToken)match(input,STRING,FOLLOW_STRING_in_variable894);  
             stream_STRING.add(param);
 
             // TwigParser.g:173:18: ( DOT ( STRING ) )*
-            loop35:
+            loop37:
             do {
-                int alt35=2;
-                int LA35_0 = input.LA(1);
+                int alt37=2;
+                int LA37_0 = input.LA(1);
 
-                if ( (LA35_0==DOT) ) {
-                    alt35=1;
+                if ( (LA37_0==DOT) ) {
+                    alt37=1;
                 }
 
 
-                switch (alt35) {
+                switch (alt37) {
             	case 1 :
             	    // TwigParser.g:173:19: DOT ( STRING )
             	    {
-            	    DOT131=(CommonToken)match(input,DOT,FOLLOW_DOT_in_variable894);  
+            	    DOT131=(CommonToken)match(input,DOT,FOLLOW_DOT_in_variable897);  
             	    stream_DOT.add(DOT131);
 
             	    // TwigParser.g:173:23: ( STRING )
             	    // TwigParser.g:173:24: STRING
             	    {
-            	    STRING132=(CommonToken)match(input,STRING,FOLLOW_STRING_in_variable897);  
+            	    STRING132=(CommonToken)match(input,STRING,FOLLOW_STRING_in_variable900);  
             	    stream_STRING.add(STRING132);
 
 
@@ -3396,7 +3435,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop35;
+            	    break loop37;
                 }
             } while (true);
 
@@ -3478,28 +3517,28 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_variable_in_method927);
+            pushFollow(FOLLOW_variable_in_method930);
             variable133=variable();
 
             state._fsp--;
 
             adaptor.addChild(root_0, variable133.getTree());
-            METHOD_START134=(CommonToken)match(input,METHOD_START,FOLLOW_METHOD_START_in_method929); 
+            METHOD_START134=(CommonToken)match(input,METHOD_START,FOLLOW_METHOD_START_in_method932); 
             METHOD_START134_tree = (TwigCommonTree)adaptor.create(METHOD_START134);
             adaptor.addChild(root_0, METHOD_START134_tree);
 
             // TwigParser.g:178:27: ( arguments )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA36_0==JSON_START||LA36_0==NUMBER||LA36_0==STRING||LA36_0==STRING_LITERAL) ) {
-                alt36=1;
+            if ( (LA38_0==JSON_START||LA38_0==NUMBER||LA38_0==STRING||LA38_0==STRING_LITERAL) ) {
+                alt38=1;
             }
-            switch (alt36) {
+            switch (alt38) {
                 case 1 :
                     // TwigParser.g:178:27: arguments
                     {
-                    pushFollow(FOLLOW_arguments_in_method931);
+                    pushFollow(FOLLOW_arguments_in_method934);
                     arguments135=arguments();
 
                     state._fsp--;
@@ -3511,7 +3550,7 @@ public class TwigParser extends Parser {
 
             }
 
-            METHOD_END136=(CommonToken)match(input,METHOD_END,FOLLOW_METHOD_END_in_method934); 
+            METHOD_END136=(CommonToken)match(input,METHOD_END,FOLLOW_METHOD_END_in_method937); 
             METHOD_END136_tree = (TwigCommonTree)adaptor.create(METHOD_END136);
             adaptor.addChild(root_0, METHOD_END136_tree);
 
@@ -3563,35 +3602,35 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_argument_in_arguments950);
+            pushFollow(FOLLOW_argument_in_arguments953);
             argument137=argument();
 
             state._fsp--;
 
             adaptor.addChild(root_0, argument137.getTree());
             // TwigParser.g:182:15: ( COMMA ( argument ) )*
-            loop37:
+            loop39:
             do {
-                int alt37=2;
-                int LA37_0 = input.LA(1);
+                int alt39=2;
+                int LA39_0 = input.LA(1);
 
-                if ( (LA37_0==COMMA) ) {
-                    alt37=1;
+                if ( (LA39_0==COMMA) ) {
+                    alt39=1;
                 }
 
 
-                switch (alt37) {
+                switch (alt39) {
             	case 1 :
             	    // TwigParser.g:182:16: COMMA ( argument )
             	    {
-            	    COMMA138=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_arguments954); 
+            	    COMMA138=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_arguments957); 
             	    COMMA138_tree = (TwigCommonTree)adaptor.create(COMMA138);
             	    adaptor.addChild(root_0, COMMA138_tree);
 
             	    // TwigParser.g:182:22: ( argument )
             	    // TwigParser.g:182:23: argument
             	    {
-            	    pushFollow(FOLLOW_argument_in_arguments957);
+            	    pushFollow(FOLLOW_argument_in_arguments960);
             	    argument139=argument();
 
             	    state._fsp--;
@@ -3605,7 +3644,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop37;
+            	    break loop39;
                 }
             } while (true);
 
@@ -3655,42 +3694,42 @@ public class TwigParser extends Parser {
 
         try {
             // TwigParser.g:186:1: ( literal_argument | STRING | json | NUMBER )
-            int alt38=4;
+            int alt40=4;
             switch ( input.LA(1) ) {
             case STRING_LITERAL:
                 {
-                alt38=1;
+                alt40=1;
                 }
                 break;
             case STRING:
                 {
-                alt38=2;
+                alt40=2;
                 }
                 break;
             case JSON_START:
                 {
-                alt38=3;
+                alt40=3;
                 }
                 break;
             case NUMBER:
                 {
-                alt38=4;
+                alt40=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 38, 0, input);
+                    new NoViableAltException("", 40, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt38) {
+            switch (alt40) {
                 case 1 :
                     // TwigParser.g:186:3: literal_argument
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_literal_argument_in_argument971);
+                    pushFollow(FOLLOW_literal_argument_in_argument974);
                     literal_argument140=literal_argument();
 
                     state._fsp--;
@@ -3704,7 +3743,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    STRING141=(CommonToken)match(input,STRING,FOLLOW_STRING_in_argument975); 
+                    STRING141=(CommonToken)match(input,STRING,FOLLOW_STRING_in_argument978); 
                     STRING141_tree = (TwigCommonTree)adaptor.create(STRING141);
                     adaptor.addChild(root_0, STRING141_tree);
 
@@ -3716,7 +3755,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_json_in_argument979);
+                    pushFollow(FOLLOW_json_in_argument982);
                     json142=json();
 
                     state._fsp--;
@@ -3730,7 +3769,7 @@ public class TwigParser extends Parser {
                     {
                     root_0 = (TwigCommonTree)adaptor.nil();
 
-                    NUMBER143=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_argument983); 
+                    NUMBER143=(CommonToken)match(input,NUMBER,FOLLOW_NUMBER_in_argument986); 
                     NUMBER143_tree = (TwigCommonTree)adaptor.create(NUMBER143);
                     adaptor.addChild(root_0, NUMBER143_tree);
 
@@ -3779,7 +3818,7 @@ public class TwigParser extends Parser {
             // TwigParser.g:190:3: (param= STRING_LITERAL -> ^( LITERAL_ARG $param) )
             // TwigParser.g:190:5: param= STRING_LITERAL
             {
-            param=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_literal_argument996);  
+            param=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_literal_argument999);  
             stream_STRING_LITERAL.add(param);
 
 
@@ -3858,22 +3897,22 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            JSON_START144=(CommonToken)match(input,JSON_START,FOLLOW_JSON_START_in_json1022); 
+            JSON_START144=(CommonToken)match(input,JSON_START,FOLLOW_JSON_START_in_json1025); 
             JSON_START144_tree = (TwigCommonTree)adaptor.create(JSON_START144);
             adaptor.addChild(root_0, JSON_START144_tree);
 
             // TwigParser.g:195:16: ( json_arguments )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            int alt41=2;
+            int LA41_0 = input.LA(1);
 
-            if ( (LA39_0==STRING||LA39_0==STRING_LITERAL) ) {
-                alt39=1;
+            if ( (LA41_0==STRING||LA41_0==STRING_LITERAL) ) {
+                alt41=1;
             }
-            switch (alt39) {
+            switch (alt41) {
                 case 1 :
                     // TwigParser.g:195:16: json_arguments
                     {
-                    pushFollow(FOLLOW_json_arguments_in_json1024);
+                    pushFollow(FOLLOW_json_arguments_in_json1027);
                     json_arguments145=json_arguments();
 
                     state._fsp--;
@@ -3885,7 +3924,7 @@ public class TwigParser extends Parser {
 
             }
 
-            JSON_END146=(CommonToken)match(input,JSON_END,FOLLOW_JSON_END_in_json1027); 
+            JSON_END146=(CommonToken)match(input,JSON_END,FOLLOW_JSON_END_in_json1030); 
             JSON_END146_tree = (TwigCommonTree)adaptor.create(JSON_END146);
             adaptor.addChild(root_0, JSON_END146_tree);
 
@@ -3937,35 +3976,35 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_json_argument_in_json_arguments1042);
+            pushFollow(FOLLOW_json_argument_in_json_arguments1045);
             json_argument147=json_argument();
 
             state._fsp--;
 
             adaptor.addChild(root_0, json_argument147.getTree());
             // TwigParser.g:199:19: ( COMMA ( json_argument ) )*
-            loop40:
+            loop42:
             do {
-                int alt40=2;
-                int LA40_0 = input.LA(1);
+                int alt42=2;
+                int LA42_0 = input.LA(1);
 
-                if ( (LA40_0==COMMA) ) {
-                    alt40=1;
+                if ( (LA42_0==COMMA) ) {
+                    alt42=1;
                 }
 
 
-                switch (alt40) {
+                switch (alt42) {
             	case 1 :
             	    // TwigParser.g:199:20: COMMA ( json_argument )
             	    {
-            	    COMMA148=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_json_arguments1045); 
+            	    COMMA148=(CommonToken)match(input,COMMA,FOLLOW_COMMA_in_json_arguments1048); 
             	    COMMA148_tree = (TwigCommonTree)adaptor.create(COMMA148);
             	    adaptor.addChild(root_0, COMMA148_tree);
 
             	    // TwigParser.g:199:26: ( json_argument )
             	    // TwigParser.g:199:27: json_argument
             	    {
-            	    pushFollow(FOLLOW_json_argument_in_json_arguments1048);
+            	    pushFollow(FOLLOW_json_argument_in_json_arguments1051);
             	    json_argument149=json_argument();
 
             	    state._fsp--;
@@ -3979,7 +4018,7 @@ public class TwigParser extends Parser {
             	    break;
 
             	default :
-            	    break loop40;
+            	    break loop42;
                 }
             } while (true);
 
@@ -4045,7 +4084,7 @@ public class TwigParser extends Parser {
             // TwigParser.g:203:31: ( COLON )
             // TwigParser.g:203:32: COLON
             {
-            COLON151=(CommonToken)match(input,COLON,FOLLOW_COLON_in_json_argument1075); 
+            COLON151=(CommonToken)match(input,COLON,FOLLOW_COLON_in_json_argument1078); 
             COLON151_tree = (TwigCommonTree)adaptor.create(COLON151);
             adaptor.addChild(root_0, COLON151_tree);
 
@@ -4087,30 +4126,30 @@ public class TwigParser extends Parser {
     // Delegated rules
 
 
-    protected DFA6 dfa6 = new DFA6(this);
-    protected DFA13 dfa13 = new DFA13(this);
+    protected DFA7 dfa7 = new DFA7(this);
     protected DFA14 dfa14 = new DFA14(this);
-    protected DFA16 dfa16 = new DFA16(this);
+    protected DFA15 dfa15 = new DFA15(this);
     protected DFA17 dfa17 = new DFA17(this);
-    protected DFA22 dfa22 = new DFA22(this);
-    protected DFA25 dfa25 = new DFA25(this);
-    protected DFA28 dfa28 = new DFA28(this);
+    protected DFA18 dfa18 = new DFA18(this);
+    protected DFA23 dfa23 = new DFA23(this);
+    protected DFA26 dfa26 = new DFA26(this);
     protected DFA29 dfa29 = new DFA29(this);
     protected DFA30 dfa30 = new DFA30(this);
-    protected DFA32 dfa32 = new DFA32(this);
-    static final String DFA6_eotS =
+    protected DFA31 dfa31 = new DFA31(this);
+    protected DFA34 dfa34 = new DFA34(this);
+    static final String DFA7_eotS =
         "\10\uffff";
-    static final String DFA6_eofS =
+    static final String DFA7_eofS =
         "\10\uffff";
-    static final String DFA6_minS =
+    static final String DFA7_minS =
         "\1\24\1\7\2\uffff\1\53\2\uffff\1\7";
-    static final String DFA6_maxS =
+    static final String DFA7_maxS =
         "\1\55\1\47\2\uffff\1\53\2\uffff\1\47";
-    static final String DFA6_acceptS =
+    static final String DFA7_acceptS =
         "\2\uffff\1\2\1\4\1\uffff\1\1\1\3\1\uffff";
-    static final String DFA6_specialS =
+    static final String DFA7_specialS =
         "\10\uffff}>";
-    static final String[] DFA6_transitionS = {
+    static final String[] DFA7_transitionS = {
             "\1\3\26\uffff\1\1\1\uffff\1\2",
             "\1\5\1\6\7\uffff\1\4\26\uffff\1\5",
             "",
@@ -4121,168 +4160,37 @@ public class TwigParser extends Parser {
             "\1\5\1\6\7\uffff\1\4\26\uffff\1\5"
     };
 
-    static final short[] DFA6_eot = DFA.unpackEncodedString(DFA6_eotS);
-    static final short[] DFA6_eof = DFA.unpackEncodedString(DFA6_eofS);
-    static final char[] DFA6_min = DFA.unpackEncodedStringToUnsignedChars(DFA6_minS);
-    static final char[] DFA6_max = DFA.unpackEncodedStringToUnsignedChars(DFA6_maxS);
-    static final short[] DFA6_accept = DFA.unpackEncodedString(DFA6_acceptS);
-    static final short[] DFA6_special = DFA.unpackEncodedString(DFA6_specialS);
-    static final short[][] DFA6_transition;
+    static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
+    static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
+    static final char[] DFA7_min = DFA.unpackEncodedStringToUnsignedChars(DFA7_minS);
+    static final char[] DFA7_max = DFA.unpackEncodedStringToUnsignedChars(DFA7_maxS);
+    static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
+    static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
+    static final short[][] DFA7_transition;
 
     static {
-        int numStates = DFA6_transitionS.length;
-        DFA6_transition = new short[numStates][];
+        int numStates = DFA7_transitionS.length;
+        DFA7_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA6_transition[i] = DFA.unpackEncodedString(DFA6_transitionS[i]);
+            DFA7_transition[i] = DFA.unpackEncodedString(DFA7_transitionS[i]);
         }
     }
 
-    class DFA6 extends DFA {
+    class DFA7 extends DFA {
 
-        public DFA6(BaseRecognizer recognizer) {
+        public DFA7(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 6;
-            this.eot = DFA6_eot;
-            this.eof = DFA6_eof;
-            this.min = DFA6_min;
-            this.max = DFA6_max;
-            this.accept = DFA6_accept;
-            this.special = DFA6_special;
-            this.transition = DFA6_transition;
+            this.decisionNumber = 7;
+            this.eot = DFA7_eot;
+            this.eof = DFA7_eof;
+            this.min = DFA7_min;
+            this.max = DFA7_max;
+            this.accept = DFA7_accept;
+            this.special = DFA7_special;
+            this.transition = DFA7_transition;
         }
         public String getDescription() {
             return "85:34: ( variable | STRING_LITERAL | method | json )";
-        }
-    }
-    static final String DFA13_eotS =
-        "\112\uffff";
-    static final String DFA13_eofS =
-        "\112\uffff";
-    static final String DFA13_minS =
-        "\1\12\2\7\1\24\1\25\2\uffff\1\53\1\uffff\1\11\3\13\1\25\1\21\2\7"+
-        "\2\11\1\25\1\11\1\7\1\24\1\7\1\21\1\13\1\53\1\uffff\1\24\1\21\1"+
-        "\11\1\uffff\3\13\1\25\1\uffff\1\53\1\22\2\11\1\25\1\11\1\53\1\21"+
-        "\1\13\1\22\1\53\1\21\1\11\1\22\2\53\1\21\2\53\1\22\1\21\1\53\1\22"+
-        "\1\21\2\53\1\22\2\53\1\21\1\22\1\21\1\22\2\53\2\22";
-    static final String DFA13_maxS =
-        "\1\55\2\22\2\55\2\uffff\1\53\1\uffff\1\55\3\22\1\55\1\21\4\22\1"+
-        "\55\2\22\1\55\1\22\1\21\1\22\1\55\1\uffff\1\55\1\21\1\22\1\uffff"+
-        "\3\22\1\55\1\uffff\1\55\1\25\2\22\1\55\1\22\1\55\1\21\1\22\1\25"+
-        "\1\55\1\21\1\22\1\25\2\55\1\21\2\55\1\25\1\21\1\55\1\25\1\21\2\55"+
-        "\1\25\2\55\1\21\1\25\1\21\1\25\2\55\2\25";
-    static final String DFA13_acceptS =
-        "\5\uffff\1\1\1\6\1\uffff\1\2\22\uffff\1\5\3\uffff\1\3\4\uffff\1"+
-        "\4\45\uffff";
-    static final String DFA13_specialS =
-        "\112\uffff}>";
-    static final String[] DFA13_transitionS = {
-            "\1\3\11\uffff\1\4\26\uffff\1\2\1\uffff\1\1",
-            "\1\5\5\uffff\1\6\4\uffff\1\5",
-            "\1\10\1\11\4\uffff\1\6\2\uffff\1\7\1\uffff\1\10",
-            "\1\15\24\uffff\1\14\1\uffff\1\12\1\uffff\1\13",
-            "\1\17\25\uffff\1\16\1\uffff\1\16",
-            "",
-            "",
-            "\1\20",
-            "",
-            "\1\25\12\uffff\1\23\24\uffff\1\24\1\uffff\1\22\1\uffff\1\21",
-            "\1\27\6\uffff\1\26",
-            "\1\27\6\uffff\1\26",
-            "\1\27\6\uffff\1\26",
-            "\1\31\25\uffff\1\30\1\uffff\1\30",
-            "\1\32",
-            "\1\33\5\uffff\1\6\4\uffff\1\33",
-            "\1\10\1\11\4\uffff\1\6\2\uffff\1\7\1\uffff\1\10",
-            "\1\25\10\uffff\1\34",
-            "\1\25\10\uffff\1\34",
-            "\1\36\25\uffff\1\35\1\uffff\1\35",
-            "\1\25\10\uffff\1\34",
-            "\1\37\5\uffff\1\6\4\uffff\1\37",
-            "\1\43\24\uffff\1\42\1\uffff\1\40\1\uffff\1\41",
-            "\1\44\5\uffff\1\6\4\uffff\1\44",
-            "\1\45",
-            "\1\27\6\uffff\1\26",
-            "\1\46\1\uffff\1\46",
-            "",
-            "\1\51\24\uffff\1\52\1\uffff\1\50\1\uffff\1\47",
-            "\1\53",
-            "\1\25\10\uffff\1\34",
-            "",
-            "\1\27\6\uffff\1\26",
-            "\1\27\6\uffff\1\26",
-            "\1\27\6\uffff\1\26",
-            "\1\55\25\uffff\1\54\1\uffff\1\54",
-            "",
-            "\1\56\1\uffff\1\56",
-            "\1\57\2\uffff\1\17",
-            "\1\25\10\uffff\1\34",
-            "\1\25\10\uffff\1\34",
-            "\1\61\25\uffff\1\60\1\uffff\1\60",
-            "\1\25\10\uffff\1\34",
-            "\1\62\1\uffff\1\62",
-            "\1\63",
-            "\1\27\6\uffff\1\26",
-            "\1\64\2\uffff\1\31",
-            "\1\65\1\uffff\1\65",
-            "\1\66",
-            "\1\25\10\uffff\1\34",
-            "\1\67\2\uffff\1\36",
-            "\1\70\1\uffff\1\70",
-            "\1\71\1\uffff\1\71",
-            "\1\72",
-            "\1\73\1\uffff\1\73",
-            "\1\74\1\uffff\1\74",
-            "\1\75\2\uffff\1\55",
-            "\1\76",
-            "\1\77\1\uffff\1\77",
-            "\1\100\2\uffff\1\61",
-            "\1\101",
-            "\1\102\1\uffff\1\102",
-            "\1\103\1\uffff\1\103",
-            "\1\57\2\uffff\1\17",
-            "\1\104\1\uffff\1\104",
-            "\1\105\1\uffff\1\105",
-            "\1\106",
-            "\1\64\2\uffff\1\31",
-            "\1\107",
-            "\1\67\2\uffff\1\36",
-            "\1\110\1\uffff\1\110",
-            "\1\111\1\uffff\1\111",
-            "\1\75\2\uffff\1\55",
-            "\1\100\2\uffff\1\61"
-    };
-
-    static final short[] DFA13_eot = DFA.unpackEncodedString(DFA13_eotS);
-    static final short[] DFA13_eof = DFA.unpackEncodedString(DFA13_eofS);
-    static final char[] DFA13_min = DFA.unpackEncodedStringToUnsignedChars(DFA13_minS);
-    static final char[] DFA13_max = DFA.unpackEncodedStringToUnsignedChars(DFA13_maxS);
-    static final short[] DFA13_accept = DFA.unpackEncodedString(DFA13_acceptS);
-    static final short[] DFA13_special = DFA.unpackEncodedString(DFA13_specialS);
-    static final short[][] DFA13_transition;
-
-    static {
-        int numStates = DFA13_transitionS.length;
-        DFA13_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA13_transition[i] = DFA.unpackEncodedString(DFA13_transitionS[i]);
-        }
-    }
-
-    class DFA13 extends DFA {
-
-        public DFA13(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 13;
-            this.eot = DFA13_eot;
-            this.eof = DFA13_eof;
-            this.min = DFA13_min;
-            this.max = DFA13_max;
-            this.accept = DFA13_accept;
-            this.special = DFA13_special;
-            this.transition = DFA13_transition;
-        }
-        public String getDescription() {
-            return "101:5: ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )";
         }
     }
     static final String DFA14_eotS =
@@ -4413,22 +4321,153 @@ public class TwigParser extends Parser {
             this.transition = DFA14_transition;
         }
         public String getDescription() {
+            return "101:5: ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )";
+        }
+    }
+    static final String DFA15_eotS =
+        "\112\uffff";
+    static final String DFA15_eofS =
+        "\112\uffff";
+    static final String DFA15_minS =
+        "\1\12\2\7\1\24\1\25\2\uffff\1\53\1\uffff\1\11\3\13\1\25\1\21\2\7"+
+        "\2\11\1\25\1\11\1\7\1\24\1\7\1\21\1\13\1\53\1\uffff\1\24\1\21\1"+
+        "\11\1\uffff\3\13\1\25\1\uffff\1\53\1\22\2\11\1\25\1\11\1\53\1\21"+
+        "\1\13\1\22\1\53\1\21\1\11\1\22\2\53\1\21\2\53\1\22\1\21\1\53\1\22"+
+        "\1\21\2\53\1\22\2\53\1\21\1\22\1\21\1\22\2\53\2\22";
+    static final String DFA15_maxS =
+        "\1\55\2\22\2\55\2\uffff\1\53\1\uffff\1\55\3\22\1\55\1\21\4\22\1"+
+        "\55\2\22\1\55\1\22\1\21\1\22\1\55\1\uffff\1\55\1\21\1\22\1\uffff"+
+        "\3\22\1\55\1\uffff\1\55\1\25\2\22\1\55\1\22\1\55\1\21\1\22\1\25"+
+        "\1\55\1\21\1\22\1\25\2\55\1\21\2\55\1\25\1\21\1\55\1\25\1\21\2\55"+
+        "\1\25\2\55\1\21\1\25\1\21\1\25\2\55\2\25";
+    static final String DFA15_acceptS =
+        "\5\uffff\1\1\1\6\1\uffff\1\2\22\uffff\1\5\3\uffff\1\3\4\uffff\1"+
+        "\4\45\uffff";
+    static final String DFA15_specialS =
+        "\112\uffff}>";
+    static final String[] DFA15_transitionS = {
+            "\1\3\11\uffff\1\4\26\uffff\1\2\1\uffff\1\1",
+            "\1\5\5\uffff\1\6\4\uffff\1\5",
+            "\1\10\1\11\4\uffff\1\6\2\uffff\1\7\1\uffff\1\10",
+            "\1\15\24\uffff\1\14\1\uffff\1\12\1\uffff\1\13",
+            "\1\17\25\uffff\1\16\1\uffff\1\16",
+            "",
+            "",
+            "\1\20",
+            "",
+            "\1\25\12\uffff\1\23\24\uffff\1\24\1\uffff\1\22\1\uffff\1\21",
+            "\1\27\6\uffff\1\26",
+            "\1\27\6\uffff\1\26",
+            "\1\27\6\uffff\1\26",
+            "\1\31\25\uffff\1\30\1\uffff\1\30",
+            "\1\32",
+            "\1\33\5\uffff\1\6\4\uffff\1\33",
+            "\1\10\1\11\4\uffff\1\6\2\uffff\1\7\1\uffff\1\10",
+            "\1\25\10\uffff\1\34",
+            "\1\25\10\uffff\1\34",
+            "\1\36\25\uffff\1\35\1\uffff\1\35",
+            "\1\25\10\uffff\1\34",
+            "\1\37\5\uffff\1\6\4\uffff\1\37",
+            "\1\43\24\uffff\1\42\1\uffff\1\40\1\uffff\1\41",
+            "\1\44\5\uffff\1\6\4\uffff\1\44",
+            "\1\45",
+            "\1\27\6\uffff\1\26",
+            "\1\46\1\uffff\1\46",
+            "",
+            "\1\51\24\uffff\1\52\1\uffff\1\50\1\uffff\1\47",
+            "\1\53",
+            "\1\25\10\uffff\1\34",
+            "",
+            "\1\27\6\uffff\1\26",
+            "\1\27\6\uffff\1\26",
+            "\1\27\6\uffff\1\26",
+            "\1\55\25\uffff\1\54\1\uffff\1\54",
+            "",
+            "\1\56\1\uffff\1\56",
+            "\1\57\2\uffff\1\17",
+            "\1\25\10\uffff\1\34",
+            "\1\25\10\uffff\1\34",
+            "\1\61\25\uffff\1\60\1\uffff\1\60",
+            "\1\25\10\uffff\1\34",
+            "\1\62\1\uffff\1\62",
+            "\1\63",
+            "\1\27\6\uffff\1\26",
+            "\1\64\2\uffff\1\31",
+            "\1\65\1\uffff\1\65",
+            "\1\66",
+            "\1\25\10\uffff\1\34",
+            "\1\67\2\uffff\1\36",
+            "\1\70\1\uffff\1\70",
+            "\1\71\1\uffff\1\71",
+            "\1\72",
+            "\1\73\1\uffff\1\73",
+            "\1\74\1\uffff\1\74",
+            "\1\75\2\uffff\1\55",
+            "\1\76",
+            "\1\77\1\uffff\1\77",
+            "\1\100\2\uffff\1\61",
+            "\1\101",
+            "\1\102\1\uffff\1\102",
+            "\1\103\1\uffff\1\103",
+            "\1\57\2\uffff\1\17",
+            "\1\104\1\uffff\1\104",
+            "\1\105\1\uffff\1\105",
+            "\1\106",
+            "\1\64\2\uffff\1\31",
+            "\1\107",
+            "\1\67\2\uffff\1\36",
+            "\1\110\1\uffff\1\110",
+            "\1\111\1\uffff\1\111",
+            "\1\75\2\uffff\1\55",
+            "\1\100\2\uffff\1\61"
+    };
+
+    static final short[] DFA15_eot = DFA.unpackEncodedString(DFA15_eotS);
+    static final short[] DFA15_eof = DFA.unpackEncodedString(DFA15_eofS);
+    static final char[] DFA15_min = DFA.unpackEncodedStringToUnsignedChars(DFA15_minS);
+    static final char[] DFA15_max = DFA.unpackEncodedStringToUnsignedChars(DFA15_maxS);
+    static final short[] DFA15_accept = DFA.unpackEncodedString(DFA15_acceptS);
+    static final short[] DFA15_special = DFA.unpackEncodedString(DFA15_specialS);
+    static final short[][] DFA15_transition;
+
+    static {
+        int numStates = DFA15_transitionS.length;
+        DFA15_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA15_transition[i] = DFA.unpackEncodedString(DFA15_transitionS[i]);
+        }
+    }
+
+    class DFA15 extends DFA {
+
+        public DFA15(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 15;
+            this.eot = DFA15_eot;
+            this.eof = DFA15_eof;
+            this.min = DFA15_min;
+            this.max = DFA15_max;
+            this.accept = DFA15_accept;
+            this.special = DFA15_special;
+            this.transition = DFA15_transition;
+        }
+        public String getDescription() {
             return "101:86: ( STRING_LITERAL | variable | method | array | json | twig_tilde_argument )";
         }
     }
-    static final String DFA16_eotS =
+    static final String DFA17_eotS =
         "\11\uffff";
-    static final String DFA16_eofS =
+    static final String DFA17_eofS =
         "\11\uffff";
-    static final String DFA16_minS =
+    static final String DFA17_minS =
         "\1\12\1\uffff\1\10\2\uffff\1\53\2\uffff\1\10";
-    static final String DFA16_maxS =
+    static final String DFA17_maxS =
         "\1\55\1\uffff\1\20\2\uffff\1\53\2\uffff\1\20";
-    static final String DFA16_acceptS =
+    static final String DFA17_acceptS =
         "\1\uffff\1\1\1\uffff\1\4\1\5\1\uffff\1\2\1\3\1\uffff";
-    static final String DFA16_specialS =
+    static final String DFA17_specialS =
         "\11\uffff}>";
-    static final String[] DFA16_transitionS = {
+    static final String[] DFA17_transitionS = {
             "\1\3\11\uffff\1\4\26\uffff\1\2\1\uffff\1\1",
             "",
             "\1\7\4\uffff\1\6\2\uffff\1\5",
@@ -4438,63 +4477,6 @@ public class TwigParser extends Parser {
             "",
             "",
             "\1\7\4\uffff\1\6\2\uffff\1\5"
-    };
-
-    static final short[] DFA16_eot = DFA.unpackEncodedString(DFA16_eotS);
-    static final short[] DFA16_eof = DFA.unpackEncodedString(DFA16_eofS);
-    static final char[] DFA16_min = DFA.unpackEncodedStringToUnsignedChars(DFA16_minS);
-    static final char[] DFA16_max = DFA.unpackEncodedStringToUnsignedChars(DFA16_maxS);
-    static final short[] DFA16_accept = DFA.unpackEncodedString(DFA16_acceptS);
-    static final short[] DFA16_special = DFA.unpackEncodedString(DFA16_specialS);
-    static final short[][] DFA16_transition;
-
-    static {
-        int numStates = DFA16_transitionS.length;
-        DFA16_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA16_transition[i] = DFA.unpackEncodedString(DFA16_transitionS[i]);
-        }
-    }
-
-    class DFA16 extends DFA {
-
-        public DFA16(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 16;
-            this.eot = DFA16_eot;
-            this.eof = DFA16_eof;
-            this.min = DFA16_min;
-            this.max = DFA16_max;
-            this.accept = DFA16_accept;
-            this.special = DFA16_special;
-            this.transition = DFA16_transition;
-        }
-        public String getDescription() {
-            return "105:5: ( STRING_LITERAL | variable | method | array | json )";
-        }
-    }
-    static final String DFA17_eotS =
-        "\11\uffff";
-    static final String DFA17_eofS =
-        "\11\uffff";
-    static final String DFA17_minS =
-        "\1\12\1\uffff\1\7\2\uffff\1\53\2\uffff\1\7";
-    static final String DFA17_maxS =
-        "\1\55\1\uffff\1\22\2\uffff\1\53\2\uffff\1\22";
-    static final String DFA17_acceptS =
-        "\1\uffff\1\1\1\uffff\1\4\1\5\1\uffff\1\2\1\3\1\uffff";
-    static final String DFA17_specialS =
-        "\11\uffff}>";
-    static final String[] DFA17_transitionS = {
-            "\1\3\11\uffff\1\4\26\uffff\1\2\1\uffff\1\1",
-            "",
-            "\1\6\1\7\7\uffff\1\5\1\uffff\1\6",
-            "",
-            "",
-            "\1\10",
-            "",
-            "",
-            "\1\6\1\7\7\uffff\1\5\1\uffff\1\6"
     };
 
     static final short[] DFA17_eot = DFA.unpackEncodedString(DFA17_eotS);
@@ -4527,22 +4509,79 @@ public class TwigParser extends Parser {
             this.transition = DFA17_transition;
         }
         public String getDescription() {
+            return "105:5: ( STRING_LITERAL | variable | method | array | json )";
+        }
+    }
+    static final String DFA18_eotS =
+        "\11\uffff";
+    static final String DFA18_eofS =
+        "\11\uffff";
+    static final String DFA18_minS =
+        "\1\12\1\uffff\1\7\2\uffff\1\53\2\uffff\1\7";
+    static final String DFA18_maxS =
+        "\1\55\1\uffff\1\22\2\uffff\1\53\2\uffff\1\22";
+    static final String DFA18_acceptS =
+        "\1\uffff\1\1\1\uffff\1\4\1\5\1\uffff\1\2\1\3\1\uffff";
+    static final String DFA18_specialS =
+        "\11\uffff}>";
+    static final String[] DFA18_transitionS = {
+            "\1\3\11\uffff\1\4\26\uffff\1\2\1\uffff\1\1",
+            "",
+            "\1\6\1\7\7\uffff\1\5\1\uffff\1\6",
+            "",
+            "",
+            "\1\10",
+            "",
+            "",
+            "\1\6\1\7\7\uffff\1\5\1\uffff\1\6"
+    };
+
+    static final short[] DFA18_eot = DFA.unpackEncodedString(DFA18_eotS);
+    static final short[] DFA18_eof = DFA.unpackEncodedString(DFA18_eofS);
+    static final char[] DFA18_min = DFA.unpackEncodedStringToUnsignedChars(DFA18_minS);
+    static final char[] DFA18_max = DFA.unpackEncodedStringToUnsignedChars(DFA18_maxS);
+    static final short[] DFA18_accept = DFA.unpackEncodedString(DFA18_acceptS);
+    static final short[] DFA18_special = DFA.unpackEncodedString(DFA18_specialS);
+    static final short[][] DFA18_transition;
+
+    static {
+        int numStates = DFA18_transitionS.length;
+        DFA18_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA18_transition[i] = DFA.unpackEncodedString(DFA18_transitionS[i]);
+        }
+    }
+
+    class DFA18 extends DFA {
+
+        public DFA18(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 18;
+            this.eot = DFA18_eot;
+            this.eof = DFA18_eof;
+            this.min = DFA18_min;
+            this.max = DFA18_max;
+            this.accept = DFA18_accept;
+            this.special = DFA18_special;
+            this.transition = DFA18_transition;
+        }
+        public String getDescription() {
             return "105:63: ( STRING_LITERAL | variable | method | array | json )";
         }
     }
-    static final String DFA22_eotS =
+    static final String DFA23_eotS =
         "\6\uffff";
-    static final String DFA22_eofS =
+    static final String DFA23_eofS =
         "\6\uffff";
-    static final String DFA22_minS =
+    static final String DFA23_minS =
         "\1\53\1\7\1\53\2\uffff\1\7";
-    static final String DFA22_maxS =
+    static final String DFA23_maxS =
         "\1\53\1\20\1\53\2\uffff\1\20";
-    static final String DFA22_acceptS =
+    static final String DFA23_acceptS =
         "\3\uffff\1\1\1\2\1\uffff";
-    static final String DFA22_specialS =
+    static final String DFA23_specialS =
         "\6\uffff}>";
-    static final String[] DFA22_transitionS = {
+    static final String[] DFA23_transitionS = {
             "\1\1",
             "\1\3\1\4\7\uffff\1\2",
             "\1\5",
@@ -4551,52 +4590,52 @@ public class TwigParser extends Parser {
             "\1\3\1\4\7\uffff\1\2"
     };
 
-    static final short[] DFA22_eot = DFA.unpackEncodedString(DFA22_eotS);
-    static final short[] DFA22_eof = DFA.unpackEncodedString(DFA22_eofS);
-    static final char[] DFA22_min = DFA.unpackEncodedStringToUnsignedChars(DFA22_minS);
-    static final char[] DFA22_max = DFA.unpackEncodedStringToUnsignedChars(DFA22_maxS);
-    static final short[] DFA22_accept = DFA.unpackEncodedString(DFA22_acceptS);
-    static final short[] DFA22_special = DFA.unpackEncodedString(DFA22_specialS);
-    static final short[][] DFA22_transition;
+    static final short[] DFA23_eot = DFA.unpackEncodedString(DFA23_eotS);
+    static final short[] DFA23_eof = DFA.unpackEncodedString(DFA23_eofS);
+    static final char[] DFA23_min = DFA.unpackEncodedStringToUnsignedChars(DFA23_minS);
+    static final char[] DFA23_max = DFA.unpackEncodedStringToUnsignedChars(DFA23_maxS);
+    static final short[] DFA23_accept = DFA.unpackEncodedString(DFA23_acceptS);
+    static final short[] DFA23_special = DFA.unpackEncodedString(DFA23_specialS);
+    static final short[][] DFA23_transition;
 
     static {
-        int numStates = DFA22_transitionS.length;
-        DFA22_transition = new short[numStates][];
+        int numStates = DFA23_transitionS.length;
+        DFA23_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA22_transition[i] = DFA.unpackEncodedString(DFA22_transitionS[i]);
+            DFA23_transition[i] = DFA.unpackEncodedString(DFA23_transitionS[i]);
         }
     }
 
-    class DFA22 extends DFA {
+    class DFA23 extends DFA {
 
-        public DFA22(BaseRecognizer recognizer) {
+        public DFA23(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 22;
-            this.eot = DFA22_eot;
-            this.eof = DFA22_eof;
-            this.min = DFA22_min;
-            this.max = DFA22_max;
-            this.accept = DFA22_accept;
-            this.special = DFA22_special;
-            this.transition = DFA22_transition;
+            this.decisionNumber = 23;
+            this.eot = DFA23_eot;
+            this.eof = DFA23_eof;
+            this.min = DFA23_min;
+            this.max = DFA23_max;
+            this.accept = DFA23_accept;
+            this.special = DFA23_special;
+            this.transition = DFA23_transition;
         }
         public String getDescription() {
             return "113:12: ( variable | method )";
         }
     }
-    static final String DFA25_eotS =
+    static final String DFA26_eotS =
         "\6\uffff";
-    static final String DFA25_eofS =
+    static final String DFA26_eofS =
         "\6\uffff";
-    static final String DFA25_minS =
+    static final String DFA26_minS =
         "\1\53\1\7\1\53\2\uffff\1\7";
-    static final String DFA25_maxS =
+    static final String DFA26_maxS =
         "\1\53\1\20\1\53\2\uffff\1\20";
-    static final String DFA25_acceptS =
+    static final String DFA26_acceptS =
         "\3\uffff\1\1\1\2\1\uffff";
-    static final String DFA25_specialS =
+    static final String DFA26_specialS =
         "\6\uffff}>";
-    static final String[] DFA25_transitionS = {
+    static final String[] DFA26_transitionS = {
             "\1\1",
             "\1\3\1\4\7\uffff\1\2",
             "\1\5",
@@ -4605,93 +4644,37 @@ public class TwigParser extends Parser {
             "\1\3\1\4\7\uffff\1\2"
     };
 
-    static final short[] DFA25_eot = DFA.unpackEncodedString(DFA25_eotS);
-    static final short[] DFA25_eof = DFA.unpackEncodedString(DFA25_eofS);
-    static final char[] DFA25_min = DFA.unpackEncodedStringToUnsignedChars(DFA25_minS);
-    static final char[] DFA25_max = DFA.unpackEncodedStringToUnsignedChars(DFA25_maxS);
-    static final short[] DFA25_accept = DFA.unpackEncodedString(DFA25_acceptS);
-    static final short[] DFA25_special = DFA.unpackEncodedString(DFA25_specialS);
-    static final short[][] DFA25_transition;
+    static final short[] DFA26_eot = DFA.unpackEncodedString(DFA26_eotS);
+    static final short[] DFA26_eof = DFA.unpackEncodedString(DFA26_eofS);
+    static final char[] DFA26_min = DFA.unpackEncodedStringToUnsignedChars(DFA26_minS);
+    static final char[] DFA26_max = DFA.unpackEncodedStringToUnsignedChars(DFA26_maxS);
+    static final short[] DFA26_accept = DFA.unpackEncodedString(DFA26_acceptS);
+    static final short[] DFA26_special = DFA.unpackEncodedString(DFA26_specialS);
+    static final short[][] DFA26_transition;
 
     static {
-        int numStates = DFA25_transitionS.length;
-        DFA25_transition = new short[numStates][];
+        int numStates = DFA26_transitionS.length;
+        DFA26_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA25_transition[i] = DFA.unpackEncodedString(DFA25_transitionS[i]);
+            DFA26_transition[i] = DFA.unpackEncodedString(DFA26_transitionS[i]);
         }
     }
 
-    class DFA25 extends DFA {
+    class DFA26 extends DFA {
 
-        public DFA25(BaseRecognizer recognizer) {
+        public DFA26(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 25;
-            this.eot = DFA25_eot;
-            this.eof = DFA25_eof;
-            this.min = DFA25_min;
-            this.max = DFA25_max;
-            this.accept = DFA25_accept;
-            this.special = DFA25_special;
-            this.transition = DFA25_transition;
+            this.decisionNumber = 26;
+            this.eot = DFA26_eot;
+            this.eof = DFA26_eof;
+            this.min = DFA26_min;
+            this.max = DFA26_max;
+            this.accept = DFA26_accept;
+            this.special = DFA26_special;
+            this.transition = DFA26_transition;
         }
         public String getDescription() {
             return "121:12: ( variable | method )";
-        }
-    }
-    static final String DFA28_eotS =
-        "\10\uffff";
-    static final String DFA28_eofS =
-        "\10\uffff";
-    static final String DFA28_minS =
-        "\1\51\2\uffff\1\10\1\53\2\uffff\1\10";
-    static final String DFA28_maxS =
-        "\1\55\2\uffff\1\26\1\53\2\uffff\1\26";
-    static final String DFA28_acceptS =
-        "\1\uffff\1\1\1\2\2\uffff\1\3\1\4\1\uffff";
-    static final String DFA28_specialS =
-        "\10\uffff}>";
-    static final String[] DFA28_transitionS = {
-            "\1\2\1\uffff\1\3\1\uffff\1\1",
-            "",
-            "",
-            "\1\6\7\uffff\1\4\5\uffff\1\5",
-            "\1\7",
-            "",
-            "",
-            "\1\6\7\uffff\1\4\5\uffff\1\5"
-    };
-
-    static final short[] DFA28_eot = DFA.unpackEncodedString(DFA28_eotS);
-    static final short[] DFA28_eof = DFA.unpackEncodedString(DFA28_eofS);
-    static final char[] DFA28_min = DFA.unpackEncodedStringToUnsignedChars(DFA28_minS);
-    static final char[] DFA28_max = DFA.unpackEncodedStringToUnsignedChars(DFA28_maxS);
-    static final short[] DFA28_accept = DFA.unpackEncodedString(DFA28_acceptS);
-    static final short[] DFA28_special = DFA.unpackEncodedString(DFA28_specialS);
-    static final short[][] DFA28_transition;
-
-    static {
-        int numStates = DFA28_transitionS.length;
-        DFA28_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA28_transition[i] = DFA.unpackEncodedString(DFA28_transitionS[i]);
-        }
-    }
-
-    class DFA28 extends DFA {
-
-        public DFA28(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 28;
-            this.eot = DFA28_eot;
-            this.eof = DFA28_eof;
-            this.min = DFA28_min;
-            this.max = DFA28_max;
-            this.accept = DFA28_accept;
-            this.special = DFA28_special;
-            this.transition = DFA28_transition;
-        }
-        public String getDescription() {
-            return "141:5: ( STRING_LITERAL | NUMBER | variable | method )";
         }
     }
     static final String DFA29_eotS =
@@ -4701,7 +4684,7 @@ public class TwigParser extends Parser {
     static final String DFA29_minS =
         "\1\51\2\uffff\1\10\1\53\2\uffff\1\10";
     static final String DFA29_maxS =
-        "\1\55\2\uffff\1\21\1\53\2\uffff\1\21";
+        "\1\55\2\uffff\1\26\1\53\2\uffff\1\26";
     static final String DFA29_acceptS =
         "\1\uffff\1\1\1\2\2\uffff\1\3\1\4\1\uffff";
     static final String DFA29_specialS =
@@ -4710,11 +4693,11 @@ public class TwigParser extends Parser {
             "\1\2\1\uffff\1\3\1\uffff\1\1",
             "",
             "",
-            "\1\6\7\uffff\1\4\1\5",
+            "\1\6\7\uffff\1\4\5\uffff\1\5",
             "\1\7",
             "",
             "",
-            "\1\6\7\uffff\1\4\1\5"
+            "\1\6\7\uffff\1\4\5\uffff\1\5"
     };
 
     static final short[] DFA29_eot = DFA.unpackEncodedString(DFA29_eotS);
@@ -4747,7 +4730,7 @@ public class TwigParser extends Parser {
             this.transition = DFA29_transition;
         }
         public String getDescription() {
-            return "141:54: ( STRING_LITERAL | NUMBER | variable | method )";
+            return "141:5: ( STRING_LITERAL | NUMBER | variable | method )";
         }
     }
     static final String DFA30_eotS =
@@ -4755,9 +4738,9 @@ public class TwigParser extends Parser {
     static final String DFA30_eofS =
         "\10\uffff";
     static final String DFA30_minS =
-        "\1\51\2\uffff\1\7\1\53\2\uffff\1\7";
+        "\1\51\2\uffff\1\10\1\53\2\uffff\1\10";
     static final String DFA30_maxS =
-        "\1\55\2\uffff\1\47\1\53\2\uffff\1\47";
+        "\1\55\2\uffff\1\21\1\53\2\uffff\1\21";
     static final String DFA30_acceptS =
         "\1\uffff\1\1\1\2\2\uffff\1\3\1\4\1\uffff";
     static final String DFA30_specialS =
@@ -4766,11 +4749,11 @@ public class TwigParser extends Parser {
             "\1\2\1\uffff\1\3\1\uffff\1\1",
             "",
             "",
-            "\1\5\1\6\7\uffff\1\4\26\uffff\1\5",
+            "\1\6\7\uffff\1\4\1\5",
             "\1\7",
             "",
             "",
-            "\1\5\1\6\7\uffff\1\4\26\uffff\1\5"
+            "\1\6\7\uffff\1\4\1\5"
     };
 
     static final short[] DFA30_eot = DFA.unpackEncodedString(DFA30_eotS);
@@ -4803,22 +4786,78 @@ public class TwigParser extends Parser {
             this.transition = DFA30_transition;
         }
         public String getDescription() {
+            return "141:54: ( STRING_LITERAL | NUMBER | variable | method )";
+        }
+    }
+    static final String DFA31_eotS =
+        "\10\uffff";
+    static final String DFA31_eofS =
+        "\10\uffff";
+    static final String DFA31_minS =
+        "\1\51\2\uffff\1\7\1\53\2\uffff\1\7";
+    static final String DFA31_maxS =
+        "\1\55\2\uffff\1\47\1\53\2\uffff\1\47";
+    static final String DFA31_acceptS =
+        "\1\uffff\1\1\1\2\2\uffff\1\3\1\4\1\uffff";
+    static final String DFA31_specialS =
+        "\10\uffff}>";
+    static final String[] DFA31_transitionS = {
+            "\1\2\1\uffff\1\3\1\uffff\1\1",
+            "",
+            "",
+            "\1\5\1\6\7\uffff\1\4\26\uffff\1\5",
+            "\1\7",
+            "",
+            "",
+            "\1\5\1\6\7\uffff\1\4\26\uffff\1\5"
+    };
+
+    static final short[] DFA31_eot = DFA.unpackEncodedString(DFA31_eotS);
+    static final short[] DFA31_eof = DFA.unpackEncodedString(DFA31_eofS);
+    static final char[] DFA31_min = DFA.unpackEncodedStringToUnsignedChars(DFA31_minS);
+    static final char[] DFA31_max = DFA.unpackEncodedStringToUnsignedChars(DFA31_maxS);
+    static final short[] DFA31_accept = DFA.unpackEncodedString(DFA31_acceptS);
+    static final short[] DFA31_special = DFA.unpackEncodedString(DFA31_specialS);
+    static final short[][] DFA31_transition;
+
+    static {
+        int numStates = DFA31_transitionS.length;
+        DFA31_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA31_transition[i] = DFA.unpackEncodedString(DFA31_transitionS[i]);
+        }
+    }
+
+    class DFA31 extends DFA {
+
+        public DFA31(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 31;
+            this.eot = DFA31_eot;
+            this.eof = DFA31_eof;
+            this.min = DFA31_min;
+            this.max = DFA31_max;
+            this.accept = DFA31_accept;
+            this.special = DFA31_special;
+            this.transition = DFA31_transition;
+        }
+        public String getDescription() {
             return "141:106: ( STRING_LITERAL | NUMBER | variable | method )";
         }
     }
-    static final String DFA32_eotS =
+    static final String DFA34_eotS =
         "\10\uffff";
-    static final String DFA32_eofS =
+    static final String DFA34_eofS =
         "\10\uffff";
-    static final String DFA32_minS =
+    static final String DFA34_minS =
         "\1\12\1\5\2\uffff\1\53\2\uffff\1\5";
-    static final String DFA32_maxS =
+    static final String DFA34_maxS =
         "\1\55\1\20\2\uffff\1\53\2\uffff\1\20";
-    static final String DFA32_acceptS =
+    static final String DFA34_acceptS =
         "\2\uffff\1\3\1\4\1\uffff\1\1\1\2\1\uffff";
-    static final String DFA32_specialS =
+    static final String DFA34_specialS =
         "\10\uffff}>";
-    static final String[] DFA32_transitionS = {
+    static final String[] DFA34_transitionS = {
             "\1\2\40\uffff\1\1\1\uffff\1\3",
             "\1\5\2\uffff\1\6\5\uffff\1\5\1\uffff\1\4",
             "",
@@ -4829,34 +4868,34 @@ public class TwigParser extends Parser {
             "\1\5\2\uffff\1\6\5\uffff\1\5\1\uffff\1\4"
     };
 
-    static final short[] DFA32_eot = DFA.unpackEncodedString(DFA32_eotS);
-    static final short[] DFA32_eof = DFA.unpackEncodedString(DFA32_eofS);
-    static final char[] DFA32_min = DFA.unpackEncodedStringToUnsignedChars(DFA32_minS);
-    static final char[] DFA32_max = DFA.unpackEncodedStringToUnsignedChars(DFA32_maxS);
-    static final short[] DFA32_accept = DFA.unpackEncodedString(DFA32_acceptS);
-    static final short[] DFA32_special = DFA.unpackEncodedString(DFA32_specialS);
-    static final short[][] DFA32_transition;
+    static final short[] DFA34_eot = DFA.unpackEncodedString(DFA34_eotS);
+    static final short[] DFA34_eof = DFA.unpackEncodedString(DFA34_eofS);
+    static final char[] DFA34_min = DFA.unpackEncodedStringToUnsignedChars(DFA34_minS);
+    static final char[] DFA34_max = DFA.unpackEncodedStringToUnsignedChars(DFA34_maxS);
+    static final short[] DFA34_accept = DFA.unpackEncodedString(DFA34_acceptS);
+    static final short[] DFA34_special = DFA.unpackEncodedString(DFA34_specialS);
+    static final short[][] DFA34_transition;
 
     static {
-        int numStates = DFA32_transitionS.length;
-        DFA32_transition = new short[numStates][];
+        int numStates = DFA34_transitionS.length;
+        DFA34_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA32_transition[i] = DFA.unpackEncodedString(DFA32_transitionS[i]);
+            DFA34_transition[i] = DFA.unpackEncodedString(DFA34_transitionS[i]);
         }
     }
 
-    class DFA32 extends DFA {
+    class DFA34 extends DFA {
 
-        public DFA32(BaseRecognizer recognizer) {
+        public DFA34(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 32;
-            this.eot = DFA32_eot;
-            this.eof = DFA32_eof;
-            this.min = DFA32_min;
-            this.max = DFA32_max;
-            this.accept = DFA32_accept;
-            this.special = DFA32_special;
-            this.transition = DFA32_transition;
+            this.decisionNumber = 34;
+            this.eot = DFA34_eot;
+            this.eof = DFA34_eof;
+            this.min = DFA34_min;
+            this.max = DFA34_max;
+            this.accept = DFA34_accept;
+            this.special = DFA34_special;
+            this.transition = DFA34_transition;
         }
         public String getDescription() {
             return "155:1: p_input : ( variable | method | array | STRING_LITERAL );";
@@ -4866,157 +4905,157 @@ public class TwigParser extends Parser {
 
     public static final BitSet FOLLOW_twig_print_statement_in_twig_source69 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_twig_control_statement_in_twig_source73 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CTRL_OPEN_in_twig_control_statement89 = new BitSet(new long[]{0x0000083F9F800000L});
+    public static final BitSet FOLLOW_CTRL_OPEN_in_twig_control_statement89 = new BitSet(new long[]{0x0000083F9F800080L});
     public static final BitSet FOLLOW_twig_control_in_twig_control_statement91 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_CTRL_CLOSE_in_twig_control_statement93 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_for_in_twig_control107 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ENDFOR_in_twig_control111 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ELSE_in_twig_control115 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_if_in_twig_control119 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_elseif_in_twig_control123 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ENDIF_in_twig_control127 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_macro_in_twig_control131 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_import_in_twig_control135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_set_in_twig_control139 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_include_in_twig_control143 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INCLUDE_in_twig_include158 = new BitSet(new long[]{0x00002A0004000000L});
-    public static final BitSet FOLLOW_include_ternary_in_twig_include161 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_include_statement_in_twig_include165 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_ternary_in_include_ternary181 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_ONLY_in_include_ternary183 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_include_statement200 = new BitSet(new long[]{0x000000C000000002L});
-    public static final BitSet FOLLOW_ONLY_in_include_statement203 = new BitSet(new long[]{0x0000004000000002L});
-    public static final BitSet FOLLOW_WITH_in_include_statement207 = new BitSet(new long[]{0x0000280004100000L});
-    public static final BitSet FOLLOW_variable_in_include_statement210 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_include_statement214 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_method_in_include_statement218 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_json_in_include_statement222 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_ONLY_in_include_statement225 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SET_in_twig_set244 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_twig_assignment_in_twig_set246 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_twig_set249 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_twig_assignment_in_twig_set251 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_ENDSET_in_twig_set258 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_twig_left_assignment_in_twig_assignment273 = new BitSet(new long[]{0x0000000000001002L});
-    public static final BitSet FOLLOW_ASIG_in_twig_assignment276 = new BitSet(new long[]{0x0000280004100400L});
-    public static final BitSet FOLLOW_twig_right_assignment_in_twig_assignment278 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variable_in_twig_left_assignment296 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_twig_left_assignment299 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_variable_in_twig_left_assignment301 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_right_assignment320 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_variable_in_twig_right_assignment324 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_method_in_twig_right_assignment328 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_array_in_twig_right_assignment332 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_json_in_twig_right_assignment336 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_twig_tilde_argument_in_twig_right_assignment340 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_twig_right_assignment344 = new BitSet(new long[]{0x0000280004100400L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_right_assignment347 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_variable_in_twig_right_assignment351 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_method_in_twig_right_assignment355 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_array_in_twig_right_assignment359 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_json_in_twig_right_assignment363 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_twig_tilde_argument_in_twig_right_assignment367 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_tilde_argument386 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_variable_in_twig_tilde_argument390 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_method_in_twig_tilde_argument394 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_array_in_twig_tilde_argument398 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_json_in_twig_tilde_argument402 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_TILDE_in_twig_tilde_argument405 = new BitSet(new long[]{0x0000280004100400L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_tilde_argument408 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variable_in_twig_tilde_argument412 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_twig_tilde_argument416 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_array_in_twig_tilde_argument420 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_json_in_twig_tilde_argument424 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FROM_in_twig_import441 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_import444 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_IMPORT_in_twig_import449 = new BitSet(new long[]{0x0000280004000000L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_import452 = new BitSet(new long[]{0x0000000040000002L});
-    public static final BitSet FOLLOW_variable_in_twig_import456 = new BitSet(new long[]{0x0000000040000002L});
-    public static final BitSet FOLLOW_TWIG_AS_in_twig_import460 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_STRING_in_twig_import463 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_twig_import466 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_STRING_in_twig_import468 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_MACRO_in_twig_macro490 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_variable_in_twig_macro493 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_twig_macro497 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ENDMACRO_in_twig_macro503 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IF_in_twig_if518 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_variable_in_twig_if520 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_twig_if524 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ELSEIF_in_twig_elseif539 = new BitSet(new long[]{0x0000080004000000L});
-    public static final BitSet FOLLOW_variable_in_twig_elseif542 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_twig_elseif546 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FOR_in_twig_for562 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_STRING_in_twig_for564 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_IN_in_twig_for566 = new BitSet(new long[]{0x00002A0004000000L});
-    public static final BitSet FOLLOW_for_arguments_in_twig_for568 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_for_value_in_for_arguments583 = new BitSet(new long[]{0x0000000000004002L});
-    public static final BitSet FOLLOW_PIPE_in_for_arguments586 = new BitSet(new long[]{0x00002A0004000000L});
-    public static final BitSet FOLLOW_for_value_in_for_arguments588 = new BitSet(new long[]{0x0000000000004002L});
-    public static final BitSet FOLLOW_STRING_in_for_value605 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_for_value609 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_for_value613 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_range_in_for_value617 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_in_range632 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_DDOT_in_range644 = new BitSet(new long[]{0x00002A0000000000L});
-    public static final BitSet FOLLOW_set_in_range646 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary673 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_NUMBER_in_twig_ternary677 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_variable_in_twig_ternary681 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_method_in_twig_ternary685 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_QM_in_twig_ternary688 = new BitSet(new long[]{0x00002A0004000000L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary691 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_NUMBER_in_twig_ternary695 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_variable_in_twig_ternary699 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_method_in_twig_ternary703 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_COLON_in_twig_ternary706 = new BitSet(new long[]{0x00002A0004000000L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary709 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NUMBER_in_twig_ternary713 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variable_in_twig_ternary717 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_twig_ternary721 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PRINT_OPEN_in_twig_print_statement739 = new BitSet(new long[]{0x0000280004000400L});
-    public static final BitSet FOLLOW_twig_print_in_twig_print_statement741 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_PRINT_CLOSE_in_twig_print_statement743 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_input_in_twig_print769 = new BitSet(new long[]{0x0000000000004002L});
-    public static final BitSet FOLLOW_PIPE_in_twig_print772 = new BitSet(new long[]{0x0000280004000400L});
-    public static final BitSet FOLLOW_p_input_in_twig_print774 = new BitSet(new long[]{0x0000000000004002L});
-    public static final BitSet FOLLOW_variable_in_p_input791 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_method_in_p_input795 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_array_in_p_input799 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_p_input803 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ARRAY_START_in_array821 = new BitSet(new long[]{0x00002A0004100000L});
-    public static final BitSet FOLLOW_array_elements_in_array823 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_ARRAY_END_in_array825 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_array_element_in_array_elements840 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_array_elements843 = new BitSet(new long[]{0x00002A0004100000L});
-    public static final BitSet FOLLOW_array_element_in_array_elements845 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_STRING_in_array_element862 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_array_element866 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NUMBER_in_array_element870 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_json_in_array_element874 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_in_variable891 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_DOT_in_variable894 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_STRING_in_variable897 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_variable_in_method927 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_METHOD_START_in_method929 = new BitSet(new long[]{0x00002A0004100200L});
-    public static final BitSet FOLLOW_arguments_in_method931 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_METHOD_END_in_method934 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_argument_in_arguments950 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_arguments954 = new BitSet(new long[]{0x00002A0004100000L});
-    public static final BitSet FOLLOW_argument_in_arguments957 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_literal_argument_in_argument971 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_in_argument975 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_json_in_argument979 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NUMBER_in_argument983 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_LITERAL_in_literal_argument996 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_JSON_START_in_json1022 = new BitSet(new long[]{0x0000280000200000L});
-    public static final BitSet FOLLOW_json_arguments_in_json1024 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_JSON_END_in_json1027 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_json_argument_in_json_arguments1042 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_COMMA_in_json_arguments1045 = new BitSet(new long[]{0x0000280000000000L});
-    public static final BitSet FOLLOW_json_argument_in_json_arguments1048 = new BitSet(new long[]{0x0000000000040002L});
-    public static final BitSet FOLLOW_set_in_json_argument1066 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_COLON_in_json_argument1075 = new BitSet(new long[]{0x0000280000000000L});
-    public static final BitSet FOLLOW_set_in_json_argument1078 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CTRL_CLOSE_in_twig_control_statement94 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_for_in_twig_control108 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ENDFOR_in_twig_control112 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ELSE_in_twig_control116 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_if_in_twig_control120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_elseif_in_twig_control124 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ENDIF_in_twig_control128 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_macro_in_twig_control132 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_import_in_twig_control136 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_set_in_twig_control140 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_include_in_twig_control144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INCLUDE_in_twig_include159 = new BitSet(new long[]{0x00002A0004000000L});
+    public static final BitSet FOLLOW_include_ternary_in_twig_include162 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_include_statement_in_twig_include166 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_ternary_in_include_ternary182 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_ONLY_in_include_ternary184 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_include_statement201 = new BitSet(new long[]{0x000000C000000002L});
+    public static final BitSet FOLLOW_ONLY_in_include_statement204 = new BitSet(new long[]{0x0000004000000002L});
+    public static final BitSet FOLLOW_WITH_in_include_statement208 = new BitSet(new long[]{0x0000280004100000L});
+    public static final BitSet FOLLOW_variable_in_include_statement211 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_include_statement215 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_method_in_include_statement219 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_json_in_include_statement223 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_ONLY_in_include_statement226 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SET_in_twig_set245 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_twig_assignment_in_twig_set247 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_twig_set250 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_twig_assignment_in_twig_set252 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_ENDSET_in_twig_set259 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_twig_left_assignment_in_twig_assignment274 = new BitSet(new long[]{0x0000000000001002L});
+    public static final BitSet FOLLOW_ASIG_in_twig_assignment277 = new BitSet(new long[]{0x0000280004100400L});
+    public static final BitSet FOLLOW_twig_right_assignment_in_twig_assignment279 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variable_in_twig_left_assignment297 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_twig_left_assignment300 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_variable_in_twig_left_assignment302 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_right_assignment321 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_variable_in_twig_right_assignment325 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_method_in_twig_right_assignment329 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_array_in_twig_right_assignment333 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_json_in_twig_right_assignment337 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_twig_tilde_argument_in_twig_right_assignment341 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_twig_right_assignment345 = new BitSet(new long[]{0x0000280004100400L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_right_assignment348 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_variable_in_twig_right_assignment352 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_method_in_twig_right_assignment356 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_array_in_twig_right_assignment360 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_json_in_twig_right_assignment364 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_twig_tilde_argument_in_twig_right_assignment368 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_tilde_argument387 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_variable_in_twig_tilde_argument391 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_method_in_twig_tilde_argument395 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_array_in_twig_tilde_argument399 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_json_in_twig_tilde_argument403 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_TILDE_in_twig_tilde_argument406 = new BitSet(new long[]{0x0000280004100400L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_tilde_argument409 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variable_in_twig_tilde_argument413 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_twig_tilde_argument417 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_array_in_twig_tilde_argument421 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_json_in_twig_tilde_argument425 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FROM_in_twig_import442 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_import445 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_IMPORT_in_twig_import450 = new BitSet(new long[]{0x0000280004000000L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_import453 = new BitSet(new long[]{0x0000000040000002L});
+    public static final BitSet FOLLOW_variable_in_twig_import457 = new BitSet(new long[]{0x0000000040000002L});
+    public static final BitSet FOLLOW_TWIG_AS_in_twig_import461 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STRING_in_twig_import464 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_twig_import467 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STRING_in_twig_import469 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_MACRO_in_twig_macro491 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_variable_in_twig_macro494 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_twig_macro498 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ENDMACRO_in_twig_macro504 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IF_in_twig_if519 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_variable_in_twig_if521 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_twig_if525 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ELSEIF_in_twig_elseif540 = new BitSet(new long[]{0x0000080004000000L});
+    public static final BitSet FOLLOW_variable_in_twig_elseif543 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_twig_elseif547 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FOR_in_twig_for563 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STRING_in_twig_for565 = new BitSet(new long[]{0x0000000020000000L});
+    public static final BitSet FOLLOW_IN_in_twig_for567 = new BitSet(new long[]{0x00002A0004000000L});
+    public static final BitSet FOLLOW_for_arguments_in_twig_for569 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_for_value_in_for_arguments584 = new BitSet(new long[]{0x0000000000004002L});
+    public static final BitSet FOLLOW_PIPE_in_for_arguments587 = new BitSet(new long[]{0x00002A0004000000L});
+    public static final BitSet FOLLOW_for_value_in_for_arguments589 = new BitSet(new long[]{0x0000000000004002L});
+    public static final BitSet FOLLOW_STRING_in_for_value606 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_for_value610 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_for_value614 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_range_in_for_value618 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_range633 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_DDOT_in_range645 = new BitSet(new long[]{0x00002A0000000000L});
+    public static final BitSet FOLLOW_set_in_range647 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary674 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_NUMBER_in_twig_ternary678 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_variable_in_twig_ternary682 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_method_in_twig_ternary686 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_QM_in_twig_ternary689 = new BitSet(new long[]{0x00002A0004000000L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary692 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_NUMBER_in_twig_ternary696 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_variable_in_twig_ternary700 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_method_in_twig_ternary704 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_COLON_in_twig_ternary707 = new BitSet(new long[]{0x00002A0004000000L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_twig_ternary710 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NUMBER_in_twig_ternary714 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variable_in_twig_ternary718 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_twig_ternary722 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PRINT_OPEN_in_twig_print_statement740 = new BitSet(new long[]{0x0000280004000420L});
+    public static final BitSet FOLLOW_twig_print_in_twig_print_statement742 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_PRINT_CLOSE_in_twig_print_statement745 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_input_in_twig_print772 = new BitSet(new long[]{0x0000000000004002L});
+    public static final BitSet FOLLOW_PIPE_in_twig_print775 = new BitSet(new long[]{0x0000280004000400L});
+    public static final BitSet FOLLOW_p_input_in_twig_print777 = new BitSet(new long[]{0x0000000000004002L});
+    public static final BitSet FOLLOW_variable_in_p_input794 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_method_in_p_input798 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_array_in_p_input802 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_p_input806 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ARRAY_START_in_array824 = new BitSet(new long[]{0x00002A0004100000L});
+    public static final BitSet FOLLOW_array_elements_in_array826 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_ARRAY_END_in_array828 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_array_element_in_array_elements843 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_array_elements846 = new BitSet(new long[]{0x00002A0004100000L});
+    public static final BitSet FOLLOW_array_element_in_array_elements848 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_STRING_in_array_element865 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_array_element869 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NUMBER_in_array_element873 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_json_in_array_element877 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_in_variable894 = new BitSet(new long[]{0x0000000000010002L});
+    public static final BitSet FOLLOW_DOT_in_variable897 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STRING_in_variable900 = new BitSet(new long[]{0x0000000000010002L});
+    public static final BitSet FOLLOW_variable_in_method930 = new BitSet(new long[]{0x0000000000000100L});
+    public static final BitSet FOLLOW_METHOD_START_in_method932 = new BitSet(new long[]{0x00002A0004100200L});
+    public static final BitSet FOLLOW_arguments_in_method934 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_METHOD_END_in_method937 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_argument_in_arguments953 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_arguments957 = new BitSet(new long[]{0x00002A0004100000L});
+    public static final BitSet FOLLOW_argument_in_arguments960 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_literal_argument_in_argument974 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_in_argument978 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_json_in_argument982 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NUMBER_in_argument986 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_literal_argument999 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_JSON_START_in_json1025 = new BitSet(new long[]{0x0000280000200000L});
+    public static final BitSet FOLLOW_json_arguments_in_json1027 = new BitSet(new long[]{0x0000000000200000L});
+    public static final BitSet FOLLOW_JSON_END_in_json1030 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_json_argument_in_json_arguments1045 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_COMMA_in_json_arguments1048 = new BitSet(new long[]{0x0000280000000000L});
+    public static final BitSet FOLLOW_json_argument_in_json_arguments1051 = new BitSet(new long[]{0x0000000000040002L});
+    public static final BitSet FOLLOW_set_in_json_argument1069 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_COLON_in_json_argument1078 = new BitSet(new long[]{0x0000280000000000L});
+    public static final BitSet FOLLOW_set_in_json_argument1081 = new BitSet(new long[]{0x0000000000000002L});
 
 }

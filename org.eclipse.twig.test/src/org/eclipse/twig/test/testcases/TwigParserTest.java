@@ -33,6 +33,22 @@ public class TwigParserTest extends TestCase {
 	
 	
 	@Test
+	public void testEmptyControlStatement() {
+		
+		assertValidTokenstream("{% %}");
+		
+	}
+	
+	
+	@Test
+	public void testEmptyPrint() {
+		
+		assertValidTokenstream("{{  }}");
+		
+	}
+	
+	
+	@Test
 	public void testForStatement() {
 		
 		

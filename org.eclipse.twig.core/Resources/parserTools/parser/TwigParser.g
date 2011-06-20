@@ -65,7 +65,7 @@ twig_source
 // twig control statements start
 
 twig_control_statement
-  : CTRL_OPEN twig_control CTRL_CLOSE
+  : CTRL_OPEN twig_control? CTRL_CLOSE
   ;
 
 
@@ -144,8 +144,8 @@ twig_ternary
 // twig print statements start
 
 twig_print_statement
-  :  PRINT_OPEN twig_print PRINT_CLOSE
-    ->^(TWIG_PR_STMT twig_print)
+  :  PRINT_OPEN twig_print? PRINT_CLOSE
+    ->^(TWIG_PR_STMT twig_print?)
   ;
   
 twig_print

@@ -3,12 +3,18 @@ package org.eclipse.twig.ui.editor;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IMethod;
 import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.dltk.core.IType;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.php.internal.core.codeassist.AliasType;
-import org.eclipse.php.internal.core.typeinference.FakeConstructor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLabelProvider;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigCompletionProposalLabelProvider extends
 		PHPCompletionProposalLabelProvider {
@@ -17,7 +23,7 @@ public class TwigCompletionProposalLabelProvider extends
 	protected String createMethodProposalLabel(CompletionProposal methodProposal) {
 		StringBuffer nameBuffer = new StringBuffer();
 
-		System.err.println("create label");
+
 		// method name
 		nameBuffer.append(methodProposal.getName());
 
@@ -38,7 +44,6 @@ public class TwigCompletionProposalLabelProvider extends
 	protected String createOverrideMethodProposalLabel(
 			CompletionProposal methodProposal) {
 
-		System.err.println("create twig label");
 		StringBuffer nameBuffer = new StringBuffer();
 		IMethod method = (IMethod) methodProposal.getModelElement();
 
