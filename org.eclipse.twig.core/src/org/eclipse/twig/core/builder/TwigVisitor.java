@@ -161,10 +161,8 @@ public class TwigVisitor extends PHPASTVisitor {
 						Scalar name = (Scalar) key;
 						ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
 						
-						
 						if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FILTER_FUNCTION)) {
-							Filter filter = new Filter(context.getFile(), name);
-							filters.push(filter);
+							filters.push(new Filter(context.getFile(), name));
 						}
 					}
 					return true;
