@@ -1,6 +1,7 @@
 package org.eclipse.twig.core.documentModel.parser.regions;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -38,11 +39,133 @@ public class TwigTokenContainer {
 		return twigTokens.size();
 		
 	}
+	
+	public boolean isEmpty() {
+		return this.twigTokens.isEmpty();
+	}
+	
+	public ITextRegion[] getTwigTokens() {
+		return twigTokens.toArray(new ITextRegion[twigTokens.size()]);
+	}
+	
+	protected synchronized final ListIterator<LexerStateChange> removeOldChanges(
+			int fromOffset, int toOffset) {
+		final ListIterator<LexerStateChange> iterator = (ListIterator<LexerStateChange>) lexerStateChanges
+				.iterator();
+
+		LexerStateChange element = iterator.next();
+		while (element.getOffset() <= toOffset) {
+			if (element.getOffset() > fromOffset
+					&& element.getOffset() <= toOffset) {
+				iterator.remove();
+			}
+			if (!iterator.hasNext()) {
+				return iterator;
+			}
+			element = iterator.next();
+		}
+
+		return iterator;
+	}	
+	
+	private void setIterator(ListIterator<LexerStateChange> oldIterator,
+			int fromOffset, int toOffset) {
+		if (oldIterator.nextIndex() != 1) {
+			oldIterator.previous();
+		} else {
+			return;
+		}
+
+		LexerStateChange next = oldIterator.next();
+		int offset = next.getOffset();
+		if (offset > fromOffset) {
+			oldIterator.previous();
+		}
+
+	}
+	
+	
+	public void updateStateChanges(TwigTokenContainer newContainer,
+			int fromOffset, int toOffset) {
+		if (newContainer.lexerStateChanges.size() < 2) {
+			return;
+		}
+
+		// remove
+		final ListIterator<LexerStateChange> oldIterator = removeOldChanges(
+				fromOffset, toOffset);
+
+		// add
+		final Iterator<LexerStateChange> newIterator = newContainer.lexerStateChanges
+				.iterator();
+		newIterator.next(); // ignore the first state change (it is identical to
+		// the original one)
+
+		// goto the previous before adding
+		setIterator(oldIterator, fromOffset, toOffset);
+
+		while (newIterator.hasNext()) {
+			oldIterator.add(newIterator.next());
+		}
+	}
+	
+
+	public synchronized ListIterator<ContextRegion> removeTokensSubList(
+			ITextRegion tokenStart, ITextRegion tokenEnd) {
+		assert tokenStart != null;
+
+		// go to the start region
+		ITextRegion region = null;
+		;
+		try {
+			region = getToken(tokenStart.getStart());
+		} catch (BadLocationException e) {
+			assert false;
+		}
+		assert region == tokenStart;
+
+		tokensIterator.remove();
+
+		// if it the start and the end are equal - remove and exit
+		if (tokenStart != tokenEnd) {
+			// remove to the end
+			do {
+				region = tokensIterator.next();
+				tokensIterator.remove();
+			} while (tokensIterator.hasNext() && region != tokenEnd);
+		}
+
+		return tokensIterator;
+	}
+	
+	public void adjustWhitespace(String yylex, int start, int yylengthLength,
+			int yylength, Object lexerState) {
+		assert (twigTokens.size() == 0 || getLastToken().getEnd() == start)
+				&& tokensIterator == null;
+
+		// if state was change - we add a new token and add state
+		if (lexerStateChanges.size() != 0
+				&& getLastChange().state.equals(lexerState)) {
+			final ITextRegion last = twigTokens.getLast();
+			last.adjustLength(yylength);
+		}
+	}
+	
 
 	public void reset() {
 		this.twigTokens.clear();
 		this.lexerStateChanges.clear();		
 	}
+	
+	public static boolean isKeyword(String yylex) {
+		
+//		if (TwigRegionTypes.PHP_FROM.equals(yylex)) {
+//			return true;
+//		}
+		
+		return false;
+	}
+	
 	
 	protected final ITextRegion getLastToken() {
 		return twigTokens.getLast();
@@ -181,6 +304,25 @@ public class TwigTokenContainer {
 
 		return result;
 	}
+	
+	public LexerState getState(int offset) throws BadLocationException {
+		
+		Iterator<LexerStateChange> iter = lexerStateChanges.iterator();
+		assert iter.hasNext();
+
+		LexerStateChange element = iter.next();
+		LexerState lastState = null;
+
+		while (offset >= element.getOffset()) {
+			lastState = element.state;
+			if (!iter.hasNext()) {
+				return lastState;
+			}
+			element = iter.next();
+		}
+		return lastState;
+	}
+	
 	
 	private final boolean isInside(ITextRegion region, int offset) {
 		return region != null && region.getStart() <= offset
