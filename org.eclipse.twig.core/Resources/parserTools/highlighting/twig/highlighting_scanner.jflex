@@ -331,6 +331,8 @@ NUMBER=([0-9])+
 
 <ST_TWIG_CONTENT> {TOKENS} {
 
+	if(Debug.debugTokenizer)
+		dump("TWIG DELIMITER TOKEN");
 	return TWIG_DELIMITER;
 }
 
