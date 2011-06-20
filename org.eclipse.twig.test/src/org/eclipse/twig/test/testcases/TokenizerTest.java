@@ -386,6 +386,29 @@ public class TokenizerTest extends TestCase {
 		}
 	}
 	
+	@Test
+	public void testPrintStatement() {
+		
+		try {
+			tokens = "  {{ f";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());			
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);			
+
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+				System.err.println("region: " + region.getType());
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 	@Test
 	public void testStatementOpenClose() {
@@ -398,11 +421,8 @@ public class TokenizerTest extends TestCase {
 			assertTrue(contextRegions.size() == 0);			
 
 			while(!tokenizer.isEOF()) {
-
 				ContextRegion region = (ContextRegion) tokenizer.getNextToken();
 				contextRegions.push(region);
-				System.err.println(region.getType());
-
 			}
 
 			assertEquals(3, contextRegions.size());
@@ -435,10 +455,10 @@ public class TokenizerTest extends TestCase {
 			textRegions = new Stack<ITextRegion>();
 			assertTrue(textRegions.size() == 0);			
 
-
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken();
 				textRegions.push(region);
+				System.out.println(region.getType());
 
 			}
 			
@@ -446,6 +466,7 @@ public class TokenizerTest extends TestCase {
 			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_STMT_OPEN);
 			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_CONTENT);
 			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_STMT_CLOSE);
+			assertEquals(textRegions.get(3).getType(), "XML_CONTENT");
 			assertTrue(textRegions.get(1) instanceof TwigScriptRegion);
 			
 

@@ -171,7 +171,7 @@ public class TwigStructuredDocumentReParser extends
 		
 		
 		
-//		return super.reparse();
+		return super.reparse();
 		
 //TODO: find out why this reparse() logic does not work
 // (only when deleting characters the regions are detected as dirty
@@ -195,11 +195,11 @@ public class TwigStructuredDocumentReParser extends
 //		return result;
 		
 		
-		findDirtyStart(fStart);
-		int end = fStart + fLengthToReplace;
-		findDirtyEnd(end);
-		StructuredDocumentEvent event = reparse(dirtyStart, dirtyEnd);
-		return event;		
+//		findDirtyStart(fStart);
+//		int end = fStart + fLengthToReplace;
+//		findDirtyEnd(end);
+//		StructuredDocumentEvent event = reparse(dirtyStart, dirtyEnd);
+//		return event;		
 		
 	}
 }

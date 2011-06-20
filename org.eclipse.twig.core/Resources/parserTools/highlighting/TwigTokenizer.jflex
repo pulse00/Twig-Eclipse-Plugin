@@ -2205,7 +2205,7 @@ NUMBER=([0-9])+
 
 
 
-<YYINITIAL> {TW_STMT_DEL_LEFT} {
+<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_STMT_DEL_LEFT} {
 
 	yybegin(ST_TWIG_CONTENT);
 	
@@ -2218,16 +2218,12 @@ NUMBER=([0-9])+
 }
 
 // this is the "normal" xml content
-<YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
+<YYINITIAL> ![\{][^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
 
 	if(Debug.debugTokenizer)
 		dump("\nXML content");//$NON-NLS-1$
 
-	final String text = yytext();
-	assert text != null;
-
-	// checks the smarty case
-	return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);
+	return XML_CONTENT;
 
 }
 
