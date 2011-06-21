@@ -74,6 +74,9 @@ public class TwigLexer extends Lexer {
     	public void displayRecognitionError(String[] tokenNames,
                                             RecognitionException e) {
             
+    		if (errorReporter == null)
+    			return;
+    		
     		String hdr = getErrorHeader(e);
             String msg = getErrorMessage(e, tokenNames);        
             errorReporter.reportError(hdr,msg,e);

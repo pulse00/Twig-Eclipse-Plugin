@@ -1418,6 +1418,7 @@ Extender = [\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005\u3031-\u3035\u309D-
 //PHP MACROS
 WHITESPACE = [\n\r \t]
 PHP_START       = <\?[Pp][Hh][P|p]{WHITESPACE}*
+//PHP_START       = "{%"{WHITESPACE}*
 PHP_ASP_START=<%
 PHP_ASP_END=%>
 
@@ -1425,7 +1426,7 @@ PHP_ASP_END=%>
 
 TW_START = \{\{{WHITESPACE}*
 
-TW_STMT_DEL_LEFT = \{%{WHITESPACE}*
+TW_STMT_DEL_LEFT = \{\%{WHITESPACE}*
 TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
@@ -1785,6 +1786,7 @@ NUMBER=([0-9])+
 	return XML_CONTENT;
 
 }
+
 
 {PHP_START} | {PHP_ASP_START} | {PIstart} {
 	if(Debug.debugTokenizer)
@@ -2226,9 +2228,8 @@ NUMBER=([0-9])+
 }
 
 // this is the "normal" xml content
-<YYINITIAL> [^<&%]* | [&%]{S}+{Name}[^&%<]* | [&%]{Name}([^;&%<]*|{S}+;*) { 
-//<YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
-
+//<YYINITIAL> [^<&%]* | [&%]{S}+{Name}[^&%<]* | [&%]{Name}([^;&%<]*|{S}+;*) { 
+<YYINITIAL> [^<]* | {S}+{Name}[^<]* | {Name}([^;&<]*|{S}+;*) {
    if(Debug.debugTokenizer)
         dump("\nXML content");//$NON-NLS-1$
 
