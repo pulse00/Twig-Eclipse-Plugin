@@ -84,8 +84,25 @@ public class TokenizerTest extends TestCase {
 	@Test
 	public void testFullTemplate() {
 		
-		
 		try {
+			
+			String[] regions = new String[] {"XML_DECLARATION_OPEN", "XML_DOCTYPE_DECLARATION", "XML_DOCTYPE_NAME", "XML_DECLARATION_CLOSE", 
+					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", 
+					"XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", 
+					"XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_EMPTY_TAG_CLOSE", 
+					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", 
+					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT",
+					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", 
+					"XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", 
+					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "WHITE_SPACE", "XML_EMPTY_TAG_CLOSE", 
+					"XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", 
+					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", 
+					"XML_TAG_CLOSE", "XML_CONTENT", "TWIG_OPEN", "TWIG_CONTENT", "TWIG_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", 
+					"XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", 
+					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", 
+					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", 
+					"XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", 
+					"XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE"};
 			
 			tokens = loadTemplate("full.twig");
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
@@ -95,19 +112,19 @@ public class TokenizerTest extends TestCase {
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken(); 
 				textRegions.push(region);
-			}					
-						
+			}
+			
+			int i =0;
+			
+			for (String region : regions) {
+				assertEquals(region, textRegions.get(i++).getType());				
+			}						
 			
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			fail();
 		}
-		
-		
-		
 	}
-	
 	
 	@Test
 	public void testMultipleStatementsOnSingleLine() {
