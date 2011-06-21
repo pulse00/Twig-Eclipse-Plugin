@@ -238,14 +238,13 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 		else {
 			
 			/**
-			 * Look for starting PHPs "<?"
+			 * Look for starting PHPs "{?"
 			 */
 			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
 			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '<' && 
-					(yy_buffer[yy_currentPos] == '?' || (yy_buffer[yy_currentPos] == '%' && ProjectOptions.isSupportingAspTags(project)))) {
+					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || (yy_buffer[yy_currentPos] == '%'))) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
 				int resumeState = yystate();
@@ -264,7 +263,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
 			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '<' && yy_buffer[yy_currentPos] == '?') {
+					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || yy_buffer[yy_currentPos] == '%')) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
 				int resumeState = yystate();
@@ -281,7 +280,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
 			// since it relies upon yy_currentPos equaling exactly the previous end +1 to work as designed.
 			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
-					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '<' && yy_buffer[yy_startRead + 1] == '?') {
+					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '{' && yy_buffer[yy_startRead + 1] == '{') {
 				fLastInternalBlockStart = yy_markedPos = yy_startRead;
 				yy_currentPos = yy_markedPos + 1;
 				int resumeState = yystate();
@@ -954,6 +953,13 @@ private final String scanTwigCommentText() throws IOException {
 	return doScan("#}", true, false,  TWIG_COMMENT_TEXT, ST_TWIG_COMMENT_END, ST_TWIG_COMMENT_END);
 }
 
+private void assembleEmbeddedTwigOpen() {
+	
+
+	System.err.println("assemble embedded twig open");	
+	
+}
+
 %}
 
 %eof{
@@ -1422,12 +1428,12 @@ PHP_START       = <\?[Pp][Hh][P|p]{WHITESPACE}*
 PHP_ASP_START=<%
 PHP_ASP_END=%>
 
+
 // TWIG MACROS
 
 TW_START = \{\{{WHITESPACE}*
 
 TW_STMT_DEL_LEFT = \{\%{WHITESPACE}*
-TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
@@ -2242,8 +2248,11 @@ NUMBER=([0-9])+
 }
 
 <ST_BLOCK_TAG_SCAN> .|\r|\n {
-		return doBlockTagScan();
-	}
+
+	dump("DO BLOCK TAG SCAN");
+
+	return doBlockTagScan();
+}
 	
 <ST_TWIG_CONTENT> "}}" {
 	

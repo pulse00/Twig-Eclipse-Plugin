@@ -258,6 +258,33 @@
 		}
 		
 		
+		delim = "{%";
+		final int startChar3 = text.indexOf(delim);
+		
+		if (Debug.debugTokenizer) {
+//			System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+		}
+			
+		if (startChar3 != -1) {
+			//System.err.println("a");
+			//go to the char right before the text, so it doesnt mark the whole thing red...
+			if (startChar3 > 0){
+//				System.err.println("b");
+				//push to right before the delim
+				yypushback(yylength() - startChar3);
+				//return YYINITIAL;
+			} else {
+//				System.err.println("c");
+				yybegin(afterDelimType);
+				// pushback to just after the closing bracket
+				int delemLen = delim.length();
+				yypushback(yylength() - startChar3 - delemLen);
+				return TWIG_STMT_OPEN;
+			}
+		}
+		
+		
+		
 		delim = "{#";
 		final int startChar2 = text.indexOf(delim);
 		

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+    
+		<script type="text/javascript"> {{ item.href }}</script>
+		    
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        {% block %}
+        <a href="{{ item.href }}"></a>
+    </body>
+</html>
