@@ -8,14 +8,24 @@ import org.eclipse.twig.core.compiler.ast.parser.ITwigNodeVisitor;
 import org.eclipse.twig.core.compiler.ast.parser.TwigCommonTree;
 import org.eclipse.twig.core.compiler.ast.parser.TwigParser;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 public class TwigIndexingVisitor implements ITwigNodeVisitor {
 
 	private IElementRequestor requestor;
+	private int offset;
 	
-	
-	public TwigIndexingVisitor(IElementRequestor requestor) {
+	public TwigIndexingVisitor(IElementRequestor requestor, int offset) {
 
 		this.requestor = requestor;
+		this.offset = offset;
 	}
 
 	@Override
@@ -23,15 +33,18 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 
 		if (node.getType() == TwigParser.STRING) {
 			
+			int start = node.getTokenStartIndex() + offset;
+			int end =  start + node.getText().length();
+			
 			FieldInfo info = new FieldInfo();
 			info.name = node.getText();
-			info.nameSourceStart = node.getTokenStartIndex();
-			info.nameSourceEnd = node.getTokenStopIndex();
+			info.nameSourceStart = start;
+			info.nameSourceEnd = end;
 			info.modifiers = Modifiers.AccPublic;
-			info.declarationStart = node.getTokenStartIndex();
+			info.declarationStart = start;
 			
 			requestor.enterField(info);
-			requestor.exitField(node.getTokenStopIndex());					
+			requestor.exitField(end);					
 			
 		}
 	}
@@ -42,5 +55,4 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 
 
 	}
-
 }

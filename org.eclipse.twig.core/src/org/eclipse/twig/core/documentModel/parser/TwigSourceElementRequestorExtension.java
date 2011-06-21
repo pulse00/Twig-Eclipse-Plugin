@@ -27,6 +27,13 @@ import org.eclipse.twig.core.compiler.ast.parser.TwigParser;
 public class TwigSourceElementRequestorExtension extends
 		PHPSourceElementRequestorExtension {
 
+	
+	public static String PRINT_START = "{{";
+	public static String PRINT_END = "}}";
+	public static String STMT_START = "{%";
+	public static String STMT_END = "%}";
+	
+	private IElementRequestor requestor;
 		
 	public TwigSourceElementRequestorExtension() {
 		
@@ -38,10 +45,75 @@ public class TwigSourceElementRequestorExtension extends
 			
 		try {
 			
-			IElementRequestor requestor = getRequestor();
-			CharStream content = new ANTLRStringStream(sourceModule.getSourceContents());
-			TwigLexer lexer = new TwigLexer(content);
+			String source = sourceModule.getSourceContents();
+			requestor = getRequestor();
 			requestor.enterModule();
+			
+			parsePrints(source);
+			parseStatements(source);
+			
+			requestor.exitModule(0);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+				
+		super.setSourceModule(sourceModule);
+	}
+	
+	private void parsePrints(String source) {
+		
+		int start = source.indexOf(PRINT_START);
+		int end = 0;
+		
+		while (start >= 0) {
+			
+			end = source.indexOf(PRINT_END, end);
+			
+			if (end >= 0)
+				end += 2;
+			
+			if (end < 0) {
+				break;
+			}
+			
+			parseElements(start, end, source.substring(start, end));
+			start = source.indexOf(PRINT_START, start + 2);
+			
+		}							
+	}
+	
+	
+	private void parseStatements(String source) {
+		
+		int start = source.indexOf(STMT_START);
+		int end = 0;
+		
+		while (start >= 0) {
+			
+			end = source.indexOf(STMT_END, end);
+			
+			if (end >= 0)
+				end += 2;
+			
+			if (end < 0) {
+				break;
+			}
+			
+			parseElements(start, end, source.substring(start, end));
+			start = source.indexOf(STMT_START, start + 2);
+			
+		}							
+	}
+
+
+	private void parseElements(int start, int end, String source) {
+
+		try {
+
+			CharStream content = new ANTLRStringStream(source);
+			TwigLexer lexer = new TwigLexer(content);
 
 			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));		
 
@@ -50,15 +122,11 @@ public class TwigSourceElementRequestorExtension extends
 
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor);
+			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start);
 			tree.accept(visitor);
-			requestor.exitModule(0);
 			
 		} catch (RecognitionException e) {
-
 			e.printStackTrace();
 		}
-				
-		super.setSourceModule(sourceModule);
 	}
 }
