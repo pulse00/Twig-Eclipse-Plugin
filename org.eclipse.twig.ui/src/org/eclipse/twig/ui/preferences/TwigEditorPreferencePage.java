@@ -1,5 +1,8 @@
 package org.eclipse.twig.ui.preferences;
 
+
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
@@ -12,6 +15,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.twig.core.TwigCoreConstants;
+import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -29,7 +33,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
  */
 @SuppressWarnings("restriction")
 public class TwigEditorPreferencePage extends FieldEditorPreferencePage
-implements IWorkbenchPreferencePage {
+	implements IWorkbenchPreferencePage {
 
 	
 	public TwigEditorPreferencePage() {
@@ -56,6 +60,8 @@ implements IWorkbenchPreferencePage {
 	
 
 	private void createHeader(Composite contents) {
+		
+		
 		final Shell shell = contents.getShell();
 		String text = "Twig editor preferences. Note that some preferences may be set on the <a>PHP Editors</a> preference page.";
 		Link link = new Link(contents, SWT.NONE);
@@ -83,19 +89,29 @@ implements IWorkbenchPreferencePage {
 	@Override
 	protected void createFieldEditors() {
 
-		String[][] options = new String[][] 
-		{ 
-				{ TwigCoreConstants.SYNTAX_ERROR, TwigCoreConstants.SYNTAX_ERROR }, 
-				{ TwigCoreConstants.SYNTAX_WARNING, TwigCoreConstants.SYNTAX_WARNING },
-				{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
-		};
+		String[][] options;		
+		
+		// ProblemSeverity does not work in dltk < 3
+		// so we disable it
+		if (!TwigCorePlugin.getDefault().isDLTK3()) {
+			
+			MessageDialog.openWarning(getShell(), "Twig Warning", "Your eclipse version is not compatible with the validation API the Twig-Plugin uses. Please upgrade to Eclipse 3.7 or install DLTK 3.0");
+			options = new String[][] 
+					{ 
+							{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
+					};			
+			
+		} else {
+			options = new String[][] 
+					{ 
+							{ TwigCoreConstants.SYNTAX_ERROR, TwigCoreConstants.SYNTAX_ERROR }, 
+							{ TwigCoreConstants.SYNTAX_WARNING, TwigCoreConstants.SYNTAX_WARNING },
+							{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
+					};			
+		}
 		
 
-		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, "Syntax Errors", options, getFieldEditorParent()));
-		
+		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, "Syntax Errors", options, getFieldEditorParent()));		
 		
 	}
-	
-	
-
 }

@@ -1,6 +1,7 @@
 package org.eclipse.twig.core;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
@@ -51,5 +52,11 @@ public class TwigCorePlugin extends Plugin {
 		getDefault().getLog().log(status);
 		
 	}
-
+	
+	public boolean isDLTK3() {
+		
+		String version = Platform.getBundle("org.eclipse.dltk.core").getHeaders().get("Bundle-Version");		
+		return version.startsWith("3");
+		
+	}
 }
