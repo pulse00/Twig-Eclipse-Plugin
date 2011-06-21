@@ -23,14 +23,6 @@ org.eclipse.twig.core.TwigNature
    </extension>
    
    <!-- not sure if this is needed at all -->
-   <extension
-         point="org.eclipse.dltk.core.language">
-      <language
-            class="org.eclipse.twig.core.TwigLanguageToolkit"
-            nature="org.eclipse.twig.core.TwigNature"
-            priority="0">
-      </language>
-   </extension>
    
    <extension
          point="org.eclipse.dltk.core.buildParticipant">
@@ -97,7 +89,7 @@ org.eclipse.twig.core.TwigNature
       <parserContribution
             natureId="org.eclipse.php.core.PHPNature">
          <parser
-               class="org.eclipse.twig.core.TwigSourceParserFactory"
+               class="org.eclipse.twig.core.compiler.ast.parser.TwigSourceParserFactory"
                description="Creates a Twig source parser"
                id="org.eclipse.twig.core.TwigSourceParserFactory"
                name="Twig source parser factory"

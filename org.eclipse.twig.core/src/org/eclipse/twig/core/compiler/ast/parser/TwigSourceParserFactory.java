@@ -1,10 +1,9 @@
-package org.eclipse.twig.core;
+package org.eclipse.twig.core.compiler.ast.parser;
 
 import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
-import org.eclipse.twig.core.compiler.ast.parser.TwigSourceParser;
 import org.eclipse.twig.core.util.Debug;
 
 /**
