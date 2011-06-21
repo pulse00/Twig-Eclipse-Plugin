@@ -4,9 +4,9 @@ package org.eclipse.twig.core.documentModel.parser;
 import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
-import org.eclipse.twig.core.compiler.ast.parser.ITwigNodeVisitor;
-import org.eclipse.twig.core.compiler.ast.parser.TwigCommonTree;
-import org.eclipse.twig.core.compiler.ast.parser.TwigParser;
+import org.eclipse.twig.core.parser.ITwigNodeVisitor;
+import org.eclipse.twig.core.parser.TwigCommonTree;
+import org.eclipse.twig.core.parser.TwigParser;
 
 
 /**

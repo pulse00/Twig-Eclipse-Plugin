@@ -14,7 +14,7 @@ LITERAL_ARG;
 }
 
 @header {
-package org.eclipse.twig.core.compiler.ast.parser;
+package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <project name="twigParser" default="generateParser" basedir=".">
 	<target name="generateParser">
-		<property name="destination" value="../../../src/org/eclipse/twig/core/compiler/ast/parser" />
+		<property name="destination" value="../../../src/org/eclipse/twig/core/parser" />
 		<java classpath="antlr-3.3-complete.jar" classname="org.antlr.Tool">
 			<arg value="TwigLexer.g" />
 			<arg value="TwigParser.g" />

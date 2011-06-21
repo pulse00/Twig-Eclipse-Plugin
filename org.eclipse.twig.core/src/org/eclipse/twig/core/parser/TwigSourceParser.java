@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.compiler.ast.parser;
+package org.eclipse.twig.core.parser;
 
 
 import java.io.BufferedReader;

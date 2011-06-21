@@ -7,10 +7,10 @@ import org.antlr.runtime.RecognitionException;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
-import org.eclipse.twig.core.compiler.ast.parser.TwigCommonTree;
-import org.eclipse.twig.core.compiler.ast.parser.TwigCommonTreeAdaptor;
-import org.eclipse.twig.core.compiler.ast.parser.TwigLexer;
-import org.eclipse.twig.core.compiler.ast.parser.TwigParser;
+import org.eclipse.twig.core.parser.TwigCommonTree;
+import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
+import org.eclipse.twig.core.parser.TwigLexer;
+import org.eclipse.twig.core.parser.TwigParser;
 
 
 

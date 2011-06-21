@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.compiler.ast.parser;
+package org.eclipse.twig.core.parser;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;

@@ -1,6 +1,6 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-06-21 02:56:52
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-06-22 00:34:40
 
-package org.eclipse.twig.core.compiler.ast.parser;
+package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
 
@@ -108,10 +108,6 @@ public class TwigParser extends Parser {
     	public void displayRecognitionError(String[] tokenNames,
                                             RecognitionException e) {
             
-    		
-    		if (errorReporter == null)
-    			return;
-    		
     		String hdr = getErrorHeader(e);
             String msg = getErrorMessage(e, tokenNames);        
             errorReporter.reportError(hdr,msg,e);
