@@ -1786,15 +1786,61 @@ NUMBER=([0-9])+
 
 {TW_STMT_DEL_LEFT} {
 
-	if (Debug.debugTokenizer) {	
-		dump("############# tw stmt 2");
-	}
-	return XML_CONTENT;
+	if(Debug.debugTokenizer)
+		dump("twig processing instruction start");//$NON-NLS-1$
+	if ("{%".equals(yytext())
+			 && Character.isWhitespace(yy_buffer[yy_currentPos - 1])) {
+		yybegin(ST_PI);
+		return XML_PI_OPEN;
 
+	} else {
+		// removeing trailing whitespaces for the php open
+		String phpStart = yytext();
+		int i = phpStart.length() - 1;
+		while (i >= 0
+				&& Character.isWhitespace(phpStart.charAt(i--))) {
+			yypushback(1);
+		}
+		fStateStack.push(yystate());// YYINITIAL
+		if (fStateStack.peek() == YYINITIAL) {
+			// the simple case, just a regular scriptlet out in
+			// content
+			yybegin(ST_TWIG_CONTENT);
+			return TWIG_STMT_OPEN;
+		} else {
+			if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+			else if (yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+			else if (yystate() == ST_CDATA_TEXT) {
+				fEmbeddedPostState = ST_CDATA_TEXT;
+				fEmbeddedHint = XML_CDATA_TEXT;
+			}
+			yybegin(ST_TWIG_CONTENT);
+			assembleEmbeddedContainer(TWIG_STMT_OPEN, TWIG_STMT_CLOSE);
+			if (yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
+				yybegin(ST_BLOCK_TAG_SCAN);
+				return BLOCK_TEXT;
+			}
+			// required help for successive embedded regions
+			if (yystate() == ST_XML_TAG_NAME) {
+				fEmbeddedHint = XML_TAG_NAME;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			} else if ((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+				fEmbeddedPostState = ST_XML_EQUALS;
+			} else if (yystate() == ST_XML_ATTRIBUTE_VALUE) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			}
+			return PROXY_CONTEXT;
+		}
+	}
 }
 
 
 {PHP_START} | {PHP_ASP_START} | {PIstart} {
+
 	if(Debug.debugTokenizer)
 		dump("\nprocessing instruction start");//$NON-NLS-1$
 	if ("<?".equals(yytext())

@@ -269,6 +269,57 @@ public class TokenizerTest extends TestCase {
 	
 	
 	@Test
+	public void testEmbeddedBlockStatement() {
+		
+		
+		try {
+			
+			
+			String[] regions = new String[] {"XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", 
+					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_CLOSE", 
+					"XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE"};
+			
+			tokens = "<div id=\"{% block 'foobar' %}\"></div>";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}
+			
+			for (int i=0; i < regions.length; i++) {				
+				assertEquals(regions[i], textRegions.get(i).getType());
+			}
+			
+			
+			regions = new String[] {"XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS"};
+			tokens = "<div id=\" {% block 'foobar' %}\"></div>";
+			
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken();
+				textRegions.push(region);
+			}			
+			
+			
+			for (int i=0; i < regions.length; i++) {
+				assertEquals(regions[i], textRegions.get(i).getType());
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	
+	@Test
 	public void testEmbeddedDoubleQuotes() {
 		
 		testEmbeddedQuotes("<div id=\"{{ some.id  }}\"></div>");
