@@ -67,7 +67,8 @@ BSLASH			: '\\';
 JSON_START  	: '{' ;
 JSON_END		: '}' ;
 QM				: '?';
-
+BLOCK			: 'block';
+ENDBLOCK		: 'endblock';
 FOR				: 'for';
 ENDFOR			: 'endfor';
 ELSE			: 'else';

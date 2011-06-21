@@ -160,30 +160,30 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 					.getEnd() + 1);
 
 			final TwigTokenContainer newContainer = new TwigTokenContainer();
-			final TwigLexer phpLexer = getTwigLexer(new DocumentReader(
+			final TwigLexer twigLexer = getTwigLexer(new DocumentReader(
 					flatnode, changes, requestStart, lengthToReplace,
 					newTokenOffset), startState);
 
 			Object state = startState;
 			try {
-				String yylex = phpLexer.getNextToken();
+				String yylex = twigLexer.getNextToken();
 				if (shouldDeprecatedKeyword
 						&& TwigTokenContainer.isKeyword(yylex)) {
 					yylex = TwigRegionTypes.PHP_STRING;
 				}
 				int yylength;
 				final int toOffset = offset + length;
-				while (yylex != null && newTokenOffset <= toOffset
-						&& yylex != TwigRegionTypes.TWIG_CLOSE) {
-					yylength = phpLexer.getLength();
+				while (yylex != null && newTokenOffset <= toOffset && (yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
+					
+					yylength = twigLexer.getLength();
 					newContainer.addLast(yylex, newTokenOffset, yylength,
 							yylength, state);
 					newTokenOffset += yylength;
-					state = phpLexer.createLexicalStateMemento();
-					yylex = phpLexer.getNextToken();
+					state = twigLexer.createLexicalStateMemento();
+					yylex = twigLexer.getNextToken();
 				}
 				if (yylex == TwigRegionTypes.WHITESPACE) {
-					yylength = phpLexer.getLength();
+					yylength = twigLexer.getLength();
 					newContainer.adjustWhitespace(yylex, newTokenOffset,
 							yylength, yylength, state);
 				}
@@ -269,13 +269,14 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 			Object state = lexer.createLexicalStateMemento();
 			String yylex = lexer.getNextToken();
 			int yylength = 0;
-			while (yylex != null && (yylex != TwigRegionTypes.TWIG_CLOSE && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
+			while (yylex != null && (yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
+				
 				yylength = lexer.getLength();
 				this.tokensContainer.addLast(yylex, start, yylength, yylength, state);
 				start += yylength;
 				state = lexer.createLexicalStateMemento();
 				yylex = lexer.getNextToken();
-//				System.err.println("size: " + ++s);
+
 
 			}
 			

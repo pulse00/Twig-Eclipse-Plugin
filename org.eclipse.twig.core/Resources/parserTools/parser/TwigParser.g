@@ -70,7 +70,16 @@ twig_control_statement
 
 
 twig_control
-  : twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include
+  : twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block
+  ;
+  
+  
+twig_block
+  : (BLOCK twig_block_param) | (ENDBLOCK)
+  ;
+  
+twig_block_param
+  : (variable | method) twig_print?
   ;
   
 twig_include

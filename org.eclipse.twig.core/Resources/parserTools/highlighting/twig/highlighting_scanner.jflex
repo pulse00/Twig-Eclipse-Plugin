@@ -178,9 +178,9 @@ NUMBER=([0-9])+
 <ST_TWIG_CONTENT> "}}"{TWIG_WHITESPACE}? {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG_CLOSE");
+		dump("TWIG_CLOSETAG");
 
-	return TWIG_CLOSE;
+	return TWIG_CLOSETAG;
 }
 
 

@@ -4,7 +4,7 @@ public interface TwigRegionTypes {
 	
 	
 	public static final String TWIG_OPEN 							= "TWIG_OPEN"; //$NON-NLS-1$
-	public static final String TWIG_CLOSE 							= "TWIG_CLOSE"; //$NON-NLS-1$
+	public static final String TWIG_CLOSETAG 						= "TWIG_CLOSETAG"; //$NON-NLS-1$
 	public static final String TWIG_STMT_OPEN 						= "TWIG_STMT_OPEN"; //$NON-NLS-1$
 	public static final String TWIG_STMT_CLOSE 						= "TWIG_STMT_CLOSE"; //$NON-NLS-1$	
 	public static final String TWIG_CONTENT 						= "TWIG_CONTENT"; //$NON-NLS-1$
@@ -31,12 +31,6 @@ public interface TwigRegionTypes {
 	
 	static final String PHP_KEYWORD = "PHP_KEYWORD"; //$NON-NLS-1$
 
-	static final String PHP_OPENTAG = "PHP_OPENTAG"; //$NON-NLS-1$
-
-	static final String PHP_CLOSETAG = "PHP_CLOSETAG"; //$NON-NLS-1$
-
-	static final String PHP_CONTENT = "PHP_CONTENT"; //$NON-NLS-1$
-	
 	static final String PHP_OBJECT_OPERATOR = "PHP_OBJECT_OPERATOR"; //$//$NON-NLS-N$
 
 	static final String PHP_SEMICOLON = "PHP_SEMICOLON"; //$NON-NLS-1$

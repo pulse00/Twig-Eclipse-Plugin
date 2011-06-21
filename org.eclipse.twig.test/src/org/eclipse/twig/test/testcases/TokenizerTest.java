@@ -48,6 +48,34 @@ public class TokenizerTest extends TestCase {
 	
 	
 	@Test
+	public void testMultipleStatementsOnSingleLine() {
+		
+		
+		try {
+
+			tokens = "Welcome {% endblock %}";		
+			//tokens = "Welcome <?php 'foo'; ?>";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken(); 
+				textRegions.push(region);
+				System.err.println(region.getType() + " " + region.getStart() + " " + region.getEnd());
+			}		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+	}
+	
+	
+	@Test
 	public void testEmbeddedRegion() {
 		
 		try {

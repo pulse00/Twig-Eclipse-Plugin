@@ -256,7 +256,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			yylex = removeFromBuffer();
 		}
 
-		if (yylex == TWIG_CLOSE || yylex == TWIG_STMT_CLOSE) {
+		if (yylex == TWIG_CLOSETAG || yylex == TWIG_STMT_CLOSE) {
 			pushBack(getLength());
 		}
 

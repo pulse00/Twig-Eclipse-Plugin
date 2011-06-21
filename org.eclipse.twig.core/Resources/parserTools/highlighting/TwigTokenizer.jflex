@@ -801,14 +801,14 @@ public final ITextRegion getNextToken() throws IOException {
 	// if it is twig content we create a twig script region
 	if ((context == TWIG_CONTENT))
 	{	
-		if (Debug.debugTokenizer)
-			System.err.println("create twig region " + context);
+//		if (Debug.debugTokenizer)
+//			System.err.println("create twig region " + context);
 		
 		return bufferedTextRegion; 
 	} else {
 
-		if (Debug.debugTokenizer)
-			System.err.println("create standard region " + context);
+//		if (Debug.debugTokenizer)
+//			System.err.println("create standard region " + context);
 
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 	}
@@ -1425,7 +1425,7 @@ PHP_ASP_END=%>
 
 TW_START = \{\{{WHITESPACE}*
 
-TW_STMT_DEL_LEFT = {WHITESPACE}*\{%
+TW_STMT_DEL_LEFT = \{%{WHITESPACE}*
 TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
@@ -1777,6 +1777,14 @@ NUMBER=([0-9])+
 
 }
 
+{TW_STMT_DEL_LEFT} {
+
+	if (Debug.debugTokenizer) {	
+		dump("############# tw stmt 2");
+	}
+	return XML_CONTENT;
+
+}
 
 {PHP_START} | {PHP_ASP_START} | {PIstart} {
 	if(Debug.debugTokenizer)
@@ -2218,12 +2226,17 @@ NUMBER=([0-9])+
 }
 
 // this is the "normal" xml content
-<YYINITIAL> ![\{][^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
+<YYINITIAL> [^<&%]* | [&%]{S}+{Name}[^&%<]* | [&%]{Name}([^;&%<]*|{S}+;*) { 
+//<YYINITIAL> [^<&%]*|[&%]{S}+{Name}[^&%<]*|[&%]{Name}([^;&%<]*|{S}+;*) {
 
-	if(Debug.debugTokenizer)
-		dump("\nXML content");//$NON-NLS-1$
+   if(Debug.debugTokenizer)
+        dump("\nXML content");//$NON-NLS-1$
 
-	return XML_CONTENT;
+    final String text = yytext();
+    assert text != null;
+
+    // checks the smarty case
+    return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);
 
 }
 
@@ -2236,6 +2249,7 @@ NUMBER=([0-9])+
 	if(Debug.debugTokenizer)
 		dump("TWIG CLOSE");
 	
+	//yybegin(fStateStack.pop());
 	yybegin(YYINITIAL);
 	return TWIG_CLOSE;
 }
@@ -2485,9 +2499,12 @@ NUMBER=([0-9])+
 }
 
 . {
-	if (Debug.debugTokenizer)
+	if (Debug.debugTokenizer) {
+		System.out.println("current state " + yy_state);
 		System.out.println("!!!unexpected!!!: \"" + yytext() + "\":" + //$NON-NLS-2$//$NON-NLS-1$
+	
 			yychar + "-" + (yychar + yylength()));//$NON-NLS-1$
+	}
 	return UNDEFINED;
 }
 

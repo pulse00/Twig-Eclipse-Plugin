@@ -47,6 +47,23 @@ public class TwigParserTest extends TestCase {
 		
 	}
 	
+	@Test
+	public void testPrintPipe() {
+		
+		assertValidTokenstream("{{ kenny | gun }}");
+		
+	}
+	
+	@Test
+	public void testBlock() {
+		
+		assertValidTokenstream("{% block sidebar %}");
+		assertValidTokenstream("{% endblock %}");
+		assertValidTokenstream("{% block title pagetitle|title %}");
+		
+	}
+	
+	
 	
 	@Test
 	public void testForStatement() {
