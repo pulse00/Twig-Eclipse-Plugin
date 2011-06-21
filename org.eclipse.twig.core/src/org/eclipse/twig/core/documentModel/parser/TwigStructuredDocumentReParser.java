@@ -81,7 +81,7 @@ public class TwigStructuredDocumentReParser extends
         
         
         if (Debug.documentReParser) {
-            if (Debug.documentReParser)
+            if (dirtyStart != null)
             	System.err.println("dirty start: " + dirtyStart.getStart() + " " + dirtyStart.getEnd());
             else System.err.println("no dirty start");        	
         }        
