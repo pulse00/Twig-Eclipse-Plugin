@@ -233,6 +233,44 @@
 	/* user method - skeleton.sse */
 	protected final String findTwigDelimiter(String text, String insideOf, String delim, String delimType, int afterDelimType){
 		
+		// search for comments first
+		delim = "{#";
+		final int startChar2 = text.indexOf(delim);
+		
+		if (startChar2 != -1) {
+		
+			if (Debug.debugTokenizer)		
+				System.err.println("aa");
+				
+			//go to the char right before the text, so it doesnt mark the whole thing red...
+			if (startChar2 > 0){
+			
+				if (Debug.debugTokenizer)
+					System.err.println("bb");
+					
+				//push to right before the delim
+				yypushback(yylength() - startChar2);
+				return insideOf;
+				//return YYINITIAL;
+			} else {
+			
+				if (Debug.debugTokenizer)
+					System.err.println("PUSH TWIG COMMENT STATE");
+
+				fEmbeddedHint = TWIG_COMMENT_TEXT;
+				fEmbeddedPostState = ST_TWIG_COMMENT;
+
+
+				yybegin(ST_TWIG_COMMENT);
+				// pushback to just after the closing bracket
+				int delemLen = delim.length();
+				yypushback(yylength() - startChar2 - delemLen);
+				return TWIG_COMMENT_OPEN;
+			}
+		}
+		
+		
+		delim = "{{";
 		final int startChar = text.indexOf(delim);
 		
 		if (Debug.debugTokenizer) {
@@ -246,6 +284,7 @@
 //				System.err.println("b");
 				//push to right before the delim
 				yypushback(yylength() - startChar);
+				return insideOf;
 				//return YYINITIAL;
 			} else {
 //				System.err.println("c");
@@ -266,15 +305,23 @@
 		}
 			
 		if (startChar3 != -1) {
-			//System.err.println("a");
+		
+			if (Debug.debugTokenizer)		
+				System.err.println("a");
 			//go to the char right before the text, so it doesnt mark the whole thing red...
 			if (startChar3 > 0){
-//				System.err.println("b");
+			
+				if (Debug.debugTokenizer)			
+					System.err.println("b");
+					
 				//push to right before the delim
 				yypushback(yylength() - startChar3);
+				return insideOf;
 				//return YYINITIAL;
 			} else {
-//				System.err.println("c");
+			
+				if (Debug.debugTokenizer)			
+					System.err.println("c");
 				yybegin(afterDelimType);
 				// pushback to just after the closing bracket
 				int delemLen = delim.length();
@@ -284,46 +331,8 @@
 		}
 		
 		
-		
-		delim = "{#";
-		final int startChar2 = text.indexOf(delim);
-		
-		if (Debug.debugTokenizer) {
-//			System.err.println("Delim: "+delim+" looking in: '"+text+"' startChar2: "+startChar2);
-		}
-			
-		if (startChar2 != -1) {
-		
-			if (Debug.debugTokenizer)		
-				System.err.println("aa");
-				
-			//go to the char right before the text, so it doesnt mark the whole thing red...
-			if (startChar2 > 0){
-			
-				if (Debug.debugTokenizer)
-					System.err.println("bb");
-					
-				//push to right before the delim
-				yypushback(yylength() - startChar2);
-				//return YYINITIAL;
-			} else {
-			
-				if (Debug.debugTokenizer)
-					System.err.println("cc");
-
-				fEmbeddedHint = TWIG_COMMENT_TEXT;
-				fEmbeddedPostState = ST_TWIG_COMMENT;
-
-
-				yybegin(ST_TWIG_COMMENT);
-				// pushback to just after the closing bracket
-				int delemLen = delim.length();
-				yypushback(yylength() - startChar2 - delemLen);
-				return TWIG_COMMENT_OPEN;
-			}
-		}
-		
-		//System.err.println("d"+insideOf);
+		if (Debug.debugTokenizer)
+			System.err.println("d " + insideOf);
 		return insideOf;
 	}
 

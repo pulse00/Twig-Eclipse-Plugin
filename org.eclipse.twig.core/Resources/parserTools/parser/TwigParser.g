@@ -16,7 +16,7 @@ LITERAL_ARG;
 @header {
 package org.eclipse.twig.core.parser;
 
-import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
+import org.eclipse.twig.core.parser.error.IErrorReporter;
 }
 
 
@@ -31,7 +31,13 @@ import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
 
 	public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
+
         
+       if(errorReporter == null) {
+       		System.err.println("No error reporter instance found!");
+        	return;
+       }
+        	
 		String hdr = getErrorHeader(e);
         String msg = getErrorMessage(e, tokenNames);        
         errorReporter.reportError(hdr,msg,e);

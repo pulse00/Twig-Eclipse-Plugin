@@ -154,7 +154,7 @@ public class TwigSourceParser extends XMLSourceParser {
 			// the following contexts OPEN new StructuredDocumentRegions
 			else if ((currentNode != null && currentNode.isEnded()) || 
 					(type == PHPRegionContext.PHP_OPEN) || (type == TwigRegionContext.TWIG_OPEN) ||
-					(type == TwigRegionContext.TWIG_STMT_OPEN) ||
+					(type == TwigRegionContext.TWIG_STMT_OPEN) || (type == TwigRegionContext.TWIG_COMMENT_OPEN) ||
 					(type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || 
 					(type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == DOMRegionContext.XML_TAG_OPEN) || 
 					(type == DOMRegionContext.XML_END_TAG_OPEN) || (type == DOMRegionContext.XML_COMMENT_OPEN) || 
@@ -205,7 +205,7 @@ public class TwigSourceParser extends XMLSourceParser {
 			// the following contexts close off StructuredDocumentRegions
 			// cleanly
 			else if ((type == PHPRegionContext.PHP_CLOSE) || (type == TwigRegionContext.TWIG_CLOSE) ||
-					(type == TwigRegionContext.TWIG_STMT_CLOSE) ||
+					(type == TwigRegionContext.TWIG_STMT_CLOSE) || ( type == TwigRegionContext.TWIG_COMMENT_CLOSE) ||
 					(type == DOMRegionContext.XML_PI_CLOSE) || (type == DOMRegionContext.XML_TAG_CLOSE) || 
 					(type == DOMRegionContext.XML_EMPTY_TAG_CLOSE) || (type == DOMRegionContext.XML_COMMENT_CLOSE)
 					|| (type == DOMRegionContext.XML_DECLARATION_CLOSE) || (type == DOMRegionContext.XML_CDATA_CLOSE)) {
@@ -285,7 +285,8 @@ public class TwigSourceParser extends XMLSourceParser {
 			// ensures that they open StructuredDocumentRegions the same way
 			if ((type == DOMRegionContext.XML_CONTENT) || (type == DOMRegionContext.XML_CHAR_REFERENCE) || 
 				(type == DOMRegionContext.XML_ENTITY_REFERENCE) || (type == PHPRegionContext.PHP_CLOSE) || 
-				(type == TwigRegionContext.TWIG_CLOSE) || (type == TwigRegionContext.TWIG_STMT_CLOSE)) {
+				(type == TwigRegionContext.TWIG_CLOSE) || (type == TwigRegionContext.TWIG_STMT_CLOSE)
+				|| (type == TwigRegionContext.TWIG_COMMENT_CLOSE)) {
 				currentNode.setEnded(true);				
 			}
 			

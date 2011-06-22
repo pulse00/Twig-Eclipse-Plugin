@@ -141,10 +141,10 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 				ITextRegion previousRegion = tokensContainer.twigTokens
 						.get(previousIndex);
 				
-				if (tokenStart.getType().equals(TwigRegionTypes.PHP_COMMENT)
+				if (tokenStart.getType().equals(TwigRegionTypes.TWIG_COMMENT)
 						&& tokenStart.getLength() == 1
 						&& previousRegion.getType().equals(
-								TwigRegionTypes.PHP_COMMENT_START)) {
+								TwigRegionTypes.TWIG_COMMENT_OPEN)) {
 					requestStart = previousRegion.getStart();
 				}
 

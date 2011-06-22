@@ -950,7 +950,7 @@ private final String scanTwigCommentText() throws IOException {
 	//   TWIG_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
 	//  case change to the ST_TWIG_COMMENT_END state and return the next
 	//  context as usual.
-	return doScan("#}", true, false,  TWIG_COMMENT_TEXT, ST_TWIG_COMMENT_END, ST_TWIG_COMMENT_END);
+	return doScan("#}", false, false,  TWIG_COMMENT_TEXT, ST_TWIG_COMMENT_END, ST_TWIG_COMMENT_END);
 }
 
 private void assembleEmbeddedTwigOpen() {
