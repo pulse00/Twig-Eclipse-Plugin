@@ -2,7 +2,7 @@
 
 package org.eclipse.twig.core.parser;
 
-import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
+import org.eclipse.twig.core.parser.error.IErrorReporter;
 
 
 import org.antlr.runtime.*;
@@ -108,6 +108,9 @@ public class TwigParser extends Parser {
     	public void displayRecognitionError(String[] tokenNames,
                                             RecognitionException e) {
             
+    		if (errorReporter == null)
+    			return;
+    		
     		String hdr = getErrorHeader(e);
             String msg = getErrorMessage(e, tokenNames);        
             errorReporter.reportError(hdr,msg,e);

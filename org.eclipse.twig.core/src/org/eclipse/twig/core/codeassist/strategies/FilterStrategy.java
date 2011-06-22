@@ -8,13 +8,13 @@ import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 import org.eclipse.php.internal.core.typeinference.FakeMethod;
-import org.eclipse.twig.core.codeassist.context.TwigFilterContext;
+import org.eclipse.twig.core.codeassist.context.FilterContext;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.TwigModelAccess;
 
 /**
  * 
- * {@link TwigFilterStrategy} for filter completion.
+ * {@link FilterStrategy} for filter completion.
  * 
  * 
  * 
@@ -22,10 +22,10 @@ import org.eclipse.twig.core.model.TwigModelAccess;
  *
  */
 @SuppressWarnings({ "restriction", "deprecation" })
-public class TwigFilterStrategy extends AbstractCompletionStrategy {
+public class FilterStrategy extends AbstractCompletionStrategy {
 
 	
-	public TwigFilterStrategy(ICompletionContext context) {
+	public FilterStrategy(ICompletionContext context) {
 		super(context);
 
 	}
@@ -35,7 +35,7 @@ public class TwigFilterStrategy extends AbstractCompletionStrategy {
 
 		try {
 
-			TwigFilterContext ctx = (TwigFilterContext) getContext();
+			FilterContext ctx = (FilterContext) getContext();
 			TwigModelAccess model = TwigModelAccess.getInstance();
 			IType filterType = model.getFilterType(ctx.getSourceModule());
 			

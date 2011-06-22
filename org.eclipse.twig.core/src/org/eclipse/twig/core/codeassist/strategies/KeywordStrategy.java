@@ -4,10 +4,10 @@ import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.twig.core.codeassist.context.TwigKeywordContext;
+import org.eclipse.twig.core.codeassist.context.KeywordContext;
 
 @SuppressWarnings({ "restriction", "deprecation" })
-public class TwigKeywordStrategy extends AbstractTwigCompletionStrategy {
+public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
 
 
@@ -17,7 +17,7 @@ public class TwigKeywordStrategy extends AbstractTwigCompletionStrategy {
 			"extends", "block", "endblock", "raw", "endraw", "spaceless",
 			"endspaceless" };	
 	
-	public TwigKeywordStrategy(ICompletionContext context) {
+	public KeywordStrategy(ICompletionContext context) {
 		super(context);
 
 	}
@@ -26,7 +26,7 @@ public class TwigKeywordStrategy extends AbstractTwigCompletionStrategy {
 	@Override
 	public void apply(ICompletionReporter reporter) throws Exception {
 	
-		TwigKeywordContext ctx = (TwigKeywordContext) getContext();
+		KeywordContext ctx = (KeywordContext) getContext();
 
 		String prefix = ctx.getPrefix();
 		SourceRange range = getReplacementRange(getContext());

@@ -7,11 +7,13 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.core.codeassist.ICompletionStrategy;
 import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
 import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
-import org.eclipse.twig.core.codeassist.context.TwigFilterContext;
-import org.eclipse.twig.core.codeassist.context.TwigKeywordContext;
+import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.codeassist.context.KeywordContext;
+import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
 import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
-import org.eclipse.twig.core.codeassist.strategies.TwigFilterStrategy;
-import org.eclipse.twig.core.codeassist.strategies.TwigKeywordStrategy;
+import org.eclipse.twig.core.codeassist.strategies.FilterStrategy;
+import org.eclipse.twig.core.codeassist.strategies.KeywordStrategy;
+import org.eclipse.twig.core.codeassist.strategies.VariableFieldStrategy;
 
 
 /**
@@ -35,10 +37,12 @@ public class TwigCompletionStrategyFactory implements
 		List<ICompletionStrategy> result = new LinkedList<ICompletionStrategy>();
 		
 		for (ICompletionContext context : contexts) {
-			if (context.getClass() == TwigKeywordContext.class) {
-				result.add(new TwigKeywordStrategy(context));
-			} else if (context.getClass() == TwigFilterContext.class) {				
-				result.add(new TwigFilterStrategy(context));
+			if (context.getClass() == KeywordContext.class) {
+				result.add(new KeywordStrategy(context));
+			} else if (context.getClass() == FilterContext.class) {				
+				result.add(new FilterStrategy(context));
+			} else if (context.getClass() == VariableFieldContext.class) {				
+				result.add(new VariableFieldStrategy(context));
 			}
 		}
 		

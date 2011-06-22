@@ -2,7 +2,7 @@
 
 package org.eclipse.twig.core.parser;
 
-import org.eclipse.twig.core.compiler.ast.parser.error.IErrorReporter;
+import org.eclipse.twig.core.parser.error.IErrorReporter;
 
 
 import org.antlr.runtime.*;

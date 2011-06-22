@@ -4,7 +4,7 @@ import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.BadLocationException;
 
-public class TwigKeywordContext extends AbstractTwigCompletionContext {
+public class KeywordContext extends AbstractTwigCompletionContext {
 	
 	
 	@Override
