@@ -1,3 +1,9 @@
+1.0.67
+
+* fixed comment highlighting
+* added outline for twig variables
+* fixed an embedded-region bug
+
 1.0.66
 
 * fixed highlighting inside javascript tags
