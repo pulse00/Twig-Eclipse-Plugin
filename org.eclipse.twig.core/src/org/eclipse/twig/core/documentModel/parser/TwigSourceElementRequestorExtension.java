@@ -125,7 +125,7 @@ public class TwigSourceElementRequestorExtension extends
 			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start);
 			tree.accept(visitor);
 			
-		} catch (RecognitionException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

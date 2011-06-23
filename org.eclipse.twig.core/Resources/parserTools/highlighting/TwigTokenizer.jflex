@@ -95,7 +95,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	
 	public static String twigLeftDelim = "{{";
 	public static String twigRightDelim = "}}";
-	
+	public static String[] leftDelimiters = new String[] {"{{", "{%", "{#"};	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
 /**

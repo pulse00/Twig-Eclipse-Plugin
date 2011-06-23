@@ -1,3 +1,7 @@
+1.0.69
+
+* fixed minor bug in comment region detection
+
 1.0.68
 
 * fixed document reparsing for opening comments
