@@ -191,7 +191,7 @@ public class TwigSourceParser extends XMLSourceParser {
 					(type == DOMRegionContext.XML_TAG_ATTRIBUTE_EQUALS) || (type == DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE) || 
 					(type == DOMRegionContext.XML_COMMENT_TEXT) || (type == DOMRegionContext.XML_PI_CONTENT) || 
 					(type == DOMRegionContext.XML_DOCTYPE_INTERNAL_SUBSET) || (type == PHPRegionContext.PHP_CONTENT) || 
-					(type == TwigRegionContext.TWIG_CONTENT )) {
+					(type == TwigRegionContext.TWIG_CONTENT ) || (type == TwigRegionContext.TWIG_COMMENT)) {
 				
 				currentNode.addRegion(region);
 				currentNode.setLength(region.getStart() + region.getLength() - currentNode.getStart());

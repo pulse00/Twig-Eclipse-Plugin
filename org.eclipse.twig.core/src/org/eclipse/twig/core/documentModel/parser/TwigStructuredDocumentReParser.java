@@ -151,7 +151,7 @@ public class TwigStructuredDocumentReParser extends
 		if (event instanceof RegionChangedEvent) {
 			RegionChangedEvent changedEvent = (RegionChangedEvent) event;
 
-			if (changedEvent.getRegion().getType() == TwigRegionContext.TWIG_CONTENT) {
+			if (changedEvent.getRegion().getType() == TwigRegionContext.TWIG_CONTENT || changedEvent.getRegion().getType() == TwigRegionContext.TWIG_COMMENT) {
 				oldNode.setRegions(newNode.getRegions());
 			}
 		}

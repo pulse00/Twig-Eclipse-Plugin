@@ -35,7 +35,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 	private final TwigTokenContainer tokensContainer = new TwigTokenContainer();	
 	
 	public TwigScriptRegion(String newContext, int startOffset,
-			IProject project, AbstractTwigLexer twigLexer) {
+			IProject project, AbstractTwigLexer twigLexer, String lexerState) {
 		
 		super(newContext, startOffset, 0, 0, TwigScriptRegion.TWIG_SCRIPT);
 		
@@ -49,7 +49,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 			
 			
 			ST_TWIG_CONTENT = twigLexer.getClass()
-					.getField("ST_TWIG_CONTENT").getInt(twigLexer);
+					.getField(lexerState).getInt(twigLexer);
 		} catch (Exception e) {
 			
 			e.printStackTrace();

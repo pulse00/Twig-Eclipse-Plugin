@@ -70,6 +70,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		
 		final String type = region.getType();
 		
+
+		
 		if (type != null && type.startsWith("TWIG_")) {
 			return getAttributeFor(type);
 		}
@@ -112,11 +114,13 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 						partitionStartOffset, partitionLength, holdResults);
 			} else {
 
-				if (region.getType() == TwigRegionContext.TWIG_CONTENT) {
+				if (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT) {
 					handled = prepareTwigRegions(holdResults,
 							(ITwigScriptRegion) region, startOffset,
 							partitionStartOffset, partitionLength);
 				} else {
+					
+
 					attr = getAttributeFor(region);
 					if (attr != null) {
 						handled = true;
@@ -161,8 +165,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 			int partitionLength) {
 
 		
-		//System.err.println("prepare twig regions " + region.getType() + " " +  region.getStart() + " " + region.getLength());
-		assert region.getType() == TwigRegionContext.TWIG_CONTENT;
+
+		assert (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT);
 
 		StyleRange styleRange = null;
 		TextAttribute attr;
@@ -321,12 +325,15 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 			ITextRegionList regions = structuredDocumentRegion.getRegions();
 			int nRegions = regions.size();
 			StyleRange styleRange = null;
+			
 			for (int i = 0; i < nRegions; i++) {
 				region = regions.get(i);
+				
 				TextAttribute attr = null;
 				TextAttribute previousAttr = null;
 				final int startOffset = structuredDocumentRegion
 						.getStartOffset(region);
+				
 				if (startOffset > partitionEndOffset)
 					break;
 				if (structuredDocumentRegion.getEndOffset(region) <= partitionStartOffset)
@@ -337,7 +344,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 							partitionStartOffset, partitionLength, holdResults);
 				} else {
 
-					if (region.getType() == TwigRegionContext.TWIG_CONTENT) {
+					
+					if (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT) {
 						handled = prepareTwigRegions(holdResults,
 								(ITwigScriptRegion) region, startOffset,
 								partitionStartOffset, partitionLength);

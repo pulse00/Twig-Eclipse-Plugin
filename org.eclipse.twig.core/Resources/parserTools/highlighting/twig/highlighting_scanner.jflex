@@ -203,9 +203,8 @@ NUMBER=([0-9])+
 }
 
 
-
-//<ST_TWIG_COMMENT> [^#\] {
-<ST_TWIG_COMMENT> .|\r|\n {
+//<ST_TWIG_COMMENT> .|\r|\n {
+<ST_TWIG_COMMENT> [^#]+ {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG COMMENT");
@@ -352,7 +351,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_CONTENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_DOUBLE_QUOTES_SPECIAL>. {
+<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_DOUBLE_QUOTES_SPECIAL>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");

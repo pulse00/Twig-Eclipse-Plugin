@@ -319,8 +319,6 @@
 		}
 		
 		
-		if (Debug.debugTokenizer)
-			System.err.println("d " + insideOf);
 		return insideOf;
 	}
 

@@ -419,7 +419,7 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	
 	final AbstractTwigLexer twigLexer = getTwigLexer(lexerState); 
  
-	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer);
+	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer, lexerState);
 	
 	if (Debug.debugTokenizer)
 		System.err.println("created twig script region between " + bufferedTextRegion.getStart() + " and " + bufferedTextRegion.getEnd());	
@@ -794,15 +794,12 @@ public final ITextRegion getNextToken() throws IOException {
 	}
 	if (context == null) {
 		// EOF
-		if (Debug.debugTokenizer) {
-			System.out.println(getClass().getName() + " discovered " + fTokenCount + " tokens."); //$NON-NLS-2$//$NON-NLS-1$
-		}
 		return null;
 	}
 	fTokenCount++;
 
 	// if it is twig content we create a twig script region
-	if ((context == TWIG_CONTENT))
+	if ((context == TWIG_CONTENT) || (context == TWIG_COMMENT))
 	{	
 //		if (Debug.debugTokenizer)
 //			System.err.println("create twig region " + context);
@@ -1781,6 +1778,10 @@ NUMBER=([0-9])+
 
 <ST_TWIG_COMMENT> .|\n|\r {
 
+	if (Debug.debugTokenizer) {	
+	  dump("DO SCAN END TWIG COMMENT");
+	}
+
 	// twig comment scan
 	return doScanEndTwig(TWIG_COMMENT, ST_TWIG_COMMENT, ST_TWIG_COMMENT);	
 
@@ -2415,7 +2416,7 @@ NUMBER=([0-9])+
 <ST_TWIG_CONTENT> .|\n|\r {
 
 	if (Debug.debugTokenizer) {	
-	  dump("DO SCAN END TWIG");
+	  dump("DO SCAN END TWIG CONTENT");
 	}
 
 	return doScanEndTwig(TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);

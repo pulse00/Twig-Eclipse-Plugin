@@ -108,7 +108,7 @@ public class TwigTextSequenceUtilities  {
 	 */
 	private static boolean isTwigRegion(String context) {
 
-		return context == TwigRegionContext.TWIG_CONTENT;
+		return (context == TwigRegionContext.TWIG_CONTENT || context == TwigRegionContext.TWIG_COMMENT);
 	}
 
 
