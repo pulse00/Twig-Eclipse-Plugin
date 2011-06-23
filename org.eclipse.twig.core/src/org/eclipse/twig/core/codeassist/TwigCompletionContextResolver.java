@@ -5,6 +5,7 @@ import org.eclipse.php.core.codeassist.ICompletionContextResolver;
 import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
 import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
 import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
 import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
 
@@ -30,6 +31,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 				new KeywordContext(),
 				new FilterContext(),
 				new VariableFieldContext(),
+				new TemplateVariablesContext(),
 		};
 	}	
 }

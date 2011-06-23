@@ -8,10 +8,12 @@ import org.eclipse.php.core.codeassist.ICompletionStrategy;
 import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
 import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
 import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
 import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
 import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
 import org.eclipse.twig.core.codeassist.strategies.FilterStrategy;
+import org.eclipse.twig.core.codeassist.strategies.TemplateVariablesStrategy;
 import org.eclipse.twig.core.codeassist.strategies.KeywordStrategy;
 import org.eclipse.twig.core.codeassist.strategies.VariableFieldStrategy;
 
@@ -43,6 +45,8 @@ public class TwigCompletionStrategyFactory implements
 				result.add(new FilterStrategy(context));
 			} else if (context.getClass() == VariableFieldContext.class) {				
 				result.add(new VariableFieldStrategy(context));
+			} else if (context.getClass() == TemplateVariablesContext.class) {				
+				result.add(new TemplateVariablesStrategy(context));
 			}
 		}
 		
