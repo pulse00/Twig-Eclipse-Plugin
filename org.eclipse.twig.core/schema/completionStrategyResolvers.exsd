@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.twig.ui" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.twig.ui" id="org.eclipse.twig.completion.provider" name="Twig Completion Provider"/>
+         <meta.schema plugin="org.eclipse.twig.core" id="completionStrategyResolvers" name="Twig Completion Strategy Resolvers"/>
       </appinfo>
       <documentation>
-         The Twig Completion Provider extension points allows you to add codecompletion proposals to the twig autocompletion engine.
+         This extension point allows providing additional completion strategies for codeassist in Twig templates.
       </documentation>
    </annotation>
 
@@ -17,8 +17,8 @@
          </appinfo>
       </annotation>
       <complexType>
-         <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="provider"/>
+         <choice>
+            <element ref="resolver"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="provider">
+   <element name="resolver">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":ITwigCompletionProvider"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.twig.core.codeassist.ITwigCompletionStrategyFactory"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -67,7 +67,7 @@
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         1.0.7
       </documentation>
    </annotation>
 

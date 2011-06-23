@@ -9,6 +9,8 @@ import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.contexts.AbstractCompletionContext;
 import org.eclipse.php.internal.core.codeassist.strategies.GlobalElementStrategy;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
+import org.eclipse.twig.core.codeassist.ITwigCompletionStrategy;
+import org.eclipse.twig.core.codeassist.TwigCompletionStrategyFactory;
 
 
 /**
@@ -37,8 +39,20 @@ public class TemplateVariablesStrategy extends GlobalElementStrategy {
 					abstractContext.getSourceModule(), prefix, false, null);
 
 		SourceRange replaceRange = getReplacementRange(context);
+		
 		for (IModelElement var : fields) {
 			reporter.reportField((IField) var, "", replaceRange, false);
 		}
+		
+		
+		
+		// let extensions report their stuff
+		ITwigCompletionStrategy[] strategies = TwigCompletionStrategyFactory.getStrategies();		
+		
+		for (ITwigCompletionStrategy strategy : strategies) {			
+			strategy.setContext(abstractContext);
+			strategy.apply(reporter);
+		}		
+		
 	}
 }
