@@ -18,6 +18,8 @@ import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import org.eclipse.twig.core.model.TwigModelAccess;
+import org.eclipse.twig.core.model.Template;
 import org.eclipse.twig.core.util.Debug;
 import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -63,6 +65,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	private ITextRegionCollection regionCollection;
 	private ITwigScriptRegion twigScriptRegion;
 	private String partitionType;
+	private Template twigTemplate;
 	
 	public void init(CompletionCompanion companion) {
 		this.companion = companion;
@@ -75,6 +78,13 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	
 	public ITwigScriptRegion getTwigScriptRegion() {
 		return twigScriptRegion;
+	}
+	
+	
+	public Template getTemplate() {
+				
+		return twigTemplate;
+		
 	}
 	
 
@@ -114,6 +124,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 												
 						if (twigScriptRegion != null) {
 							
+							twigTemplate = TwigModelAccess.getInstance().getTemplate(sourceModule);
 							return true;
 
 						}

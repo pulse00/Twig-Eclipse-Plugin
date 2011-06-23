@@ -57,14 +57,10 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 			
 			String ext = resource.getFileExtension();
 			
-			System.err.println("set input");
-			
 			//TODO: make this configurable via preferences
 			if ("twig".equals(ext) || "html".equals(ext)) {
 
-				System.err.println("set input for twig or html");
 				TwigSourceParser.editFile.set(resource);
-
 				super.doSetInput(input);
 
 			} else {

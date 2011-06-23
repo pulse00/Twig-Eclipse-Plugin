@@ -11,8 +11,7 @@ import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.TwigModelAccess;
-import org.eclipse.twig.core.templates.TemplateManager;
-import org.eclipse.twig.core.templates.TwigTemplate;
+import org.eclipse.twig.core.model.Template;
 
 /**
  * 
@@ -31,7 +30,8 @@ import org.eclipse.twig.core.templates.TwigTemplate;
  */
 public class TwigBuildParticipant implements IBuildParticipant {
 	
-	private TemplateManager manager = TemplateManager.getInstance();
+
+	private TwigModelAccess model = TwigModelAccess.getInstance();
 	
 	private ModuleDeclaration getModuleDeclaration(IBuildContext context) {
 		
@@ -46,18 +46,20 @@ public class TwigBuildParticipant implements IBuildParticipant {
 	public void build(IBuildContext context) throws CoreException {
 		
 		IFile file = context.getFile();
+		ISourceModule sourceModule = context.getSourceModule();
+		
 		
 		try {
 			
 			if (file.getFileExtension().equals("twig")) {
-				manager.addTemplate(new TwigTemplate(file));			
+				model.addTemplate(new Template(sourceModule));
 			} else if (file.getFileExtension().equals("php")) {
 			
 				TwigVisitor visitor = new TwigVisitor(context);
 				getModuleDeclaration(context).traverse(visitor);
 				
 				Stack<Filter> filters = visitor.getFilters();
-				TwigModelAccess.getInstance().addFilters(filters);
+				model.addFilters(filters);
 			}			
 						
 		} catch (Exception e) {

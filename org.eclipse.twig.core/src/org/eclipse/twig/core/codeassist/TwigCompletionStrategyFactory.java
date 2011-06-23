@@ -24,6 +24,9 @@ import org.eclipse.twig.core.codeassist.strategies.VariableFieldStrategy;
  * 
  * Factory for the twig completion strategies.
  * 
+ * Calls the extensions which provide CompletionStrategies
+ * and merges them with the internal twig strategies.
+ * 
  * @see AbstractTwigCompletionStrategy
  * 
  * 
@@ -37,8 +40,6 @@ public class TwigCompletionStrategyFactory implements
 	
 	private static final String STRATEGYFACTORY_ID = "org.eclipse.twig.core.completionStrategyResolvers";
 	
-	private static ITwigCompletionStrategy[] strategies = null;
-
 	@Override
 	public ICompletionStrategy[] create(ICompletionContext[] contexts) {
 		
@@ -56,19 +57,9 @@ public class TwigCompletionStrategyFactory implements
 			}
 		}
 		
-		return (ICompletionStrategy[]) result
-		        .toArray(new ICompletionStrategy[result.size()]);
-		
-	}
-	
-	
-	public static ITwigCompletionStrategy[] getStrategies() {
-
-		if (strategies != null)
-			return strategies;
 		
 		
-		List<ITwigCompletionStrategy> result = new LinkedList<ITwigCompletionStrategy>();
+		// load the strategies from extensions
 		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(STRATEGYFACTORY_ID);		
 		
 		try {
@@ -78,21 +69,18 @@ public class TwigCompletionStrategyFactory implements
 				final Object object = e.createExecutableExtension("class");
 				
 				if (object instanceof ITwigCompletionStrategyFactory) {										
-					ITwigCompletionStrategyFactory factory = (ITwigCompletionStrategyFactory) object;
-					result.addAll(Arrays.asList(factory.createStrategies()));
+					ITwigCompletionStrategyFactory factory = (ITwigCompletionStrategyFactory) object;					
+					result.addAll(Arrays.asList(factory.create(contexts)));
+
 				}
 			}
 			
 		} catch (Exception e) {
-
-			e.printStackTrace();
-			
-		}
+			e.printStackTrace();			
+		}		
 		
-		strategies = (ITwigCompletionStrategy[]) result
-		        .toArray(new ITwigCompletionStrategy[result.size()]);
-		
-		return strategies;
+		return (ICompletionStrategy[]) result
+		        .toArray(new ICompletionStrategy[result.size()]);
 		
 	}
 }

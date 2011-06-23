@@ -126,7 +126,8 @@ public class TwigSourceElementRequestorExtension extends
 			tree.accept(visitor);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.err.println("twig source parser requestor: " + e.getMessage());
 		}
 	}
 }

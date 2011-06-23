@@ -22,6 +22,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.twig.core,
  org.eclipse.twig.core.builder,
  org.eclipse.twig.core.codeassist,
+ org.eclipse.twig.core.codeassist.context,
+ org.eclipse.twig.core.codeassist.strategies,
  org.eclipse.twig.core.documentModel.handler,
  org.eclipse.twig.core.documentModel.loader,
  org.eclipse.twig.core.documentModel.parser,

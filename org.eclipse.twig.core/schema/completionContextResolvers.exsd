@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.twig.core" id="completionStrategyResolvers" name="Twig Completion Strategy Resolvers"/>
+         <meta.schema plugin="org.eclipse.twig.core" id="completionContextResolvers" name="The Twig Completion Context Resolver Extension"/>
       </appinfo>
       <documentation>
-         This extension point allows providing additional completion strategies for codeassist in Twig templates.
+         This extension enables plugins to provide CompletionContexts for the Twig completion engine.
       </documentation>
    </annotation>
 
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.twig.core.codeassist.ITwigCompletionStrategyFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.twig.core.codeassist.ITwigCompletionContextResolver"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -77,12 +77,11 @@
       </appinfo>
       <documentation>
             &lt;extension
-         point=&quot;org.eclipse.twig.core.completionStrategyResolvers&quot;&gt;
+         point=&quot;org.eclipse.twig.core.completionContextResolvers&quot;&gt;
       &lt;resolver
-            class=&quot;org.eclipse.symfony.twig.codeassist.TwigCompletionStrategyFactory&quot;&gt;
+            class=&quot;org.eclipse.symfony.twig.codeassist.TwigCompletionContextResolver&quot;&gt;
       &lt;/resolver&gt;
    &lt;/extension&gt;
-
       </documentation>
    </annotation>
 
@@ -91,7 +90,7 @@
          <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>
-         The extension class must implement the ITwigCompletionStrategyFactory interface.
+         The extension class must implement the ITwigCompletionContextResolver interface.
       </documentation>
    </annotation>
 

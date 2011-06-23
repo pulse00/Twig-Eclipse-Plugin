@@ -1,5 +1,7 @@
 package org.eclipse.twig.core.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import org.eclipse.dltk.core.IScriptProject;
@@ -13,11 +15,11 @@ import org.eclipse.twig.core.TwigCoreConstants;
 
 @SuppressWarnings("restriction")
 public class TwigModelAccess {
-	
-	
-	private static TwigModelAccess instance = null;
-	
+		
+	private static TwigModelAccess instance = null;	
 	private Stack<Filter> filters = new Stack<Filter>();
+	
+	private List<Template> templates = new ArrayList<Template>();
 	
 	private IType filterType = null;
 	
@@ -26,12 +28,10 @@ public class TwigModelAccess {
 	}
 
 
-
 	private TwigModelAccess() {
 		
 		
-	}
-	
+	}	
 	
 
 	public static TwigModelAccess getInstance() {
@@ -77,6 +77,29 @@ public class TwigModelAccess {
 		}
 		
 		return null;
+		
+	}
+
+
+
+	public Template getTemplate(ISourceModule sourceModule) {
+		
+		for (Template template : templates) {			
+			if(template.getSourceModule().equals(sourceModule))
+				return template;			
+		}
+
+		return null;
+	}
+
+
+
+	public void addTemplate(Template twigTemplate) {
+
+		if (templates.contains(twigTemplate))
+			templates.remove(twigTemplate);
+
+		templates.add(twigTemplate);		
 		
 	}
 }
