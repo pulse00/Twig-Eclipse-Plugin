@@ -13,28 +13,28 @@ public class TwigStructuredDocumentReParser extends
 	XMLStructuredDocumentReParser {
 	
 	
-	@Override
-	protected boolean isLoneOpenFollowedByContent(
-			IStructuredDocumentRegion flatNode) {
-		
-        boolean result = false;
-        
-        if (flatNode == null)
-        	return false;
-        
-        String type = flatNode.getType();
-        if (type == DOMRegionContext.XML_CONTENT) {
-            IStructuredDocumentRegion previous = flatNode.getPrevious();
-            String previousType = null;
-            if (previous != null) {
-                previousType = previous.getType();
-            }
-            if (previousType != null) {
-                result = (previousType == DOMRegionContext.XML_TAG_OPEN);
-            }
-        }
-        return result;		
-	}
+//	@Override
+//	protected boolean isLoneOpenFollowedByContent(
+//			IStructuredDocumentRegion flatNode) {
+//		
+//        boolean result = false;
+//        
+//        if (flatNode == null)
+//        	return false;
+//        
+//        String type = flatNode.getType();
+//        if (type == DOMRegionContext.XML_CONTENT) {
+//            IStructuredDocumentRegion previous = flatNode.getPrevious();
+//            String previousType = null;
+//            if (previous != null) {
+//                previousType = previous.getType();
+//            }
+//            if (previousType != null) {
+//                result = (previousType == DOMRegionContext.XML_TAG_OPEN);
+//            }
+//        }
+//        return result;		
+//	}
 	
 	
 	@Override
@@ -167,39 +167,20 @@ public class TwigStructuredDocumentReParser extends
 
 	}
 	
+	protected StructuredDocumentEvent checkForComments() {
+		
+		StructuredDocumentEvent result = checkForCriticalKey("{#"); //$NON-NLS-1$
+		if (result == null) {
+			result = checkForCriticalKey("#}"); //$NON-NLS-1$
+		}
+		return result != null ? result : super.checkForComments();
+	}
+	
+	
 	public StructuredDocumentEvent reparse() {
 		
-		
-		
-		return super.reparse();
-		
-//TODO: find out why this reparse() logic does not work
-// (only when deleting characters the regions are detected as dirty
-		
-//		StructuredDocumentEvent result = null;
-//		// if we do not have a cachedNode, then the document
-//		// must be empty, so simply use 'null' as the dirtyStart and dirtyEnd
-//		// otherwise, find them.
-//		if (fStructuredDocument.getCachedDocumentRegion() != null) {
-//			findDirtyStart(fStart);
-//			int end = fStart + fLengthToReplace;
-//			findDirtyEnd(end);
-//		}
-//		if (fStructuredDocument.getCachedDocumentRegion() != null) {
-//			result = checkHeuristics();
-//		}
-//		if (result == null) {
-//			result = reparse(dirtyStart, dirtyEnd);
-//		}
-//		endReParse();
-//		return result;
-		
-		
-//		findDirtyStart(fStart);
-//		int end = fStart + fLengthToReplace;
-//		findDirtyEnd(end);
-//		StructuredDocumentEvent event = reparse(dirtyStart, dirtyEnd);
-//		return event;		
+		final StructuredDocumentEvent event = super.reparse();		
+		return event;
 		
 	}
 }

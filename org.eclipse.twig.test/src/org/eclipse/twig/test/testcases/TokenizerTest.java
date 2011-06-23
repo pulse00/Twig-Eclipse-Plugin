@@ -94,15 +94,17 @@ public class TokenizerTest extends TestCase {
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken(); 
 				textRegions.push(region);				
-				System.err.println(region.getType());
 			}
 			
+			assertEquals(textRegions.size(), 3);
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_COMMENT_OPEN);			
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_COMMENT);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_COMMENT_CLOSE);			
+			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			fail();
 		}
-		
-		
-		
 	}
 	
 	
@@ -116,25 +118,26 @@ public class TokenizerTest extends TestCase {
 					"XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", 
 					"XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", 
 					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_ATTRIBUTE_NAME", 
-					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_EMPTY_TAG_CLOSE", 
-					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "TWIG_STMT_OPEN", 
-					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", 
-					"TWIG_STMT_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", 
-					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", 
-					"TWIG_STMT_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", 
-					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_ATTRIBUTE_NAME", 
-					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "WHITE_SPACE", "XML_EMPTY_TAG_CLOSE", 
-					"XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", 
-					"XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", 
-					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_CLOSE", 
-					"XML_CONTENT", "TWIG_OPEN", "TWIG_CONTENT", "TWIG_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", 
-					"XML_TAG_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", 
-					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", 
-					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", 
-					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_CLOSE", 
-					"XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "TWIG_COMMENT_OPEN", 
-					"TWIG_COMMENT_TEXT", "TWIG_COMMENT_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", 
-					"XML_TAG_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE"};
+					"XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "XML_EMPTY_TAG_CLOSE", "XML_CONTENT", 
+					"XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", 
+					"TWIG_STMT_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", 
+					"XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", 
+					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", 
+					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", 
+					"XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", 
+					"XML_TAG_ATTRIBUTE_VALUE", "WHITE_SPACE", "XML_EMPTY_TAG_CLOSE", "XML_CONTENT", 
+					"XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", 
+					"XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", 
+					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", 
+					"XML_TAG_CLOSE", "XML_CONTENT", "TWIG_OPEN", "TWIG_CONTENT", "TWIG_CLOSE", "XML_END_TAG_OPEN", 
+					"XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", 
+					"TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "TWIG_STMT_OPEN", 
+					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", 
+					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", 
+					"XML_TAG_ATTRIBUTE_VALUE", "XML_TAG_CLOSE", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", 
+					"XML_CONTENT", "TWIG_COMMENT_OPEN", "TWIG_COMMENT", "TWIG_COMMENT_CLOSE", "XML_CONTENT", 
+					"XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", 
+					"XML_TAG_NAME", "XML_TAG_CLOSE"};
 			
 			tokens = loadTemplate("full.twig");
 			tokenizer = new TwigTokenizer(tokens.toCharArray());
@@ -263,9 +266,9 @@ public class TokenizerTest extends TestCase {
 			}
 
 			assertEquals(textRegions.size(), 3);
-			assertEquals(textRegions.get(0).getType(), "TWIG_COMMENT_OPEN");			
-			assertEquals(textRegions.get(1).getType(), "TWIG_COMMENT_TEXT");
-			assertEquals(textRegions.get(2).getType(), "TWIG_COMMENT_CLOSE");
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_COMMENT_OPEN);			
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_COMMENT);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_COMMENT_CLOSE);			
 			
 			
 		} catch (Exception e) {			
@@ -290,9 +293,9 @@ public class TokenizerTest extends TestCase {
 			}
 
 			assertEquals(textRegions.size(), 3);
-			assertEquals(textRegions.get(0).getType(), "TWIG_COMMENT_OPEN");			
-			assertEquals(textRegions.get(1).getType(), "TWIG_COMMENT_TEXT");
-			assertEquals(textRegions.get(2).getType(), "TWIG_COMMENT_CLOSE");
+			assertEquals(textRegions.get(0).getType(), TwigRegionContext.TWIG_COMMENT_OPEN);			
+			assertEquals(textRegions.get(1).getType(), TwigRegionContext.TWIG_COMMENT);
+			assertEquals(textRegions.get(2).getType(), TwigRegionContext.TWIG_COMMENT_CLOSE);			
 			
 			
 		} catch (Exception e) {			
