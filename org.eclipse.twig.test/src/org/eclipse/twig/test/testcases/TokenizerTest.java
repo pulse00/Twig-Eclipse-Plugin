@@ -82,6 +82,31 @@ public class TokenizerTest extends TestCase {
 	
 	
 	@Test
+	public void testComments() {
+
+		try {
+			
+			tokens = "{# foobar #}";
+			tokenizer = new TwigTokenizer(tokens.toCharArray());
+			textRegions = new Stack<ITextRegion>();
+			assertTrue(textRegions.size() == 0);
+			
+			while(!tokenizer.isEOF()) {
+				ITextRegion region = tokenizer.getNextToken(); 
+				textRegions.push(region);				
+				System.err.println(region.getType());
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
+	}
+	
+	
+	@Test
 	public void testFullTemplate() {
 		
 		try {

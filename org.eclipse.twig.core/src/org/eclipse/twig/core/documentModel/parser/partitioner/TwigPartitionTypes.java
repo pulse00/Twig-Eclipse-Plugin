@@ -4,6 +4,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TypedRegion;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
+import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 
@@ -111,6 +112,11 @@ public class TwigPartitionTypes {
 		int startOffset = getPartitionStart(region, offset);
 		int endOffset = getPartitionEnd(region, offset);
 		return new TypedRegion(startOffset, endOffset - startOffset, partitionType);
+	}
+
+	public static boolean isTwigCommentState(String type) {
+		// TODO Auto-generated method stub
+		return type == TwigRegionTypes.TWIG_COMMENT;
 	}	
 
 }

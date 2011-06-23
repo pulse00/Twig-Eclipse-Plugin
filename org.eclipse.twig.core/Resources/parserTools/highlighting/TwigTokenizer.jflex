@@ -414,7 +414,11 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	// the position after this method should match
 	// <ST_TWIG_CONTENT> "}}" otherwise we'll
 	// get an infinite loop ;)
-	final AbstractTwigLexer twigLexer = getTwigLexer(); 
+	
+	String lexerState = "ST_" + searchContext;
+	
+	final AbstractTwigLexer twigLexer = getTwigLexer(lexerState); 
+ 
 	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer);
 	
 	if (Debug.debugTokenizer)
@@ -463,14 +467,14 @@ private AbstractPhpLexer getPhpLexer() {
  * @param stream
  * @return a new lexer for the given project with the given stream initialized with current parameters
  */
-private AbstractTwigLexer getTwigLexer() {
+private AbstractTwigLexer getTwigLexer(String lexerState) {
 
 	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
 		// of this state in specific PHP version lexer 
-		currentParameters[6] = lexer.getClass().getField("ST_TWIG_CONTENT").getInt(lexer);
+		currentParameters[6] = lexer.getClass().getField(lexerState).getInt(lexer);
 	} catch (Exception e) {
 		Logger.logException(e);
 	}
@@ -944,14 +948,6 @@ private final String scanXMLCommentText() throws IOException {
 	return doScan("-->", true, false,  XML_COMMENT_TEXT, ST_XML_COMMENT_END, ST_XML_COMMENT_END);
 }
 
-/* user method */
-private final String scanTwigCommentText() throws IOException {
-	// Scan for '-->' and return the text up to that point as
-	//   TWIG_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
-	//  case change to the ST_TWIG_COMMENT_END state and return the next
-	//  context as usual.
-	return doScan("#}", false, false,  TWIG_COMMENT_TEXT, ST_TWIG_COMMENT_END, ST_TWIG_COMMENT_END);
-}
 
 private void assembleEmbeddedTwigOpen() {
 	
@@ -1028,7 +1024,6 @@ private void assembleEmbeddedTwigOpen() {
 // added states to TWIG 
 %state ST_TWIG_CONTENT
 %state ST_TWIG_COMMENT
-%state ST_TWIG_COMMENT_END
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
 
@@ -1784,6 +1779,13 @@ NUMBER=([0-9])+
 
 }
 
+<ST_TWIG_COMMENT> .|\n|\r {
+
+	// twig comment scan
+	return doScanEndTwig(TWIG_COMMENT, ST_TWIG_COMMENT, ST_TWIG_COMMENT);	
+
+}
+
 {TW_STMT_DEL_LEFT} {
 
 	if(Debug.debugTokenizer)
@@ -1894,36 +1896,6 @@ NUMBER=([0-9])+
 
 }
 
-// Twig Comments
-
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> "{#"{WHITESPACE}* {
-
-	if(Debug.debugTokenizer)
-		dump("twig comment start");//$NON-NLS-1$
-	fEmbeddedHint = TWIG_COMMENT_TEXT;
-	fEmbeddedPostState = ST_TWIG_COMMENT;
-	yybegin(ST_TWIG_COMMENT);
-	return TWIG_COMMENT_OPEN;
-	
-}
-
-<ST_TWIG_COMMENT> .|\r|\n {
-
-	if(Debug.debugTokenizer)
-		dump("twig comment content");//$NON-NLS-1$
-		
-	String ret = scanTwigCommentText(); 
-	return ret;
-}
-
-<ST_TWIG_COMMENT_END> {TwigCommentEnd} {
-
-	if(Debug.debugTokenizer)
-		dump("twig comment end");//$NON-NLS-1$
-	fEmbeddedHint = UNDEFINED;
-	yybegin(YYINITIAL);
-	return TWIG_COMMENT_CLOSE;
-}
 
 
 // XML & PHP Comments
@@ -2287,6 +2259,11 @@ NUMBER=([0-9])+
 
     final String text = yytext();
     assert text != null;
+    
+	if (Debug.debugTokenizer) {	
+	  dump("FIND TWIG DELIMITER");
+	}
+    
 
     // checks the smarty case
     return findTwigDelimiter(text, XML_CONTENT, twigLeftDelim, TWIG_OPEN, ST_TWIG_CONTENT);
@@ -2295,17 +2272,27 @@ NUMBER=([0-9])+
 
 <ST_BLOCK_TAG_SCAN> .|\r|\n {
 
-	dump("DO BLOCK TAG SCAN");
+	if (Debug.debugTokenizer)
+		dump("DO BLOCK TAG SCAN");
 
 	return doBlockTagScan();
 }
+
+<ST_TWIG_COMMENT> "#}" {
+	
+	if(Debug.debugTokenizer)
+		dump("TWIG COMMENT CLOSE");
+	
+	yybegin(YYINITIAL);
+	return TWIG_COMMENT_CLOSE;
+}
+
 	
 <ST_TWIG_CONTENT> "}}" {
 	
 	if(Debug.debugTokenizer)
 		dump("TWIG CLOSE");
 	
-	//yybegin(fStateStack.pop());
 	yybegin(YYINITIAL);
 	return TWIG_CLOSE;
 }
@@ -2318,18 +2305,6 @@ NUMBER=([0-9])+
 	yybegin(YYINITIAL);
 	return TWIG_STMT_CLOSE;
 }
-
-
-<ST_TWIG_CONTENT> "#}" {
-
-
-	if(Debug.debugTokenizer)
-		dump("TWIG COMMENT CLOSE");
-		
-	yybegin(YYINITIAL);
-	return TWIG_COMMENT_CLOSE;
-}
-
 
 
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
@@ -2375,11 +2350,19 @@ NUMBER=([0-9])+
 
 <ST_TWIG_DOUBLE_QUOTES> ([\`]) {
 
+	if (Debug.debugTokenizer) {	
+	  dump("TWIG BACKTICK START");
+	}
+
 	yybegin(ST_TWIG_DOUBLE_QUOTES_SPECIAL);
     return TWIG_BACKTICK_START;
 }
 
 <ST_TWIG_DOUBLE_QUOTES_SPECIAL> ([\`]) {
+
+	if (Debug.debugTokenizer) {	
+	  dump("TWIG BACKTICK END");
+	}
 
 	yybegin(ST_TWIG_DOUBLE_QUOTES);
     return TWIG_BACKTICK_END;
@@ -2395,15 +2378,27 @@ NUMBER=([0-9])+
 
 <ST_TWIG_DOUBLE_QUOTES_SPECIAL> [\.\-\>()] {
 
+	if (Debug.debugTokenizer) {	
+	  dump("TWIG DELIMITER");
+	}
+
     return TWIG_DELIMITER;
 }
 
 <ST_TWIG_DOUBLE_QUOTES_SPECIAL> {NUMBER} {
 
+	if (Debug.debugTokenizer) {	
+	  dump("TWIG NUMBER");
+	}
+
     return TWIG_NUMBER;
 }
 
 <ST_TWIG_DOUBLE_QUOTES_SPECIAL> {LABEL} {
+
+	if (Debug.debugTokenizer) {	
+	  dump("TWIG LABEL");
+	}
 
     return TWIG_LABEL;
 }
@@ -2418,6 +2413,10 @@ NUMBER=([0-9])+
 // the AST with the TwigLexer for the elements
 // in between.
 <ST_TWIG_CONTENT> .|\n|\r {
+
+	if (Debug.debugTokenizer) {	
+	  dump("DO SCAN END TWIG");
+	}
 
 	return doScanEndTwig(TWIG_CONTENT, ST_TWIG_CONTENT, ST_TWIG_CONTENT);
 

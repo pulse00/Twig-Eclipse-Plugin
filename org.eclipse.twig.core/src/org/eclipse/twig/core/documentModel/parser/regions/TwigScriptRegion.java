@@ -173,7 +173,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 				}
 				int yylength;
 				final int toOffset = offset + length;
-				while (yylex != null && newTokenOffset <= toOffset && (yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
+				while (yylex != null && newTokenOffset <= toOffset && (yylex != TwigRegionTypes.TWIG_COMMENT_CLOSE && yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
 					
 					yylength = twigLexer.getLength();
 					newContainer.addLast(yylex, newTokenOffset, yylength,
@@ -269,7 +269,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 			Object state = lexer.createLexicalStateMemento();
 			String yylex = lexer.getNextToken();
 			int yylength = 0;
-			while (yylex != null && (yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
+			while (yylex != null && (yylex != TwigRegionTypes.TWIG_COMMENT_CLOSE && yylex != TwigRegionTypes.TWIG_CLOSETAG && yylex != TwigRegionTypes.TWIG_STMT_CLOSE)) {
 				
 				yylength = lexer.getLength();
 				this.tokensContainer.addLast(yylex, start, yylength, yylength, state);

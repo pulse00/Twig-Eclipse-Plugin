@@ -28,6 +28,7 @@ import org.eclipse.twig.core.util.Debug;
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_DOUBLE_QUOTES_SPECIAL
 %state ST_TWIG_HIGHLIGHTING_ERROR
+%state ST_TWIG_COMMENT
 
 
 %{
@@ -113,10 +114,10 @@ import org.eclipse.twig.core.util.Debug;
 
 
 // twig macros
-TW_START = \{\{{WHITESPACE}*
+//TW_START = \{\{{WHITESPACE}*
 
-TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
-TWIG_START = \{\{{WHITESPACE}*
+//TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
+//TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
@@ -165,13 +166,12 @@ NUMBER=([0-9])+
     return TWIG_NUMBER;
 }
 
-<ST_TWIG_CONTENT> "#}" {
-
+<ST_TWIG_COMMENT> "#}"{TWIG_WHITESPACE}? {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG COMMENT CLOSE");
 		
-	yybegin(YYINITIAL);
+
 	return TWIG_COMMENT_CLOSE;
 }
 
@@ -204,14 +204,15 @@ NUMBER=([0-9])+
 
 
 
-//<ST_TWIG_COMMENT> "{" {
+//<ST_TWIG_COMMENT> [^#\] {
+<ST_TWIG_COMMENT> .|\r|\n {
 
-//	if(Debug.debugTokenizer)
-//		dump("TWIG BRACKET IN COMMENT");
+	if(Debug.debugTokenizer)
+		dump("TWIG COMMENT");
 
-//	String ret = scanTwigCommentText(); 
-//	return ret;
-//}
+	return TWIG_COMMENT;
+	
+}
 
 
 <ST_TWIG_CONTENT> "{" {
