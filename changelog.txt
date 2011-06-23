@@ -1,3 +1,7 @@
+1.0.68
+
+* fixed document reparsing for opening comments
+
 1.0.67
 
 * fixed comment highlighting
