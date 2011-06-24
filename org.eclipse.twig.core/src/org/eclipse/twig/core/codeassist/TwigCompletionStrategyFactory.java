@@ -17,7 +17,6 @@ import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrateg
 import org.eclipse.twig.core.codeassist.strategies.FilterStrategy;
 import org.eclipse.twig.core.codeassist.strategies.KeywordStrategy;
 import org.eclipse.twig.core.codeassist.strategies.TemplateVariablesStrategy;
-import org.eclipse.twig.core.codeassist.strategies.VariableFieldStrategy;
 
 
 /**
@@ -50,8 +49,9 @@ public class TwigCompletionStrategyFactory implements
 				result.add(new KeywordStrategy(context));
 			} else if (context.getClass() == FilterContext.class) {				
 				result.add(new FilterStrategy(context));
-			} else if (context.getClass() == VariableFieldContext.class) {				
-				result.add(new VariableFieldStrategy(context));
+			} else if (context.getClass() == VariableFieldContext.class) {
+				// can't really do much in a plain twig context, this is the job for extensions
+//				result.add(new VariableFieldStrategy(context));
 			} else if (context.getClass() == TemplateVariablesContext.class) {				
 				result.add(new TemplateVariablesStrategy(context));
 			}

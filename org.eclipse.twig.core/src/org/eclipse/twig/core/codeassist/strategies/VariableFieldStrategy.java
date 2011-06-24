@@ -26,8 +26,7 @@ public class VariableFieldStrategy extends AbstractTwigCompletionStrategy {
 	@Override
 	public void apply(ICompletionReporter reporter) throws Exception {
 						
-		VariableFieldContext ctx = (VariableFieldContext) getContext();		
-		System.err.println("complete variable " + ctx.getVariable());
+		//VariableFieldContext ctx = (VariableFieldContext) getContext();
 		
 	}
 }
