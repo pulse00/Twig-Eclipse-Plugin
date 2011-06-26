@@ -2,6 +2,7 @@
 
 package org.eclipse.twig.core.parser;
 
+import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.parser.error.IErrorReporter;
 
 
@@ -109,10 +110,10 @@ public class TwigParser extends Parser {
                                             RecognitionException e) {
 
             
-           if(errorReporter == null) {
-           		System.err.println("No error reporter instance found!");
-            	return;
-           }
+            if(errorReporter == null) {
+         	   TwigCorePlugin.debug("Parser has no error reporter instance!");
+             	return;
+            }
             	
     		String hdr = getErrorHeader(e);
             String msg = getErrorMessage(e, tokenNames);        

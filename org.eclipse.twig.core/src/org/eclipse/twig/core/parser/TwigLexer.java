@@ -2,6 +2,7 @@
 
 package org.eclipse.twig.core.parser;
 
+import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.parser.error.IErrorReporter;
 
 
@@ -76,7 +77,7 @@ public class TwigLexer extends Lexer {
             
             
            if(errorReporter == null) {
-           		System.err.println("No error reporter instance found!");
+        	   TwigCorePlugin.debug("Lexer has no error reporter instance!");
             	return;
            }
             	

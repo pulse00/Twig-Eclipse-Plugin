@@ -11,7 +11,10 @@ public class TwigCorePlugin extends Plugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.twig.core";
 
-	public static final int INTERNAL_ERROR = 10001;	
+	public static final int INTERNAL_ERROR = 10001;
+
+	private static final boolean DEBUG = false;
+	
 	
 	// The shared instance	
 	private static TwigCorePlugin plugin;
@@ -58,5 +61,12 @@ public class TwigCorePlugin extends Plugin {
 		String version = Platform.getBundle("org.eclipse.dltk.core").getHeaders().get("Bundle-Version");		
 		return version.startsWith("3");
 		
+	}
+
+	public static void debug(String message) {
+
+		if (DEBUG) {			
+			System.err.println(message);
+		}		
 	}
 }
