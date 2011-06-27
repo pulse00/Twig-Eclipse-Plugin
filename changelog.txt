@@ -1,3 +1,8 @@
+1.0.7
+
+* fixed syntax errors for chained methods
+* fixed syntax errors for extends statement
+
 1.0.69
 
 * fixed minor bug in comment region detection

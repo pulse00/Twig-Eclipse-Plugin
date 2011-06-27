@@ -33,6 +33,22 @@ public class TwigParserTest extends TestCase {
 	
 	
 	@Test
+	public void testChainingMethod() {
+		
+		assertValidTokenstream("{{ headLink().setStylesheet(\"/css/site.css\")|raw }}");		
+		
+		
+	}
+	
+	@Test
+	public void testExtends() {
+		
+		assertValidTokenstream("{% extends \"AcmeDemoBundle::layout.html.twig\" %}");
+		
+	}
+	
+	
+	@Test
 	public void testEmptyControlStatement() {
 		
 		assertValidTokenstream("{% %}");

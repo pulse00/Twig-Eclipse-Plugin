@@ -17,6 +17,8 @@ LITERAL_ARG;
 package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.parser.error.IErrorReporter;
+import org.eclipse.twig.core.TwigCorePlugin;
+
 }
 
 
@@ -78,16 +80,19 @@ twig_control_statement
 
 
 twig_control
-  : twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block
+  : twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block | twig_extends
   ;
   
+twig_extends
+  : EXTENDS STRING_LITERAL 
+  ;
   
 twig_block
   : (BLOCK twig_block_param) | (ENDBLOCK)
   ;
   
 twig_block_param
-  : (variable | method) twig_print?
+  : (variable | method_chain) twig_print?
   ;
   
 twig_include
@@ -99,7 +104,7 @@ include_ternary
   ;
   
 include_statement
-  : (STRING_LITERAL) ONLY? (WITH (variable | STRING_LITERAL | method | json) ONLY?)?
+  : (STRING_LITERAL) ONLY? (WITH (variable | STRING_LITERAL | method_chain | json) ONLY?)?
   ;
   
 twig_set
@@ -115,11 +120,11 @@ twig_left_assignment
   ;
   
 twig_right_assignment
-  : (STRING_LITERAL | variable | method | array | json | twig_tilde_argument) (COMMA (STRING_LITERAL | variable | method | array | json | twig_tilde_argument))*
+  : (STRING_LITERAL | variable | method_chain | array | json | twig_tilde_argument) (COMMA (STRING_LITERAL | variable | method_chain | array | json | twig_tilde_argument))*
   ;
   
 twig_tilde_argument
-  : (STRING_LITERAL | variable | method | array | json) TILDE (STRING_LITERAL | variable | method | array | json)
+  : (STRING_LITERAL | variable | method_chain | array | json) TILDE (STRING_LITERAL | variable | method_chain | array | json)
   ;
   
 twig_import
@@ -127,15 +132,15 @@ twig_import
   ;
    
 twig_macro
-  : (MACRO (variable | method)) | ENDMACRO
+  : (MACRO (variable | method_chain)) | ENDMACRO
   ;
   
 twig_if
-  : IF variable | method
+  : IF variable | method_chain
   ;
   
 twig_elseif
-  : ELSEIF (variable | method)
+  : ELSEIF (variable | method_chain)
   ;
   
 twig_for
@@ -147,7 +152,7 @@ for_arguments
   ;
   
 for_value
-  : STRING | STRING_LITERAL | method | range
+  : STRING | STRING_LITERAL | method_chain | range
   ;
   
 range
@@ -155,7 +160,7 @@ range
   ;
   
 twig_ternary
-  : (STRING_LITERAL | NUMBER | variable | method) QM (STRING_LITERAL | NUMBER | variable | method) COLON (STRING_LITERAL | NUMBER | variable | method) 
+  : (STRING_LITERAL | NUMBER | variable | method_chain) QM (STRING_LITERAL | NUMBER | variable | method_chain) COLON (STRING_LITERAL | NUMBER | variable | method_chain) 
   ;
 
 // twig print statements start
@@ -170,7 +175,7 @@ twig_print
   ;
   
 p_input
-  : variable | method | array | STRING_LITERAL
+  : variable | method_chain | array | STRING_LITERAL
   ;
   
   
@@ -189,6 +194,11 @@ array_element
 variable
   : param=STRING (DOT (STRING))*
     ->^(TWIG_VAR $param)
+  ;
+  
+ 
+method_chain
+  : method (DOT method)*
   ;
   
 method

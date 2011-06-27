@@ -1,9 +1,10 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-06-22 09:15:10
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-06-27 23:31:23
 
 package org.eclipse.twig.core.parser;
 
-import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.parser.error.IErrorReporter;
+import org.eclipse.twig.core.TwigCorePlugin;
+
 
 
 import org.antlr.runtime.*;
@@ -45,24 +46,25 @@ public class TwigLexer extends Lexer {
     public static final int MACRO=33;
     public static final int ENDMACRO=34;
     public static final int IMPORT=35;
-    public static final int FROM=36;
-    public static final int SET=37;
-    public static final int ENDSET=38;
-    public static final int INCLUDE=39;
-    public static final int WITH=40;
-    public static final int ONLY=41;
-    public static final int DIGIT=42;
-    public static final int NUMBER=43;
-    public static final int STRING_CHAR=44;
-    public static final int STRING=45;
-    public static final int NONCONTROL_CHAR=46;
-    public static final int STRING_LITERAL=47;
-    public static final int LOWER=48;
-    public static final int UPPER=49;
-    public static final int UNDER=50;
-    public static final int LETTER=51;
-    public static final int SYMBOL=52;
-    public static final int WHITESPACE=53;
+    public static final int EXTENDS=36;
+    public static final int FROM=37;
+    public static final int SET=38;
+    public static final int ENDSET=39;
+    public static final int INCLUDE=40;
+    public static final int WITH=41;
+    public static final int ONLY=42;
+    public static final int DIGIT=43;
+    public static final int NUMBER=44;
+    public static final int STRING_CHAR=45;
+    public static final int STRING=46;
+    public static final int NONCONTROL_CHAR=47;
+    public static final int STRING_LITERAL=48;
+    public static final int LOWER=49;
+    public static final int UPPER=50;
+    public static final int UNDER=51;
+    public static final int LETTER=52;
+    public static final int SYMBOL=53;
+    public static final int WHITESPACE=54;
 
 
         private IErrorReporter errorReporter = null;
@@ -76,10 +78,10 @@ public class TwigLexer extends Lexer {
                                             RecognitionException e) {
             
             
-           if(errorReporter == null) {
-        	   TwigCorePlugin.debug("Lexer has no error reporter instance!");
-            	return;
-           }
+            if(errorReporter == null) {
+              TwigCorePlugin.debug("Lexer has no error reporter instance!");
+              return;
+            }
             	
     		String hdr = getErrorHeader(e);
             String msg = getErrorMessage(e, tokenNames);        
@@ -123,8 +125,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = PRINT_OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:57:13: ( '{{' )
-            // TwigLexer.g:57:15: '{{'
+            // TwigLexer.g:59:13: ( '{{' )
+            // TwigLexer.g:59:15: '{{'
             {
             match("{{"); 
 
@@ -144,8 +146,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = PRINT_CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:58:14: ( '}}' )
-            // TwigLexer.g:58:16: '}}'
+            // TwigLexer.g:60:14: ( '}}' )
+            // TwigLexer.g:60:16: '}}'
             {
             match("}}"); 
 
@@ -165,8 +167,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = CTRL_OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:59:12: ( '{%' )
-            // TwigLexer.g:59:14: '{%'
+            // TwigLexer.g:61:12: ( '{%' )
+            // TwigLexer.g:61:14: '{%'
             {
             match("{%"); 
 
@@ -186,8 +188,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = CTRL_CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:60:13: ( '%}' )
-            // TwigLexer.g:60:15: '%}'
+            // TwigLexer.g:62:13: ( '%}' )
+            // TwigLexer.g:62:15: '%}'
             {
             match("%}"); 
 
@@ -207,8 +209,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = METHOD_START;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:61:14: ( '(' )
-            // TwigLexer.g:61:16: '('
+            // TwigLexer.g:63:14: ( '(' )
+            // TwigLexer.g:63:16: '('
             {
             match('('); 
 
@@ -227,8 +229,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = METHOD_END;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:62:13: ( ')' )
-            // TwigLexer.g:62:15: ')'
+            // TwigLexer.g:64:13: ( ')' )
+            // TwigLexer.g:64:15: ')'
             {
             match(')'); 
 
@@ -247,8 +249,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ARRAY_START;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:63:14: ( '[' )
-            // TwigLexer.g:63:16: '['
+            // TwigLexer.g:65:14: ( '[' )
+            // TwigLexer.g:65:16: '['
             {
             match('['); 
 
@@ -267,8 +269,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ARRAY_END;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:64:12: ( ']' )
-            // TwigLexer.g:64:14: ']'
+            // TwigLexer.g:66:12: ( ']' )
+            // TwigLexer.g:66:14: ']'
             {
             match(']'); 
 
@@ -287,8 +289,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ASIG;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:65:9: ( '=' )
-            // TwigLexer.g:65:11: '='
+            // TwigLexer.g:67:9: ( '=' )
+            // TwigLexer.g:67:11: '='
             {
             match('='); 
 
@@ -307,8 +309,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = TILDE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:66:9: ( '~' )
-            // TwigLexer.g:66:11: '~'
+            // TwigLexer.g:68:9: ( '~' )
+            // TwigLexer.g:68:11: '~'
             {
             match('~'); 
 
@@ -327,8 +329,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = PIPE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:67:9: ( '|' )
-            // TwigLexer.g:67:11: '|'
+            // TwigLexer.g:69:9: ( '|' )
+            // TwigLexer.g:69:11: '|'
             {
             match('|'); 
 
@@ -347,8 +349,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = DDOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:68:9: ( '..' )
-            // TwigLexer.g:68:11: '..'
+            // TwigLexer.g:70:9: ( '..' )
+            // TwigLexer.g:70:11: '..'
             {
             match(".."); 
 
@@ -368,8 +370,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = DOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:69:8: ( '.' )
-            // TwigLexer.g:69:10: '.'
+            // TwigLexer.g:71:8: ( '.' )
+            // TwigLexer.g:71:10: '.'
             {
             match('.'); 
 
@@ -388,8 +390,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:70:10: ( ':' )
-            // TwigLexer.g:70:12: ':'
+            // TwigLexer.g:72:10: ( ':' )
+            // TwigLexer.g:72:12: ':'
             {
             match(':'); 
 
@@ -408,13 +410,13 @@ public class TwigLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:71:9: ( ( ( ' ' )* ',' ( ' ' )* ) )
-            // TwigLexer.g:71:11: ( ( ' ' )* ',' ( ' ' )* )
+            // TwigLexer.g:73:9: ( ( ( ' ' )* ',' ( ' ' )* ) )
+            // TwigLexer.g:73:11: ( ( ' ' )* ',' ( ' ' )* )
             {
-            // TwigLexer.g:71:11: ( ( ' ' )* ',' ( ' ' )* )
-            // TwigLexer.g:71:13: ( ' ' )* ',' ( ' ' )*
+            // TwigLexer.g:73:11: ( ( ' ' )* ',' ( ' ' )* )
+            // TwigLexer.g:73:13: ( ' ' )* ',' ( ' ' )*
             {
-            // TwigLexer.g:71:13: ( ' ' )*
+            // TwigLexer.g:73:13: ( ' ' )*
             loop1:
             do {
                 int alt1=2;
@@ -427,7 +429,7 @@ public class TwigLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // TwigLexer.g:71:13: ' '
+            	    // TwigLexer.g:73:13: ' '
             	    {
             	    match(' '); 
 
@@ -440,7 +442,7 @@ public class TwigLexer extends Lexer {
             } while (true);
 
             match(','); 
-            // TwigLexer.g:71:22: ( ' ' )*
+            // TwigLexer.g:73:22: ( ' ' )*
             loop2:
             do {
                 int alt2=2;
@@ -453,7 +455,7 @@ public class TwigLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // TwigLexer.g:71:22: ' '
+            	    // TwigLexer.g:73:22: ' '
             	    {
             	    match(' '); 
 
@@ -484,8 +486,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = BSLASH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:72:10: ( '\\\\' )
-            // TwigLexer.g:72:12: '\\\\'
+            // TwigLexer.g:74:10: ( '\\\\' )
+            // TwigLexer.g:74:12: '\\\\'
             {
             match('\\'); 
 
@@ -504,8 +506,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = JSON_START;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:73:14: ( '{' )
-            // TwigLexer.g:73:16: '{'
+            // TwigLexer.g:75:14: ( '{' )
+            // TwigLexer.g:75:16: '{'
             {
             match('{'); 
 
@@ -524,8 +526,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = JSON_END;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:74:11: ( '}' )
-            // TwigLexer.g:74:13: '}'
+            // TwigLexer.g:76:11: ( '}' )
+            // TwigLexer.g:76:13: '}'
             {
             match('}'); 
 
@@ -544,8 +546,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = QM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:75:7: ( '?' )
-            // TwigLexer.g:75:9: '?'
+            // TwigLexer.g:77:7: ( '?' )
+            // TwigLexer.g:77:9: '?'
             {
             match('?'); 
 
@@ -564,8 +566,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = BLOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:76:9: ( 'block' )
-            // TwigLexer.g:76:11: 'block'
+            // TwigLexer.g:78:9: ( 'block' )
+            // TwigLexer.g:78:11: 'block'
             {
             match("block"); 
 
@@ -585,8 +587,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ENDBLOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:77:11: ( 'endblock' )
-            // TwigLexer.g:77:13: 'endblock'
+            // TwigLexer.g:79:11: ( 'endblock' )
+            // TwigLexer.g:79:13: 'endblock'
             {
             match("endblock"); 
 
@@ -606,8 +608,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = FOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:78:8: ( 'for' )
-            // TwigLexer.g:78:10: 'for'
+            // TwigLexer.g:80:8: ( 'for' )
+            // TwigLexer.g:80:10: 'for'
             {
             match("for"); 
 
@@ -627,8 +629,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ENDFOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:79:10: ( 'endfor' )
-            // TwigLexer.g:79:12: 'endfor'
+            // TwigLexer.g:81:10: ( 'endfor' )
+            // TwigLexer.g:81:12: 'endfor'
             {
             match("endfor"); 
 
@@ -648,8 +650,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ELSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:80:8: ( 'else' )
-            // TwigLexer.g:80:10: 'else'
+            // TwigLexer.g:82:8: ( 'else' )
+            // TwigLexer.g:82:10: 'else'
             {
             match("else"); 
 
@@ -669,8 +671,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = IF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:81:7: ( 'if' )
-            // TwigLexer.g:81:9: 'if'
+            // TwigLexer.g:83:7: ( 'if' )
+            // TwigLexer.g:83:9: 'if'
             {
             match("if"); 
 
@@ -690,8 +692,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ELSEIF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:82:10: ( 'elseif' )
-            // TwigLexer.g:82:12: 'elseif'
+            // TwigLexer.g:84:10: ( 'elseif' )
+            // TwigLexer.g:84:12: 'elseif'
             {
             match("elseif"); 
 
@@ -711,8 +713,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ENDIF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:83:9: ( 'endif' )
-            // TwigLexer.g:83:11: 'endif'
+            // TwigLexer.g:85:9: ( 'endif' )
+            // TwigLexer.g:85:11: 'endif'
             {
             match("endif"); 
 
@@ -732,8 +734,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = IN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:84:7: ( 'in' )
-            // TwigLexer.g:84:9: 'in'
+            // TwigLexer.g:86:7: ( 'in' )
+            // TwigLexer.g:86:9: 'in'
             {
             match("in"); 
 
@@ -753,8 +755,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = TWIG_AS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:85:11: ( 'as' )
-            // TwigLexer.g:85:13: 'as'
+            // TwigLexer.g:87:11: ( 'as' )
+            // TwigLexer.g:87:13: 'as'
             {
             match("as"); 
 
@@ -774,8 +776,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = MACRO;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:86:9: ( 'macro' )
-            // TwigLexer.g:86:11: 'macro'
+            // TwigLexer.g:88:9: ( 'macro' )
+            // TwigLexer.g:88:11: 'macro'
             {
             match("macro"); 
 
@@ -795,8 +797,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ENDMACRO;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:87:11: ( 'endmacro' )
-            // TwigLexer.g:87:13: 'endmacro'
+            // TwigLexer.g:89:11: ( 'endmacro' )
+            // TwigLexer.g:89:13: 'endmacro'
             {
             match("endmacro"); 
 
@@ -816,8 +818,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = IMPORT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:88:10: ( 'import' )
-            // TwigLexer.g:88:12: 'import'
+            // TwigLexer.g:90:10: ( 'import' )
+            // TwigLexer.g:90:12: 'import'
             {
             match("import"); 
 
@@ -832,13 +834,34 @@ public class TwigLexer extends Lexer {
     }
     // $ANTLR end "IMPORT"
 
+    // $ANTLR start "EXTENDS"
+    public final void mEXTENDS() throws RecognitionException {
+        try {
+            int _type = EXTENDS;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // TwigLexer.g:91:11: ( 'extends' )
+            // TwigLexer.g:91:13: 'extends'
+            {
+            match("extends"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "EXTENDS"
+
     // $ANTLR start "FROM"
     public final void mFROM() throws RecognitionException {
         try {
             int _type = FROM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:89:8: ( 'from' )
-            // TwigLexer.g:89:10: 'from'
+            // TwigLexer.g:92:8: ( 'from' )
+            // TwigLexer.g:92:10: 'from'
             {
             match("from"); 
 
@@ -858,8 +881,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = SET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:90:8: ( 'set' )
-            // TwigLexer.g:90:10: 'set'
+            // TwigLexer.g:93:8: ( 'set' )
+            // TwigLexer.g:93:10: 'set'
             {
             match("set"); 
 
@@ -879,8 +902,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ENDSET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:91:10: ( 'endset' )
-            // TwigLexer.g:91:12: 'endset'
+            // TwigLexer.g:94:10: ( 'endset' )
+            // TwigLexer.g:94:12: 'endset'
             {
             match("endset"); 
 
@@ -900,8 +923,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = INCLUDE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:92:11: ( 'include' )
-            // TwigLexer.g:92:13: 'include'
+            // TwigLexer.g:95:11: ( 'include' )
+            // TwigLexer.g:95:13: 'include'
             {
             match("include"); 
 
@@ -921,8 +944,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = WITH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:93:8: ( 'with' )
-            // TwigLexer.g:93:10: 'with'
+            // TwigLexer.g:96:8: ( 'with' )
+            // TwigLexer.g:96:10: 'with'
             {
             match("with"); 
 
@@ -942,8 +965,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = ONLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:94:8: ( 'only' )
-            // TwigLexer.g:94:10: 'only'
+            // TwigLexer.g:97:8: ( 'only' )
+            // TwigLexer.g:97:10: 'only'
             {
             match("only"); 
 
@@ -963,10 +986,10 @@ public class TwigLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:101:8: ( ( DIGIT )+ )
-            // TwigLexer.g:101:10: ( DIGIT )+
+            // TwigLexer.g:104:8: ( ( DIGIT )+ )
+            // TwigLexer.g:104:10: ( DIGIT )+
             {
-            // TwigLexer.g:101:10: ( DIGIT )+
+            // TwigLexer.g:104:10: ( DIGIT )+
             int cnt3=0;
             loop3:
             do {
@@ -980,7 +1003,7 @@ public class TwigLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // TwigLexer.g:101:10: DIGIT
+            	    // TwigLexer.g:104:10: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1012,10 +1035,10 @@ public class TwigLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:102:8: ( ( STRING_CHAR )+ )
-            // TwigLexer.g:102:10: ( STRING_CHAR )+
+            // TwigLexer.g:105:8: ( ( STRING_CHAR )+ )
+            // TwigLexer.g:105:10: ( STRING_CHAR )+
             {
-            // TwigLexer.g:102:10: ( STRING_CHAR )+
+            // TwigLexer.g:105:10: ( STRING_CHAR )+
             int cnt4=0;
             loop4:
             do {
@@ -1029,7 +1052,7 @@ public class TwigLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // TwigLexer.g:102:10: STRING_CHAR
+            	    // TwigLexer.g:105:10: STRING_CHAR
             	    {
             	    mSTRING_CHAR(); 
 
@@ -1061,7 +1084,7 @@ public class TwigLexer extends Lexer {
         try {
             int _type = STRING_LITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:107:1: ( '\"' ( NONCONTROL_CHAR )* '\"' | '\\'' ( NONCONTROL_CHAR )* '\\'' )
+            // TwigLexer.g:110:1: ( '\"' ( NONCONTROL_CHAR )* '\"' | '\\'' ( NONCONTROL_CHAR )* '\\'' )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1079,10 +1102,10 @@ public class TwigLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // TwigLexer.g:107:3: '\"' ( NONCONTROL_CHAR )* '\"'
+                    // TwigLexer.g:110:3: '\"' ( NONCONTROL_CHAR )* '\"'
                     {
                     match('\"'); 
-                    // TwigLexer.g:107:7: ( NONCONTROL_CHAR )*
+                    // TwigLexer.g:110:7: ( NONCONTROL_CHAR )*
                     loop5:
                     do {
                         int alt5=2;
@@ -1095,7 +1118,7 @@ public class TwigLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // TwigLexer.g:107:7: NONCONTROL_CHAR
+                    	    // TwigLexer.g:110:7: NONCONTROL_CHAR
                     	    {
                     	    mNONCONTROL_CHAR(); 
 
@@ -1112,10 +1135,10 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // TwigLexer.g:108:3: '\\'' ( NONCONTROL_CHAR )* '\\''
+                    // TwigLexer.g:111:3: '\\'' ( NONCONTROL_CHAR )* '\\''
                     {
                     match('\''); 
-                    // TwigLexer.g:108:8: ( NONCONTROL_CHAR )*
+                    // TwigLexer.g:111:8: ( NONCONTROL_CHAR )*
                     loop6:
                     do {
                         int alt6=2;
@@ -1128,7 +1151,7 @@ public class TwigLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // TwigLexer.g:108:8: NONCONTROL_CHAR
+                    	    // TwigLexer.g:111:8: NONCONTROL_CHAR
                     	    {
                     	    mNONCONTROL_CHAR(); 
 
@@ -1157,7 +1180,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "STRING_CHAR"
     public final void mSTRING_CHAR() throws RecognitionException {
         try {
-            // TwigLexer.g:111:23: ( LOWER | UPPER | DIGIT | UNDER )
+            // TwigLexer.g:114:23: ( LOWER | UPPER | DIGIT | UNDER )
             // TwigLexer.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -1181,7 +1204,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "NONCONTROL_CHAR"
     public final void mNONCONTROL_CHAR() throws RecognitionException {
         try {
-            // TwigLexer.g:112:25: ( LETTER | DIGIT | SYMBOL )
+            // TwigLexer.g:115:25: ( LETTER | DIGIT | SYMBOL )
             // TwigLexer.g:
             {
             if ( input.LA(1)==' '||input.LA(1)=='%'||(input.LA(1)>='-' && input.LA(1)<=':')||input.LA(1)=='<'||input.LA(1)=='>'||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='|' ) {
@@ -1205,7 +1228,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // TwigLexer.g:113:17: ( LOWER | UPPER )
+            // TwigLexer.g:116:17: ( LOWER | UPPER )
             // TwigLexer.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -1229,8 +1252,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "LOWER"
     public final void mLOWER() throws RecognitionException {
         try {
-            // TwigLexer.g:114:16: ( 'a' .. 'z' )
-            // TwigLexer.g:114:18: 'a' .. 'z'
+            // TwigLexer.g:117:16: ( 'a' .. 'z' )
+            // TwigLexer.g:117:18: 'a' .. 'z'
             {
             matchRange('a','z'); 
 
@@ -1245,8 +1268,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "UPPER"
     public final void mUPPER() throws RecognitionException {
         try {
-            // TwigLexer.g:115:16: ( 'A' .. 'Z' )
-            // TwigLexer.g:115:18: 'A' .. 'Z'
+            // TwigLexer.g:118:16: ( 'A' .. 'Z' )
+            // TwigLexer.g:118:18: 'A' .. 'Z'
             {
             matchRange('A','Z'); 
 
@@ -1261,8 +1284,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // TwigLexer.g:116:16: ( '0' .. '9' )
-            // TwigLexer.g:116:18: '0' .. '9'
+            // TwigLexer.g:119:16: ( '0' .. '9' )
+            // TwigLexer.g:119:18: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -1277,8 +1300,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "UNDER"
     public final void mUNDER() throws RecognitionException {
         try {
-            // TwigLexer.g:117:16: ( '_' )
-            // TwigLexer.g:117:18: '_'
+            // TwigLexer.g:120:16: ( '_' )
+            // TwigLexer.g:120:18: '_'
             {
             match('_'); 
 
@@ -1293,7 +1316,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "SYMBOL"
     public final void mSYMBOL() throws RecognitionException {
         try {
-            // TwigLexer.g:118:16: ( UNDER | '-' | '/' | ':' | '<' | '>' | ' ' | '%' | '.' | '|' )
+            // TwigLexer.g:121:16: ( UNDER | '-' | '/' | ':' | '<' | '>' | ' ' | '%' | '.' | '|' )
             // TwigLexer.g:
             {
             if ( input.LA(1)==' '||input.LA(1)=='%'||(input.LA(1)>='-' && input.LA(1)<='/')||input.LA(1)==':'||input.LA(1)=='<'||input.LA(1)=='>'||input.LA(1)=='_'||input.LA(1)=='|' ) {
@@ -1319,10 +1342,10 @@ public class TwigLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TwigLexer.g:120:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // TwigLexer.g:120:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // TwigLexer.g:123:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // TwigLexer.g:123:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // TwigLexer.g:120:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // TwigLexer.g:123:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             int cnt8=0;
             loop8:
             do {
@@ -1373,8 +1396,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR end "WHITESPACE"
 
     public void mTokens() throws RecognitionException {
-        // TwigLexer.g:1:8: ( PRINT_OPEN | PRINT_CLOSE | CTRL_OPEN | CTRL_CLOSE | METHOD_START | METHOD_END | ARRAY_START | ARRAY_END | ASIG | TILDE | PIPE | DDOT | DOT | COLON | COMMA | BSLASH | JSON_START | JSON_END | QM | BLOCK | ENDBLOCK | FOR | ENDFOR | ELSE | IF | ELSEIF | ENDIF | IN | TWIG_AS | MACRO | ENDMACRO | IMPORT | FROM | SET | ENDSET | INCLUDE | WITH | ONLY | NUMBER | STRING | STRING_LITERAL | WHITESPACE )
-        int alt9=42;
+        // TwigLexer.g:1:8: ( PRINT_OPEN | PRINT_CLOSE | CTRL_OPEN | CTRL_CLOSE | METHOD_START | METHOD_END | ARRAY_START | ARRAY_END | ASIG | TILDE | PIPE | DDOT | DOT | COLON | COMMA | BSLASH | JSON_START | JSON_END | QM | BLOCK | ENDBLOCK | FOR | ENDFOR | ELSE | IF | ELSEIF | ENDIF | IN | TWIG_AS | MACRO | ENDMACRO | IMPORT | EXTENDS | FROM | SET | ENDSET | INCLUDE | WITH | ONLY | NUMBER | STRING | STRING_LITERAL | WHITESPACE )
+        int alt9=43;
         alt9 = dfa9.predict(input);
         switch (alt9) {
             case 1 :
@@ -1602,70 +1625,77 @@ public class TwigLexer extends Lexer {
                 }
                 break;
             case 33 :
-                // TwigLexer.g:1:247: FROM
+                // TwigLexer.g:1:247: EXTENDS
+                {
+                mEXTENDS(); 
+
+                }
+                break;
+            case 34 :
+                // TwigLexer.g:1:255: FROM
                 {
                 mFROM(); 
 
                 }
                 break;
-            case 34 :
-                // TwigLexer.g:1:252: SET
+            case 35 :
+                // TwigLexer.g:1:260: SET
                 {
                 mSET(); 
 
                 }
                 break;
-            case 35 :
-                // TwigLexer.g:1:256: ENDSET
+            case 36 :
+                // TwigLexer.g:1:264: ENDSET
                 {
                 mENDSET(); 
 
                 }
                 break;
-            case 36 :
-                // TwigLexer.g:1:263: INCLUDE
+            case 37 :
+                // TwigLexer.g:1:271: INCLUDE
                 {
                 mINCLUDE(); 
 
                 }
                 break;
-            case 37 :
-                // TwigLexer.g:1:271: WITH
+            case 38 :
+                // TwigLexer.g:1:279: WITH
                 {
                 mWITH(); 
 
                 }
                 break;
-            case 38 :
-                // TwigLexer.g:1:276: ONLY
+            case 39 :
+                // TwigLexer.g:1:284: ONLY
                 {
                 mONLY(); 
 
                 }
                 break;
-            case 39 :
-                // TwigLexer.g:1:281: NUMBER
+            case 40 :
+                // TwigLexer.g:1:289: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 40 :
-                // TwigLexer.g:1:288: STRING
+            case 41 :
+                // TwigLexer.g:1:296: STRING
                 {
                 mSTRING(); 
 
                 }
                 break;
-            case 41 :
-                // TwigLexer.g:1:295: STRING_LITERAL
+            case 42 :
+                // TwigLexer.g:1:303: STRING_LITERAL
                 {
                 mSTRING_LITERAL(); 
 
                 }
                 break;
-            case 42 :
-                // TwigLexer.g:1:310: WHITESPACE
+            case 43 :
+                // TwigLexer.g:1:318: WHITESPACE
                 {
                 mWHITESPACE(); 
 
@@ -1679,43 +1709,44 @@ public class TwigLexer extends Lexer {
 
     protected DFA9 dfa9 = new DFA9(this);
     static final String DFA9_eotS =
-        "\1\uffff\1\40\1\42\10\uffff\1\44\1\uffff\1\35\3\uffff\11\33\1\62"+
-        "\12\uffff\5\33\1\70\1\72\1\33\1\74\4\33\1\uffff\3\33\1\110\1\33"+
-        "\1\uffff\1\33\1\uffff\1\33\1\uffff\1\33\1\115\10\33\1\127\1\uffff"+
-        "\1\130\3\33\1\uffff\1\134\1\135\1\136\2\33\1\141\3\33\2\uffff\2"+
-        "\33\1\147\3\uffff\1\33\1\151\1\uffff\1\33\1\153\1\154\1\33\1\156"+
-        "\1\uffff\1\33\1\uffff\1\33\2\uffff\1\161\1\uffff\1\162\1\163\3\uffff";
+        "\1\uffff\1\40\1\42\10\uffff\1\44\1\uffff\1\35\3\uffff\11\33\1\63"+
+        "\12\uffff\6\33\1\72\1\74\1\33\1\76\4\33\1\uffff\4\33\1\113\1\33"+
+        "\1\uffff\1\33\1\uffff\1\33\1\uffff\1\33\1\120\10\33\1\132\1\33\1"+
+        "\uffff\1\134\3\33\1\uffff\1\140\1\141\1\142\2\33\1\145\3\33\1\uffff"+
+        "\1\33\1\uffff\2\33\1\154\3\uffff\1\33\1\156\1\uffff\1\33\1\160\1"+
+        "\161\2\33\1\164\1\uffff\1\33\1\uffff\1\33\2\uffff\1\167\1\170\1"+
+        "\uffff\1\171\1\172\4\uffff";
     static final String DFA9_eofS =
-        "\164\uffff";
+        "\173\uffff";
     static final String DFA9_minS =
         "\1\11\1\45\1\175\10\uffff\1\56\1\uffff\1\40\3\uffff\2\154\1\157"+
         "\1\146\1\163\1\141\1\145\1\151\1\156\1\60\12\uffff\1\157\1\144\1"+
-        "\163\1\162\1\157\2\60\1\160\1\60\1\143\2\164\1\154\1\uffff\1\143"+
-        "\1\142\1\145\1\60\1\155\1\uffff\1\154\1\uffff\1\157\1\uffff\1\162"+
-        "\1\60\1\150\1\171\1\153\1\154\1\157\1\146\1\141\1\145\1\60\1\uffff"+
-        "\1\60\1\165\1\162\1\157\1\uffff\3\60\1\157\1\162\1\60\1\143\1\164"+
-        "\1\146\2\uffff\1\144\1\164\1\60\3\uffff\1\143\1\60\1\uffff\1\162"+
-        "\2\60\1\145\1\60\1\uffff\1\153\1\uffff\1\157\2\uffff\1\60\1\uffff"+
-        "\2\60\3\uffff";
+        "\163\1\164\1\162\1\157\2\60\1\160\1\60\1\143\2\164\1\154\1\uffff"+
+        "\1\143\1\142\2\145\1\60\1\155\1\uffff\1\154\1\uffff\1\157\1\uffff"+
+        "\1\162\1\60\1\150\1\171\1\153\1\154\1\157\1\146\1\141\1\145\1\60"+
+        "\1\156\1\uffff\1\60\1\165\1\162\1\157\1\uffff\3\60\1\157\1\162\1"+
+        "\60\1\143\1\164\1\146\1\uffff\1\144\1\uffff\1\144\1\164\1\60\3\uffff"+
+        "\1\143\1\60\1\uffff\1\162\2\60\1\163\1\145\1\60\1\uffff\1\153\1"+
+        "\uffff\1\157\2\uffff\2\60\1\uffff\2\60\4\uffff";
     static final String DFA9_maxS =
-        "\1\176\1\173\1\175\10\uffff\1\56\1\uffff\1\54\3\uffff\1\154\1\156"+
+        "\1\176\1\173\1\175\10\uffff\1\56\1\uffff\1\54\3\uffff\1\154\1\170"+
         "\1\162\1\156\1\163\1\141\1\145\1\151\1\156\1\172\12\uffff\1\157"+
-        "\1\144\1\163\1\162\1\157\2\172\1\160\1\172\1\143\2\164\1\154\1\uffff"+
-        "\1\143\1\163\1\145\1\172\1\155\1\uffff\1\154\1\uffff\1\157\1\uffff"+
-        "\1\162\1\172\1\150\1\171\1\153\1\154\1\157\1\146\1\141\1\145\1\172"+
-        "\1\uffff\1\172\1\165\1\162\1\157\1\uffff\3\172\1\157\1\162\1\172"+
-        "\1\143\1\164\1\146\2\uffff\1\144\1\164\1\172\3\uffff\1\143\1\172"+
-        "\1\uffff\1\162\2\172\1\145\1\172\1\uffff\1\153\1\uffff\1\157\2\uffff"+
-        "\1\172\1\uffff\2\172\3\uffff";
+        "\1\144\1\163\1\164\1\162\1\157\2\172\1\160\1\172\1\143\2\164\1\154"+
+        "\1\uffff\1\143\1\163\2\145\1\172\1\155\1\uffff\1\154\1\uffff\1\157"+
+        "\1\uffff\1\162\1\172\1\150\1\171\1\153\1\154\1\157\1\146\1\141\1"+
+        "\145\1\172\1\156\1\uffff\1\172\1\165\1\162\1\157\1\uffff\3\172\1"+
+        "\157\1\162\1\172\1\143\1\164\1\146\1\uffff\1\144\1\uffff\1\144\1"+
+        "\164\1\172\3\uffff\1\143\1\172\1\uffff\1\162\2\172\1\163\1\145\1"+
+        "\172\1\uffff\1\153\1\uffff\1\157\2\uffff\2\172\1\uffff\2\172\4\uffff";
     static final String DFA9_acceptS =
         "\3\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\uffff\1\16\1\uffff"+
-        "\1\17\1\20\1\23\12\uffff\1\50\1\51\1\52\1\1\1\3\1\21\1\2\1\22\1"+
-        "\14\1\15\15\uffff\1\47\5\uffff\1\31\1\uffff\1\34\1\uffff\1\35\13"+
-        "\uffff\1\26\4\uffff\1\42\11\uffff\1\30\1\41\3\uffff\1\45\1\46\1"+
-        "\24\2\uffff\1\33\5\uffff\1\36\1\uffff\1\27\1\uffff\1\43\1\32\1\uffff"+
-        "\1\40\2\uffff\1\44\1\25\1\37";
+        "\1\17\1\20\1\23\12\uffff\1\51\1\52\1\53\1\1\1\3\1\21\1\2\1\22\1"+
+        "\14\1\15\16\uffff\1\50\6\uffff\1\31\1\uffff\1\34\1\uffff\1\35\14"+
+        "\uffff\1\26\4\uffff\1\43\11\uffff\1\30\1\uffff\1\42\3\uffff\1\46"+
+        "\1\47\1\24\2\uffff\1\33\6\uffff\1\36\1\uffff\1\27\1\uffff\1\44\1"+
+        "\32\2\uffff\1\40\2\uffff\1\41\1\45\1\25\1\37";
     static final String DFA9_specialS =
-        "\164\uffff}>";
+        "\173\uffff}>";
     static final String[] DFA9_transitionS = {
             "\2\35\1\uffff\2\35\22\uffff\1\15\1\uffff\1\34\2\uffff\1\3\1"+
             "\uffff\1\34\1\4\1\5\2\uffff\1\16\1\uffff\1\13\1\uffff\12\32"+
@@ -1739,14 +1770,14 @@ public class TwigLexer extends Lexer {
             "",
             "",
             "\1\45",
-            "\1\47\1\uffff\1\46",
-            "\1\50\2\uffff\1\51",
-            "\1\52\6\uffff\1\54\1\53",
-            "\1\55",
+            "\1\47\1\uffff\1\46\11\uffff\1\50",
+            "\1\51\2\uffff\1\52",
+            "\1\53\6\uffff\1\55\1\54",
             "\1\56",
             "\1\57",
             "\1\60",
             "\1\61",
+            "\1\62",
             "\12\32\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "",
             "",
@@ -1758,83 +1789,90 @@ public class TwigLexer extends Lexer {
             "",
             "",
             "",
-            "\1\63",
             "\1\64",
             "\1\65",
             "\1\66",
             "\1\67",
+            "\1\70",
+            "\1\71",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\2\33\1\71\27\33",
-            "\1\73",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\2\33\1\73\27\33",
             "\1\75",
-            "\1\76",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\1\77",
             "\1\100",
-            "",
             "\1\101",
-            "\1\102\3\uffff\1\103\2\uffff\1\104\3\uffff\1\105\5\uffff\1"+
-            "\106",
-            "\1\107",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\1\102",
+            "",
+            "\1\103",
+            "\1\104\3\uffff\1\105\2\uffff\1\106\3\uffff\1\107\5\uffff\1"+
+            "\110",
             "\1\111",
-            "",
             "\1\112",
-            "",
-            "\1\113",
-            "",
-            "\1\114",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\1\114",
+            "",
+            "\1\115",
+            "",
             "\1\116",
+            "",
             "\1\117",
-            "\1\120",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\1\121",
             "\1\122",
             "\1\123",
             "\1\124",
             "\1\125",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\10\33\1\126\21\33",
-            "",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\1\131",
-            "\1\132",
+            "\1\126",
+            "\1\127",
+            "\1\130",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\10\33\1\131\21\33",
             "\1\133",
             "",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\1\135",
+            "\1\136",
             "\1\137",
-            "\1\140",
+            "",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\1\142",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\1\143",
             "\1\144",
-            "",
-            "",
-            "\1\145",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\1\146",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "",
-            "",
-            "",
+            "\1\147",
             "\1\150",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "",
+            "\1\151",
             "",
             "\1\152",
+            "\1\153",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "",
+            "",
+            "",
             "\1\155",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "",
             "\1\157",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\1\162",
+            "\1\163",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "",
-            "\1\160",
+            "\1\165",
+            "",
+            "\1\166",
             "",
             "",
+            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
             "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "",
             "",
             "",
             ""
@@ -1870,7 +1908,7 @@ public class TwigLexer extends Lexer {
             this.transition = DFA9_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( PRINT_OPEN | PRINT_CLOSE | CTRL_OPEN | CTRL_CLOSE | METHOD_START | METHOD_END | ARRAY_START | ARRAY_END | ASIG | TILDE | PIPE | DDOT | DOT | COLON | COMMA | BSLASH | JSON_START | JSON_END | QM | BLOCK | ENDBLOCK | FOR | ENDFOR | ELSE | IF | ELSEIF | ENDIF | IN | TWIG_AS | MACRO | ENDMACRO | IMPORT | FROM | SET | ENDSET | INCLUDE | WITH | ONLY | NUMBER | STRING | STRING_LITERAL | WHITESPACE );";
+            return "1:1: Tokens : ( PRINT_OPEN | PRINT_CLOSE | CTRL_OPEN | CTRL_CLOSE | METHOD_START | METHOD_END | ARRAY_START | ARRAY_END | ASIG | TILDE | PIPE | DDOT | DOT | COLON | COMMA | BSLASH | JSON_START | JSON_END | QM | BLOCK | ENDBLOCK | FOR | ENDFOR | ELSE | IF | ELSEIF | ENDIF | IN | TWIG_AS | MACRO | ENDMACRO | IMPORT | EXTENDS | FROM | SET | ENDSET | INCLUDE | WITH | ONLY | NUMBER | STRING | STRING_LITERAL | WHITESPACE );";
         }
     }
  

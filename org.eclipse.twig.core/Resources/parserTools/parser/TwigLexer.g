@@ -5,6 +5,8 @@ lexer grammar TwigLexer;
 package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.parser.error.IErrorReporter;
+import org.eclipse.twig.core.TwigCorePlugin;
+
 }
 
 
@@ -86,6 +88,7 @@ TWIG_AS			: 'as';
 MACRO			: 'macro';
 ENDMACRO		: 'endmacro';
 IMPORT			: 'import';
+EXTENDS			: 'extends';
 FROM			: 'from';
 SET				: 'set';
 ENDSET			: 'endset';
