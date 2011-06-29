@@ -4,6 +4,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TypedRegion;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
+import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
+import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
@@ -117,6 +119,10 @@ public class TwigPartitionTypes {
 	public static boolean isTwigCommentState(String type) {
 		// TODO Auto-generated method stub
 		return type == TwigRegionTypes.TWIG_COMMENT;
-	}	
+	}
 
+	public static boolean isTwigQuotesState(String type) {
+		return type == TwigPartitionTypes.TWIG_QUOTED_STRING || type == TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING;		
+
+	}	
 }

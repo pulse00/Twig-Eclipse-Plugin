@@ -1,6 +1,6 @@
 package org.eclipse.twig.core.codeassist;
 
-import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
+import org.eclipse.php.core.codeassist.ICompletionContext;
 
 
 /**
@@ -13,6 +13,6 @@ import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
 public interface ITwigCompletionContextResolver {
 
 	
-	 AbstractTwigCompletionContext[]  createContexts();
+	ICompletionContext[]  createContexts();
 	
 }

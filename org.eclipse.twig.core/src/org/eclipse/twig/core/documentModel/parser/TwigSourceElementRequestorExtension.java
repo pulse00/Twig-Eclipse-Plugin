@@ -3,7 +3,6 @@ package org.eclipse.twig.core.documentModel.parser;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
@@ -127,7 +126,7 @@ public class TwigSourceElementRequestorExtension extends
 			
 		} catch (Exception e) {
 //			e.printStackTrace();
-			System.err.println("twig source parser requestor: " + e.getMessage());
+//			System.err.println("twig source parser requestor: " + e.getMessage());
 		}
 	}
 }

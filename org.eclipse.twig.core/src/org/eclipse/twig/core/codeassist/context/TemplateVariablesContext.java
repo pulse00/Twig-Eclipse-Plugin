@@ -2,6 +2,7 @@ package org.eclipse.twig.core.codeassist.context;
 
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 
 
 /**
@@ -34,6 +35,10 @@ public class TemplateVariablesContext extends
 		if (super.isValid(sourceModule, offset, requestor)) {
 			
 			try {
+				
+				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
+					return false;
+				
 				
 				String prefix = getPrefix();
 				

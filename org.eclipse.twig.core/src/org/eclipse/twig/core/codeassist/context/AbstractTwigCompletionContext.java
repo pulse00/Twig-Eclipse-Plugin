@@ -18,8 +18,8 @@ import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.TwigCorePlugin;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.model.Template;
+import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.util.Debug;
 import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -124,6 +124,10 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 												
 						if (twigScriptRegion != null) {
 							
+							partitionType = determinePartitionType(
+									regionCollection, twigScriptRegion, offset);
+														
+							
 							twigTemplate = TwigModelAccess.getInstance().getTemplate(sourceModule);
 							return true;
 
@@ -138,6 +142,33 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 		return false;
 
 	}
+	
+	protected String determinePartitionType(
+			ITextRegionCollection regionCollection,
+			ITwigScriptRegion twigScriptRegion, int offset)
+			throws BadLocationException {
+
+		int internalOffset = offset - regionCollection.getStartOffset()
+				- twigScriptRegion.getStart() - 1;
+		String partitionType = twigScriptRegion.getPartition(internalOffset);
+
+		// if we are at the begining of multi-line comment or docBlock then we
+		// should get completion.
+		if (partitionType == PHPPartitionTypes.PHP_MULTI_LINE_COMMENT
+				|| partitionType == PHPPartitionTypes.PHP_DOC) {
+			String regionType = twigScriptRegion.getTwigToken(internalOffset)
+					.getType();
+			if (regionType == PHPRegionTypes.PHP_COMMENT_START
+					|| regionType == PHPRegionTypes.PHPDOC_COMMENT_START) {
+				if (twigScriptRegion.getTwigToken(internalOffset).getStart() == internalOffset) {
+					partitionType = twigScriptRegion
+							.getPartition(internalOffset - 1);
+				}
+			}
+		}
+		return partitionType;
+	}
+
 	
 
 	protected ITwigScriptRegion determineTwigRegion(IStructuredDocument document,

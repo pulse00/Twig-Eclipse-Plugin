@@ -1,7 +1,7 @@
 package org.eclipse.twig.core.codeassist;
 
 import org.eclipse.php.core.codeassist.ICompletionContext;
-import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
+import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 
 
 /**
@@ -12,8 +12,9 @@ import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrateg
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
+@SuppressWarnings("restriction")
 public interface ITwigCompletionStrategyFactory {
 	
-	AbstractTwigCompletionStrategy[] create(ICompletionContext[] contexts);	
+	AbstractCompletionStrategy[] create(ICompletionContext[] contexts);	
 
 }

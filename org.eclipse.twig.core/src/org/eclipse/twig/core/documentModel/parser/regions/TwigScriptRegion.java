@@ -20,6 +20,16 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.Logger;
 
+/**
+ * 
+ * 
+ * {@link ITwigScriptRegion} implementation.
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion {
 
@@ -63,6 +73,11 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 	public boolean isFullReparsed() {
 		return isFullReparsed;
 	}
+	
+	public String getPartition(int offset) throws BadLocationException {
+		return tokensContainer.getPartitionType(offset);
+	}
+	
 	
 	
 	private boolean startQuoted(final String text) {

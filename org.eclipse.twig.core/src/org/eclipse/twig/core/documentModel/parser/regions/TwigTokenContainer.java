@@ -8,7 +8,10 @@ import java.util.ListIterator;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.php.internal.core.documentModel.parser.Scanner.LexerState;
+import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
+import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.twig.core.documentModel.parser.AbstractTwigLexer;
+import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
@@ -32,22 +35,22 @@ public class TwigTokenContainer {
 		tokensIterator = null;
 
 	}
-	
-	
+
+
 	public int size() {
-		
+
 		return twigTokens.size();
-		
+
 	}
-	
+
 	public boolean isEmpty() {
 		return this.twigTokens.isEmpty();
 	}
-	
+
 	public ITextRegion[] getTwigTokens() {
 		return twigTokens.toArray(new ITextRegion[twigTokens.size()]);
 	}
-	
+
 	protected synchronized final ListIterator<LexerStateChange> removeOldChanges(
 			int fromOffset, int toOffset) {
 		final ListIterator<LexerStateChange> iterator = (ListIterator<LexerStateChange>) lexerStateChanges
@@ -67,7 +70,7 @@ public class TwigTokenContainer {
 
 		return iterator;
 	}	
-	
+
 	private void setIterator(ListIterator<LexerStateChange> oldIterator,
 			int fromOffset, int toOffset) {
 		if (oldIterator.nextIndex() != 1) {
@@ -83,8 +86,8 @@ public class TwigTokenContainer {
 		}
 
 	}
-	
-	
+
+
 	public void updateStateChanges(TwigTokenContainer newContainer,
 			int fromOffset, int toOffset) {
 		if (newContainer.lexerStateChanges.size() < 2) {
@@ -108,7 +111,7 @@ public class TwigTokenContainer {
 			oldIterator.add(newIterator.next());
 		}
 	}
-	
+
 
 	public synchronized ListIterator<ContextRegion> removeTokensSubList(
 			ITextRegion tokenStart, ITextRegion tokenEnd) {
@@ -137,11 +140,11 @@ public class TwigTokenContainer {
 
 		return tokensIterator;
 	}
-	
+
 	public void adjustWhitespace(String yylex, int start, int yylengthLength,
 			int yylength, Object lexerState) {
 		assert (twigTokens.size() == 0 || getLastToken().getEnd() == start)
-				&& tokensIterator == null;
+		&& tokensIterator == null;
 
 		// if state was change - we add a new token and add state
 		if (lexerStateChanges.size() != 0
@@ -150,32 +153,32 @@ public class TwigTokenContainer {
 			last.adjustLength(yylength);
 		}
 	}
-	
+
 
 	public void reset() {
 		this.twigTokens.clear();
 		this.lexerStateChanges.clear();		
 	}
-	
+
 	public static boolean isKeyword(String yylex) {
-		
-//		if (TwigRegionTypes.PHP_FROM.equals(yylex)) {
-//			return true;
-//		}
-		
+
+		//		if (TwigRegionTypes.PHP_FROM.equals(yylex)) {
+		//			return true;
+		//		}
+
 		return false;
 	}
-	
-	
+
+
 	protected final ITextRegion getLastToken() {
 		return twigTokens.getLast();
 	}
-	
-	
+
+
 	protected LexerStateChange getLastChange() {
 		return lexerStateChanges.getLast();
 	}
-	
+
 
 	public synchronized void addLast(String yylex, int start, int yylengthLength, int yylength, Object lexerState) {
 
@@ -254,12 +257,12 @@ public class TwigTokenContainer {
 			return "[" + getOffset() + "] - " + this.state.getTopState(); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
-	
+
 	public synchronized ITextRegion getToken(int offset)
 			throws BadLocationException {
-		
+
 		assert tokensIterator != null;
-		
+
 		if (twigTokens.isEmpty()) {
 			return null;
 		}
@@ -276,7 +279,7 @@ public class TwigTokenContainer {
 		}
 
 		if (result != null && offset >= result.getEnd()) { // if the offset is
-															// beyond - go fetch
+			// beyond - go fetch
 			// from next
 			while (tokensIterator.hasNext() && !isInside(result, offset)) {
 				if (result == null) {
@@ -304,9 +307,9 @@ public class TwigTokenContainer {
 
 		return result;
 	}
-	
+
 	public LexerState getState(int offset) throws BadLocationException {
-		
+
 		Iterator<LexerStateChange> iter = lexerStateChanges.iterator();
 		assert iter.hasNext();
 
@@ -322,14 +325,14 @@ public class TwigTokenContainer {
 		}
 		return lastState;
 	}
-	
-	
+
+
 	private final boolean isInside(ITextRegion region, int offset) {
 		return region != null && region.getStart() <= offset
 				&& offset < region.getEnd();
 	}
-	
-	
+
+
 	protected final void checkBadLocation(int offset)
 			throws BadLocationException {
 		ITextRegion lastRegion = getLastToken();
@@ -338,8 +341,8 @@ public class TwigTokenContainer {
 					"offset " + offset + " is out of [0, " + lastRegion.getEnd() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
-	
-	
+
+
 	public synchronized ITextRegion[] getTokens(final int offset,
 			final int length) throws BadLocationException {
 		assert length >= 0;
@@ -359,8 +362,28 @@ public class TwigTokenContainer {
 
 		return result.toArray(new ITextRegion[result.size()]);
 	}
-	
-	
 
 
+	public String getPartitionType(int offset) throws BadLocationException {
+		
+		ITextRegion token = getToken(offset);
+		
+//		while (token != null
+//				&& token.getStart() - 1 >= 0) {
+//			token = getToken(token.getStart() - 1);
+//		}
+		assert token != null;
+		final String type = token.getType();
+//		System.err.println(type);
+
+//		if (PHPPartitionTypes.isPHPLineCommentState(type))
+//			return PHPPartitionTypes.PHP_SINGLE_LINE_COMMENT;
+//		else if (PHPPartitionTypes.isPHPDocState(type))
+//			return PHPPartitionTypes.PHP_DOC;
+		if (TwigPartitionTypes.isTwigQuotesState(type))
+			return TwigPartitionTypes.TWIG_QUOTED_STRING;
+		else {
+			return TwigPartitionTypes.TWIG_DEFAULT;
+		}
+	}
 }

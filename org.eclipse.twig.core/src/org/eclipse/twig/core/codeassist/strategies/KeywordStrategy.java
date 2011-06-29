@@ -6,6 +6,16 @@ import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
 
+
+/**
+ * 
+ * Completes Twig keywords.
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings({ "restriction", "deprecation" })
 public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
