@@ -1,3 +1,7 @@
+1.0.72
+
+* removed wrong dependency
+
 1.0.71
 
 * increased all minor version numbers due to updatesite failure
