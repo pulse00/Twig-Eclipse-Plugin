@@ -6,6 +6,7 @@ import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.php.internal.core.util.text.TextSequenceUtilities;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -89,7 +90,7 @@ public class TwigTextSequenceUtilities  {
 				return textSequence;
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logger.logException(e);
 			}
 		}
 
@@ -116,7 +117,7 @@ public class TwigTextSequenceUtilities  {
 
 		while (startPosition > 0) {
 			char ch = textSequence.charAt(startPosition - 1);
-			if (!Character.isLetterOrDigit(ch) && ch != '_' && ch != '.') {
+			if (!Character.isLetterOrDigit(ch) && ch != '_' /*&& ch != '.'*/) {
 				break;
 			}
 			startPosition--;
@@ -124,5 +125,60 @@ public class TwigTextSequenceUtilities  {
 		
 		return startPosition;
 
+	}
+
+
+	public static boolean isInField(TextSequence statement) {
+
+		int startOffset = statement.length()-1;
+		
+		while(startOffset > 0) {
+
+			if (statement.charAt(startOffset) == '(') {
+				return false;
+			} else if (statement.charAt(startOffset) == '.')
+				return true;
+			
+			startOffset--;
+			
+		}
+		
+		return false;
+	}
+
+
+	/**
+	 * 
+	 * Return the previous variable in a statement like {{ form. <-- returns "form"
+	 * 
+	 * @param statement
+	 * @return
+	 */
+	public static String getVariable(TextSequence statement) {
+
+		int startOffset = statement.length()-1;		
+		int dotOffset = -1;
+		
+		while(startOffset > 0) {
+			
+			char current = statement.charAt(startOffset);
+			
+			if(current == '.') {
+				dotOffset = startOffset;
+			}
+			
+			if (dotOffset > -1 && (Character.isWhitespace(current)) /*|| current == '.'*/) {
+				break;
+			}
+			
+			startOffset--;
+			
+		}
+		
+		if (dotOffset > -1) {
+			return statement.toString().substring(startOffset, dotOffset).toString();
+		}
+		
+		return null;
 	}
 }

@@ -210,7 +210,7 @@ arguments
   ;
 
 argument
-: literal_argument | STRING | json | NUMBER
+: literal_argument | json | NUMBER | variable
 ;
 
 literal_argument

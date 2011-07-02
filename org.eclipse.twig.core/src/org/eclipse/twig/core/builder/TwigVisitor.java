@@ -67,18 +67,8 @@ public class TwigVisitor extends PHPASTVisitor {
 		if (inFilterCreation && inTwigExtension) {
 			
 			if (s.getVariable().getClass() == ArrayVariableReference.class) {
-				
-				ArrayVariableReference ref = (ArrayVariableReference) s.getVariable();
-			
-				System.err.println(context.getFileName());
-				
-				System.err.println(ref.getName());
-				System.err.println(s.getValue().getClass());
-				System.err.println();
-			}
-			
 
-			
+			}
 		}
 		
 		return true;

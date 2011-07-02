@@ -1,7 +1,8 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-06-27 23:31:23
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-07-02 21:11:14
 
 package org.eclipse.twig.core.parser;
 
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.error.IErrorReporter;
 import org.eclipse.twig.core.TwigCorePlugin;
 
@@ -79,7 +80,7 @@ public class TwigLexer extends Lexer {
             
             
             if(errorReporter == null) {
-              TwigCorePlugin.debug("Lexer has no error reporter instance!");
+              Logger.log(Logger.ERROR, "Lexer has no error reporter instance!"); //$NON-NLS-N$
               return;
             }
             	

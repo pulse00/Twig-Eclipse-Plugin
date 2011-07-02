@@ -112,7 +112,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return bufferedState;
 		}
 
-		// System.out.println("lexerStates size:" + lexerStates.size());
 		final int key = buildStateKey();
 		Object state = getLexerStates().get(key);
 		if (state == null) {

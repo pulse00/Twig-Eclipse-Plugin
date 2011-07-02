@@ -1,6 +1,5 @@
 package org.eclipse.twig.ui.editor.contentassist;
 
-import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
 import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalComputer;
@@ -33,12 +32,12 @@ public class TwigCompletionProposalComputer extends
 	}
 
 
-	@Override
-	protected ScriptCompletionProposalCollector createCollector(
-			ScriptContentAssistInvocationContext context) {
-
-		return new TwigCompletionProposalCollector(context.getDocument(), context.getSourceModule(), true);
-		
-	}
+//	@Override
+//	protected ScriptCompletionProposalCollector createCollector(
+//			ScriptContentAssistInvocationContext context) {
+//
+//		return new TwigCompletionProposalCollector(context.getDocument(), context.getSourceModule(), true);
+//		
+//	}
 
 }

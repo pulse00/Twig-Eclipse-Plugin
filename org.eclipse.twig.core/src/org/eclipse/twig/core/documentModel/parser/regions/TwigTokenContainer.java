@@ -374,7 +374,6 @@ public class TwigTokenContainer {
 //		}
 		assert token != null;
 		final String type = token.getType();
-//		System.err.println(type);
 
 //		if (PHPPartitionTypes.isPHPLineCommentState(type))
 //			return PHPPartitionTypes.PHP_SINGLE_LINE_COMMENT;

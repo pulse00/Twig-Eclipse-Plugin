@@ -2,7 +2,10 @@ package org.eclipse.twig.core.codeassist.context;
 
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import org.eclipse.twig.core.log.Logger;
+import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 
 
 /**
@@ -28,6 +31,7 @@ public class TemplateVariablesContext extends
 		AbstractTwigCompletionContext {
 	
 	
+	@SuppressWarnings("restriction")
 	@Override
 	public boolean isValid(ISourceModule sourceModule, int offset,
 			CompletionRequestor requestor) {
@@ -39,17 +43,16 @@ public class TemplateVariablesContext extends
 				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
 					return false;
 				
+				TextSequence sequence = getStatementText();
 				
-				String prefix = getPrefix();
-				
-				if (prefix != null) {					
-					if (!prefix.contains(".") && !prefix.contains("[") && !prefix.contains("]")) {
-						return true;
-					}
+				if (TwigTextSequenceUtilities.isInField(sequence)) {
+					return false;
 				}
 				
+				return true;
+				
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logger.logException(e);
 			}
 		}
 		return false;

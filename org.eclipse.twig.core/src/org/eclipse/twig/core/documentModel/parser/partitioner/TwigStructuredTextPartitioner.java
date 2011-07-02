@@ -39,8 +39,6 @@ public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner 
 	public String getPartitionType(ITextRegion region, int offset) {
 
 		
-//		System.err.println("get partition type");
-//		System.out.println(region.toString());
 
 		// if twig region
 		final String type = region.getType();

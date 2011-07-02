@@ -12,6 +12,7 @@ import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.parser.ISourceParser;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.error.TwigErrorReporter;
 
 
@@ -111,7 +112,7 @@ ISourceParser {
 			reporter.setOffset(offset, line);
 			CharStream content = new ANTLRStringStream(source);
 			TwigLexer lexer = new TwigLexer(content, reporter);
-
+			
 			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
 			parser.setErrorReporter(reporter);
 
@@ -125,7 +126,7 @@ ISourceParser {
 
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			Logger.logException(e);
 		}
 	}
 }

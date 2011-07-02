@@ -9,6 +9,7 @@ import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.SourceParserUtil;
 import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.model.Template;
@@ -63,7 +64,7 @@ public class TwigBuildParticipant implements IBuildParticipant {
 			}			
 						
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.logException(e);
 		}
 
 	}

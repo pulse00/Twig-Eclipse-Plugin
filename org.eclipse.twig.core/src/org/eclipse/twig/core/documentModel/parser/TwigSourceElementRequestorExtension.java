@@ -6,10 +6,12 @@ import org.antlr.runtime.CommonTokenStream;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.TwigCommonTree;
 import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
 import org.eclipse.twig.core.parser.TwigLexer;
 import org.eclipse.twig.core.parser.TwigParser;
+import org.eclipse.twig.core.parser.error.DummyErrorReporter;
 
 
 
@@ -55,7 +57,7 @@ public class TwigSourceElementRequestorExtension extends
 			
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			Logger.logException(e);
 		}
 				
 		super.setSourceModule(sourceModule);
@@ -112,9 +114,11 @@ public class TwigSourceElementRequestorExtension extends
 		try {
 
 			CharStream content = new ANTLRStringStream(source);
-			TwigLexer lexer = new TwigLexer(content);
+			DummyErrorReporter dummy = new DummyErrorReporter();
+			TwigLexer lexer = new TwigLexer(content, dummy);
 
 			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));		
+			parser.setErrorReporter(dummy);
 
 			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
 			TwigParser.twig_source_return root;
@@ -125,8 +129,8 @@ public class TwigSourceElementRequestorExtension extends
 			tree.accept(visitor);
 			
 		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.err.println("twig source parser requestor: " + e.getMessage());
+			Logger.logException(e);
+
 		}
 	}
 }

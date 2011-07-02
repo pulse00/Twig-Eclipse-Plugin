@@ -63,10 +63,13 @@ public class TwigCorePlugin extends Plugin {
 		
 	}
 
-	public static void debug(String message) {
+	
+	private static final String isDebugMode = "org.eclipse.twig.core/debug";
 
-		if (DEBUG) {			
-			System.err.println(message);
-		}		
-	}
+	public static boolean debug() {
+		
+		String debugOption = Platform.getDebugOption(isDebugMode); //$NON-NLS-1$
+		return getDefault().isDebugging() && "true".equalsIgnoreCase(debugOption); 
+		
+	}	
 }

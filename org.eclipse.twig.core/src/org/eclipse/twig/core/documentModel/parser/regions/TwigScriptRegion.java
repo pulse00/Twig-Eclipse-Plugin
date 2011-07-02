@@ -62,8 +62,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 					.getField(lexerState).getInt(twigLexer);
 		} catch (Exception e) {
 			
-			e.printStackTrace();
-//			Logger.logException(e);
+			Logger.logException(e);
 		}
 		completeReparse(twigLexer);
 		
@@ -301,7 +300,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			Logger.logException(e);
 
 		} finally {
 

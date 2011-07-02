@@ -90,10 +90,6 @@ public class TwigSourceParser extends XMLSourceParser {
 		headNode = lastNode = currentNode = null;
 
 
-		if (org.eclipse.twig.core.util.Debug.documentReParser)
-			System.err.println("PARSE TWIG NODES");
-		
-		
 
 		ITextRegion region = null;
 		String type = null;
@@ -272,8 +268,6 @@ public class TwigSourceParser extends XMLSourceParser {
 					((ITextRegionContainer) region).setParent(currentNode);
 				}
 				
-				if (Debug.debugTokenizer)
-					System.out.println(getClass().getName() + " found region of not specifically handled type " + region.getType() + " @ " + region.getStart() + "[" + region.getLength() + "]"); //$NON-NLS-4$//$NON-NLS-3$//$NON-NLS-2$//$NON-NLS-1$
 				//$NON-NLS-3$//$NON-NLS-2$//$NON-NLS-1$
 			}
 
@@ -300,19 +294,6 @@ public class TwigSourceParser extends XMLSourceParser {
 		}
 		// fStringInput = null;
 		primReset();
-		
-		if (org.eclipse.twig.core.util.Debug.documentReParser){			
-			if (headNode != null) {
-				System.err.println("HEAD NODE: " + headNode.getType() + " " + headNode.getStart() + " " + headNode.getEnd());
-			}
-			
-			if (currentNode != null) {			
-				System.err.println("CURRENT NODE: " + currentNode.getType() + " " + currentNode.getStart() + " " + currentNode.getEnd());
-			}
-			System.err.println();	
-		}
-		
-		
 		
 		
 		return headNode;

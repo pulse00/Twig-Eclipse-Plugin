@@ -15,6 +15,7 @@ import org.eclipse.twig.core.codeassist.context.KeywordContext;
 import org.eclipse.twig.core.codeassist.context.QuotesContext;
 import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
 import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
+import org.eclipse.twig.core.log.Logger;
 
 
 /**
@@ -62,7 +63,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();			
+			Logger.logException(e);		
 		}		
 		
 		return (ICompletionContext[]) contexts.toArray(new ICompletionContext[contexts.size()]);

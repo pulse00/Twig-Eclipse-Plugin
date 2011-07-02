@@ -17,6 +17,7 @@ import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrateg
 import org.eclipse.twig.core.codeassist.strategies.FilterStrategy;
 import org.eclipse.twig.core.codeassist.strategies.KeywordStrategy;
 import org.eclipse.twig.core.codeassist.strategies.TemplateVariablesStrategy;
+import org.eclipse.twig.core.log.Logger;
 
 
 /**
@@ -76,7 +77,7 @@ public class TwigCompletionStrategyFactory implements
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();			
+			Logger.logException(e);
 		}		
 		
 		return (ICompletionStrategy[]) result

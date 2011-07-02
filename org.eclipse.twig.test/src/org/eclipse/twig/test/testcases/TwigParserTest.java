@@ -31,6 +31,13 @@ public class TwigParserTest extends TestCase {
 		super.tearDown();
 	}
 	
+	@Test
+	public void testFormMethod() {		
+		
+		assertValidTokenstream("{{ form_row(form.email) }}");
+		
+	}
+	
 	
 	@Test
 	public void testChainingMethod() {

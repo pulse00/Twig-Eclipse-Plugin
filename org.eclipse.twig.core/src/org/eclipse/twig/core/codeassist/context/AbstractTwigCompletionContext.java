@@ -117,8 +117,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 
 					if (regionCollection != null) {
 
-						if (Debug.debugCodeassist)
-							System.err.println("got region collection");
 						twigScriptRegion = determineTwigRegion(document,
 								regionCollection, offset);
 												

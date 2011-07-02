@@ -4,6 +4,8 @@ import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import org.eclipse.twig.core.log.Logger;
+import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 
 
 /**
@@ -28,15 +30,15 @@ public class KeywordContext extends AbstractTwigCompletionContext {
 					return false;
 				
 				
-				String prefix = getPrefix();
+				String prefix = getStatementText().toString();
 				
 				if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'"))
 					return true;
 				
 			}
-		} catch (BadLocationException e) {
+		} catch (Exception e) {
 
-			e.printStackTrace();
+			Logger.logException(e);
 		}		
 		
 		return false;

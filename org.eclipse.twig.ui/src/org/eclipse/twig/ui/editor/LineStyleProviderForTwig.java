@@ -385,12 +385,6 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 						}
 					}
 				}
-
-				if (Debug.syntaxHighlighting) {
-					if (!handled) {
-						System.out.println("not handled in prepareRegions"); //$NON-NLS-1$
-					}
-				}
 			}
 			structuredDocumentRegion = structuredDocumentRegion.getNext();
 		}

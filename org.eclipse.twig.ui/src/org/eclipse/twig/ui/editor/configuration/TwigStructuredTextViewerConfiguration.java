@@ -98,15 +98,11 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		IContentAssistProcessor[] processors = null;
 
 		
-//		System.err.println("get content assist processosr for " + partitionType);
-		
 		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*||
 				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
 			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
 			processors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(processors);
-			
-//			System.err.println("#### is twig partition type #####");
 			
 		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
 			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);

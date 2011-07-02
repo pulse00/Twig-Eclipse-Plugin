@@ -25,6 +25,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.twig.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.eclipse.ui.texteditor.templates
+Import-Package: org.eclipse.ui.texteditor.link,
+ org.eclipse.ui.texteditor.templates
 Export-Package: org.eclipse.twig.ui.editor
 Bundle-Vendor: http://www.twig-project.org/

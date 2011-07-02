@@ -10,6 +10,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.twig.core.TwigNature;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -106,7 +107,7 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate {
 			
 		} catch (CoreException e) {
 			
-			e.printStackTrace();
+			Logger.logException(e);
 		}
 	}	
 }

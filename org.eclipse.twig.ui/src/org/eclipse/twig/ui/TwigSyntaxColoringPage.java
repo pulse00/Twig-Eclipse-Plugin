@@ -63,6 +63,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -158,12 +159,10 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		
 		
 		if (store == null) {
-			System.err.println("store is null null");
 			return;
 		}
 		
 		if (fOverlayStore == null) {
-			System.err.println("null");
 			return;
 		}
 		
@@ -452,7 +451,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			applyStyles();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.logException(e);
 		}
 
 		fStylesViewer

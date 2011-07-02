@@ -9,6 +9,7 @@ import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 import org.eclipse.php.internal.core.typeinference.FakeMethod;
 import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.TwigModelAccess;
 
@@ -54,7 +55,7 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.logException(e);
 		}	
 	}	
 }
