@@ -99,7 +99,7 @@
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         See the Symfony2 plugin for examples: https://github.com/pulse00/Symfony-2-Eclipse-Plugin.
+         See the Symfony plugin for examples: https://github.com/pulse00/Symfony-2-Eclipse-Plugin.
       </documentation>
    </annotation>
 
