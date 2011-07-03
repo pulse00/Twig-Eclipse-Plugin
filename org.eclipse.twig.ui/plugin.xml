@@ -103,12 +103,15 @@
             id="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
             name="%codeassistPreferencePageName">
       </page>
+      <!-- TODO: finish the syntax highlight page-->
+      <!--
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             class="org.eclipse.twig.ui.TwigSyntaxColoringPage"
             id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
             name="%syntaxColorPreferencePageName">
       </page>
+      -->
    </extension>
    
    <!-- CompletionEngine -->

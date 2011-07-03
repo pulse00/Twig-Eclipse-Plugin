@@ -126,7 +126,7 @@ ISourceParser {
 
 
 		} catch (Exception e) {
-			Logger.logException(e);
+			//Logger.logException(e);
 		}
 	}
 }

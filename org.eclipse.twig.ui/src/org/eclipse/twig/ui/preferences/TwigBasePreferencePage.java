@@ -28,7 +28,7 @@ public class TwigBasePreferencePage extends PreferencePage implements
 
 		super();
 		setPreferenceStore(DLTKUIPlugin.getDefault().getPreferenceStore());
-		setDescription("Twig");
+		setDescription(Messages.TwigBasePreferencePage_0);
 	}
 
 

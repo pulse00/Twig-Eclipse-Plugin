@@ -1,7 +1,6 @@
 package org.eclipse.twig.ui.preferences;
 
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -63,7 +62,7 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage
 		
 		
 		final Shell shell = contents.getShell();
-		String text = "Twig editor preferences. Note that some preferences may be set on the <a>PHP Editors</a> preference page.";
+		String text = Messages.TwigEditorPreferencePage_0;
 		Link link = new Link(contents, SWT.NONE);
 		link.setText(text);
 		link.addSelectionListener(new SelectionAdapter() {
@@ -73,7 +72,7 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage
 		});
 		// TODO replace by link-specific tooltips when
 		// bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=88866 gets fixed
-		link.setToolTipText("Show the shared php editor preferences");
+		link.setToolTipText(Messages.TwigEditorPreferencePage_1);
 
 		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gridData.widthHint = 150; // only expand further if anyone else requires it
@@ -95,7 +94,7 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage
 		// so we disable it
 		if (!TwigCorePlugin.getDefault().isDLTK3()) {
 			
-			MessageDialog.openWarning(getShell(), "Twig Warning", "Your eclipse version is not compatible with the validation API the Twig-Plugin uses. Please upgrade to Eclipse 3.7 or install DLTK 3.0");
+			MessageDialog.openWarning(getShell(), Messages.TwigEditorPreferencePage_2, Messages.TwigEditorPreferencePage_3);
 			options = new String[][] 
 					{ 
 							{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
@@ -111,7 +110,7 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage
 		}
 		
 
-		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, "Syntax Errors", options, getFieldEditorParent()));		
+		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, Messages.TwigEditorPreferencePage_4, options, getFieldEditorParent()));		
 		
 	}
 }
