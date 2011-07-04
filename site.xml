@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.eclipse.twig.feature_1.0.73.201107040150.jar" id="org.eclipse.twig.feature" version="1.0.73.201107040150">
-      <category name="org.eclipse.twig"/>
-   </feature>
-   <category-def name="org.eclipse.twig" label="Twig"/>
-</site>
