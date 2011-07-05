@@ -19,8 +19,8 @@ The plugin requires Eclipse >= 3.6.
 * Help
 * Install new Software...
 * Click "add" to add a new software site
-* Put the update-site in the location field: http://pulse00.github.com/Twig-Eclipse-Plugin/
-* Select the "Twig Editor Feature" from the new software site and click finish
+* Put the update-site in the location field: http://pulse00.github.com/updatesite/
+* Select the "Twig Editor Feature" from the "Twig" node and click finish
 
 
 All dependencies (PHP Development tools) should be downloaded automatically during the installation process.
