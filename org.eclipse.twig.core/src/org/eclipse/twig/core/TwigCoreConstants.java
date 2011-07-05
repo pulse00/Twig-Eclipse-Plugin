@@ -23,7 +23,9 @@ public class TwigCoreConstants {
 	
 	public static final String TWIG_EXTENSION = "Twig_Extension";
 	public static final String GET_FILTERS = "getFilters";
+	public static final String GET_FUNCTIONS = "getFunctions";
 	public static final String TWIG_FILTER_FUNCTION = "Twig_Filter_Function";
+	public static final String TWIG_FUNCTION_METHOD = "Twig_Function_Method";
 			
 
 }

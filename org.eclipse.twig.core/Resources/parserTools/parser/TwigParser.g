@@ -18,6 +18,8 @@ package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.parser.error.IErrorReporter;
 import org.eclipse.twig.core.TwigCorePlugin;
+import org.eclipse.twig.core.log.Logger;
+
 
 }
 
@@ -36,7 +38,8 @@ import org.eclipse.twig.core.TwigCorePlugin;
 
         
             if(errorReporter == null) {
-         	   TwigCorePlugin.debug("Parser has no error reporter instance!");
+            	Logger.log(Logger.WARNING, "Parser has no error reporter instance!");
+         	   
              	return;
             }
             	
@@ -80,15 +83,22 @@ twig_control_statement
 
 
 twig_control
-  : twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block | twig_extends
+  : variable | twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block | twig_extends | twig_use | assets 
   ;
+
+assets
+  : variable STRING_LITERAL+
+  ;  
   
+twig_use
+  : USE STRING_LITERAL 
+  ;
 twig_extends
   : EXTENDS STRING_LITERAL 
   ;
   
 twig_block
-  : (BLOCK twig_block_param) | (ENDBLOCK)
+  : (BLOCK twig_block_param) | (ENDBLOCK variable?)
   ;
   
 twig_block_param
@@ -112,7 +122,7 @@ twig_set
   ;
  
 twig_assignment
-  :  twig_left_assignment (ASIG twig_right_assignment)?
+  :  twig_left_assignment (ASIG (twig_right_assignment (PIPE twig_right_assignment)*))?
   ;
   
 twig_left_assignment
@@ -136,7 +146,7 @@ twig_macro
   ;
   
 twig_if
-  : IF variable | method_chain
+  : IF ( (variable | method_chain | eq_check) (PIPE (variable | method_chain | eq_check))*) (IS DEFINED)?
   ;
   
 twig_elseif
@@ -144,7 +154,7 @@ twig_elseif
   ;
   
 twig_for
-  : FOR STRING IN for_arguments
+  : FOR (STRING (COMMA STRING)*) IN for_arguments
   ;
   
 for_arguments
@@ -152,7 +162,7 @@ for_arguments
   ;
   
 for_value
-  : STRING | STRING_LITERAL | method_chain | range
+  :  STRING_LITERAL | method_chain | range | variable
   ;
   
 range
@@ -160,11 +170,16 @@ range
   ;
   
 twig_ternary
-  : (STRING_LITERAL | NUMBER | variable | method_chain) QM (STRING_LITERAL | NUMBER | variable | method_chain) COLON (STRING_LITERAL | NUMBER | variable | method_chain) 
+  : (STRING_LITERAL | NUMBER | variable | method_chain | eq_check) QM (STRING_LITERAL | NUMBER | variable | method_chain) COLON (STRING_LITERAL | NUMBER | variable | method_chain) 
   ;
 
-// twig print statements start
 
+eq_check
+  : (variable | method_chain | NUMBER | STRING_LITERAL) (EQUAL | NOTEQUAL | LARGER | SMALLER) (variable | method_chain | NUMBER | STRING_LITERAL)
+  ;
+  
+  
+// twig print statements start
 twig_print_statement
   :  PRINT_OPEN twig_print? PRINT_CLOSE
     ->^(TWIG_PR_STMT twig_print?)
@@ -175,9 +190,13 @@ twig_print
   ;
   
 p_input
-  : variable | method_chain | array | STRING_LITERAL
+  : variable | method_chain | array | STRING_LITERAL | twig_ternary | twig_not
   ;
   
+  
+twig_not
+  : NOT (twig_ternary | variable | method_chain)
+  ;
   
 array
   : ARRAY_START array_elements ARRAY_END

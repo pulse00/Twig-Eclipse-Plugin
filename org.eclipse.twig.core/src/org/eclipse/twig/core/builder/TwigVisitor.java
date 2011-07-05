@@ -18,6 +18,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.eclipse.twig.core.TwigCoreConstants;
 import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 
 @SuppressWarnings("restriction")
 public class TwigVisitor extends PHPASTVisitor {
@@ -28,9 +29,15 @@ public class TwigVisitor extends PHPASTVisitor {
 	private boolean inFilterCreation;
 	
 	final Stack<Filter> filters = new Stack<Filter>();
+	private Stack<Function> functions = new Stack<Function>();
 	
 	public Stack<Filter> getFilters() {
 		return filters;
+	}
+	
+	public Stack<Function> getFunctions() {
+		
+		return functions;
 	}
 
 	public TwigVisitor(IBuildContext context) {
@@ -158,6 +165,33 @@ public class TwigVisitor extends PHPASTVisitor {
 					return true;
 				}
 			});
+		} else if (inTwigExtension && TwigCoreConstants.GET_FUNCTIONS.equals(s.getName())) {
+			
+			inFilterCreation = true;			
+			s.traverse(new PHPASTVisitor() {
+				
+				@Override
+				public boolean visit(ArrayElement s) throws Exception {
+
+					Expression key = s.getKey();
+					Expression value = s.getValue();
+					
+					if (key == null | value == null)
+						return false;
+					
+					if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
+						
+						Scalar name = (Scalar) key;
+						ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
+						
+						if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {							
+							functions.push(new Function(context.getFile(), name));
+						}
+					}
+					return true;
+				}
+			});			
+			
 		}
 		return true;
 	}

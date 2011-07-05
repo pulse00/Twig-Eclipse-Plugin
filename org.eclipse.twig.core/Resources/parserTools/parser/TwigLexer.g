@@ -6,6 +6,8 @@ package org.eclipse.twig.core.parser;
 
 import org.eclipse.twig.core.parser.error.IErrorReporter;
 import org.eclipse.twig.core.TwigCorePlugin;
+import org.eclipse.twig.core.log.Logger;
+
 
 }
 
@@ -25,7 +27,7 @@ import org.eclipse.twig.core.TwigCorePlugin;
         
         
         if(errorReporter == null) {
-          TwigCorePlugin.debug("Lexer has no error reporter instance!");
+		  Logger.log(Logger.WARNING, "Lexer has no error reporter instance!");
           return;
         }
         	
@@ -65,6 +67,10 @@ METHOD_END		: ')';
 ARRAY_START		: '[';
 ARRAY_END		: ']';
 ASIG 			: '=';
+LARGER			: '>';
+SMALLER			: '<';
+EQUAL			: '==';
+NOTEQUAL		: '!=';
 TILDE			: '~';
 PIPE 			: '|';
 DDOT 			: '..';
@@ -89,12 +95,16 @@ MACRO			: 'macro';
 ENDMACRO		: 'endmacro';
 IMPORT			: 'import';
 EXTENDS			: 'extends';
+USE				: 'use';
 FROM			: 'from';
 SET				: 'set';
+NOT				: 'not';
 ENDSET			: 'endset';
 INCLUDE			: 'include';
 WITH			: 'with';
 ONLY			: 'only';
+IS				: 'is';
+DEFINED			: 'defined';
 
 
 
@@ -118,6 +128,6 @@ fragment LOWER	: 'a'..'z';
 fragment UPPER	: 'A'..'Z';
 fragment DIGIT	: '0'..'9';
 fragment UNDER : '_';
-fragment SYMBOL: UNDER | '-' | '/' | ':' | '<' | '>' | ' ' | '%' | '.' | '|';
+fragment SYMBOL: UNDER | '-' | '/'  | '<'  | '>' | '\\'  | ':' | ' ' | '%' | '.' | '|' | '#' | '@' | '=';
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };

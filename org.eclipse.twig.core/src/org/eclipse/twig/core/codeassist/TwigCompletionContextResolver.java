@@ -11,6 +11,7 @@ import org.eclipse.php.core.codeassist.ICompletionContextResolver;
 import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
 import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
 import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.codeassist.context.FunctionContext;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
 import org.eclipse.twig.core.codeassist.context.QuotesContext;
 import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
@@ -47,6 +48,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 		contexts.add(new VariableFieldContext());
 		contexts.add(new TemplateVariablesContext());
 		contexts.add(new QuotesContext());
+		contexts.add(new FunctionContext());
 		
 		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(CONTEXTYFACTORY_ID);		
 		

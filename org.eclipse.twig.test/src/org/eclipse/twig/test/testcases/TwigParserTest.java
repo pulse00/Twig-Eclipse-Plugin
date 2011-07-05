@@ -31,6 +31,54 @@ public class TwigParserTest extends TestCase {
 		super.tearDown();
 	}
 	
+	
+	@Test
+	public void testSet() {
+		
+		
+		assertValidTokenstream("{% set previous_count = exception.allPrevious|length %}");
+	}
+	
+	
+	@Test
+	public void testUse() {
+		
+		
+		assertValidTokenstream("{% use \"form_div_layout.html.twig\" %}");
+		
+	}
+	
+	@Test
+	public void testComplexPipeWithJson() {
+		
+		assertValidTokenstream("{{ exception.message|replace({\"n\": '<br />'})|format_file_from_text }}");
+		
+	}
+	
+	@Test
+	public void testAssets() {
+		
+		assertValidTokenstream("{% stylesheets 'stylesheet1.css' 'stylesheet2.css' '@TestBundle/Resources/css/bundle.css' %}");
+		
+	}
+	
+	
+	@Test
+	public void testTernaryPrint() {
+		
+		assertValidTokenstream("{{ 200 == collector.statuscode ? '#759e1a' : '#a33' }}");
+		
+		
+	}
+	
+	@Test
+	public void testIsDefined() {
+		
+		assertValidTokenstream("{% if collector.controller.class is defined %}");
+		
+		
+	}
+	
 	@Test
 	public void testFormMethod() {		
 		
@@ -82,6 +130,7 @@ public class TwigParserTest extends TestCase {
 		
 		assertValidTokenstream("{% block sidebar %}");
 		assertValidTokenstream("{% endblock %}");
+		assertValidTokenstream("{% endblock form_errors %}");
 		assertValidTokenstream("{% block title pagetitle|title %}");
 		
 	}
@@ -100,6 +149,7 @@ public class TwigParserTest extends TestCase {
 		assertValidTokenstream("{% for i in range(0, 10, 2) %}");
 		assertValidTokenstream("{% endfor %}");
 		assertValidTokenstream("{% else %}");
+		assertValidTokenstream("{% for i, previous in exception.allPrevious %}");
 
 	}
 	
@@ -112,6 +162,7 @@ public class TwigParserTest extends TestCase {
 		assertValidTokenstream("{% elseif kenny.dead %}");
 		assertValidTokenstream("{% elseif kill(kenny) %}");
 		assertValidTokenstream("{% endif %}");
+		assertValidTokenstream("{% if errors|length > 0 %}");
 		
 		
 	}

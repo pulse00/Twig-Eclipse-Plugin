@@ -120,7 +120,7 @@ import org.eclipse.twig.core.util.Debug;
 //TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
+KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"else"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"|"is"|"defined"
 
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]

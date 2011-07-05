@@ -18,15 +18,23 @@ public class TwigModelAccess {
 		
 	private static TwigModelAccess instance = null;	
 	private Stack<Filter> filters = new Stack<Filter>();
+	private Stack<Function> functions = new Stack<Function>();
 	
 	private List<Template> templates = new ArrayList<Template>();
 	
 	private IType filterType = null;
+	private IType functionType = null;
+	
 	
 	public Stack<Filter> getFilters() {
 		return filters;
 	}
-
+	
+	public Stack<Function> getFunctions() {
+	
+		return functions;
+		
+	}
 
 	private TwigModelAccess() {
 		
@@ -45,7 +53,6 @@ public class TwigModelAccess {
 	
 	public void addFilters(Stack<Filter> newFilters) {
 
-		
 		for(Filter filter : newFilters) {
 			
 			if (filters.contains(filter))
@@ -79,6 +86,30 @@ public class TwigModelAccess {
 		return null;
 		
 	}
+	
+	public IType getFunctionType(ISourceModule sourceModule) {
+		
+		if (functionType != null)
+			return functionType;
+		
+		IScriptProject scriptProject = sourceModule.getScriptProject();
+		
+		if (scriptProject == null) {
+			return null;			
+		}
+		
+		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
+		IType[] types = PhpModelAccess.getDefault().findTypes(null, TwigCoreConstants.TWIG_FUNCTION_METHOD,
+				MatchRule.EXACT, 0, 0, scope, null);
+
+		if (types.length == 1) {
+			functionType = types[0];
+			return functionType;
+		}
+		
+		return null;		
+		
+	}
 
 
 
@@ -100,6 +131,19 @@ public class TwigModelAccess {
 			templates.remove(twigTemplate);
 
 		templates.add(twigTemplate);		
+		
+	}
+
+
+	public void addFunctions(Stack<Function> newFunctions) {
+
+		for(Function function : newFunctions) {
+			
+			if (functions.contains(function))
+				continue;
+			
+			functions.add(function);
+		}
 		
 	}
 }

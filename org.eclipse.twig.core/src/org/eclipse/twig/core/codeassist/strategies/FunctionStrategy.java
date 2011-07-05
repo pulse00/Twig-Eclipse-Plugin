@@ -8,25 +8,15 @@ import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 import org.eclipse.php.internal.core.typeinference.FakeMethod;
-import org.eclipse.twig.core.codeassist.context.FilterContext;
+import org.eclipse.twig.core.codeassist.context.FunctionContext;
 import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.TwigModelAccess;
 
-/**
- * 
- * {@link FilterStrategy} for filter completion.
- * 
- * 
- * 
- * @author Robert Gruendler <r.gruendler@gmail.com>
- *
- */
 @SuppressWarnings({ "restriction", "deprecation" })
-public class FilterStrategy extends AbstractCompletionStrategy {
+public class FunctionStrategy extends AbstractCompletionStrategy {
 
-	
-	public FilterStrategy(ICompletionContext context) {
+	public FunctionStrategy(ICompletionContext context) {
 		super(context);
 
 	}
@@ -36,26 +26,28 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 
 		try {
 
-			FilterContext ctx = (FilterContext) getContext();
+			FunctionContext ctx = (FunctionContext) getContext();
 			TwigModelAccess model = TwigModelAccess.getInstance();
-			IType filterType = model.getFilterType(ctx.getSourceModule());
+			IType functionType = model.getFunctionType(ctx.getSourceModule());
 			
-			if (filterType == null) {				
+			if (functionType == null) {
 				return;
 			}
 			
 			String prefix = ctx.getPrefix();
 			SourceRange range = getReplacementRange(getContext());
 			
-			for (Filter filter : model.getFilters()) {				
-				if (CodeAssistUtils.startsWithIgnoreCase(filter.getName(), prefix)) {					
-					FakeMethod method = new FakeMethod((ModelElement) filterType, filter.getName());
+			for (Function function : model.getFunctions()) {				
+				if (CodeAssistUtils.startsWithIgnoreCase(function.getName(), prefix)) {					
+					FakeMethod method = new FakeMethod((ModelElement) functionType, function.getName());
 					reporter.reportMethod(method, "", range);					
 				}
 			}
 			
 		} catch (Exception e) {
 			Logger.logException(e);
-		}	
-	}	
+		}			
+
+	}
+
 }

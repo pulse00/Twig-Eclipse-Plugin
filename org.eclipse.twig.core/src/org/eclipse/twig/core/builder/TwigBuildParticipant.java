@@ -11,6 +11,7 @@ import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.model.Template;
 
@@ -60,7 +61,9 @@ public class TwigBuildParticipant implements IBuildParticipant {
 				getModuleDeclaration(context).traverse(visitor);
 				
 				Stack<Filter> filters = visitor.getFilters();
+				Stack<Function> functions = visitor.getFunctions();
 				model.addFilters(filters);
+				model.addFunctions(functions);
 			}			
 						
 		} catch (Exception e) {
