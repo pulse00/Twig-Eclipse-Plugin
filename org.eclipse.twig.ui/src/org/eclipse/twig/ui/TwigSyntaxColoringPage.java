@@ -1,14 +1,23 @@
 package org.eclipse.twig.ui;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dltk.ui.editor.highlighting.HighlightingStyle;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -29,15 +38,27 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
-import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
-import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
-import org.eclipse.php.internal.core.documentModel.provisional.contenttype.ContentTypeIdForPHP;
+import org.eclipse.php.internal.core.PHPVersion;
+import org.eclipse.php.internal.core.ast.nodes.ASTParser;
+import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.editor.SemanticHighlightingManager;
 import org.eclipse.php.internal.ui.editor.highlighter.AbstractSemanticHighlighting;
-import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
+import org.eclipse.php.internal.ui.editor.highlighters.ClassHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.ConstantHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.DeprecatedHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.FieldHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.FunctionHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.InternalClassHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.InternalConstantHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.InternalFunctionHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.MethodHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.ParameterVariableHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.StaticFieldHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.StaticMethodHighlighting;
+import org.eclipse.php.internal.ui.editor.highlighters.SuperGlobalHighlighting;
+import org.eclipse.php.internal.ui.editor.input.NonExistingPHPFileEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -63,8 +84,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
+import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
+import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
+import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
+import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -131,7 +157,56 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	private static Map<String, HighlightingStyle> highlightingStyleMap;
 	
 	
-	
+	static class HighlightingStyle {
+
+		/** Text attribute */
+		private TextAttribute fTextAttribute;
+		/** Enabled state */
+		private boolean fIsEnabled;
+
+		/**
+		 * Initialize with the given text attribute.
+		 * 
+		 * @param textAttribute
+		 *            The text attribute
+		 * @param isEnabled
+		 *            the enabled state
+		 */
+		public HighlightingStyle(TextAttribute textAttribute, boolean isEnabled) {
+			setTextAttribute(textAttribute);
+			setEnabled(isEnabled);
+		}
+
+		/**
+		 * @return Returns the text attribute.
+		 */
+		public TextAttribute getTextAttribute() {
+			return fTextAttribute;
+		}
+
+		/**
+		 * @param textAttribute
+		 *            The background to set.
+		 */
+		public void setTextAttribute(TextAttribute textAttribute) {
+			fTextAttribute = textAttribute;
+		}
+
+		/**
+		 * @return the enabled state
+		 */
+		public boolean isEnabled() {
+			return fIsEnabled;
+		}
+
+		/**
+		 * @param isEnabled
+		 *            the new enabled state
+		 */
+		public void setEnabled(boolean isEnabled) {
+			fIsEnabled = isEnabled;
+		}
+	}	
 	
 	public TwigSyntaxColoringPage() {
 		
@@ -232,14 +307,14 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			List<String> styles = new ArrayList<String>();
 			styles.add(PreferenceConstants.EDITOR_NORMAL_COLOR);
 			styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-			styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
+//			styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
 			styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
 			styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
 			styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
-			styles.add(PreferenceConstants.EDITOR_HEREDOC_COLOR);
+//			styles.add(PreferenceConstants.EDITOR_HEREDOC_COLOR);
 			styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
-			styles.add(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
-			styles.add(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
+//			styles.add(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
+//			styles.add(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
 			styles.add(PreferenceConstants.EDITOR_PHPDOC_COLOR);
 			styles.add(PreferenceConstants.EDITOR_TASK_COLOR);
 
@@ -257,24 +332,24 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		fStyleToDescriptionMap.put(
 				PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR,
 				PHPUIMessages.ColorPage_BoundryMaker);
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR,
-				PHPUIMessages.ColorPage_Keyword);
+//		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR,
+//				PHPUIMessages.ColorPage_Keyword);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
 				PHPUIMessages.ColorPage_Variable);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
 				PHPUIMessages.ColorPage_String);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_NUMBER_COLOR,
 				PHPUIMessages.ColorPage_Number);
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_HEREDOC_COLOR,
-				PHPUIMessages.ColorPage_Heredoc);
+//		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_HEREDOC_COLOR,
+//				PHPUIMessages.ColorPage_Heredoc);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_COMMENT_COLOR,
 				PHPUIMessages.ColorPage_Comment);
-		fStyleToDescriptionMap.put(
-				PreferenceConstants.EDITOR_LINE_COMMENT_COLOR,
-				PHPUIMessages.ColorPage_LineComment);
-		fStyleToDescriptionMap.put(
-				PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR,
-				PHPUIMessages.ColorPage_PHPDOCComment);
+//		fStyleToDescriptionMap.put(
+//				PreferenceConstants.EDITOR_LINE_COMMENT_COLOR,
+//				PHPUIMessages.ColorPage_LineComment);
+//		fStyleToDescriptionMap.put(
+//				PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR,
+//				PHPUIMessages.ColorPage_PHPDOCComment);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_PHPDOC_COLOR,
 				PHPUIMessages.ColorPage_Phpdoc);
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_TASK_COLOR,
@@ -428,7 +503,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		setAccessible(fText, SSEUIMessages.Sample_text__UI_);
 		fDocument = StructuredModelManager.getModelManager()
 				.createStructuredDocumentFor(
-						ContentTypeIdForPHP.ContentTypeID_PHP);
+						ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 		fDocument.set(getExampleText());
 		viewer.setDocument(fDocument);
 
@@ -833,15 +908,344 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	}
 	
 	private void initHighlightingStyles() {
-		// TODO Auto-generated method stub
+
+		highlightingStyleMap = new HashMap<String, TwigSyntaxColoringPage.HighlightingStyle>();
+		for (Iterator iterator = SemanticHighlightingManager.getInstance()
+				.getSemanticHighlightings().keySet().iterator(); iterator
+				.hasNext();) {
+			String type = (String) iterator.next();
+			ISemanticHighlighting highlighting = SemanticHighlightingManager
+					.getInstance().getSemanticHighlightings().get(type);
+			highlightingStyleMap.put(type,
+					createHighlightingStyle(highlighting));
+		}
+		
 		
 	}
 
 
 	private void initHighlightingPositions() {
-		// TODO Auto-generated method stub
+
+		highlightingPositionMap = new HashMap<String, Position[]>();
+		IPath stateLocation = TwigUICorePlugin.getDefault().getStateLocation();
+		IPath path = stateLocation.append("/_" + "PHPSyntax"); //$NON-NLS-1$
+		IFileStore fileStore = EFS.getLocalFileSystem().getStore(path);
+
+		NonExistingPHPFileEditorInput input = new NonExistingPHPFileEditorInput(
+				fileStore, "PHPSyntax");
+
+		File realFile = ((NonExistingPHPFileEditorInput) input).getPath(input)
+				.toFile();
+
+		try {
+			FileOutputStream fos = new FileOutputStream(realFile);
+			fos.write(fDocument.get().getBytes());
+			fos.close();
+			DLTKUIPlugin.getDocumentProvider().connect(input);
+			final ISourceModule sourceModule = DLTKUIPlugin
+					.getDocumentProvider().getWorkingCopy(input);
+			if (sourceModule != null) {
+				ASTParser parser = ASTParser.newParser(PHPVersion.PHP5_3,
+						sourceModule);
+				parser.setSource(fDocument.get().toCharArray());
+
+				final Program program = parser.createAST(null);
+				List<AbstractSemanticHighlighting> highlightings = new ArrayList<AbstractSemanticHighlighting>();
+
+				highlightings.add(new StaticFieldHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return StaticFieldHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new StaticMethodHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return StaticMethodHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new ConstantHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return ConstantHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new FieldHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return FieldHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new FunctionHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return FunctionHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new MethodHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return MethodHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new ClassHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return ClassHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new InternalClassHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return InternalClassHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new InternalFunctionHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return InternalFunctionHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new ParameterVariableHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return ParameterVariableHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new SuperGlobalHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return SuperGlobalHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new InternalConstantHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return InternalConstantHighlighting.class.getName();
+					}
+				});
+				highlightings.add(new DeprecatedHighlighting() {
+					@Override
+					protected Program getProgram(
+							IStructuredDocumentRegion region) {
+						return program;
+					}
+
+					@Override
+					public ISourceModule getSourceModule() {
+						return sourceModule;
+					}
+
+					@Override
+					public String getPreferenceKey() {
+						return DeprecatedHighlighting.class.getName();
+					}
+				});
+
+				Collections.sort(highlightings);
+
+				for (Iterator iterator = highlightings.iterator(); iterator
+						.hasNext();) {
+					AbstractSemanticHighlighting abstractSemanticHighlighting = (AbstractSemanticHighlighting) iterator
+							.next();
+					Position[] positions = abstractSemanticHighlighting
+							.consumes(program);
+
+					if (positions != null && positions.length > 0) {
+						highlightingPositionMap
+								.put(abstractSemanticHighlighting
+										.getPreferenceKey(), positions);
+
+					}
+				}
+			}
+			DLTKUIPlugin.getDocumentProvider().disconnect(input);
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		realFile.delete();
+		
 		
 	}
+	
+	private HighlightingStyle createHighlightingStyle(
+			ISemanticHighlighting highlighting) {
+		IPreferenceStore store = highlighting.getPreferenceStore();
+		HighlightingStyle highlightingStyle = null;
+		if (store != null) {
+			TextAttribute attribute = null;
+			int style = getBoolean(store, highlighting.getBoldPreferenceKey()) ? SWT.BOLD
+					: SWT.NORMAL;
+
+			if (getBoolean(store, highlighting.getItalicPreferenceKey()))
+				style |= SWT.ITALIC;
+			if (getBoolean(store, highlighting.getStrikethroughPreferenceKey()))
+				style |= TextAttribute.STRIKETHROUGH;
+			if (getBoolean(store, highlighting.getUnderlinePreferenceKey()))
+				style |= TextAttribute.UNDERLINE;
+
+			String rgbString = getString(store,
+					highlighting.getColorPreferenceKey());
+			Color color = null;
+
+			if (rgbString != null)
+				color = EditorUtility.getColor(ColorHelper.toRGB(rgbString));
+
+			String bgrgbString = null;
+			if (highlighting instanceof ISemanticHighlightingExtension2)
+				bgrgbString = getString(store,
+						((ISemanticHighlightingExtension2) highlighting)
+								.getBackgroundColorPreferenceKey());
+			Color bgcolor = null;
+
+			if (bgrgbString != null)
+				bgcolor = EditorUtility
+						.getColor(ColorHelper.toRGB(bgrgbString));
+
+			attribute = new TextAttribute(color, bgcolor, style);
+
+			boolean isEnabled = getBoolean(store,
+					highlighting.getEnabledPreferenceKey());
+			highlightingStyle = new HighlightingStyle(attribute, isEnabled);
+		}
+		return highlightingStyle;
+	}	
 
 
 	private Composite createComposite(Composite parent, int numColumns) {
@@ -1048,21 +1452,21 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				interest = container.getRegionAtCharacterOffset(offset);
 			}
 
-			if (interest.getType() == PHPRegionContext.PHP_CONTENT) {
-				IPhpScriptRegion phpScript = (IPhpScriptRegion) interest;
+			if (interest.getType() == TwigRegionContext.TWIG_CONTENT) {
+				ITwigScriptRegion phpScript = (ITwigScriptRegion) interest;
 				try {
 					regionContext = phpScript
-							.getPhpTokenType(offset
+							.getTwigTokenType(offset
 									- container.getStartOffset()
 									- phpScript.getStart());
 				} catch (BadLocationException e) {
 					assert false;
 					return null;
 				}
-			} else if (interest.getType() == PHPRegionContext.PHP_OPEN) {
-				regionContext = PHPRegionTypes.PHP_OPENTAG;
-			} else if (interest.getType() == PHPRegionContext.PHP_CLOSE) {
-				regionContext = PHPRegionTypes.PHP_CLOSETAG;
+			} else if (interest.getType() == TwigRegionContext.TWIG_STMT_OPEN) {
+				regionContext = TwigRegionTypes.TWIG_OPEN;
+			} else if (interest.getType() == TwigRegionContext.TWIG_STMT_CLOSE) {
+				regionContext = TwigRegionTypes.TWIG_CLOSETAG;
 			} else {
 				regionContext = interest.getType();
 			}
@@ -1422,6 +1826,26 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		}
 		return result;
 	}
+	
+	private boolean getBoolean(IPreferenceStore store, String key) {
+		return (key == null) ? false : store.getBoolean(key);
+	}
+
+	/**
+	 * Looks up a String preference by <code>key</code> from the preference
+	 * store
+	 * 
+	 * @param store
+	 *            the preference store to lookup the preference from
+	 * @param key
+	 *            the key the preference is stored under
+	 * @return the preference value from the preference store iff key is not
+	 *         null
+	 */
+	private String getString(IPreferenceStore store, String key) {
+		return (key == null) ? null : store.getString(key);
+	}
+	
 	
 
 }

@@ -503,6 +503,12 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 		@Override
 		public void close() throws IOException {
 		}
-	}	
+	}
+	
+	public final String getTwigTokenType(int offset) throws BadLocationException {
+		final ITextRegion tokenForOffset = getTwigToken(offset);
+		return tokenForOffset == null ? null : tokenForOffset.getType();
+	}
+	
 	
 }

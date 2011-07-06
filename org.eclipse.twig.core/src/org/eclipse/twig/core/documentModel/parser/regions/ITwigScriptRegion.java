@@ -19,6 +19,8 @@ public interface ITwigScriptRegion extends ITextRegion {
 	ITextRegion getTwigToken(int i) throws BadLocationException;
 	ITextRegion[] getTwigTokens(int i, int j) throws BadLocationException;
 	String getPartition(int internalOffset) throws BadLocationException;
+	
+	String getTwigTokenType(int offset) throws BadLocationException;	
 		
 
 

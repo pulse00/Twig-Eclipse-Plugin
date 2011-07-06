@@ -216,6 +216,10 @@ public class PreferenceConstants {
 
 	public static final String AUTOCREATE_STATEMENT_TAGS = "autocreate_statement_tags";
 	
+	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX = "semanticHighlighting."; //$NON-NLS-1$	
+	
+	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX = ".enabled"; //$NON-NLS-1$	
+	
 	
 	public static void initializeDefaultValues() {
 
@@ -241,6 +245,13 @@ public class PreferenceConstants {
 		store.setDefault(EDITOR_COMMENT_COLOR, EDITOR_COMMENT_DEFAULT_COLOR);
 
 	}	
+	
+	public static String getEnabledPreferenceKey(String preferenceKey) {
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX
+				+ preferenceKey
+				+ PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+	}
+	
 	
 	
 	public static IPreferenceStore getPreferenceStore() {

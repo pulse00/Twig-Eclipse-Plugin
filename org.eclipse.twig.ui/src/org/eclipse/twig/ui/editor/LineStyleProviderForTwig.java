@@ -9,7 +9,6 @@ import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.util.Debug;
 import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -29,6 +28,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 @SuppressWarnings("restriction")
 public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
+	//public static final String EDITOR_NORMAL_COLOR = "codeStyleNormal"; //$NON-NLS-1$
 
 	static {
 		fColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
@@ -45,6 +45,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT_TEXT, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT_CLOSE, PreferenceConstants.EDITOR_COMMENT_COLOR);		
 
+		
 
 
 		fColorTypes.put(TwigRegionContext.TWIG_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);		
@@ -53,10 +54,10 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		fColorTypes.put(TwigRegionContext.TWIG_JSON_START, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_JSON_END, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
 
-		fColorTypes.put(TwigRegionContext.TWIG_DELIMITER, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(TwigRegionContext.TWIG_DELIMITER, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_WHITESPACE, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_NUMBER, PreferenceConstants.EDITOR_NUMBER_COLOR);
-		fColorTypes.put(TwigRegionContext.TWIG_LABEL, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(TwigRegionContext.TWIG_LABEL, PreferenceConstants.EDITOR_NORMAL_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING, PreferenceConstants.EDITOR_STRING_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT, PreferenceConstants.EDITOR_STRING_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_START, PreferenceConstants.EDITOR_STRING_COLOR);
@@ -70,8 +71,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		
 		final String type = region.getType();
 		
-
-		
+		System.out.println("element " + region.getType());
 		if (type != null && type.startsWith("TWIG_")) {
 			return getAttributeFor(type);
 		}
@@ -83,6 +83,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 	@Override
 	protected TextAttribute getAttributeFor(String type) {
 
+		System.err.println("attribute + " + type);
 		return super.getAttributeFor(type);
 	}
 	
@@ -168,6 +169,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
 		assert (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT);
 
+		System.err.println("prepare " + region.getType());
 		StyleRange styleRange = null;
 		TextAttribute attr;
 		TextAttribute previousAttr = null;
@@ -188,11 +190,15 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 					Math.min(length, region.getLength()));
 			ITextRegion prevElement = null;
 			for (int i = 0; i < twigTokens.length; i++) {
+				
+				
 				ITextRegion element = twigTokens[i];
+				System.err.println("token: " + element.getType());
 				attr = getAttributeFor(element);
 				// Check that the elements are different - otherwise the
 				// coloring is not valid
 				if (prevElement == element) {
+					System.err.println("continuer");
 					continue;
 				}
 				if ((styleRange != null) && (previousAttr != null)
