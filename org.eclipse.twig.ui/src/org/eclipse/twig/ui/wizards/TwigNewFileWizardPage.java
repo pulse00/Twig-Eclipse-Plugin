@@ -1,10 +1,14 @@
 package org.eclipse.twig.ui.wizards;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.dltk.core.IProjectFragment;
+import org.eclipse.dltk.core.IScriptFolder;
 import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.core.ModelException;
+import org.eclipse.dltk.internal.core.ProjectFragment;
+import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -27,6 +31,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  * OR with the extension that matches the expected one (twig).
  */
 
+@SuppressWarnings("restriction")
 public class TwigNewFileWizardPage extends WizardPage {
 	private Text containerText;
 
@@ -104,16 +109,28 @@ public class TwigNewFileWizardPage extends WizardPage {
 
 			if (ssel.size() > 1)
 				return;
+			
 			Object obj = ssel.getFirstElement();
 			
-			if (obj instanceof IResource) {
+			if (obj instanceof IScriptFolder) {
 				
-				IContainer container;
-				if (obj instanceof IContainer)
-					container = (IContainer) obj;
-				else
-					container = ((IResource) obj).getParent();
-				containerText.setText(container.getFullPath().toString());
+				IScriptFolder folder = (IScriptFolder) obj;
+				try {
+					containerText.setText(folder.getUnderlyingResource().getFullPath().toString());
+				} catch (ModelException e) {
+
+					e.printStackTrace();
+				}
+			} else if (obj instanceof ProjectFragment) {
+				
+				IProjectFragment fragment = (IProjectFragment) obj;
+				
+				try {
+					containerText.setText(fragment.getUnderlyingResource().getFullPath().toString());
+				} catch (ModelException e) {
+					e.printStackTrace();
+				}
+				
 			} else if (obj instanceof IScriptProject) {
 				
 				IScriptProject proj = (IScriptProject) obj;
@@ -122,6 +139,9 @@ public class TwigNewFileWizardPage extends WizardPage {
 		}
 		
 		fileText.setText("template.twig");
+		fileText.forceFocus();
+		fileText.setSelection(0, 8);
+
 	}
 
 	/**
@@ -171,14 +191,14 @@ public class TwigNewFileWizardPage extends WizardPage {
 			updateStatus("File name must be valid");
 			return;
 		}
-		int dotLoc = fileName.lastIndexOf('.');
-		if (dotLoc != -1) {
-			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("twig") == false) {
-				updateStatus("File extension must be \"twig\"");
-				return;
-			}
-		}
+//		int dotLoc = fileName.lastIndexOf('.');
+//		if (dotLoc != -1) {
+//			String ext = fileName.substring(dotLoc + 1);
+//			if (ext.equalsIgnoreCase("twig") == false) {
+//				updateStatus("File extension must be \"twig\"");
+//				return;
+//			}
+//		}
 		updateStatus(null);
 	}
 
