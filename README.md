@@ -27,6 +27,15 @@ All dependencies (PHP Development tools) should be downloaded automatically duri
 
 Please use the github issue tracker to report bugs and feature requests.
 
+## FAQ
+
+### How can i use the twig editor for other file extensions than .twig?
+
+1. Open Eclipse Preferences -> General -> Content Types
+2. Under Text -> PHP Content Type -> Twig Template add the file association you need
+3. Close any currently open editors
+4. Reopen the file using "open with... -> Twig Editor" and you should get twig support.
+
 
 ## Contribute
 
