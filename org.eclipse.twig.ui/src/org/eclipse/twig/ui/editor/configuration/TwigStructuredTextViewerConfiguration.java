@@ -51,7 +51,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextViewerConfiguration {
 
 	private LineStyleProvider fLineStyleProvider;
-	private IPropertyChangeListener propertyChangeListener;
+	
 
 	public TwigStructuredTextViewerConfiguration() {
 		

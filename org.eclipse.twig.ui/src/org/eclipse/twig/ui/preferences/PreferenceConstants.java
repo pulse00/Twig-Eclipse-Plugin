@@ -219,7 +219,14 @@ public class PreferenceConstants {
 	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX = "semanticHighlighting."; //$NON-NLS-1$	
 	
 	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX = ".enabled"; //$NON-NLS-1$	
+
+	public static final String EDITOR_KEYWORD_COLOR = "editorColorKeyword"; //$NON-NLS-1$
 	
+	public static final String EDITOR_LINE_COMMENT_COLOR = "editorColorLineComment"; //$NON-NLS-1$	
+	
+	public static final String EDITOR_PHPDOC_COMMENT_COLOR = "editorColorPHPDocComment"; //$NON-NLS-1$	
+	
+	public static final String EDITOR_HEREDOC_COLOR = "editorColorHeredoc"; //$NON-NLS-1$
 	
 	public static void initializeDefaultValues() {
 

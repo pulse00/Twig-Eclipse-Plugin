@@ -42,7 +42,6 @@ import org.eclipse.php.internal.core.PHPVersion;
 import org.eclipse.php.internal.core.ast.nodes.ASTParser;
 import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
-import org.eclipse.php.internal.ui.editor.SemanticHighlightingManager;
 import org.eclipse.php.internal.ui.editor.highlighter.AbstractSemanticHighlighting;
 import org.eclipse.php.internal.ui.editor.input.NonExistingPHPFileEditorInput;
 import org.eclipse.swt.SWT;
@@ -87,8 +86,6 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
-import org.eclipse.wst.sse.ui.ISemanticHighlighting;
-import org.eclipse.wst.sse.ui.ISemanticHighlightingExtension2;
 import org.eclipse.wst.sse.ui.internal.SSEUIMessages;
 import org.eclipse.wst.sse.ui.internal.preferences.OverlayPreferenceStore;
 import org.eclipse.wst.sse.ui.internal.preferences.OverlayPreferenceStore.OverlayKey;
@@ -212,21 +209,10 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		initStyleToDescriptionMap();
 		initRegionContextToStyleMap();
 
-		
 		IPreferenceStore store = getPreferenceStore();
 		OverlayKey[] keys = createOverlayStoreKeys();
 		
 		fOverlayStore = new OverlayPreferenceStore(store,keys);
-		
-		
-		if (store == null) {
-			return;
-		}
-		
-		if (fOverlayStore == null) {
-			return;
-		}
-		
 		fOverlayStore.load();
 		fOverlayStore.start();
 
@@ -234,6 +220,33 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		
 
 	}
+	
+	@Override
+	protected IPreferenceStore doGetPreferenceStore() {
+		return PreferenceConstants.getPreferenceStore();
+	}
+	
+	@Override
+	public boolean performOk() {
+		getOverlayStore().propagate();
+		
+		System.err.println("ok");
+		TwigUICorePlugin.getDefault().savePluginPreferences();
+		return true;
+	}
+	
+	
+	@Override
+	protected void performDefaults() {
+		super.performDefaults();
+		getOverlayStore().loadDefaults();
+		applyStyles();
+		fStylesViewer.setSelection(StructuredSelection.EMPTY);
+		activate(null);
+		fText.redraw();
+	}
+	
+	
 
 	
 	private OverlayKey[] createOverlayStoreKeys() {
@@ -250,35 +263,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 							.getEnabledPreferenceKey(key)));
 		}
 
-		for (AbstractSemanticHighlighting rule : SemanticHighlightingManager
-				.getInstance().getSemanticHighlightings().values()) {
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-					OverlayPreferenceStore.STRING, rule
-							.getEnabledPreferenceKey()));
-			overlayKeys
-					.add(new OverlayPreferenceStore.OverlayKey(
-							OverlayPreferenceStore.STRING, rule
-									.getColorPreferenceKey()));
-
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-					OverlayPreferenceStore.STRING, rule
-							.getBackgroundColorPreferenceKey()));
-			overlayKeys
-					.add(new OverlayPreferenceStore.OverlayKey(
-							OverlayPreferenceStore.STRING, rule
-									.getBoldPreferenceKey()));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-					OverlayPreferenceStore.STRING, rule
-							.getItalicPreferenceKey()));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-					OverlayPreferenceStore.STRING, rule
-							.getStrikethroughPreferenceKey()));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-					OverlayPreferenceStore.STRING, rule
-							.getUnderlinePreferenceKey()));
-		}
-
-		OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
+				OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
 				.size()];
 
 		overlayKeys.toArray(keys);
@@ -329,9 +314,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	}
 	
 	private void initRegionContextToStyleMap() {
-		fContextToStyleMap = fStyleProvider.getColorTypesMap();
 		
-		System.err.println("color types map size " + fContextToStyleMap.size());
+		fContextToStyleMap = fStyleProvider.getTwigColorTypesMap();		
+
 	}
 	
 	
@@ -510,6 +495,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 							Object o = ((IStructuredSelection) event
 									.getSelection()).getFirstElement();
 							String namedStyle = o.toString();
+
 							activate(namedStyle);
 							if (namedStyle == null)
 								return;
@@ -524,26 +510,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 							.getSelection()).getFirstElement();
 					String namedStyle = o.toString();
 
-					if (SemanticHighlightingManager.getInstance()
-							.getSemanticHighlightings().containsKey(namedStyle)) {
-						AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-								.getInstance().getSemanticHighlightings()
-								.get(namedStyle);
-						String oldValue = getOverlayStore().getString(
-								semanticHighlighting.getColorPreferenceKey());
-						String newValue = ColorHelper
-								.toRGBString(fForegroundColorEditor
-										.getColorValue());
-
-						if (!newValue.equals(oldValue)) {
-							getOverlayStore().setValue(
-									semanticHighlighting
-											.getColorPreferenceKey(), newValue);
-							applyStyles();
-							fText.redraw();
-						}
-						return;
-					}
 
 					String prefString = getOverlayStore().getString(namedStyle);
 					String[] stylePrefs = ColorHelper
@@ -576,28 +542,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 							.getSelection()).getFirstElement();
 					String namedStyle = o.toString();
 
-					if (SemanticHighlightingManager.getInstance()
-							.getSemanticHighlightings().containsKey(namedStyle)) {
-						AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-								.getInstance().getSemanticHighlightings()
-								.get(namedStyle);
-						String oldValue = getOverlayStore().getString(
-								semanticHighlighting
-										.getBackgroundColorPreferenceKey());
-						String newValue = ColorHelper
-								.toRGBString(fBackgroundColorEditor
-										.getColorValue());
-
-						if (!newValue.equals(oldValue)) {
-							getOverlayStore().setValue(
-									semanticHighlighting
-											.getBackgroundColorPreferenceKey(),
-									newValue);
-							applyStyles();
-							fText.redraw();
-						}
-						return;
-					}
 
 					String prefString = getOverlayStore().getString(namedStyle);
 					String[] stylePrefs = ColorHelper
@@ -633,24 +577,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 						.getFirstElement();
 				String namedStyle = o.toString();
 
-				if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(namedStyle);
-					String oldValue = getOverlayStore().getString(
-							semanticHighlighting.getBoldPreferenceKey());
-					String newValue = String.valueOf(fBold.getSelection());
-
-					if (!newValue.equals(oldValue)) {
-						getOverlayStore().setValue(
-								semanticHighlighting.getBoldPreferenceKey(),
-								newValue);
-						applyStyles();
-						fText.redraw();
-					}
-					return;
-				}
 
 				String prefString = getOverlayStore().getString(namedStyle);
 				String[] stylePrefs = ColorHelper
@@ -678,24 +604,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				Object o = ((IStructuredSelection) fStylesViewer.getSelection())
 						.getFirstElement();
 				String namedStyle = o.toString();
-				if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semanticHighlightingType = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(namedStyle);
-					String oldValue = getOverlayStore().getString(
-							semanticHighlightingType.getItalicPreferenceKey());
-					String newValue = String.valueOf(fItalic.getSelection());
-
-					if (!newValue.equals(oldValue)) {
-						getOverlayStore().setValue(
-								semanticHighlightingType
-										.getItalicPreferenceKey(), newValue);
-						applyStyles();
-						fText.redraw();
-					}
-					return;
-				}
 				String prefString = getOverlayStore().getString(namedStyle);
 				String[] stylePrefs = ColorHelper
 						.unpackStylePreferences(prefString);
@@ -722,26 +630,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				Object o = ((IStructuredSelection) fStylesViewer.getSelection())
 						.getFirstElement();
 				String namedStyle = o.toString();
-				if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(namedStyle);
-					String oldValue = getOverlayStore().getString(
-							semanticHighlighting
-									.getStrikethroughPreferenceKey());
-					String newValue = String.valueOf(fStrike.getSelection());
-
-					if (!newValue.equals(oldValue)) {
-						getOverlayStore().setValue(
-								semanticHighlighting
-										.getStrikethroughPreferenceKey(),
-								newValue);
-						applyStyles();
-						fText.redraw();
-					}
-					return;
-				}
 				String prefString = getOverlayStore().getString(namedStyle);
 				String[] stylePrefs = ColorHelper
 						.unpackStylePreferences(prefString);
@@ -769,24 +657,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 						.getFirstElement();
 				String namedStyle = o.toString();
 
-				if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(namedStyle);
-					String oldValue = getOverlayStore().getString(
-							semanticHighlighting.getUnderlinePreferenceKey());
-					String newValue = String.valueOf(fUnderline.getSelection());
-
-					if (!newValue.equals(oldValue)) {
-						getOverlayStore().setValue(
-								semanticHighlighting
-										.getUnderlinePreferenceKey(), newValue);
-						applyStyles();
-						fText.redraw();
-					}
-					return;
-				}
 
 				String prefString = getOverlayStore().getString(namedStyle);
 				String[] stylePrefs = ColorHelper
@@ -813,33 +683,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 					return;
 				String namedStyle = ((IStructuredSelection) fStylesViewer
 						.getSelection()).getFirstElement().toString();
-				if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(namedStyle);
-					getOverlayStore().setToDefault(
-							semanticHighlighting.getBoldPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting.getColorPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting
-									.getBackgroundColorPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting.getEnabledPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting.getItalicPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting
-									.getStrikethroughPreferenceKey());
-					getOverlayStore().setToDefault(
-							semanticHighlighting.getUnderlinePreferenceKey());
-					boolean enablement = getOverlayStore().getDefaultBoolean(
-							semanticHighlighting.getEnabledPreferenceKey());
-					switchEnablement(enablement);
-				} else {
-					getOverlayStore().setToDefault(namedStyle);
-				}
+				
+				getOverlayStore().setToDefault(namedStyle);
+
 				applyStyles();
 				fText.redraw();
 				activate(namedStyle);
@@ -854,18 +700,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 						.getFirstElement();
 				String namedStyle = o.toString();
 
-				Map<String, AbstractSemanticHighlighting> highlightingMap = SemanticHighlightingManager
-						.getInstance().getSemanticHighlightings();
-				if (highlightingMap.containsKey(namedStyle)) {
-					AbstractSemanticHighlighting semantic = highlightingMap
-							.get(namedStyle);
-					boolean enablement = fEnabler.getSelection();
-					semantic.getStyle().setEnabledByDefault(enablement);
-					switchEnablement(enablement);
-					getOverlayStore().setValue(
-							semantic.getEnabledPreferenceKey(), enablement);
-
-				} else if (getStylePreferenceKeys().contains(namedStyle)) {
+				if (getStylePreferenceKeys().contains(namedStyle)) {
 					boolean enablement = fEnabler.getSelection();
 					switchEnablement(enablement);
 					getOverlayStore().setValue(
@@ -884,15 +719,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	private void initHighlightingStyles() {
 
 		highlightingStyleMap = new HashMap<String, TwigSyntaxColoringPage.HighlightingStyle>();
-		for (Iterator iterator = SemanticHighlightingManager.getInstance()
-				.getSemanticHighlightings().keySet().iterator(); iterator
-				.hasNext();) {
-			String type = (String) iterator.next();
-			ISemanticHighlighting highlighting = SemanticHighlightingManager
-					.getInstance().getSemanticHighlightings().get(type);
-			highlightingStyleMap.put(type,
-					createHighlightingStyle(highlighting));
-		}
 		
 		
 	}
@@ -956,50 +782,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		
 	}
 	
-	private HighlightingStyle createHighlightingStyle(
-			ISemanticHighlighting highlighting) {
-		IPreferenceStore store = highlighting.getPreferenceStore();
-		HighlightingStyle highlightingStyle = null;
-		if (store != null) {
-			TextAttribute attribute = null;
-			int style = getBoolean(store, highlighting.getBoldPreferenceKey()) ? SWT.BOLD
-					: SWT.NORMAL;
-
-			if (getBoolean(store, highlighting.getItalicPreferenceKey()))
-				style |= SWT.ITALIC;
-			if (getBoolean(store, highlighting.getStrikethroughPreferenceKey()))
-				style |= TextAttribute.STRIKETHROUGH;
-			if (getBoolean(store, highlighting.getUnderlinePreferenceKey()))
-				style |= TextAttribute.UNDERLINE;
-
-			String rgbString = getString(store,
-					highlighting.getColorPreferenceKey());
-			Color color = null;
-
-			if (rgbString != null)
-				color = EditorUtility.getColor(ColorHelper.toRGB(rgbString));
-
-			String bgrgbString = null;
-			if (highlighting instanceof ISemanticHighlightingExtension2)
-				bgrgbString = getString(store,
-						((ISemanticHighlightingExtension2) highlighting)
-								.getBackgroundColorPreferenceKey());
-			Color bgcolor = null;
-
-			if (bgrgbString != null)
-				bgcolor = EditorUtility
-						.getColor(ColorHelper.toRGB(bgrgbString));
-
-			attribute = new TextAttribute(color, bgcolor, style);
-
-			boolean isEnabled = getBoolean(store,
-					highlighting.getEnabledPreferenceKey());
-			highlightingStyle = new HighlightingStyle(attribute, isEnabled);
-		}
-		return highlightingStyle;
-	}	
-
-
 	private Composite createComposite(Composite parent, int numColumns) {
 		Composite composite = new Composite(parent, SWT.NULL);
 
@@ -1039,13 +821,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				Object description = fStyleToDescriptionMap.get(element);
 				if (description != null)
 					return description.toString();
-				else if (SemanticHighlightingManager.getInstance()
-						.getSemanticHighlightings().containsKey(element)) {
-					AbstractSemanticHighlighting semanticHighlighting = SemanticHighlightingManager
-							.getInstance().getSemanticHighlightings()
-							.get(element);
-					return semanticHighlighting.getDisplayName();
-				}
+				
 				return super.getText(element);
 			}
 		});
@@ -1251,18 +1027,14 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			fUnderline.setSelection(false);
 		} else {
 			TextAttribute attribute = getAttributeFor(namedStyle);
-			AbstractSemanticHighlighting semanticType = SemanticHighlightingManager
-					.getInstance().getSemanticHighlightings().get(namedStyle);
 			boolean enabled = true;
-			if (semanticType != null) {
-				enabled = getOverlayStore().getBoolean(
-						semanticType.getEnabledPreferenceKey());
-			} else {
-				enabled = getOverlayStore()
-						.getBoolean(
-								PreferenceConstants
-										.getEnabledPreferenceKey(namedStyle));
-			}
+
+			enabled = getOverlayStore()
+					.getBoolean(
+							PreferenceConstants
+							.getEnabledPreferenceKey(namedStyle));
+
+			
 			fEnabler.setSelection(enabled);
 			fEnabler.setEnabled(true);
 			fClearStyle.setEnabled(true);
@@ -1301,49 +1073,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				fDefaultBackground, SWT.NORMAL);
 
 		if (namedStyle != null && fOverlayStore != null) {
-
-			if (SemanticHighlightingManager.getInstance()
-					.getSemanticHighlightings().containsKey(namedStyle)) {
-				AbstractSemanticHighlighting semanticHighlightingType = SemanticHighlightingManager
-						.getInstance().getSemanticHighlightings()
-						.get(namedStyle);
-
-				int fontModifier = SWT.NORMAL;
-				boolean on = getOverlayStore().getBoolean(
-						semanticHighlightingType.getBoldPreferenceKey());
-				if (on)
-					fontModifier = fontModifier | SWT.BOLD;
-
-				on = getOverlayStore().getBoolean(
-						semanticHighlightingType.getItalicPreferenceKey());
-				if (on)
-					fontModifier = fontModifier | SWT.ITALIC;
-
-				on = getOverlayStore().getBoolean(
-						semanticHighlightingType
-								.getStrikethroughPreferenceKey());
-				if (on)
-					fontModifier = fontModifier | TextAttribute.STRIKETHROUGH;
-
-				on = getOverlayStore().getBoolean(
-						semanticHighlightingType.getUnderlinePreferenceKey());
-				if (on)
-					fontModifier = fontModifier | TextAttribute.UNDERLINE;
-
-				String color = getOverlayStore().getString(
-						semanticHighlightingType.getColorPreferenceKey());
-				RGB foreground = ColorHelper.toRGB(color);
-				String bgcolor = getOverlayStore().getString(
-						semanticHighlightingType
-								.getBackgroundColorPreferenceKey());
-				RGB bgforeground = ColorHelper.toRGB(bgcolor);
-				ta = new TextAttribute(
-						(foreground != null) ? EditorUtility.getColor(foreground)
-								: null,
-						(bgforeground != null) ? EditorUtility
-								.getColor(bgforeground) : null, fontModifier);
-				return ta;
-			}
 
 			// note: "namedStyle" *is* the preference key
 			String prefString = getOverlayStore().getString(namedStyle);
@@ -1418,105 +1147,8 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		String property = event.getProperty();
 		if (property == null)
 			return;
-		for (Iterator iterator = SemanticHighlightingManager.getInstance()
-				.getSemanticHighlightings().keySet().iterator(); iterator
-				.hasNext();) {
-			String type = (String) iterator.next();
-			ISemanticHighlighting highlighting = SemanticHighlightingManager
-					.getInstance().getSemanticHighlightings().get(type);
-			HighlightingStyle style = highlightingStyleMap.get(type);
-			if (property.equals(highlighting.getBoldPreferenceKey())) {
-				adaptToTextStyleChange(style, event, SWT.BOLD);
-			} else if (property.equals(highlighting.getColorPreferenceKey())) {
-				adaptToTextForegroundChange(style, event);
-			} else if ((highlighting instanceof ISemanticHighlightingExtension2)
-					&& property
-							.equals(((ISemanticHighlightingExtension2) highlighting)
-									.getBackgroundColorPreferenceKey())) {
-				adaptToTextBackgroundChange(style, event);
-			} else if (property.equals(highlighting.getEnabledPreferenceKey())) {
-				adaptToEnablementChange(style, event);
-			} else if (property.equals(highlighting.getItalicPreferenceKey())) {
-				adaptToTextStyleChange(style, event, SWT.ITALIC);
-			} else if (property.equals(highlighting
-					.getStrikethroughPreferenceKey())) {
-				adaptToTextStyleChange(style, event,
-						TextAttribute.STRIKETHROUGH);
-			} else if (property
-					.equals(highlighting.getUnderlinePreferenceKey())) {
-				adaptToTextStyleChange(style, event, TextAttribute.UNDERLINE);
-			}
-		}
 	}
 
-	private void adaptToEnablementChange(HighlightingStyle highlighting,
-			PropertyChangeEvent event) {
-		Object value = event.getNewValue();
-		boolean eventValue;
-		if (value instanceof Boolean)
-			eventValue = ((Boolean) value).booleanValue();
-		else if (IPreferenceStore.TRUE.equals(value))
-			eventValue = true;
-		else
-			eventValue = false;
-		highlighting.setEnabled(eventValue);
-	}
-
-	private void adaptToTextForegroundChange(HighlightingStyle highlighting,
-			PropertyChangeEvent event) {
-		RGB rgb = null;
-
-		Object value = event.getNewValue();
-		if (value instanceof RGB)
-			rgb = (RGB) value;
-		else if (value instanceof String)
-			rgb = ColorHelper.toRGB((String) value);
-
-		if (rgb != null) {
-			Color color = EditorUtility.getColor(rgb);
-			TextAttribute oldAttr = highlighting.getTextAttribute();
-			highlighting.setTextAttribute(new TextAttribute(color, oldAttr
-					.getBackground(), oldAttr.getStyle()));
-		}
-	}
-
-	private void adaptToTextBackgroundChange(HighlightingStyle highlighting,
-			PropertyChangeEvent event) {
-		RGB rgb = null;
-
-		Object value = event.getNewValue();
-		if (value instanceof RGB)
-			rgb = (RGB) value;
-		else if (value instanceof String)
-			rgb = ColorHelper.toRGB((String) value);
-
-		if (rgb != null) {
-			Color color = EditorUtility.getColor(rgb);
-			TextAttribute oldAttr = highlighting.getTextAttribute();
-			highlighting.setTextAttribute(new TextAttribute(oldAttr
-					.getForeground(), color, oldAttr.getStyle()));
-		}
-	}
-
-	private void adaptToTextStyleChange(HighlightingStyle highlighting,
-			PropertyChangeEvent event, int styleAttribute) {
-		boolean eventValue = false;
-		Object value = event.getNewValue();
-		if (value instanceof Boolean)
-			eventValue = ((Boolean) value).booleanValue();
-		else if (IPreferenceStore.TRUE.equals(value))
-			eventValue = true;
-
-		TextAttribute oldAttr = highlighting.getTextAttribute();
-		boolean activeValue = (oldAttr.getStyle() & styleAttribute) == styleAttribute;
-
-		if (activeValue != eventValue)
-			highlighting.setTextAttribute(new TextAttribute(oldAttr
-					.getForeground(), oldAttr.getBackground(),
-					eventValue ? oldAttr.getStyle() | styleAttribute : oldAttr
-							.getStyle() & ~styleAttribute));
-	}
-	
 	void applyStyles() {
 		if (fText == null || fText.isDisposed())
 			return;
@@ -1537,65 +1169,8 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 				fText.setStyleRange(element);
 			}
 
-			for (Iterator iterator = SemanticHighlightingManager.getInstance()
-					.getSemanticHighlightings().keySet().iterator(); iterator
-					.hasNext();) {
-				String type = (String) iterator.next();
-				ISemanticHighlighting highlighting = SemanticHighlightingManager
-						.getInstance().getSemanticHighlightings().get(type);
-				HighlightingStyle highlightingStyle = highlightingStyleMap
-						.get(type);
-				if (highlightingStyle.isEnabled()) {
-					Position[] positions = highlightingPositionMap.get(type);
-					if (positions != null) {
-						for (int i = 0; i < positions.length; i++) {
-							Position position = positions[i];
-							StyleRange styleRange = createStyleRange(
-									highlightingStyle.getTextAttribute(),
-									position);
-							fText.setStyleRange(styleRange);
-						}
-					}
-				}
-
-			}
 			documentRegion = documentRegion.getNext();
 		}
-	}
-	
-	
-	private StyleRange createStyleRange(TextAttribute attr, Position position) {
-		StyleRange result = new StyleRange(position.getOffset(),
-				position.getLength(), attr.getForeground(),
-				attr.getBackground(), attr.getStyle());
-		if ((attr.getStyle() & TextAttribute.UNDERLINE) != 0) {
-			result.underline = true;
-			result.fontStyle &= ~TextAttribute.UNDERLINE;
-		}
-		if ((attr.getStyle() & TextAttribute.STRIKETHROUGH) != 0) {
-			result.strikeout = true;
-			result.fontStyle &= ~TextAttribute.STRIKETHROUGH;
-		}
-		return result;
-	}
-	
-	private boolean getBoolean(IPreferenceStore store, String key) {
-		return (key == null) ? false : store.getBoolean(key);
-	}
-
-	/**
-	 * Looks up a String preference by <code>key</code> from the preference
-	 * store
-	 * 
-	 * @param store
-	 *            the preference store to lookup the preference from
-	 * @param key
-	 *            the key the preference is stored under
-	 * @return the preference value from the preference store iff key is not
-	 *         null
-	 */
-	private String getString(IPreferenceStore store, String key) {
-		return (key == null) ? null : store.getString(key);
 	}
 	
 	
