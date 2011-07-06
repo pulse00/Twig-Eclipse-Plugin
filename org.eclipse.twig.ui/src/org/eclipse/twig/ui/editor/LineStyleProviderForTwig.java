@@ -41,15 +41,12 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
 	static {
 		
-//		fColorTypes.clear();
-		
-
-		
 		fTwigColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_CLOSETAG, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN, PreferenceConstants.EDITOR_STRING_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE, PreferenceConstants.EDITOR_STRING_COLOR);
+
+		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN, PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
+		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE, PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
+		
 		fTwigColorTypes.put(TwigRegionContext.TWIG_CONTENT, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_OPEN, PreferenceConstants.EDITOR_COMMENT_COLOR);
@@ -411,6 +408,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 			if (PreferenceConstants.EDITOR_NORMAL_COLOR.equals(prefKey)
 					|| PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR
 							.equals(prefKey)
+					|| PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR
+							.equals(prefKey)							
 					|| PreferenceConstants.EDITOR_VARIABLE_COLOR
 							.equals(prefKey)
 					|| PreferenceConstants.EDITOR_STRING_COLOR.equals(prefKey)
@@ -424,6 +423,9 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 					|| PreferenceConstants.getEnabledPreferenceKey(
 							PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR)
 							.equals(prefKey)
+					|| PreferenceConstants.getEnabledPreferenceKey(
+							PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR)
+							.equals(prefKey)							
 					|| PreferenceConstants.getEnabledPreferenceKey(
 							PreferenceConstants.EDITOR_VARIABLE_COLOR).equals(
 							prefKey)
@@ -464,6 +466,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		
 		addTextAttribute(PreferenceConstants.EDITOR_NORMAL_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+		addTextAttribute(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_KEYWORD_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);

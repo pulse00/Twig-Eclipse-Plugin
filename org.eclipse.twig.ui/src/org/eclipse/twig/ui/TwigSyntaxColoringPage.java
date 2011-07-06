@@ -228,9 +228,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	
 	@Override
 	public boolean performOk() {
-		getOverlayStore().propagate();
-		
-		System.err.println("ok");
+		getOverlayStore().propagate();		
 		TwigUICorePlugin.getDefault().savePluginPreferences();
 		return true;
 	}
@@ -278,6 +276,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			List<String> styles = new ArrayList<String>();
 			styles.add(PreferenceConstants.EDITOR_NORMAL_COLOR);
 			styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+			styles.add(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);			
 			styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
 			styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
 			styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
@@ -297,6 +296,10 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		fStyleToDescriptionMap.put(
 				PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR,
 				"TWIG BOUNDRY MARKER");
+		fStyleToDescriptionMap.put(
+				PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR,
+				"TWIG STMT BOUNDRY MARKER");
+		
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR, "TWIG LABEL");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
 				"TWIG VARIABLE");

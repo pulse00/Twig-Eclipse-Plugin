@@ -50,6 +50,8 @@ public class PreferenceConstants {
 	 * </p>
 	 */
 	public static final String EDITOR_BOUNDARYMARKER_COLOR = "editorColorBoundarymaker"; //$NON-NLS-1$
+	
+	public static final String EDITOR_STMT_BOUNDARYMARKER_COLOR = "editorStmtColorBoundarymaker"; //$NON-NLS-1$	
 
 	/**
 	 * A named preference that holds the default color for the PHP boundary makers (open/close tags)
@@ -58,6 +60,8 @@ public class PreferenceConstants {
 	 * </p>
 	 */
 	public static final String EDITOR_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(255, 0, 0);
+	
+	public static final String EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(255, 0, 0);	
 
 	/**
 	 * A named preference that holds the color for the PHP comments
@@ -185,7 +189,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>String</code>.
 	 * </p>
 	 */
-	public static final String EDITOR_STRING_DEFAULT_COLOR = ColorHelper.getColorString(0, 255, 0);
+	public static final String EDITOR_STRING_DEFAULT_COLOR = ColorHelper.getColorString(0, 0, 192);
 
 	/**
 	 * A named preference that holds the color for the PHP variable
@@ -244,6 +248,7 @@ public class PreferenceConstants {
 		// SyntaxColoringPage
 		store.setDefault(EDITOR_NORMAL_COLOR, EDITOR_NORMAL_DEFAULT_COLOR);
 		store.setDefault(EDITOR_BOUNDARYMARKER_COLOR, EDITOR_BOUNDARYMARKER_DEFAULT_COLOR);
+		store.setDefault(EDITOR_STMT_BOUNDARYMARKER_COLOR, EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR);
 		store.setDefault(EDITOR_LABEL_COLOR, EDITOR_LABEL_DEFAULT_COLOR);
 		store.setDefault(EDITOR_VARIABLE_COLOR, EDITOR_VARIABLE_DEFAULT_COLOR);
 		store.setDefault(EDITOR_STRING_COLOR, EDITOR_STRING_DEFAULT_COLOR);
