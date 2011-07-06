@@ -54,8 +54,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_CLOSE, PreferenceConstants.EDITOR_COMMENT_COLOR);		
 		fTwigColorTypes.put(TwigRegionContext.TWIG_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);		
 		fTwigColorTypes.put(TwigRegionContext.TWIG_KEYWORD, PreferenceConstants.EDITOR_KEYWORD_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_START, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_END, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
+		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_START, PreferenceConstants.EDITOR_JSON_COLOR);
+		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_END, PreferenceConstants.EDITOR_JSON_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_DELIMITER, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_WHITESPACE, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fTwigColorTypes.put(TwigRegionContext.TWIG_NUMBER, PreferenceConstants.EDITOR_NUMBER_COLOR);
@@ -471,6 +471,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_COMMENT_COLOR);
+		addTextAttribute(PreferenceConstants.EDITOR_JSON_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
 		addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COLOR);

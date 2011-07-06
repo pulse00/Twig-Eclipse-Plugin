@@ -283,6 +283,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
 			styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);			
 			styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
+			styles.add(PreferenceConstants.EDITOR_JSON_COLOR);			
 
 			fStylePreferenceKeys = styles;
 		}
@@ -303,6 +304,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
 				"Variable");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR, "Double quotes");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_JSON_COLOR, "Json");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR, "Keyword");		
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
 				"String");
