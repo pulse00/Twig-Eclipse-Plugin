@@ -110,6 +110,8 @@ public class PreferenceConstants {
 	 * </p>
 	 */
 	public static final String EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR = ColorHelper.getColorString(0, 130, 130);
+	
+	public static final String EDITOR_KEYWORD_DEFAULT_COLOR = ColorHelper.getColorString(0, 130, 130);	
 
 	/**
 	 * A named preference that holds the color for the PHP keyword
@@ -252,6 +254,7 @@ public class PreferenceConstants {
 		store.setDefault(EDITOR_LABEL_COLOR, EDITOR_LABEL_DEFAULT_COLOR);
 		store.setDefault(EDITOR_VARIABLE_COLOR, EDITOR_VARIABLE_DEFAULT_COLOR);
 		store.setDefault(EDITOR_STRING_COLOR, EDITOR_STRING_DEFAULT_COLOR);
+		store.setDefault(EDITOR_KEYWORD_COLOR, EDITOR_KEYWORD_DEFAULT_COLOR);
 		store.setDefault(EDITOR_NUMBER_COLOR, EDITOR_NUMBER_DEFAULT_COLOR);
 		store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR, EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR);
 		store.setDefault(EDITOR_COMMENT_COLOR, EDITOR_COMMENT_DEFAULT_COLOR);

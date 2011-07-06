@@ -281,9 +281,8 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
 			styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
 			styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
+			styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);			
 			styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
-			styles.add(PreferenceConstants.EDITOR_PHPDOC_COLOR);
-			styles.add(PreferenceConstants.EDITOR_TASK_COLOR);
 
 			fStylePreferenceKeys = styles;
 		}
@@ -292,28 +291,26 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	
 	private void initStyleToDescriptionMap() {
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_NORMAL_COLOR,
-				"TWIG NORMAL");
+				"Normal");
 		fStyleToDescriptionMap.put(
 				PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR,
-				"TWIG BOUNDRY MARKER");
+				"Print tags");
 		fStyleToDescriptionMap.put(
 				PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR,
-				"TWIG STMT BOUNDRY MARKER");
+				"Statement tags");
 		
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR, "TWIG LABEL");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR, "Label");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
-				"TWIG VARIABLE");
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR, "TWIG DOUBLE QUOTED");
+				"Variable");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR, "Double quotes");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR, "Keyword");		
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
-				"TWIG STRING");
+				"String");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_NUMBER_COLOR,
-				"TWIG NUMBER");
+				"Number");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_COMMENT_COLOR,
-				"TWIG COMMENT");
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_PHPDOC_COLOR,
-				"TWIG DOC");
-		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_TASK_COLOR,
-				"TWIG TASK");
+				"Comment");
+		
 	}
 	
 	private void initRegionContextToStyleMap() {
