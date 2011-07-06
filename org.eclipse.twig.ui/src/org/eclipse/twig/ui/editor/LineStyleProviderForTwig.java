@@ -127,33 +127,15 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 					attr = getAttributeFor(region);
 					if (attr != null) {
 						handled = true;
-						// if this region's attr is the same as previous one,
-						// then
-						// just adjust the previous style range
-						// instead of creating a new instance of one
-						// note: to use 'equals' in this case is important,
-						// since
-						// sometimes
-						// different instances of attributes are associated with
-						// a
-						// region, even the
-						// the attribute has the same values.
-						// TODO: this needs to be improved to handle readonly
-						// regions correctly
-						if ((styleRange != null) && (previousAttr != null)
-								&& (previousAttr.equals(attr))) {
-							styleRange.length += region.getLength();
-						} else {
-							styleRange = createStyleRange(blockedRegion,
-									region, attr, partitionStartOffset,
-									partitionLength);
-							holdResults.add(styleRange);
-							// technically speaking, we don't need to update
-							// previousAttr
-							// in the other case, because the other case is when
-							// it hasn't changed
-							previousAttr = attr;
-						}
+						styleRange = createStyleRange(blockedRegion,
+								region, attr, partitionStartOffset,
+								partitionLength);
+						holdResults.add(styleRange);
+						// technically speaking, we don't need to update
+						// previousAttr
+						// in the other case, because the other case is when
+						// it hasn't changed
+						previousAttr = attr;
 					} else {
 						previousAttr = null;
 					}
@@ -359,32 +341,15 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 						attr = getAttributeFor(region);
 						if (attr != null) {
 							handled = true;
-							// if this region's attr is the same as previous
-							// one,
-							// then just adjust the previous style range
-							// instead of creating a new instance of one
-							// note: to use 'equals' in this case is important,
-							// since sometimes
-							// different instances of attributes are associated
-							// with a region, even the
-							// the attribute has the same values.
-							// TODO: this needs to be improved to handle
-							// readonly
-							// regions correctly
-							if ((styleRange != null) && (previousAttr != null)
-									&& (previousAttr.equals(attr))) {
-								styleRange.length += region.getLength();
-							} else {
-								styleRange = createStyleRange(
-										structuredDocumentRegion, region, attr,
-										partitionStartOffset, partitionLength);
-								holdResults.add(styleRange);
-								// technically speaking, we don't need to update
-								// previousAttr
-								// in the other case, because the other case is
-								// when it hasn't changed
-								previousAttr = attr;
-							}
+							styleRange = createStyleRange(
+									structuredDocumentRegion, region, attr,
+									partitionStartOffset, partitionLength);
+							holdResults.add(styleRange);
+							// technically speaking, we don't need to update
+							// previousAttr
+							// in the other case, because the other case is
+							// when it hasn't changed
+							previousAttr = attr;
 						} else {
 							previousAttr = null;
 						}
