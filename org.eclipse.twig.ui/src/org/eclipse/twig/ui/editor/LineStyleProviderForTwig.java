@@ -1,6 +1,7 @@
 package org.eclipse.twig.ui.editor;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.TextAttribute;
@@ -28,32 +29,25 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 @SuppressWarnings("restriction")
 public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 
-	//public static final String EDITOR_NORMAL_COLOR = "codeStyleNormal"; //$NON-NLS-1$
 
 	static {
+		
+		fColorTypes.clear();
+		System.err.println("twig static " + fColorTypes.size());
 		fColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_CLOSETAG, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-
 		fColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN, PreferenceConstants.EDITOR_STRING_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE, PreferenceConstants.EDITOR_STRING_COLOR);
-
 		fColorTypes.put(TwigRegionContext.TWIG_CONTENT, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT, PreferenceConstants.EDITOR_COMMENT_COLOR);
-
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT_OPEN, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT_TEXT, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_COMMENT_CLOSE, PreferenceConstants.EDITOR_COMMENT_COLOR);		
-
-		
-
-
 		fColorTypes.put(TwigRegionContext.TWIG_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);		
 		fColorTypes.put(TwigRegionContext.TWIG_KEYWORD, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
-		
 		fColorTypes.put(TwigRegionContext.TWIG_JSON_START, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_JSON_END, PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
-
 		fColorTypes.put(TwigRegionContext.TWIG_DELIMITER, PreferenceConstants.EDITOR_COMMENT_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_WHITESPACE, PreferenceConstants.EDITOR_LABEL_COLOR);
 		fColorTypes.put(TwigRegionContext.TWIG_NUMBER, PreferenceConstants.EDITOR_NUMBER_COLOR);

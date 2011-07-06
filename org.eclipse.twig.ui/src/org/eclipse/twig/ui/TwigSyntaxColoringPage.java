@@ -42,22 +42,8 @@ import org.eclipse.php.internal.core.PHPVersion;
 import org.eclipse.php.internal.core.ast.nodes.ASTParser;
 import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
-import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.editor.SemanticHighlightingManager;
 import org.eclipse.php.internal.ui.editor.highlighter.AbstractSemanticHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.ClassHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.ConstantHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.DeprecatedHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.FieldHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.FunctionHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.InternalClassHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.InternalConstantHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.InternalFunctionHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.MethodHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.ParameterVariableHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.StaticFieldHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.StaticMethodHighlighting;
-import org.eclipse.php.internal.ui.editor.highlighters.SuperGlobalHighlighting;
 import org.eclipse.php.internal.ui.editor.input.NonExistingPHPFileEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -110,7 +96,7 @@ import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 import org.eclipse.wst.sse.ui.internal.util.EditorUtility;
 import org.eclipse.wst.xml.ui.internal.XMLUIMessages;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "rawtypes"})
 public class TwigSyntaxColoringPage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
@@ -307,19 +293,13 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 			List<String> styles = new ArrayList<String>();
 			styles.add(PreferenceConstants.EDITOR_NORMAL_COLOR);
 			styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-//			styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
 			styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
 			styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
 			styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
-//			styles.add(PreferenceConstants.EDITOR_HEREDOC_COLOR);
 			styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
-//			styles.add(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
-//			styles.add(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
+			styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
 			styles.add(PreferenceConstants.EDITOR_PHPDOC_COLOR);
 			styles.add(PreferenceConstants.EDITOR_TASK_COLOR);
-
-			styles.addAll(SemanticHighlightingManager.getInstance()
-					.getSemanticHighlightings().keySet());
 
 			fStylePreferenceKeys = styles;
 		}
@@ -328,36 +308,30 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 	
 	private void initStyleToDescriptionMap() {
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_NORMAL_COLOR,
-				PHPUIMessages.ColorPage_Normal);
+				"TWIG NORMAL");
 		fStyleToDescriptionMap.put(
 				PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR,
-				PHPUIMessages.ColorPage_BoundryMaker);
-//		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR,
-//				PHPUIMessages.ColorPage_Keyword);
+				"TWIG BOUNDRY MARKER");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR, "TWIG LABEL");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
-				PHPUIMessages.ColorPage_Variable);
+				"TWIG VARIABLE");
+		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR, "TWIG DOUBLE QUOTED");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
-				PHPUIMessages.ColorPage_String);
+				"TWIG STRING");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_NUMBER_COLOR,
-				PHPUIMessages.ColorPage_Number);
-//		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_HEREDOC_COLOR,
-//				PHPUIMessages.ColorPage_Heredoc);
+				"TWIG NUMBER");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_COMMENT_COLOR,
-				PHPUIMessages.ColorPage_Comment);
-//		fStyleToDescriptionMap.put(
-//				PreferenceConstants.EDITOR_LINE_COMMENT_COLOR,
-//				PHPUIMessages.ColorPage_LineComment);
-//		fStyleToDescriptionMap.put(
-//				PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR,
-//				PHPUIMessages.ColorPage_PHPDOCComment);
+				"TWIG COMMENT");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_PHPDOC_COLOR,
-				PHPUIMessages.ColorPage_Phpdoc);
+				"TWIG DOC");
 		fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_TASK_COLOR,
-				PHPUIMessages.ColorPage_TaskTag);
+				"TWIG TASK");
 	}
 	
 	private void initRegionContextToStyleMap() {
 		fContextToStyleMap = fStyleProvider.getColorTypesMap();
+		
+		System.err.println("color types map size " + fContextToStyleMap.size());
 	}
 	
 	
@@ -951,228 +925,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
 				final Program program = parser.createAST(null);
 				List<AbstractSemanticHighlighting> highlightings = new ArrayList<AbstractSemanticHighlighting>();
-
-				highlightings.add(new StaticFieldHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return StaticFieldHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new StaticMethodHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return StaticMethodHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new ConstantHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return ConstantHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new FieldHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return FieldHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new FunctionHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return FunctionHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new MethodHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return MethodHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new ClassHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return ClassHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new InternalClassHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return InternalClassHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new InternalFunctionHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return InternalFunctionHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new ParameterVariableHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return ParameterVariableHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new SuperGlobalHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return SuperGlobalHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new InternalConstantHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return InternalConstantHighlighting.class.getName();
-					}
-				});
-				highlightings.add(new DeprecatedHighlighting() {
-					@Override
-					protected Program getProgram(
-							IStructuredDocumentRegion region) {
-						return program;
-					}
-
-					@Override
-					public ISourceModule getSourceModule() {
-						return sourceModule;
-					}
-
-					@Override
-					public String getPreferenceKey() {
-						return DeprecatedHighlighting.class.getName();
-					}
-				});
 
 				Collections.sort(highlightings);
 
