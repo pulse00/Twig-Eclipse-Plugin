@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.twig.ui;singleton:=true
-Bundle-Version: 1.0.74.qualifier
+Bundle-Version: 1.0.75.qualifier
 Bundle-Activator: org.eclipse.twig.ui.TwigUICorePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -28,4 +28,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.texteditor.link,
  org.eclipse.ui.texteditor.templates
 Export-Package: org.eclipse.twig.ui.editor
-Bundle-Vendor: http://www.twig-project.org/
+Bundle-Vendor: %Bundle-Vendor

@@ -59,9 +59,9 @@ public class PreferenceConstants {
 	 * Value is of type <code>String</code>.
 	 * </p>
 	 */
-	public static final String EDITOR_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(255, 0, 0);
+	public static final String EDITOR_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(137, 102, 18);
 	
-	public static final String EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(255, 0, 0);	
+	public static final String EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR = ColorHelper.getColorString(137, 102, 18);	
 
 	/**
 	 * A named preference that holds the color for the PHP comments
@@ -113,7 +113,9 @@ public class PreferenceConstants {
 	
 	public static final String EDITOR_JSON_DEFAULT_COLOR = ColorHelper.getColorString(0, 130, 130);	
 	
-	public static final String EDITOR_KEYWORD_DEFAULT_COLOR = ColorHelper.getColorString(0, 130, 130);	
+	public static final String EDITOR_KEYWORD_DEFAULT_COLOR = ColorHelper
+			.packStylePreferences(new String[] {
+					ColorHelper.getColorString(127, 0, 85), null, "true" });	
 
 	/**
 	 * A named preference that holds the color for the PHP keyword

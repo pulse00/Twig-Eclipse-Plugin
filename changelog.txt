@@ -1,3 +1,7 @@
+1.0.75
+* added syntax coloring preference page
+* changed default syntax colors
+
 1.0.74
 * removed restriction to .twig extensions in "new template" wizard
 * fixed a couple of validation bugs

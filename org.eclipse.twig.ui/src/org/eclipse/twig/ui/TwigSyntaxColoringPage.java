@@ -44,6 +44,7 @@ import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
 import org.eclipse.php.internal.ui.editor.highlighter.AbstractSemanticHighlighting;
 import org.eclipse.php.internal.ui.editor.input.NonExistingPHPFileEditorInput;
+import org.eclipse.php.internal.ui.preferences.PHPSyntaxColoringPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -93,6 +94,15 @@ import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 import org.eclipse.wst.sse.ui.internal.util.EditorUtility;
 import org.eclipse.wst.xml.ui.internal.XMLUIMessages;
 
+/**
+ * 
+ * The Twig Syntac color preference page. An adapted version of the
+ * {@link PHPSyntaxColoringPage}. 
+ * 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 @SuppressWarnings({"restriction", "rawtypes"})
 public class TwigSyntaxColoringPage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -348,7 +358,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 						IPHPHelpContextIds.SYNTAX_COLORING_PREFERENCES);
 
 		Link link = new Link(pageComponent, SWT.WRAP);
-		link.setText(SSEUIMessages.SyntaxColoring_Link);
+		String linkText = "Default colors and font can be configured on the <a href=\"org.eclipse.ui.preferencePages.GeneralTextEditor\">Text Editors</a> and on the <a href=\"org.eclipse.ui.preferencePages.ColorsAndFonts\">Colors and Fonts</a> preference pages.";		
+		link.setText(linkText);
+		
 		link.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

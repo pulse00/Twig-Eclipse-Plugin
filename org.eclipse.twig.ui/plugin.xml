@@ -47,7 +47,7 @@
 			target="org.eclipse.twig.core.twigtemplate" />
 		<provisionalDefinition
 			type="spellingregions"
-			value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT"
+			value="XML_COMMENT_TEXT, PHP_CONTENT, TWIG_CONTENT, XML_CONTENT"
 			target="org.eclipse.twig.core.twigtemplate" />
    </extension>
    
@@ -107,7 +107,7 @@
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             class="org.eclipse.twig.ui.TwigSyntaxColoringPage"
             id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
-            name="%syntaxColorPreferencePageName">
+            name="%page.name">
       </page>
    </extension>
    
@@ -142,7 +142,7 @@
       <contextType
             class="org.eclipse.twig.ui.editor.templates.TwigTemplateContextType"
             id="twig"
-            name="Twig template">
+            name="%contextType.name.0">
       </contextType>
       <include
             file="templates/twigdefault-templates.xml"
@@ -153,14 +153,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="org.eclipse.twig.ui"
-            name="Twig">
+            name="%category.name">
       </category>
       <wizard
             category="org.eclipse.twig.ui"
             class="org.eclipse.twig.ui.wizards.NewTemplateWizard"
             icon="ico/full/obj16/default_icon.gif"
             id="org.eclipse.twig.ui.wizards.NewTemplateWizard"
-            name="Twig template">
+            name="%wizard.name">
       </wizard>
    </extension>
    <extension
