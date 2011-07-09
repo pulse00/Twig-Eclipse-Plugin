@@ -11,22 +11,15 @@ public class StructuredTextFoldingProvider implements
 	public void install(ProjectionViewer viewer) {
 
 		
-		System.err.println("install");
-		
 	}
 
 	@Override
 	public void uninstall() {
 
-		System.err.println("uninstall");
-		
 	}
 
 	@Override
 	public void initialize() {
 
-		System.err.println("initialize");
-		
 	}
-
 }

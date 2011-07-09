@@ -233,7 +233,6 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 			int i = 0;
 			while (i < hoverDescs.length) {
 				
-				System.err.println(hoverDescs[i].getHoverClassName());
 				if (hoverDescs[i].isEnabled()
 						&& hoverDescs[i].getStateMask() == stateMask) {
 					
