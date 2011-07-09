@@ -26,7 +26,6 @@ import org.eclipse.twig.core.util.Debug;
 
 %state ST_TWIG_CONTENT
 %state ST_TWIG_DOUBLE_QUOTES
-%state ST_TWIG_DOUBLE_QUOTES_SPECIAL
 %state ST_TWIG_HIGHLIGHTING_ERROR
 %state ST_TWIG_COMMENT
 
@@ -253,6 +252,16 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_START;
 }
 
+<ST_TWIG_CONTENT>([']) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES START");
+
+	yybegin(ST_TWIG_DOUBLE_QUOTES);
+    return TWIG_DOUBLE_QUOTES_START;
+}
+
+
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
 
 	if(Debug.debugTokenizer)
@@ -261,6 +270,16 @@ NUMBER=([0-9])+
 	yybegin(ST_TWIG_CONTENT);
     return TWIG_DOUBLE_QUOTES_END;
 }
+
+<ST_TWIG_DOUBLE_QUOTES>([']) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG DOUBLE QUOTES END");
+
+	yybegin(ST_TWIG_CONTENT);
+    return TWIG_DOUBLE_QUOTES_END;
+}
+
 
 <ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
 
@@ -294,41 +313,6 @@ NUMBER=([0-9])+
     return TWIG_VARIABLE;
 }
 
-<ST_TWIG_DOUBLE_QUOTES> ([\`]) {
-
-	yybegin(ST_TWIG_DOUBLE_QUOTES_SPECIAL);
-    return TWIG_BACKTICK_START;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> ([\`]) {
-
-	yybegin(ST_TWIG_DOUBLE_QUOTES);
-    return TWIG_BACKTICK_END;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> "$"{LABEL} {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable5");
-
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> [\.\-\>()] {
-
-    return TWIG_DELIMITER;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {NUMBER} {
-
-    return TWIG_NUMBER;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {LABEL} {
-
-    return TWIG_LABEL;
-}
-
 <ST_TWIG_CONTENT> {TOKENS} {
 
 	if(Debug.debugTokenizer)
@@ -351,7 +335,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_DOUBLE_QUOTES_SPECIAL>. {
+<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");
