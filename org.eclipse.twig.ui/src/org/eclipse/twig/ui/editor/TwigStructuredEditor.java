@@ -6,11 +6,15 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
+import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 
 
 /**
@@ -78,5 +82,14 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 			installOverrideIndicator(true);
 		}		
 	}
+	
+	@Override
+	protected StructuredTextViewer createStructedTextViewer(Composite parent,
+			IVerticalRuler verticalRuler, int styles) {
+		
+		return new TwigStructuredTextViewer(this, parent, verticalRuler,
+				getOverviewRuler(), isOverviewRulerVisible(), styles);
+	}
+	
 
 }

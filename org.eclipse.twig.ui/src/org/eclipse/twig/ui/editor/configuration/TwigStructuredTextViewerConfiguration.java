@@ -16,6 +16,7 @@ import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
 import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
 import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
@@ -24,9 +25,11 @@ import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
 import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
+import org.eclipse.php.internal.ui.editor.hover.PHPTextHoverProxy;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import org.eclipse.twig.core.documentModel.parser.partitioner.TwigStructuredTextPartitioner;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
 import org.eclipse.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -68,6 +71,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 	 */
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		
 		final String[] original = super.getConfiguredContentTypes(sourceViewer);
 		final String[] configuredPartitions = TwigPartitionTypes.configuredPartitions;
 
@@ -201,14 +205,47 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		System.arraycopy(stateMasks, 0, shortenedStateMasks, 0, stateMasksLength);
 		return shortenedStateMasks;
 	}
+	
+	public ITextHover getTextHover(ISourceViewer sourceViewer,
+			String contentType) {
+		
+		
+		return getTextHover(sourceViewer, contentType,
+				ITextViewerExtension2.DEFAULT_HOVER_STATE_MASK);
+	}
+	
 
 
 	/*
 	 * @see SourceViewerConfiguration#getTextHover(ISourceViewer, String)
 	 */
 	@Override
-	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
-		return getTextHover(sourceViewer, contentType, ITextViewerExtension2.DEFAULT_HOVER_STATE_MASK);
+	public ITextHover getTextHover(ISourceViewer sourceViewer,
+			String contentType, int stateMask) {
+		
+		if (!TwigPartitionTypes.isTwigPartition(contentType)) {
+			return super.getTextHover(sourceViewer, contentType, stateMask);
+		}
+
+		if (sourceViewer instanceof PHPStructuredTextViewer) {
+			PHPEditorTextHoverDescriptor[] hoverDescs = PHPUiPlugin
+					.getDefault().getPHPEditorTextHoverDescriptors();
+			int i = 0;
+			while (i < hoverDescs.length) {
+				
+				System.err.println(hoverDescs[i].getHoverClassName());
+				if (hoverDescs[i].isEnabled()
+						&& hoverDescs[i].getStateMask() == stateMask) {
+					
+					return new PHPTextHoverProxy(hoverDescs[i],
+							((PHPStructuredTextViewer) sourceViewer)
+									.getTextEditor(), fPreferenceStore);
+				}
+				i++;
+			}
+		}
+		return null;		
+		
 	}
 
 
