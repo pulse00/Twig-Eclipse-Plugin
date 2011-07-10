@@ -1,3 +1,8 @@
+1.0.78
+
+* fixed quotes context detection
+* fixed validation error for concat statements
+
 1.0.75
 * added syntax coloring preference page
 * changed default syntax colors
