@@ -148,7 +148,8 @@ public class TwigTextSequenceUtilities  {
 	 */
 	public static boolean isInFunction(TextSequence statement) {
 		
-		int startOffset = statement.length()-1;
+		int startOffset = statement.length()-1;		
+		int quotesCount = 0;
 		
 		while(startOffset > 0) {
 
@@ -156,15 +157,14 @@ public class TwigTextSequenceUtilities  {
 			
 			if (ch == '(') {
 				return true;
-			} else if (ch== '\'' || ch == '"')
+			} else if ( (ch== '\'' || ch == '"') && quotesCount++ > 0)
 				return false;
 			
 			startOffset--;
 			
 		}
 		
-		return false;
-		
+		return false;		
 		
 	}
 
