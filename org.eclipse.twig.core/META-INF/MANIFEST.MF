@@ -14,7 +14,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.validation,
  org.eclipse.php.core,
  org.eclipse.dltk.core,
- org.eclipse.twig.parser
+ org.eclipse.twig.parser,
+ org.eclipse.dltk.ui,
+ org.eclipse.php.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.twig.core,

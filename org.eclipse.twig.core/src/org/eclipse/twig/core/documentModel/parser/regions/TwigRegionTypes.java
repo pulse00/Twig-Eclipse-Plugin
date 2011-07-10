@@ -22,6 +22,11 @@ public interface TwigRegionTypes {
 	public static final String TWIG_DOUBLE_QUOTES_CONTENT 			= "TWIG_DOUBLE_QUOTES_CONTENT"; //$NON-NLS-1$	
 	public static final String TWIG_DOUBLE_QUOTES_START 			= "TWIG_DOUBLE_QUOTES_START"; //$NON-NLS-1$
 	public static final String TWIG_DOUBLE_QUOTES_END 				= "TWIG_DOUBLE_QUOTES_END"; //$NON-NLS-1$
+	
+	public static final String TWIG_SINGLE_QUOTES_START 			= "TWIG_SINGLE_QUOTES_START"; //$NON-NLS-1$
+	public static final String TWIG_SINGLE_QUOTES_CONTENT 			= "TWIG_SINGLE_QUOTES_CONTENT"; //$NON-NLS-1$	
+	public static final String TWIG_SINGLE_QUOTES_END	 			= "TWIG_SINGLE_QUOTES_END"; //$NON-NLS-1$
+	
 	public static final String TWIG_BACKTICK_END 					= "ST_TWIG_BACKTICK_END"; //$NON-NLS-1$	
 	public static final String TWIG_BACKTICK_START 					= "TWIG_BACKTICK_START"; //$NON-NLS-1$		
 	

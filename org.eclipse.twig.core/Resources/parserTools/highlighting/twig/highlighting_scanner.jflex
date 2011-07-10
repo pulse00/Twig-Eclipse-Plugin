@@ -26,6 +26,7 @@ import org.eclipse.twig.core.util.Debug;
 
 %state ST_TWIG_CONTENT
 %state ST_TWIG_DOUBLE_QUOTES
+%state ST_TWIG_SINGLE_QUOTES
 %state ST_TWIG_HIGHLIGHTING_ERROR
 %state ST_TWIG_COMMENT
 
@@ -242,6 +243,14 @@ NUMBER=([0-9])+
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
+<ST_TWIG_CONTENT>([\"]([^\"\\]|("\\".))*[\"]) {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG_CONSTANT_ENCAPSED_STRING");
+
+    return TWIG_CONSTANT_ENCAPSED_STRING;
+}
+
 // ST_TWIG_DOUBLE_QUOTES // 
 <ST_TWIG_CONTENT>([\"]) {
 
@@ -257,8 +266,8 @@ NUMBER=([0-9])+
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
 
-	yybegin(ST_TWIG_DOUBLE_QUOTES);
-    return TWIG_DOUBLE_QUOTES_START;
+	yybegin(ST_TWIG_SINGLE_QUOTES);
+    return TWIG_SINGLE_QUOTES_START;
 }
 
 
@@ -271,17 +280,17 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_END;
 }
 
-<ST_TWIG_DOUBLE_QUOTES>([']) {
+<ST_TWIG_SINGLE_QUOTES>([']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES END");
 
 	yybegin(ST_TWIG_CONTENT);
-    return TWIG_DOUBLE_QUOTES_END;
+    return TWIG_SINGLE_QUOTES_END;
 }
 
 
-<ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
+<ST_TWIG_DOUBLE_QUOTES>([^\"])+ {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES CONTENT");
@@ -289,29 +298,14 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_CONTENT;
 }
 
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
+<ST_TWIG_SINGLE_QUOTES>([^'])+ {
 
-	if (Debug.debugTokenizer)
-		dump("TWIG DOLLAR VAR");
-		
-    return TWIG_VARIABLE;
+	if(Debug.debugTokenizer)
+		dump("TWIG SINGLE QUOTES CONTENT");
+
+    return TWIG_SINGLE_QUOTES_CONTENT;
 }
 
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{NUMBER}[\]] {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable3");
-
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{LABEL}[\]] {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable4");
-
-    return TWIG_VARIABLE;
-}
 
 <ST_TWIG_CONTENT> {TOKENS} {
 
@@ -335,7 +329,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES>. {
+<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");
