@@ -102,7 +102,7 @@ twig_block
   ;
   
 twig_block_param
-  : (variable | method_chain) twig_print?
+  : (variable | method_chain | concat) twig_print?
   ;
   
 twig_include
@@ -190,9 +190,16 @@ twig_print
   ;
   
 p_input
-  : variable | method_chain | array | STRING_LITERAL | twig_ternary | twig_not
+  : variable | method_chain | array | STRING_LITERAL | twig_ternary | twig_not | concat
   ;
   
+concat
+  : concat_operand TILDE concat_operand (TILDE concat_operand)*
+  ;
+  
+concat_operand
+  : (STRING_LITERAL | variable | method_chain)
+  ;
   
 twig_not
   : NOT (twig_ternary | variable | method_chain)

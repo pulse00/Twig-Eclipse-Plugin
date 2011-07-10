@@ -13,7 +13,15 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
-
+/**
+ * 
+ * Utility class for Twig statements.
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigTextSequenceUtilities  {
 
@@ -126,17 +134,64 @@ public class TwigTextSequenceUtilities  {
 		return startPosition;
 
 	}
+	
+	
+	/**
+	 * 
+	 * Checks if the statment cursor is indide a function call, ie
+	 * 
+	 * {% path('| 
+	 * 
+	 * 
+	 * @param statement
+	 * @return
+	 */
+	public static boolean isInFunction(TextSequence statement) {
+		
+		int startOffset = statement.length()-1;
+		
+		while(startOffset > 0) {
 
+			char ch = statement.charAt(startOffset);					
+			
+			if (ch == '(') {
+				return true;
+			} else if (ch== '\'' || ch == '"')
+				return false;
+			
+			startOffset--;
+			
+		}
+		
+		return false;
+		
+		
+	}
 
+	/**
+	 * 
+	 * Check if the statement text is inside a field, ie
+	 * 
+	 * <pre>
+	 * 
+	 *   {{ foo. | 
+	 * </pre>
+	 * 
+	 * 
+	 * @param statement
+	 * @return
+	 */
 	public static boolean isInField(TextSequence statement) {
 
 		int startOffset = statement.length()-1;
 		
 		while(startOffset > 0) {
 
-			if (statement.charAt(startOffset) == '(') {
+			char ch = statement.charAt(startOffset);		
+			
+			if (ch == '(') {
 				return false;
-			} else if (statement.charAt(startOffset) == '.')
+			} else if (ch == '.')
 				return true;
 			
 			startOffset--;
