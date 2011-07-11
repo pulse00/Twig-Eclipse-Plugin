@@ -1,5 +1,6 @@
 package org.eclipse.twig.ui.editor.autoEdit;
 
+
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
@@ -8,7 +9,6 @@ import org.eclipse.php.internal.ui.autoEdit.CaseDefaultAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyCloseAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyOpenAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy;
-import org.eclipse.php.internal.ui.autoEdit.MatchingBracketAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PHPAutoIndentStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PhpDocAutoIndentStrategy;
 import org.eclipse.php.internal.ui.autoEdit.TabAutoEditStrategy;

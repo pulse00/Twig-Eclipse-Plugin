@@ -6,6 +6,7 @@ import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
+import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigStructuredTextPartitioner;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
@@ -13,6 +14,17 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
+
+/**
+ * 
+ * 
+ * Adapted from the {@link org.eclipse.php.internal.core.format.FormatterUtils}
+ * to retrieve correct Twig regions.
+ * 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 @SuppressWarnings("restriction")
 public class FormatterUtils {
 	
@@ -156,7 +168,7 @@ public class FormatterUtils {
 	 * 
 	 * @param currentStructuredDocumentRegion
 	 */
-	public static IStructuredDocumentRegion getLastPhpStructuredDocumentRegion(
+	public static IStructuredDocumentRegion getLastTwigStructuredDocumentRegion(
 			IStructuredDocumentRegion currentStructuredDocumentRegion) {
 		assert currentStructuredDocumentRegion != null;
 
@@ -166,7 +178,7 @@ public class FormatterUtils {
 
 		// search for last php block (then returns the last region)
 		while (currentStructuredDocumentRegion != null
-				&& currentStructuredDocumentRegion.getType() != PHPRegionContext.PHP_CONTENT) {
+				&& currentStructuredDocumentRegion.getType() != TwigRegionContext.TWIG_CONTENT) {
 			currentStructuredDocumentRegion = currentStructuredDocumentRegion
 					.getPrevious();
 		}

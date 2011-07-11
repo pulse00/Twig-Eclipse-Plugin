@@ -240,6 +240,64 @@ public class PreferenceConstants {
 
 	public static final String EDITOR_JSON_COLOR = "editorColorJson";
 	
+	
+	/**
+	 * A named preference that controls whether the 'close braces' feature is
+	 * enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_CLOSE_BRACES = "closeBraces"; //$NON-NLS-1$
+
+	/**
+	 * A named preference that controls whether the 'close brackets' feature is
+	 * enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_CLOSE_BRACKETS = "closeBrackets"; //$NON-NLS-1$
+
+	/**
+	 * A named preference that controls whether the 'close strings' feature is
+	 * enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_CLOSE_STRINGS = "closeStrings"; //$NON-NLS-1$
+
+	/**
+	 * A named preference that controls whether the 'close phpdoc and comments'
+	 * feature is enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_CLOSE_PHPDOCS_AND_COMMENTS = "closePhpDocsAndComments"; //$NON-NLS-1$
+	
+	
+	/**
+	 * A named preference that controls whether the 'close php close tag'
+	 * feature is enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_ADD_PHPCLOSE_TAGS = "autoAddPhpCloseTags"; //$NON-NLS-1$
+
+	/**
+	 * A named preference that controls whether the 'Add "php" after PHP start
+	 * tag (<?)' feature is enabled.
+	 * <p>
+	 * Value is of type <code>Boolean</code>.
+	 * </p>
+	 */
+	public final static String EDITOR_ADD_PHP_FOR_PHPSTART_TAGS = "autoAddPhpForPhpStartTags"; //$NON-NLS-1$
+	
+	
+	
 	public static void initializeDefaultValues() {
 
 		// Override Editor Preference defaults:

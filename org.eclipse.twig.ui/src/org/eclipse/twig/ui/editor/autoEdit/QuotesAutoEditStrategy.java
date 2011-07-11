@@ -17,6 +17,16 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
+
+
+/**
+ * 
+ * A modified {@link org.eclipse.php.internal.ui.autoEdit.QuotesAutoEditStrategy}
+ * to make auto-closing quotes work with the Twig editor. 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 @SuppressWarnings("restriction")
 public class QuotesAutoEditStrategy extends MatchingCharAutoEditStrategy {
 
