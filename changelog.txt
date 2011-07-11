@@ -1,3 +1,7 @@
+1.0.79
+
+* fixed issue with function detection
+
 1.0.78
 
 * fixed quotes context detection
