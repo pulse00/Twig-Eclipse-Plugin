@@ -1,3 +1,7 @@
+1.0.80
+
+* fixed indentation bug
+
 1.0.79
 
 * fixed issue with function detection
