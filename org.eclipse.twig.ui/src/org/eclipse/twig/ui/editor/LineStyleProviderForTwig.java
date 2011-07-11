@@ -179,7 +179,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 				attr = getAttributeFor(element);
 				// Check that the elements are different - otherwise the
 				// coloring is not valid
-				if (prevElement == element) {
+				if (prevElement == element || attr == null) {
 					continue;
 				}
 				if ((styleRange != null) && (previousAttr != null)

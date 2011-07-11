@@ -4,7 +4,6 @@ import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
-import org.eclipse.php.internal.core.format.FormatterUtils;
 import org.eclipse.php.internal.ui.autoEdit.CaseDefaultAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyCloseAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyOpenAutoEditStrategy;
@@ -12,9 +11,9 @@ import org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.MatchingBracketAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PHPAutoIndentStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PhpDocAutoIndentStrategy;
-import org.eclipse.php.internal.ui.autoEdit.QuotesAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.TabAutoEditStrategy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import org.eclipse.twig.core.format.FormatterUtils;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 
 /**
@@ -41,6 +40,7 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 	public void customizeDocumentCommand(IDocument document,
 			DocumentCommand command) {
 		
+
 		if (command.text == null) {
 			return;
 		}

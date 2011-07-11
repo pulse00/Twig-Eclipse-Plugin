@@ -126,7 +126,12 @@ public class TwigSourceElementRequestorExtension extends
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start);
-			tree.accept(visitor);
+			
+			if (tree != null)
+				tree.accept(visitor);
+			else {
+				Logger.debugMSG("unable to create antlr commontree");
+			}
 			
 		} catch (Exception e) {
 			Logger.logException(e);

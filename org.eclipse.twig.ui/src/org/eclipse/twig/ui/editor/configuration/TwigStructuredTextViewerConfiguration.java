@@ -22,7 +22,6 @@ import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
-import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredPresentationReconciler;
 import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration;
 import org.eclipse.php.internal.ui.editor.configuration.StructuredDocumentDamagerRepairer;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
