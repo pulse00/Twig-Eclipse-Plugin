@@ -5,12 +5,10 @@ import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
-import org.eclipse.php.internal.ui.autoEdit.CaseDefaultAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyCloseAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyOpenAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PHPAutoIndentStrategy;
-import org.eclipse.php.internal.ui.autoEdit.PhpDocAutoIndentStrategy;
 import org.eclipse.php.internal.ui.autoEdit.TabAutoEditStrategy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.core.format.FormatterUtils;
@@ -18,7 +16,8 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 
 /**
  * 
- * 
+ * Modified {@link org.eclipse.php.internal.ui.autoEdit.MainAutoEditStrategy}
+ * to work with Twig templates. 
  * 
  * 
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
@@ -32,8 +31,11 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 	private static IAutoEditStrategy curlyCloseAutoEditStrategy = new CurlyCloseAutoEditStrategy();
 	private static IAutoEditStrategy matchingBracketAutoEditStrategy = new MatchingBracketAutoEditStrategy();
 	private static IAutoEditStrategy quotesAutoEditStrategy = new QuotesAutoEditStrategy();
-	private static IAutoEditStrategy caseDefaultAutoEditStrategy = new CaseDefaultAutoEditStrategy();
-	private static IAutoEditStrategy docBlockAutoEditStrategy = new PhpDocAutoIndentStrategy();
+	
+	// these 2 are not needed for twig templates
+//	private static IAutoEditStrategy caseDefaultAutoEditStrategy = new CaseDefaultAutoEditStrategy();
+//	private static IAutoEditStrategy docBlockAutoEditStrategy = new PhpDocAutoIndentStrategy();
+	
 	private static IAutoEditStrategy tabAutoEditStrategy = new TabAutoEditStrategy();
 	private static IAutoEditStrategy autoIndentStrategy = new PHPAutoIndentStrategy();
 	
@@ -51,8 +53,8 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 				|| partitionType
 						.equals(PHPPartitionTypes.PHP_MULTI_LINE_COMMENT)) {
 			// case of multi line comment or php doc
-			docBlockAutoEditStrategy
-					.customizeDocumentCommand(document, command);
+//			docBlockAutoEditStrategy
+//					.customizeDocumentCommand(document, command);
 		} else if (partitionType.equals(TwigPartitionTypes.TWIG_QUOTED_STRING)) {
 			indentLineAutoEditStrategy.customizeDocumentCommand(document,
 					command);
@@ -60,8 +62,8 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 		} else if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT)
 				|| partitionType
 						.equals(TwigPartitionTypes.TWIG_COMMENT_TEXT)) {
-			caseDefaultAutoEditStrategy.customizeDocumentCommand(document,
-					command);
+//			caseDefaultAutoEditStrategy.customizeDocumentCommand(document,
+//					command);
 			matchingBracketAutoEditStrategy.customizeDocumentCommand(document,
 					command);
 			curlyOpenAutoEditStrategy.customizeDocumentCommand(document,

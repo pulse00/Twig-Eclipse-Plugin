@@ -43,8 +43,9 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.StructuredPresentationR
 
 /**
  * 
- * 
- * 
+ * A modified {@link PHPStructuredTextViewerConfiguration}
+ * for Twig templates.
+ *  
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  *
  */
@@ -362,6 +363,4 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		fHighlighter = highlighter;
 		super.setHighlighter(highlighter);
 	}	
-	
-	
 }
