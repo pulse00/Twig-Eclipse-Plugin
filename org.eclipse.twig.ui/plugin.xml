@@ -7,7 +7,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.twig.ui.editor.TwigStructuredEditor"
-            contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
+            contributorClass="org.eclipse.twig.ui.editor.ActionContributorForTwig"
             default="true"
             icon="ico/full/obj16/default_icon.gif"
             id="org.eclipse.twig.editor"

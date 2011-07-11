@@ -4,7 +4,6 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TypedRegion;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;

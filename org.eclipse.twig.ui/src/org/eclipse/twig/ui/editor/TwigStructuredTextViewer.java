@@ -1,6 +1,5 @@
 package org.eclipse.twig.ui.editor;
 
-import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
@@ -29,18 +28,5 @@ public class TwigStructuredTextViewer extends PHPStructuredTextViewer {
 				showAnnotationsOverview, styles);
 
 	}
-	
-	
-	@Override
-	protected ITextHover getTextHover(int offset, int stateMask) {
 
-		return super.getTextHover(offset, stateMask);
-	}
-	
-	
-	@Override
-	public void setTextHover(ITextHover hover, String contentType, int stateMask) {
-		
-		super.setTextHover(hover, contentType, stateMask);
-	}
 }

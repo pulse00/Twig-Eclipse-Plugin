@@ -1,5 +1,6 @@
 package org.eclipse.twig.ui.editor.configuration;
 
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -14,60 +15,61 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
+import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
 import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
 import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
-import org.eclipse.php.internal.ui.autoEdit.MainAutoEditStrategy;
 import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
+import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredPresentationReconciler;
 import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration;
+import org.eclipse.php.internal.ui.editor.configuration.StructuredDocumentDamagerRepairer;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
 import org.eclipse.php.internal.ui.editor.hover.PHPTextHoverProxy;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigStructuredTextPartitioner;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
 import org.eclipse.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
+import org.eclipse.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
+import org.eclipse.twig.ui.editor.autoEdit.MainAutoEditStrategy;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
-import org.eclipse.wst.sse.ui.internal.contentassist.StructuredContentAssistant;
 import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
+import org.eclipse.wst.sse.ui.internal.provisional.style.ReconcilerHighlighter;
+import org.eclipse.wst.sse.ui.internal.provisional.style.StructuredPresentationReconciler;
 
 
 /**
  * 
- * Also copy/pasted from smarty.
- * 
- * TODO: review code and check if it can be cleaned up
- * for the twig plugin.
  * 
  * 
- * @see http://code.google.com/p/smartypdt/
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
  *
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "unchecked", "rawtypes" })
 public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextViewerConfiguration {
 
 	private LineStyleProvider fLineStyleProvider;
 	
+	private static final IAutoEditStrategy indentLineAutoEditStrategy = new IndentLineAutoEditStrategy();
+	private static final IAutoEditStrategy mainAutoEditStrategy = new MainAutoEditStrategy();
+	private static final IAutoEditStrategy closeTagAutoEditStrategy = new CloseTagAutoEditStrategyTwig();
+	private static final IAutoEditStrategy[] phpStrategies = new IAutoEditStrategy[] { mainAutoEditStrategy };
+	
+	private ReconcilerHighlighter fHighlighter = null;
 
 	public TwigStructuredTextViewerConfiguration() {
 		
 		
 	}
-	
-	
-	
 
 	/*
 	 * Returns an array of all the contentTypes (partition names) supported
 	 * by this editor. They include all those supported by HTML editor plus
-	 * PHP.
+	 * Twig.
 	 */
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
@@ -97,6 +99,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		return super.getLineStyleProviders(sourceViewer, partitionType);
 	}
 
+	
 	@Override
 	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
 		IContentAssistProcessor[] processors = null;
@@ -104,12 +107,12 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		
 		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*||
 				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
-			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
+			ArrayList processorsList = getTwigDefaultProcessors(sourceViewer);
 			processors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(processors);
 			
 		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
-			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
+			ArrayList processorsList = getTwigDefaultProcessors(sourceViewer);
 			IContentAssistProcessor[] twigProcessors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(twigProcessors);
 			IContentAssistProcessor[] phpProcessors = super.getContentAssistProcessors(sourceViewer, partitionType);
@@ -125,7 +128,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 
 	private ArrayList processors = null;
 
-	private ArrayList getPHPDefaultProcessors(ISourceViewer sourceViewer) {
+	private ArrayList getTwigDefaultProcessors(ISourceViewer sourceViewer) {
 		if (processors != null) {
 			return processors;
 		}
@@ -149,27 +152,8 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		return processors;
 	}
 
-	private StructuredContentAssistant fContentAssistant = null;
-
 	public IContentAssistant getPHPContentAssistant(ISourceViewer sourceViewer) {
 		return getPHPContentAssistant(sourceViewer, false);
-	}
-
-	private StructuredContentAssistant getPHPContentAssistantExtension() {
-		StructuredContentAssistant rv = null;
-		String extensionName = "org.eclipse.php.ui.phpContentAssistant"; //$NON-NLS-1$
-		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(extensionName);
-		for (int i = 0; i < elements.length; i++) {
-			IConfigurationElement element = elements[i];
-			if (element.getName().equals("contentAssistant")) { //$NON-NLS-1$
-				ElementCreationProxy ecProxy = new ElementCreationProxy(element, extensionName);
-				StructuredContentAssistant contentAssistant = (StructuredContentAssistant) ecProxy.getObject();
-				if (contentAssistant != null) {
-					rv = contentAssistant;
-				}
-			}
-		}
-		return rv;
 	}
 
 	@Override
@@ -271,27 +255,33 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		return usedFormatter;
 	}
 
-	private static final IAutoEditStrategy mainAutoEditStrategy = new MainAutoEditStrategy();
-	private static final IAutoEditStrategy closeTagAutoEditStrategy = new CloseTagAutoEditStrategyTwig();
-	private static final IAutoEditStrategy[] phpStrategies = new IAutoEditStrategy[] { mainAutoEditStrategy };
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
+		
 		if (contentType.equals(TwigPartitionTypes.TWIG_DEFAULT)) {
 			return phpStrategies;
 		}
 
-		return getPhpAutoEditStrategy(sourceViewer, contentType);
+		return getTwigAutoEditStrategy(sourceViewer, contentType);
 	}
 
-	private final IAutoEditStrategy[] getPhpAutoEditStrategy(ISourceViewer sourceViewer, String contentType) {
-		final IAutoEditStrategy[] autoEditStrategies = super.getAutoEditStrategies(sourceViewer, contentType);
-		final int length = autoEditStrategies.length;
-		final IAutoEditStrategy[] augAutoEditStrategies = new IAutoEditStrategy[length + 1];
-		System.arraycopy(autoEditStrategies, 0, augAutoEditStrategies, 0, length);
-		augAutoEditStrategies[length] = closeTagAutoEditStrategy;
+	private final IAutoEditStrategy[] getTwigAutoEditStrategy(ISourceViewer sourceViewer, String contentType) {
 		
-		return augAutoEditStrategies;
+		final IAutoEditStrategy[] autoEditStrategies = super.getAutoEditStrategies(sourceViewer, contentType);
+		
+		for (int i = 0; i < autoEditStrategies.length; i++) {
+			if (autoEditStrategies[i] instanceof org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy) {
+				autoEditStrategies[i] = indentLineAutoEditStrategy;
+			}
+		}		
+		
+		final int length = autoEditStrategies.length;
+		final IAutoEditStrategy[] newAutoEditStrategies = new IAutoEditStrategy[length + 1];
+		System.arraycopy(autoEditStrategies, 0, newAutoEditStrategies, 0, length);
+		newAutoEditStrategies[length] = closeTagAutoEditStrategy;
+		
+		return newAutoEditStrategies;
 	}
 
 	@Override
@@ -303,13 +293,15 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 			return super.getDoubleClickStrategy(sourceViewer, contentType);
 	}
 
+
 	@Override
 	public String[] getIndentPrefixes(ISourceViewer sourceViewer, String contentType) {
 		Vector vector = new Vector();
 
+		
 		// prefix[0] is either '\t' or ' ' x tabWidth, depending on preference
-		char indentCharPref = FormatPreferencesSupport.getInstance().getIndentationChar(null);
-		int indentationSize = FormatPreferencesSupport.getInstance().getIndentationSize(null);
+		char indentCharPref = FormatPreferencesSupport.getInstance().getIndentationChar(sourceViewer.getDocument());
+		int indentationSize = FormatPreferencesSupport.getInstance().getIndentationSize(sourceViewer.getDocument());
 
 		for (int i = 0; i <= indentationSize; i++) {
 			StringBuffer prefix = new StringBuffer();
@@ -335,6 +327,42 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		vector.add(""); //$NON-NLS-1$
 
 		return (String[]) vector.toArray(new String[vector.size()]);
-	}	
+	}
+	
+	@Override
+	public IPresentationReconciler getPresentationReconciler(
+			ISourceViewer sourceViewer) {
+		StructuredPresentationReconciler reconciler = new TwigStructuredPresentationReconciler();
+		reconciler
+				.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
 
+		String[] contentTypes = getConfiguredContentTypes(sourceViewer);
+
+		if (contentTypes != null) {
+			StructuredDocumentDamagerRepairer dr = null;
+
+			for (int i = 0; i < contentTypes.length; i++) {
+				if (fHighlighter != null) {
+					LineStyleProvider provider = fHighlighter
+							.getProvider(contentTypes[i]);
+					if (provider == null)
+						continue;
+
+					dr = new StructuredDocumentDamagerRepairer(provider);
+					dr.setDocument(sourceViewer.getDocument());
+					reconciler.setDamager(dr, contentTypes[i]);
+					reconciler.setRepairer(dr, contentTypes[i]);
+				}
+			}
+		}
+
+		return reconciler;
+	}
+	
+	public void setHighlighter(ReconcilerHighlighter highlighter) {
+		fHighlighter = highlighter;
+		super.setHighlighter(highlighter);
+	}	
+	
+	
 }
