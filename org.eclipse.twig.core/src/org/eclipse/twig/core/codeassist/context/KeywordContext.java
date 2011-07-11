@@ -26,14 +26,19 @@ public class KeywordContext extends AbstractTwigCompletionContext {
 		try {
 			if (super.isValid(sourceModule, offset, requestor)) {
 								
-				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
+				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+					Logger.debugMSG("No valid partition type for keywordContext " + getPartitionType());
 					return false;
-				
+				}
 				
 				String prefix = getStatementText().toString();
 				
-				if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'"))
+				if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {					
+					Logger.debugMSG("Valid keyword context.");
 					return true;
+				}
+				
+				Logger.debugMSG("invalid prefix '" + prefix + "' for keywordContext.");				
 				
 			}
 		} catch (Exception e) {

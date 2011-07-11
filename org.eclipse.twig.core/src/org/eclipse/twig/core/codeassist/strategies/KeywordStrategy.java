@@ -5,6 +5,7 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
+import org.eclipse.twig.core.log.Logger;
 
 
 /**
@@ -35,7 +36,8 @@ public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 	
 	@Override
 	public void apply(ICompletionReporter reporter) throws Exception {
-	
+
+		Logger.debugMSG("apply keyword strategy");
 		KeywordContext ctx = (KeywordContext) getContext();
 
 		String prefix = ctx.getPrefix();
@@ -43,7 +45,10 @@ public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 		
 		for (String keyword : KEYWORDS) {		
 			if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
+				Logger.debugMSG("reporting keyword: " + keyword);
 				reporter.reportKeyword(keyword, "", range);
+			} else {
+				Logger.debugMSG("keyword '" + keyword + "' does not start with prefix '" + prefix + "'");
 			}
 		}
 	}
