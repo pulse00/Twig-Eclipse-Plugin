@@ -27,5 +27,10 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.texteditor.link,
  org.eclipse.ui.texteditor.templates
-Export-Package: org.eclipse.twig.ui.editor
+Export-Package: org.eclipse.twig.ui,
+ org.eclipse.twig.ui.editor,
+ org.eclipse.twig.ui.editor.autoEdit,
+ org.eclipse.twig.ui.editor.configuration,
+ org.eclipse.twig.ui.editor.contentassist,
+ org.eclipse.twig.ui.editor.folding
 Bundle-Vendor: %Bundle-Vendor
