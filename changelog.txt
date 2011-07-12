@@ -1,3 +1,8 @@
+1.0.81
+
+* added support for auto-closing quotes and braces
+* fixed regression issue with eclipse version 3.6.0
+
 1.0.80
 
 * fixed indentation bug
