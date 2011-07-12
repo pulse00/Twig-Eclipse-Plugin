@@ -8,7 +8,6 @@ import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes
 import org.eclipse.php.internal.ui.autoEdit.CurlyCloseAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.CurlyOpenAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy;
-import org.eclipse.php.internal.ui.autoEdit.PHPAutoIndentStrategy;
 import org.eclipse.php.internal.ui.autoEdit.TabAutoEditStrategy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.core.format.FormatterUtils;
@@ -37,7 +36,7 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 //	private static IAutoEditStrategy docBlockAutoEditStrategy = new PhpDocAutoIndentStrategy();
 	
 	private static IAutoEditStrategy tabAutoEditStrategy = new TabAutoEditStrategy();
-	private static IAutoEditStrategy autoIndentStrategy = new PHPAutoIndentStrategy();
+	private static IAutoEditStrategy autoIndentStrategy = new TwigAutoIndentStrategy();
 	
 	public void customizeDocumentCommand(IDocument document,
 			DocumentCommand command) {
