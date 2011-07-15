@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.eclipse.dltk.ui.language">
+      <language
+            class="org.eclipse.twig.ui.TwigUILanguageToolkit"
+            nature="org.eclipse.twig.core.TwigNature"
+            priority="10">
+      </language>
+   </extension>
 
 	<!-- the TwigStructuredEditor -->
    <extension
@@ -105,7 +113,7 @@
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
-            class="org.eclipse.twig.ui.TwigSyntaxColoringPage"
+            class="org.eclipse.twig.ui.preferences.TwigSyntaxColoringPage"
             id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
             name="%page.name">
       </page>
@@ -172,5 +180,16 @@
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
+   
+   <extension
+         point="org.eclipse.php.ui.foldingStructureProviders">
+      <provider
+            class="org.eclipse.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
+            id="org.eclipse.twig.ui.foldingProvider"
+            name="Twig Code Folding"
+            preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">
+      </provider>
+   </extension>
+   
 
 </plugin>

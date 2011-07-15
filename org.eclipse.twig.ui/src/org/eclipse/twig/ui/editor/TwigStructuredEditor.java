@@ -1,14 +1,12 @@
 package org.eclipse.twig.ui.editor;
 
 import org.eclipse.core.resources.IFile;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
-import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
 import org.eclipse.ui.IEditorInput;
@@ -87,6 +85,8 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	protected StructuredTextViewer createStructedTextViewer(Composite parent,
 			IVerticalRuler verticalRuler, int styles) {
 		
+		
+		System.err.println("create twig viewere");
 		return new TwigStructuredTextViewer(this, parent, verticalRuler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 	}

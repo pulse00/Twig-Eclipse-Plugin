@@ -1,8 +1,10 @@
 package org.eclipse.twig.core.documentModel.loader;
 
-import org.eclipse.php.internal.core.documentModel.loader.PHPModelLoader;
+import org.eclipse.twig.core.documentModel.DOMModelForTwig;
+import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 
 
 /**
@@ -17,7 +19,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
  *
  */
 @SuppressWarnings("restriction")
-public class TwigModelLoader extends PHPModelLoader {
+public class TwigModelLoader extends HTMLModelLoader {
 	
 	
 	@Override
@@ -34,5 +36,9 @@ public class TwigModelLoader extends PHPModelLoader {
 
 		return new TwigModelLoader();
 	}
+	
+	public IStructuredModel newModel() {
+		return new DOMModelForTwig();
+	}	
 
 }

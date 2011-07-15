@@ -1,5 +1,7 @@
 package org.eclipse.twig.ui.editor;
 
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
@@ -28,5 +30,24 @@ public class TwigStructuredTextViewer extends PHPStructuredTextViewer {
 				showAnnotationsOverview, styles);
 
 	}
+	
+	
+	@Override
+	public void setDocument(IDocument document, IAnnotationModel annotationModel) {
+
+
+		System.err.println("set doc 1");
+		super.setDocument(document, annotationModel);
+	}
+	
+	@Override
+	public void setDocument(IDocument document,
+			IAnnotationModel annotationModel, int modelRangeOffset,
+			int modelRangeLength) {
+	
+		System.err.println("set doc");
+		super.setDocument(document, annotationModel, modelRangeOffset, modelRangeLength);
+	}
+	
 
 }

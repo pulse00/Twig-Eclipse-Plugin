@@ -25,6 +25,14 @@ org.eclipse.twig.core.TwigNature
    </extension>
    
    <!-- not sure if this is needed at all -->
+   <extension
+         point="org.eclipse.dltk.core.language">
+      <language
+            class="org.eclipse.twig.core.TwigLanguageToolkit"
+            nature="org.eclipse.twig.core.TwigNature"
+            priority="10">
+      </language>
+   </extension>
    
    <extension
          point="org.eclipse.dltk.core.buildParticipant">
