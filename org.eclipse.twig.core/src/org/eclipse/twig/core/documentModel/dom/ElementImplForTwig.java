@@ -66,13 +66,13 @@ IImplForTwig {
 	}
 
 	public boolean isGlobalTag() {
-		return isPhpTag() ? false : super.isGlobalTag();
+		return isTwigTag() ? false : super.isGlobalTag();
 	}
 
 	/**
-	 * @return true if it is a php element
+	 * @return true if it is a twig element
 	 */
-	public boolean isPhpTag() {
+	public boolean isTwigTag() {
 		return TwigDOMModelParser.TWIG_TAG_NAME.equals(getNodeName());
 	}
 
@@ -80,7 +80,7 @@ IImplForTwig {
 	public INodeAdapter getExistingAdapter(Object type) {
 
 		// no validation or validation propagation for PHP tags
-		if (isPhpTag() && type instanceof Class
+		if (isTwigTag() && type instanceof Class
 				&& ValidationAdapter.class.isAssignableFrom((Class) type)) {
 			return nullValidator;
 		}
@@ -91,7 +91,7 @@ IImplForTwig {
 
 	public String getPrefix() {
 		final String prefix = super.getPrefix();
-		if (prefix == null && isPhpTag()) {
+		if (prefix == null && isTwigTag()) {
 			return ""; //$NON-NLS-1$
 		}
 		return prefix;
@@ -107,6 +107,6 @@ IImplForTwig {
 
 	@Override
 	public boolean isStartTagClosed() {
-		return isPhpTag() ? true : super.isStartTagClosed();
+		return isTwigTag() ? true : super.isStartTagClosed();
 	}
 }

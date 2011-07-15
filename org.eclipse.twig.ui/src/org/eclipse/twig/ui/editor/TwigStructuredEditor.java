@@ -85,8 +85,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	protected StructuredTextViewer createStructedTextViewer(Composite parent,
 			IVerticalRuler verticalRuler, int styles) {
 		
-		
-		System.err.println("create twig viewere");
 		return new TwigStructuredTextViewer(this, parent, verticalRuler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 	}

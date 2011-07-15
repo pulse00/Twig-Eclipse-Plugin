@@ -1,14 +1,10 @@
 package org.eclipse.twig.ui.editor.autoEdit;
 
 
+
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
-import org.eclipse.php.internal.ui.autoEdit.CurlyCloseAutoEditStrategy;
-import org.eclipse.php.internal.ui.autoEdit.CurlyOpenAutoEditStrategy;
-import org.eclipse.php.internal.ui.autoEdit.IndentLineAutoEditStrategy;
-import org.eclipse.php.internal.ui.autoEdit.TabAutoEditStrategy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.core.format.FormatterUtils;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
@@ -31,9 +27,6 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 	private static IAutoEditStrategy matchingBracketAutoEditStrategy = new MatchingBracketAutoEditStrategy();
 	private static IAutoEditStrategy quotesAutoEditStrategy = new QuotesAutoEditStrategy();
 	
-	// these 2 are not needed for twig templates
-//	private static IAutoEditStrategy caseDefaultAutoEditStrategy = new CaseDefaultAutoEditStrategy();
-//	private static IAutoEditStrategy docBlockAutoEditStrategy = new PhpDocAutoIndentStrategy();
 	
 	private static IAutoEditStrategy tabAutoEditStrategy = new TabAutoEditStrategy();
 	private static IAutoEditStrategy autoIndentStrategy = new TwigAutoIndentStrategy();
@@ -48,12 +41,7 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 		String partitionType = FormatterUtils.getPartitionType(
 				(IStructuredDocument) document, command.offset);
 
-		if (partitionType.equals(PHPPartitionTypes.PHP_DOC)
-				|| partitionType
-						.equals(PHPPartitionTypes.PHP_MULTI_LINE_COMMENT)) {
-			// case of multi line comment or php doc
-//			docBlockAutoEditStrategy
-//					.customizeDocumentCommand(document, command);
+		if (partitionType.equals(TwigPartitionTypes.TWIG_COMMENT_TEXT)) {
 		} else if (partitionType.equals(TwigPartitionTypes.TWIG_QUOTED_STRING)) {
 			indentLineAutoEditStrategy.customizeDocumentCommand(document,
 					command);
@@ -61,8 +49,6 @@ public class MainAutoEditStrategy implements IAutoEditStrategy {
 		} else if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT)
 				|| partitionType
 						.equals(TwigPartitionTypes.TWIG_COMMENT_TEXT)) {
-//			caseDefaultAutoEditStrategy.customizeDocumentCommand(document,
-//					command);
 			matchingBracketAutoEditStrategy.customizeDocumentCommand(document,
 					command);
 			curlyOpenAutoEditStrategy.customizeDocumentCommand(document,

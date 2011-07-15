@@ -13,14 +13,23 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
-import org.eclipse.php.internal.core.format.DefaultIndentationStrategy;
-import org.eclipse.php.internal.core.format.PhpFormatter;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
+import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
+import org.eclipse.twig.core.format.DefaultIndentationStrategy;
+import org.eclipse.twig.core.format.TwigFormatter;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	
@@ -97,10 +106,10 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		} catch (BadLocationException e) {
 		}
 		JobSafeStructuredDocument newdocument = new JobSafeStructuredDocument(
-				new PhpSourceParser());
+				new TwigSourceParser());
 		String start = "<?php";
 		newdocument.set(start + tempsb.toString());
-		PhpFormatter formatter = new PhpFormatter(0, newdocument.getLength());
+		TwigFormatter formatter = new TwigFormatter(0, newdocument.getLength());
 		formatter.format(newdocument.getFirstStructuredDocumentRegion());
 
 		Reader reader = new StringReader(newdocument.get());

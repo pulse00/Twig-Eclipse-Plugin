@@ -1,6 +1,7 @@
 package org.eclipse.twig.ui.editor.configuration;
 
 
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -17,8 +18,6 @@ import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
-import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.doubleclick.PHPDoubleClickStrategy;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
@@ -29,6 +28,8 @@ import org.eclipse.php.internal.ui.editor.hover.PHPTextHoverProxy;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import org.eclipse.twig.core.format.FormatPreferencesSupport;
+import org.eclipse.twig.core.format.TwigFormatProcessorImpl;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
 import org.eclipse.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import org.eclipse.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
@@ -249,7 +250,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 
 		if (usedFormatter == null) {
 			usedFormatter = new MultiPassContentFormatter(getConfiguredDocumentPartitioning(sourceViewer), IHTMLPartitions.HTML_DEFAULT);
-			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new PhpFormatProcessorImpl()));
+			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new TwigFormatProcessorImpl()));
 		}
 
 		return usedFormatter;
