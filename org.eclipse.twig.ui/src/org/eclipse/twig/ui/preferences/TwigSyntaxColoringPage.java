@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui;
+package org.eclipse.twig.ui.preferences;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,8 +75,9 @@ import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import org.eclipse.twig.core.log.Logger;
+import org.eclipse.twig.ui.TwigUICorePlugin;
+import org.eclipse.twig.ui.TwigUIMessages;
 import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
-import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
