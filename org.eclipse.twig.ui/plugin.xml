@@ -36,7 +36,7 @@
 			target="org.eclipse.twig.core.twigtemplate" />
 			
 		<contentOutlineConfiguration
-			class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"
+			class="org.eclipse.twig.ui.outline.TwigContentOutlineConfiguration"
 			target="org.eclipse.twig.core.twigtemplate" />
 		<propertySheetConfiguration
 			class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
