@@ -2,6 +2,7 @@ package org.eclipse.twig.ui.outline;
 
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ISourceReference;
+import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.core.SourceMethod;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.dltk.ui.ScriptElementLabels;
@@ -368,8 +369,28 @@ public class TwigContentOutlineConfiguration extends
 
 		public String getText(Object element) {
 
-			if (element instanceof SourceMethod) {				
-				SourceMethod m = (SourceMethod) element;				
+			if (element instanceof SourceMethod) {
+				
+				SourceMethod m = (SourceMethod) element;	
+				String[] parameters;
+				
+				try {
+					
+					String t = m.getElementName();
+					
+					
+					parameters = m.getParameterNames();
+					
+					if (parameters != null && parameters.length > 0) {						
+						return m.getElementName() + " - " + parameters[0];						
+					}
+					
+				} catch (ModelException e) {
+
+					e.printStackTrace();
+				}
+				
+
 				return m.getElementName();
 				
 			}

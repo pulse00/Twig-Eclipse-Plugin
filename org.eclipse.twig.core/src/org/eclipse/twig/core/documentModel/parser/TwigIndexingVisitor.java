@@ -23,6 +23,8 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 	private IElementRequestor requestor;
 	private int offset;
 	
+	private BlockInfo block = null; 
+	
 	public TwigIndexingVisitor(IElementRequestor requestor, int offset) {
 
 		this.requestor = requestor;
@@ -40,16 +42,32 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 				
 		case TwigParser.STRING:
 			
-			FieldInfo info = new FieldInfo();
-			info.name = node.getText();
-			info.nameSourceStart = start;
-			info.nameSourceEnd = end;
-			info.modifiers = Modifiers.AccPublic;
-			info.declarationStart = start;
+			if (block == null) {
+				
+				FieldInfo info = new FieldInfo();
+				info.name = node.getText();
+				info.nameSourceStart = start;
+				info.nameSourceEnd = end;
+				info.modifiers = Modifiers.AccPublic;
+				info.declarationStart = start;
+				
+				
+				requestor.enterField(info);
+				requestor.exitField(end);
+				
+			} else {
+
+				if (block.parameterNames == null || block.parameterNames.length == 0) {
+					String[] params = new String[] { node.getText() };
+					block.parameterNames = params;
+					block.parameterTypes = new String[] { "string" };
+					block.parameterInitializers = new String[] { "none" };
+					block.returnType = "string";
+					block.isConstructor = false;
+				}
+			}
 			
 			
-			requestor.enterField(info);
-			requestor.exitField(end);								
 			break;
 			
 		case TwigParser.BLOCK:
@@ -58,7 +76,7 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 		case TwigParser.FOR:
 			
 			
-			BlockInfo block = new BlockInfo();
+			block = new BlockInfo();
 			
 			block.name = text;
 			block.nameSourceStart = start;
@@ -90,6 +108,19 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 	@Override
 	public void endVisit(TwigCommonTree node) {
 
+		
+		switch (node.getType()) {
+		
+			
+		case TwigParser.ENDBLOCK:
+		case TwigParser.ENDMACRO:
+		case TwigParser.ENDIF:
+		case TwigParser.ENDFOR:		
+
+			block = null;
+			break;
+			
+		}
 
 	}
 }
