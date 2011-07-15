@@ -3,7 +3,18 @@ package org.eclipse.twig.ui.outline;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.twig.core.documentModel.dom.ElementImplForTwig;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigOutlineLabelProvider extends XMLLabelProvider {
 
@@ -15,6 +26,7 @@ public class TwigOutlineLabelProvider extends XMLLabelProvider {
 	}
 
 	public Image getImage(Object o) {
+		
 		if (o instanceof IModelElement) {
 			return modelElementLabelProvider.getImage(o);
 		}
@@ -22,9 +34,14 @@ public class TwigOutlineLabelProvider extends XMLLabelProvider {
 	}
 
 	public String getText(Object o) {
-		if (o instanceof IModelElement) {
-			return modelElementLabelProvider.getText(o);
+		
+		
+		if (o instanceof ElementImplForTwig) {
+			ElementImplForTwig element = (ElementImplForTwig) o;
+			return element.getTagName();
 		}
+		
+
 		return super.getText(o);
 	}	
 }

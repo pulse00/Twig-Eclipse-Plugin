@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.core.format.htmlFormatters.HTMLFormatterNoPHPFactory;
+import org.eclipse.twig.core.format.htmlFormatters.HTMLFormatterNoTwigFactory;
 import org.eclipse.wst.html.core.internal.format.HTMLFormatProcessorImpl;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatter;
@@ -27,7 +27,7 @@ public class TwigFormatProcessorImpl extends HTMLFormatProcessorImpl {
 	 * and the others get the default (html) formatter
 	 */
 	protected IStructuredFormatter getFormatter(Node node) {
-		return HTMLFormatterNoPHPFactory.getInstance().createFormatter(node,
+		return HTMLFormatterNoTwigFactory.getInstance().createFormatter(node,
 				getFormatPreferences());
 	}
 
@@ -83,8 +83,8 @@ public class TwigFormatProcessorImpl extends HTMLFormatProcessorImpl {
 
 	public void formatModel(IStructuredModel structuredModel, int start,
 			int length) {
-		HTMLFormatterNoPHPFactory.getInstance().start = start;
-		HTMLFormatterNoPHPFactory.getInstance().length = length;
+		HTMLFormatterNoTwigFactory.getInstance().start = start;
+		HTMLFormatterNoTwigFactory.getInstance().length = length;
 		super.formatModel(structuredModel, start, length);
 	}	
 }

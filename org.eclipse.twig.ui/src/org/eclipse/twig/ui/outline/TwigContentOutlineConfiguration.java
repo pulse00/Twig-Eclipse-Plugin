@@ -1,12 +1,9 @@
 package org.eclipse.twig.ui.outline;
 
-import org.eclipse.dltk.ast.references.SimpleReference;
-import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ISourceReference;
-import org.eclipse.dltk.ui.DLTKPluginImages;
+import org.eclipse.dltk.internal.core.SourceMethod;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
-import org.eclipse.dltk.ui.ScriptElementImageProvider;
 import org.eclipse.dltk.ui.ScriptElementLabels;
 import org.eclipse.dltk.ui.viewsupport.AppearanceAwareLabelProvider;
 import org.eclipse.dltk.ui.viewsupport.DecoratingModelLabelProvider;
@@ -14,7 +11,6 @@ import org.eclipse.dltk.ui.viewsupport.ScriptUILabelProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -26,14 +22,13 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.osgi.util.NLS;
-import org.eclipse.php.internal.core.typeinference.UseStatementElement;
-import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.actions.SortAction;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
+import org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration;
 import org.eclipse.php.internal.ui.outline.PHPOutlineContentProvider;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -42,12 +37,21 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.ui.internal.contentoutline.JFaceNodeContentProvider;
 import org.eclipse.wst.xml.ui.internal.contentoutline.XMLNodeActionManager;
 
+/**
+ * 
+ * A modified {@link PHPContentOutlineConfiguration} for Twig.
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigContentOutlineConfiguration extends
 		HTMLContentOutlineConfiguration {
 
-	private static final String OUTLINE_PAGE = "org.eclipse.php.ui.OutlinePage";
-	public static final int MODE_PHP = 1;
+	public static final int MODE_TWIG = 1;
 	public static final int MODE_HTML = 2;
 
 	protected TwigOutlineContentProvider fContentProvider = null;
@@ -55,7 +59,7 @@ public class TwigContentOutlineConfiguration extends
 	protected ILabelProvider fLabelProvider = null;
 	protected TwigOutlineLabelProvider fLabelProviderHTML = null;
 	private IPropertyChangeListener propertyChangeListener;
-	private ChangeOutlineModeAction changeOutlineModeActionPHP;
+	private ChangeOutlineModeAction changeOutlineModeActionTwig;
 	private ChangeOutlineModeAction changeOutlineModeActionHTML;
 	static Object[] NO_CHILDREN = new Object[0];
 	private SortAction sortAction;
@@ -68,7 +72,7 @@ public class TwigContentOutlineConfiguration extends
 	
 	//private CustomFiltersActionGroup fCustomFiltersActionGroup;
 
-	/** See {@link #MODE_PHP}, {@link #MODE_HTML} */
+	/** See {@link #MODE_TWIG}, {@link #MODE_HTML} */
 	private int mode;
 
 	public TwigContentOutlineConfiguration() {
@@ -89,13 +93,13 @@ public class TwigContentOutlineConfiguration extends
 			final TreeViewer viewer) {
 		IContributionItem[] items;
 
-		changeOutlineModeActionPHP = new ChangeOutlineModeAction(
-				PHPUIMessages.PHPOutlinePage_mode_php, MODE_PHP, this, viewer); //$NON-NLS-1$
+		changeOutlineModeActionTwig = new ChangeOutlineModeAction(
+				"twig", MODE_TWIG, this, viewer); //$NON-NLS-1$
 		final IContributionItem showPHPItem = new ActionContributionItem(
-				changeOutlineModeActionPHP);
+				changeOutlineModeActionTwig);
 
 		changeOutlineModeActionHTML = new ChangeOutlineModeAction(
-				PHPUIMessages.PHPOutlinePage_mode_html, MODE_HTML, this, viewer); //$NON-NLS-1$
+				"html", MODE_HTML, this, viewer); //$NON-NLS-1$
 
 		propertyChangeListener = new IPropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent event) {
@@ -188,7 +192,7 @@ public class TwigContentOutlineConfiguration extends
 	}
 
 	public IContentProvider getContentProvider(final TreeViewer viewer) {
-		if (MODE_PHP == mode) {
+		if (MODE_TWIG == mode) {
 			if (fContentProvider == null) {
 				fContentProvider = new TwigOutlineContentProvider(viewer);
 			}
@@ -258,7 +262,7 @@ public class TwigContentOutlineConfiguration extends
 
 		if (fLabelProvider == null) {
 			fLabelProvider = new DecoratingModelLabelProvider(
-					new PHPAppearanceAwareLabelProvider(
+					new TwigAppearanceAwareLabelProvider(
 							AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
 									| ScriptElementLabels.F_APP_TYPE_SIGNATURE
 									| ScriptElementLabels.ALL_CATEGORY,
@@ -266,7 +270,7 @@ public class TwigContentOutlineConfiguration extends
 							fStore));
 		}
 
-		if (MODE_PHP == mode) {
+		if (MODE_TWIG == mode) {
 			viewer.setLabelProvider(fLabelProvider);
 		} else if (MODE_HTML == mode) {
 			if (fLabelProviderHTML == null) {
@@ -282,7 +286,7 @@ public class TwigContentOutlineConfiguration extends
 			final ISelection selection) {
 		final IContentProvider contentProvider = viewer.getContentProvider();
 		if (contentProvider instanceof PHPOutlineContentProvider) {
-			if (MODE_PHP == mode) {
+			if (MODE_TWIG == mode) {
 				if (selection instanceof IStructuredSelection
 						&& selection instanceof TextSelection) {
 					IEditorPart activeEditor = PHPUiPlugin.getActiveEditor();
@@ -348,48 +352,35 @@ public class TwigContentOutlineConfiguration extends
 		fShowAttributes = showAttributes;
 	}
 
-	class UseStatementAwareImageProvider extends ScriptElementImageProvider {
 
-		public ImageDescriptor getBaseImageDescriptor(IModelElement element,
-				int renderFlags) {
-			if (element instanceof UseStatementElement) {
-				return DLTKPluginImages.DESC_OBJS_IMPDECL;
-			}
-//			if (element instanceof UseStatementsNode) {
-//				return DLTKPluginImages.DESC_OBJS_IMPCONT;
-//			}
-			return super.getBaseImageDescriptor(element, renderFlags);
-		}
-	}
+	class TwigAppearanceAwareLabelProvider extends AppearanceAwareLabelProvider {
 
-	class PHPAppearanceAwareLabelProvider extends AppearanceAwareLabelProvider {
-
-		public PHPAppearanceAwareLabelProvider(IPreferenceStore store) {
+		public TwigAppearanceAwareLabelProvider(IPreferenceStore store) {
 			super(store);
-			fImageLabelProvider = new UseStatementAwareImageProvider();
+
 		}
 
-		public PHPAppearanceAwareLabelProvider(long textFlags, int imageFlags,
+		public TwigAppearanceAwareLabelProvider(long textFlags, int imageFlags,
 				IPreferenceStore store) {
 			super(textFlags, imageFlags, store);
-			fImageLabelProvider = new UseStatementAwareImageProvider();
+
 		}
 
 		public String getText(Object element) {
-//			if (element instanceof UseStatementsNode) {
-//				return PHPUIMessages.PHPContentOutlineConfiguration_2; //$NON-NLS-1$
-//			}
-			if (element instanceof UseStatementElement) {
-				SimpleReference alias = ((UseStatementElement) element)
-						.getUsePart().getAlias();
-				if (alias != null) {
-					return NLS.bind(
-							PHPUIMessages.PHPContentOutlineConfiguration_3,
-							super.getText(element), //$NON-NLS-1$
-							alias.getName());
-				}
+
+			if (element instanceof SourceMethod) {				
+				SourceMethod m = (SourceMethod) element;				
+				return m.getElementName();
+				
 			}
+			
 			return super.getText(element);
+		}
+		
+		@Override
+		public Image getImage(Object element) {
+		
+			return super.getImage(element);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.eclipse.twig.ui.outline;
 
-import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.ElementChangedEvent;
 import org.eclipse.dltk.core.IElementChangedListener;
@@ -9,15 +8,10 @@ import org.eclipse.dltk.core.IModelElementDelta;
 import org.eclipse.dltk.core.IParent;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
-import org.eclipse.dltk.core.SourceParserUtil;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.php.internal.core.PHPVersion;
-import org.eclipse.php.internal.core.compiler.ast.nodes.UseStatement;
-import org.eclipse.php.internal.core.compiler.ast.parser.ASTUtils;
-import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.php.internal.core.util.OutlineFilter;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.swt.widgets.Control;
@@ -27,6 +21,18 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigOutlineContentProvider implements ITreeContentProvider {
 
@@ -72,11 +78,6 @@ public class TwigOutlineContentProvider implements ITreeContentProvider {
 		return TwigContentOutlineConfiguration.NO_CHILDREN;
 	}
 
-	private boolean isNamespaceSupported(IModelElement modelElement) {
-		PHPVersion phpVersion = ProjectOptions.getPhpVersion(modelElement
-				.getScriptProject().getProject());
-		return phpVersion.isGreaterThan(PHPVersion.PHP5);
-	}
 
 	public Object[] getElements(Object parent) {
 		Object[] children = getChildren(parent);
@@ -173,16 +174,6 @@ public class TwigOutlineContentProvider implements ITreeContentProvider {
 									IModelElement base = ((PHPStructuredEditor) activeEditor)
 											.getModelElement();
 
-									if (isNamespaceSupported(base)) {
-										ModuleDeclaration moduleDeclaration = SourceParserUtil
-												.getModuleDeclaration((ISourceModule) base);
-										UseStatement[] useStatements = ASTUtils
-												.getUseStatements(
-														moduleDeclaration,
-														moduleDeclaration
-																.sourceEnd());
-										useStatementsCountNew = useStatements.length;
-									}
 
 									IModelElementDelta delta = findElement(
 											base, e.getDelta());
