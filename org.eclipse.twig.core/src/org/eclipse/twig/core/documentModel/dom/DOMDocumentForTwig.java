@@ -9,6 +9,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class DOMDocumentForTwig extends DocumentStyleImpl {
 	
@@ -52,6 +61,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 	 *            java.lang.String
 	 */
 	public Attr createAttribute(String name) throws DOMException {
+		
 		AttrImplForTwig attr = new AttrImplForTwig();
 		attr.setOwnerDocument(this);
 		attr.setName(name);

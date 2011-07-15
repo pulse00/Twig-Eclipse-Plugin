@@ -14,6 +14,13 @@ import org.eclipse.wst.xml.core.internal.validate.ValidationComponent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+/**
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable,
 IImplForTwig {
@@ -73,7 +80,17 @@ IImplForTwig {
 	 * @return true if it is a twig element
 	 */
 	public boolean isTwigTag() {
-		return TwigDOMModelParser.TWIG_TAG_NAME.equals(getNodeName());
+				
+		return TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_BLOCK_START.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_BLOCK_END.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_IF_START.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_IF_END.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_MACRO_START.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_MACRO_END.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_FOR_START.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_FOR_END.equals(getNodeName());		
 	}
 
 	@SuppressWarnings("rawtypes")
