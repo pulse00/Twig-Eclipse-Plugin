@@ -5,9 +5,9 @@ import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
+import org.eclipse.twig.core.format.FormatPreferencesSupport;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 

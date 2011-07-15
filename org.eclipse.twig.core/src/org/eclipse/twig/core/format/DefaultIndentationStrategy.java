@@ -1,15 +1,13 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package org.eclipse.twig.core.format;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
 import org.eclipse.php.internal.core.format.IIndentationStrategy;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import org.eclipse.twig.core.format.FormatterUtils;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
