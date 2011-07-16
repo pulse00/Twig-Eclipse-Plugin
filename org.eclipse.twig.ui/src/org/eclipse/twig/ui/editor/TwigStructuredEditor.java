@@ -11,6 +11,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.ui.text.ScriptWordFinder;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
@@ -33,16 +35,13 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.ImageUtilities;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.php.internal.core.ast.nodes.ASTNode;
 import org.eclipse.php.internal.core.ast.nodes.Program;
-import org.eclipse.php.internal.core.corext.dom.NodeFinder;
+import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
-import org.eclipse.php.internal.core.search.IOccurrencesFinder;
-import org.eclipse.php.internal.core.search.IOccurrencesFinder.OccurrenceLocation;
-import org.eclipse.php.internal.core.search.LocalVariableOccurrencesFinder;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
+import org.eclipse.php.internal.ui.viewsupport.SelectionListenerWithASTManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.GC;
@@ -50,6 +49,12 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
+import org.eclipse.twig.core.log.Logger;
+import org.eclipse.twig.core.parser.TwigNode;
+import org.eclipse.twig.core.search.IOccurrencesFinder;
+import org.eclipse.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
+import org.eclipse.twig.core.search.LocalVariableOccurrencesFinder;
+import org.eclipse.twig.core.search.NodeFinder;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -61,9 +66,12 @@ import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
 
 /**
  * 
+ * A modified {@link PHPStructuredEditor} for Twig templates.
  * 
- * 
- * @see http://code.google.com/p/smartypdt/
+ * Modifications concerning:
+ *
+ * - attaching {@link TwigSourceParser} instead of {@link PhpSourceParser}
+ * - finding occurences 
  *
  */
 @SuppressWarnings({"restriction", "unchecked"})
@@ -193,21 +201,36 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		}
 
 		OccurrenceLocation[] locations = null;
+		ISourceModule module = (ISourceModule) getModelElement();
 		
-		ASTNode selectedNode = NodeFinder.perform(astRoot,
-				selection.getOffset(), selection.getLength());
+		String source;
+		try {
+			source = module.getSource();
+		} catch (ModelException e) {
+			Logger.logException(e);
+			return;		
+		}
+
+		
+		NodeFinder nodeFinder = new NodeFinder();
+		TwigNode node = nodeFinder.find(source, selection.getOffset());
+		
+		if (node == null)
+			return;
 
 		if (locations == null) {
 			
 			IOccurrencesFinder finder = new LocalVariableOccurrencesFinder();
 			
-			if (finder.initialize(astRoot, selectedNode) == null) {
+			if (finder.initialize(source, node) == null) {
 				locations = finder.getOccurrences();
 			}
 		}
 
 		if (locations == null)
 			return;
+		
+		removeTwigOccurrenceAnnotations();
 		
 		fOccurrencesFinderJob = new OccurrencesFinderJob(document, locations,
 				selection);
@@ -432,6 +455,8 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	}
 	
 	private void removeTwigOccurrenceAnnotations() {
+		
+		System.err.println("remove annotations");
 		IDocumentProvider documentProvider = getDocumentProvider();
 		if (documentProvider == null)
 			return;
@@ -451,5 +476,23 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 			}
 			fOccurrenceAnnotations = null;
 		}
+	}
+	
+	@Override
+	protected void uninstallOccurrencesFinder() {
+		// TODO Auto-generated method stub
+		super.uninstallOccurrencesFinder();
+		
+		if (fOccurrencesFinderJob != null) {
+			fOccurrencesFinderJob.cancel();
+			fOccurrencesFinderJob = null;
+		}
+
+		if (fOccurrencesFinderJobCanceler != null) {
+			fOccurrencesFinderJobCanceler.uninstall();
+			fOccurrencesFinderJobCanceler = null;
+		}
+
+		removeTwigOccurrenceAnnotations();
 	}
 }

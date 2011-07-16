@@ -35,6 +35,7 @@ Export-Package: org.eclipse.twig.core,
  org.eclipse.twig.core.format,
  org.eclipse.twig.core.log,
  org.eclipse.twig.core.parser,
+ org.eclipse.twig.core.search,
  org.eclipse.twig.core.util,
  org.eclipse.twig.core.util.text
 Bundle-Vendor: http://www.twig-project.org/
