@@ -2,6 +2,8 @@
 
 * added code folding support for if/for/macro/block statements
 * added outline support
+* ported PDT indentation strategies to twig
+* fixed some indentation bugs
 
 1.0.81
 
