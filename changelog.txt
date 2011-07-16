@@ -1,3 +1,7 @@
+1.0.83
+
+* bumped version due to problems with updatesite
+
 1.0.82
 
 * added code folding support for if/for/macro/block statements
