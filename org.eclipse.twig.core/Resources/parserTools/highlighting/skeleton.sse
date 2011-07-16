@@ -270,6 +270,7 @@
 				//return YYINITIAL;
 			} else {
 				//					System.err.println("c");
+				stateHint = "ST_TWIG_IN_PRINT";
 				yybegin(afterDelimType);
 				// pushback to just after the closing bracket
 				int delemLen = delim.length();
@@ -304,6 +305,7 @@
 					if (Debug.debugTokenizer)			
 						System.err.println("c");
 					yybegin(afterDelimType);
+					stateHint = "ST_TWIG_IN_STATEMENT";
 					// pushback to just after the closing bracket
 					int delemLen = delim.length();
 					yypushback(yylength() - firstOccurence - delemLen);
@@ -331,6 +333,7 @@
 			} else {
 				//					System.err.println("c");
 				yybegin(ST_TWIG_COMMENT);
+				stateHint = "ST_TWIG_COMMENT";
 				// pushback to just after the closing bracket
 				int delemLen = delim.length();
 				yypushback(yylength() - firstOccurence - delemLen);

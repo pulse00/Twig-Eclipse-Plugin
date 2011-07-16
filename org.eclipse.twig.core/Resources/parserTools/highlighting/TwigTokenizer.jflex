@@ -95,7 +95,9 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	
 	public static String twigLeftDelim = "{{";
 	public static String twigRightDelim = "}}";
-	public static String[] leftDelimiters = new String[] {"{{", "{%", "{#"};	
+	public static String[] leftDelimiters = new String[] {"{{", "{%", "{#"};
+	
+	public static String stateHint;	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
 /**
@@ -417,9 +419,9 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	
 	String lexerState = "ST_" + searchContext;
 	
-	final AbstractTwigLexer twigLexer = getTwigLexer(lexerState); 
+	final AbstractTwigLexer twigLexer = getTwigLexer(stateHint); 
  
-	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer, lexerState);
+	bufferedTextRegion = new TwigScriptRegion(searchContext, yychar, project, twigLexer, stateHint);
 	
 	if (Debug.debugTokenizer)
 		System.err.println("created twig script region between " + bufferedTextRegion.getStart() + " and " + bufferedTextRegion.getEnd());	
@@ -1428,7 +1430,7 @@ TW_START = \{\{{WHITESPACE}*
 TW_STMT_DEL_LEFT = \{\%{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"
+KEYWORD="not"|"in"|"as"|"with"
 
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
@@ -1789,6 +1791,8 @@ NUMBER=([0-9])+
 
 {TW_STMT_DEL_LEFT} {
 
+
+	stateHint = "ST_TWIG_IN_STATEMENT";
 	if(Debug.debugTokenizer)
 		dump("twig processing instruction start");//$NON-NLS-1$
 	if ("{%".equals(yytext())
@@ -1809,6 +1813,7 @@ NUMBER=([0-9])+
 			// the simple case, just a regular scriptlet out in
 			// content
 			yybegin(ST_TWIG_CONTENT);
+			stateHint = "ST_TWIG_IN_STATEMENT";
 			return TWIG_STMT_OPEN;
 		} else {
 			if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
@@ -2243,7 +2248,7 @@ NUMBER=([0-9])+
 <YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_STMT_DEL_LEFT} {
 
 	yybegin(ST_TWIG_CONTENT);
-	
+	stateHint = "ST_TWIG_IN_STATEMENT";
 	if (Debug.debugTokenizer) {
 	   dump("ST_TWIG_CONTENT");
 	}
@@ -2429,7 +2434,8 @@ NUMBER=([0-9])+
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
 	}
-	
+
+	stateHint = "ST_TWIG_IN_PRINT";	
 	//removeing trailing whitespaces for the twig open
 	String twigStart = yytext();
 	int i = twigStart.length() - 1; 
@@ -2440,7 +2446,8 @@ NUMBER=([0-9])+
 	fStateStack.push(yystate());
 	if(fStateStack.peek()==YYINITIAL) {
 		// the simple case, just a regular scriptlet out in content
-		yybegin(ST_TWIG_CONTENT);
+		
+		yybegin(ST_TWIG_CONTENT);		
 		return TWIG_OPEN;
 	}
 	else {

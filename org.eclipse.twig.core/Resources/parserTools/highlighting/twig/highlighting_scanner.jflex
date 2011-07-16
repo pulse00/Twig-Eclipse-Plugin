@@ -24,7 +24,9 @@ import org.eclipse.twig.core.util.Debug;
 %unicode
 %caseless
 
-%state ST_TWIG_CONTENT
+%state ST_TWIG_IN_PRINT
+%state ST_TWIG_IN_STATEMENT
+%state ST_TWIG_IN_STATEMENT_BODY
 %state ST_TWIG_DOUBLE_QUOTES
 %state ST_TWIG_SINGLE_QUOTES
 %state ST_TWIG_HIGHLIGHTING_ERROR
@@ -114,13 +116,8 @@ import org.eclipse.twig.core.util.Debug;
 
 
 // twig macros
-//TW_START = \{\{{WHITESPACE}*
-
-//TW_STMT_DEL_LEFT = {WHITESPACE}*\{%{WHITESPACE}*
-//TWIG_START = \{\{{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="extends"|"block"|"endblock"|"for"|"endfor"|"if"|"else"|"endif"|"not"|"in"|"as"|"set"|"include"|"with"|"render"|"import"|"macro"|"endmacro"|"autoescape"|"endautoescape"|"use"|"is"|"defined"
 
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
@@ -133,24 +130,18 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_CONTENT> "$"{LABEL} {
 
-	if (Debug.debugTokenizer)
-		dump("TWIG VARIABLE");
-
-	return TWIG_VARIABLE;
-}
-
-<ST_TWIG_CONTENT> {KEYWORD} {
+<ST_TWIG_IN_STATEMENT> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
 
+	pushState(ST_TWIG_IN_STATEMENT_BODY);
 	return TWIG_KEYWORD;
 }
 
 
-<ST_TWIG_CONTENT> {LABEL} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG LABEL");
@@ -158,7 +149,7 @@ NUMBER=([0-9])+
 	return TWIG_LABEL;
 }
 
-<ST_TWIG_CONTENT> {NUMBER} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {NUMBER} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG NUMBER");
@@ -175,7 +166,7 @@ NUMBER=([0-9])+
 	return TWIG_COMMENT_CLOSE;
 }
 
-<ST_TWIG_CONTENT> "}}"{TWIG_WHITESPACE}? {
+<ST_TWIG_IN_PRINT> "}}"{TWIG_WHITESPACE}? {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CLOSETAG");
@@ -183,8 +174,7 @@ NUMBER=([0-9])+
 	return TWIG_CLOSETAG;
 }
 
-
-<ST_TWIG_CONTENT> "%}"{TWIG_WHITESPACE}? {
+<ST_TWIG_IN_STATEMENT> "%}"{TWIG_WHITESPACE}? {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_STMT_CLOSE");
@@ -192,9 +182,18 @@ NUMBER=([0-9])+
 	return TWIG_STMT_CLOSE;
 }
 
+<ST_TWIG_IN_STATEMENT_BODY> "%}"{TWIG_WHITESPACE}? {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG_STMT_CLOSE");
+
+	popState();
+	return TWIG_STMT_CLOSE;
+}
 
 
-<ST_TWIG_CONTENT> {TWIG_WHITESPACE} {
+
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {TWIG_WHITESPACE} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG WHITESPACE");
@@ -214,7 +213,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_CONTENT> "{" {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> "{" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON START");
@@ -223,7 +222,7 @@ NUMBER=([0-9])+
     return TWIG_JSON_START;
 }
 
-<ST_TWIG_CONTENT> "}" {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> "}" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON END");
@@ -235,7 +234,7 @@ NUMBER=([0-9])+
 
 
 
-<ST_TWIG_CONTENT>([']([^'\\]|("\\".))*[']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([']([^'\\]|("\\".))*[']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -243,7 +242,7 @@ NUMBER=([0-9])+
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
-<ST_TWIG_CONTENT>([\"]([^\"\\]|("\\".))*[\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([\"]([^\"\\]|("\\".))*[\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -252,21 +251,21 @@ NUMBER=([0-9])+
 }
 
 // ST_TWIG_DOUBLE_QUOTES // 
-<ST_TWIG_CONTENT>([\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
 
-	yybegin(ST_TWIG_DOUBLE_QUOTES);
+	pushState(ST_TWIG_DOUBLE_QUOTES);
     return TWIG_DOUBLE_QUOTES_START;
 }
 
-<ST_TWIG_CONTENT>([']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
 
-	yybegin(ST_TWIG_SINGLE_QUOTES);
+	pushState(ST_TWIG_SINGLE_QUOTES);
     return TWIG_SINGLE_QUOTES_START;
 }
 
@@ -276,7 +275,7 @@ NUMBER=([0-9])+
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES END");
 
-	yybegin(ST_TWIG_CONTENT);
+	popState();
     return TWIG_DOUBLE_QUOTES_END;
 }
 
@@ -285,7 +284,7 @@ NUMBER=([0-9])+
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES END");
 
-	yybegin(ST_TWIG_CONTENT);
+	popState();
     return TWIG_SINGLE_QUOTES_END;
 }
 
@@ -307,7 +306,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_CONTENT> {TOKENS} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {TOKENS} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DELIMITER TOKEN");
@@ -329,7 +328,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_CONTENT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES>. {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");

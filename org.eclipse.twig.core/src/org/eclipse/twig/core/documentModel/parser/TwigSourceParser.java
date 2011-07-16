@@ -98,8 +98,6 @@ public class TwigSourceParser extends XMLSourceParser {
 			type = region.getType();
 			
 			
-
-
 			// these types (might) demand a IStructuredDocumentRegion for each
 			// of them
 			if (type == DOMRegionContext.BLOCK_TEXT) {

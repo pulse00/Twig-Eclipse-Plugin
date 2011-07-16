@@ -20,6 +20,15 @@ import org.eclipse.twig.core.TwigCoreConstants;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.Function;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author "Robert Gruendler <r.gruendler@gmail.com>"
+ *
+ */
 @SuppressWarnings("restriction")
 public class TwigVisitor extends PHPASTVisitor {
 
@@ -27,9 +36,13 @@ public class TwigVisitor extends PHPASTVisitor {
 	
 	private boolean inTwigExtension;	
 	private boolean inFilterCreation;
+	private boolean inTokenParser;
+	
 	
 	final Stack<Filter> filters = new Stack<Filter>();
 	private Stack<Function> functions = new Stack<Function>();
+
+
 	
 	public Stack<Filter> getFilters() {
 		return filters;
@@ -54,7 +67,9 @@ public class TwigVisitor extends PHPASTVisitor {
 		for (String superclass : s.getSuperClassNames()) {			
 			if (superclass.equals(TwigCoreConstants.TWIG_EXTENSION)) {				
 				inTwigExtension = true;			
-			}			
+			} else if (superclass.equals(TwigCoreConstants.TWIG_TOKEN_PARSER)) {				
+				inTokenParser = true;				
+			}
 		}
 	
 		return true;
@@ -64,6 +79,7 @@ public class TwigVisitor extends PHPASTVisitor {
 	public boolean endvisit(ClassDeclaration s) throws Exception {
 
 		inTwigExtension = false;
+		inTokenParser = false;
 		return true;
 	}
 	
@@ -192,7 +208,26 @@ public class TwigVisitor extends PHPASTVisitor {
 				}
 			});			
 			
+		} else if (inTokenParser && TwigCoreConstants.PARSE_TOKEN_METHOD.equals(s.getName())) {
+			
+			System.err.println("in token parser " + s.getDeclaringTypeName() + " " + s.getName());
+			
+		} else if (inTokenParser && TwigCoreConstants.PARSE_GET_TAG_METHOD.equals(s.getName())) {
+		
+			
+			s.traverse(new PHPASTVisitor() {
+				
+				@Override
+				public boolean visit(ReturnStatement s) throws Exception {
+
+					
+					System.err.println(s.toString());
+					return false;
+				}
+			});
+			
 		}
+		
 		return true;
 	}
 	
