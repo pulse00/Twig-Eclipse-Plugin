@@ -21,6 +21,15 @@ import org.eclipse.twig.core.parser.TwigParser;
 import org.eclipse.twig.core.parser.TwigSourceParser;
 
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implements IOccurrencesFinder {
 
 
@@ -54,7 +63,7 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implemen
 
 
 				if (line.contains(TwigSourceParser.TWIG_OPEN)) {
-					parsePrint(line, TwigSourceParser.TWIG_OPEN, TwigSourceParser.TWIG_CLOSE, lineNumber, currentPosition);				
+					parseStatement(line, TwigSourceParser.TWIG_OPEN, TwigSourceParser.TWIG_CLOSE, lineNumber, currentPosition);				
 				} else if (line.contains(TwigSourceParser.STMT_OPEN)) {
 					parseStatement(line, TwigSourceParser.STMT_OPEN, TwigSourceParser.STMT_CLOSE, lineNumber, currentPosition);								
 				}
@@ -70,14 +79,6 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implemen
 
 		return null;
 	}
-
-	private void parsePrint(String line, String twigOpen, String twigClose,
-			int lineNumber, int current) {
-
-
-	}
-	
-	
 
 	private void parseStatement(String line, String open, String close,
 			int lineNumber, int current) {
@@ -143,41 +144,5 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implemen
 		
 	}
 
-	@Override
-	public String getJobLabel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public String getUnformattedPluralLabel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUnformattedSingularLabel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public TwigCommonTree getRoot() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public int getSearchKind() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

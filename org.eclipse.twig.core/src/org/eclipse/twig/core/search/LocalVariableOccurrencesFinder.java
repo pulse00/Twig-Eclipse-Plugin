@@ -16,16 +16,6 @@ import org.eclipse.twig.core.parser.TwigParser;
  */
 public class LocalVariableOccurrencesFinder extends AbstractOccurrencesFinder {
 
-	@Override
-	public String getElementName() {
-		
-		if (twigNode != null)
-			return twigNode.getName();
-		
-		
-		return null;
-	}
-
 
 	@Override
 	protected ITwigNodeVisitor getVisitor(int offset) {
@@ -50,8 +40,6 @@ public class LocalVariableOccurrencesFinder extends AbstractOccurrencesFinder {
 			int nodeStart = node.getCharPositionInLine() + curOffset /*+ 1*/;
 			int length = node.getText() != null ? node.getText().length() : 0;
 			
-			// simply match all occurrences for strings
-			// needs to be refined
 			if (node.getType() == twigNode.getType() && node.getType() == TwigParser.STRING) {
 				
 				String text  = node.getText();

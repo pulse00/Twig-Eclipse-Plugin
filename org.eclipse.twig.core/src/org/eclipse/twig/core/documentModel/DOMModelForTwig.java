@@ -2,7 +2,6 @@ package org.eclipse.twig.core.documentModel;
 
 import org.eclipse.php.internal.core.documentModel.DOMModelForPHP;
 import org.eclipse.twig.core.documentModel.dom.DOMDocumentForTwig;
-import org.eclipse.wst.html.core.internal.document.DOMStyleModelImpl;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.xml.core.internal.document.XMLModelParser;
 import org.eclipse.wst.xml.core.internal.document.XMLModelUpdater;

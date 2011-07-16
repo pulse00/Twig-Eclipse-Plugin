@@ -7,6 +7,7 @@ import java.io.StringReader;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.ITwigNodeVisitor;
 import org.eclipse.twig.core.parser.TwigCommonTree;
 import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
@@ -15,6 +16,16 @@ import org.eclipse.twig.core.parser.TwigNode;
 import org.eclipse.twig.core.parser.TwigParser;
 import org.eclipse.twig.core.parser.TwigSourceParser;
 
+
+/**
+ * 
+ * Finds a {@link TwigNode} in a twig template
+ * at a given position.
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class NodeFinder {
 
 	private int offset;
@@ -37,7 +48,6 @@ public class NodeFinder {
 
 				lineNumber++;
 
-
 				if (line.contains(TwigSourceParser.TWIG_OPEN)) {
 					parsePrint(line, TwigSourceParser.TWIG_OPEN, TwigSourceParser.TWIG_CLOSE, lineNumber, currentPosition);		
 										
@@ -55,7 +65,8 @@ public class NodeFinder {
 		}
 
 		if (node != null)
-			System.err.println("found node " + node);
+			Logger.debugMSG("found node " + node);
+		
 		return node;
 	}
 
@@ -115,7 +126,7 @@ public class NodeFinder {
 
 
 		} catch (Exception e) {
-			//Logger.logException(e);
+			Logger.logException(e);
 		}
 	}	
 
@@ -140,17 +151,10 @@ public class NodeFinder {
 			if (nodeStart <= offset && nodeEnd >= offset) {
 
 				if (node.getType() == TwigParser.STRING) {
-					
-					 
 					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.STRING);
-					
-					
-
 				} else if (node.getType() == TwigParser.BLOCK) {
-					
 					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.BLOCK);					
-
-				}
+				}				
 			}
 		}
 
@@ -160,5 +164,4 @@ public class NodeFinder {
 
 		}		
 	}	
-
 }

@@ -51,10 +51,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.TwigNode;
+import org.eclipse.twig.core.parser.TwigParser;
 import org.eclipse.twig.core.search.IOccurrencesFinder;
 import org.eclipse.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 import org.eclipse.twig.core.search.LocalVariableOccurrencesFinder;
 import org.eclipse.twig.core.search.NodeFinder;
+import org.eclipse.twig.core.search.OpenCloseTagFinder;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -169,6 +171,8 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	protected void updateOccurrenceAnnotations(ITextSelection selection,
 			Program astRoot) {
 
+		super.updateOccurrenceAnnotations(selection, astRoot);
+		
 		if (astRoot == null || selection == null)
 			return;
 
@@ -182,23 +186,24 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 			return;
 		}
 
-		boolean hasChanged = false;
-		if (document instanceof IDocumentExtension4) {
-			int offset = selection.getOffset();
-			long currentModificationStamp = ((IDocumentExtension4) document)
-					.getModificationStamp();
-			IRegion markOccurrenceTargetRegion = fMarkOccurrenceTargetRegion;
-			hasChanged = currentModificationStamp != fMarkOccurrenceModificationStamp;
-			if (markOccurrenceTargetRegion != null && !hasChanged) {
-				if (markOccurrenceTargetRegion.getOffset() <= offset
-						&& offset <= markOccurrenceTargetRegion.getOffset()
-								+ markOccurrenceTargetRegion.getLength())
-					return;
-			}
-			fMarkOccurrenceTargetRegion = ScriptWordFinder.findWord(document,
-					offset);
-			fMarkOccurrenceModificationStamp = currentModificationStamp;
-		}
+		//boolean hasChanged = false;
+		
+//		if (document instanceof IDocumentExtension4) {
+//			int offset = selection.getOffset();
+//			long currentModificationStamp = ((IDocumentExtension4) document)
+//					.getModificationStamp();
+//			IRegion markOccurrenceTargetRegion = fMarkOccurrenceTargetRegion;
+//			hasChanged = currentModificationStamp != fMarkOccurrenceModificationStamp;
+//			if (markOccurrenceTargetRegion != null && !hasChanged) {
+//				if (markOccurrenceTargetRegion.getOffset() <= offset
+//						&& offset <= markOccurrenceTargetRegion.getOffset()
+//								+ markOccurrenceTargetRegion.getLength())
+//					return;
+//			}
+//			fMarkOccurrenceTargetRegion = ScriptWordFinder.findWord(document,
+//					offset);
+//			fMarkOccurrenceModificationStamp = currentModificationStamp;
+//		}
 
 		OccurrenceLocation[] locations = null;
 		ISourceModule module = (ISourceModule) getModelElement();
@@ -211,21 +216,31 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 			return;		
 		}
 
-		
 		NodeFinder nodeFinder = new NodeFinder();
+		
 		TwigNode node = nodeFinder.find(source, selection.getOffset());
 		
 		if (node == null)
 			return;
 
-		if (locations == null) {
+
+		if (node.getType() == TwigParser.STRING) {
 			
 			IOccurrencesFinder finder = new LocalVariableOccurrencesFinder();
-			
+
 			if (finder.initialize(source, node) == null) {
 				locations = finder.getOccurrences();
 			}
+			
+		} else if (node.getType() == TwigParser.BLOCK) {
+			
+			IOccurrencesFinder finder = new OpenCloseTagFinder();
+			
+			if (finder.initialize(source, node) == null) {				
+				locations = finder.getOccurrences();
+			}
 		}
+		
 
 		if (locations == null)
 			return;
@@ -234,12 +249,9 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		
 		fOccurrencesFinderJob = new OccurrencesFinderJob(document, locations,
 				selection);
-		// fOccurrencesFinderJob.setPriority(Job.DECORATE);
-		// fOccurrencesFinderJob.setSystem(true);
-		// fOccurrencesFinderJob.schedule();
 		fOccurrencesFinderJob.run(new NullProgressMonitor());
 		
-		//super.updateOccurrenceAnnotations(selection, astRoot);
+		
 	}
 
 	class OccurrencesFinderJobCanceler implements IDocumentListener,
@@ -456,7 +468,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	
 	private void removeTwigOccurrenceAnnotations() {
 		
-		System.err.println("remove annotations");
 		IDocumentProvider documentProvider = getDocumentProvider();
 		if (documentProvider == null)
 			return;
