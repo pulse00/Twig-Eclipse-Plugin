@@ -4,7 +4,9 @@ package org.eclipse.twig.core.documentModel.parser;
 import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
+import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.twig.core.index.ITwigElementRequestor.BlockInfo;
+import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.parser.ITwigNodeVisitor;
 import org.eclipse.twig.core.parser.TwigCommonTree;
 import org.eclipse.twig.core.parser.TwigParser;
@@ -23,12 +25,16 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 	private IElementRequestor requestor;
 	private int offset;
 	
-	private BlockInfo block = null; 
+	private BlockInfo block = null;
+	private TwigModelAccess model = TwigModelAccess.getDefault();
 	
-	public TwigIndexingVisitor(IElementRequestor requestor, int offset) {
+	private IModelElement modelElement;
+	
+	public TwigIndexingVisitor(IElementRequestor requestor, int offset, IModelElement modelElement) {
 
 		this.requestor = requestor;
 		this.offset = offset;
+		this.modelElement = modelElement;
 	}
 
 	@Override
@@ -44,6 +50,7 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 			
 			if (block == null) {
 				
+
 				FieldInfo info = new FieldInfo();
 				info.name = node.getText();
 				info.nameSourceStart = start;
@@ -51,6 +58,7 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 				info.modifiers = Modifiers.AccPublic;
 				info.declarationStart = start;
 				
+				System.err.println("report field info " +info.name);
 				
 				requestor.enterField(info);
 				requestor.exitField(end);
@@ -70,31 +78,30 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 			
 			break;
 			
-		case TwigParser.BLOCK:
-		case TwigParser.MACRO:
-		case TwigParser.IF:
-		case TwigParser.FOR:
-			
-			
+		case TwigParser.TWIG_TAG:
+
 			block = new BlockInfo();
 			
-			block.name = text;
-			block.nameSourceStart = start;
-			block.nameSourceEnd = end;
-			block.modifiers = Modifiers.AccPublic;
-			block.declarationStart = start;
-			
-			requestor.enterMethod(block);			
-			
-			break;
+			if (node.getChildCount() == 1) {
+				
+				TwigCommonTree child = node.getChild(0);
 
-			
-		case TwigParser.ENDBLOCK:
-		case TwigParser.ENDMACRO:
-		case TwigParser.ENDIF:
-		case TwigParser.ENDFOR:
-			
-			requestor.exitMethod(end);
+				if (model.isStartTag(modelElement.getScriptProject(), child.getText())) {
+					
+					block.name = child.getText();
+					block.nameSourceStart = start;
+					block.nameSourceEnd = end;
+					block.modifiers = Modifiers.AccPublic;
+					block.declarationStart = start;
+					
+					requestor.enterMethod(block);			
+					
+				} else if (model.isEndTag(modelElement.getScriptProject(), child.getText())) {
+					
+					requestor.exitMethod(end);
+					
+				}
+			}
 			
 			break;
 			
@@ -109,18 +116,5 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 	public void endVisit(TwigCommonTree node) {
 
 		
-		switch (node.getType()) {
-		
-			
-		case TwigParser.ENDBLOCK:
-		case TwigParser.ENDMACRO:
-		case TwigParser.ENDIF:
-		case TwigParser.ENDFOR:		
-
-			block = null;
-			break;
-			
-		}
-
 	}
 }

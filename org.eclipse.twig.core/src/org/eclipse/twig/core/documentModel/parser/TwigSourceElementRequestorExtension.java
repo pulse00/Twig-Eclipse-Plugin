@@ -5,6 +5,7 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
+import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.parser.TwigCommonTree;
@@ -12,6 +13,7 @@ import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
 import org.eclipse.twig.core.parser.TwigLexer;
 import org.eclipse.twig.core.parser.TwigParser;
 import org.eclipse.twig.core.parser.error.DummyErrorReporter;
+import org.osgi.service.framework.SurrogateBundle;
 
 
 
@@ -35,6 +37,8 @@ public class TwigSourceElementRequestorExtension extends
 	public static String STMT_END = "%}";
 	
 	private IElementRequestor requestor;
+	
+
 		
 	public TwigSourceElementRequestorExtension() {
 		
@@ -45,6 +49,8 @@ public class TwigSourceElementRequestorExtension extends
 	public void setSourceModule(IModuleSource sourceModule) {
 			
 		try {
+			
+			super.setSourceModule(sourceModule);			
 			
 			String source = sourceModule.getSourceContents();
 			requestor = getRequestor();
@@ -59,8 +65,6 @@ public class TwigSourceElementRequestorExtension extends
 
 			Logger.logException(e);
 		}
-				
-		super.setSourceModule(sourceModule);
 	}
 	
 	private void parsePrints(String source) {
@@ -125,7 +129,9 @@ public class TwigSourceElementRequestorExtension extends
 
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start);
+			
+			
+			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start, getSourceModule().getModelElement());
 			
 			if (tree != null)
 				tree.accept(visitor);

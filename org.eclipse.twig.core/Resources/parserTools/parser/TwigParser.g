@@ -10,6 +10,7 @@ tokenVocab=TwigLexer;
 tokens {
 TWIG_PR_STMT;
 TWIG_VAR;
+TWIG_TAG;
 LITERAL_ARG;
 }
 
@@ -74,95 +75,29 @@ twig_source
   : twig_print_statement | twig_control_statement
   ;
 
-
 // twig control statements start
 
 twig_control_statement
   : CTRL_OPEN twig_control? CTRL_CLOSE
   ;
 
-
 twig_control
-  : variable | twig_for | ENDFOR | ELSE | twig_if | twig_elseif | ENDIF | twig_macro | twig_import | twig_set | twig_include | twig_block | twig_extends | twig_use | assets 
+  : MINUS? twig_control_tag twig_control_body*
   ;
-
-assets
-  : variable STRING_LITERAL+
+  
+  
+twig_control_tag
+  : param=STRING
+    ->^(TWIG_TAG $param)
   ;  
   
-twig_use
-  : USE STRING_LITERAL 
-  ;
-twig_extends
-  : EXTENDS STRING_LITERAL 
+twig_control_body
+  : STRING_LITERAL | ASIG | PIPE | TILDE | NUMBER | COMMA | QM | COLON | range | eq_check | var_or_field | method_chain | keyword | array | json | in_check
   ;
   
-twig_block
-  : (BLOCK twig_block_param) | (ENDBLOCK variable?)
-  ;
-  
-twig_block_param
-  : (variable | method_chain | concat) twig_print?
-  ;
-  
-twig_include
-  : INCLUDE (include_ternary | include_statement)
-  ;
-  
-include_ternary
-  : twig_ternary ONLY?
-  ;
-  
-include_statement
-  : (STRING_LITERAL) ONLY? (WITH (variable | STRING_LITERAL | method_chain | json) ONLY?)?
-  ;
-  
-twig_set
-  : (SET twig_assignment (COMMA twig_assignment)*) | ENDSET
-  ;
- 
-twig_assignment
-  :  twig_left_assignment (ASIG (twig_right_assignment (PIPE twig_right_assignment)*))?
-  ;
-  
-twig_left_assignment
-  : (variable (COMMA variable)*)
-  ;
-  
-twig_right_assignment
-  : (STRING_LITERAL | variable | method_chain | array | json | twig_tilde_argument) (COMMA (STRING_LITERAL | variable | method_chain | array | json | twig_tilde_argument))*
-  ;
-  
-twig_tilde_argument
-  : (STRING_LITERAL | variable | method_chain | array | json) TILDE (STRING_LITERAL | variable | method_chain | array | json)
-  ;
-  
-twig_import
-  : (FROM (STRING_LITERAL))? IMPORT (STRING_LITERAL | variable) (TWIG_AS (STRING (COMMA STRING)*))?
-  ;
    
-twig_macro
-  : (MACRO (variable | method_chain)) | ENDMACRO
-  ;
-  
-twig_if
-  : IF ( (variable | method_chain | eq_check) (PIPE (variable | method_chain | eq_check))*) (IS DEFINED)?
-  ;
-  
-twig_elseif
-  : ELSEIF (variable | method_chain)
-  ;
-  
-twig_for
-  : FOR (STRING (COMMA STRING)*) IN for_arguments
-  ;
-  
-for_arguments
-  : for_value (PIPE for_value)*
-  ;
-  
-for_value
-  :  STRING_LITERAL | method_chain | range | variable
+in_check
+  : METHOD_START (STRING_LITERAL | var_or_field) IN (STRING_LITERAL | var_or_field) METHOD_END
   ;
   
 range
@@ -170,12 +105,12 @@ range
   ;
   
 twig_ternary
-  : (STRING_LITERAL | NUMBER | variable | method_chain | eq_check) QM (STRING_LITERAL | NUMBER | variable | method_chain) COLON (STRING_LITERAL | NUMBER | variable | method_chain) 
+  : (STRING_LITERAL | NUMBER | var_or_field | method_chain | eq_check) QM (STRING_LITERAL | NUMBER | var_or_field | method_chain) COLON (STRING_LITERAL | NUMBER | var_or_field | method_chain) 
   ;
 
 
 eq_check
-  : (variable | method_chain | NUMBER | STRING_LITERAL) (EQUAL | NOTEQUAL | LARGER | SMALLER) (variable | method_chain | NUMBER | STRING_LITERAL)
+  : (var_or_field | method_chain | NUMBER | STRING_LITERAL) (EQUAL | NOTEQUAL | LARGER | SMALLER) (var_or_field | method_chain | NUMBER | STRING_LITERAL)
   ;
   
   
@@ -190,19 +125,19 @@ twig_print
   ;
   
 p_input
-  : variable | method_chain | array | STRING_LITERAL | twig_ternary | twig_not | concat
+  : var_or_field | method_chain | array | STRING_LITERAL | twig_ternary | twig_not | concat
   ;
   
 concat
-  : concat_operand TILDE concat_operand (TILDE concat_operand)*
+  : concat_operand (TILDE concat_operand)+
   ;
   
 concat_operand
-  : (STRING_LITERAL | variable | method_chain)
+  : (STRING_LITERAL | var_or_field | method_chain)
   ;
   
 twig_not
-  : NOT (twig_ternary | variable | method_chain)
+  : NOT (twig_ternary | var_or_field | method_chain)
   ;
   
 array
@@ -217,9 +152,18 @@ array_element
   : STRING | STRING_LITERAL | NUMBER | json
   ;
   
+
+var_or_field
+  : variable | field_access
+  ;  
+
 variable
-  : param=STRING (DOT (STRING))*
+  : param=STRING
     ->^(TWIG_VAR $param)
+  ;
+  
+field_access
+  : STRING (DOT STRING)+
   ;
   
  
@@ -228,7 +172,7 @@ method_chain
   ;
   
 method
-  : variable METHOD_START arguments? METHOD_END
+  : var_or_field METHOD_START arguments? METHOD_END
   ; 
   
 arguments
@@ -236,7 +180,7 @@ arguments
   ;
 
 argument
-: literal_argument | json | NUMBER | variable
+: literal_argument | json | NUMBER | var_or_field
 ;
 
 literal_argument
@@ -254,4 +198,8 @@ json_arguments
   
 json_argument
   : (STRING_LITERAL | STRING) (COLON) (STRING_LITERAL | STRING) 
+  ;
+  
+keyword
+  : IS | DEFINED | IN | TWIG_AS | NOT | WITH | ONLY
   ;

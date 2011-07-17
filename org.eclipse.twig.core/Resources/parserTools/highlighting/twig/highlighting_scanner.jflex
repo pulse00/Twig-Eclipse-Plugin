@@ -118,7 +118,7 @@ import org.eclipse.twig.core.util.Debug;
 // twig macros
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="not"|"in"|"as"|"is"|"defined"
+KEYWORD="not"|"in"|"as"|"is"|"defined"|"and"
 
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
@@ -139,6 +139,15 @@ NUMBER=([0-9])+
 	return TWIG_KEYWORD;
 }
 
+<ST_TWIG_IN_STATEMENT> "-" {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG MINUS");
+    
+
+	return TWIG_MINUS;
+
+}
 
 <ST_TWIG_IN_STATEMENT> {LABEL} {
 

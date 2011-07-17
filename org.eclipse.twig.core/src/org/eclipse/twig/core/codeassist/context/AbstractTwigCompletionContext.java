@@ -126,7 +126,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 									regionCollection, twigScriptRegion, offset);
 														
 							
-							twigTemplate = TwigModelAccess.getInstance().getTemplate(sourceModule);
+							twigTemplate = TwigModelAccess.getDefault().getTemplate(sourceModule);
 							return true;
 
 						}

@@ -18,6 +18,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.eclipse.twig.core.TwigCoreConstants;
+import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.core.model.ITwigModelElement;
 import org.eclipse.twig.core.util.TwigModelUtils;
@@ -43,7 +44,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	private boolean inTagParseMethod;
 	private ClassDeclaration currentClass;
 	
-	private Tag blockTag;
+	private Tag tag;
 	
 	public TwigIndexingVisitorExtension() {
 
@@ -134,7 +135,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 						
 						if (s.getExpr().getClass() == Scalar.class) {
 							Scalar scalar = (Scalar) s.getExpr();												
-							blockTag.setStartTag(scalar.getValue().replaceAll("['\"]", ""));
+							tag.setStartTag(scalar.getValue().replaceAll("['\"]", ""));
 							
 						}
 
@@ -171,7 +172,8 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					inTwigExtension = true;			
 				} else if (superclass.equals(TwigCoreConstants.TWIG_TOKEN_PARSER)) {				
 					
-					blockTag = new Tag();
+					tag = new Tag();
+					
 					inTokenParser = true;
 				}
 			}
@@ -187,19 +189,28 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	@Override
 	public boolean endvisit(TypeDeclaration s) throws Exception {
 
+		
 		if (s instanceof ClassDeclaration) {
-			
-			if (blockTag != null) {			
-				if (blockTag.getStartTag() != null && blockTag.getEndTag() != null) {
+		
+			if (tag != null) {
+				
+				if (tag.getStartTag() != null && tag.getEndTag() != null) {
 					
 					int length = currentClass.sourceEnd() - currentClass.sourceStart();
-					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.TAG, currentClass.sourceStart(), length, blockTag.getStartTag(), null, null);
+					
+					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag());
+					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), null, null);
 					requestor.addReference(info);
+					
+					ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), null, null);
+					requestor.addReference(endIinfo);
+					
 														
 				}			
+				tag = null;
 			}
 			
-			blockTag = null;
+			
 			inTwigExtension = false;
 			inTokenParser = false;
 			currentClass = null;		
@@ -214,67 +225,63 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	@Override
 	public boolean visit(Statement s) throws Exception {
 
-		if (s instanceof ExpressionStatement) {
+		if (!inTagParseMethod)
+			return false;
+		
+		s.traverse(new PHPASTVisitor() {
 			
-			ExpressionStatement stmt = (ExpressionStatement) s;
-			
-			if (stmt.getExpr() instanceof PHPCallExpression) {
+			@Override
+			public boolean visit(PHPCallExpression callExpr) throws Exception {
+
+				SimpleReference ref = callExpr.getCallName();
 				
-				PHPCallExpression callExpr = (PHPCallExpression) stmt.getExpr();
-				
-				if (inTagParseMethod) {
+				if (ref != null && TwigCoreConstants.PARSE_SUB.equals(ref.getName())) {
 					
-					SimpleReference ref = callExpr.getCallName();
-					
-					if (ref != null && TwigCoreConstants.PARSE_SUB.equals(ref.getName())) {
+					callExpr.traverse(new PHPASTVisitor() {
 						
-						s.traverse(new PHPASTVisitor() {
+						@Override
+						public boolean visit(ArrayCreation array) throws Exception {
 							
-							@Override
-							public boolean visit(ArrayCreation array) throws Exception {
+							for (ArrayElement elem : array.getElements()) {
 								
-								for (ArrayElement elem : array.getElements()) {
+								Expression value = elem.getValue();
+								
+								if (value == null)
+									continue;
+								
+								if (value.getClass() == Scalar.class) {
 									
-									Expression value = elem.getValue();
+									Scalar scalar = (Scalar) value;
+									String subParseMethod = scalar.getValue().replaceAll("['\"]", "");
 									
-									if (value == null)
-										continue;
-									
-									if (value.getClass() == Scalar.class) {
+									for (MethodDeclaration method : currentClass.getMethods()) {
 										
-										Scalar scalar = (Scalar) value;
-										String subParseMethod = scalar.getValue().replaceAll("['\"]", "");
-										
-										for (MethodDeclaration method : currentClass.getMethods()) {
+										if (subParseMethod.equals(method.getName())) {
 											
-											if (subParseMethod.equals(method.getName())) {
-												
-												String[] endStatements = TwigModelUtils.getEndStatements((PHPMethodDeclaration) method);
-												
-												for (String stmt : endStatements) {
-																								
-													if (stmt.startsWith("end")) {												
-														blockTag.setEndTag(stmt);
-														break;
-													}
-													
+											String[] endStatements = TwigModelUtils.getEndStatements((PHPMethodDeclaration) method);
+											
+											for (String stmt : endStatements) {
+																							
+												if (stmt.startsWith("end")) {												
+													tag.setEndTag(stmt);
+													return false;
 												}
 												
 											}
-										}								
-									}
+											
+										}
+									}								
 								}
-								return false;
 							}
-						});
-					}
-				}
-
+							return true;
+						}
+					});
+				}								
 				return true;
 			}
-		}
+		});
 		
-		return false;
+		return true;
 	}
 	
 	

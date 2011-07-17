@@ -89,23 +89,23 @@ public class TwigDOMModelParser extends XMLModelParser {
 				TwigStatementVisitor visitor = new TwigStatementVisitor();
 				tree.accept(visitor);
 				
-				if (visitor.getStatementType() == TwigParser.BLOCK) {
-					return TWIG_BLOCK_START;
-				} else if (visitor.getStatementType() == TwigParser.ENDBLOCK) {					
-					return TWIG_BLOCK_END;
-				} else if (visitor.getStatementType() == TwigParser.IF) {
-					return TWIG_IF_START;
-				} else if (visitor.getStatementType() == TwigParser.ENDIF) {					
-					return TWIG_IF_END;
-				} else if (visitor.getStatementType() == TwigParser.FOR) {
-					return TWIG_FOR_START;
-				} else if (visitor.getStatementType() == TwigParser.ENDFOR) {					
-					return TWIG_FOR_END;					
-				} else if (visitor.getStatementType() == TwigParser.MACRO) {
-					return TWIG_MACRO_START;
-				} else if (visitor.getStatementType() == TwigParser.ENDMACRO) {
-					return TWIG_MACRO_END;					
-				}				
+//				if (visitor.getStatementType() == TwigParser.BLOCK) {
+//					return TWIG_BLOCK_START;
+//				} else if (visitor.getStatementType() == TwigParser.ENDBLOCK) {					
+//					return TWIG_BLOCK_END;
+//				} else if (visitor.getStatementType() == TwigParser.IF) {
+//					return TWIG_IF_START;
+//				} else if (visitor.getStatementType() == TwigParser.ENDIF) {					
+//					return TWIG_IF_END;
+//				} else if (visitor.getStatementType() == TwigParser.FOR) {
+//					return TWIG_FOR_START;
+//				} else if (visitor.getStatementType() == TwigParser.ENDFOR) {					
+//					return TWIG_FOR_END;					
+//				} else if (visitor.getStatementType() == TwigParser.MACRO) {
+//					return TWIG_MACRO_START;
+//				} else if (visitor.getStatementType() == TwigParser.ENDMACRO) {
+//					return TWIG_MACRO_END;					
+//				}				
 
 				
 			} catch (Exception e) {

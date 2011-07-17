@@ -11,16 +11,16 @@ public class TwigStatementVisitor implements ITwigNodeVisitor {
 	@Override
 	public void beginVisit(TwigCommonTree node) {
 
-		if (node.getType() == TwigParser.BLOCK || node.getType() == TwigParser.ENDBLOCK 
-				|| node.getType() == TwigParser.FOR || node.getType() == TwigParser.ENDFOR
-				|| node.getType() == TwigParser.IF || node.getType() == TwigParser.ENDIF
-				|| node.getType() == TwigParser.MACRO || node.getType() == TwigParser.ENDMACRO) {
-			
-			type = node.getType();
-			
-		} else if (node.getType() == TwigParser.STRING) {			
-			text = node.getText();
-		}
+//		if (node.getType() == TwigParser.BLOCK || node.getType() == TwigParser.ENDBLOCK 
+//				|| node.getType() == TwigParser.FOR || node.getType() == TwigParser.ENDFOR
+//				|| node.getType() == TwigParser.IF || node.getType() == TwigParser.ENDIF
+//				|| node.getType() == TwigParser.MACRO || node.getType() == TwigParser.ENDMACRO) {
+//			
+//			type = node.getType();
+//			
+//		} else if (node.getType() == TwigParser.STRING) {			
+//			text = node.getText();
+//		}
 
 	}
 

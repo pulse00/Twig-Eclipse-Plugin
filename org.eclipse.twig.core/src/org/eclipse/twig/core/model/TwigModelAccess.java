@@ -40,16 +40,16 @@ public class TwigModelAccess extends PhpModelAccess {
 
 
 	}	
-
-
-	public static TwigModelAccess getInstance() {
-
+	
+	public static TwigModelAccess getDefault() {
 		if (instance == null) {
 			instance = new TwigModelAccess();
 		}
-
+		
 		return instance;
 	}
+
+
 
 
 
@@ -190,5 +190,71 @@ public class TwigModelAccess extends PhpModelAccess {
 
 		return (Filter[]) filters.toArray(new Filter[filters.size()]);		
 
+	}
+
+	
+	/**
+	 * 
+	 * Check for a valid startTag in the given {@link IScriptProject}.
+	 * 
+	 * 
+	 * 
+	 * @param scriptProject
+	 * @param text
+	 * @return
+	 */
+	public boolean isStartTag(IScriptProject scriptProject, String text) {
+
+		return isTag(scriptProject, text, ITwigModelElement.START_TAG);
+	}
+
+	/**
+	 * 
+	 * Check for a valid endTag in the {@link IScriptProject}.
+	 * 
+	 * @param scriptProject
+	 * @param text
+	 * @return
+	 */
+	public boolean isEndTag(IScriptProject scriptProject, String text) {
+
+		return isTag(scriptProject, text, ITwigModelElement.END_TAG);
+	}
+	
+
+	/**
+	 * 
+	 * Check if the given tag is valid for the {@link IScriptProject}.
+	 * 
+	 * 
+	 * @param scriptProject
+	 * @param text
+	 * @param type
+	 * @return
+	 */
+	private boolean isTag(IScriptProject scriptProject, String text, int type) {
+
+		
+		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+		
+		final List<String> tags = new ArrayList<String>();
+
+		engine.search(type, null, text, 0, 0, 1, SearchFor.REFERENCES, MatchRule.EXACT, scope, new ISearchRequestor() {
+
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+
+				tags.add(elementName);				
+
+			}
+		}, null);
+		
+		return tags.size() == 1;
+		
+		
 	}
 }

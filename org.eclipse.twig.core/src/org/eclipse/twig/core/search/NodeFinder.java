@@ -152,9 +152,9 @@ public class NodeFinder {
 
 				if (node.getType() == TwigParser.STRING) {
 					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.STRING);
-				} else if (node.getType() == TwigParser.BLOCK) {
+				}/* else if (node.getType() == TwigParser.BLOCK) {
 					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.BLOCK);					
-				}				
+				}		*/		
 			}
 		}
 

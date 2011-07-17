@@ -38,4 +38,11 @@ public class Tag {
 	public void setEndTag(String endTag) {
 		this.endTag = endTag;
 	}
+	
+	
+	@Override
+	public String toString() {
+
+		return startTag + " : " + endTag;
+	}
 }

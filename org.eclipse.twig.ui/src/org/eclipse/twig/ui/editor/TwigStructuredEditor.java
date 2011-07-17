@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
-import org.eclipse.dltk.internal.ui.text.ScriptWordFinder;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.DocumentEvent;
@@ -41,7 +40,6 @@ import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
-import org.eclipse.php.internal.ui.viewsupport.SelectionListenerWithASTManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.GC;
@@ -56,7 +54,6 @@ import org.eclipse.twig.core.search.IOccurrencesFinder;
 import org.eclipse.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 import org.eclipse.twig.core.search.LocalVariableOccurrencesFinder;
 import org.eclipse.twig.core.search.NodeFinder;
-import org.eclipse.twig.core.search.OpenCloseTagFinder;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -232,14 +229,14 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 				locations = finder.getOccurrences();
 			}
 			
-		} else if (node.getType() == TwigParser.BLOCK) {
+		}/* else if (node.getType() == TwigParser.BLOCK) {
 			
 			IOccurrencesFinder finder = new OpenCloseTagFinder();
 			
 			if (finder.initialize(source, node) == null) {				
 				locations = finder.getOccurrences();
 			}
-		}
+		}*/
 		
 
 		if (locations == null)

@@ -33,6 +33,28 @@ public class TwigParserTest extends TestCase {
 	
 	
 	@Test
+	public void testEmbedded() {
+		
+		assertValidTokenstream("{{ '{% for entity in entities %}' }}");
+		assertValidTokenstream("{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}");
+		//TODO: handle escaped and embedded strings...
+//		assertValidTokenstream("{{ \"{{ path('\"~ route_prefix ~\"_\"~ action ~\"', { 'id': entity.id }) }}\" }}");
+//		assertValidTokenstream("{{ '{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}");
+		
+		
+	}
+	
+	
+	@Test
+	public void testIn() {
+		
+		
+		assertValidTokenstream("{%- if loop.first and ('show' in actions) %}");
+		
+	}
+	
+	
+	@Test
 	public void testSet() {
 		
 		
@@ -269,6 +291,9 @@ public class TwigParserTest extends TestCase {
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			TwigNodeVisitor visitor = new TwigNodeVisitor();
+			
+			assertNotNull(tree);
+			
 			tree.accept(visitor);
 
 			assertFalse("Parser has no errors", reporter.hasErrors());

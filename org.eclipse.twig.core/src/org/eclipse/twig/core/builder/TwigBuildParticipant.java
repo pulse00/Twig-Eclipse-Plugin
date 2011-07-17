@@ -28,7 +28,7 @@ import org.eclipse.twig.core.model.TwigModelAccess;
  */
 public class TwigBuildParticipant implements IBuildParticipant {
 	
-	private TwigModelAccess model = TwigModelAccess.getInstance();
+	private TwigModelAccess model = TwigModelAccess.getDefault();
 	
 	
 	@Override

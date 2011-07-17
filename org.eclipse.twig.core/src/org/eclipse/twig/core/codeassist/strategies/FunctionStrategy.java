@@ -35,7 +35,7 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 		try {
 
 			FunctionContext ctx = (FunctionContext) getContext();
-			TwigModelAccess model = TwigModelAccess.getInstance();
+			TwigModelAccess model = TwigModelAccess.getDefault();
 			
 			//TODO: replace this by native Twig proposal to avoid the search call for the function IType
 			IType functionType = model.getFunctionType(ctx.getSourceModule());

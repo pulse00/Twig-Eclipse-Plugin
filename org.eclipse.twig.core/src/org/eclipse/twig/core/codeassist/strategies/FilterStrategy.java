@@ -37,7 +37,7 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 		try {
 
 			FilterContext ctx = (FilterContext) getContext();
-			TwigModelAccess model = TwigModelAccess.getInstance();
+			TwigModelAccess model = TwigModelAccess.getDefault();
 			IType filterType = model.getFilterType(ctx.getSourceModule());
 			
 			if (filterType == null) {				
