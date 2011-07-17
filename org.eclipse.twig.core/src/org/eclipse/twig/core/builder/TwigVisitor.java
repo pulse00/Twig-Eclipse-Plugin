@@ -3,6 +3,7 @@ package org.eclipse.twig.core.builder;
 import java.util.Stack;
 
 import org.eclipse.dltk.ast.expressions.Expression;
+import org.eclipse.dltk.ast.references.SimpleReference;
 import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayCreation;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayElement;
@@ -37,6 +38,8 @@ public class TwigVisitor extends PHPASTVisitor {
 	private boolean inTwigExtension;	
 	private boolean inFilterCreation;
 	private boolean inTokenParser;
+		
+	private boolean inTagParseMethod;
 	
 	
 	final Stack<Filter> filters = new Stack<Filter>();
@@ -142,6 +145,43 @@ public class TwigVisitor extends PHPASTVisitor {
 	@Override
 	public boolean visit(PHPCallExpression s) throws Exception {
 	
+		
+		if (inTagParseMethod) {
+			
+			SimpleReference ref = s.getCallName();
+			
+			if (ref != null && "subparse".equals(ref.getName())) {
+				
+				System.err.println("subparse");
+				s.traverse(new PHPASTVisitor() {
+					
+					@Override
+					public boolean visit(ArrayCreation array) throws Exception {
+						
+						for (ArrayElement elem : array.getElements()) {
+							
+							Expression key = elem.getKey();
+							Expression value = elem.getValue();
+							
+							if (key == null || value == null)
+								continue;
+							
+							System.err.println(elem.getKey().toString() + " => " + elem.getValue().toString());
+							
+						}
+						
+
+						return false;
+					}
+					
+					
+				});
+				
+				
+			}
+			
+		}
+		
 
 		return true;
 	}
@@ -210,10 +250,12 @@ public class TwigVisitor extends PHPASTVisitor {
 			
 		} else if (inTokenParser && TwigCoreConstants.PARSE_TOKEN_METHOD.equals(s.getName())) {
 			
-			System.err.println("in token parser " + s.getDeclaringTypeName() + " " + s.getName());
+//			System.err.println("in token parser " + s.getDeclaringTypeName() + " " + s.getName());
+			inTagParseMethod = true;
 			
 		} else if (inTokenParser && TwigCoreConstants.PARSE_GET_TAG_METHOD.equals(s.getName())) {
 		
+
 			
 			s.traverse(new PHPASTVisitor() {
 				
@@ -221,7 +263,13 @@ public class TwigVisitor extends PHPASTVisitor {
 				public boolean visit(ReturnStatement s) throws Exception {
 
 					
-					System.err.println(s.toString());
+					if (s.getExpr().getClass() == Scalar.class) {
+
+						Scalar scalar = (Scalar) s.getExpr();						
+//						System.err.println(scalar.getValue().replaceAll("['\"]", ""));
+						
+					}
+
 					return false;
 				}
 			});
@@ -235,6 +283,7 @@ public class TwigVisitor extends PHPASTVisitor {
 	public boolean endvisit(PHPMethodDeclaration s) throws Exception {
 	
 		inFilterCreation = false;
+		inTagParseMethod = false;
 		return true;
 	
 	}
