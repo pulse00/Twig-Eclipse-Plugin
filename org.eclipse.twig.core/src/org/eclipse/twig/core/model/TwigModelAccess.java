@@ -16,7 +16,7 @@ import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
-import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 /**
@@ -104,10 +104,10 @@ public class TwigModelAccess extends PhpModelAccess {
 					
 					if (metadata != null) {
 						
-						JSONArray mdata = (JSONArray) parser.parse(new StringReader(metadata));
+						JSONObject mdata = (JSONObject) parser.parse(new StringReader(metadata));
 						
 						if (mdata != null && mdata.size() > 0) {
-							function.setPhpClass((String)mdata.get(0));
+							function.setPhpClass((String)mdata.get(TwigType.PHPCLASS));
 						}
 						
 					}				
@@ -153,16 +153,11 @@ public class TwigModelAccess extends PhpModelAccess {
 				try {
 					Filter filter = new Filter(elementName);
 					if (metadata != null) {
-						
-						JSONArray mdata = (JSONArray) parser.parse(new StringReader(metadata));
-						
-						if (mdata != null && mdata.size() > 0) {
-							filter.setPHPClass((String)mdata.get(0));
-						}
-						
+						JSONObject mdata = (JSONObject) parser.parse(new StringReader(metadata));	
+						filter.setMetadata(mdata);
 					}
 					
-					filters.add(filter);				
+					filters.add(filter);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -319,12 +314,12 @@ public class TwigModelAccess extends PhpModelAccess {
 					
 					if(metadata != null) {
 						
-						JSONArray data = (JSONArray) parser.parse(new StringReader(metadata));
+						JSONObject data = (JSONObject) parser.parse(new StringReader(metadata));
 						if (data.size() > 0)
-							tag.setPHPClass((String) data.get(0));
+							tag.setPhpClass((String) data.get(TwigType.PHPCLASS));
 						
 						if (data.size() > 1)
-							tag.setDescription((String) data.get(1));
+							tag.setDescription((String) data.get(TwigType.DOC));
 						
 					}
 					tags.add(tag);
@@ -353,13 +348,13 @@ public class TwigModelAccess extends PhpModelAccess {
 					
 					if(metadata != null) {
 						
-						JSONArray data = (JSONArray) parser.parse(new StringReader(metadata));
+						JSONObject data = (JSONObject) parser.parse(new StringReader(metadata));
 
 						if (data.size() > 0)
-							tag.setPHPClass((String) data.get(0));
+							tag.setPhpClass((String) data.get(TwigType.PHPCLASS));
 						
 						if (data.size() > 1)
-							tag.setDescription((String) data.get(1));
+							tag.setDescription((String) data.get(TwigType.DOC));
 						
 					}
 					tags.add(tag);

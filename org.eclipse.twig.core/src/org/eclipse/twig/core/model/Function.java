@@ -1,12 +1,9 @@
 package org.eclipse.twig.core.model;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dltk.ast.Modifiers;
-import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceMethod;
-import org.eclipse.dltk.internal.core.SourceType;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -18,10 +15,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
  *
  */
 @SuppressWarnings("restriction")
-public class Function extends SourceType {
-	
-	
-	private String phpClass;
+public class Function extends TwigType {
 	
 	
 	public Function(ModelElement parent, String name) {
@@ -41,37 +35,23 @@ public class Function extends SourceType {
 		
 	}
 
-	public String getName() {
 
-		return name;
+
+	@SuppressWarnings("unchecked")
+	public String getMetadata() {
+
+		JSONObject metadata = new JSONObject();
+		
+		if (phpClass != null)
+			metadata.put(PHPCLASS, getPhpClass());
+		
+		return metadata.toJSONString();
 	}
-	
+
 	@Override
-	public int getFlags() throws ModelException {
-
-		return Modifiers.AccPublic;
+	public void setMetadata(JSONObject data) {
+		// TODO Auto-generated method stub
+		
 	}
-	
-	@Override
-	public Object getElementInfo() throws ModelException {
-
-		return new FakeTypeElementInfo();
-	}
-	
-	@Override
-	protected Object openWhenClosed(Object info, IProgressMonitor monitor)
-			throws ModelException {
-
-		return new FakeTypeElementInfo();
-
-	}
-
-	public String getPhpClass() {
-		return phpClass;
-	}
-
-	public void setPhpClass(String phpClass) {
-		this.phpClass = phpClass;
-	}	
 
 }

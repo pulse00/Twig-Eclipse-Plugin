@@ -1,7 +1,12 @@
 package org.eclipse.twig.core.index;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
+import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.declarations.TypeDeclaration;
+import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.references.SimpleReference;
 import org.eclipse.dltk.ast.statements.Statement;
@@ -20,10 +25,14 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.eclipse.twig.core.TwigCoreConstants;
 import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.ITwigModelElement;
+import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Test;
+import org.eclipse.twig.core.model.TwigType;
 import org.eclipse.twig.core.util.TwigModelUtils;
-import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * 
@@ -48,15 +57,26 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	
 	private Tag tag;
 	
+	private List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+	
+	private List<Function> functions = new ArrayList<Function>();
+	private List<Filter> filters = new ArrayList<Filter>();
+	private List<Test> tests= new ArrayList<Test>();	
+	
 	public TwigIndexingVisitorExtension() {
 
 	}
 	
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean visit(MethodDeclaration s) throws Exception {
 
 
+		
+		if (!methods.contains(s))
+			methods.add(s);
+		
 		if (s instanceof PHPMethodDeclaration) {
 			
 			PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) s;
@@ -65,7 +85,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 				
 				phpMethod.traverse(new PHPASTVisitor() {
 					
-					@SuppressWarnings("unchecked")
 					@Override
 					public boolean visit(ArrayElement s) throws Exception {
 
@@ -80,51 +99,109 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 							Scalar name = (Scalar) key;
 							ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
 							
+							Scalar internal = (Scalar) filterClass.getCtorParams().getChilds().get(0);
+							
+							if (internal == null)
+								return true;
+							
 							if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FILTER_FUNCTION)) {
 								
-								int length = currentClass.sourceEnd() - currentClass.sourceStart();
 								String elemName = name.getValue().replaceAll("['\"]", "");
 								
-								JSONArray metadata = new JSONArray();
-								metadata.add(currentClass.getName());
+								Filter filter = new Filter(elemName);
+								filter.setInternalFunction(internal.getValue().replaceAll("['\"]", ""));
+								filter.setPhpClass(currentClass.getName());
 								
-								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, currentClass.sourceStart(), length, elemName, metadata.toString(), null);
-								requestor.addReference(info);
+								filters.add(filter);
 								
 							}
 						}
 						return true;
 					}
 				});
-			} else if (inTwigExtension && TwigCoreConstants.GET_FUNCTIONS.equals(s.getName())) {
+				
+			} else if (inTwigExtension && TwigCoreConstants.GET_TESTS.equals(s.getName())) {
+				
 				
 				phpMethod.traverse(new PHPASTVisitor() {
 					
-					@SuppressWarnings("unchecked")
 					@Override
 					public boolean visit(ArrayElement s) throws Exception {
 
 						Expression key = s.getKey();
 						Expression value = s.getValue();
 						
-						if (key == null | value == null)
+						if (key == null || value == null)
 							return false;
 						
 						if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
 							
 							Scalar name = (Scalar) key;
-							ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
+							ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
 							
-							if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {
+							CallArgumentsList args = functionClass.getCtorParams();
+							Scalar internalFunction = (Scalar) args.getChilds().get(0);
+						
+							if (internalFunction == null)
+								return true;
+							
+							if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_TEST_FUNCTION)) {
 								
-								int length = currentClass.sourceEnd() - currentClass.sourceStart();
 								String elemName = name.getValue().replaceAll("['\"]", "");
 								
-								JSONArray metadata = new JSONArray();
-								metadata.add(currentClass.getName());
+								JSONObject metadata = new JSONObject();
+								metadata.put(TwigType.PHPCLASS, currentClass.getName());
 								
-								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, currentClass.sourceStart(), length, elemName, metadata.toString(), null);
-								requestor.addReference(info);
+								Test test = new Test(elemName);
+								test.setPhpClass(currentClass.getName());
+								test.setInternalFunction(internalFunction.getValue().replaceAll("['\"]", ""));
+								tests.add(test);
+								
+								
+							}
+						}
+						return true;
+					}
+				});			
+				
+				
+				
+			} else if (inTwigExtension && TwigCoreConstants.GET_FUNCTIONS.equals(s.getName())) {
+				
+				phpMethod.traverse(new PHPASTVisitor() {
+					
+					@Override
+					public boolean visit(ArrayElement s) throws Exception {
+
+						Expression key = s.getKey();
+						Expression value = s.getValue();
+						
+						if (key == null || value == null)
+							return false;
+						
+						if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
+							
+							Scalar name = (Scalar) key;
+							ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
+							
+							CallArgumentsList args = functionClass.getCtorParams();
+							Scalar internalFunction = (Scalar) args.getChilds().get(0);
+						
+							if (internalFunction == null)
+								return true;
+							
+							if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {
+								
+								String elemName = name.getValue().replaceAll("['\"]", "");
+								
+								JSONObject metadata = new JSONObject();
+								metadata.put(TwigType.PHPCLASS, currentClass.getName());
+								
+								Function function = new Function(elemName);
+								function.setPhpClass(currentClass.getName());
+								function.setInternalFunction(internalFunction.getValue().replaceAll("['\"]", ""));
+								functions.add(function);
+								
 								
 							}
 						}
@@ -152,7 +229,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 						return false;
 					}
 				});			
-			}			
+			}
 			
 			
 		}
@@ -174,6 +251,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 
 		if (s instanceof ClassDeclaration) {
 			
+		
 			inTwigExtension = false;
 			currentClass = (ClassDeclaration) s;
 			
@@ -203,6 +281,13 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 		
 		if (s instanceof ClassDeclaration) {
 		
+			
+			if (inTwigExtension) {
+			
+			}
+			
+			
+			
 			if (tag != null) {
 				
 				if (tag.getStartTag() != null && tag.getEndTag() != null) {
@@ -217,9 +302,9 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 						desc =  longDesc + shortDesc;						
 					}
 					
-					JSONArray metadata = new JSONArray();
-					metadata.add(currentClass.getName());
-					metadata.add(desc);					
+					JSONObject metadata = new JSONObject();
+					metadata.put(TwigType.PHPCLASS, currentClass.getName());
+					metadata.put(TwigType.DOC, desc);					
 
 					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag() + " with metadata: " + metadata.toString());
 					
@@ -325,6 +410,47 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 		return false;
 		
 		
+	}
+	
+	
+	@Override
+	public boolean endvisit(ModuleDeclaration s) throws Exception {
+
+		
+		for (Function function : functions) {
+
+//			ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, 0, 0, function.getElementName(), function.getMetadata(), null);
+//			requestor.addReference(info);
+			
+		}
+		
+				
+		for (Filter filter : filters) {			
+			for (MethodDeclaration method : methods) {
+				
+				if (method.getName().equals(filter.getInternalFunction())) {
+					
+					PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) method;
+					PHPDocBlock doc = phpMethod.getPHPDoc();
+					
+					if (doc != null) {
+						filter.addDoc(doc);
+					}
+					
+					filter.addArgs(method.getArguments());
+					
+					
+					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, 0, 0, filter.getElementName(), filter.getMetadata(), null);
+					requestor.addReference(info);
+					
+				}
+				
+			}
+		}
+		
+		
+		return true;
+	
 	}
 
 }

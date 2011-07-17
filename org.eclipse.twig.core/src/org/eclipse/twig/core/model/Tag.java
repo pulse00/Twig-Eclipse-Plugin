@@ -1,9 +1,7 @@
 package org.eclipse.twig.core.model;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dltk.ast.Modifiers;
-import org.eclipse.dltk.core.ModelException;
-import org.eclipse.dltk.internal.core.SourceType;
+import org.json.simple.JSONObject;
+
 
 /**
  * 
@@ -14,14 +12,11 @@ import org.eclipse.dltk.internal.core.SourceType;
  *
  */
 @SuppressWarnings("restriction")
-public class Tag extends SourceType {
+public class Tag extends TwigType {
 	
 	private String startTag;
 	private String endTag;	
-	private String phpClass;
-	private String description;
-	
-	
+
 	public Tag(String startTag) {
 
 		super(null, startTag);
@@ -59,47 +54,16 @@ public class Tag extends SourceType {
 
 		return startTag + " : " + endTag;
 	}
-	
+
 	@Override
-	public int getFlags() throws ModelException {
+	public String getMetadata() {
 
-		return Modifiers.AccPublic;
+		return "";
 	}
-	
+
 	@Override
-	public Object getElementInfo() throws ModelException {
-
-		return new FakeTypeElementInfo();
-	}
-	
-	@Override
-	protected Object openWhenClosed(Object info, IProgressMonitor monitor)
-			throws ModelException {
-
-		return new FakeTypeElementInfo();
-
-	}
-
-	public void setPHPClass(String clazz) {
-		
-		this.phpClass = clazz;
-		
-	}
-	
-	public String getPHpClass() {
-		
-		return phpClass;
-	}
-
-	public void setDescription(String desc) {
-
-		this.description = desc;
-		
-	}	
-	
-	public String getDescription() {
-		
-		return description;
+	public void setMetadata(JSONObject data) {
+		// TODO Auto-generated method stub
 		
 	}
 }

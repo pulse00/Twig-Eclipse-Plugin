@@ -42,7 +42,9 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 			Filter[] filters = model.getFilters(ctx.getSourceModule().getScriptProject());
 			
 			for (Filter filter : filters) {				
-				if (CodeAssistUtils.startsWithIgnoreCase(filter.getName(), prefix)) {					
+				if (CodeAssistUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {		
+					
+					filter.setScriptProject(ctx.getSourceModule().getScriptProject());
 					reporter.reportType(filter, "", range);
 				}
 			}

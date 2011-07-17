@@ -10,6 +10,7 @@ import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.ui.editor.configuration.TwigContributionContextTypeRegistry;
 import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
 import org.eclipse.twig.ui.preferences.PreferenceConstants;
+import org.eclipse.twig.ui.viewsupport.ImagesOnFileSystemRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -31,6 +32,8 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 	protected TemplateStore templateStore = null;
 
 	private ImageDescriptorRegistry fImageDescriptorRegistry;
+	
+	private ImagesOnFileSystemRegistry fImagesOnFSRegistry;	
 	
 	
 	/**
@@ -108,4 +111,12 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 
 		
 	}
+	
+	public ImagesOnFileSystemRegistry getImagesOnFSRegistry() {
+		if (fImagesOnFSRegistry == null) {
+			fImagesOnFSRegistry = new ImagesOnFileSystemRegistry();
+		}
+		return fImagesOnFSRegistry;
+	}
+	
 }

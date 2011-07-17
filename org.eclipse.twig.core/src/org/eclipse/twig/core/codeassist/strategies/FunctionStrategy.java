@@ -40,7 +40,7 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 			Function[] functions = model.getFunctions(ctx.getSourceModule().getScriptProject());
 				
 			for (Function function : functions) {				
-				if (CodeAssistUtils.startsWithIgnoreCase(function.getName(), prefix)) {					
+				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {					
 			
 					reporter.reportType(function, "", range);					
 				}

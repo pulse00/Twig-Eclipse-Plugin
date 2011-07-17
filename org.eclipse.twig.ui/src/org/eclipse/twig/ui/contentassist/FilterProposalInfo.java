@@ -5,6 +5,7 @@ import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
 import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.ui.utils.HTMLUtils;
 
 /**
  * 
@@ -29,20 +30,21 @@ public class FilterProposalInfo extends MemberProposalInfo {
  
 		try {
 			
-			Filter tag = (Filter) getModelElement();
+			Filter filter = (Filter) getModelElement();
 			
-			if (tag != null && tag.getPHPClass() != null) {
-				return tag.getPHPClass() + " <br/><br/>";
+			if (filter != null) {				
+				return HTMLUtils.filter2Html(filter);
 			}
 			
+			return "";
 			
-			return "";			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
+			
 		}
-		
-		return "";
 	}				
+
 
 }

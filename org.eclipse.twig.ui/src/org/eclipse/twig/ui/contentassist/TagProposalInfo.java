@@ -23,7 +23,7 @@ public class TagProposalInfo extends MemberProposalInfo {
 			if (tag != null) {
 				
 				
-				return tag.getPHpClass() + " <br/><br/>" + tag.getDescription();
+				return tag.getPhpClass() + " <br/><br/>" + tag.getDescription();
 			}
 			
 			
