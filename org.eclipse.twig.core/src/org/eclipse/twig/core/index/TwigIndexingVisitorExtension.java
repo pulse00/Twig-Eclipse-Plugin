@@ -290,7 +290,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 			
 			if (tag != null) {
 				
-				if (tag.getStartTag() != null && tag.getEndTag() != null) {
+				if (tag.getStartTag() != null) {
 					
 					int length = currentClass.sourceEnd() - currentClass.sourceStart();					
 					PHPDocBlock block = currentClass.getPHPDoc();
@@ -299,7 +299,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					if (block != null) {
 						String shortDesc = block.getShortDescription() != null ? block.getShortDescription() : "";
 						String longDesc = block.getLongDescription() != null ? block.getLongDescription() : "";
-						desc =  longDesc + shortDesc;						
+						desc =  shortDesc + longDesc;						
 					}
 					
 					JSONObject metadata = new JSONObject();
@@ -311,8 +311,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), metadata.toString(), null);
 					requestor.addReference(info);
 					
-					ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), metadata.toString(), null);
-					requestor.addReference(endIinfo);
+					if (tag.getEndTag() != null) {
+						ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), metadata.toString(), null);
+						requestor.addReference(endIinfo);
+					}
 					
 														
 				}			
@@ -429,6 +431,8 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 						test.addDoc(doc);
 					}
 					
+
+					Logger.debugMSG("indexing test tag: " + test.getElementName() + " with metadata: " + test.getMetadata());
 					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.TEST, 0, 0, test.getElementName(), test.getMetadata(), null);
 					requestor.addReference(info);
@@ -440,8 +444,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 		
 		for (Function function : functions) {
 
-			System.err.println("function: " + function.getElementName());
-			
 			for (MethodDeclaration method : methods) {
 				
 				if (method.getName().equals(function.getInternalFunction())) {
@@ -454,6 +456,8 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					}
 					
 					function.addArgs(method.getArguments());
+					
+					Logger.debugMSG("indexing function: " + function.getElementName() + " with metadata: " + function.getMetadata());
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, 0, 0, function.getElementName(), function.getMetadata(), null);
 					requestor.addReference(info);
 					
@@ -476,6 +480,8 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					}
 					
 					filter.addArgs(method.getArguments());
+					
+					Logger.debugMSG("indexing function: " + filter.getElementName() + " with metadata: " + filter.getMetadata());					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, 0, 0, filter.getElementName(), filter.getMetadata(), null);
 					requestor.addReference(info);
 					

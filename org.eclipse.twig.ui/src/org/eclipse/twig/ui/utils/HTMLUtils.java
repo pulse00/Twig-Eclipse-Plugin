@@ -19,6 +19,7 @@ import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.eclipse.php.internal.ui.documentation.PHPDocumentationContentAccess;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.core.model.Test;
 import org.eclipse.twig.ui.TwigPluginImages;
 import org.eclipse.twig.ui.TwigUICorePlugin;
@@ -37,6 +38,42 @@ import org.osgi.framework.Bundle;
 public class HTMLUtils {
 	
 	private static String fgStyleSheet;
+	
+	
+	public static String tag2Html(Tag tag) {
+		
+		StringBuffer info = new StringBuffer();
+		String styles = getStyleSheet();
+		HTMLPrinter.insertPageProlog(info, 0, styles);
+		
+		URL imageUrl = TwigUICorePlugin.getDefault().getImagesOnFSRegistry().getImageURL(TwigPluginImages.DESC_OBJS_TAG);
+		String body = null;
+		
+		if (imageUrl != null) {
+			
+			StringBuffer header = new StringBuffer();
+			String imageName = imageUrl.toExternalForm();
+			String name = tag.getElementName() + " (" + tag.getPhpClass() +  ")";
+			
+			body = tag.getDescription();
+			addImageAndLabel(header, imageName, 16, 16, 2, 2, name, 20, 2, true);
+			HTMLPrinter.addSmallHeader(info, header.toString());
+
+		}
+		
+		StringBuffer content = new StringBuffer();		
+
+		if (body != null)
+			content.append(body);
+			
+		HTMLPrinter.addParagraph(info, new StringReader(content.toString()));
+		HTMLPrinter.addPageEpilog(info);
+		
+		return info.toString();		
+		
+		
+	}
+	
 	
 	public static String test2Html(Test test) {
 		
