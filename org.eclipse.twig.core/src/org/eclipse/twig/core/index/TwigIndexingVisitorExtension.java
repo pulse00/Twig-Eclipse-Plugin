@@ -416,13 +416,8 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	@Override
 	public boolean endvisit(ModuleDeclaration s) throws Exception {
 
-		
 		for (Test test : tests) {
 
-			System.err.println("test: " + test.getElementName());
-			
-			System.err.println("add test");
-			
 			for (MethodDeclaration method : methods) {
 				
 				if (method.getName().equals(test.getInternalFunction())) {
