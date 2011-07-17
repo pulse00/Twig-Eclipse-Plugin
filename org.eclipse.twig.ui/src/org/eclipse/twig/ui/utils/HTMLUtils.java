@@ -7,11 +7,14 @@ import java.io.StringReader;
 import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IMethod;
+import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
+import org.eclipse.dltk.internal.core.SourceMethod;
 import org.eclipse.dltk.ui.PreferenceConstants;
 import org.eclipse.jface.internal.text.html.HTMLPrinter;
 import org.eclipse.jface.resource.JFaceResources;
@@ -49,9 +52,7 @@ public class HTMLUtils {
 			IMethod[] methods = PhpModelAccess.getDefault().findMethods(filter.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
 			
 			if (methods.length > 0 && filter.getInternalFunction().length() > 0) {
-				
 				IMethod method = methods[0];
-				
 				try {
 					body = PHPDocumentationContentAccess.getHTMLContent(method);
 				} catch (Exception e) {

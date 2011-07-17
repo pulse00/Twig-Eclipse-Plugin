@@ -417,15 +417,58 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	public boolean endvisit(ModuleDeclaration s) throws Exception {
 
 		
+		for (Test test : tests) {
+
+			System.err.println("test: " + test.getElementName());
+			
+			System.err.println("add test");
+			
+			for (MethodDeclaration method : methods) {
+				
+				if (method.getName().equals(test.getInternalFunction())) {
+					
+					PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) method;
+					PHPDocBlock doc = phpMethod.getPHPDoc();
+					
+					if (doc != null) {
+						test.addDoc(doc);
+					}
+					
+					
+					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.TEST, 0, 0, test.getElementName(), test.getMetadata(), null);
+					requestor.addReference(info);
+					
+				}			
+			}			
+		}
+		
+		
 		for (Function function : functions) {
 
-//			ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, 0, 0, function.getElementName(), function.getMetadata(), null);
-//			requestor.addReference(info);
+			System.err.println("function: " + function.getElementName());
 			
+			for (MethodDeclaration method : methods) {
+				
+				if (method.getName().equals(function.getInternalFunction())) {
+					
+					PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) method;
+					PHPDocBlock doc = phpMethod.getPHPDoc();
+					
+					if (doc != null) {
+						function.addDoc(doc);
+					}
+					
+					function.addArgs(method.getArguments());
+					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, 0, 0, function.getElementName(), function.getMetadata(), null);
+					requestor.addReference(info);
+					
+				}			
+			}			
 		}
 		
 				
-		for (Filter filter : filters) {			
+		for (Filter filter : filters) {		
+			
 			for (MethodDeclaration method : methods) {
 				
 				if (method.getName().equals(filter.getInternalFunction())) {
@@ -438,13 +481,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					}
 					
 					filter.addArgs(method.getArguments());
-					
-					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, 0, 0, filter.getElementName(), filter.getMetadata(), null);
 					requestor.addReference(info);
 					
-				}
-				
+				}				
 			}
 		}
 		

@@ -25,12 +25,16 @@ public class TwigPluginImages {
 	
 	public static final String IMG_OBJS_TAG = NAME_PREFIX + "block-small-icon.gif";
 	public static final String IMG_OBJS_FILTER = NAME_PREFIX + "filter-icon.gif"; 		
-	public static final String IMG_OBJS_FUNCTION = NAME_PREFIX + "paren.gif";	
+	public static final String IMG_OBJS_FUNCTION = NAME_PREFIX + "paren.gif";
+	public static final String IMG_OBJS_TEST = NAME_PREFIX + "question-small-icon.gif";		
 	
 	
 	public static final ImageDescriptor DESC_OBJS_TAG = createManagedFromKey(T_OBJ, IMG_OBJS_TAG);	
 	public static final ImageDescriptor DESC_OBJS_FILTER = createManagedFromKey(T_OBJ, IMG_OBJS_FILTER);	
 	public static final ImageDescriptor DESC_OBJS_FUNCTION = createManagedFromKey(T_OBJ, IMG_OBJS_FUNCTION);	
+	public static final ImageDescriptor DESC_OBJS_TEST = createManagedFromKey(T_OBJ, IMG_OBJS_TEST);	
+	
+	
 	
 	
 	

@@ -13,10 +13,12 @@ import org.eclipse.twig.core.TwigNature;
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Test;
 import org.eclipse.twig.ui.contentassist.EmptyCompletionProposal;
 import org.eclipse.twig.ui.contentassist.FilterProposalInfo;
 import org.eclipse.twig.ui.contentassist.FunctionProposalInfo;
 import org.eclipse.twig.ui.contentassist.TagProposalInfo;
+import org.eclipse.twig.ui.contentassist.TestProposalInfo;
 import org.eclipse.twig.ui.editor.TwigCompletionProposalLabelProvider;
 
 
@@ -79,11 +81,24 @@ public class TwigCompletionProposalCollector extends
 			return createFilterProposal(proposal);
 		} else if (element.getClass() == Function.class) {			
 			return createFunctionProposal(proposal);
+		} else if (element.getClass() == Test.class) {			
+			return createTestProposal(proposal);
 		}
 		
 		
 		return super.createScriptCompletionProposal(proposal);
 	}
+	
+	private IScriptCompletionProposal createTestProposal(
+			CompletionProposal proposal) {
+
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		scriptProposal.setProposalInfo(new TestProposalInfo(getSourceModule().getScriptProject(), proposal));
+		return scriptProposal;								
+
+	}
+	
 	
 	private IScriptCompletionProposal createFunctionProposal(
 			CompletionProposal proposal) {

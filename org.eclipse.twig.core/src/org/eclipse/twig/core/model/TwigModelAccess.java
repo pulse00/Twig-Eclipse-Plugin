@@ -370,4 +370,41 @@ public class TwigModelAccess extends PhpModelAccess {
 		return (Tag[]) tags.toArray(new Tag[tags.size()]);
 		
 	}
+
+	public Test[] getTests(IScriptProject scriptProject) {
+
+		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+		
+		final JSONParser parser = new JSONParser();
+
+		final List<Test> tests = new ArrayList<Test>();
+
+		engine.search(ITwigModelElement.TEST, null, null, 0, 0, 100, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
+
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+
+				try {
+					Test test = new Test(elementName);
+					if (metadata != null) {
+						JSONObject mdata = (JSONObject) parser.parse(new StringReader(metadata));	
+						test.setMetadata(mdata);
+					}
+					
+					tests.add(test);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, null);
+
+		return (Test[]) tests.toArray(new Test[tests.size()]);		
+
+	}
 }

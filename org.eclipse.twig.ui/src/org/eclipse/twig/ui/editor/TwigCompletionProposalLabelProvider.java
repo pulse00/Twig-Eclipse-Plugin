@@ -7,6 +7,7 @@ import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLab
 import org.eclipse.twig.core.model.Filter;
 import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Test;
 import org.eclipse.twig.ui.TwigPluginImages;
 
 
@@ -39,6 +40,9 @@ public class TwigCompletionProposalLabelProvider extends
 		} else if (element.getClass() == Function.class) {
 			
 			return TwigPluginImages.DESC_OBJS_FUNCTION;
+		} else if (element.getClass() == Test.class) {
+			
+			return TwigPluginImages.DESC_OBJS_TEST;
 		}
 		
 		return super.createTypeImageDescriptor(proposal);

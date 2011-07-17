@@ -42,6 +42,7 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 			for (Function function : functions) {				
 				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {					
 			
+					function.setScriptProject(ctx.getSourceModule().getScriptProject());
 					reporter.reportType(function, "", range);					
 				}
 			}
