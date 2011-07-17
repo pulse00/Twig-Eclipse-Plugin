@@ -47,7 +47,9 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 			String prefix = ctx.getPrefix();
 			SourceRange range = getReplacementRange(getContext());
 			
-			for (Filter filter : model.getFilters()) {				
+			Filter[] filters = model.getFilters(ctx.getSourceModule().getScriptProject());
+			
+			for (Filter filter : filters) {				
 				if (CodeAssistUtils.startsWithIgnoreCase(filter.getName(), prefix)) {					
 					FakeMethod method = new FakeMethod((ModelElement) filterType, filter.getName());
 					reporter.reportMethod(method, "", range);					

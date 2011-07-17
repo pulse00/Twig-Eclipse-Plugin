@@ -29,6 +29,7 @@ public class TwigCoreConstants {
 	public static final String TWIG_TOKEN_PARSER = "Twig_TokenParser";
 	public static final String PARSE_TOKEN_METHOD = "parse";
 	public static final String PARSE_GET_TAG_METHOD = "getTag";
+	public static final String PARSE_SUB = "subparse";
 			
 
 }

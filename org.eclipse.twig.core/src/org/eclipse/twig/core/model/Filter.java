@@ -1,6 +1,5 @@
 package org.eclipse.twig.core.model;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 
@@ -19,10 +18,15 @@ public class Filter {
 
 	private String name;
 	
-	public Filter(IFile file, Scalar name) {
+	public Filter(Scalar name) {
 
 		this.name = name.getValue().replace("'", "").replace("\"", "");
 		
+	}
+
+	public Filter(String elementName) {
+
+		this.name = elementName;
 	}
 
 	public String getName() {

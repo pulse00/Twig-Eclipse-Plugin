@@ -107,5 +107,11 @@ org.eclipse.twig.core.TwigNature
          </parser>
       </parserContribution>
    </extension>
+   <extension
+         point="org.eclipse.php.core.phpIndexingVisitors">
+      <visitor
+            class="org.eclipse.twig.core.index.TwigIndexingVisitorExtension">
+      </visitor>
+   </extension>
 
 </plugin>

@@ -13,6 +13,14 @@ import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.TwigModelAccess;
 
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings({ "restriction", "deprecation" })
 public class FunctionStrategy extends AbstractCompletionStrategy {
 
@@ -28,6 +36,8 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 
 			FunctionContext ctx = (FunctionContext) getContext();
 			TwigModelAccess model = TwigModelAccess.getInstance();
+			
+			//TODO: replace this by native Twig proposal to avoid the search call for the function IType
 			IType functionType = model.getFunctionType(ctx.getSourceModule());
 			
 			if (functionType == null) {
@@ -37,7 +47,9 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 			String prefix = ctx.getPrefix();
 			SourceRange range = getReplacementRange(getContext());
 			
-			for (Function function : model.getFunctions()) {				
+			Function[] functions = model.getFunctions(ctx.getSourceModule().getScriptProject());
+				
+			for (Function function : functions) {				
 				if (CodeAssistUtils.startsWithIgnoreCase(function.getName(), prefix)) {					
 					FakeMethod method = new FakeMethod((ModelElement) functionType, function.getName());
 					reporter.reportMethod(method, "", range);					
@@ -47,7 +59,5 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 		} catch (Exception e) {
 			Logger.logException(e);
 		}			
-
 	}
-
 }

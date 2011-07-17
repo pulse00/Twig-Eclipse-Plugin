@@ -1,7 +1,5 @@
 package org.eclipse.twig.core.builder;
 
-import java.util.Stack;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -10,10 +8,8 @@ import org.eclipse.dltk.core.SourceParserUtil;
 import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
 import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.model.Filter;
-import org.eclipse.twig.core.model.Function;
-import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.twig.core.model.Template;
+import org.eclipse.twig.core.model.TwigModelAccess;
 
 /**
  * 
@@ -32,17 +28,8 @@ import org.eclipse.twig.core.model.Template;
  */
 public class TwigBuildParticipant implements IBuildParticipant {
 	
-
 	private TwigModelAccess model = TwigModelAccess.getInstance();
 	
-	private ModuleDeclaration getModuleDeclaration(IBuildContext context) {
-		
-		ISourceModule sourceModule = context.getSourceModule();		
-		ModuleDeclaration moduleDeclaration = SourceParserUtil.getModuleDeclaration(sourceModule);
-		
-		return moduleDeclaration;		
-		
-	}	
 	
 	@Override
 	public void build(IBuildContext context) throws CoreException {
@@ -57,13 +44,7 @@ public class TwigBuildParticipant implements IBuildParticipant {
 				model.addTemplate(new Template(sourceModule));
 			} else if (file.getFileExtension().equals("php")) {
 			
-				TwigVisitor visitor = new TwigVisitor(context);
-				getModuleDeclaration(context).traverse(visitor);
 				
-				Stack<Filter> filters = visitor.getFilters();
-				Stack<Function> functions = visitor.getFunctions();
-				model.addFilters(filters);
-				model.addFunctions(functions);
 			}			
 						
 		} catch (Exception e) {
