@@ -14,6 +14,7 @@ import org.eclipse.twig.core.codeassist.context.FilterContext;
 import org.eclipse.twig.core.codeassist.context.FunctionContext;
 import org.eclipse.twig.core.codeassist.context.KeywordContext;
 import org.eclipse.twig.core.codeassist.context.QuotesContext;
+import org.eclipse.twig.core.codeassist.context.TagContext;
 import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
 import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
 import org.eclipse.twig.core.log.Logger;
@@ -49,6 +50,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 		contexts.add(new TemplateVariablesContext());
 		contexts.add(new QuotesContext());
 		contexts.add(new FunctionContext());
+		contexts.add(new TagContext());
 		
 		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(CONTEXTYFACTORY_ID);		
 		

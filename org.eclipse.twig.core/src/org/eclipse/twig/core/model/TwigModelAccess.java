@@ -307,4 +307,52 @@ public class TwigModelAccess extends PhpModelAccess {
 		
 		
 	}
+
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @param scriptProject
+	 * @return
+	 */
+	public Tag[] findTags(IScriptProject scriptProject) {
+
+		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+		
+		final List<Tag> tags = new ArrayList<Tag>();
+
+		engine.search(ITwigModelElement.START_TAG, null, null, 0, 0, 200, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
+
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+
+				Tag tag = new Tag(elementName);
+				tags.add(tag);								
+
+			}
+		}, null);
+		
+		engine.search(ITwigModelElement.END_TAG, null, null, 0, 0, 200, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
+
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+
+				Tag tag = new Tag(elementName);
+				tags.add(tag);				
+
+			}
+		}, null);
+				
+		return (Tag[]) tags.toArray(new Tag[tags.size()]);
+		
+	}
 }

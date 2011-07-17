@@ -1,5 +1,10 @@
 package org.eclipse.twig.core.model;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.dltk.ast.Modifiers;
+import org.eclipse.dltk.core.ModelException;
+import org.eclipse.dltk.internal.core.SourceType;
+
 /**
  * 
  * 
@@ -8,19 +13,24 @@ package org.eclipse.twig.core.model;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class Tag {
+@SuppressWarnings("restriction")
+public class Tag extends SourceType {
 	
 	private String startTag;
 	private String endTag;
 	
+	
 	public Tag(String startTag) {
 
+		super(null, startTag);
 		this.startTag = startTag;
 		
 	}
 
 	public Tag() {
 
+		super(null, null);
+		
 	}
 
 	public String getStartTag() {
@@ -28,6 +38,8 @@ public class Tag {
 	}
 
 	public void setStartTag(String startTag) {
+		
+		this.name = startTag;
 		this.startTag = startTag;
 	}
 
@@ -45,4 +57,24 @@ public class Tag {
 
 		return startTag + " : " + endTag;
 	}
+	
+	@Override
+	public int getFlags() throws ModelException {
+
+		return Modifiers.AccPublic;
+	}
+	
+	@Override
+	public Object getElementInfo() throws ModelException {
+
+		return new FakeTypeElementInfo();
+	}
+	
+	@Override
+	protected Object openWhenClosed(Object info, IProgressMonitor monitor)
+			throws ModelException {
+
+		return new FakeTypeElementInfo();
+
+	}	
 }

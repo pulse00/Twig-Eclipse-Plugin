@@ -82,6 +82,7 @@ public class TwigDOMModelParser extends XMLModelParser {
 				root = parser.twig_source();
 				TwigCommonTree tree = (TwigCommonTree) root.getTree();
 				TwigStatementVisitor visitor = new TwigStatementVisitor();
+				
 				tree.accept(visitor);
 
 				if (visitor.getStatementType() == TwigParser.TWIG_TAG) {				
