@@ -18,7 +18,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.eclipse.twig.core.TwigCoreConstants;
-import org.eclipse.twig.core.model.BlockTag;
+import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.core.model.ITwigModelElement;
 import org.eclipse.twig.core.util.TwigModelUtils;
 
@@ -43,7 +43,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	private boolean inTagParseMethod;
 	private ClassDeclaration currentClass;
 	
-	private BlockTag blockTag;
+	private Tag blockTag;
 	
 	public TwigIndexingVisitorExtension() {
 
@@ -171,7 +171,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					inTwigExtension = true;			
 				} else if (superclass.equals(TwigCoreConstants.TWIG_TOKEN_PARSER)) {				
 					
-					blockTag = new BlockTag();
+					blockTag = new Tag();
 					inTokenParser = true;
 				}
 			}
