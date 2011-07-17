@@ -17,7 +17,9 @@ import org.eclipse.dltk.internal.core.SourceType;
 public class Tag extends SourceType {
 	
 	private String startTag;
-	private String endTag;
+	private String endTag;	
+	private String phpClass;
+	private String description;
 	
 	
 	public Tag(String startTag) {
@@ -76,5 +78,28 @@ public class Tag extends SourceType {
 
 		return new FakeTypeElementInfo();
 
+	}
+
+	public void setPHPClass(String clazz) {
+		
+		this.phpClass = clazz;
+		
+	}
+	
+	public String getPHpClass() {
+		
+		return phpClass;
+	}
+
+	public void setDescription(String desc) {
+
+		this.description = desc;
+		
 	}	
+	
+	public String getDescription() {
+		
+		return description;
+		
+	}
 }

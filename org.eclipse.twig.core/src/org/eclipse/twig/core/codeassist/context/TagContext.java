@@ -22,6 +22,7 @@ public class TagContext extends KeywordContext {
 		
 		if (super.isValid(sourceModule, offset, requestor)) {
 
+			//TODO: check if we're in a {% %} statement region
 
 			return true;
 			

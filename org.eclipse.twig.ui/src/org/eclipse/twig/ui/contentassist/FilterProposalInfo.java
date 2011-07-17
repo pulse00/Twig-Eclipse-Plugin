@@ -4,26 +4,35 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
-import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Filter;
 
-public class TagProposalInfo extends MemberProposalInfo {
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
+public class FilterProposalInfo extends MemberProposalInfo {
 
-	public TagProposalInfo(IScriptProject project, CompletionProposal proposal) {
+	public FilterProposalInfo(IScriptProject project,
+			CompletionProposal proposal) {
 		super(project, proposal);
 
 	}
+	
 	
 	@Override
 	public String getInfo(IProgressMonitor monitor) {
  
 		try {
 			
-			Tag tag = (Tag) getModelElement();
+			Filter tag = (Filter) getModelElement();
 			
-			if (tag != null) {
-				
-				
-				return tag.getPHpClass() + " <br/><br/>" + tag.getDescription();
+			if (tag != null && tag.getPHPClass() != null) {
+				return tag.getPHPClass() + " <br/><br/>";
 			}
 			
 			
@@ -34,6 +43,6 @@ public class TagProposalInfo extends MemberProposalInfo {
 		}
 		
 		return "";
-	}			
+	}				
 
 }

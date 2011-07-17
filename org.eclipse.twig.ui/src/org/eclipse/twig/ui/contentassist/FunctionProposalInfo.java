@@ -4,13 +4,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
-import org.eclipse.twig.core.model.Tag;
+import org.eclipse.twig.core.model.Function;
 
-public class TagProposalInfo extends MemberProposalInfo {
+public class FunctionProposalInfo extends MemberProposalInfo {
 
-	public TagProposalInfo(IScriptProject project, CompletionProposal proposal) {
+	public FunctionProposalInfo(IScriptProject project,
+			CompletionProposal proposal) {
 		super(project, proposal);
-
+		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -18,13 +19,11 @@ public class TagProposalInfo extends MemberProposalInfo {
  
 		try {
 			
-			Tag tag = (Tag) getModelElement();
+			Function tag = (Function) getModelElement();
 			
-			if (tag != null) {
-				
-				
-				return tag.getPHpClass() + " <br/><br/>" + tag.getDescription();
-			}
+//			if (tag != null && tag.getPHPClass() != null) {
+//				return tag.getPHPClass() + " <br/><br/>";
+//			}
 			
 			
 			return "";			
@@ -34,6 +33,5 @@ public class TagProposalInfo extends MemberProposalInfo {
 		}
 		
 		return "";
-	}			
-
+	}				
 }

@@ -34,7 +34,7 @@ public class TagStrategy extends AbstractTwigCompletionStrategy {
 		SourceRange range = getReplacementRange(ctx);
 		
 		for (Tag tag : tags) {
-			reporter.reportType(tag, "", range);			
+			reporter.reportType(tag, "", range);
 		}
 	}
 }

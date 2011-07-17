@@ -23,10 +23,16 @@ public class TwigPluginImages {
 	private static HashMap<String, ImageDescriptor> fgAvoidSWTErrorMap = null;
 	private static final String T_OBJ = "obj16"; //$NON-NLS-1$
 	
-	public static final String IMG_OBJS_TAG = NAME_PREFIX + "route-icon.gif"; 				
+	public static final String IMG_OBJS_TAG = NAME_PREFIX + "block-small-icon.gif";
+	public static final String IMG_OBJS_FILTER = NAME_PREFIX + "filter-icon.gif"; 		
+	public static final String IMG_OBJS_FUNCTION = NAME_PREFIX + "paren.gif";	
 	
 	
 	public static final ImageDescriptor DESC_OBJS_TAG = createManagedFromKey(T_OBJ, IMG_OBJS_TAG);	
+	public static final ImageDescriptor DESC_OBJS_FILTER = createManagedFromKey(T_OBJ, IMG_OBJS_FILTER);	
+	public static final ImageDescriptor DESC_OBJS_FUNCTION = createManagedFromKey(T_OBJ, IMG_OBJS_FUNCTION);	
+	
+	
 	
 	private static ImageDescriptor createManagedFromKey(String prefix, String key) {
 		return createManaged(prefix, key.substring(NAME_PREFIX_LENGTH), key);

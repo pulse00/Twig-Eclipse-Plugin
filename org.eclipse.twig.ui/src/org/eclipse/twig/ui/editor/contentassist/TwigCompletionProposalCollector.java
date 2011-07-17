@@ -10,8 +10,12 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalCollector;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.twig.core.TwigNature;
+import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.ui.contentassist.EmptyCompletionProposal;
+import org.eclipse.twig.ui.contentassist.FilterProposalInfo;
+import org.eclipse.twig.ui.contentassist.FunctionProposalInfo;
 import org.eclipse.twig.ui.contentassist.TagProposalInfo;
 import org.eclipse.twig.ui.editor.TwigCompletionProposalLabelProvider;
 
@@ -71,14 +75,38 @@ public class TwigCompletionProposalCollector extends
 		// creates a proposal for a route
 		if (element.getClass() == Tag.class) {
 			return createTagProposal(proposal);
-		} 
+		} else if (element.getClass() == Filter.class) {
+			return createFilterProposal(proposal);
+		} else if (element.getClass() == Function.class) {			
+			return createFunctionProposal(proposal);
+		}
 		
-
 		
-//		// don't complete anything else or we'll get duplicate entries
 		return super.createScriptCompletionProposal(proposal);
 	}
 	
+	private IScriptCompletionProposal createFunctionProposal(
+			CompletionProposal proposal) {
+
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		scriptProposal.setProposalInfo(new FunctionProposalInfo(getSourceModule().getScriptProject(), proposal));
+		return scriptProposal;								
+
+	}
+
+
+	private IScriptCompletionProposal createFilterProposal(
+			CompletionProposal proposal) {
+
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		scriptProposal.setProposalInfo(new FilterProposalInfo(getSourceModule().getScriptProject(), proposal));
+		return scriptProposal;								
+
+	}
+
+
 	private IScriptCompletionProposal createTagProposal(
 			CompletionProposal proposal) {
 

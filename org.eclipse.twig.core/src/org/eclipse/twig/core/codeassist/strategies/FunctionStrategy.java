@@ -1,13 +1,10 @@
 package org.eclipse.twig.core.codeassist.strategies;
 
-import org.eclipse.dltk.core.IType;
-import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
-import org.eclipse.php.internal.core.typeinference.FakeMethod;
 import org.eclipse.twig.core.codeassist.context.FunctionContext;
 import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Function;
@@ -37,13 +34,6 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 			FunctionContext ctx = (FunctionContext) getContext();
 			TwigModelAccess model = TwigModelAccess.getDefault();
 			
-			//TODO: replace this by native Twig proposal to avoid the search call for the function IType
-			IType functionType = model.getFunctionType(ctx.getSourceModule());
-			
-			if (functionType == null) {
-				return;
-			}
-			
 			String prefix = ctx.getPrefix();
 			SourceRange range = getReplacementRange(getContext());
 			
@@ -51,8 +41,8 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 				
 			for (Function function : functions) {				
 				if (CodeAssistUtils.startsWithIgnoreCase(function.getName(), prefix)) {					
-					FakeMethod method = new FakeMethod((ModelElement) functionType, function.getName());
-					reporter.reportMethod(method, "", range);					
+			
+					reporter.reportType(function, "", range);					
 				}
 			}
 			

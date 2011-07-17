@@ -13,6 +13,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.ClassDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ClassInstanceCreation;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ExpressionStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.PHPCallExpression;
+import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
 import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
@@ -22,6 +23,7 @@ import org.eclipse.twig.core.log.Logger;
 import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.core.model.ITwigModelElement;
 import org.eclipse.twig.core.util.TwigModelUtils;
+import org.json.simple.JSONArray;
 
 /**
  * 
@@ -63,6 +65,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 				
 				phpMethod.traverse(new PHPASTVisitor() {
 					
+					@SuppressWarnings("unchecked")
 					@Override
 					public boolean visit(ArrayElement s) throws Exception {
 
@@ -82,7 +85,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 								int length = currentClass.sourceEnd() - currentClass.sourceStart();
 								String elemName = name.getValue().replaceAll("['\"]", "");
 								
-								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, currentClass.sourceStart(), length, elemName, null, null);
+								JSONArray metadata = new JSONArray();
+								metadata.add(currentClass.getName());
+								
+								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, currentClass.sourceStart(), length, elemName, metadata.toString(), null);
 								requestor.addReference(info);
 								
 							}
@@ -94,6 +100,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 				
 				phpMethod.traverse(new PHPASTVisitor() {
 					
+					@SuppressWarnings("unchecked")
 					@Override
 					public boolean visit(ArrayElement s) throws Exception {
 
@@ -113,7 +120,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 								int length = currentClass.sourceEnd() - currentClass.sourceStart();
 								String elemName = name.getValue().replaceAll("['\"]", "");
 								
-								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, currentClass.sourceStart(), length, elemName, null, null);
+								JSONArray metadata = new JSONArray();
+								metadata.add(currentClass.getName());
+								
+								ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, currentClass.sourceStart(), length, elemName, metadata.toString(), null);
 								requestor.addReference(info);
 								
 							}
@@ -186,6 +196,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean endvisit(TypeDeclaration s) throws Exception {
 
@@ -196,13 +207,26 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 				
 				if (tag.getStartTag() != null && tag.getEndTag() != null) {
 					
-					int length = currentClass.sourceEnd() - currentClass.sourceStart();
+					int length = currentClass.sourceEnd() - currentClass.sourceStart();					
+					PHPDocBlock block = currentClass.getPHPDoc();
+
+					String desc = "";
+					if (block != null) {
+						String shortDesc = block.getShortDescription() != null ? block.getShortDescription() : "";
+						String longDesc = block.getLongDescription() != null ? block.getLongDescription() : "";
+						desc =  longDesc + shortDesc;						
+					}
 					
-					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag());
-					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), null, null);
+					JSONArray metadata = new JSONArray();
+					metadata.add(currentClass.getName());
+					metadata.add(desc);					
+
+					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag() + " with metadata: " + metadata.toString());
+					
+					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), metadata.toString(), null);
 					requestor.addReference(info);
 					
-					ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), null, null);
+					ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), metadata.toString(), null);
 					requestor.addReference(endIinfo);
 					
 														

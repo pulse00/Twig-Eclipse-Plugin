@@ -1,11 +1,11 @@
 package org.eclipse.twig.core.model;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.core.IType;
 import org.eclipse.dltk.core.index2.search.ISearchEngine;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.SearchFor;
@@ -16,7 +16,8 @@ import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
-import org.eclipse.twig.core.TwigCoreConstants;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 /**
  * 
@@ -33,8 +34,6 @@ public class TwigModelAccess extends PhpModelAccess {
 	private static TwigModelAccess instance = null;	
 	private List<Template> templates = new ArrayList<Template>();
 
-	private IType filterType = null;
-	private IType functionType = null;
 	
 	private LRUCache tagCache = new LRUCache();
 
@@ -51,60 +50,7 @@ public class TwigModelAccess extends PhpModelAccess {
 		
 		return instance;
 	}
-
-
-
-
-
-	public IType getFilterType(ISourceModule sourceModule) {
-
-		if (filterType != null)
-			return filterType;
-
-		IScriptProject scriptProject = sourceModule.getScriptProject();
-
-		if (scriptProject == null) {
-			return null;			
-		}
-
-		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
-		IType[] types = PhpModelAccess.getDefault().findTypes(null, TwigCoreConstants.TWIG_FILTER_FUNCTION,
-				MatchRule.EXACT, 0, 0, scope, null);
-
-		if (types.length == 1) {
-			filterType = types[0];
-			return filterType;
-		}
-
-		return null;
-
-	}
-
-	public IType getFunctionType(ISourceModule sourceModule) {
-
-		if (functionType != null)
-			return functionType;
-
-		IScriptProject scriptProject = sourceModule.getScriptProject();
-
-		if (scriptProject == null) {
-			return null;			
-		}
-
-		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
-		IType[] types = PhpModelAccess.getDefault().findTypes(null, TwigCoreConstants.TWIG_FUNCTION_METHOD,
-				MatchRule.EXACT, 0, 0, scope, null);
-
-		if (types.length == 1) {
-			functionType = types[0];
-			return functionType;
-		}
-
-		return null;		
-
-	}
-
-
+	
 
 	public Template getTemplate(ISourceModule sourceModule) {
 
@@ -139,8 +85,9 @@ public class TwigModelAccess extends PhpModelAccess {
 	public Function[] getFunctions(IScriptProject scriptProject) {
 
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
-		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());		 
-
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());	
+		
+		final JSONParser parser = new JSONParser();
 		final List<Function> functions = new ArrayList<Function>();
 
 		engine.search(ITwigModelElement.FUNCTION, null, null, 0, 0, 100, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
@@ -151,8 +98,24 @@ public class TwigModelAccess extends PhpModelAccess {
 					String metadata, String doc, String qualifier, String parent,
 					ISourceModule sourceModule, boolean isReference) {
 
-				Function filter = new Function(elementName);
-				functions.add(filter);				
+				try {
+					
+					Function function = new Function(elementName);
+					
+					if (metadata != null) {
+						
+						JSONArray mdata = (JSONArray) parser.parse(new StringReader(metadata));
+						
+						if (mdata != null && mdata.size() > 0) {
+							function.setPhpClass((String)mdata.get(0));
+						}
+						
+					}				
+					functions.add(function);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}			
 
 			}
 		}, null);
@@ -173,7 +136,9 @@ public class TwigModelAccess extends PhpModelAccess {
 	public Filter[] getFilters(IScriptProject scriptProject) {
 
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
-		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());		 
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+		
+		final JSONParser parser = new JSONParser();
 
 		final List<Filter> filters = new ArrayList<Filter>();
 
@@ -185,8 +150,23 @@ public class TwigModelAccess extends PhpModelAccess {
 					String metadata, String doc, String qualifier, String parent,
 					ISourceModule sourceModule, boolean isReference) {
 
-				Filter filter = new Filter(elementName);
-				filters.add(filter);				
+				try {
+					Filter filter = new Filter(elementName);
+					if (metadata != null) {
+						
+						JSONArray mdata = (JSONArray) parser.parse(new StringReader(metadata));
+						
+						if (mdata != null && mdata.size() > 0) {
+							filter.setPHPClass((String)mdata.get(0));
+						}
+						
+					}
+					
+					filters.add(filter);				
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 			}
 		}, null);
@@ -322,7 +302,8 @@ public class TwigModelAccess extends PhpModelAccess {
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
 		
-		final List<Tag> tags = new ArrayList<Tag>();
+		final List<Tag> tags = new ArrayList<Tag>();		
+		final JSONParser parser = new JSONParser();
 
 		engine.search(ITwigModelElement.START_TAG, null, null, 0, 0, 200, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
 
@@ -332,8 +313,28 @@ public class TwigModelAccess extends PhpModelAccess {
 					String metadata, String doc, String qualifier, String parent,
 					ISourceModule sourceModule, boolean isReference) {
 
-				Tag tag = new Tag(elementName);
-				tags.add(tag);								
+				try {
+					
+					Tag tag = new Tag(elementName);
+					
+					if(metadata != null) {
+						
+						JSONArray data = (JSONArray) parser.parse(new StringReader(metadata));
+						if (data.size() > 0)
+							tag.setPHPClass((String) data.get(0));
+						
+						if (data.size() > 1)
+							tag.setDescription((String) data.get(1));
+						
+					}
+					tags.add(tag);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+								
 
 			}
 		}, null);
@@ -346,8 +347,27 @@ public class TwigModelAccess extends PhpModelAccess {
 					String metadata, String doc, String qualifier, String parent,
 					ISourceModule sourceModule, boolean isReference) {
 
-				Tag tag = new Tag(elementName);
-				tags.add(tag);				
+				try {
+					
+					Tag tag = new Tag(elementName);						
+					
+					if(metadata != null) {
+						
+						JSONArray data = (JSONArray) parser.parse(new StringReader(metadata));
+
+						if (data.size() > 0)
+							tag.setPHPClass((String) data.get(0));
+						
+						if (data.size() > 1)
+							tag.setDescription((String) data.get(1));
+						
+					}
+					tags.add(tag);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 
 			}
 		}, null);

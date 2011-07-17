@@ -4,6 +4,8 @@ import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLabelProvider;
+import org.eclipse.twig.core.model.Filter;
+import org.eclipse.twig.core.model.Function;
 import org.eclipse.twig.core.model.Tag;
 import org.eclipse.twig.ui.TwigPluginImages;
 
@@ -31,7 +33,13 @@ public class TwigCompletionProposalLabelProvider extends
 			
 			return TwigPluginImages.DESC_OBJS_TAG;
 
-		} 
+		} else if (element.getClass() == Filter.class) {
+			
+			return TwigPluginImages.DESC_OBJS_FILTER;
+		} else if (element.getClass() == Function.class) {
+			
+			return TwigPluginImages.DESC_OBJS_FUNCTION;
+		}
 		
 		return super.createTypeImageDescriptor(proposal);
 	}
