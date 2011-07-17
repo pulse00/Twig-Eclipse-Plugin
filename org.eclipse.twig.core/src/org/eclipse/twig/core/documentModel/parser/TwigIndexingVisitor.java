@@ -48,33 +48,33 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 				
 		case TwigParser.STRING:
 			
-			if (block == null) {
-				
-
-				FieldInfo info = new FieldInfo();
-				info.name = node.getText();
-				info.nameSourceStart = start;
-				info.nameSourceEnd = end;
-				info.modifiers = Modifiers.AccPublic;
-				info.declarationStart = start;
-				
-				System.err.println("report field info " +info.name);
-				
-				requestor.enterField(info);
-				requestor.exitField(end);
-				
-			} else {
-
-				if (block.parameterNames == null || block.parameterNames.length == 0) {
-					String[] params = new String[] { node.getText() };
-					block.parameterNames = params;
-					block.parameterTypes = new String[] { "string" };
-					block.parameterInitializers = new String[] { "none" };
-					block.returnType = "string";
-					block.isConstructor = false;
-				}
-			}
-			
+//			if (block == null) {
+//				
+//
+//				FieldInfo info = new FieldInfo();
+//				info.name = node.getText();
+//				info.nameSourceStart = start;
+//				info.nameSourceEnd = end;
+//				info.modifiers = Modifiers.AccPublic;
+//				info.declarationStart = start;
+//				
+//				System.err.println("report field info " +info.name);
+//				
+//				requestor.enterField(info);
+//				requestor.exitField(end);
+//				
+//			} else {
+//
+//				if (block.parameterNames == null || block.parameterNames.length == 0) {
+//					String[] params = new String[] { node.getText() };
+//					block.parameterNames = params;
+//					block.parameterTypes = new String[] { "string" };
+//					block.parameterInitializers = new String[] { "none" };
+//					block.returnType = "string";
+//					block.isConstructor = false;
+//				}
+//			}
+//			
 			
 			break;
 			

@@ -13,6 +13,7 @@ import org.eclipse.dltk.core.index2.search.ISearchRequestor;
 import org.eclipse.dltk.core.index2.search.ModelAccess;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
+import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.eclipse.twig.core.TwigCoreConstants;
@@ -34,6 +35,8 @@ public class TwigModelAccess extends PhpModelAccess {
 
 	private IType filterType = null;
 	private IType functionType = null;
+	
+	private LRUCache tagCache = new LRUCache();
 
 
 	private TwigModelAccess() {
@@ -234,8 +237,21 @@ public class TwigModelAccess extends PhpModelAccess {
 	 */
 	private boolean isTag(IScriptProject scriptProject, String text, int type) {
 
+		IDLTKSearchScope scope = null;
+
+		if (scriptProject != null)
+			scope = SearchEngine.createSearchScope(scriptProject);
+		else SearchEngine.createWorkspaceScope(PHPLanguageToolkit.getDefault());
 		
-		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
+		if (scope == null)
+			return false;		
+		
+		String cacheKey = scriptProject.getElementName() + text + type;
+		
+		if( tagCache.get(cacheKey) != null) {
+			return true;		
+		}
+		
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
 		
 		final List<String> tags = new ArrayList<String>();
@@ -253,7 +269,41 @@ public class TwigModelAccess extends PhpModelAccess {
 			}
 		}, null);
 		
-		return tags.size() == 1;
+	
+		if (tags.size() == 1) {			
+			String tagName= tags.get(0);
+			cacheKey = scriptProject.getElementName() + tagName;
+			tagCache.put(cacheKey, text);
+			return true;
+		}
+		
+		return false;
+
+		
+		
+	}
+
+	public boolean isTwigTag(IScriptProject scriptProject, String nodeName) {
+
+		boolean isTag = isStartTag(scriptProject, nodeName);
+		
+		if (isTag == true)
+			return true;
+		
+		return isEndTag(scriptProject, nodeName);
+	}
+	
+	public void clearTagCache() {
+
+		tagCache.flush();
+		
+		
+	}
+	
+	public void clearCache() {
+
+		
+		clearTagCache();
 		
 		
 	}

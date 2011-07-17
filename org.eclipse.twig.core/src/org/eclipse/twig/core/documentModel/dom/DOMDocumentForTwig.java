@@ -50,6 +50,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 		ElementImplForTwig element = new ElementImplForTwig();
 		element.setOwnerDocument(this);
 		element.setTagName(tagName);
+		
 		return element;
 	}
 

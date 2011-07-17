@@ -3,9 +3,11 @@ package org.eclipse.twig.core.documentModel.dom;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.core.IModelElement;
+import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.php.internal.core.documentModel.dom.NullValidator;
 import org.eclipse.twig.core.documentModel.TwigDOMModelParser;
 import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
+import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.validate.ValidationAdapter;
@@ -27,6 +29,7 @@ IImplForTwig {
 
 	private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter";
 	private IModelElement modelElement;
+	private TwigModelAccess model = TwigModelAccess.getDefault();
 
 	public ElementImplForTwig() {
 		super();
@@ -81,16 +84,17 @@ IImplForTwig {
 	 */
 	public boolean isTwigTag() {
 				
-		return TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_BLOCK_START.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_BLOCK_END.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_IF_START.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_IF_END.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_MACRO_START.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_MACRO_END.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_FOR_START.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_FOR_END.equals(getNodeName());		
+		boolean isTag =TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName()); 
+		
+		if (isTag)
+			return true;
+		
+		IScriptProject project = modelElement != null ? modelElement.getScriptProject() : null;
+		
+		return model.isTwigTag(project, getNodeName());
+		
+				
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -119,6 +123,7 @@ IImplForTwig {
 	}
 
 	public void setModelElement(IModelElement modelElement) {
+		
 		this.modelElement = modelElement;
 	}
 
