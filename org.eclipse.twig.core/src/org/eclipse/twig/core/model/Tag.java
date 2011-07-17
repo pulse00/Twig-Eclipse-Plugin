@@ -1,18 +1,25 @@
 package org.eclipse.twig.core.model;
 
-
-public class BlockTag {
+/**
+ * 
+ * 
+ * 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
+public class Tag {
 	
 	private String startTag;
 	private String endTag;
 	
-	public BlockTag(String startTag) {
+	public Tag(String startTag) {
 
 		this.startTag = startTag;
 		
 	}
 
-	public BlockTag() {
+	public Tag() {
 
 	}
 
