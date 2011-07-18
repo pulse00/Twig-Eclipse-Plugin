@@ -32,8 +32,6 @@ public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
 		return "org.eclipse.twig.editor";
 	}
 
-	public ScriptElementLabels getScriptElementLabels() {
-		return new TwigElementLabels();
-	}
+	
 
 }

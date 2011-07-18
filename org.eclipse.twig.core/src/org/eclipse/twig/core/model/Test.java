@@ -66,14 +66,9 @@ public class Test extends TwigType {
 		if (doc == null)
 			return "";
 		
-		
-		
 		String longDesc = doc.getLongDescription() != null ? doc.getLongDescription() : "";
 		String shortDesc = doc.getShortDescription() != null ? doc.getShortDescription() : "";
-		
-		System.err.println("long: " + longDesc);
-		System.err.println("short: " + shortDesc);
-		
+	
 		description = shortDesc +  longDesc;
 		return description;		
 		
@@ -90,6 +85,4 @@ public class Test extends TwigType {
 		
 		return project;
 	}
-
-
 }
