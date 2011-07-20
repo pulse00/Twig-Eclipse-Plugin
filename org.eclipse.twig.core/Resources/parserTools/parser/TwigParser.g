@@ -197,7 +197,7 @@ json_arguments
   ;
   
 json_argument
-  : (STRING_LITERAL | STRING) (COLON) (STRING_LITERAL | STRING) 
+  : (STRING_LITERAL | var_or_field) (COLON) (STRING_LITERAL |  var_or_field) 
   ;
   
 keyword

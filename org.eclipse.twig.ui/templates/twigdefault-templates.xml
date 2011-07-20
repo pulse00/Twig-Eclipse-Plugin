@@ -2,4 +2,4 @@
 <templates>
 
 <!--  twig templates -->
-<template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">%template.foreach1</template><template	name="extends"	description="%CodeTemplates.extends1"	id="org.eclipse.twig.ui.editor.templates.function.extends1"	context="twig"	enabled="true"	autoinsert="false">%template.extends1</template></templates>
+<template	name="foreach"	description="%CodeTemplates.foreach1"	id="org.eclipse.twig.ui.editor.templates.function.foreach1"	context="twig"	enabled="true"	autoinsert="false">%template.foreach1</template><template	name="extends"	description="%CodeTemplates.extends1"	id="org.eclipse.twig.ui.editor.templates.function.extends1"	context="twig"	enabled="true"	autoinsert="false">%template.extends1</template><template	name="block"	description="%CodeTemplates.block1"	id="org.eclipse.twig.ui.editor.templates.function.block1"	context="twig"	enabled="true"	autoinsert="false">%template.block1</template></templates>

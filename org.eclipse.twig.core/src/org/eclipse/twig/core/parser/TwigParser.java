@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-07-17 14:43:44
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-07-19 11:50:52
 
 package org.eclipse.twig.core.parser;
 
@@ -2334,7 +2334,7 @@ public class TwigParser extends Parser {
             if ( (LA21_0==STRING) ) {
                 int LA21_1 = input.LA(2);
 
-                if ( (LA21_1==PRINT_CLOSE||(LA21_1>=CTRL_CLOSE && LA21_1<=ARRAY_START)||(LA21_1>=ASIG && LA21_1<=TILDE)||LA21_1==PIPE||(LA21_1>=COLON && LA21_1<=COMMA)||LA21_1==JSON_START||(LA21_1>=QM && LA21_1<=DEFINED)||LA21_1==NUMBER||LA21_1==STRING||LA21_1==STRING_LITERAL) ) {
+                if ( (LA21_1==PRINT_CLOSE||(LA21_1>=CTRL_CLOSE && LA21_1<=ARRAY_START)||(LA21_1>=ASIG && LA21_1<=TILDE)||LA21_1==PIPE||(LA21_1>=COLON && LA21_1<=COMMA)||(LA21_1>=JSON_START && LA21_1<=DEFINED)||LA21_1==NUMBER||LA21_1==STRING||LA21_1==STRING_LITERAL) ) {
                     alt21=1;
                 }
                 else if ( (LA21_1==DOT) ) {
@@ -3216,57 +3216,123 @@ public class TwigParser extends Parser {
     };
 
     // $ANTLR start "json_argument"
-    // TwigParser.g:199:1: json_argument : ( STRING_LITERAL | STRING ) ( COLON ) ( STRING_LITERAL | STRING ) ;
+    // TwigParser.g:199:1: json_argument : ( STRING_LITERAL | var_or_field ) ( COLON ) ( STRING_LITERAL | var_or_field ) ;
     public final TwigParser.json_argument_return json_argument() throws RecognitionException {
         TwigParser.json_argument_return retval = new TwigParser.json_argument_return();
         retval.start = input.LT(1);
 
         TwigCommonTree root_0 = null;
 
-        CommonToken set117=null;
-        CommonToken COLON118=null;
-        CommonToken set119=null;
+        CommonToken STRING_LITERAL117=null;
+        CommonToken COLON119=null;
+        CommonToken STRING_LITERAL120=null;
+        TwigParser.var_or_field_return var_or_field118 = null;
 
-        TwigCommonTree set117_tree=null;
-        TwigCommonTree COLON118_tree=null;
-        TwigCommonTree set119_tree=null;
+        TwigParser.var_or_field_return var_or_field121 = null;
+
+
+        TwigCommonTree STRING_LITERAL117_tree=null;
+        TwigCommonTree COLON119_tree=null;
+        TwigCommonTree STRING_LITERAL120_tree=null;
 
         try {
-            // TwigParser.g:200:3: ( ( STRING_LITERAL | STRING ) ( COLON ) ( STRING_LITERAL | STRING ) )
-            // TwigParser.g:200:5: ( STRING_LITERAL | STRING ) ( COLON ) ( STRING_LITERAL | STRING )
+            // TwigParser.g:200:3: ( ( STRING_LITERAL | var_or_field ) ( COLON ) ( STRING_LITERAL | var_or_field ) )
+            // TwigParser.g:200:5: ( STRING_LITERAL | var_or_field ) ( COLON ) ( STRING_LITERAL | var_or_field )
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            set117=(CommonToken)input.LT(1);
-            if ( input.LA(1)==STRING||input.LA(1)==STRING_LITERAL ) {
-                input.consume();
-                adaptor.addChild(root_0, (TwigCommonTree)adaptor.create(set117));
-                state.errorRecovery=false;
+            // TwigParser.g:200:5: ( STRING_LITERAL | var_or_field )
+            int alt29=2;
+            int LA29_0 = input.LA(1);
+
+            if ( (LA29_0==STRING_LITERAL) ) {
+                alt29=1;
+            }
+            else if ( (LA29_0==STRING) ) {
+                alt29=2;
             }
             else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
+                NoViableAltException nvae =
+                    new NoViableAltException("", 29, 0, input);
+
+                throw nvae;
+            }
+            switch (alt29) {
+                case 1 :
+                    // TwigParser.g:200:6: STRING_LITERAL
+                    {
+                    STRING_LITERAL117=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_json_argument923); 
+                    STRING_LITERAL117_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL117);
+                    adaptor.addChild(root_0, STRING_LITERAL117_tree);
+
+
+                    }
+                    break;
+                case 2 :
+                    // TwigParser.g:200:23: var_or_field
+                    {
+                    pushFollow(FOLLOW_var_or_field_in_json_argument927);
+                    var_or_field118=var_or_field();
+
+                    state._fsp--;
+
+                    adaptor.addChild(root_0, var_or_field118.getTree());
+
+                    }
+                    break;
+
             }
 
-            // TwigParser.g:200:31: ( COLON )
-            // TwigParser.g:200:32: COLON
+            // TwigParser.g:200:37: ( COLON )
+            // TwigParser.g:200:38: COLON
             {
-            COLON118=(CommonToken)match(input,COLON,FOLLOW_COLON_in_json_argument931); 
-            COLON118_tree = (TwigCommonTree)adaptor.create(COLON118);
-            adaptor.addChild(root_0, COLON118_tree);
+            COLON119=(CommonToken)match(input,COLON,FOLLOW_COLON_in_json_argument931); 
+            COLON119_tree = (TwigCommonTree)adaptor.create(COLON119);
+            adaptor.addChild(root_0, COLON119_tree);
 
 
             }
 
-            set119=(CommonToken)input.LT(1);
-            if ( input.LA(1)==STRING||input.LA(1)==STRING_LITERAL ) {
-                input.consume();
-                adaptor.addChild(root_0, (TwigCommonTree)adaptor.create(set119));
-                state.errorRecovery=false;
+            // TwigParser.g:200:45: ( STRING_LITERAL | var_or_field )
+            int alt30=2;
+            int LA30_0 = input.LA(1);
+
+            if ( (LA30_0==STRING_LITERAL) ) {
+                alt30=1;
+            }
+            else if ( (LA30_0==STRING) ) {
+                alt30=2;
             }
             else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                throw mse;
+                NoViableAltException nvae =
+                    new NoViableAltException("", 30, 0, input);
+
+                throw nvae;
+            }
+            switch (alt30) {
+                case 1 :
+                    // TwigParser.g:200:46: STRING_LITERAL
+                    {
+                    STRING_LITERAL120=(CommonToken)match(input,STRING_LITERAL,FOLLOW_STRING_LITERAL_in_json_argument935); 
+                    STRING_LITERAL120_tree = (TwigCommonTree)adaptor.create(STRING_LITERAL120);
+                    adaptor.addChild(root_0, STRING_LITERAL120_tree);
+
+
+                    }
+                    break;
+                case 2 :
+                    // TwigParser.g:200:64: var_or_field
+                    {
+                    pushFollow(FOLLOW_var_or_field_in_json_argument940);
+                    var_or_field121=var_or_field();
+
+                    state._fsp--;
+
+                    adaptor.addChild(root_0, var_or_field121.getTree());
+
+                    }
+                    break;
+
             }
 
 
@@ -3303,9 +3369,9 @@ public class TwigParser extends Parser {
 
         TwigCommonTree root_0 = null;
 
-        CommonToken set120=null;
+        CommonToken set122=null;
 
-        TwigCommonTree set120_tree=null;
+        TwigCommonTree set122_tree=null;
 
         try {
             // TwigParser.g:204:3: ( IS | DEFINED | IN | TWIG_AS | NOT | WITH | ONLY )
@@ -3313,10 +3379,10 @@ public class TwigParser extends Parser {
             {
             root_0 = (TwigCommonTree)adaptor.nil();
 
-            set120=(CommonToken)input.LT(1);
+            set122=(CommonToken)input.LT(1);
             if ( (input.LA(1)>=IN && input.LA(1)<=DEFINED) ) {
                 input.consume();
-                adaptor.addChild(root_0, (TwigCommonTree)adaptor.create(set120));
+                adaptor.addChild(root_0, (TwigCommonTree)adaptor.create(set122));
                 state.errorRecovery=false;
             }
             else {
@@ -3358,28 +3424,31 @@ public class TwigParser extends Parser {
     protected DFA17 dfa17 = new DFA17(this);
     protected DFA18 dfa18 = new DFA18(this);
     static final String DFA5_eotS =
-        "\130\uffff";
+        "\u0088\uffff";
     static final String DFA5_eofS =
-        "\130\uffff";
+        "\u0088\uffff";
     static final String DFA5_minS =
         "\1\10\1\7\3\uffff\1\7\3\uffff\1\7\10\uffff\1\46\1\11\1\uffff\1\7"+
-        "\1\11\1\32\2\11\1\7\1\31\1\26\1\11\2\46\1\uffff\1\11\1\32\2\11\1"+
-        "\46\1\11\1\10\1\26\1\11\1\46\1\27\1\11\2\46\1\11\1\46\1\11\1\32"+
-        "\2\11\1\7\1\10\1\27\1\26\1\31\1\26\1\11\3\46\1\11\1\32\2\11\1\46"+
-        "\1\11\1\26\1\27\1\26\1\11\1\46\1\27\2\46\1\11\1\46\2\27\1\26\2\46"+
-        "\1\26\1\27\1\46\1\27";
+        "\1\11\1\32\2\11\1\7\1\31\1\26\1\25\1\11\2\46\1\uffff\1\11\1\32\2"+
+        "\11\2\46\1\11\1\10\1\26\1\25\1\11\1\46\1\27\2\25\1\11\3\46\1\11"+
+        "\2\46\1\11\1\32\2\11\1\7\1\10\1\27\2\25\1\26\2\25\1\31\1\26\1\25"+
+        "\1\11\5\46\1\11\1\32\2\11\2\46\1\11\1\26\2\25\1\27\2\25\1\26\1\25"+
+        "\1\11\1\46\1\27\2\25\5\46\1\11\2\46\1\27\3\25\1\27\2\25\1\26\2\25"+
+        "\5\46\1\25\1\26\2\25\1\27\2\25\3\46\1\27\3\25\1\46\1\25";
     static final String DFA5_maxS =
         "\2\50\3\uffff\1\50\3\uffff\1\50\10\uffff\1\46\1\50\1\uffff\1\50"+
-        "\1\34\1\50\1\27\1\34\2\50\1\26\1\27\2\46\1\uffff\1\27\1\50\2\27"+
-        "\1\50\1\34\1\25\1\26\1\27\1\46\1\32\1\50\1\46\1\50\1\27\1\50\1\27"+
-        "\1\50\2\27\1\50\1\25\1\32\1\26\1\50\1\26\1\27\1\46\2\50\1\27\1\50"+
-        "\2\27\1\50\1\27\1\26\1\32\1\26\1\27\1\46\1\32\2\50\1\27\1\50\2\32"+
-        "\1\26\2\50\1\26\1\32\1\50\1\32";
+        "\1\34\1\50\1\27\1\34\2\50\2\26\1\27\2\46\1\uffff\1\27\1\50\2\27"+
+        "\1\50\1\46\1\34\1\25\2\26\1\27\1\46\2\32\1\26\1\50\1\46\1\50\1\46"+
+        "\1\27\1\50\1\46\1\27\1\50\2\27\1\50\1\25\2\32\3\26\1\32\1\50\2\26"+
+        "\1\27\1\46\1\50\1\46\1\50\1\46\1\27\1\50\2\27\1\50\1\46\1\27\2\26"+
+        "\3\32\3\26\1\27\1\46\2\32\1\26\1\50\2\46\1\50\1\46\1\27\1\50\1\46"+
+        "\2\32\1\26\3\32\3\26\1\32\1\46\1\50\1\46\1\50\1\46\1\32\2\26\3\32"+
+        "\1\26\1\50\2\46\2\32\1\26\1\32\1\46\1\32";
     static final String DFA5_acceptS =
         "\2\uffff\1\2\1\3\1\4\1\uffff\1\6\1\7\1\10\1\uffff\1\15\1\16\1\17"+
-        "\1\20\1\11\1\1\1\12\1\5\2\uffff\1\13\13\uffff\1\14\67\uffff";
+        "\1\20\1\11\1\1\1\12\1\5\2\uffff\1\13\14\uffff\1\14\146\uffff";
     static final String DFA5_specialS =
-        "\130\uffff}>";
+        "\u0088\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\15\1\uffff\1\13\1\uffff\1\2\4\uffff\1\4\1\uffff\1\3\2\uffff"+
             "\1\10\1\6\1\uffff\1\14\1\uffff\1\7\7\12\1\uffff\1\5\1\uffff"+
@@ -3414,75 +3483,123 @@ public class TwigParser extends Parser {
             "\1\uffff\1\22\2\24\1\uffff\1\24\1\uffff\10\24\1\uffff\1\24\1"+
             "\uffff\1\24\1\uffff\1\24",
             "\1\32\15\uffff\1\33\4\uffff\1\24",
-            "\1\35\13\uffff\1\34\1\uffff\1\34",
+            "\1\36\13\uffff\1\35\1\uffff\1\34",
             "\1\32\15\uffff\1\33",
-            "\1\32\13\uffff\1\36\1\uffff\1\33\4\uffff\1\24",
-            "\2\40\1\uffff\1\40\1\uffff\1\40\4\20\1\40\1\uffff\1\40\1\uffff"+
-            "\1\37\2\40\1\uffff\1\40\1\uffff\10\40\1\uffff\1\40\1\uffff\1"+
-            "\40\1\uffff\1\40",
-            "\1\42\12\uffff\1\43\1\uffff\1\44\1\uffff\1\41",
-            "\1\45",
-            "\1\32\15\uffff\1\33",
+            "\1\32\13\uffff\1\37\1\uffff\1\33\4\uffff\1\24",
+            "\2\41\1\uffff\1\41\1\uffff\1\41\4\20\1\41\1\uffff\1\41\1\uffff"+
+            "\1\40\2\41\1\uffff\1\41\1\uffff\10\41\1\uffff\1\41\1\uffff\1"+
+            "\41\1\uffff\1\41",
+            "\1\43\12\uffff\1\44\1\uffff\1\45\1\uffff\1\42",
             "\1\46",
-            "\1\47",
+            "\1\47\1\46",
+            "\1\32\15\uffff\1\33",
+            "\1\50",
+            "\1\51",
             "",
             "\1\32\15\uffff\1\33",
-            "\1\51\13\uffff\1\50\1\uffff\1\50",
+            "\1\54\13\uffff\1\53\1\uffff\1\52",
             "\1\32\15\uffff\1\33",
-            "\1\32\13\uffff\1\52\1\uffff\1\33",
-            "\1\53\1\uffff\1\53",
-            "\1\32\13\uffff\1\36\1\uffff\1\33\4\uffff\1\24",
-            "\1\54\14\uffff\1\55",
-            "\1\56",
+            "\1\32\13\uffff\1\55\1\uffff\1\33",
+            "\1\57\1\uffff\1\56",
+            "\1\60",
+            "\1\32\13\uffff\1\37\1\uffff\1\33\4\uffff\1\24",
+            "\1\61\14\uffff\1\62",
+            "\1\63",
+            "\1\64\1\63",
             "\1\32\15\uffff\1\33",
-            "\1\57",
-            "\1\60\2\uffff\1\35",
-            "\1\65\17\uffff\1\62\12\uffff\1\63\1\uffff\1\64\1\uffff\1\61",
-            "\1\66",
-            "\1\67\1\uffff\1\67",
-            "\1\32\13\uffff\1\52\1\uffff\1\33",
-            "\1\70\1\uffff\1\70",
-            "\1\65\15\uffff\1\71",
-            "\1\73\13\uffff\1\72\1\uffff\1\72",
-            "\1\65\15\uffff\1\71",
-            "\1\65\13\uffff\1\74\1\uffff\1\71",
-            "\2\40\1\uffff\1\40\1\uffff\1\40\4\20\1\40\1\uffff\1\40\1\uffff"+
-            "\1\37\2\40\1\uffff\1\40\1\uffff\10\40\1\uffff\1\40\1\uffff\1"+
-            "\40\1\uffff\1\40",
-            "\1\54\14\uffff\1\55",
-            "\1\75\2\uffff\1\51",
-            "\1\76",
-            "\1\100\12\uffff\1\101\1\uffff\1\102\1\uffff\1\77",
+            "\1\65",
+            "\1\66\2\uffff\1\36",
+            "\1\67\1\uffff\1\66\2\uffff\1\36",
+            "\1\47\1\46",
+            "\1\74\17\uffff\1\71\12\uffff\1\72\1\uffff\1\73\1\uffff\1\70",
+            "\1\75",
+            "\1\77\1\uffff\1\76",
+            "\1\100",
+            "\1\32\13\uffff\1\55\1\uffff\1\33",
+            "\1\102\1\uffff\1\101",
             "\1\103",
-            "\1\65\15\uffff\1\71",
-            "\1\104",
-            "\1\105\1\uffff\1\105",
-            "\1\106\1\uffff\1\106",
-            "\1\65\15\uffff\1\71",
-            "\1\110\13\uffff\1\107\1\uffff\1\107",
-            "\1\65\15\uffff\1\71",
-            "\1\65\13\uffff\1\111\1\uffff\1\71",
-            "\1\112\1\uffff\1\112",
-            "\1\65\13\uffff\1\74\1\uffff\1\71",
+            "\1\74\15\uffff\1\104",
+            "\1\107\13\uffff\1\106\1\uffff\1\105",
+            "\1\74\15\uffff\1\104",
+            "\1\74\13\uffff\1\110\1\uffff\1\104",
+            "\2\41\1\uffff\1\41\1\uffff\1\41\4\20\1\41\1\uffff\1\41\1\uffff"+
+            "\1\40\2\41\1\uffff\1\41\1\uffff\10\41\1\uffff\1\41\1\uffff\1"+
+            "\41\1\uffff\1\41",
+            "\1\61\14\uffff\1\62",
+            "\1\111\2\uffff\1\54",
+            "\1\112\1\uffff\1\111\2\uffff\1\54",
+            "\1\64\1\63",
             "\1\113",
-            "\1\60\2\uffff\1\35",
-            "\1\114",
-            "\1\65\15\uffff\1\71",
-            "\1\115",
-            "\1\116\2\uffff\1\73",
-            "\1\117\1\uffff\1\117",
-            "\1\120\1\uffff\1\120",
-            "\1\65\13\uffff\1\111\1\uffff\1\71",
-            "\1\121\1\uffff\1\121",
-            "\1\75\2\uffff\1\51",
-            "\1\122\2\uffff\1\110",
+            "\1\114\1\113",
+            "\1\67\1\uffff\1\66\2\uffff\1\36",
+            "\1\116\12\uffff\1\117\1\uffff\1\120\1\uffff\1\115",
+            "\1\121",
+            "\1\122\1\121",
+            "\1\74\15\uffff\1\104",
             "\1\123",
-            "\1\124\1\uffff\1\124",
-            "\1\125\1\uffff\1\125",
+            "\1\125\1\uffff\1\124",
             "\1\126",
-            "\1\116\2\uffff\1\73",
-            "\1\127\1\uffff\1\127",
-            "\1\122\2\uffff\1\110"
+            "\1\130\1\uffff\1\127",
+            "\1\131",
+            "\1\74\15\uffff\1\104",
+            "\1\134\13\uffff\1\133\1\uffff\1\132",
+            "\1\74\15\uffff\1\104",
+            "\1\74\13\uffff\1\135\1\uffff\1\104",
+            "\1\137\1\uffff\1\136",
+            "\1\140",
+            "\1\74\13\uffff\1\110\1\uffff\1\104",
+            "\1\141",
+            "\1\142\1\141",
+            "\1\112\1\uffff\1\111\2\uffff\1\54",
+            "\1\66\2\uffff\1\36",
+            "\1\143\1\uffff\1\66\2\uffff\1\36",
+            "\1\114\1\113",
+            "\1\144",
+            "\1\145\1\144",
+            "\1\74\15\uffff\1\104",
+            "\1\146",
+            "\1\147\2\uffff\1\107",
+            "\1\150\1\uffff\1\147\2\uffff\1\107",
+            "\1\122\1\121",
+            "\1\152\1\uffff\1\151",
+            "\1\153",
+            "\1\154",
+            "\1\156\1\uffff\1\155",
+            "\1\157",
+            "\1\74\13\uffff\1\135\1\uffff\1\104",
+            "\1\161\1\uffff\1\160",
+            "\1\162",
+            "\1\111\2\uffff\1\54",
+            "\1\163\1\uffff\1\111\2\uffff\1\54",
+            "\1\142\1\141",
+            "\1\143\1\uffff\1\66\2\uffff\1\36",
+            "\1\164\2\uffff\1\134",
+            "\1\165\1\uffff\1\164\2\uffff\1\134",
+            "\1\145\1\144",
+            "\1\166",
+            "\1\167\1\166",
+            "\1\150\1\uffff\1\147\2\uffff\1\107",
+            "\1\170",
+            "\1\172\1\uffff\1\171",
+            "\1\173",
+            "\1\175\1\uffff\1\174",
+            "\1\176",
+            "\1\163\1\uffff\1\111\2\uffff\1\54",
+            "\1\177",
+            "\1\u0080\1\177",
+            "\1\165\1\uffff\1\164\2\uffff\1\134",
+            "\1\147\2\uffff\1\107",
+            "\1\u0081\1\uffff\1\147\2\uffff\1\107",
+            "\1\167\1\166",
+            "\1\u0083\1\uffff\1\u0082",
+            "\1\u0084",
+            "\1\u0085",
+            "\1\164\2\uffff\1\134",
+            "\1\u0086\1\uffff\1\164\2\uffff\1\134",
+            "\1\u0080\1\177",
+            "\1\u0081\1\uffff\1\147\2\uffff\1\107",
+            "\1\u0087",
+            "\1\u0086\1\uffff\1\164\2\uffff\1\134"
     };
 
     static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
@@ -3519,25 +3636,30 @@ public class TwigParser extends Parser {
         }
     }
     static final String DFA8_eotS =
-        "\115\uffff";
+        "\175\uffff";
     static final String DFA8_eofS =
-        "\115\uffff";
+        "\175\uffff";
     static final String DFA8_minS =
         "\1\44\2\15\1\10\4\uffff\1\46\1\11\1\10\1\11\1\32\2\11\1\15\1\31"+
-        "\1\26\1\11\2\46\1\uffff\1\11\1\32\2\11\1\46\1\11\1\10\1\26\1\11"+
-        "\1\46\1\27\1\11\2\46\1\11\1\46\1\11\1\32\2\11\1\15\1\10\1\27\1\26"+
-        "\1\31\1\26\1\11\3\46\1\11\1\32\2\11\1\46\1\11\1\26\1\27\1\26\1\11"+
-        "\1\46\1\27\2\46\1\11\1\46\2\27\1\26\2\46\1\26\1\27\1\46\1\27";
+        "\1\26\1\25\1\11\2\46\1\uffff\1\11\1\32\2\11\2\46\1\11\1\10\1\26"+
+        "\1\25\1\11\1\46\1\27\2\25\1\11\3\46\1\11\2\46\1\11\1\32\2\11\1\15"+
+        "\1\10\1\27\2\25\1\26\2\25\1\31\1\26\1\25\1\11\5\46\1\11\1\32\2\11"+
+        "\2\46\1\11\1\26\2\25\1\27\2\25\1\26\1\25\1\11\1\46\1\27\2\25\5\46"+
+        "\1\11\2\46\1\27\3\25\1\27\2\25\1\26\2\25\5\46\1\25\1\26\2\25\1\27"+
+        "\2\25\3\46\1\27\3\25\1\46\1\25";
     static final String DFA8_maxS =
-        "\1\50\3\33\4\uffff\1\46\1\50\1\33\1\27\1\50\2\27\1\33\1\50\1\26"+
-        "\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\27\1\25\1\26\1\27\1\46"+
-        "\1\32\1\50\1\46\1\50\1\27\1\50\1\27\1\50\2\27\1\33\1\25\1\32\1\26"+
-        "\1\50\1\26\1\27\1\46\2\50\1\27\1\50\2\27\1\50\1\27\1\26\1\32\1\26"+
-        "\1\27\1\46\1\32\2\50\1\27\1\50\2\32\1\26\2\50\1\26\1\32\1\50\1\32";
+        "\1\50\3\33\4\uffff\1\46\1\50\1\33\1\27\1\50\2\27\1\33\1\50\2\26"+
+        "\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\46\1\27\1\25\2\26\1\27"+
+        "\1\46\2\32\1\26\1\50\1\46\1\50\1\46\1\27\1\50\1\46\1\27\1\50\2\27"+
+        "\1\33\1\25\2\32\3\26\1\32\1\50\2\26\1\27\1\46\1\50\1\46\1\50\1\46"+
+        "\1\27\1\50\2\27\1\50\1\46\1\27\2\26\3\32\3\26\1\27\1\46\2\32\1\26"+
+        "\1\50\2\46\1\50\1\46\1\27\1\50\1\46\2\32\1\26\3\32\3\26\1\32\1\46"+
+        "\1\50\1\46\1\50\1\46\1\32\2\26\3\32\1\26\1\50\2\46\2\32\1\26\1\32"+
+        "\1\46\1\32";
     static final String DFA8_acceptS =
-        "\4\uffff\1\1\1\5\1\2\1\3\15\uffff\1\4\67\uffff";
+        "\4\uffff\1\1\1\5\1\2\1\3\16\uffff\1\4\146\uffff";
     static final String DFA8_specialS =
-        "\115\uffff}>";
+        "\175\uffff}>";
     static final String[] DFA8_transitionS = {
             "\1\2\1\uffff\1\3\1\uffff\1\1",
             "\4\5\12\uffff\1\4",
@@ -3551,71 +3673,119 @@ public class TwigParser extends Parser {
             "\1\17\17\uffff\1\14\12\uffff\1\15\1\uffff\1\16\1\uffff\1\13",
             "\1\11\4\uffff\4\5\4\uffff\1\10\5\uffff\1\7",
             "\1\17\15\uffff\1\20",
-            "\1\22\13\uffff\1\21\1\uffff\1\21",
+            "\1\23\13\uffff\1\22\1\uffff\1\21",
             "\1\17\15\uffff\1\20",
-            "\1\17\13\uffff\1\23\1\uffff\1\20",
-            "\4\5\4\uffff\1\24\5\uffff\1\25",
-            "\1\27\12\uffff\1\30\1\uffff\1\31\1\uffff\1\26",
-            "\1\32",
-            "\1\17\15\uffff\1\20",
+            "\1\17\13\uffff\1\24\1\uffff\1\20",
+            "\4\5\4\uffff\1\25\5\uffff\1\26",
+            "\1\30\12\uffff\1\31\1\uffff\1\32\1\uffff\1\27",
             "\1\33",
-            "\1\34",
+            "\1\34\1\33",
+            "\1\17\15\uffff\1\20",
+            "\1\35",
+            "\1\36",
             "",
             "\1\17\15\uffff\1\20",
-            "\1\36\13\uffff\1\35\1\uffff\1\35",
+            "\1\41\13\uffff\1\40\1\uffff\1\37",
             "\1\17\15\uffff\1\20",
-            "\1\17\13\uffff\1\37\1\uffff\1\20",
-            "\1\40\1\uffff\1\40",
-            "\1\17\13\uffff\1\23\1\uffff\1\20",
-            "\1\41\14\uffff\1\42",
-            "\1\43",
+            "\1\17\13\uffff\1\42\1\uffff\1\20",
+            "\1\44\1\uffff\1\43",
+            "\1\45",
+            "\1\17\13\uffff\1\24\1\uffff\1\20",
+            "\1\46\14\uffff\1\47",
+            "\1\50",
+            "\1\51\1\50",
             "\1\17\15\uffff\1\20",
-            "\1\44",
-            "\1\45\2\uffff\1\22",
-            "\1\52\17\uffff\1\47\12\uffff\1\50\1\uffff\1\51\1\uffff\1\46",
-            "\1\53",
-            "\1\54\1\uffff\1\54",
-            "\1\17\13\uffff\1\37\1\uffff\1\20",
-            "\1\55\1\uffff\1\55",
-            "\1\52\15\uffff\1\56",
-            "\1\60\13\uffff\1\57\1\uffff\1\57",
-            "\1\52\15\uffff\1\56",
-            "\1\52\13\uffff\1\61\1\uffff\1\56",
-            "\4\5\4\uffff\1\24\5\uffff\1\25",
-            "\1\41\14\uffff\1\42",
-            "\1\62\2\uffff\1\36",
-            "\1\63",
-            "\1\65\12\uffff\1\66\1\uffff\1\67\1\uffff\1\64",
+            "\1\52",
+            "\1\53\2\uffff\1\23",
+            "\1\54\1\uffff\1\53\2\uffff\1\23",
+            "\1\34\1\33",
+            "\1\61\17\uffff\1\56\12\uffff\1\57\1\uffff\1\60\1\uffff\1\55",
+            "\1\62",
+            "\1\64\1\uffff\1\63",
+            "\1\65",
+            "\1\17\13\uffff\1\42\1\uffff\1\20",
+            "\1\67\1\uffff\1\66",
             "\1\70",
-            "\1\52\15\uffff\1\56",
-            "\1\71",
-            "\1\72\1\uffff\1\72",
-            "\1\73\1\uffff\1\73",
-            "\1\52\15\uffff\1\56",
-            "\1\75\13\uffff\1\74\1\uffff\1\74",
-            "\1\52\15\uffff\1\56",
-            "\1\52\13\uffff\1\76\1\uffff\1\56",
-            "\1\77\1\uffff\1\77",
-            "\1\52\13\uffff\1\61\1\uffff\1\56",
+            "\1\61\15\uffff\1\71",
+            "\1\74\13\uffff\1\73\1\uffff\1\72",
+            "\1\61\15\uffff\1\71",
+            "\1\61\13\uffff\1\75\1\uffff\1\71",
+            "\4\5\4\uffff\1\25\5\uffff\1\26",
+            "\1\46\14\uffff\1\47",
+            "\1\76\2\uffff\1\41",
+            "\1\77\1\uffff\1\76\2\uffff\1\41",
+            "\1\51\1\50",
             "\1\100",
-            "\1\45\2\uffff\1\22",
-            "\1\101",
-            "\1\52\15\uffff\1\56",
-            "\1\102",
-            "\1\103\2\uffff\1\60",
-            "\1\104\1\uffff\1\104",
-            "\1\105\1\uffff\1\105",
-            "\1\52\13\uffff\1\76\1\uffff\1\56",
-            "\1\106\1\uffff\1\106",
-            "\1\62\2\uffff\1\36",
-            "\1\107\2\uffff\1\75",
+            "\1\101\1\100",
+            "\1\54\1\uffff\1\53\2\uffff\1\23",
+            "\1\103\12\uffff\1\104\1\uffff\1\105\1\uffff\1\102",
+            "\1\106",
+            "\1\107\1\106",
+            "\1\61\15\uffff\1\71",
             "\1\110",
-            "\1\111\1\uffff\1\111",
-            "\1\112\1\uffff\1\112",
+            "\1\112\1\uffff\1\111",
             "\1\113",
-            "\1\103\2\uffff\1\60",
-            "\1\114\1\uffff\1\114",
-            "\1\107\2\uffff\1\75"
+            "\1\115\1\uffff\1\114",
+            "\1\116",
+            "\1\61\15\uffff\1\71",
+            "\1\121\13\uffff\1\120\1\uffff\1\117",
+            "\1\61\15\uffff\1\71",
+            "\1\61\13\uffff\1\122\1\uffff\1\71",
+            "\1\124\1\uffff\1\123",
+            "\1\125",
+            "\1\61\13\uffff\1\75\1\uffff\1\71",
+            "\1\126",
+            "\1\127\1\126",
+            "\1\77\1\uffff\1\76\2\uffff\1\41",
+            "\1\53\2\uffff\1\23",
+            "\1\130\1\uffff\1\53\2\uffff\1\23",
+            "\1\101\1\100",
+            "\1\131",
+            "\1\132\1\131",
+            "\1\61\15\uffff\1\71",
+            "\1\133",
+            "\1\134\2\uffff\1\74",
+            "\1\135\1\uffff\1\134\2\uffff\1\74",
+            "\1\107\1\106",
+            "\1\137\1\uffff\1\136",
+            "\1\140",
+            "\1\141",
+            "\1\143\1\uffff\1\142",
+            "\1\144",
+            "\1\61\13\uffff\1\122\1\uffff\1\71",
+            "\1\146\1\uffff\1\145",
+            "\1\147",
+            "\1\76\2\uffff\1\41",
+            "\1\150\1\uffff\1\76\2\uffff\1\41",
+            "\1\127\1\126",
+            "\1\130\1\uffff\1\53\2\uffff\1\23",
+            "\1\151\2\uffff\1\121",
+            "\1\152\1\uffff\1\151\2\uffff\1\121",
+            "\1\132\1\131",
+            "\1\153",
+            "\1\154\1\153",
+            "\1\135\1\uffff\1\134\2\uffff\1\74",
+            "\1\155",
+            "\1\157\1\uffff\1\156",
+            "\1\160",
+            "\1\162\1\uffff\1\161",
+            "\1\163",
+            "\1\150\1\uffff\1\76\2\uffff\1\41",
+            "\1\164",
+            "\1\165\1\164",
+            "\1\152\1\uffff\1\151\2\uffff\1\121",
+            "\1\134\2\uffff\1\74",
+            "\1\166\1\uffff\1\134\2\uffff\1\74",
+            "\1\154\1\153",
+            "\1\170\1\uffff\1\167",
+            "\1\171",
+            "\1\172",
+            "\1\151\2\uffff\1\121",
+            "\1\173\1\uffff\1\151\2\uffff\1\121",
+            "\1\165\1\164",
+            "\1\166\1\uffff\1\134\2\uffff\1\74",
+            "\1\174",
+            "\1\173\1\uffff\1\151\2\uffff\1\121"
     };
 
     static final short[] DFA8_eot = DFA.unpackEncodedString(DFA8_eotS);
@@ -3885,28 +4055,31 @@ public class TwigParser extends Parser {
         }
     }
     static final String DFA15_eotS =
-        "\116\uffff";
+        "\176\uffff";
     static final String DFA15_eofS =
-        "\116\uffff";
+        "\176\uffff";
     static final String DFA15_minS =
         "\1\12\1\5\1\uffff\1\5\3\uffff\1\46\1\11\2\uffff\1\5\1\11\1\32\2"+
-        "\11\1\5\1\31\1\26\1\11\2\46\1\uffff\1\11\1\32\2\11\1\46\1\11\1\10"+
-        "\1\26\1\11\1\46\1\27\1\11\2\46\1\11\1\46\1\11\1\32\2\11\1\5\1\10"+
-        "\1\27\1\26\1\31\1\26\1\11\3\46\1\11\1\32\2\11\1\46\1\11\1\26\1\27"+
-        "\1\26\1\11\1\46\1\27\2\46\1\11\1\46\2\27\1\26\2\46\1\26\1\27\1\46"+
-        "\1\27";
+        "\11\1\5\1\31\1\26\1\25\1\11\2\46\1\uffff\1\11\1\32\2\11\2\46\1\11"+
+        "\1\10\1\26\1\25\1\11\1\46\1\27\2\25\1\11\3\46\1\11\2\46\1\11\1\32"+
+        "\2\11\1\5\1\10\1\27\2\25\1\26\2\25\1\31\1\26\1\25\1\11\5\46\1\11"+
+        "\1\32\2\11\2\46\1\11\1\26\2\25\1\27\2\25\1\26\1\25\1\11\1\46\1\27"+
+        "\2\25\5\46\1\11\2\46\1\27\3\25\1\27\2\25\1\26\2\25\5\46\1\25\1\26"+
+        "\2\25\1\27\2\25\3\46\1\27\3\25\1\46\1\25";
     static final String DFA15_maxS =
         "\1\50\1\33\1\uffff\1\33\3\uffff\1\46\1\50\2\uffff\1\33\1\27\1\50"+
-        "\2\27\1\33\1\50\1\26\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\27"+
-        "\1\25\1\26\1\27\1\46\1\32\1\50\1\46\1\50\1\27\1\50\1\27\1\50\2\27"+
-        "\1\33\1\25\1\32\1\26\1\50\1\26\1\27\1\46\2\50\1\27\1\50\2\27\1\50"+
-        "\1\27\1\26\1\32\1\26\1\27\1\46\1\32\2\50\1\27\1\50\2\32\1\26\2\50"+
-        "\1\26\1\32\1\50\1\32";
+        "\2\27\1\33\1\50\2\26\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\46"+
+        "\1\27\1\25\2\26\1\27\1\46\2\32\1\26\1\50\1\46\1\50\1\46\1\27\1\50"+
+        "\1\46\1\27\1\50\2\27\1\33\1\25\2\32\3\26\1\32\1\50\2\26\1\27\1\46"+
+        "\1\50\1\46\1\50\1\46\1\27\1\50\2\27\1\50\1\46\1\27\2\26\3\32\3\26"+
+        "\1\27\1\46\2\32\1\26\1\50\2\46\1\50\1\46\1\27\1\50\1\46\2\32\1\26"+
+        "\3\32\3\26\1\32\1\46\1\50\1\46\1\50\1\46\1\32\2\26\3\32\1\26\1\50"+
+        "\2\46\2\32\1\26\1\32\1\46\1\32";
     static final String DFA15_acceptS =
-        "\2\uffff\1\3\1\uffff\1\5\1\6\1\1\2\uffff\1\7\1\4\13\uffff\1\2\67"+
+        "\2\uffff\1\3\1\uffff\1\5\1\6\1\1\2\uffff\1\7\1\4\14\uffff\1\2\146"+
         "\uffff";
     static final String DFA15_specialS =
-        "\116\uffff}>";
+        "\176\uffff}>";
     static final String[] DFA15_transitionS = {
             "\1\2\23\uffff\1\5\5\uffff\1\4\1\uffff\1\1\1\uffff\1\3",
             "\1\6\2\uffff\1\10\4\uffff\4\4\1\11\1\uffff\1\6\1\uffff\1\7"+
@@ -3923,73 +4096,121 @@ public class TwigParser extends Parser {
             "\1\6\2\uffff\1\10\4\uffff\4\4\1\11\1\uffff\1\6\1\uffff\1\7"+
             "\5\uffff\1\4",
             "\1\20\15\uffff\1\21",
-            "\1\23\13\uffff\1\22\1\uffff\1\22",
+            "\1\24\13\uffff\1\23\1\uffff\1\22",
             "\1\20\15\uffff\1\21",
-            "\1\20\13\uffff\1\24\1\uffff\1\21",
-            "\1\26\7\uffff\4\4\1\11\1\uffff\1\26\1\uffff\1\25\5\uffff\1"+
+            "\1\20\13\uffff\1\25\1\uffff\1\21",
+            "\1\27\7\uffff\4\4\1\11\1\uffff\1\27\1\uffff\1\26\5\uffff\1"+
             "\4",
-            "\1\30\12\uffff\1\31\1\uffff\1\32\1\uffff\1\27",
-            "\1\33",
-            "\1\20\15\uffff\1\21",
+            "\1\31\12\uffff\1\32\1\uffff\1\33\1\uffff\1\30",
             "\1\34",
-            "\1\35",
+            "\1\35\1\34",
+            "\1\20\15\uffff\1\21",
+            "\1\36",
+            "\1\37",
             "",
             "\1\20\15\uffff\1\21",
-            "\1\37\13\uffff\1\36\1\uffff\1\36",
+            "\1\42\13\uffff\1\41\1\uffff\1\40",
             "\1\20\15\uffff\1\21",
-            "\1\20\13\uffff\1\40\1\uffff\1\21",
-            "\1\41\1\uffff\1\41",
-            "\1\20\13\uffff\1\24\1\uffff\1\21",
-            "\1\42\14\uffff\1\43",
-            "\1\44",
+            "\1\20\13\uffff\1\43\1\uffff\1\21",
+            "\1\45\1\uffff\1\44",
+            "\1\46",
+            "\1\20\13\uffff\1\25\1\uffff\1\21",
+            "\1\47\14\uffff\1\50",
+            "\1\51",
+            "\1\52\1\51",
             "\1\20\15\uffff\1\21",
-            "\1\45",
-            "\1\46\2\uffff\1\23",
-            "\1\53\17\uffff\1\50\12\uffff\1\51\1\uffff\1\52\1\uffff\1\47",
-            "\1\54",
-            "\1\55\1\uffff\1\55",
-            "\1\20\13\uffff\1\40\1\uffff\1\21",
-            "\1\56\1\uffff\1\56",
-            "\1\53\15\uffff\1\57",
-            "\1\61\13\uffff\1\60\1\uffff\1\60",
-            "\1\53\15\uffff\1\57",
-            "\1\53\13\uffff\1\62\1\uffff\1\57",
-            "\1\26\7\uffff\4\4\1\11\1\uffff\1\26\1\uffff\1\25\5\uffff\1"+
-            "\4",
-            "\1\42\14\uffff\1\43",
-            "\1\63\2\uffff\1\37",
-            "\1\64",
-            "\1\66\12\uffff\1\67\1\uffff\1\70\1\uffff\1\65",
+            "\1\53",
+            "\1\54\2\uffff\1\24",
+            "\1\55\1\uffff\1\54\2\uffff\1\24",
+            "\1\35\1\34",
+            "\1\62\17\uffff\1\57\12\uffff\1\60\1\uffff\1\61\1\uffff\1\56",
+            "\1\63",
+            "\1\65\1\uffff\1\64",
+            "\1\66",
+            "\1\20\13\uffff\1\43\1\uffff\1\21",
+            "\1\70\1\uffff\1\67",
             "\1\71",
-            "\1\53\15\uffff\1\57",
-            "\1\72",
-            "\1\73\1\uffff\1\73",
-            "\1\74\1\uffff\1\74",
-            "\1\53\15\uffff\1\57",
-            "\1\76\13\uffff\1\75\1\uffff\1\75",
-            "\1\53\15\uffff\1\57",
-            "\1\53\13\uffff\1\77\1\uffff\1\57",
-            "\1\100\1\uffff\1\100",
-            "\1\53\13\uffff\1\62\1\uffff\1\57",
+            "\1\62\15\uffff\1\72",
+            "\1\75\13\uffff\1\74\1\uffff\1\73",
+            "\1\62\15\uffff\1\72",
+            "\1\62\13\uffff\1\76\1\uffff\1\72",
+            "\1\27\7\uffff\4\4\1\11\1\uffff\1\27\1\uffff\1\26\5\uffff\1"+
+            "\4",
+            "\1\47\14\uffff\1\50",
+            "\1\77\2\uffff\1\42",
+            "\1\100\1\uffff\1\77\2\uffff\1\42",
+            "\1\52\1\51",
             "\1\101",
-            "\1\46\2\uffff\1\23",
-            "\1\102",
-            "\1\53\15\uffff\1\57",
-            "\1\103",
-            "\1\104\2\uffff\1\61",
-            "\1\105\1\uffff\1\105",
-            "\1\106\1\uffff\1\106",
-            "\1\53\13\uffff\1\77\1\uffff\1\57",
-            "\1\107\1\uffff\1\107",
-            "\1\63\2\uffff\1\37",
-            "\1\110\2\uffff\1\76",
+            "\1\102\1\101",
+            "\1\55\1\uffff\1\54\2\uffff\1\24",
+            "\1\104\12\uffff\1\105\1\uffff\1\106\1\uffff\1\103",
+            "\1\107",
+            "\1\110\1\107",
+            "\1\62\15\uffff\1\72",
             "\1\111",
-            "\1\112\1\uffff\1\112",
-            "\1\113\1\uffff\1\113",
+            "\1\113\1\uffff\1\112",
             "\1\114",
-            "\1\104\2\uffff\1\61",
-            "\1\115\1\uffff\1\115",
-            "\1\110\2\uffff\1\76"
+            "\1\116\1\uffff\1\115",
+            "\1\117",
+            "\1\62\15\uffff\1\72",
+            "\1\122\13\uffff\1\121\1\uffff\1\120",
+            "\1\62\15\uffff\1\72",
+            "\1\62\13\uffff\1\123\1\uffff\1\72",
+            "\1\125\1\uffff\1\124",
+            "\1\126",
+            "\1\62\13\uffff\1\76\1\uffff\1\72",
+            "\1\127",
+            "\1\130\1\127",
+            "\1\100\1\uffff\1\77\2\uffff\1\42",
+            "\1\54\2\uffff\1\24",
+            "\1\131\1\uffff\1\54\2\uffff\1\24",
+            "\1\102\1\101",
+            "\1\132",
+            "\1\133\1\132",
+            "\1\62\15\uffff\1\72",
+            "\1\134",
+            "\1\135\2\uffff\1\75",
+            "\1\136\1\uffff\1\135\2\uffff\1\75",
+            "\1\110\1\107",
+            "\1\140\1\uffff\1\137",
+            "\1\141",
+            "\1\142",
+            "\1\144\1\uffff\1\143",
+            "\1\145",
+            "\1\62\13\uffff\1\123\1\uffff\1\72",
+            "\1\147\1\uffff\1\146",
+            "\1\150",
+            "\1\77\2\uffff\1\42",
+            "\1\151\1\uffff\1\77\2\uffff\1\42",
+            "\1\130\1\127",
+            "\1\131\1\uffff\1\54\2\uffff\1\24",
+            "\1\152\2\uffff\1\122",
+            "\1\153\1\uffff\1\152\2\uffff\1\122",
+            "\1\133\1\132",
+            "\1\154",
+            "\1\155\1\154",
+            "\1\136\1\uffff\1\135\2\uffff\1\75",
+            "\1\156",
+            "\1\160\1\uffff\1\157",
+            "\1\161",
+            "\1\163\1\uffff\1\162",
+            "\1\164",
+            "\1\151\1\uffff\1\77\2\uffff\1\42",
+            "\1\165",
+            "\1\166\1\165",
+            "\1\153\1\uffff\1\152\2\uffff\1\122",
+            "\1\135\2\uffff\1\75",
+            "\1\167\1\uffff\1\135\2\uffff\1\75",
+            "\1\155\1\154",
+            "\1\171\1\uffff\1\170",
+            "\1\172",
+            "\1\173",
+            "\1\152\2\uffff\1\122",
+            "\1\174\1\uffff\1\152\2\uffff\1\122",
+            "\1\166\1\165",
+            "\1\167\1\uffff\1\135\2\uffff\1\75",
+            "\1\175",
+            "\1\174\1\uffff\1\152\2\uffff\1\122"
     };
 
     static final short[] DFA15_eot = DFA.unpackEncodedString(DFA15_eotS);
@@ -4081,26 +4302,30 @@ public class TwigParser extends Parser {
         }
     }
     static final String DFA18_eotS =
-        "\111\uffff";
+        "\171\uffff";
     static final String DFA18_eofS =
-        "\111\uffff";
+        "\171\uffff";
     static final String DFA18_minS =
         "\1\44\1\uffff\1\5\1\46\1\11\1\uffff\1\5\1\11\1\32\2\11\1\5\1\31"+
-        "\1\26\1\11\2\46\1\uffff\1\11\1\32\2\11\1\46\1\11\1\10\1\26\1\11"+
-        "\1\46\1\27\1\11\2\46\1\11\1\46\1\11\1\32\2\11\1\5\1\10\1\27\1\26"+
-        "\1\31\1\26\1\11\3\46\1\11\1\32\2\11\1\46\1\11\1\26\1\27\1\26\1\11"+
-        "\1\46\1\27\2\46\1\11\1\46\2\27\1\26\2\46\1\26\1\27\1\46\1\27";
+        "\1\26\1\25\1\11\2\46\1\uffff\1\11\1\32\2\11\2\46\1\11\1\10\1\26"+
+        "\1\25\1\11\1\46\1\27\2\25\1\11\3\46\1\11\2\46\1\11\1\32\2\11\1\5"+
+        "\1\10\1\27\2\25\1\26\2\25\1\31\1\26\1\25\1\11\5\46\1\11\1\32\2\11"+
+        "\2\46\1\11\1\26\2\25\1\27\2\25\1\26\1\25\1\11\1\46\1\27\2\25\5\46"+
+        "\1\11\2\46\1\27\3\25\1\27\2\25\1\26\2\25\5\46\1\25\1\26\2\25\1\27"+
+        "\2\25\3\46\1\27\3\25\1\46\1\25";
     static final String DFA18_maxS =
         "\1\50\1\uffff\1\33\1\46\1\50\1\uffff\1\33\1\27\1\50\2\27\1\33\1"+
-        "\50\1\26\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\27\1\25\1\26\1"+
-        "\27\1\46\1\32\1\50\1\46\1\50\1\27\1\50\1\27\1\50\2\27\1\33\1\25"+
-        "\1\32\1\26\1\50\1\26\1\27\1\46\2\50\1\27\1\50\2\27\1\50\1\27\1\26"+
-        "\1\32\1\26\1\27\1\46\1\32\2\50\1\27\1\50\2\32\1\26\2\50\1\26\1\32"+
-        "\1\50\1\32";
+        "\50\2\26\1\27\2\46\1\uffff\1\27\1\50\2\27\1\50\1\46\1\27\1\25\2"+
+        "\26\1\27\1\46\2\32\1\26\1\50\1\46\1\50\1\46\1\27\1\50\1\46\1\27"+
+        "\1\50\2\27\1\33\1\25\2\32\3\26\1\32\1\50\2\26\1\27\1\46\1\50\1\46"+
+        "\1\50\1\46\1\27\1\50\2\27\1\50\1\46\1\27\2\26\3\32\3\26\1\27\1\46"+
+        "\2\32\1\26\1\50\2\46\1\50\1\46\1\27\1\50\1\46\2\32\1\26\3\32\3\26"+
+        "\1\32\1\46\1\50\1\46\1\50\1\46\1\32\2\26\3\32\1\26\1\50\2\46\2\32"+
+        "\1\26\1\32\1\46\1\32";
     static final String DFA18_acceptS =
-        "\1\uffff\1\1\3\uffff\1\2\13\uffff\1\3\67\uffff";
+        "\1\uffff\1\1\3\uffff\1\2\14\uffff\1\3\146\uffff";
     static final String DFA18_specialS =
-        "\111\uffff}>";
+        "\171\uffff}>";
     static final String[] DFA18_transitionS = {
             "\1\1\1\uffff\1\2\1\uffff\1\1",
             "",
@@ -4112,71 +4337,119 @@ public class TwigParser extends Parser {
             "\1\5\2\uffff\1\4\4\uffff\4\1\2\uffff\1\5\1\uffff\1\3\5\uffff"+
             "\1\1",
             "\1\13\15\uffff\1\14",
-            "\1\16\13\uffff\1\15\1\uffff\1\15",
+            "\1\17\13\uffff\1\16\1\uffff\1\15",
             "\1\13\15\uffff\1\14",
-            "\1\13\13\uffff\1\17\1\uffff\1\14",
-            "\1\21\7\uffff\4\1\2\uffff\1\21\1\uffff\1\20\5\uffff\1\1",
-            "\1\23\12\uffff\1\24\1\uffff\1\25\1\uffff\1\22",
-            "\1\26",
-            "\1\13\15\uffff\1\14",
+            "\1\13\13\uffff\1\20\1\uffff\1\14",
+            "\1\22\7\uffff\4\1\2\uffff\1\22\1\uffff\1\21\5\uffff\1\1",
+            "\1\24\12\uffff\1\25\1\uffff\1\26\1\uffff\1\23",
             "\1\27",
-            "\1\30",
+            "\1\30\1\27",
+            "\1\13\15\uffff\1\14",
+            "\1\31",
+            "\1\32",
             "",
             "\1\13\15\uffff\1\14",
-            "\1\32\13\uffff\1\31\1\uffff\1\31",
+            "\1\35\13\uffff\1\34\1\uffff\1\33",
             "\1\13\15\uffff\1\14",
-            "\1\13\13\uffff\1\33\1\uffff\1\14",
-            "\1\34\1\uffff\1\34",
-            "\1\13\13\uffff\1\17\1\uffff\1\14",
-            "\1\35\14\uffff\1\36",
-            "\1\37",
+            "\1\13\13\uffff\1\36\1\uffff\1\14",
+            "\1\40\1\uffff\1\37",
+            "\1\41",
+            "\1\13\13\uffff\1\20\1\uffff\1\14",
+            "\1\42\14\uffff\1\43",
+            "\1\44",
+            "\1\45\1\44",
             "\1\13\15\uffff\1\14",
-            "\1\40",
-            "\1\41\2\uffff\1\16",
-            "\1\46\17\uffff\1\43\12\uffff\1\44\1\uffff\1\45\1\uffff\1\42",
-            "\1\47",
-            "\1\50\1\uffff\1\50",
-            "\1\13\13\uffff\1\33\1\uffff\1\14",
-            "\1\51\1\uffff\1\51",
-            "\1\46\15\uffff\1\52",
-            "\1\54\13\uffff\1\53\1\uffff\1\53",
-            "\1\46\15\uffff\1\52",
-            "\1\46\13\uffff\1\55\1\uffff\1\52",
-            "\1\21\7\uffff\4\1\2\uffff\1\21\1\uffff\1\20\5\uffff\1\1",
-            "\1\35\14\uffff\1\36",
-            "\1\56\2\uffff\1\32",
-            "\1\57",
-            "\1\61\12\uffff\1\62\1\uffff\1\63\1\uffff\1\60",
+            "\1\46",
+            "\1\47\2\uffff\1\17",
+            "\1\50\1\uffff\1\47\2\uffff\1\17",
+            "\1\30\1\27",
+            "\1\55\17\uffff\1\52\12\uffff\1\53\1\uffff\1\54\1\uffff\1\51",
+            "\1\56",
+            "\1\60\1\uffff\1\57",
+            "\1\61",
+            "\1\13\13\uffff\1\36\1\uffff\1\14",
+            "\1\63\1\uffff\1\62",
             "\1\64",
-            "\1\46\15\uffff\1\52",
-            "\1\65",
-            "\1\66\1\uffff\1\66",
-            "\1\67\1\uffff\1\67",
-            "\1\46\15\uffff\1\52",
-            "\1\71\13\uffff\1\70\1\uffff\1\70",
-            "\1\46\15\uffff\1\52",
-            "\1\46\13\uffff\1\72\1\uffff\1\52",
-            "\1\73\1\uffff\1\73",
-            "\1\46\13\uffff\1\55\1\uffff\1\52",
+            "\1\55\15\uffff\1\65",
+            "\1\70\13\uffff\1\67\1\uffff\1\66",
+            "\1\55\15\uffff\1\65",
+            "\1\55\13\uffff\1\71\1\uffff\1\65",
+            "\1\22\7\uffff\4\1\2\uffff\1\22\1\uffff\1\21\5\uffff\1\1",
+            "\1\42\14\uffff\1\43",
+            "\1\72\2\uffff\1\35",
+            "\1\73\1\uffff\1\72\2\uffff\1\35",
+            "\1\45\1\44",
             "\1\74",
-            "\1\41\2\uffff\1\16",
-            "\1\75",
-            "\1\46\15\uffff\1\52",
-            "\1\76",
-            "\1\77\2\uffff\1\54",
-            "\1\100\1\uffff\1\100",
-            "\1\101\1\uffff\1\101",
-            "\1\46\13\uffff\1\72\1\uffff\1\52",
-            "\1\102\1\uffff\1\102",
-            "\1\56\2\uffff\1\32",
-            "\1\103\2\uffff\1\71",
+            "\1\75\1\74",
+            "\1\50\1\uffff\1\47\2\uffff\1\17",
+            "\1\77\12\uffff\1\100\1\uffff\1\101\1\uffff\1\76",
+            "\1\102",
+            "\1\103\1\102",
+            "\1\55\15\uffff\1\65",
             "\1\104",
-            "\1\105\1\uffff\1\105",
-            "\1\106\1\uffff\1\106",
+            "\1\106\1\uffff\1\105",
             "\1\107",
-            "\1\77\2\uffff\1\54",
-            "\1\110\1\uffff\1\110",
-            "\1\103\2\uffff\1\71"
+            "\1\111\1\uffff\1\110",
+            "\1\112",
+            "\1\55\15\uffff\1\65",
+            "\1\115\13\uffff\1\114\1\uffff\1\113",
+            "\1\55\15\uffff\1\65",
+            "\1\55\13\uffff\1\116\1\uffff\1\65",
+            "\1\120\1\uffff\1\117",
+            "\1\121",
+            "\1\55\13\uffff\1\71\1\uffff\1\65",
+            "\1\122",
+            "\1\123\1\122",
+            "\1\73\1\uffff\1\72\2\uffff\1\35",
+            "\1\47\2\uffff\1\17",
+            "\1\124\1\uffff\1\47\2\uffff\1\17",
+            "\1\75\1\74",
+            "\1\125",
+            "\1\126\1\125",
+            "\1\55\15\uffff\1\65",
+            "\1\127",
+            "\1\130\2\uffff\1\70",
+            "\1\131\1\uffff\1\130\2\uffff\1\70",
+            "\1\103\1\102",
+            "\1\133\1\uffff\1\132",
+            "\1\134",
+            "\1\135",
+            "\1\137\1\uffff\1\136",
+            "\1\140",
+            "\1\55\13\uffff\1\116\1\uffff\1\65",
+            "\1\142\1\uffff\1\141",
+            "\1\143",
+            "\1\72\2\uffff\1\35",
+            "\1\144\1\uffff\1\72\2\uffff\1\35",
+            "\1\123\1\122",
+            "\1\124\1\uffff\1\47\2\uffff\1\17",
+            "\1\145\2\uffff\1\115",
+            "\1\146\1\uffff\1\145\2\uffff\1\115",
+            "\1\126\1\125",
+            "\1\147",
+            "\1\150\1\147",
+            "\1\131\1\uffff\1\130\2\uffff\1\70",
+            "\1\151",
+            "\1\153\1\uffff\1\152",
+            "\1\154",
+            "\1\156\1\uffff\1\155",
+            "\1\157",
+            "\1\144\1\uffff\1\72\2\uffff\1\35",
+            "\1\160",
+            "\1\161\1\160",
+            "\1\146\1\uffff\1\145\2\uffff\1\115",
+            "\1\130\2\uffff\1\70",
+            "\1\162\1\uffff\1\130\2\uffff\1\70",
+            "\1\150\1\147",
+            "\1\164\1\uffff\1\163",
+            "\1\165",
+            "\1\166",
+            "\1\145\2\uffff\1\115",
+            "\1\167\1\uffff\1\145\2\uffff\1\115",
+            "\1\161\1\160",
+            "\1\162\1\uffff\1\130\2\uffff\1\70",
+            "\1\170",
+            "\1\167\1\uffff\1\145\2\uffff\1\115"
     };
 
     static final short[] DFA18_eot = DFA.unpackEncodedString(DFA18_eotS);
@@ -4333,9 +4606,11 @@ public class TwigParser extends Parser {
     public static final BitSet FOLLOW_json_argument_in_json_arguments898 = new BitSet(new long[]{0x0000000000800002L});
     public static final BitSet FOLLOW_COMMA_in_json_arguments901 = new BitSet(new long[]{0x0000014000000000L});
     public static final BitSet FOLLOW_json_argument_in_json_arguments904 = new BitSet(new long[]{0x0000000000800002L});
-    public static final BitSet FOLLOW_set_in_json_argument922 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_json_argument923 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_var_or_field_in_json_argument927 = new BitSet(new long[]{0x0000000000400000L});
     public static final BitSet FOLLOW_COLON_in_json_argument931 = new BitSet(new long[]{0x0000014000000000L});
-    public static final BitSet FOLLOW_set_in_json_argument934 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_LITERAL_in_json_argument935 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_var_or_field_in_json_argument940 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_keyword0 = new BitSet(new long[]{0x0000000000000002L});
 
 }

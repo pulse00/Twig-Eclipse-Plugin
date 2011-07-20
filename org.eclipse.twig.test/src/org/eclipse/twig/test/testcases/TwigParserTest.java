@@ -32,6 +32,16 @@ public class TwigParserTest extends TestCase {
 	}
 	
 	
+	
+	@Test
+	public void testVariableAccess() {
+		
+		assertValidTokenstream("{{ entity.subject }}");
+		assertValidTokenstream("{{ path('post_show', { 'id': entity.id }) }}");
+		
+		
+	}
+	
 	@Test
 	public void testEmbedded() {
 		

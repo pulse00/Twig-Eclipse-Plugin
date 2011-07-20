@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-07-17 14:43:43
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-07-19 11:50:52
 
 package org.eclipse.twig.core.parser;
 
