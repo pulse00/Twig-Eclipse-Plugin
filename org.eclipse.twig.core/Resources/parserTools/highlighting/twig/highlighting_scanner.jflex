@@ -9,17 +9,17 @@
  *   Zend and IBM - Initial implementation
  ********************************************************************************/
 
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.wst.sse.core.utils.StringUtils;
-import org.eclipse.twig.core.util.Debug;
+import com.dubture.twig.core.util.Debug;
 
 %%
 
 %public
 %class TwigLexer
-%extends org.eclipse.twig.core.documentModel.parser.AbstractTwigLexer
+%extends com.dubture.twig.core.documentModel.parser.AbstractTwigLexer
 %type String
 %unicode
 %caseless

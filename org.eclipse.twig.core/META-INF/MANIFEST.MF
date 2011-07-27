@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Twig core plugin
-Bundle-SymbolicName: org.eclipse.twig.core;singleton:=true
+Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
 Bundle-Version: 1.0.83.qualifier
-Bundle-Activator: org.eclipse.twig.core.TwigCorePlugin
+Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.core.filebuffers,
@@ -14,32 +14,32 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.validation,
  org.eclipse.php.core,
  org.eclipse.dltk.core,
- org.eclipse.twig.parser,
+ com.dubture.twig.parser,
  org.eclipse.dltk.ui,
  org.eclipse.php.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.twig.core,
- org.eclipse.twig.core.builder,
- org.eclipse.twig.core.codeassist,
- org.eclipse.twig.core.codeassist.context,
- org.eclipse.twig.core.codeassist.strategies,
- org.eclipse.twig.core.documentModel,
- org.eclipse.twig.core.documentModel.dom,
- org.eclipse.twig.core.documentModel.handler,
- org.eclipse.twig.core.documentModel.loader,
- org.eclipse.twig.core.documentModel.parser,
- org.eclipse.twig.core.documentModel.parser.partitioner,
- org.eclipse.twig.core.documentModel.parser.regions,
- org.eclipse.twig.core.documentModel.provisional.contenttype,
- org.eclipse.twig.core.format,
- org.eclipse.twig.core.log,
- org.eclipse.twig.core.model,
- org.eclipse.twig.core.parser,
- org.eclipse.twig.core.search,
- org.eclipse.twig.core.util,
- org.eclipse.twig.core.util.text
-Bundle-Vendor: http://www.twig-project.org/
+Export-Package: com.dubture.twig.core,
+ com.dubture.twig.core.builder,
+ com.dubture.twig.core.codeassist,
+ com.dubture.twig.core.codeassist.context,
+ com.dubture.twig.core.codeassist.strategies,
+ com.dubture.twig.core.documentModel,
+ com.dubture.twig.core.documentModel.dom,
+ com.dubture.twig.core.documentModel.handler,
+ com.dubture.twig.core.documentModel.loader,
+ com.dubture.twig.core.documentModel.parser,
+ com.dubture.twig.core.documentModel.parser.partitioner,
+ com.dubture.twig.core.documentModel.parser.regions,
+ com.dubture.twig.core.documentModel.provisional.contenttype,
+ com.dubture.twig.core.format,
+ com.dubture.twig.core.log,
+ com.dubture.twig.core.model,
+ com.dubture.twig.core.parser,
+ com.dubture.twig.core.search,
+ com.dubture.twig.core.util,
+ com.dubture.twig.core.util.text
+Bundle-Vendor: https://github.com/pulse00/Twig-Eclipse-Plugin
 Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.3.jar,
  .,
  lib/json_simple-1.1.jar

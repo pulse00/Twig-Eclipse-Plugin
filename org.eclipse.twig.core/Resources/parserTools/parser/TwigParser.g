@@ -15,11 +15,11 @@ LITERAL_ARG;
 }
 
 @header {
-package org.eclipse.twig.core.parser;
+package com.dubture.twig.core.parser;
 
-import org.eclipse.twig.core.parser.error.IErrorReporter;
-import org.eclipse.twig.core.TwigCorePlugin;
-import org.eclipse.twig.core.log.Logger;
+import com.dubture.twig.core.parser.error.IErrorReporter;
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.log.Logger;
 
 
 }

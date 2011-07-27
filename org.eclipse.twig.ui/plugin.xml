@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.dltk.ui.language">
       <language
-            class="org.eclipse.twig.ui.TwigUILanguageToolkit"
-            nature="org.eclipse.twig.core.TwigNature"
+            class="com.dubture.twig.ui.TwigUILanguageToolkit"
+            nature="com.dubture.twig.core.TwigNature"
             priority="10">
       </language>
    </extension>
@@ -14,15 +14,15 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.twig.ui.editor.TwigStructuredEditor"
-            contributorClass="org.eclipse.twig.ui.editor.ActionContributorForTwig"
+            class="com.dubture.twig.ui.editor.TwigStructuredEditor"
+            contributorClass="com.dubture.twig.ui.editor.ActionContributorForTwig"
             default="true"
             icon="ico/full/obj16/default_icon.gif"
             id="org.eclipse.twig.editor"
             name="%editor.name"
             symbolicFontName="org.eclipse.wst.sse.ui.textfont">
          <contentTypeBinding
-               contentTypeId="org.eclipse.twig.core.twigtemplate">
+               contentTypeId="com.dubture.twig.core.twigtemplate">
          </contentTypeBinding>
       </editor>
    </extension>
@@ -33,30 +33,30 @@
          point="org.eclipse.wst.sse.ui.editorConfiguration">
 		<sourceViewerConfiguration
 			class="org.eclipse.twig.ui.editor.configuration.TwigStructuredTextViewerConfiguration"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 			
 		<contentOutlineConfiguration
 			class="org.eclipse.twig.ui.outline.TwigContentOutlineConfiguration"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 		<propertySheetConfiguration
 			class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalConfiguration
 			type="sourceeditingtexttools"
 			class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalConfiguration
 			type="characterpairmatcher"
 			class="org.eclipse.php.internal.ui.text.PHPDocumentRegionEdgeMatcher"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalConfiguration
 			type="structuredtextfoldingprovider"
 			class="org.eclipse.php.internal.ui.folding.PHPFoldingStructureProviderProxy"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalDefinition
 			type="spellingregions"
 			value="XML_COMMENT_TEXT, PHP_CONTENT, TWIG_CONTENT, XML_CONTENT"
-			target="org.eclipse.twig.core.twigtemplate" />
+			target="com.dubture.twig.core.twigtemplate" />
    </extension>
    
    
@@ -76,7 +76,7 @@
             </separator>
          </menu>
          <action
-               class="org.eclipse.twig.ui.popup.actions.AddRemoveTwigNatureAction"
+               class="com.dubture.twig.ui.popup.actions.AddRemoveTwigNatureAction"
                enablesFor="1"
                id="org.eclipse.twig.ui.toggleNatureAction"
                label="%action.label"
@@ -89,31 +89,31 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
+            class="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
             name="%twigPageName">
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
-            class="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            class="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
             name="%twigEditorPageName">
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
-            class="org.eclipse.twig.ui.preferences.TwigTemplatePreferencePage"
+            class="com.dubture.twig.ui.preferences.TwigTemplatePreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigTemplatesPreferencePage"
             name="%templatesPreferencePageName">
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
-            class="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
+            class="com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage"
             id="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
             name="%codeassistPreferencePageName">
       </page>
       <page
             category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
-            class="org.eclipse.twig.ui.preferences.TwigSyntaxColoringPage"
+            class="com.dubture.twig.ui.preferences.TwigSyntaxColoringPage"
             id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
             name="%page.name">
       </page>
@@ -121,11 +121,11 @@
    
    <!-- CompletionEngine -->
    
-   <!-- org.eclipse.php.core.PHPNature  |  org.eclipse.twig.core.TwigNature -->
+   <!-- org.eclipse.php.core.PHPNature  |  com.dubture.twig.core.TwigNature -->
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="org.eclipse.twig.ui.preferences.TwigPreferenceInitializer">
+            class="com.dubture.twig.ui.preferences.TwigPreferenceInitializer">
       </initializer>
    </extension>
    
@@ -135,7 +135,7 @@
          point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
       <scriptCompletionProposalComputer
             categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
-            class="org.eclipse.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
+            class="com.dubture.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
             toolkitId="org.eclipse.php.core.PHPNature">
          <partition
                type="org.eclipse.twig.TWIG_DEFAULT">
@@ -148,7 +148,7 @@
    <extension
          point="org.eclipse.ui.editors.templates">
       <contextType
-            class="org.eclipse.twig.ui.editor.templates.TwigTemplateContextType"
+            class="com.dubture.twig.ui.editor.templates.TwigTemplateContextType"
             id="twig"
             name="%contextType.name.0">
       </contextType>
@@ -165,7 +165,7 @@
       </category>
       <wizard
             category="org.eclipse.twig.ui"
-            class="org.eclipse.twig.ui.wizards.NewTemplateWizard"
+            class="com.dubture.twig.ui.wizards.NewTemplateWizard"
             icon="ico/full/obj16/default_icon.gif"
             id="org.eclipse.twig.ui.wizards.NewTemplateWizard"
             name="%wizard.name">
@@ -184,7 +184,7 @@
    <extension
          point="org.eclipse.php.ui.foldingStructureProviders">
       <provider
-            class="org.eclipse.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
+            class="com.dubture.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
             id="org.eclipse.twig.ui.foldingProvider"
             name="Twig Code Folding"
             preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">

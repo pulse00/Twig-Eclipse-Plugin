@@ -17,13 +17,13 @@
 		<uptodate
 			property="upToDate"
 			srcfile="highlighting_scanner.jflex"
-			targetfile="../../../../src/org/eclipse/twig/core/documentModel/parser/TwigLexer.java" />
+			targetfile="../../../../src/com/dubture/twig/core/documentModel/parser/TwigLexer.java" />
 	</target>
 
 	<target name="generateScanner" depends="checkUpToDate,getJFlexJar" unless="upToDate">
 		<java jar="${jflexJar}" fork="true">
 			<arg value="-d" />
-			<arg value="../../../../src/org/eclipse/twig/core/documentModel/parser" />
+			<arg value="../../../../src/com/dubture/twig/core/documentModel/parser" />
 			<arg value="-nobak" />
 			<arg value="highlighting_scanner.jflex" />
 		</java>

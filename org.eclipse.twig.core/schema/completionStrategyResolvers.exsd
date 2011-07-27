@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="com.dubture.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.twig.core" id="completionStrategyResolvers" name="Twig Completion Strategy Resolvers"/>
+         <meta.schema plugin="com.dubture.twig.core" id="completionStrategyResolvers" name="Twig Completion Strategy Resolvers"/>
       </appinfo>
       <documentation>
          This extension point allows providing additional completion strategies for codeassist in Twig templates.
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.twig.core.codeassist.ITwigCompletionStrategyFactory"/>
+                  <meta.attribute kind="java" basedOn=":com.dubture.twig.core.codeassist.ITwigCompletionStrategyFactory"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -77,7 +77,7 @@
       </appinfo>
       <documentation>
             &lt;extension
-         point=&quot;org.eclipse.twig.core.completionStrategyResolvers&quot;&gt;
+         point=&quot;com.dubture.twig.core.completionStrategyResolvers&quot;&gt;
       &lt;resolver
             class=&quot;org.eclipse.symfony.twig.codeassist.TwigCompletionStrategyFactory&quot;&gt;
       &lt;/resolver&gt;

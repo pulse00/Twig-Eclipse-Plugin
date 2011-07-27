@@ -1,4 +1,4 @@
-
+ 
   /** this character denotes the end of file */
   final public static int YYEOF = -1;
 

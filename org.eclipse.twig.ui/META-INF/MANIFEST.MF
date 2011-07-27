@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.twig.ui;singleton:=true
 Bundle-Version: 1.0.83.qualifier
-Bundle-Activator: org.eclipse.twig.ui.TwigUICorePlugin
+Bundle-Activator: com.dubture.twig.ui.TwigUICorePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.php,
@@ -22,15 +22,15 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.dltk.ui,
  org.eclipse.dltk.core,
  org.eclipse.wst.xml.ui,
- org.eclipse.twig.core
+ com.dubture.twig.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.texteditor.link,
  org.eclipse.ui.texteditor.templates
-Export-Package: org.eclipse.twig.ui,
- org.eclipse.twig.ui.editor,
- org.eclipse.twig.ui.editor.autoEdit,
- org.eclipse.twig.ui.editor.configuration,
- org.eclipse.twig.ui.editor.contentassist,
- org.eclipse.twig.ui.editor.folding
+Export-Package: com.dubture.twig.ui,
+ com.dubture.twig.ui.editor,
+ com.dubture.twig.ui.editor.autoEdit,
+ com.dubture.twig.ui.editor.configuration,
+ com.dubture.twig.ui.editor.contentassist,
+ com.dubture.twig.ui.editor.folding
 Bundle-Vendor: %Bundle-Vendor

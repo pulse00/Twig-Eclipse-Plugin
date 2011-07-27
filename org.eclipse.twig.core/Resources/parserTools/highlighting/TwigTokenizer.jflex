@@ -1,4 +1,4 @@
-/*******************************************************************************
+/********************************************************************************
  * Copyright (c) 2006 Zend Corporation and IBM Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,7 +9,7 @@
  *   Zend and IBM - Initial implementation
  *******************************************************************************/
 /*nlsXXX*/
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 import java.io.CharArrayReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.php.internal.core.PHPVersion;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
 import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
 import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
@@ -29,7 +29,7 @@ import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import org.eclipse.twig.core.util.Debug;
+import com.dubture.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.Logger;
 import org.eclipse.wst.xml.core.internal.parser.ContextRegionContainer;

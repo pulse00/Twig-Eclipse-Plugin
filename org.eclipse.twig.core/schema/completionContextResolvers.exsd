@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="com.dubture.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.twig.core" id="completionContextResolvers" name="The Twig Completion Context Resolver Extension"/>
+         <meta.schema plugin="com.dubture.twig.core" id="completionContextResolvers" name="The Twig Completion Context Resolver Extension"/>
       </appinfo>
       <documentation>
          This extension enables plugins to provide CompletionContexts for the Twig completion engine.
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.twig.core.codeassist.ITwigCompletionContextResolver"/>
+                  <meta.attribute kind="java" basedOn=":com.dubture.twig.core.codeassist.ITwigCompletionContextResolver"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -77,7 +77,7 @@
       </appinfo>
       <documentation>
             &lt;extension
-         point=&quot;org.eclipse.twig.core.completionContextResolvers&quot;&gt;
+         point=&quot;com.dubture.twig.core.completionContextResolvers&quot;&gt;
       &lt;resolver
             class=&quot;org.eclipse.symfony.twig.codeassist.TwigCompletionContextResolver&quot;&gt;
       &lt;/resolver&gt;
