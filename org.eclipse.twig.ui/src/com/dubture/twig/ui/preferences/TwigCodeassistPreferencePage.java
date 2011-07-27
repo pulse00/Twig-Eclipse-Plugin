@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.preferences;
+package com.dubture.twig.ui.preferences;
 
 
 import org.eclipse.dltk.ui.DLTKUIPlugin;
@@ -13,8 +13,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.ui.PlatformUI;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
  * 

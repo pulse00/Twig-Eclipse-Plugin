@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist;
+package com.dubture.twig.core.codeassist;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,21 +9,22 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.core.codeassist.ICompletionStrategy;
 import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
-import org.eclipse.twig.core.codeassist.context.FilterContext;
-import org.eclipse.twig.core.codeassist.context.FunctionContext;
-import org.eclipse.twig.core.codeassist.context.KeywordContext;
-import org.eclipse.twig.core.codeassist.context.TagContext;
-import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
-import org.eclipse.twig.core.codeassist.context.TestContext;
-import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
-import org.eclipse.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
-import org.eclipse.twig.core.codeassist.strategies.FilterStrategy;
-import org.eclipse.twig.core.codeassist.strategies.FunctionStrategy;
-import org.eclipse.twig.core.codeassist.strategies.KeywordStrategy;
-import org.eclipse.twig.core.codeassist.strategies.TagStrategy;
-import org.eclipse.twig.core.codeassist.strategies.TemplateVariablesStrategy;
-import org.eclipse.twig.core.codeassist.strategies.TestStrategy;
-import org.eclipse.twig.core.log.Logger;
+
+import com.dubture.twig.core.codeassist.context.FilterContext;
+import com.dubture.twig.core.codeassist.context.FunctionContext;
+import com.dubture.twig.core.codeassist.context.KeywordContext;
+import com.dubture.twig.core.codeassist.context.TagContext;
+import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
+import com.dubture.twig.core.codeassist.context.TestContext;
+import com.dubture.twig.core.codeassist.context.VariableFieldContext;
+import com.dubture.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
+import com.dubture.twig.core.codeassist.strategies.FilterStrategy;
+import com.dubture.twig.core.codeassist.strategies.FunctionStrategy;
+import com.dubture.twig.core.codeassist.strategies.KeywordStrategy;
+import com.dubture.twig.core.codeassist.strategies.TagStrategy;
+import com.dubture.twig.core.codeassist.strategies.TemplateVariablesStrategy;
+import com.dubture.twig.core.codeassist.strategies.TestStrategy;
+import com.dubture.twig.core.log.Logger;
 
 
 /**
@@ -44,7 +45,7 @@ public class TwigCompletionStrategyFactory implements
 		ICompletionStrategyFactory {
 
 	
-	private static final String STRATEGYFACTORY_ID = "org.eclipse.twig.core.completionStrategyResolvers";
+	private static final String STRATEGYFACTORY_ID = "com.dubture.twig.core.completionStrategyResolvers";
 	
 	@Override
 	public ICompletionStrategy[] create(ICompletionContext[] contexts) {

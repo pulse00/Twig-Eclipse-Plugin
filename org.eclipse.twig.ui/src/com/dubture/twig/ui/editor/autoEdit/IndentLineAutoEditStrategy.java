@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 
 import org.eclipse.jface.text.BadLocationException;
@@ -10,10 +10,11 @@ import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.php.internal.core.format.IIndentationStrategy;
 import org.eclipse.php.internal.ui.autoEdit.IAfterNewLineAutoEditStrategy;
 import org.eclipse.php.internal.ui.autoEdit.PairCurlyBracketAutoEditStrategy;
-import org.eclipse.twig.core.format.DefaultIndentationStrategy;
-import org.eclipse.twig.core.format.FormatterUtils;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+
+import com.dubture.twig.core.format.DefaultIndentationStrategy;
+import com.dubture.twig.core.format.FormatterUtils;
+import com.dubture.twig.core.log.Logger;
 
 @SuppressWarnings("restriction")
 public class IndentLineAutoEditStrategy extends DefaultIndentationStrategy

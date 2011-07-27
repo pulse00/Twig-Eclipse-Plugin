@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.format.htmlFormatters;
+package com.dubture.twig.core.format.htmlFormatters;
 
 import org.eclipse.wst.html.core.internal.format.HTMLFormatter;
 import org.eclipse.wst.html.core.internal.format.HTMLTextFormatter;

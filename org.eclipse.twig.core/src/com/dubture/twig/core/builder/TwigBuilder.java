@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.builder;
+package com.dubture.twig.core.builder;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.dltk.core.IScriptProject;

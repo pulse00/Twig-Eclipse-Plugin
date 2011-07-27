@@ -1,4 +1,4 @@
-package org.eclipse.twig.test.testcases;
+package com.dubture.twig.test.testcases;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.parser.error;
+package com.dubture.twig.core.parser.error;
 
 import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.runtime.Platform;
@@ -6,8 +6,9 @@ import org.eclipse.dltk.compiler.problem.DefaultProblem;
 import org.eclipse.dltk.compiler.problem.IProblem;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.dltk.compiler.problem.ProblemSeverity;
-import org.eclipse.twig.core.TwigCorePlugin;
-import org.eclipse.twig.core.TwigCorePreferences;
+
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.TwigCorePreferences;
 
 
 /**

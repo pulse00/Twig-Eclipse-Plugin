@@ -1,6 +1,6 @@
-package org.eclipse.twig.core.documentModel.provisional.contenttype;
+package com.dubture.twig.core.documentModel.provisional.contenttype;
 
-import org.eclipse.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.TwigCorePlugin;
 
 /**
  * 

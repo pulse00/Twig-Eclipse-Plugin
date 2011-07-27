@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.model;
+package com.dubture.twig.core.model;
 
 public interface ITwigModelElement {
 

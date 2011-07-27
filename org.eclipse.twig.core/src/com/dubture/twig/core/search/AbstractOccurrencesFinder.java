@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.search;
+package com.dubture.twig.core.search;
 
 
 import java.io.BufferedReader;
@@ -10,15 +10,16 @@ import java.util.List;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.parser.ITwigNodeVisitor;
-import org.eclipse.twig.core.parser.TwigCommonTree;
-import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
-import org.eclipse.twig.core.parser.TwigLexer;
-import org.eclipse.twig.core.parser.TwigNode;
-import org.eclipse.twig.core.parser.TwigNodeVisitor;
-import org.eclipse.twig.core.parser.TwigParser;
-import org.eclipse.twig.core.parser.TwigSourceParser;
+
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.ITwigNodeVisitor;
+import com.dubture.twig.core.parser.TwigCommonTree;
+import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
+import com.dubture.twig.core.parser.TwigLexer;
+import com.dubture.twig.core.parser.TwigNode;
+import com.dubture.twig.core.parser.TwigNodeVisitor;
+import com.dubture.twig.core.parser.TwigParser;
+import com.dubture.twig.core.parser.TwigSourceParser;
 
 
 /**

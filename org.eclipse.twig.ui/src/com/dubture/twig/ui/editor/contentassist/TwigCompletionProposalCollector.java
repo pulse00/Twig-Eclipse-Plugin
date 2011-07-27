@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.contentassist;
+package com.dubture.twig.ui.editor.contentassist;
 
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IModelElement;
@@ -9,17 +9,18 @@ import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposal;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalCollector;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.twig.core.TwigNature;
-import org.eclipse.twig.core.model.Filter;
-import org.eclipse.twig.core.model.Function;
-import org.eclipse.twig.core.model.Tag;
-import org.eclipse.twig.core.model.Test;
-import org.eclipse.twig.ui.contentassist.EmptyCompletionProposal;
-import org.eclipse.twig.ui.contentassist.FilterProposalInfo;
-import org.eclipse.twig.ui.contentassist.FunctionProposalInfo;
-import org.eclipse.twig.ui.contentassist.TagProposalInfo;
-import org.eclipse.twig.ui.contentassist.TestProposalInfo;
-import org.eclipse.twig.ui.editor.TwigCompletionProposalLabelProvider;
+
+import com.dubture.twig.core.TwigNature;
+import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.Function;
+import com.dubture.twig.core.model.Tag;
+import com.dubture.twig.core.model.Test;
+import com.dubture.twig.ui.contentassist.EmptyCompletionProposal;
+import com.dubture.twig.ui.contentassist.FilterProposalInfo;
+import com.dubture.twig.ui.contentassist.FunctionProposalInfo;
+import com.dubture.twig.ui.contentassist.TagProposalInfo;
+import com.dubture.twig.ui.contentassist.TestProposalInfo;
+import com.dubture.twig.ui.editor.TwigCompletionProposalLabelProvider;
 
 
 /**

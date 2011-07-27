@@ -1,11 +1,12 @@
-package org.eclipse.twig.core.format.htmlFormatters;
+package com.dubture.twig.core.format.htmlFormatters;
 
 
-import org.eclipse.twig.core.documentModel.dom.ElementImplForTwig;
-import org.eclipse.twig.core.format.TwigFormatter;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatPreferences;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatter;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
+import com.dubture.twig.core.format.TwigFormatter;
 
 @SuppressWarnings("restriction")
 public class HTMLFormatterNoTwigFactory {

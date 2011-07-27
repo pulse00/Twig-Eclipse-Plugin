@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 import java.io.Reader;
 

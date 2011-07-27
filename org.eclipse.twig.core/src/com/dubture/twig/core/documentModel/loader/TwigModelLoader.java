@@ -1,10 +1,11 @@
-package org.eclipse.twig.core.documentModel.loader;
+package com.dubture.twig.core.documentModel.loader;
 
-import org.eclipse.twig.core.documentModel.DOMModelForTwig;
 import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+
+import com.dubture.twig.core.documentModel.DOMModelForTwig;
 
 
 /**

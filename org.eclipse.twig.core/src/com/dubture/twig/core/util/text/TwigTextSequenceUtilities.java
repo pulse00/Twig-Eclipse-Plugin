@@ -1,17 +1,18 @@
-package org.eclipse.twig.core.util.text;
+package com.dubture.twig.core.util.text;
 
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.php.internal.core.util.text.TextSequenceUtilities;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.log.Logger;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -17,9 +17,10 @@ import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.preferences.TaskPatternsProvider;
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.configuration;
+package com.dubture.twig.ui.editor.configuration;
 
 import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;

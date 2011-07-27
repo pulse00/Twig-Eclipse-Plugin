@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.format;
+package com.dubture.twig.core.format;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -14,8 +14,9 @@ import org.eclipse.php.internal.core.preferences.PreferencePropagatorFactory;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
 import org.eclipse.php.internal.core.preferences.PreferencesSupport;
-import org.eclipse.twig.core.documentModel.DOMModelForTwig;
 import org.eclipse.wst.sse.core.StructuredModelManager;
+
+import com.dubture.twig.core.documentModel.DOMModelForTwig;
 
 @SuppressWarnings("restriction")
 public class FormatPreferencesSupport {

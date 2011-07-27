@@ -1,12 +1,13 @@
-package org.eclipse.twig.core.documentModel.parser.partitioner;
+package com.dubture.twig.core.documentModel.parser.partitioner;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TypedRegion;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 
 /**

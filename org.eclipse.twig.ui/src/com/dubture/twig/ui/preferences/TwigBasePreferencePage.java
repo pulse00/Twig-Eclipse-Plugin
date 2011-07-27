@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.preferences;
+package com.dubture.twig.ui.preferences;
 
 import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;

@@ -1,14 +1,15 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.twig.ui.TwigUICorePlugin;
-import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
+import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 
 /**

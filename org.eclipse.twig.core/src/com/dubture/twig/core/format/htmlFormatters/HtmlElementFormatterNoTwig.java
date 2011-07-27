@@ -1,9 +1,6 @@
-package org.eclipse.twig.core.format.htmlFormatters;
+package com.dubture.twig.core.format.htmlFormatters;
 
 
-import org.eclipse.twig.core.documentModel.dom.AttrImplForTwig;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.format.TwigFormatter;
 import org.eclipse.wst.html.core.internal.format.HTMLElementFormatter;
 import org.eclipse.wst.html.core.internal.format.HTMLTextFormatter;
 import org.eclipse.wst.html.core.internal.provisional.HTMLFormatContraints;
@@ -15,6 +12,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.documentModel.dom.AttrImplForTwig;
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.format.TwigFormatter;
 
 @SuppressWarnings({ "restriction", "deprecation" })
 public class HtmlElementFormatterNoTwig extends HTMLElementFormatter {

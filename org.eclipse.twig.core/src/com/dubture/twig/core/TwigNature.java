@@ -1,4 +1,4 @@
-package org.eclipse.twig.core;
+package com.dubture.twig.core;
 
 import org.eclipse.dltk.core.ScriptNature;
 

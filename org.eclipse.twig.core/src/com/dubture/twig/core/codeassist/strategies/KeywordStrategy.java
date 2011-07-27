@@ -1,10 +1,11 @@
-package org.eclipse.twig.core.codeassist.strategies;
+package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.twig.core.codeassist.context.KeywordContext;
+
+import com.dubture.twig.core.codeassist.context.KeywordContext;
 
 
 /**

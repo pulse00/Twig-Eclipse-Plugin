@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.builder;
+package com.dubture.twig.core.builder;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -7,9 +7,10 @@ import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.SourceParserUtil;
 import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.model.Template;
-import org.eclipse.twig.core.model.TwigModelAccess;
+
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.model.Template;
+import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
  * 

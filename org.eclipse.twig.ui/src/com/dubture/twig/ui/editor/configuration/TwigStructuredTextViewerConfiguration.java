@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.configuration;
+package com.dubture.twig.ui.editor.configuration;
 
 
 
@@ -27,19 +27,20 @@ import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
 import org.eclipse.php.internal.ui.editor.hover.PHPTextHoverProxy;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.format.FormatPreferencesSupport;
-import org.eclipse.twig.core.format.TwigFormatProcessorImpl;
-import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
-import org.eclipse.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
-import org.eclipse.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
-import org.eclipse.twig.ui.editor.autoEdit.MainAutoEditStrategy;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
 import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 import org.eclipse.wst.sse.ui.internal.provisional.style.ReconcilerHighlighter;
 import org.eclipse.wst.sse.ui.internal.provisional.style.StructuredPresentationReconciler;
+
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import com.dubture.twig.core.format.FormatPreferencesSupport;
+import com.dubture.twig.core.format.TwigFormatProcessorImpl;
+import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
+import com.dubture.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
+import com.dubture.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
+import com.dubture.twig.ui.editor.autoEdit.MainAutoEditStrategy;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.model;
+package com.dubture.twig.core.model;
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.ModelElement;

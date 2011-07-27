@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.format;
+package com.dubture.twig.core.format;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -6,13 +6,6 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.php.internal.core.format.CommentIndentationStrategy;
 import org.eclipse.php.internal.core.format.IIndentationStrategy;
 import org.eclipse.php.internal.core.format.PhpFormatConstraints;
-import org.eclipse.twig.core.documentModel.dom.AttrImplForTwig;
-import org.eclipse.twig.core.documentModel.dom.ElementImplForTwig;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigScriptRegion;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatContraints;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatPreferences;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatter;
@@ -24,6 +17,14 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.core.internal.text.rules.SimpleStructuredRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.documentModel.dom.AttrImplForTwig;
+import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
+import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
+import com.dubture.twig.core.log.Logger;
 
 @SuppressWarnings("restriction")
 public class TwigFormatter implements IStructuredFormatter {

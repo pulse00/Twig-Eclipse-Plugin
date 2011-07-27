@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.dom;
+package com.dubture.twig.core.documentModel.dom;
 
 import org.eclipse.wst.html.core.internal.document.DocumentStyleImpl;
 import org.eclipse.wst.xml.core.internal.document.DocumentImpl;

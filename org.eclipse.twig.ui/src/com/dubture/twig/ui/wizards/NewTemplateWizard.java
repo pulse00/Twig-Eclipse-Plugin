@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.wizards;
+package com.dubture.twig.ui.wizards;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -134,7 +134,7 @@ public class NewTemplateWizard extends Wizard implements INewWizard {
 
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
-			new Status(IStatus.ERROR, "org.eclipse.twig.ui", IStatus.OK, message, null);
+			new Status(IStatus.ERROR, "com.dubture.twig.ui", IStatus.OK, message, null);
 		throw new CoreException(status);
 	}
 

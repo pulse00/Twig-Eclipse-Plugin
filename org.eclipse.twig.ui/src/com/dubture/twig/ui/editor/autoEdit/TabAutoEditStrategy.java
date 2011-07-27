@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentCommand;
@@ -7,9 +7,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
-import org.eclipse.twig.core.format.FormatPreferencesSupport;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+
+import com.dubture.twig.core.format.FormatPreferencesSupport;
+import com.dubture.twig.core.log.Logger;
 
 @SuppressWarnings("restriction")
 public class TabAutoEditStrategy implements IAutoEditStrategy {

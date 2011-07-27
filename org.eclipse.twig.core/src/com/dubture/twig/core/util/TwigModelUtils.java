@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.util;
+package com.dubture.twig.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,8 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
-import org.eclipse.twig.core.log.Logger;
+
+import com.dubture.twig.core.log.Logger;
 
 /**
  * 

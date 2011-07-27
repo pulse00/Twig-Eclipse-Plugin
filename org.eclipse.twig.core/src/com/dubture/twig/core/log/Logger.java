@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.log;
+package com.dubture.twig.core.log;
 
 import java.util.StringTokenizer;
 
@@ -6,8 +6,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.dltk.ast.ASTNode;
-import org.eclipse.twig.core.TwigCorePlugin;
 import org.osgi.framework.Bundle;
+
+import com.dubture.twig.core.TwigCorePlugin;
 
 public class Logger {
 	

@@ -1,13 +1,10 @@
-package org.eclipse.twig.core.documentModel.dom;
+package com.dubture.twig.core.documentModel.dom;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.php.internal.core.documentModel.dom.NullValidator;
-import org.eclipse.twig.core.documentModel.TwigDOMModelParser;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.model.TwigModelAccess;
 import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.validate.ValidationAdapter;
@@ -15,6 +12,10 @@ import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.validate.ValidationComponent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.documentModel.TwigDOMModelParser;
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
  * 

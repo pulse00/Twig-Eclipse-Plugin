@@ -1,12 +1,13 @@
-package org.eclipse.twig.core.documentModel;
+package com.dubture.twig.core.documentModel;
 
 import org.eclipse.php.internal.core.documentModel.DOMModelForPHP;
-import org.eclipse.twig.core.documentModel.dom.DOMDocumentForTwig;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.xml.core.internal.document.XMLModelParser;
 import org.eclipse.wst.xml.core.internal.document.XMLModelUpdater;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Document;
+
+import com.dubture.twig.core.documentModel.dom.DOMDocumentForTwig;
 
 @SuppressWarnings("restriction")
 public class DOMModelForTwig extends DOMModelForPHP {

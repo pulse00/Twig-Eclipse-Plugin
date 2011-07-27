@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor;
+package com.dubture.twig.ui.editor;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,15 +12,16 @@ import org.eclipse.php.internal.ui.Logger;
 import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 import org.eclipse.wst.sse.ui.internal.util.EditorUtility;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 /**
  * 

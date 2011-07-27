@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.wizards;
+package com.dubture.twig.ui.wizards;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;

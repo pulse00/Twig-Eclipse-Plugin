@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui;
+package com.dubture.twig.ui;
 
 public class TwigUIMessages {
 	

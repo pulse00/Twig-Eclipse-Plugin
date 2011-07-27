@@ -1,11 +1,9 @@
-package org.eclipse.twig.test.testcases;
+package com.dubture.twig.test.testcases;
 
 
 import junit.framework.TestCase;
 
 import org.eclipse.php.internal.core.util.text.TextSequence;
-import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
-import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -14,6 +12,9 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
+import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 
 /**
@@ -49,7 +50,7 @@ public class TwigTextSequenceUtilitiesTest extends TestCase {
 			fDoc.set(fText);			
 			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
 			
-			assertEquals(1, regions.length);
+			assertEquals(4, regions.length);
 			int offset = 8;
 
 			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);

@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.outline;
+package com.dubture.twig.ui.outline;
 
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.ElementChangedEvent;

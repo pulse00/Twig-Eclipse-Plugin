@@ -1,8 +1,9 @@
-package org.eclipse.twig.core.documentModel.dom;
+package com.dubture.twig.core.documentModel.dom;
 
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.wst.xml.core.internal.document.AttrImpl;
 import org.w3c.dom.Document;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 
 @SuppressWarnings("restriction")
 public class AttrImplForTwig extends AttrImpl {

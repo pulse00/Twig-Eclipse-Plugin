@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist.context;
+package com.dubture.twig.core.codeassist.context;
 
 import java.io.IOException;
 
@@ -16,12 +16,6 @@ import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
-import org.eclipse.twig.core.TwigCorePlugin;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.model.Template;
-import org.eclipse.twig.core.model.TwigModelAccess;
-import org.eclipse.twig.core.util.Debug;
-import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.exceptions.ResourceAlreadyExists;
@@ -30,6 +24,13 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
+
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.model.Template;
+import com.dubture.twig.core.model.TwigModelAccess;
+import com.dubture.twig.core.util.Debug;
+import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 
 /**

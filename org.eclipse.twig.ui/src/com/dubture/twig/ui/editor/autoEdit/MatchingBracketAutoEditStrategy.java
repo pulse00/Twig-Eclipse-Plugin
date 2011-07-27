@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 
 import org.eclipse.jface.text.BadLocationException;
@@ -7,15 +7,16 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.ui.autoEdit.MatchingCharAutoEditStrategy;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import org.eclipse.twig.core.format.FormatterUtils;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
+
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
+import com.dubture.twig.core.format.FormatterUtils;
+import com.dubture.twig.core.log.Logger;
 
 /**
  *

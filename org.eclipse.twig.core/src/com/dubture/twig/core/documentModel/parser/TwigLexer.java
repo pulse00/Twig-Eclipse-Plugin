@@ -11,11 +11,12 @@
  *   Zend and IBM - Initial implementation
  ********************************************************************************/
 
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.wst.sse.core.utils.StringUtils;
-import org.eclipse.twig.core.util.Debug;
+
+import com.dubture.twig.core.util.Debug;
 
 
 /**
@@ -24,7 +25,7 @@ import org.eclipse.twig.core.util.Debug;
  * on 7/17/11 2:17 PM from the specification file
  * <tt>highlighting_scanner.jflex</tt>
  */
-public class TwigLexer extends org.eclipse.twig.core.documentModel.parser.AbstractTwigLexer {
+public class TwigLexer extends com.dubture.twig.core.documentModel.parser.AbstractTwigLexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;

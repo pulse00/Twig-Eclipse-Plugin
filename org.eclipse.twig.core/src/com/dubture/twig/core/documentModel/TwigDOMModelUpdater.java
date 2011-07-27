@@ -1,8 +1,9 @@
-package org.eclipse.twig.core.documentModel;
+package com.dubture.twig.core.documentModel;
 
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.wst.xml.core.internal.document.DOMModelImpl;
 import org.eclipse.wst.xml.core.internal.document.XMLModelUpdater;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 
 /**
  * 

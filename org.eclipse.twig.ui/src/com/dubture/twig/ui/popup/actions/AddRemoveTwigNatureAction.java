@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.popup.actions;
+package com.dubture.twig.ui.popup.actions;
 
 import java.util.Iterator;
 
@@ -9,11 +9,12 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.twig.core.TwigNature;
-import org.eclipse.twig.core.log.Logger;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+
+import com.dubture.twig.core.TwigNature;
+import com.dubture.twig.core.log.Logger;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.index;
+package com.dubture.twig.core.index;
 
 import org.eclipse.dltk.compiler.IElementRequestor;
 

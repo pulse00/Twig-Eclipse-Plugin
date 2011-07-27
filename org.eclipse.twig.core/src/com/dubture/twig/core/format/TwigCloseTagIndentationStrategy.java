@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.format;
+package com.dubture.twig.core.format;
 
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 

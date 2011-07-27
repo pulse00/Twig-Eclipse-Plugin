@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.parser.regions;
+package com.dubture.twig.core.documentModel.parser.regions;
 
 
 import java.io.IOException;
@@ -11,14 +11,15 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.PHPCorePlugin;
 import org.eclipse.php.internal.core.documentModel.parser.Scanner.LexerState;
 import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.AbstractTwigLexer;
-import org.eclipse.twig.core.documentModel.parser.TwigLexer;
 import org.eclipse.wst.sse.core.internal.parser.ForeignRegion;
 import org.eclipse.wst.sse.core.internal.provisional.events.StructuredDocumentEvent;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.Logger;
+
+import com.dubture.twig.core.documentModel.parser.AbstractTwigLexer;
+import com.dubture.twig.core.documentModel.parser.TwigLexer;
 
 /**
  * 

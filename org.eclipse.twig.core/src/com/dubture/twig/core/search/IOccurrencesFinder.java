@@ -1,6 +1,6 @@
-package org.eclipse.twig.core.search;
+package com.dubture.twig.core.search;
 
-import org.eclipse.twig.core.parser.TwigNode;
+import com.dubture.twig.core.parser.TwigNode;
 
 /**
  * 

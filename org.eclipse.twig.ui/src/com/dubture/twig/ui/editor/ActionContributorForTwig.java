@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor;
+package com.dubture.twig.ui.editor;
 
 
 
@@ -15,7 +15,7 @@ import org.eclipse.php.internal.ui.editor.ActionContributorForPhp;
 public class ActionContributorForTwig extends ActionContributorForPhp {
 	
 	private static final String[] EDITOR_IDS = {
-		"org.eclipse.twig.core.twigtemplate", "org.eclipse.wst.sse.ui.StructuredTextEditor" }; //$NON-NLS-1$ //$NON-NLS-2$
+		"com.dubture.twig.core.twigtemplate", "org.eclipse.wst.sse.ui.StructuredTextEditor" }; //$NON-NLS-1$ //$NON-NLS-2$
 	
 	
 	protected String[] getExtensionIDs() {

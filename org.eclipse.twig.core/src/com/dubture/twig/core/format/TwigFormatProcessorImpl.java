@@ -1,15 +1,16 @@
-package org.eclipse.twig.core.format;
+package com.dubture.twig.core.format;
 
 import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.twig.core.format.htmlFormatters.HTMLFormatterNoTwigFactory;
 import org.eclipse.wst.html.core.internal.format.HTMLFormatProcessorImpl;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatter;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.format.htmlFormatters.HTMLFormatterNoTwigFactory;
 
 @SuppressWarnings("restriction")
 public class TwigFormatProcessorImpl extends HTMLFormatProcessorImpl {

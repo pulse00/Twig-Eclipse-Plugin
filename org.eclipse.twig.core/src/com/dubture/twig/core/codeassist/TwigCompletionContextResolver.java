@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist;
+package com.dubture.twig.core.codeassist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,16 +9,17 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.core.codeassist.ICompletionContextResolver;
 import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
-import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
-import org.eclipse.twig.core.codeassist.context.FilterContext;
-import org.eclipse.twig.core.codeassist.context.FunctionContext;
-import org.eclipse.twig.core.codeassist.context.KeywordContext;
-import org.eclipse.twig.core.codeassist.context.QuotesContext;
-import org.eclipse.twig.core.codeassist.context.TagContext;
-import org.eclipse.twig.core.codeassist.context.TemplateVariablesContext;
-import org.eclipse.twig.core.codeassist.context.TestContext;
-import org.eclipse.twig.core.codeassist.context.VariableFieldContext;
-import org.eclipse.twig.core.log.Logger;
+
+import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
+import com.dubture.twig.core.codeassist.context.FilterContext;
+import com.dubture.twig.core.codeassist.context.FunctionContext;
+import com.dubture.twig.core.codeassist.context.KeywordContext;
+import com.dubture.twig.core.codeassist.context.QuotesContext;
+import com.dubture.twig.core.codeassist.context.TagContext;
+import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
+import com.dubture.twig.core.codeassist.context.TestContext;
+import com.dubture.twig.core.codeassist.context.VariableFieldContext;
+import com.dubture.twig.core.log.Logger;
 
 
 /**
@@ -36,7 +37,7 @@ import org.eclipse.twig.core.log.Logger;
 public class TwigCompletionContextResolver extends CompletionContextResolver implements
 		ICompletionContextResolver {
 
-	private static final String CONTEXTYFACTORY_ID = "org.eclipse.twig.core.completionContextResolvers";
+	private static final String CONTEXTYFACTORY_ID = "com.dubture.twig.core.completionContextResolvers";
 	
 
 	@Override

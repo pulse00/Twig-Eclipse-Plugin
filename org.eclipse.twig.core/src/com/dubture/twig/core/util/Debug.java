@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.util;
+package com.dubture.twig.core.util;
 
 
 /**

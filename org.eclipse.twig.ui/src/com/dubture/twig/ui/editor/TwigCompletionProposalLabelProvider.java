@@ -1,14 +1,15 @@
-package org.eclipse.twig.ui.editor;
+package com.dubture.twig.ui.editor;
 
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLabelProvider;
-import org.eclipse.twig.core.model.Filter;
-import org.eclipse.twig.core.model.Function;
-import org.eclipse.twig.core.model.Tag;
-import org.eclipse.twig.core.model.Test;
-import org.eclipse.twig.ui.TwigPluginImages;
+
+import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.Function;
+import com.dubture.twig.core.model.Tag;
+import com.dubture.twig.core.model.Test;
+import com.dubture.twig.ui.TwigPluginImages;
 
 
 /**

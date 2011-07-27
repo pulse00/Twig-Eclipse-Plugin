@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.preferences;
+package com.dubture.twig.ui.preferences;
 
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -13,13 +13,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.twig.core.TwigCoreConstants;
-import org.eclipse.twig.core.TwigCorePlugin;
-import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
+
+import com.dubture.twig.core.TwigCoreConstants;
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 
 /**

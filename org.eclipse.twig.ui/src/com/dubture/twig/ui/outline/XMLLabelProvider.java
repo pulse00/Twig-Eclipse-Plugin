@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.outline;
+package com.dubture.twig.ui.outline;
 
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMAttributeDeclaration;

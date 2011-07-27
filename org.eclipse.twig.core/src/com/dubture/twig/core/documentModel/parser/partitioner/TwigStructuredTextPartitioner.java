@@ -1,10 +1,11 @@
-package org.eclipse.twig.core.documentModel.parser.partitioner;
+package com.dubture.twig.core.documentModel.parser.partitioner;
 
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 
 
 

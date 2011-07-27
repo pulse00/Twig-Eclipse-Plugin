@@ -1,4 +1,4 @@
-package org.eclipse.twig.test.testcases;
+package com.dubture.twig.test.testcases;
 
 
 import junit.framework.TestCase;
@@ -6,14 +6,15 @@ import junit.framework.TestCase;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.eclipse.twig.core.parser.TwigCommonTree;
-import org.eclipse.twig.core.parser.TwigCommonTreeAdaptor;
-import org.eclipse.twig.core.parser.TwigLexer;
-import org.eclipse.twig.core.parser.TwigNodeVisitor;
-import org.eclipse.twig.core.parser.TwigParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.dubture.twig.core.parser.TwigCommonTree;
+import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
+import com.dubture.twig.core.parser.TwigLexer;
+import com.dubture.twig.core.parser.TwigNodeVisitor;
+import com.dubture.twig.core.parser.TwigParser;
 
 public class TwigParserTest extends TestCase {
 

@@ -1,8 +1,9 @@
-package org.eclipse.twig.ui.editor.templates;
+package com.dubture.twig.ui.editor.templates;
 
 import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.twig.ui.TwigUICorePlugin;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 
 /**

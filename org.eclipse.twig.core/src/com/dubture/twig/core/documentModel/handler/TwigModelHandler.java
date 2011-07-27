@@ -1,13 +1,14 @@
-package org.eclipse.twig.core.documentModel.handler;
+package com.dubture.twig.core.documentModel.handler;
 
 import org.eclipse.php.internal.core.documentModel.encoding.PHPDocumentCharsetDetector;
 import org.eclipse.php.internal.core.documentModel.handler.PHPModelHandler;
-import org.eclipse.twig.core.documentModel.loader.TwigDocumentLoader;
-import org.eclipse.twig.core.documentModel.loader.TwigModelLoader;
-import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import org.eclipse.wst.sse.core.internal.document.IDocumentCharsetDetector;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
+
+import com.dubture.twig.core.documentModel.loader.TwigDocumentLoader;
+import com.dubture.twig.core.documentModel.loader.TwigModelLoader;
+import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 
 /**
  * 
@@ -51,7 +52,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
 public class TwigModelHandler extends PHPModelHandler {
 	
 	
-	private static String ModelHandlerID = "org.eclipse.twig.core.documentModel.handler"; //$NON-NLS-1$
+	private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
 	
 	
 	public TwigModelHandler() {

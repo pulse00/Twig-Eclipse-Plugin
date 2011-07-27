@@ -1,4 +1,4 @@
-package org.eclipse.twig.test.testcases;
+package com.dubture.twig.test.testcases;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,14 +7,15 @@ import java.util.Stack;
 
 import junit.framework.TestCase;
 
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.documentModel.parser.TwigTokenizer;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigScriptRegion;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.documentModel.parser.TwigTokenizer;
+import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
 
 
 /**

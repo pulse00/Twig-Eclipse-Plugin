@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.parser;
+package com.dubture.twig.core.parser;
 
 import java.util.List;
 

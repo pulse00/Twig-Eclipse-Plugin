@@ -1,7 +1,7 @@
-package org.eclipse.twig.core.search;
+package com.dubture.twig.core.search;
 
-import org.eclipse.twig.core.parser.ITwigNodeVisitor;
-import org.eclipse.twig.core.parser.TwigCommonTree;
+import com.dubture.twig.core.parser.ITwigNodeVisitor;
+import com.dubture.twig.core.parser.TwigCommonTree;
 
 /**
  * 

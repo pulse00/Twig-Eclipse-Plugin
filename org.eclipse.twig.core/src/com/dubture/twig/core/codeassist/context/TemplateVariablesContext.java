@@ -1,11 +1,12 @@
-package org.eclipse.twig.core.codeassist.context;
+package com.dubture.twig.core.codeassist.context;
 
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.php.internal.core.util.text.TextSequence;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.util.text.TwigTextSequenceUtilities;
+
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 
 /**

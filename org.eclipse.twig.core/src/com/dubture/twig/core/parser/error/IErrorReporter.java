@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.parser.error;
+package com.dubture.twig.core.parser.error;
 
 import org.antlr.runtime.RecognitionException;
 

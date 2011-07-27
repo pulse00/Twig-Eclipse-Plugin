@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.contentassist;
+package com.dubture.twig.ui.editor.contentassist;
 
 
 
@@ -22,9 +22,10 @@ import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.editor.templates.PhpTemplateCompletionProcessor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.twig.ui.TwigUICorePlugin;
-import org.eclipse.twig.ui.editor.templates.TwigTemplateAccess;
-import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
+import com.dubture.twig.ui.editor.templates.TwigTemplateAccess;
+import com.dubture.twig.ui.editor.templates.TwigTemplateContextType;
 
 /**
  *

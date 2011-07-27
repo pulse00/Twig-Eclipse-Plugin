@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.outline;
+package com.dubture.twig.ui.outline;
 
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.ui.actions.CompositeActionGroup;

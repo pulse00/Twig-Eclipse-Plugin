@@ -1,12 +1,13 @@
-package org.eclipse.twig.ui;
+package com.dubture.twig.ui;
 
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
 import org.eclipse.dltk.ui.AbstractDLTKUILanguageToolkit;
 import org.eclipse.dltk.ui.IDLTKUILanguageToolkit;
 import org.eclipse.dltk.ui.ScriptElementLabels;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.twig.core.TwigLanguageToolkit;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+
+import com.dubture.twig.core.TwigLanguageToolkit;
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 
 public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
 

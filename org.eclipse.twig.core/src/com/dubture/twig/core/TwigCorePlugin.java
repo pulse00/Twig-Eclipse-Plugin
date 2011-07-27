@@ -1,4 +1,4 @@
-package org.eclipse.twig.core;
+package com.dubture.twig.core;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class TwigCorePlugin extends Plugin {
 	
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.twig.core";
+	public static final String PLUGIN_ID = "com.dubture.twig.core";
 
 	public static final int INTERNAL_ERROR = 10001;
 
@@ -64,7 +64,7 @@ public class TwigCorePlugin extends Plugin {
 	}
 
 	
-	private static final String isDebugMode = "org.eclipse.twig.core/debug";
+	private static final String isDebugMode = "com.dubture.twig.core/debug";
 
 	public static boolean debug() {
 		

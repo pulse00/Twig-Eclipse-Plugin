@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist.strategies;
+package com.dubture.twig.core.codeassist.strategies;
 
 
 import org.eclipse.php.core.codeassist.ICompletionContext;

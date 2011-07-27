@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor;
+package com.dubture.twig.ui.editor;
 
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;

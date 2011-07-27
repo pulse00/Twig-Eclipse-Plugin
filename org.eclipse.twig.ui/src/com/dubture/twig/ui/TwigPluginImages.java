@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui;
+package com.dubture.twig.ui;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class TwigPluginImages {
 	
 	public static final IPath ICONS_PATH = new Path("/ico/full"); //$NON-NLS-1$
 	
-	private static final String NAME_PREFIX = "org.eclipse.twig.ui."; //$NON-NLS-1$
+	private static final String NAME_PREFIX = "com.dubture.twig.ui."; //$NON-NLS-1$
 	private static final int NAME_PREFIX_LENGTH = NAME_PREFIX.length();
 	
 	// The plug-in registry

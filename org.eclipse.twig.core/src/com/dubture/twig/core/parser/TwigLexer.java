@@ -1,15 +1,17 @@
 // $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-07-19 11:50:52
 
-package org.eclipse.twig.core.parser;
+package com.dubture.twig.core.parser;
 
-import org.eclipse.twig.core.parser.error.IErrorReporter;
-import org.eclipse.twig.core.TwigCorePlugin;
-import org.eclipse.twig.core.log.Logger;
 
 
 
 
 import org.antlr.runtime.*;
+
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.error.IErrorReporter;
+
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;

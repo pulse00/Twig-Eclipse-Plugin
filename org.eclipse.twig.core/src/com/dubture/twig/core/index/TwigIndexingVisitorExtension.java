@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.index;
+package com.dubture.twig.core.index;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +23,17 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
-import org.eclipse.twig.core.TwigCoreConstants;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.model.Filter;
-import org.eclipse.twig.core.model.Function;
-import org.eclipse.twig.core.model.ITwigModelElement;
-import org.eclipse.twig.core.model.Tag;
-import org.eclipse.twig.core.model.Test;
-import org.eclipse.twig.core.model.TwigType;
-import org.eclipse.twig.core.util.TwigModelUtils;
 import org.json.simple.JSONObject;
+
+import com.dubture.twig.core.TwigCoreConstants;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.Function;
+import com.dubture.twig.core.model.ITwigModelElement;
+import com.dubture.twig.core.model.Tag;
+import com.dubture.twig.core.model.Test;
+import com.dubture.twig.core.model.TwigType;
+import com.dubture.twig.core.util.TwigModelUtils;
 
 /**
  * 

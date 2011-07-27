@@ -1,15 +1,16 @@
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
 
 import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.twig.core.index.ITwigElementRequestor.BlockInfo;
-import org.eclipse.twig.core.model.TwigModelAccess;
-import org.eclipse.twig.core.parser.ITwigNodeVisitor;
-import org.eclipse.twig.core.parser.TwigCommonTree;
-import org.eclipse.twig.core.parser.TwigParser;
+
+import com.dubture.twig.core.index.ITwigElementRequestor.BlockInfo;
+import com.dubture.twig.core.model.TwigModelAccess;
+import com.dubture.twig.core.parser.ITwigNodeVisitor;
+import com.dubture.twig.core.parser.TwigCommonTree;
+import com.dubture.twig.core.parser.TwigParser;
 
 
 /**

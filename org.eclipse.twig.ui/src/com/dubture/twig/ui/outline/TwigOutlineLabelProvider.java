@@ -1,9 +1,10 @@
-package org.eclipse.twig.ui.outline;
+package com.dubture.twig.ui.outline;
 
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.twig.core.documentModel.dom.ElementImplForTwig;
+
+import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
 
 
 /**

@@ -1,10 +1,11 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.twig.ui.TwigUICorePlugin;
-import org.eclipse.twig.ui.preferences.PreferenceConstants;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
+import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 /**
  * 

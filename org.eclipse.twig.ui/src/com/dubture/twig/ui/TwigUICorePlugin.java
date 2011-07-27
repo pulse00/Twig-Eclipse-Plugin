@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui;
+package com.dubture.twig.ui;
 
 import java.io.IOException;
 
@@ -6,14 +6,15 @@ import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.ui.editor.configuration.TwigContributionContextTypeRegistry;
-import org.eclipse.twig.ui.editor.templates.TwigTemplateContextType;
-import org.eclipse.twig.ui.preferences.PreferenceConstants;
-import org.eclipse.twig.ui.viewsupport.ImagesOnFileSystemRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.ui.editor.configuration.TwigContributionContextTypeRegistry;
+import com.dubture.twig.ui.editor.templates.TwigTemplateContextType;
+import com.dubture.twig.ui.preferences.PreferenceConstants;
+import com.dubture.twig.ui.viewsupport.ImagesOnFileSystemRegistry;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -22,7 +23,7 @@ import org.osgi.framework.BundleContext;
 public class TwigUICorePlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.twig.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.dubture.twig.ui"; //$NON-NLS-1$
 
 	// The shared instance
 	private static TwigUICorePlugin plugin;

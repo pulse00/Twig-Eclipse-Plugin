@@ -1,7 +1,8 @@
-package org.eclipse.twig.test.testcases;
+package com.dubture.twig.test.testcases;
 
 import org.antlr.runtime.RecognitionException;
-import org.eclipse.twig.core.parser.error.IErrorReporter;
+
+import com.dubture.twig.core.parser.error.IErrorReporter;
 
 public class TestErrorReporter implements IErrorReporter {
 

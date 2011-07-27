@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.preferences;
+package com.dubture.twig.ui.preferences;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,14 +70,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
-import org.eclipse.twig.core.documentModel.parser.TwigRegionContext;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.ui.TwigUICorePlugin;
-import org.eclipse.twig.ui.TwigUIMessages;
-import org.eclipse.twig.ui.editor.LineStyleProviderForTwig;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -94,6 +86,15 @@ import org.eclipse.wst.sse.ui.internal.preferences.OverlayPreferenceStore.Overla
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 import org.eclipse.wst.sse.ui.internal.util.EditorUtility;
 import org.eclipse.wst.xml.ui.internal.XMLUIMessages;
+
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
+import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.ui.TwigUICorePlugin;
+import com.dubture.twig.ui.TwigUIMessages;
+import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.parser;
+package com.dubture.twig.core.parser;
 
 
 import java.io.BufferedReader;
@@ -12,7 +12,8 @@ import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.parser.ISourceParser;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
-import org.eclipse.twig.core.parser.error.TwigErrorReporter;
+
+import com.dubture.twig.core.parser.error.TwigErrorReporter;
 
 
 /**

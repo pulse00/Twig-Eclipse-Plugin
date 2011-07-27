@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.parser.regions;
+package com.dubture.twig.core.documentModel.parser.regions;
 
 public interface TwigRegionTypes {
 	

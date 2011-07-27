@@ -1,11 +1,12 @@
-package org.eclipse.twig.ui.preferences;
+package com.dubture.twig.ui.preferences;
 
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 
 /**

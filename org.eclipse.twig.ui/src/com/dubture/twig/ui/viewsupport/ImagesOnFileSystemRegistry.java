@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.viewsupport;
+package com.dubture.twig.ui.viewsupport;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -10,7 +10,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.twig.ui.TwigUICorePlugin;
+
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
  * Image registry that keeps its images on the local file system.

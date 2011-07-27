@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.contentassist;
+package com.dubture.twig.ui.contentassist;
 
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposal;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposal;

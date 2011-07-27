@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist.strategies;
+package com.dubture.twig.core.codeassist.strategies;
 
 
 import org.eclipse.dltk.core.IField;
@@ -8,7 +8,8 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.GlobalElementStrategy;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
-import org.eclipse.twig.core.codeassist.context.AbstractTwigCompletionContext;
+
+import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.outline;
+package com.dubture.twig.ui.outline;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;

@@ -1,12 +1,13 @@
-package org.eclipse.twig.core.documentModel.parser;
+package com.dubture.twig.core.documentModel.parser;
 
-import org.eclipse.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.internal.provisional.events.RegionChangedEvent;
 import org.eclipse.wst.sse.core.internal.provisional.events.StructuredDocumentEvent;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredTextReParser;
 import org.eclipse.wst.xml.core.internal.parser.XMLStructuredDocumentReParser;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+
+import com.dubture.twig.core.util.Debug;
 
 @SuppressWarnings("restriction")
 public class TwigStructuredDocumentReParser extends

@@ -1,11 +1,12 @@
-package org.eclipse.twig.core.documentModel.dom;
+package com.dubture.twig.core.documentModel.dom;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.wst.xml.core.internal.document.TextImpl;
 import org.w3c.dom.Document;
+
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 @SuppressWarnings("restriction")
 public class TextImplForTwig extends TextImpl implements IAdaptable, IImplForTwig {

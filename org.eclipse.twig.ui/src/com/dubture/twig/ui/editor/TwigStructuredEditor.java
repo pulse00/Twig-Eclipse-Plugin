@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor;
+package com.dubture.twig.ui.editor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,14 +46,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
-import org.eclipse.twig.core.log.Logger;
-import org.eclipse.twig.core.parser.TwigNode;
-import org.eclipse.twig.core.parser.TwigParser;
-import org.eclipse.twig.core.search.IOccurrencesFinder;
-import org.eclipse.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
-import org.eclipse.twig.core.search.LocalVariableOccurrencesFinder;
-import org.eclipse.twig.core.search.NodeFinder;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -61,6 +53,15 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.reconcile.ReconcileAnnotationKey;
 import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
+
+import com.dubture.twig.core.documentModel.parser.TwigSourceParser;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.TwigNode;
+import com.dubture.twig.core.parser.TwigParser;
+import com.dubture.twig.core.search.IOccurrencesFinder;
+import com.dubture.twig.core.search.LocalVariableOccurrencesFinder;
+import com.dubture.twig.core.search.NodeFinder;
+import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 
 
 /**

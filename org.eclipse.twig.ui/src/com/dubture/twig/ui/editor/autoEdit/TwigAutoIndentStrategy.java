@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 import java.io.BufferedReader;
 import java.io.Reader;
@@ -15,11 +15,12 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
-import org.eclipse.twig.core.documentModel.parser.TwigSourceParser;
-import org.eclipse.twig.core.format.DefaultIndentationStrategy;
-import org.eclipse.twig.core.format.TwigFormatter;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
+
+import com.dubture.twig.core.documentModel.parser.TwigSourceParser;
+import com.dubture.twig.core.format.DefaultIndentationStrategy;
+import com.dubture.twig.core.format.TwigFormatter;
 
 /**
  * 

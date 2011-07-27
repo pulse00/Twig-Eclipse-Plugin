@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.editor.folding;
+package com.dubture.twig.ui.editor.folding;
 
 
 import java.util.ArrayList;
@@ -53,8 +53,6 @@ import org.eclipse.php.internal.ui.folding.html.ProjectionModelNodeAdapterFactor
 import org.eclipse.php.internal.ui.folding.html.ProjectionModelNodeAdapterHTML;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
 import org.eclipse.php.internal.ui.text.DocumentCharacterIterator;
-import org.eclipse.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import org.eclipse.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -70,6 +68,9 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Node;
+
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 /**
  * 

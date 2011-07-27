@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.codeassist.context;
+package com.dubture.twig.core.codeassist.context;
 
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;

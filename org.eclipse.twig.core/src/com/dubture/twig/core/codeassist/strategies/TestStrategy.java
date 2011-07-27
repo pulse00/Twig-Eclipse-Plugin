@@ -1,13 +1,14 @@
-package org.eclipse.twig.core.codeassist.strategies;
+package com.dubture.twig.core.codeassist.strategies;
 
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.twig.core.codeassist.context.TestContext;
-import org.eclipse.twig.core.model.Test;
-import org.eclipse.twig.core.model.TwigModelAccess;
+
+import com.dubture.twig.core.codeassist.context.TestContext;
+import com.dubture.twig.core.model.Test;
+import com.dubture.twig.core.model.TwigModelAccess;
 
 @SuppressWarnings({ "restriction", "deprecation" })
 public class TestStrategy extends KeywordStrategy {

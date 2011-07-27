@@ -1,10 +1,11 @@
-package org.eclipse.twig.core;
+package com.dubture.twig.core;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.dltk.core.AbstractLanguageToolkit;
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
-import org.eclipse.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
+
+import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 
 public class TwigLanguageToolkit extends AbstractLanguageToolkit {
 

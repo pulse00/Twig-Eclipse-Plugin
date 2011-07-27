@@ -1,4 +1,4 @@
-package org.eclipse.twig.ui.utils;
+package com.dubture.twig.ui.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +18,13 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.eclipse.php.internal.ui.documentation.PHPDocumentationContentAccess;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.twig.core.model.Filter;
-import org.eclipse.twig.core.model.Tag;
-import org.eclipse.twig.core.model.Test;
-import org.eclipse.twig.ui.TwigPluginImages;
-import org.eclipse.twig.ui.TwigUICorePlugin;
 import org.osgi.framework.Bundle;
+
+import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.Tag;
+import com.dubture.twig.core.model.Test;
+import com.dubture.twig.ui.TwigPluginImages;
+import com.dubture.twig.ui.TwigUICorePlugin;
 
 
 /**

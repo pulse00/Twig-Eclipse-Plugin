@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.model;
+package com.dubture.twig.core.model;
 
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;

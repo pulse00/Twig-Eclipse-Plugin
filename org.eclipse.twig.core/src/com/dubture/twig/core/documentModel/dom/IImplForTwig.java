@@ -1,4 +1,4 @@
-package org.eclipse.twig.core.documentModel.dom;
+package com.dubture.twig.core.documentModel.dom;
 
 import org.eclipse.php.internal.core.documentModel.dom.IImplForPhp;
 

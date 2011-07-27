@@ -1,13 +1,14 @@
-package org.eclipse.twig.ui.editor.autoEdit;
+package com.dubture.twig.ui.editor.autoEdit;
 
 
 
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import org.eclipse.twig.core.format.FormatterUtils;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+
+import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
+import com.dubture.twig.core.format.FormatterUtils;
 
 /**
  * 
