@@ -1,5 +1,5 @@
 .DS_Store
-org.eclipse.twig.core/bin/*
-org.eclipse.twig.ui/bin/*
-org.eclipse.twig.test/bin/*
-org.eclipse.twig.core/Resources/parserTools/JFlex.jar
+com.dubture.twig.core/bin/*
+com.dubture.twig.ui/bin/*
+com.dubture.twig.test/bin/*
+com.dubture.twig.core/Resources/parserTools/JFlex.jar
