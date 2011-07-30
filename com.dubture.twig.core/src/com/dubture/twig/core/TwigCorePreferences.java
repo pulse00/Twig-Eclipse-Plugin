@@ -24,7 +24,7 @@ public class TwigCorePreferences {
 			
 			//TODO: check if there's a cleaner way to get the preferences from the ui
 			// plugin than hardcoding the ID
-			String severity = Platform.getPreferencesService().getString("org.eclipse.twig.ui", 
+			String severity = Platform.getPreferencesService().getString("com.dubture.twig.ui", 
 					TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, TwigCoreConstants.SYNTAX_WARNING, null);
 			
 			if (severity == null) {						

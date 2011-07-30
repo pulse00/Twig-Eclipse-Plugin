@@ -20,10 +20,10 @@ import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 public class TwigPartitionTypes {
 	
 	
-	public static final String TWIG_DEFAULT = "org.eclipse.twig.TWIG_DEFAULT"; //$NON-NLS-1$
-	public static final String TWIG_COMMENT_TEXT = "org.eclipse.twig.TWIG_COMMENT_TEXT"; //$NON-NLS-1$
-	public static final String TWIG_STRING = "org.eclipse.twig.TWIG_STRING"; //$NON-NLS-1$
-	public static final String TWIG_QUOTED_STRING = "org.eclipse.twig.TWIG_QUOTED_STRING"; //$NON-NLS-1$
+	public static final String TWIG_DEFAULT = "com.dubture.twig.TWIG_DEFAULT"; //$NON-NLS-1$
+	public static final String TWIG_COMMENT_TEXT = "com.dubture.twig.TWIG_COMMENT_TEXT"; //$NON-NLS-1$
+	public static final String TWIG_STRING = "com.dubture.twig.TWIG_STRING"; //$NON-NLS-1$
+	public static final String TWIG_QUOTED_STRING = "com.dubture.twig.TWIG_QUOTED_STRING"; //$NON-NLS-1$
 
 	public final static String[] configuredPartitions = new String[] { TWIG_DEFAULT, TWIG_COMMENT_TEXT, TWIG_STRING, TWIG_QUOTED_STRING};
 

@@ -6,7 +6,7 @@
 
 <!--
 org.eclipse.php.core.PHPNature
-org.eclipse.twig.core.TwigNature
+com.dubture.twig.core.TwigNature
  -->
 
 	<!-- the project nature -->
@@ -20,7 +20,7 @@ org.eclipse.twig.core.TwigNature
          </run>
       </runtime>
       <content-type
-            id="org.eclipse.twig.core.twigtemplate">
+            id="com.dubture.twig.core.twigtemplate">
       </content-type>
    </extension>
    
@@ -29,7 +29,7 @@ org.eclipse.twig.core.TwigNature
          point="org.eclipse.dltk.core.language">
       <language
             class="com.dubture.twig.core.TwigLanguageToolkit"
-            nature="org.eclipse.twig.core.TwigNature"
+            nature="com.dubture.twig.core.TwigNature"
             priority="10">
       </language>
    </extension>
@@ -38,7 +38,7 @@ org.eclipse.twig.core.TwigNature
          point="org.eclipse.dltk.core.buildParticipant">
       <buildParticipant
             class="com.dubture.twig.core.builder.TwigBuilder"
-            id="org.eclipse.twig.core.builder"
+            id="com.dubture.twig.core.builder"
             name="Twig template builder"
             nature="org.eclipse.php.core.PHPNature">
       </buildParticipant>
@@ -62,18 +62,18 @@ org.eclipse.twig.core.TwigNature
          point="org.eclipse.wst.sse.core.modelHandler">
      <modelHandler
             default="yes"
-            class="org.eclipse.twig.core.documentModel.handler.TwigModelHandler"
-            associatedContentTypeId="org.eclipse.twig.core.twigtemplate"
-            id="org.eclipse.twig.core.documentModel.handler">
+            class="com.dubture.twig.core.documentModel.handler.TwigModelHandler"
+            associatedContentTypeId="com.dubture.twig.core.twigtemplate"
+            id="com.dubture.twig.core.documentModel.handler">
       </modelHandler>         
    </extension>
    <extension
-         id="org.eclipse.twig.core.documentfactories"
+         id="com.dubture.twig.core.documentfactories"
          name="Twig Document Creation Factory"
          point="org.eclipse.core.filebuffers.documentCreation">
       <factory
             class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory"
-            contentTypeId="org.eclipse.twig.core.twigtemplate">
+            contentTypeId="com.dubture.twig.core.twigtemplate">
       </factory>
    </extension>
    <extension
@@ -101,7 +101,7 @@ org.eclipse.twig.core.TwigNature
          <parser
                class="com.dubture.twig.core.parser.TwigSourceParserFactory"
                description="Creates a Twig source parser"
-               id="org.eclipse.twig.core.TwigSourceParserFactory"
+               id="com.dubture.twig.core.TwigSourceParserFactory"
                name="Twig source parser factory"
                priority="10">
          </parser>

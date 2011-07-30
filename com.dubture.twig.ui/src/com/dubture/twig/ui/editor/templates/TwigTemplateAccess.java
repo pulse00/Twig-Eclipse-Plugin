@@ -17,7 +17,7 @@ import com.dubture.twig.ui.TwigUICorePlugin;
  */
 public class TwigTemplateAccess extends ScriptTemplateAccess {
 	
-	private static final String CUSTOM_TEMPLATES_KEY = "org.eclipse.twig.Templates"; //$NON-NLS-1$
+	private static final String CUSTOM_TEMPLATES_KEY = "com.dubture.twig.Templates"; //$NON-NLS-1$
 	
 	
 	private static TwigTemplateAccess instance;

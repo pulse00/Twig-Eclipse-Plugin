@@ -26,21 +26,21 @@
    </requires>
 
    <plugin
-         id="org.eclipse.twig.core"
+         id="com.dubture.twig.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.twig.ui"
+         id="com.dubture.twig.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.twig.parser"
+         id="com.dubture.twig.parser"
          download-size="0"
          install-size="0"
          version="0.0.0"

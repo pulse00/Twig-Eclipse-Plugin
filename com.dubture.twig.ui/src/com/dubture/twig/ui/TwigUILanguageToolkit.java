@@ -30,7 +30,7 @@ public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
 	}
 
 	public String getEditorId(Object inputElement) {
-		return "org.eclipse.twig.editor";
+		return "com.dubture.twig.editor";
 	}
 
 	

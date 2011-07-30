@@ -79,7 +79,7 @@
             &lt;extension
          point=&quot;com.dubture.twig.core.completionContextResolvers&quot;&gt;
       &lt;resolver
-            class=&quot;org.eclipse.symfony.twig.codeassist.TwigCompletionContextResolver&quot;&gt;
+            class=&quot;com.dubture.symfony.twig.codeassist.TwigCompletionContextResolver&quot;&gt;
       &lt;/resolver&gt;
    &lt;/extension&gt;
       </documentation>

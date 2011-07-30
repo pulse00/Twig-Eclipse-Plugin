@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.twig.feature_1.0.0.qualifier.jar" id="org.eclipse.twig.feature" version="1.0.0.qualifier">
-      <category name="org.eclipse.twig"/>
+   <feature url="features/com.dubture.twig.feature_1.0.0.qualifier.jar" id="com.dubture.twig.feature" version="1.0.0.qualifier">
+      <category name="com.dubture.twig"/>
    </feature>
-   <category-def name="org.eclipse.twig" label="Twig Editor"/>
+   <category-def name="com.dubture.twig" label="Twig Editor"/>
 </site>

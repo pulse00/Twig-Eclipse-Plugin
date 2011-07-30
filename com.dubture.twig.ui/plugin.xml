@@ -18,7 +18,7 @@
             contributorClass="com.dubture.twig.ui.editor.ActionContributorForTwig"
             default="true"
             icon="ico/full/obj16/default_icon.gif"
-            id="org.eclipse.twig.editor"
+            id="com.dubture.twig.editor"
             name="%editor.name"
             symbolicFontName="org.eclipse.wst.sse.ui.textfont">
          <contentTypeBinding
@@ -32,11 +32,11 @@
    <extension
          point="org.eclipse.wst.sse.ui.editorConfiguration">
 		<sourceViewerConfiguration
-			class="org.eclipse.twig.ui.editor.configuration.TwigStructuredTextViewerConfiguration"
+			class="com.dubture.twig.ui.editor.configuration.TwigStructuredTextViewerConfiguration"
 			target="com.dubture.twig.core.twigtemplate" />
 			
 		<contentOutlineConfiguration
-			class="org.eclipse.twig.ui.outline.TwigContentOutlineConfiguration"
+			class="com.dubture.twig.ui.outline.TwigContentOutlineConfiguration"
 			target="com.dubture.twig.core.twigtemplate" />
 		<propertySheetConfiguration
 			class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
@@ -65,10 +65,10 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
-            id="org.eclipse.twig.ui.contextmenu"
+            id="com.dubture.twig.ui.contextmenu"
             objectClass="org.eclipse.dltk.core.IScriptProject">
          <menu
-               id="org.eclipse.twig.ui.menu1"
+               id="com.dubture.twig.ui.menu1"
                label="%menu.label"
                path="additions">
             <separator
@@ -78,9 +78,9 @@
          <action
                class="com.dubture.twig.ui.popup.actions.AddRemoveTwigNatureAction"
                enablesFor="1"
-               id="org.eclipse.twig.ui.toggleNatureAction"
+               id="com.dubture.twig.ui.toggleNatureAction"
                label="%action.label"
-               menubarPath="org.eclipse.twig.ui.menu1/group1">
+               menubarPath="com.dubture.twig.ui.menu1/group1">
          </action>
       </objectContribution>
    </extension>
@@ -90,31 +90,31 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
-            id="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
+            id="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             name="%twigPageName">
       </page>
       <page
-            category="org.eclipse.twig.ui.preferences.TwigBasePreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             class="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
-            id="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            id="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             name="%twigEditorPageName">
       </page>
       <page
-            category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             class="com.dubture.twig.ui.preferences.TwigTemplatePreferencePage"
-            id="org.eclipse.twig.ui.preferences.TwigTemplatesPreferencePage"
+            id="com.dubture.twig.ui.preferences.TwigTemplatesPreferencePage"
             name="%templatesPreferencePageName">
       </page>
       <page
-            category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             class="com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage"
-            id="org.eclipse.twig.ui.preferences.TwigCodeassistPreferencePage"
+            id="com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage"
             name="%codeassistPreferencePageName">
       </page>
       <page
-            category="org.eclipse.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             class="com.dubture.twig.ui.preferences.TwigSyntaxColoringPage"
-            id="org.eclipse.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
+            id="com.dubture.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
             name="%page.name">
       </page>
    </extension>
@@ -138,7 +138,7 @@
             class="com.dubture.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
             toolkitId="org.eclipse.php.core.PHPNature">
          <partition
-               type="org.eclipse.twig.TWIG_DEFAULT">
+               type="com.dubture.twig.TWIG_DEFAULT">
          </partition>
       </scriptCompletionProposalComputer>
    </extension>
@@ -160,14 +160,14 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="org.eclipse.twig.ui"
+            id="com.dubture.twig.ui"
             name="%category.name">
       </category>
       <wizard
-            category="org.eclipse.twig.ui"
+            category="com.dubture.twig.ui"
             class="com.dubture.twig.ui.wizards.NewTemplateWizard"
             icon="ico/full/obj16/default_icon.gif"
-            id="org.eclipse.twig.ui.wizards.NewTemplateWizard"
+            id="com.dubture.twig.ui.wizards.NewTemplateWizard"
             name="%wizard.name">
       </wizard>
    </extension>
@@ -176,7 +176,7 @@
       <perspectiveExtension
             targetID="org.eclipse.php.perspective">
          <newWizardShortcut
-               id="org.eclipse.twig.ui.wizards.NewTemplateWizard">
+               id="com.dubture.twig.ui.wizards.NewTemplateWizard">
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
@@ -185,7 +185,7 @@
          point="org.eclipse.php.ui.foldingStructureProviders">
       <provider
             class="com.dubture.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
-            id="org.eclipse.twig.ui.foldingProvider"
+            id="com.dubture.twig.ui.foldingProvider"
             name="Twig Code Folding"
             preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">
       </provider>
