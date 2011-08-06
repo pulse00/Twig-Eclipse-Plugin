@@ -69,6 +69,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Node;
 
+import com.dubture.twig.core.documentModel.parser.TwigSourceElementRequestorExtension;
 import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
@@ -76,6 +77,16 @@ import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
  * 
  * A folding structured provider based on {@link StructuredTextFoldingProviderPHP}
  * to work with twig.
+ * 
+ * 
+ * Q: How is folding implemented? 
+ * A: To enable folding for Twig structures like {% block %} {% endblock %}, the {@link TwigSourceElementRequestorExtension} 
+ * parses twig sources and adds those structures as "PHP Methods" to the php engine. 
+ * 
+ * This way, we can use the built-in PDT folding logic and don't have to provide our own
+ * hints on where folding starts and end.
+ * 
+ * 
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>

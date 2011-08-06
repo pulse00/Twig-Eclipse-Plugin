@@ -303,16 +303,20 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 						desc =  shortDesc + longDesc;						
 					}
 					
+					
+					String endTag = tag.getEndTag();
+					
 					JSONObject metadata = new JSONObject();
 					metadata.put(TwigType.PHPCLASS, currentClass.getName());
-					metadata.put(TwigType.DOC, desc);					
+					metadata.put(TwigType.DOC, desc);
+					metadata.put(TwigType.IS_OPEN_CLOSE, endTag != null);
 
 					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag() + " with metadata: " + metadata.toString());
 					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), metadata.toString(), null);
 					requestor.addReference(info);
 					
-					if (tag.getEndTag() != null) {
+					if (endTag != null) {
 						ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), metadata.toString(), null);
 						requestor.addReference(endIinfo);
 					}

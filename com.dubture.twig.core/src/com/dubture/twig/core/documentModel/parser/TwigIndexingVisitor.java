@@ -5,6 +5,7 @@ import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 import org.eclipse.dltk.core.IModelElement;
+import org.eclipse.dltk.core.IScriptProject;
 
 import com.dubture.twig.core.index.ITwigElementRequestor.BlockInfo;
 import com.dubture.twig.core.model.TwigModelAccess;
@@ -86,8 +87,10 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 			if (node.getChildCount() == 1) {
 				
 				TwigCommonTree child = node.getChild(0);
-
-				if (model.isStartTag(modelElement.getScriptProject(), child.getText())) {
+				IScriptProject project = modelElement.getScriptProject();
+				String childText = child.getText();
+				
+				if (model.isStartTag(project, childText) && model.hasEndTag(project, childText)) {
 					
 					block.name = child.getText();
 					block.nameSourceStart = start;
@@ -98,7 +101,7 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 					requestor.enterMethod(block);			
 					
 				} else if (model.isEndTag(modelElement.getScriptProject(), child.getText())) {
-					
+
 					requestor.exitMethod(end);
 					
 				}
@@ -108,8 +111,7 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 			
 		default:
 			break;
-		}
-		
+		}		
 	}
 	
 

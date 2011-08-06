@@ -21,7 +21,8 @@ public abstract class TwigType extends SourceType {
 	public static final String PHPCLASS = "phpClass";
 	public static final String DOC = "doc";
 	public static final String ARGS = "args";
-	public static final String INTERNAL = "internal";	
+	public static final String INTERNAL = "internal";
+	public static final String IS_OPEN_CLOSE = "is_open_close";
 	
 	protected String phpClass;
 	protected String internalFunction;

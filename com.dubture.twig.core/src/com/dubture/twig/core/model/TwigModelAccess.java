@@ -199,6 +199,77 @@ public class TwigModelAccess extends PhpModelAccess {
 		return isTag(scriptProject, text, ITwigModelElement.END_TAG);
 	}
 	
+	
+	/**
+	 * Check if a given tag has a corresponding end tag.
+	 * 
+	 * @param scriptProject
+	 * @param text
+	 * @return
+	 */
+	public boolean hasEndTag(IScriptProject scriptProject, String text) {
+		
+		IDLTKSearchScope scope = null;
+		
+		int type = ITwigModelElement.START_TAG;
+
+		if (scriptProject != null)
+			scope = SearchEngine.createSearchScope(scriptProject);
+		else SearchEngine.createWorkspaceScope(PHPLanguageToolkit.getDefault());
+		
+		if (scope == null)
+			return false;		
+		
+		String cacheKey = scriptProject.getElementName() + text + type;
+		
+		if( tagCache.get(cacheKey) != null) {
+			return true;		
+		}
+		
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+		
+		final JSONParser parser = new JSONParser();
+		
+		final List<String> tags = new ArrayList<String>();
+
+		engine.search(type, null, text, 0, 0, 1, SearchFor.REFERENCES, MatchRule.EXACT, scope, new ISearchRequestor() {
+
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+
+				
+				try {
+					JSONObject data = (JSONObject) parser.parse(new StringReader(metadata));
+					
+					boolean hasEnd = (Boolean) data.get(TwigType.IS_OPEN_CLOSE);
+					
+					if (hasEnd == true)
+						tags.add(elementName);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}
+		}, null);
+		
+	
+		if (tags.size() == 1) {
+			String tagName= tags.get(0);
+			cacheKey = scriptProject.getElementName() + tagName;
+			tagCache.put(cacheKey, text);
+			return true;
+		}
+		
+		return false;		
+		
+		
+	}
+	
+	
+	
 
 	/**
 	 * 
@@ -252,9 +323,7 @@ public class TwigModelAccess extends PhpModelAccess {
 			return true;
 		}
 		
-		return false;
-
-		
+		return false;		
 		
 	}
 
