@@ -1,6 +1,12 @@
 #Twig Eclipse Plugin
 
-The plugin is still in development.
+The plugin is still in development. 
+
+#Notice 
+
+Since version 1.0.84 the plugin <span><b>REQUIRES</b></span> a nightly build of the PHP Development Tools. Please see the "Installation" section of the Symfony2 Eclipse Plugin for details on how to install a PDT nightly build: http://pulse00.github.com/Symfony-2-Eclipse-Plugin/.
+
+If you're updating from an older version of the plugin, you need to uninstall your current PHP Development Tools (if it's not a nightly build) and install the PDT nightly build. 
 
 
 ## Current features
