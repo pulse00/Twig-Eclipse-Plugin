@@ -1,3 +1,9 @@
+1.0.84
+
+* added dynamic code folding for open/closing tags like {%block %} {% endblock %}
+* improved codeassist -showing php docs for twig filters/functions/tags now
+* improved outline - can be switched now between html/twig view
+
 1.0.83
 
 * bumped version due to problems with updatesite
