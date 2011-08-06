@@ -1,17 +1,15 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-07-19 11:50:52
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigLexer.g 2011-08-06 21:21:24
 
 package com.dubture.twig.core.parser;
 
+import com.dubture.twig.core.parser.error.IErrorReporter;
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.log.Logger;
 
 
 
 
 import org.antlr.runtime.*;
-
-import com.dubture.twig.core.TwigCorePlugin;
-import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.error.IErrorReporter;
-
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
@@ -936,7 +934,7 @@ public class TwigLexer extends Lexer {
                         int alt5=2;
                         int LA5_0 = input.LA(1);
 
-                        if ( (LA5_0==' '||LA5_0=='#'||LA5_0=='%'||(LA5_0>='(' && LA5_0<=')')||(LA5_0>='-' && LA5_0<=':')||(LA5_0>='<' && LA5_0<='>')||(LA5_0>='@' && LA5_0<='Z')||LA5_0=='\\'||LA5_0=='_'||(LA5_0>='a' && LA5_0<='}')) ) {
+                        if ( (LA5_0==' '||LA5_0=='#'||LA5_0=='%'||(LA5_0>='(' && LA5_0<=')')||(LA5_0>='-' && LA5_0<='>')||(LA5_0>='@' && LA5_0<='Z')||LA5_0=='\\'||LA5_0=='_'||(LA5_0>='a' && LA5_0<='}')) ) {
                             alt5=1;
                         }
 
@@ -969,7 +967,7 @@ public class TwigLexer extends Lexer {
                         int alt6=2;
                         int LA6_0 = input.LA(1);
 
-                        if ( (LA6_0==' '||LA6_0=='#'||LA6_0=='%'||(LA6_0>='(' && LA6_0<=')')||(LA6_0>='-' && LA6_0<=':')||(LA6_0>='<' && LA6_0<='>')||(LA6_0>='@' && LA6_0<='Z')||LA6_0=='\\'||LA6_0=='_'||(LA6_0>='a' && LA6_0<='}')) ) {
+                        if ( (LA6_0==' '||LA6_0=='#'||LA6_0=='%'||(LA6_0>='(' && LA6_0<=')')||(LA6_0>='-' && LA6_0<='>')||(LA6_0>='@' && LA6_0<='Z')||LA6_0=='\\'||LA6_0=='_'||(LA6_0>='a' && LA6_0<='}')) ) {
                             alt6=1;
                         }
 
@@ -1032,7 +1030,7 @@ public class TwigLexer extends Lexer {
             // TwigLexer.g:109:25: ( LETTER | DIGIT | SYMBOL )
             // TwigLexer.g:
             {
-            if ( input.LA(1)==' '||input.LA(1)=='#'||input.LA(1)=='%'||(input.LA(1)>='(' && input.LA(1)<=')')||(input.LA(1)>='-' && input.LA(1)<=':')||(input.LA(1)>='<' && input.LA(1)<='>')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='}') ) {
+            if ( input.LA(1)==' '||input.LA(1)=='#'||input.LA(1)=='%'||(input.LA(1)>='(' && input.LA(1)<=')')||(input.LA(1)>='-' && input.LA(1)<='>')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='}') ) {
                 input.consume();
 
             }
@@ -1141,10 +1139,10 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "SYMBOL"
     public final void mSYMBOL() throws RecognitionException {
         try {
-            // TwigLexer.g:115:16: ( UNDER | '-' | '/' | '<' | '>' | '\\\\' | ':' | ' ' | '%' | '.' | '|' | '#' | '@' | '=' | '{' | '}' | '(' | ')' )
+            // TwigLexer.g:115:16: ( UNDER | '-' | '/' | '<' | '>' | '\\\\' | ':' | ';' | ' ' | '%' | '.' | '|' | '#' | '@' | '=' | '{' | '}' | '(' | ')' )
             // TwigLexer.g:
             {
-            if ( input.LA(1)==' '||input.LA(1)=='#'||input.LA(1)=='%'||(input.LA(1)>='(' && input.LA(1)<=')')||(input.LA(1)>='-' && input.LA(1)<='/')||input.LA(1)==':'||(input.LA(1)>='<' && input.LA(1)<='>')||input.LA(1)=='@'||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='{' && input.LA(1)<='}') ) {
+            if ( input.LA(1)==' '||input.LA(1)=='#'||input.LA(1)=='%'||(input.LA(1)>='(' && input.LA(1)<=')')||(input.LA(1)>='-' && input.LA(1)<='/')||(input.LA(1)>=':' && input.LA(1)<='>')||input.LA(1)=='@'||input.LA(1)=='\\'||input.LA(1)=='_'||(input.LA(1)>='{' && input.LA(1)<='}') ) {
                 input.consume();
 
             }

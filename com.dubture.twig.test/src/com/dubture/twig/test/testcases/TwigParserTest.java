@@ -33,6 +33,13 @@ public class TwigParserTest extends TestCase {
 	}
 	
 	
+	@Test
+	public void testStringLiterals() {
+		
+		
+		assertValidTokenstream("{% metaHttpEquiv 'Content-Type' with 'text/html; charset=utf-8' %}");
+		
+	}
 	
 	@Test
 	public void testVariableAccess() {

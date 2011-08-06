@@ -1,7 +1,10 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-07-19 11:50:52
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 TwigParser.g 2011-08-06 21:21:24
 
 package com.dubture.twig.core.parser;
 
+import com.dubture.twig.core.parser.error.IErrorReporter;
+import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.log.Logger;
 
 
 
@@ -13,10 +16,6 @@ import java.util.ArrayList;
 
 
 import org.antlr.runtime.tree.*;
-
-import com.dubture.twig.core.TwigCorePlugin;
-import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.error.IErrorReporter;
 
 public class TwigParser extends Parser {
     public static final String[] tokenNames = new String[] {
