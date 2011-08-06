@@ -1,10 +1,16 @@
 package com.dubture.twig.core;
 
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
+
+import com.dubture.twig.core.model.TwigModelAccess;
 
 public class TwigCorePlugin extends Plugin {
 	
@@ -27,6 +33,22 @@ public class TwigCorePlugin extends Plugin {
 	public void start(BundleContext bundleContext) throws Exception {
 		super.start(bundleContext);
 		plugin = this;
+		
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();		
+		IResourceChangeListener listener = new IResourceChangeListener() {
+			
+			@Override
+			public void resourceChanged(IResourceChangeEvent event) {
+
+				TwigModelAccess.getDefault().clearCache();
+				
+			}
+		};
+		
+		workspace.addResourceChangeListener(listener, IResourceChangeEvent.PRE_BUILD);
+		
+		
 	}
 
 	/*
