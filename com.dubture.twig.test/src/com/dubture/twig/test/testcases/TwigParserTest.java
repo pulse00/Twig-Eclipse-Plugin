@@ -243,6 +243,9 @@ public class TwigParserTest extends TestCase {
 	public void testJsonParameters() {
 		
 		assertValidTokenstream("{{ \"I like %this% and %that%.\"|replace({'%this%': foo, '%that%': \"bar\"}) }}");
+		
+		//TODO: make nested json arguments work
+		//assertValidTokenstream("{{ form_row(form.body, {'attr' : { 'class' : 'myClass' } } ) }}");
 
 	}
 	
