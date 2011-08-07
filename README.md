@@ -20,7 +20,7 @@ If you're updating from an older version of the plugin, you need to uninstall yo
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
-The plugin requires Eclipse >= 3.6.
+The plugin requires Eclipse >= 3.7.0 (Indigo).
 
 ## Installation
 
@@ -29,9 +29,6 @@ The plugin requires Eclipse >= 3.6.
 * Click "add" to add a new software site
 * Put the update-site in the location field: http://pulse00.github.com/updatesite/
 * Select the "Twig Editor Feature" from the "Twig" node and click finish
-
-
-All dependencies (PHP Development tools) should be downloaded automatically during the installation process.
 
 Please use the github issue tracker to report bugs and feature requests.
 
