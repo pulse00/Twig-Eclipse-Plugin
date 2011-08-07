@@ -20,7 +20,7 @@ If you're updating from an older version of the plugin, you need to uninstall yo
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
-The plugin requires Eclipse >= 3.7.0 (Indigo).
+The plugin requires [Eclipse >= 3.7.0 (Indigo)](http://www.eclipse.org/downloads/).
 
 ## Installation
 
