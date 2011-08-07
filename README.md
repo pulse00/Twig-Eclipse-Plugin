@@ -15,6 +15,8 @@ If you're updating from an older version of the plugin, you need to uninstall yo
 * Code assist for twig keywords
 * Template support for language constructs (foreach / block / etc)
 * Autoclose twig tags
+* Code folding
+* Outline
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
