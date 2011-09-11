@@ -9,6 +9,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.document.DOMModelImpl;
 import org.eclipse.wst.xml.core.internal.document.XMLModelParser;
 
+import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import com.dubture.twig.core.parser.TwigCommonTree;
@@ -84,17 +85,19 @@ public class TwigDOMModelParser extends XMLModelParser {
 				TwigCommonTree tree = (TwigCommonTree) root.getTree();
 				TwigStatementVisitor visitor = new TwigStatementVisitor();
 				
-				tree.accept(visitor);
-
-				if (visitor.getStatementType() == TwigParser.TWIG_TAG) {				
-					String tag = visitor.getTag();
-					cache.put(text, tag);
-					return tag;			
+				if (tree != null) {
+					
+					tree.accept(visitor);
+	
+					if (visitor.getStatementType() == TwigParser.TWIG_TAG) {				
+						String tag = visitor.getTag();
+						cache.put(text, tag);
+						return tag;			
+					}
 				}
 				
 			} catch (Exception e) {
-
-				e.printStackTrace();
+				TwigCorePlugin.log(e);				
 			}
 			
 			return TWIG_STMT_TAG;
