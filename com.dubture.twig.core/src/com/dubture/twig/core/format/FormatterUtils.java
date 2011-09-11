@@ -1,19 +1,19 @@
 package com.dubture.twig.core.format;
 
+
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
-import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
-import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
+import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigStructuredTextPartitioner;
+import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 
 /**
@@ -46,27 +46,30 @@ public class FormatterUtils {
 			}
 			// in case the cursor on the beginning of '?>' tag
 			// we decrease the offset to get the PhpScriptRegion
-			if (tRegion.getType().equals(PHPRegionContext.PHP_CLOSE)) {
+			if (tRegion.getType().equals(TwigRegionContext.TWIG_CLOSE) || 
+					tRegion.getType().equals(TwigRegionContext.TWIG_STMT_CLOSE)) {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset - 1);
 			}
 
 			int regionStart = sdRegion.getStartOffset(tRegion);
 
-			// in case of container we have the extract the PhpScriptRegion
+			// in case of container we have the extract the TwigScriptRegion
 			if (tRegion != null && tRegion instanceof ITextRegionContainer) {
 				ITextRegionContainer container = (ITextRegionContainer) tRegion;
 				tRegion = container.getRegionAtCharacterOffset(offset);
 				regionStart += tRegion.getStart();
 			}
 
-			if (tRegion != null && tRegion instanceof IPhpScriptRegion) {
-				IPhpScriptRegion scriptRegion = (IPhpScriptRegion) tRegion;
+			if (tRegion != null && tRegion instanceof ITwigScriptRegion) {
+				ITwigScriptRegion scriptRegion = (ITwigScriptRegion) tRegion;
 				int regionOffset = offset - regionStart;
 				ITextRegion innerRegion = scriptRegion
-						.getPhpToken(regionOffset);
+						.getTwigToken(regionOffset);
 				return innerRegion.getType();
 			}
 		} catch (final BadLocationException e) {
+		} catch (final Exception e1) {
+			TwigCorePlugin.log(e1);
 		}
 
 		return null;
@@ -88,10 +91,11 @@ public class FormatterUtils {
 			}
 			// in case the cursor on the beginning of '?>' tag
 			// we decrease the offset to get the PhpScriptRegion
-			if (tRegion.getType().equals(PHPRegionContext.PHP_CLOSE)) {
+			if (tRegion.getType().equals(TwigRegionContext.TWIG_CLOSE) ||
+					tRegion.getType().equals(TwigRegionContext.TWIG_STMT_CLOSE)) {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset - 1);
 			}
-
+			
 			int regionStart = sdRegion.getStartOffset(tRegion);
 
 			// in case of container we have the extract the PhpScriptRegion
@@ -101,11 +105,11 @@ public class FormatterUtils {
 				regionStart += tRegion.getStart();
 			}
 
-			if (tRegion != null && tRegion instanceof IPhpScriptRegion) {
-				IPhpScriptRegion scriptRegion = (IPhpScriptRegion) tRegion;
+			if (tRegion != null && tRegion instanceof ITwigScriptRegion) {
+				ITwigScriptRegion scriptRegion = (ITwigScriptRegion) tRegion;
 				int regionOffset = offset - regionStart;
 				ITextRegion innerRegion = scriptRegion
-						.getPhpToken(regionOffset);
+						.getTwigToken(regionOffset);
 				String partition = scriptRegion.getPartition(regionOffset);
 				// check if the offset is in the start of the php token
 				// because if so this means we're at PHP_DEFAULT partition type
@@ -114,13 +118,8 @@ public class FormatterUtils {
 								.getStart()) == 0) {
 					String regionType = innerRegion.getType();
 					// except for cases we're inside the fragments of comments
-					if (PHPPartitionTypes.isPHPDocCommentState(regionType)
-							|| regionType != PHPRegionTypes.PHPDOC_COMMENT_START) {
-						return partition;
-					}
-					if (PHPPartitionTypes
-							.isPHPMultiLineCommentState(regionType)
-							|| regionType != PHPRegionTypes.PHP_COMMENT_START) {
+					if (TwigPartitionTypes.isTwigCommentState(regionType)
+							|| regionType != TwigRegionTypes.TWIG_COMMENT_OPEN) {
 						return partition;
 					}
 
@@ -129,6 +128,9 @@ public class FormatterUtils {
 				return partition;
 			}
 		} catch (final BadLocationException e) {
+			
+		} catch (final Exception e1) {
+			TwigCorePlugin.log(e1);
 		}
 		partitioner.connect(document);
 
