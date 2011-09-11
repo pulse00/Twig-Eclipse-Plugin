@@ -98,9 +98,10 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 			
 			this.requestor = requestor;
 			this.sourceModule = sourceModule;
-			this.offset = offset;
+			this.offset = offset;			
 			
-			if (sourceModule.getUnderlyingResource().getFileExtension().equals("php")) {				
+			if (sourceModule.getUnderlyingResource() == null || 
+					sourceModule.getUnderlyingResource().getFileExtension().equals("php")) {				
 				return false;
 			}
 
