@@ -324,6 +324,10 @@ public class PreferenceConstants {
 		store.setDefault(EDITOR_NUMBER_COLOR, EDITOR_NUMBER_DEFAULT_COLOR);
 		store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR, EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR);
 		store.setDefault(EDITOR_COMMENT_COLOR, EDITOR_COMMENT_DEFAULT_COLOR);
+		
+		// code assist
+		store.setDefault(AUTOCLOSE_PRINT_TAGS, true);
+		store.setDefault(AUTOCLOSE_STATEMENT_TAGS, true);
 
 	}	
 	
