@@ -40,9 +40,9 @@ import com.dubture.twig.ui.editor.templates.TwigTemplateContextType;
 @SuppressWarnings("restriction")
 public class TwigTemplateCompletionProcessor extends PhpTemplateCompletionProcessor {
 
-	public TwigTemplateCompletionProcessor(ScriptContentAssistInvocationContext context) {
+	public TwigTemplateCompletionProcessor(ScriptContentAssistInvocationContext context, boolean explicit) {
 		
-		super(context);
+		super(context, explicit);
 		setContextTypeId(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
 
 	}

@@ -4,6 +4,7 @@ import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
 import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
 import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalComputer;
+import org.eclipse.php.internal.ui.editor.contentassist.PHPContentAssistInvocationContext;
 
 
 /**
@@ -27,7 +28,13 @@ public class TwigCompletionProposalComputer extends
 	protected TemplateCompletionProcessor createTemplateProposalComputer(
 			ScriptContentAssistInvocationContext context) {
 	
-		return new TwigTemplateCompletionProcessor(context);
+		boolean explicit = false;
+		if (context instanceof PHPContentAssistInvocationContext) {
+			explicit = ((PHPContentAssistInvocationContext) context)
+					.isExplicit();
+		}
+		
+		return new TwigTemplateCompletionProcessor(context, explicit);
 		
 		
 	}
