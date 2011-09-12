@@ -1,3 +1,8 @@
+1.0.85
+
+* bugfixes (issues #26 and #24)
+* turned on auto-close tags by default
+
 1.0.84
 
 * added dynamic code folding for open/closing tags like {%block %} {% endblock %}
