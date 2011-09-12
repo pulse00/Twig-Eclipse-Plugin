@@ -7,11 +7,13 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.ui.autoEdit.MatchingCharAutoEditStrategy;
+import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
+import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
@@ -32,12 +34,15 @@ public class MatchingBracketAutoEditStrategy extends
 
 	public void customizeDocumentCommand(IDocument document,
 			DocumentCommand command) {
+		
+		
+		
 		if (/*TypingPreferences.closeBrackets && */command.text != null) {
 			int length = command.text.length();
 			if (length == 0 && command.length == 1) {
 				try {
 					char removedChar = document.getChar(command.offset);
-					if (removedChar == ROUND_OPEN || removedChar == SQUARE_OPEN) {
+					if (removedChar == ROUND_OPEN || removedChar == SQUARE_OPEN || removedChar == CURLY_OPEN || removedChar == '%') {					
 						deletePairBreaket((IStructuredDocument) document,
 								command, removedChar);
 					}
@@ -48,9 +53,11 @@ public class MatchingBracketAutoEditStrategy extends
 			}
 			if (length == 1) {
 				char c = command.text.charAt(0);
-				if (c == ROUND_OPEN || c == SQUARE_OPEN) {
+				if (c == ROUND_OPEN || c == SQUARE_OPEN || c == CURLY_OPEN) {
+					
+					
 					autoAddPairBracket((IStructuredDocument) document, command);
-				} else if (c == ROUND_CLOSE || c == SQUARE_CLOSE) {
+				} else if (c == ROUND_CLOSE || c == SQUARE_CLOSE || c == CURLY_CLOSE) {
 					insertClosingChar((IStructuredDocument) document, command);
 				}
 			}
@@ -179,16 +186,21 @@ public class MatchingBracketAutoEditStrategy extends
 				}
 
 				if (tRegion instanceof ITwigScriptRegion) {
+										
 					ITwigScriptRegion scriptRegion = (ITwigScriptRegion) tRegion;
 					tRegion = scriptRegion
 							.getTwigToken(currOffset - regionStart);
-
+					
 					while (tRegion != null) {
+						
 						String regionType = tRegion.getType();
+						
 						if (regionType == TwigRegionTypes.TWIG_DELIMITER) {
+							
+							
 							char token = document.getChar(regionStart
 									+ tRegion.getStart());
-							if (token == ROUND_OPEN || token == SQUARE_OPEN) {
+							if (token == ROUND_OPEN || token == SQUARE_OPEN || token == CURLY_OPEN) {
 								if (token == bracketChar) {
 									if (matcher.match(document, regionStart
 											+ tRegion.getStart() + 1) == null) {
@@ -197,15 +209,25 @@ public class MatchingBracketAutoEditStrategy extends
 								}
 							}
 						} else if (regionType == PHPRegionTypes.PHP_CURLY_OPEN
-								|| regionType == PHPRegionTypes.PHP_CURLY_CLOSE) {
+								|| regionType == PHPRegionTypes.PHP_CURLY_CLOSE
+								|| regionType == TwigRegionTypes.TWIG_JSON_END) {							
 							return MATCHING_BRACKET_NOT_NEEDED;
+						} else if (regionType == TwigRegionTypes.TWIG_JSON_START) {								
+							return MATCHING_BRACKET_NEEDED;
 						}
+						
 						if (tRegion.getStart() > 0) {
 							tRegion = scriptRegion.getTwigToken(tRegion
 									.getStart() - 1);
 						} else {
 							break;
 						}
+					}
+				} else {
+					
+					if (tRegion.getType() == TwigRegionContext.TWIG_CLOSE) {
+						
+						return MATCHING_BRACKET_NEEDED;
 					}
 				}
 
@@ -256,11 +278,14 @@ public class MatchingBracketAutoEditStrategy extends
 
 	private void deletePairBreaket(IStructuredDocument document,
 			DocumentCommand command, char deletedChar) {
-		int offset = command.offset;
-		IStructuredDocumentRegion sdRegion = document
+		int offset = command.offset;		IStructuredDocumentRegion sdRegion = document
 				.getRegionAtCharacterOffset(offset);
-		if (sdRegion == null
-				|| sdRegion.getType() != TwigRegionTypes.TWIG_CONTENT) {
+				
+		if (sdRegion == null				
+				|| (sdRegion.getType() != TwigRegionTypes.TWIG_CONTENT
+				&& sdRegion.getType() != TwigRegionContext.TWIG_CLOSE
+				&& sdRegion.getType() != TwigRegionContext.TWIG_STMT_CLOSE) ) {
+			
 			return;
 		}
 		try {
@@ -278,7 +303,8 @@ public class MatchingBracketAutoEditStrategy extends
 						- sdRegion.getStartOffset(scriptRegion));
 
 				if (tRegion == null
-						|| tRegion.getType() != TwigRegionTypes.TWIG_DELIMITER) {
+						|| (tRegion.getType() != TwigRegionTypes.TWIG_DELIMITER && tRegion.getType() != TwigRegionTypes.TWIG_JSON_START)) {
+									
 					return;
 				}
 
@@ -295,7 +321,18 @@ public class MatchingBracketAutoEditStrategy extends
 					command.length = 2;
 				}
 
-			}
+			// this means {{|}} <-- delete inner brackets
+			} else if (tRegion instanceof ContextRegion && (sdRegion.getType() == TwigRegionContext.TWIG_CLOSE
+					|| sdRegion.getType() == TwigRegionContext.TWIG_STMT_CLOSE)) {
+
+				char nextChar = document.getChar(offset + 1);
+				char matchingChar = getMatchingChar(deletedChar);
+				
+				if ((nextChar == '}' || nextChar == '%') && nextChar == matchingChar) {
+					command.length = 2;
+				}
+				
+			} 
 		} catch (BadLocationException e) {
 		}
 	}
