@@ -6,6 +6,7 @@ Bundle-Version: 1.0.85.qualifier
 Bundle-Activator: com.dubture.twig.ui.TwigUICorePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.core.expressions,
  org.eclipse.php,
  org.eclipse.php.core,
  org.eclipse.php.ui,
