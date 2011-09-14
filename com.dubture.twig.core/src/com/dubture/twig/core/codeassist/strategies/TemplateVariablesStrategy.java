@@ -5,6 +5,7 @@ import org.eclipse.dltk.core.IField;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 import org.eclipse.php.internal.core.codeassist.strategies.GlobalElementStrategy;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
@@ -39,8 +40,9 @@ public class TemplateVariablesStrategy extends GlobalElementStrategy {
 
 		SourceRange replaceRange = getReplacementRange(context);
 		
-		for (IModelElement var : fields) {
-			reporter.reportField((IField) var, "", replaceRange, false);
+		for (IModelElement var : fields) {			
+			if (CodeAssistUtils.startsWithIgnoreCase(var.getElementName(), prefix))
+				reporter.reportField((IField) var, "", replaceRange, false);
 		}		
 
 	}

@@ -4,6 +4,7 @@ package com.dubture.twig.core.codeassist.strategies;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 
 import com.dubture.twig.core.codeassist.context.TestContext;
@@ -27,11 +28,13 @@ public class TestStrategy extends KeywordStrategy {
 		IScriptProject project = ctx.getSourceModule().getScriptProject();
 		Test[] tests = TwigModelAccess.getDefault().getTests(project);
 		SourceRange range = getReplacementRange(ctx);
+		String prefix = ctx.getPrefix();
 		
-		for (Test test : tests) {
-			
-			test.setScriptProject(project);			
-			reporter.reportType(test, "", range);
+		for (Test test : tests) {			
+			if (CodeAssistUtils.startsWithIgnoreCase(test.getElementName(), prefix)) {
+				test.setScriptProject(project);			
+				reporter.reportType(test, "", range);				
+			}
 			
 		}
 	}

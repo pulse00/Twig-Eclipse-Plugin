@@ -3,6 +3,7 @@ package com.dubture.twig.core.codeassist.strategies;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 
 import com.dubture.twig.core.codeassist.context.TagContext;
@@ -34,8 +35,11 @@ public class TagStrategy extends AbstractTwigCompletionStrategy {
 		Tag[] tags = TwigModelAccess.getDefault().findTags(module.getScriptProject());
 		SourceRange range = getReplacementRange(ctx);
 		
-		for (Tag tag : tags) {
-			reporter.reportType(tag, "", range);
+		String prefix = ctx.getPrefix();
+		
+		for (Tag tag : tags) {			
+			if (CodeAssistUtils.startsWithIgnoreCase(tag.getElementName(), prefix))
+				reporter.reportType(tag, "", range);
 		}
 	}
 }
