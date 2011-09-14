@@ -67,8 +67,7 @@
    
    
    <!-- popup menus -->
-   <extension
-         point="org.eclipse.ui.popupMenus">
+   <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
             id="com.dubture.twig.ui.contextmenu"
@@ -89,6 +88,22 @@
                menubarPath="com.dubture.twig.ui.menu1/group1">
          </action>
       </objectContribution>
+      
+		<objectContribution objectClass="org.eclipse.dltk.core.IModelElement"
+			id="com.dubture.twig.ui.modelElementContribution">
+			<menu label="%category.source.name" path="additions" id="source" />
+			<action label="Surround With"
+				class="com.dubture.twig.ui.actions.SurroundWithAction"
+				menubarPath="source/surroundWithGroup" id="com.dubture.twig.ui.actions.SurroundWithAction">
+			</action>
+			<visibility>
+				<or>
+					<objectClass name="org.eclipse.dltk.core.ISourceModule" />
+					<objectClass name="org.eclipse.dltk.core.IMember" />
+				</or>
+			</visibility>
+		</objectContribution>
+      
    </extension>
    
    <!-- preference pages -->
@@ -150,6 +165,24 @@
    </extension>
    
 	<extension point="org.eclipse.ui.menus">
+	
+		<menuContribution locationURI="menu:sourceMenuId?before=sourceBegin">
+			<command commandId="com.dubture.twig.ui.surround.with"
+				id="SurroundWith" mnemonic="%command.mnemonic" style="push">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="com.dubture.ui.twigContentType.definition" />
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
+		<menuContribution locationURI="popup:sourcePopupMenuId?before=sourceBegin">
+			<command commandId="com.dubture.twig.ui.surround.with"
+				id="SurroundWith" style="push">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="com.dubture.ui.twigContentType.definition"></reference>
+				</visibleWhen>
+			</command>
+		</menuContribution>
 	
 		  <menuContribution locationURI="menu:sourceMenuId?after=sourceBegin">
 			<command commandId="org.eclipse.wst.sse.ui.toggle.comment"
@@ -243,8 +276,28 @@
 			</with>
 		</definition>
 	</extension>
+	
+	<!--Commands:-->
+	<extension point="org.eclipse.ui.commands">
+
+		<!-- source -->
+		<command name="%action.surroundWith.name" description="%action.surroundWith.description"
+			categoryId="org.eclipse.ui.category.edit" id="com.dubture.twig.ui.surround.with" />
+
+	</extension>	
    
 	<extension point="org.eclipse.ui.handlers">
+	
+		<handler class="com.dubture.twig.ui.actions.SurroundWithHandler"
+			commandId="com.dubture.twig.ui.surround.with">
+			<activeWhen>
+				<reference definitionId="com.dubture.ui.twigContentType.definition" />
+			</activeWhen>
+			<enabledWhen>
+				<reference definitionId="com.dubture.ui.twigContentType.definition" />
+			</enabledWhen>
+		</handler>
+	
 		<!-- overriding PHP's Handlers with the same 'commandId' -->
 		<handler class="com.dubture.twig.ui.actions.TwigToggleLineCommentHandler"
 			commandId="org.eclipse.wst.sse.ui.toggle.comment">
