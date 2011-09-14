@@ -9,6 +9,8 @@
             priority="10">
       </language>
    </extension>
+   
+   
 
 	<!-- the TwigStructuredEditor -->
    <extension
@@ -57,6 +59,10 @@
 			type="spellingregions"
 			value="XML_COMMENT_TEXT, PHP_CONTENT, TWIG_CONTENT, XML_CONTENT"
 			target="com.dubture.twig.core.twigtemplate" />
+			
+		<provisionalDefinition type="activecontexts"
+			value="com.dubture.twig.core.twigtemplate" target="com.dubture.twig.core.twigtemplate" />
+			
    </extension>
    
    
@@ -143,6 +149,31 @@
       </scriptCompletionProposalComputer>
    </extension>
    
+	<extension point="org.eclipse.ui.menus">
+	
+		  <menuContribution locationURI="menu:sourceMenuId?after=sourceBegin">
+			<command commandId="org.eclipse.wst.sse.ui.toggle.comment"
+			         id="ToggleComment"
+			         mnemonic="%command.toggle.comment.mnemonic"
+			         style="push">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="com.dubture.ui.twigContentType.definition"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+		
+		<menuContribution
+	           locationURI="popup:sourcePopupMenuId?after=sourceBegin">
+				<command commandId="org.eclipse.wst.sse.ui.toggle.comment" id="ToggleComment" style="push">
+					<visibleWhen checkEnabled="false">
+						<reference definitionId="com.dubture.ui.twigContentType.definition"></reference>
+					</visibleWhen>
+				</command>
+				<separator name="format" visible="true"></separator>
+		</menuContribution>		
+	
+	</extension>   
+   
 
    <!-- Add support for twig eclipse templates --> 
    <extension
@@ -190,6 +221,52 @@
             preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">
       </provider>
    </extension>
+   
+	<extension point="org.eclipse.ui.contexts">
+		<context name="%context.editingTwigSource.name" description="%context.editingTwigSource.description"
+			parentId="org.eclipse.php.ui.phpEditorScope" id="com.dubture.ui.phpEditorScope" />
+		<context name="%context.editingPhpSource.name"
+			parentId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
+			description="%context.editingTwigSource.description" id="com.dubture.twig.core.twigtemplate">
+		</context>
+		<context name="%context.window.name" description="%context.window.description"
+			parentId="org.eclipse.ui.contexts.window" id="com.dubture.twig.ui.contexts.window" />
+	</extension>
+   
+   
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="com.dubture.ui.twigContentType.definition">
+			<with variable="activeContexts">
+				<iterate operator="or">
+					<equals value="com.dubture.twig.core.twigtemplate" />
+				</iterate>
+			</with>
+		</definition>
+	</extension>
+   
+	<extension point="org.eclipse.ui.handlers">
+		<!-- overriding PHP's Handlers with the same 'commandId' -->
+		<handler class="com.dubture.twig.ui.actions.TwigToggleLineCommentHandler"
+			commandId="org.eclipse.wst.sse.ui.toggle.comment">
+			<activeWhen>
+			<or>
+				<reference definitionId="com.dubture.ui.twigContentType.definition" />
+			   <with variable="activePartId">
+			    <equals value="com.dubture.twig.editor"/>
+			   </with>
+				<with variable="activeEditorId">
+					<iterate operator="or">
+						<equals value="com.dubture.twig.editor"/>
+					</iterate>
+				</with>			   
+			</or>
+				
+			</activeWhen>
+			<enabledWhen>
+				<reference definitionId="com.dubture.ui.twigContentType.definition" />
+			</enabledWhen>
+		</handler>
+	</extension>   
    
 
 </plugin>

@@ -17,7 +17,6 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLContentRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
-import org.eclipse.wst.xml.ui.views.contentoutline.XMLCommentFilter;
 
 import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
@@ -82,16 +81,12 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 					int length = command.text.length();
 					if (length == 0 && command.length == 1) {
 
-
 						char removedChar = document.getChar(command.offset);
-
 						if (removedChar == ROUND_OPEN || removedChar == SQUARE_OPEN || removedChar == CURLY_OPEN) {					
 
 							deletePairBreaket((IStructuredDocument) document,
 									command, removedChar);
 						}
-
-
 					}
 
 					if (length == 1) {
@@ -208,12 +203,12 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 
 		if (autoclose == false)
 			return;
-
+		
+		String append = "}"; //$NON-NLS-1$
+		int caretOffset = 1;
+		
 		if (node != null) {
 
-			String append = "}"; //$NON-NLS-1$			
-			int caretOffset = 1;
-			
 			if (prefixedWith(document, command.offset, "{")) {
 				
 //				append = "  }";
@@ -224,6 +219,13 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 			command.shiftsCaret = false;
 			command.caretOffset = command.offset + caretOffset;
 			command.doit = false;
+
+		// empty document
+		} else {
+			command.text += append;
+			command.shiftsCaret = false;
+			command.caretOffset = command.offset + caretOffset;
+			command.doit = false;					
 
 		}
 	}
