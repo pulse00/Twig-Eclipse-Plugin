@@ -13,6 +13,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
+import org.eclipse.dltk.internal.ui.actions.CompositeActionGroup;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.DocumentEvent;
@@ -49,6 +51,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.ui.actions.ActionContext;
+import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.reconcile.ReconcileAnnotationKey;
@@ -62,6 +66,7 @@ import com.dubture.twig.core.search.IOccurrencesFinder;
 import com.dubture.twig.core.search.LocalVariableOccurrencesFinder;
 import com.dubture.twig.core.search.NodeFinder;
 import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
+import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
 
 
 /**
@@ -82,6 +87,10 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	private OccurrencesFinderJobCanceler fOccurrencesFinderJobCanceler;
 	
 	private ISelection fForcedMarkOccurrencesSelection;
+	
+	private CompositeActionGroup contextMenuGroup;
+	
+	private TwigRefactorActionGroup refactorGroup = null;
 	
 	/**
 	 * Holds the current occurrence annotations.
@@ -104,6 +113,48 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 	public TwigStructuredEditor() {
 
 	}
+	
+	private TwigRefactorActionGroup getRefactorGroup() {
+		
+		if (refactorGroup != null)
+			return refactorGroup;
+		
+		refactorGroup = new TwigRefactorActionGroup(this);
+		return refactorGroup;		
+		
+	}
+	
+	@Override
+	protected void createActions() {
+		
+		super.createActions();
+
+		contextMenuGroup = new CompositeActionGroup(new ActionGroup[] { getRefactorGroup() });		
+		
+	}
+	
+	
+	public ActionGroup getActionGroup() {
+		
+		CompositeActionGroup group = (CompositeActionGroup) super.getActionGroup();
+		group.addGroup(getRefactorGroup());
+		return group;		
+		
+	}
+	
+	@Override
+	public void editorContextMenuAboutToShow(IMenuManager menu) {
+		super.editorContextMenuAboutToShow(menu);
+
+		if (contextMenuGroup != null) {
+			ActionContext context = new ActionContext(getSelectionProvider()
+					.getSelection());
+			contextMenuGroup.setContext(context);
+			contextMenuGroup.fillContextMenu(menu);
+			contextMenuGroup.setContext(null);
+		}
+	}
+	
 
 	/**
 	 * TODO: check if this smarty code still applies in the twig
@@ -164,6 +215,9 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		return new TwigStructuredTextViewer(this, parent, verticalRuler,
 				getOverviewRuler(), isOverviewRulerVisible(), styles);
 	}
+	
+	
+	
 
 	@Override
 	protected void updateOccurrenceAnnotations(ITextSelection selection,
