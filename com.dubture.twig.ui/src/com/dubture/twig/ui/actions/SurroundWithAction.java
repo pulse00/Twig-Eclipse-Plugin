@@ -1,7 +1,7 @@
 package com.dubture.twig.ui.actions;
 
-import org.eclipse.dltk.internal.ui.refactoring.actions.RenameModelElementAction;
-import org.eclipse.dltk.internal.ui.refactoring.actions.RenameResourceAction;
+import org.eclipse.dltk.internal.corext.refactoring.RefactoringExecutionStarter;
+import org.eclipse.dltk.internal.ui.refactoring.RefactoringExecutionHelper;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextSelection;
@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IWorkbenchSite;
 
+import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
@@ -54,13 +55,22 @@ public class SurroundWithAction extends Action implements ISelectionChangedListe
 		if (selection instanceof ITextSelection) {
 			
 			ITextSelection sel = (ITextSelection) selection;
-			
+						
 			try {
+				
 				String[] lines = sel.getText().split("\n");
-				fEditor.getDocument().replace(sel.getOffset(), 0, "");
+				String newText = "{% for item in items %}\n"; 
+				for (String line : lines) {
+					newText += "\t" + line + "\n";					
+				}
+
+				newText += "{% endfor %}\n";
+				fEditor.getDocument().replace(sel.getOffset(), sel.getLength(), newText);
+				
 			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				Logger.logException(e);
+
 			}			
 		}
 	}
