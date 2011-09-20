@@ -5,11 +5,7 @@ import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.php.internal.ui.IContextMenuConstants;
-import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
@@ -30,25 +26,9 @@ public class TwigRefactorActionGroup extends ActionGroup {
 
 	}
 
-	public void setContext(ActionContext context) {
-
-		super.setContext(context);
-
-		System.err.println("set context");
-	}
-
-	public void fillActionBars(IActionBars actionBar) {
-
-		super.fillActionBars(actionBar);
-
-		System.err.println("fill");
-	}
-
-
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-
 
 		//super.fillContextMenu(menu);
 

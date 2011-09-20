@@ -9,6 +9,7 @@ import org.eclipse.dltk.ast.declarations.TypeDeclaration;
 import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.references.SimpleReference;
+import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
 import org.eclipse.php.core.index.PhpIndexingVisitorExtension;
@@ -185,26 +186,36 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 							Scalar name = (Scalar) key;
 							ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
 							
-							CallArgumentsList args = functionClass.getCtorParams();
-							Scalar internalFunction = (Scalar) args.getChilds().get(0);
-						
-							if (internalFunction == null)
-								return true;
 							
-							if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {
+							CallArgumentsList args = functionClass.getCtorParams();
+							
+							
+							int index = -1;
+							
+							if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_FUNCTION)) {
+								index = 0;								
+							} else if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {								
+								index = 1;
+							}
+							
+							if (index > -1 && args.getChilds().get(index) instanceof Scalar) {
+								
+								Scalar internalFunction = (Scalar) args.getChilds().get(index);
+								
+								if (internalFunction == null)
+									return true;
 								
 								String elemName = name.getValue().replaceAll("['\"]", "");
-								
+
 								JSONObject metadata = new JSONObject();
 								metadata.put(TwigType.PHPCLASS, currentClass.getName());
-								
+
 								Function function = new Function(elemName);
 								function.setPhpClass(currentClass.getName());
 								function.setInternalFunction(internalFunction.getValue().replaceAll("['\"]", ""));
 								functions.add(function);
 								
-								
-							}
+							}							
 						}
 						return true;
 					}
@@ -486,7 +497,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					
 					filter.addArgs(method.getArguments());
 					
-					Logger.debugMSG("indexing function: " + filter.getElementName() + " with metadata: " + filter.getMetadata());					
+					Logger.debugMSG("indexing filter: " + filter.getElementName() + " with metadata: " + filter.getMetadata());
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, 0, 0, filter.getElementName(), filter.getMetadata(), null);
 					requestor.addReference(info);
 					
