@@ -57,8 +57,6 @@ public class TwigRefactorActionGroup extends ActionGroup {
 
 		IContributionItem item = menu.find(IContextMenuConstants.GROUP_ADDITIONS);
 		if (item != null) {
-			System.err.println("append to group");
-						
 			menu.appendToGroup(IContextMenuConstants.GROUP_ADDITIONS, surroundAction);
 		}		
 	}
