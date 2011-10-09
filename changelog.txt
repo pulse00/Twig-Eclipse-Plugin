@@ -1,3 +1,7 @@
+1.0.86
+
+* bugfix (issue #29)
+
 1.0.85
 
 * bugfixes (issues #26 and #24)
