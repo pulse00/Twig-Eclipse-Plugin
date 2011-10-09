@@ -127,7 +127,9 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implemen
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			ITwigNodeVisitor visitor = getVisitor(offset);
-			tree.accept(visitor);
+			
+			if (tree != null)
+				tree.accept(visitor);
 
 
 		} catch (Exception e) {

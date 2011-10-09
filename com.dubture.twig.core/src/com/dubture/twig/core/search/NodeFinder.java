@@ -123,7 +123,9 @@ public class NodeFinder {
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			NodeVisitor visitor = new NodeVisitor(offset);
-			tree.accept(visitor);
+			
+			if (tree != null)
+				tree.accept(visitor);
 
 
 		} catch (Exception e) {

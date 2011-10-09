@@ -13,6 +13,7 @@ import org.eclipse.dltk.ast.parser.ISourceParser;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
 
+import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.error.TwigErrorReporter;
 
 
@@ -122,11 +123,13 @@ ISourceParser {
 			root = parser.twig_source();
 			TwigCommonTree tree = (TwigCommonTree) root.getTree();
 			TwigNodeVisitor visitor = new TwigNodeVisitor();
-			tree.accept(visitor);
+			
+			if (tree != null)
+				tree.accept(visitor);
 
 
 		} catch (Exception e) {
-			//Logger.logException(e);
+			Logger.logException(e);
 		}
 	}
 }
