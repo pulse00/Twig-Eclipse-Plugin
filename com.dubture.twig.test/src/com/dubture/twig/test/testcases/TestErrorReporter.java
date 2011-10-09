@@ -13,8 +13,6 @@ public class TestErrorReporter implements IErrorReporter {
 	public void reportError(String header, String message,
 			RecognitionException e) {
 
-		
-		System.err.println(header + " " + message);
 		errorCount++;
 
 	}

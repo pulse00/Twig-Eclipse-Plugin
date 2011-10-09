@@ -4,9 +4,14 @@ The plugin is still in development.
 
 #Notice 
 
-Since version 1.0.84 the plugin <span><b>REQUIRES</b></span> a nightly build of the PHP Development Tools. Please see the "Installation" section of the Symfony2 Eclipse Plugin for details on how to install a PDT nightly build: http://pulse00.github.com/Symfony-2-Eclipse-Plugin/.
+Since version 1.0.85 the plugin <span><b>REQUIRES</b></span> a development version of the PHP Development Tools. See the [Symfony Plugin](https://github.com/pulse00/Symfony-2-Eclipse-Plugin) for info about installing PDT correctly.
 
-If you're updating from an older version of the plugin, you need to uninstall your current PHP Development Tools (if it's not a nightly build) and install the PDT nightly build. 
+The development PDT version is available in the updatesite:
+
+http://pulse00.github.com/updatesite/
+
+
+If you're updating from an older version of the plugin (<= 1.0.84), you need to uninstall your current PHP Development Tools and install PDT from the above updatesite. 
 
 
 ## Current features

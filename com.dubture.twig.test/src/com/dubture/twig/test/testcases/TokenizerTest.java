@@ -95,7 +95,6 @@ public class TokenizerTest extends TestCase {
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken(); 
 				textRegions.push(region);		
-				System.err.println(region.getType());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -168,8 +167,7 @@ public class TokenizerTest extends TestCase {
 			
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken(); 
-				textRegions.push(region);				
-//				System.err.println('"' + region.getType() + "\", ");
+				textRegions.push(region);
 			}
 			
 			int i =0;
@@ -675,7 +673,6 @@ public class TokenizerTest extends TestCase {
 			while(!tokenizer.isEOF()) {
 				ITextRegion region = tokenizer.getNextToken();
 				textRegions.push(region);
-				System.err.println(":: " + region.getType());
 			}
 			
 			assertEquals(5, textRegions.size());
