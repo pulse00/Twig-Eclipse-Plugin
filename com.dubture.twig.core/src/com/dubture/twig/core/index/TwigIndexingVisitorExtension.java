@@ -101,7 +101,12 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 							Scalar name = (Scalar) key;
 							ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
 							
-							Scalar internal = (Scalar) filterClass.getCtorParams().getChilds().get(0);
+							Object child = filterClass.getCtorParams().getChilds().get(0);
+							
+							if (!(child instanceof Scalar))
+								return true;
+							
+							Scalar internal = (Scalar) child;
 							
 							if (internal == null)
 								return true;
