@@ -67,6 +67,7 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 	public void customizeDocumentCommand(IDocument doc,
 			DocumentCommand comm) {
 
+
 		document = doc;
 		command = comm;
 
@@ -167,15 +168,15 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 		if (autoclose == false || node == null)
 			return true;
 
-		command.text += "%"; //$NON-NLS-1$
-		command.shiftsCaret = false;
-		command.caretOffset = command.offset + 1;
-		command.doit = false;
-		
-//		command.text += "  %"; //$NON-NLS-1$
+//		command.text += "%"; //$NON-NLS-1$
 //		command.shiftsCaret = false;
-//		command.caretOffset = command.offset + 2;
+//		command.caretOffset = command.offset + 1;
 //		command.doit = false;
+		
+		command.text += "  %"; //$NON-NLS-1$
+		command.shiftsCaret = false;
+		command.caretOffset = command.offset + 2;
+		command.doit = false;
 		
 		return true;
 
@@ -211,8 +212,8 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 
 			if (prefixedWith(document, command.offset, "{")) {
 				
-//				append = "  }";
-//				caretOffset = 2;
+				append = "  }";
+				caretOffset = 2;
 			} 
 			
 			command.text += append;
