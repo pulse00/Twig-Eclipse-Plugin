@@ -1,3 +1,7 @@
+1.0.88
+
+* bumped version due to updatesite-wipe (avoid missing jar errors)
+
 1.0.86
 
 * bugfix (issue #29)
