@@ -93,6 +93,11 @@ IImplForTwig {
 		
 		IScriptProject project = modelElement != null ? modelElement.getScriptProject() : null;
 		
+		if (project == null) {
+			return false;
+		}
+	
+		
 		return model.isTwigTag(project, getNodeName());
 		
 				

@@ -11,7 +11,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.dltk.core.IMember;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.core.ISourceRange;
+import org.eclipse.dltk.core.ISourceReference;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jface.action.IMenuManager;
@@ -28,6 +31,7 @@ import org.eclipse.jface.text.ITextInputListener;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.link.LinkedModeModel;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
@@ -36,6 +40,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.ImageUtilities;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
@@ -58,14 +63,15 @@ import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.reconcile.ReconcileAnnotationKey;
 import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
 
+import com.dubture.twig.core.documentModel.dom.IImplForTwig;
 import com.dubture.twig.core.documentModel.parser.TwigSourceParser;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.TwigNode;
 import com.dubture.twig.core.parser.TwigParser;
 import com.dubture.twig.core.search.IOccurrencesFinder;
+import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 import com.dubture.twig.core.search.LocalVariableOccurrencesFinder;
 import com.dubture.twig.core.search.NodeFinder;
-import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
 
 
@@ -558,4 +564,77 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 
 		removeTwigOccurrenceAnnotations();
 	}
+	
+	protected void setSelection(ISourceReference reference, boolean moveCursor) {
+		if (getSelectionProvider() == null)
+			return;
+		ISelection selection = getSelectionProvider().getSelection();
+		if (selection instanceof TextSelection) {
+			TextSelection textSelection = (TextSelection) selection;
+			if (textSelection instanceof IStructuredSelection) {
+				Object firstElement = ((IStructuredSelection) textSelection)
+						.getFirstElement();
+				if (firstElement instanceof IImplForTwig) {
+					((IImplForTwig) firstElement)
+							.setModelElement(getModelElement());
+				}
+			}
+			// PR 39995: [navigation] Forward history cleared after going back
+			// in navigation history:
+			// mark only in navigation history if the cursor is being moved
+			// (which it isn't if
+			// this is called from a PostSelectionEvent that should only update
+			// the magnet)
+			if (moveCursor
+					&& (textSelection.getOffset() != 0 || textSelection
+							.getLength() != 0))
+				markInNavigationHistory();
+		}
+		if (reference != null) {
+			StyledText textWidget = null;
+			ISourceViewer sourceViewer = getSourceViewer();
+			if (sourceViewer != null)
+				textWidget = sourceViewer.getTextWidget();
+			if (textWidget == null)
+				return;
+			try {
+				ISourceRange range = null;
+				range = reference.getSourceRange();
+				if (range == null)
+					return;
+				int offset = range.getOffset();
+				int length = range.getLength();
+				if (offset < 0 || length < 0)
+					return;
+				setHighlightRange(offset, length, moveCursor);
+				if (!moveCursor)
+					return;
+				offset = -1;
+				length = -1;
+				if (reference instanceof IMember) {
+					range = ((IMember) reference).getNameRange();
+					if (range != null) {
+						offset = range.getOffset();
+						length = range.getLength();
+					}
+				}
+				if (offset > -1 && length > 0) {
+					try {
+						textWidget.setRedraw(false);
+						sourceViewer.revealRange(offset, length);
+						sourceViewer.setSelectedRange(offset, length);
+					} finally {
+						textWidget.setRedraw(true);
+					}
+					markInNavigationHistory();
+				}
+			} catch (ModelException x) {
+			} catch (IllegalArgumentException x) {
+			}
+		} else if (moveCursor) {
+			resetHighlightRange();
+			markInNavigationHistory();
+		}
+	}
+	
 }
