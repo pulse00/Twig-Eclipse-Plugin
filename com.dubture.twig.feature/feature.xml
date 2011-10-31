@@ -2,8 +2,8 @@
 <feature
       id="com.dubture.twig.feature"
       label="Twig Editor Feature"
-      version="1.0.88.qualifier"
-      provider-name="https://github.com/pulse00/Twig-Eclipse-Plugin">
+      version="1.0.89.qualifier"
+      provider-name="https://github.com/pulse00">
 
    <description url="https://github.com/pulse00/Twig-Eclipse-Plugin">
       Lets Eclipse speak Twig.

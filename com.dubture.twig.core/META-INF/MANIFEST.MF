@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Twig core plugin
 Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
-Bundle-Version: 1.0.88.qualifier
+Bundle-Version: 1.0.89.qualifier
 Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -39,7 +39,7 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.search,
  com.dubture.twig.core.util,
  com.dubture.twig.core.util.text
-Bundle-Vendor: https://github.com/pulse00/Twig-Eclipse-Plugin
+Bundle-Vendor: https://github.com/pulse00
 Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.3.jar,
  .,
  lib/json_simple-1.1.jar
