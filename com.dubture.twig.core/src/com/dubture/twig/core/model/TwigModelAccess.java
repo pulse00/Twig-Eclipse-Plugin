@@ -287,7 +287,7 @@ public class TwigModelAccess extends PhpModelAccess {
 
 		if (scriptProject != null)
 			scope = SearchEngine.createSearchScope(scriptProject);
-		else SearchEngine.createWorkspaceScope(PHPLanguageToolkit.getDefault());
+		else scope = SearchEngine.createWorkspaceScope(PHPLanguageToolkit.getDefault());
 		
 		if (scope == null)
 			return false;		
