@@ -210,9 +210,8 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy  {
 		
 		if (node != null) {
 
-			if (prefixedWith(document, command.offset, "{")) {
-				
-				append = "  }";
+			if (prefixedWith(document, command.offset, "{")) {				
+				append = "  }";
 				caretOffset = 2;
 			} 
 			
