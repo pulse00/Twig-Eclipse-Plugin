@@ -28,6 +28,7 @@ If you're updating from an older version of the plugin (<= 1.0.84), you need to 
 
 The plugin requires [Eclipse >= 3.7.0 (Indigo)](http://www.eclipse.org/downloads/).
 
+
 ## Installation
 
 * Help
@@ -37,6 +38,10 @@ The plugin requires [Eclipse >= 3.7.0 (Indigo)](http://www.eclipse.org/downloads
 * Select the "Twig Editor Feature" from the "Twig" node and click finish
 
 Please use the github issue tracker to report bugs and feature requests.
+
+## Screenshot
+
+![Twig Screenshot](http://pulse00.github.com/Twig-Eclipse-Plugin/web/images/twig_shot.png)
 
 ## FAQ
 
