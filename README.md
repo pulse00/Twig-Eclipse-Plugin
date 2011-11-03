@@ -8,7 +8,7 @@ The plugin is still in development.
 
 Since version 1.0.85 the plugin <span><b>REQUIRES</b></span> a development version of the PHP Development Tools. See the [Symfony Plugin](https://github.com/pulse00/Symfony-2-Eclipse-Plugin) for info about installing PDT correctly.
 
-Update Site URL:
+Update Site and project URL:
 
 http://pulse00.github.com/Twig-Eclipse-Plugin/
 
