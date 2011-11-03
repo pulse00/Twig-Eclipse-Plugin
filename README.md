@@ -2,14 +2,15 @@
 
 The plugin is still in development. 
 
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
+
 #Notice 
 
 Since version 1.0.85 the plugin <span><b>REQUIRES</b></span> a development version of the PHP Development Tools. See the [Symfony Plugin](https://github.com/pulse00/Symfony-2-Eclipse-Plugin) for info about installing PDT correctly.
 
-The development PDT version is available in the updatesite:
+Update Site URL:
 
-http://pulse00.github.com/updatesite/
-
+http://pulse00.github.com/Twig-Eclipse-Plugin/
 
 If you're updating from an older version of the plugin (<= 1.0.84), you need to uninstall your current PHP Development Tools and install PDT from the above updatesite. 
 
@@ -32,7 +33,7 @@ The plugin requires [Eclipse >= 3.7.0 (Indigo)](http://www.eclipse.org/downloads
 * Help
 * Install new Software...
 * Click "add" to add a new software site
-* Put the update-site in the location field: http://pulse00.github.com/updatesite/
+* Put the update-site in the location field: http://pulse00.github.com/Twig-Eclipse-Plugin/
 * Select the "Twig Editor Feature" from the "Twig" node and click finish
 
 Please use the github issue tracker to report bugs and feature requests.
