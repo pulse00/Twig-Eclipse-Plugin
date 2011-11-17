@@ -1,3 +1,7 @@
+1.0.90
+
+* fixed highlighting issue
+
 1.0.88
 
 * bumped version due to updatesite-wipe (avoid missing jar errors)
