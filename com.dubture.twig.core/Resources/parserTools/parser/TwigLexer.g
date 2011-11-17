@@ -84,6 +84,7 @@ JSON_END		: '}' ;
 QM				: '?';
 IN				: 'in';
 TWIG_AS			: 'as';
+TWIG_OR			: 'or';
 NOT				: 'not';
 WITH			: 'with';
 ONLY			: 'only';

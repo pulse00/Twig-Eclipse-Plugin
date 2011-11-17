@@ -58,7 +58,7 @@ public class TwigTextSequenceUtilitiesTest extends TestCase {
 			fDoc.set(fText);			
 			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
 			
-			assertEquals(4, regions.length);
+			assertEquals(1, regions.length);
 			int offset = 8;
 
 			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);

@@ -201,5 +201,5 @@ json_argument
   ;
   
 keyword
-  : IS | DEFINED | IN | TWIG_AS | NOT | WITH | ONLY
+  : IS | DEFINED | IN | TWIG_AS | NOT | WITH | ONLY | OR
   ;
