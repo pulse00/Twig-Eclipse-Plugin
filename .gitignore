@@ -3,3 +3,6 @@ com.dubture.twig.core/bin/*
 com.dubture.twig.ui/bin/*
 com.dubture.twig.test/bin/*
 com.dubture.twig.core/Resources/parserTools/JFlex.jar
+com.dubture.twig.core/target/*
+com.dubture.twig.parser/target*
+com.dubture.twig.ui/target/*

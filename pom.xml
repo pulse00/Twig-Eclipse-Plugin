@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.dubture.twig</groupId>
+  <artifactId>parent</artifactId>
+  <version>1.0.90.qualifier</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>com.dubture.twig.core</module>
+    <module>com.dubture.twig.parser</module>
+    <module>com.dubture.twig.ui</module>
+  </modules>
+
+  <properties>
+    <tycho-version>0.13.0</tycho-version>
+  </properties>
+
+  <repositories>
+   <repository>
+     <id>github</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/releases/indigo</url>
+   </repository>	
+   <repository>
+     <id>indigo</id>
+     <layout>p2</layout>
+     <url>http://pulse00.github.com/Twig-Eclipse-Plugin/</url>
+   </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+
