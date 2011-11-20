@@ -302,12 +302,12 @@ public class TwigModelAccess extends PhpModelAccess {
 		
 		String cacheKey = scriptProject.getElementName() + text + type;
 		
-		if( tagCache.get(cacheKey) != null) {
-			return true;		
+		if( tagCache.get(cacheKey) != null) {			
+			String cached = (String) tagCache.get(cacheKey);			
+			return cached == null || cached.length() == 0;
 		}
 		
-		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
-		
+		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());		
 		final List<String> tags = new ArrayList<String>();
 
 		engine.search(type, null, text, 0, 0, 1, SearchFor.REFERENCES, MatchRule.EXACT, scope, new ISearchRequestor() {
@@ -326,11 +326,12 @@ public class TwigModelAccess extends PhpModelAccess {
 	
 		if (tags.size() == 1) {			
 			String tagName= tags.get(0);
-			cacheKey = scriptProject.getElementName() + tagName;
+			cacheKey = scriptProject.getElementName() + tagName;			
 			tagCache.put(cacheKey, text);
 			return true;
 		}
 		
+		tagCache.put(cacheKey, "");
 		return false;		
 		
 	}
