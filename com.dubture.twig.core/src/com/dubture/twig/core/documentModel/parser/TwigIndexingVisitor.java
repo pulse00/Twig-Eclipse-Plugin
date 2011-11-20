@@ -9,9 +9,10 @@
 package com.dubture.twig.core.documentModel.parser;
 
 
+import java.util.EmptyStackException;
+
 import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.compiler.IElementRequestor;
-import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 
@@ -106,12 +107,19 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor {
 					block.modifiers = Modifiers.AccPublic;
 					block.declarationStart = start;
 					
-					requestor.enterMethod(block);			
+					try {
+						requestor.enterMethod(block);	
+					} catch (EmptyStackException e) {
+						// ignore 
+					}								
 					
 				} else if (model.isEndTag(modelElement.getScriptProject(), child.getText())) {
-
-					requestor.exitMethod(end);
 					
+					try {
+						requestor.exitMethod(end);	
+					} catch (EmptyStackException e) {
+						// ignore
+					}
 				}
 			}
 			

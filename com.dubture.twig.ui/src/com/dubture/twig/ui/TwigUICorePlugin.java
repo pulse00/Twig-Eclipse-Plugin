@@ -10,12 +10,18 @@ package com.dubture.twig.ui;
 
 import java.io.IOException;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.osgi.framework.BundleContext;
 
 import com.dubture.twig.core.log.Logger;
@@ -127,5 +133,27 @@ public class TwigUICorePlugin extends AbstractUIPlugin {
 		}
 		return fImagesOnFSRegistry;
 	}
+	
+	public IFile getFile(IDocument document) {
+		IFile file = null;
+		IStructuredModel structuredModel = null;
+		try {
+			structuredModel = StructuredModelManager.getModelManager()
+					.getExistingModelForRead(document);
+			if (structuredModel != null) {
+				String location = structuredModel.getBaseLocation();
+				if (location != null) {
+					file = ResourcesPlugin.getWorkspace().getRoot()
+							.getFile(new Path(location));
+				}
+			}
+		} finally {
+			if (structuredModel != null) {
+				structuredModel.releaseFromRead();
+			}
+		}
+		return file;
+	}
+	
 	
 }

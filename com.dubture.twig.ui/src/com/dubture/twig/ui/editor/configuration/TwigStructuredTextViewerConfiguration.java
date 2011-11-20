@@ -46,6 +46,7 @@ import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes
 import com.dubture.twig.core.format.FormatPreferencesSupport;
 import com.dubture.twig.core.format.TwigFormatProcessorImpl;
 import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
+import com.dubture.twig.ui.editor.TwigContentFormatter;
 import com.dubture.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import com.dubture.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
 import com.dubture.twig.ui.editor.autoEdit.MainAutoEditStrategy;
@@ -247,22 +248,26 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 	public IContentFormatter getContentFormatter(ISourceViewer sourceViewer) {
 		IContentFormatter usedFormatter = null;
 
-		String formatterExtensionName = "org.eclipse.php.ui.phpFormatterProcessor"; //$NON-NLS-1$
-		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(formatterExtensionName);
-		for (int i = 0; i < elements.length; i++) {
-			IConfigurationElement element = elements[i];
-			if (element.getName().equals("processor")) { //$NON-NLS-1$
-				ElementCreationProxy ecProxy = new ElementCreationProxy(element, formatterExtensionName);
-				usedFormatter = (IContentFormatter) ecProxy.getObject();
-			}
-		}
+//		System.err.println("get formatter");
+//		String formatterExtensionName = "org.eclipse.php.ui.phpFormatterProcessor"; //$NON-NLS-1$
+//		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(formatterExtensionName);
+//		for (int i = 0; i < elements.length; i++) {
+//			IConfigurationElement element = elements[i];
+//			if (element.getName().equals("processor")) { //$NON-NLS-1$
+//				ElementCreationProxy ecProxy = new ElementCreationProxy(element, formatterExtensionName);
+//				usedFormatter = (IContentFormatter) ecProxy.getObject();
+//			}
+//		}
+//
+//		if (usedFormatter == null) {
+//			usedFormatter = new MultiPassContentFormatter(getConfiguredDocumentPartitioning(sourceViewer), IHTMLPartitions.HTML_DEFAULT);
+//			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new TwigFormatProcessorImpl()));
+//		}
+		
 
-		if (usedFormatter == null) {
-			usedFormatter = new MultiPassContentFormatter(getConfiguredDocumentPartitioning(sourceViewer), IHTMLPartitions.HTML_DEFAULT);
-			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new TwigFormatProcessorImpl()));
-		}
+		TwigContentFormatter formatter = new TwigContentFormatter();		
+		return formatter;
 
-		return usedFormatter;
 	}
 
 

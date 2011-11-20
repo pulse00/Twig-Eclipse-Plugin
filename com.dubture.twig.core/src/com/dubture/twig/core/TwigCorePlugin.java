@@ -29,6 +29,8 @@ public class TwigCorePlugin extends Plugin {
 
 	private static final boolean DEBUG = false;
 	
+	private Boolean _isDltk3 = null;
+	
 	
 	// The shared instance	
 	private static TwigCorePlugin plugin;
@@ -88,8 +90,12 @@ public class TwigCorePlugin extends Plugin {
 	
 	public boolean isDLTK3() {
 		
-		String version = Platform.getBundle("org.eclipse.dltk.core").getHeaders().get("Bundle-Version");		
-		return version.startsWith("3");
+		if (_isDltk3 != null)
+			return _isDltk3;
+		
+		String version = Platform.getBundle("org.eclipse.dltk.core").getHeaders().get("Bundle-Version");
+		int v= Character.digit(version.charAt(0), 10);
+		return _isDltk3 = v >= 3;
 		
 	}
 

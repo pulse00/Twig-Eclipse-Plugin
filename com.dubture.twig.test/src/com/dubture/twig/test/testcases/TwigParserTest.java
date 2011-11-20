@@ -40,6 +40,14 @@ public class TwigParserTest extends TestCase {
 		super.tearDown();
 	}
 	
+	@Test
+	public void testIsStatement() {
+		
+		//TODO: fix is statement
+//		assertValidTokenstream("{{ foo is bar ? 'odd' : 'even' }}");
+		
+	}
+	
 	
 	@Test
 	public void testStringLiterals() {
@@ -256,6 +264,17 @@ public class TwigParserTest extends TestCase {
 	
 	@Test
 	public void testJsonParameters() {
+		
+		// TODO: properly remove global backtracking
+		// http://www.antlr.org/wiki/display/ANTLR3/How+to+remove+global+backtracking+from+your+grammar
+		//
+		// if method_chain is added to the json_arguments in the grammar, the following error is produces
+		// by antlr during parser generation:
+		// TwigParser.g:95:3: [fatal] rule twig_control_body has non-LL(*) decision due to recursive rule 
+		// invocations reachable from alts 10,12.  Resolve by left-factoring or using syntactic predicates 
+		// or using backtrack=true option.
+		
+//		assertValidTokenstream("{% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}");
 		
 		assertValidTokenstream("{{ \"I like %this% and %that%.\"|replace({'%this%': foo, '%that%': \"bar\"}) }}");
 		
