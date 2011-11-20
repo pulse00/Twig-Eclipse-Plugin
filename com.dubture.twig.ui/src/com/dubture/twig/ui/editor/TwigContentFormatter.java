@@ -27,7 +27,6 @@ public class TwigContentFormatter implements IContentFormatter {
 			project = file.getProject();
 		}
 		
-		System.err.println("format");
 		if (isFormatFile()) {
 			MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
 					IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
@@ -46,9 +45,6 @@ public class TwigContentFormatter implements IContentFormatter {
 			pdtFormatter.format(document, region);
 //			pdtFormatter.format(document, region);
 		}
-		System.err.println("end format");
-		
-		
 
 	}
 
