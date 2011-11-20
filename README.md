@@ -1,8 +1,14 @@
 #Twig Eclipse Plugin
 
-The plugin is still in development. 
+The plugin is still beta.
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
+To support the development you can:
+
+* [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
+* Spread the word on your blog or on twitter
+* Share it on your social networks
+* Report bugs and feature requests in the github issues
+
 
 #Notice 
 

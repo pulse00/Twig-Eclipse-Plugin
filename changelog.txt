@@ -1,3 +1,7 @@
+1.0.91 
+
+* performance improvements in the model parser
+
 1.0.90
 
 * fixed highlighting issue
