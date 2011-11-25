@@ -200,9 +200,9 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 
 			String ext = resource.getFileExtension();
 
-			//TODO: make this configurable via preferences
-			if ("twig".equals(ext) || "html".equals(ext)) {
-
+			//TODO: Get the associated content types for file extensions
+			// from preferences 
+			if (ext != null && (ext.contains("twig") ||  ext.contains("html"))) {
 				TwigSourceParser.editFile.set(resource);
 				super.doSetInput(input);
 
