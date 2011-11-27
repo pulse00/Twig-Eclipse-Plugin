@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: com.dubture.twig.test
-Bundle-Version: 1.0.91.qualifier
+Bundle-Version: 1.0.92.qualifier
 Fragment-Host: com.dubture.twig.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.jdt.junit;bundle-version="3.7.0",
