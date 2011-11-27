@@ -22,8 +22,6 @@ import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
-import org.eclipse.jface.text.formatter.IContentFormatter;
-import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
@@ -37,16 +35,13 @@ import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
-import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 import org.eclipse.wst.sse.ui.internal.provisional.style.ReconcilerHighlighter;
 import org.eclipse.wst.sse.ui.internal.provisional.style.StructuredPresentationReconciler;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.format.FormatPreferencesSupport;
-import com.dubture.twig.core.format.TwigFormatProcessorImpl;
 import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
-import com.dubture.twig.ui.editor.TwigContentFormatter;
 import com.dubture.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import com.dubture.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
 import com.dubture.twig.ui.editor.autoEdit.MainAutoEditStrategy;
@@ -243,7 +238,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 	}
 
 
-
+/*
 	@Override
 	public IContentFormatter getContentFormatter(ISourceViewer sourceViewer) {
 		IContentFormatter usedFormatter = null;
@@ -269,7 +264,7 @@ public class TwigStructuredTextViewerConfiguration extends PHPStructuredTextView
 		return formatter;
 
 	}
-
+*/
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {

@@ -320,14 +320,6 @@
 			</enabledWhen>
 		</handler>
 	</extension>
- <extension
-       point="org.eclipse.php.ui.phpFormatterProcessor">
-    <processor
-          class="com.dubture.twig.ui.editor.TwigContentFormatter"
-          id="com.dubture.twig.ui.formatter"
-          name="%twig.formatter">
-    </processor>
- </extension>
    
 
 </plugin>
