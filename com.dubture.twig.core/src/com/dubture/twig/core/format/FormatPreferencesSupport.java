@@ -90,8 +90,14 @@ public class FormatPreferencesSupport {
 		if (fLastDocument != document) {
 			DOMModelForTwig editorModel = null;
 			try {
-				editorModel = (DOMModelForTwig) StructuredModelManager
-						.getModelManager().getExistingModelForRead(document);
+			    try {
+			        
+	                editorModel = (DOMModelForTwig) StructuredModelManager
+	                        .getModelManager().getExistingModelForRead(document);
+                    
+                } catch (ClassCastException e) {
+
+                }
 
 				// The PHPMergeViewer can be used outside Editor.
 				// E.g. the preview page.

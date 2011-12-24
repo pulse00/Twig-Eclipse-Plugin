@@ -61,17 +61,17 @@ public class TwigSourceElementRequestorExtension extends
 			
 			super.setSourceModule(sourceModule);			
 			
-			if (sourceModule.getFileName().endsWith(".php"))
-				return;
-			
-			String source = sourceModule.getSourceContents();
-			requestor = getRequestor();
-			requestor.enterModule();
-			
-			parsePrints(source);
-			parseStatements(source);
-			
-			requestor.exitModule(0);
+//			if (sourceModule.getFileName().endsWith(".php"))
+//				return;
+//			
+//			String source = sourceModule.getSourceContents();
+//			requestor = getRequestor();
+//			requestor.enterModule();
+//			
+//			parsePrints(source);
+//			parseStatements(source);
+//			
+//			requestor.exitModule(0);
 			
 		} catch (Exception e) {
 

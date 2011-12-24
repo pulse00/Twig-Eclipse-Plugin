@@ -17,7 +17,6 @@ import org.eclipse.dltk.ast.declarations.TypeDeclaration;
 import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.references.SimpleReference;
-import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
 import org.eclipse.php.core.index.PhpIndexingVisitorExtension;
@@ -338,11 +337,11 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					Logger.debugMSG("indexing twig tag: " + tag.getStartTag() + " : " + tag.getEndTag() + " with metadata: " + metadata.toString());
 					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.START_TAG, currentClass.sourceStart(), length, tag.getStartTag(), metadata.toString(), null);
-					requestor.addReference(info);
+					addReferenceInfo(info);					
 					
 					if (endTag != null) {
 						ReferenceInfo endIinfo = new ReferenceInfo(ITwigModelElement.END_TAG, currentClass.sourceStart(), length, tag.getEndTag(), metadata.toString(), null);
-						requestor.addReference(endIinfo);
+						addReferenceInfo(endIinfo);						
 					}
 					
 														
@@ -464,7 +463,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					Logger.debugMSG("indexing test tag: " + test.getElementName() + " with metadata: " + test.getMetadata());
 					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.TEST, 0, 0, test.getElementName(), test.getMetadata(), null);
-					requestor.addReference(info);
+					addReferenceInfo(info);
 					
 				}			
 			}			
@@ -488,7 +487,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					
 					Logger.debugMSG("indexing function: " + function.getElementName() + " with metadata: " + function.getMetadata());
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FUNCTION, 0, 0, function.getElementName(), function.getMetadata(), null);
-					requestor.addReference(info);
+					addReferenceInfo(info);					
 					
 				}			
 			}			
@@ -510,9 +509,9 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 					
 					filter.addArgs(method.getArguments());
 					
-					Logger.debugMSG("indexing filter: " + filter.getElementName() + " with metadata: " + filter.getMetadata());
+					Logger.debugMSG("indexing filter: " + filter.getElementName() + " with metadata: " + filter.getMetadata());					
 					ReferenceInfo info = new ReferenceInfo(ITwigModelElement.FILTER, 0, 0, filter.getElementName(), filter.getMetadata(), null);
-					requestor.addReference(info);
+					addReferenceInfo(info);					
 					
 				}				
 			}
@@ -522,5 +521,13 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 		return true;
 	
 	}
+	
+	protected void addReferenceInfo(ReferenceInfo info) {
 
+	    try {
+            requestor.addReference(info);
+        } catch (Exception e) {
+            Logger.logException(e);
+        }	    	   
+	}
 }

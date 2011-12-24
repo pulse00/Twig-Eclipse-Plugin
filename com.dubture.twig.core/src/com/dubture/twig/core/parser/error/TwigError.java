@@ -10,6 +10,7 @@ package com.dubture.twig.core.parser.error;
 
 import org.eclipse.dltk.compiler.problem.CategorizedProblem;
 import org.eclipse.dltk.compiler.problem.IProblemIdentifier;
+import org.eclipse.dltk.compiler.problem.ProblemSeverity;
 
 public class TwigError extends CategorizedProblem {
 
@@ -102,5 +103,14 @@ public class TwigError extends CategorizedProblem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.dltk.compiler.problem.IProblem#setSeverity(org.eclipse.dltk.compiler.problem.ProblemSeverity)
+     */
+    @Override
+    public void setSeverity(ProblemSeverity severity) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

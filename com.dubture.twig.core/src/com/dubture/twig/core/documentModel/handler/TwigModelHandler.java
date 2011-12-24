@@ -72,13 +72,14 @@ public class TwigModelHandler extends PHPModelHandler {
 		
 	}
 	
-	
+	/*
 	@Override
 	public IModelLoader getModelLoader() {
 
 		return new TwigModelLoader();
 		
 	}
+	*/
 	
 	@Override
 	public IDocumentCharsetDetector getEncodingDetector() {
@@ -91,4 +92,5 @@ public class TwigModelHandler extends PHPModelHandler {
 
 		return new TwigDocumentLoader();
 	}
+	
 }
