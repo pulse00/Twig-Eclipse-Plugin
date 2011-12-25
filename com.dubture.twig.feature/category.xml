@@ -3,5 +3,9 @@
    <feature url="features/com.dubture.twig.feature_1.0.92.qualifier.jar" id="com.dubture.twig.feature" version="1.0.92.qualifier">
       <category name="Twig"/>
    </feature>
-   <category-def name="Twig" label="Twig"/>
+   <category-def name="Twig" label="Twig">
+      <description>
+         Twig Eclipse Plugin
+      </description>
+   </category-def>
 </site>

@@ -1,3 +1,10 @@
+1.0.93
+
+* updated category.xml to work with p2 repository
+* removed outline/folding feature - this won't work properly this 
+way and will be added again after a complete re-write of the parser
+from antlr to jflex to integrate the ast lexer/parser with the xml lexer/parser
+
 1.0.92
 
 * fixed problem with PDT formatter override
