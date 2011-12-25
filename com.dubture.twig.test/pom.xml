@@ -5,10 +5,123 @@
   <parent>
     <groupId>com.dubture.twig</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.90</version>
+    <version>1.0.93.qualifier</version>
   </parent>
 
-  <artifactId>com.dubture.twig.parser</artifactId>
-  <packaging>eclipse-plugin</packaging>
+  <artifactId>com.dubture.twig.test</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  
+  <profiles>
+    <profile>
+      <id>skip-ui-tests</id>
+      <activation>
+        <property>
+          <name>skip-ui-tests</name>
+        </property>
+      </activation>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+    </profile>
+    <profile>
+      <id>macosx</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <ui.test.vmargs>-Xmx1024m -XX:MaxPermSize=384m -XstartOnFirstThread</ui.test.vmargs>
+      </properties>
+    </profile>
+    <profile>
+      <id>other-os</id>
+      <activation>
+        <os>
+          <name>not-mac</name>
+          <family>!mac</family>
+        </os>
+      </activation>
+      <properties>
+        <ui.test.vmargs>-Xmx1024m -XX:MaxPermSize=384m</ui.test.vmargs>
+      </properties>
+    </profile>
+  </profiles>
+
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <testSuite>com.dubture.twig.test.testcases</testSuite>
+          <testClass>com.dubture.twig.test.testcases.AllTests</testClass>
+          <useUIHarness>true</useUIHarness>
+          <useUIThread>true</useUIThread>
+          <product>org.eclipse.sdk.ide</product>
+          <argLine>${ui.test.vmargs}</argLine>
+          <application>org.eclipse.ui.ide.workbench</application>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>com.dubture.twig.feature</artifactId>
+              <version>1.3.0</version>
+            </dependency>
+            
+            
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.pde.feature.group</artifactId>
+              <version>${platform-version}</version>
+            </dependency>           
+
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.php</artifactId>
+              <version>${platform-version}</version>
+            </dependency>
+
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.wst.xml_core.feature</artifactId>
+              <version>${platform-version}</version>
+            </dependency>
+            
+           </dependencies>           
+           
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.7.2</version>
+        <executions>
+          <execution>
+            <phase>test</phase>
+            <configuration>
+              <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
+              <includes>
+                <include>**/AllTests.java</include>
+              </includes>
+            </configuration>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <version>4.5</version>
+    </dependency>
+  </dependencies>  
 
 </project>

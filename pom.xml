@@ -3,12 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dubture.twig</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.90.qualifier</version>
+  <version>1.0.93.qualifier</version>
   <packaging>pom</packaging>
   <modules>
     <module>com.dubture.twig.core</module>
     <module>com.dubture.twig.parser</module>
     <module>com.dubture.twig.ui</module>
+    <module>com.dubture.twig.test</module>
   </modules>
 
   <properties>
@@ -19,7 +20,7 @@
    <repository>
      <id>github</id>
      <layout>p2</layout>
-     <url>http://pulse00.github.com/Twig-Eclipse-Plugin/</url>
+     <url>http://pulse00.github.com/p2/</url>
    </repository>	
    <repository>
      <id>indigo</id>
@@ -40,4 +41,3 @@
   </build>
 
 </project>
-

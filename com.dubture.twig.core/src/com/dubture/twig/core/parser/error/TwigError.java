@@ -104,10 +104,6 @@ public class TwigError extends CategorizedProblem {
 		return null;
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.dltk.compiler.problem.IProblem#setSeverity(org.eclipse.dltk.compiler.problem.ProblemSeverity)
-     */
-    @Override
     public void setSeverity(ProblemSeverity severity) {
         // TODO Auto-generated method stub
         
