@@ -5,5 +5,5 @@ Bundle-SymbolicName: com.dubture.twig.test
 Bundle-Version: 1.0.93.qualifier
 Fragment-Host: com.dubture.twig.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.jdt.junit;bundle-version="3.7.0",
- org.junit
+Require-Bundle: org.junit4,
+ org.eclipse.ui
