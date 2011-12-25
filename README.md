@@ -1,5 +1,7 @@
 #Twig Eclipse Plugin
 
+[![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
+
 The plugin is still beta.
 
 To support the development you can:
