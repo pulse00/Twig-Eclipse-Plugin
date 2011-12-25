@@ -1,2 +1,2 @@
 before_script: ./script/install_maven3.sh
-script: mvn -e install
+script: mvn install
