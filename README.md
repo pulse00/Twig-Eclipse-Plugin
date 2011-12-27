@@ -23,8 +23,6 @@ The plugin is still beta.
 * Code assist for twig keywords
 * Template support for language constructs (foreach / block / etc)
 * Autoclose twig tags
-* Code folding
-* Outline
 * "New Twig template" wizard and shortcut
 * Extension point to let other plugins provide codeassist suggestions
 
