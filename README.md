@@ -6,7 +6,13 @@
 
 The plugin is still beta.
 
-##Update Site and project URL:
+### Requirements
+
+- Eclipse >= 3.7 (aka Indigo)
+- Java >= 6
+- PHP Development Tools - Development build (available in the updatesite)
+
+### Updatesite
 
 [http://pulse00.github.com/p2/](http://pulse00.github.com/p2/)
 
