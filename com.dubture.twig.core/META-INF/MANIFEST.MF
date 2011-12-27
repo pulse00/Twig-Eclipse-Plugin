@@ -12,14 +12,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.html.core,
  org.eclipse.wst.xml.core,
  org.eclipse.wst.validation,
- org.eclipse.php.core,
+ org.eclipse.php.core;bundle-version="3.0.1",
  org.eclipse.dltk.core,
  com.dubture.twig.parser,
  org.eclipse.dltk.ui,
  org.eclipse.php.ui
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6,
- J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.builder,
  com.dubture.twig.core.codeassist,
