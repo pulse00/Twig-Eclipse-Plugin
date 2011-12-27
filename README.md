@@ -2,13 +2,13 @@
 
 [![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
 
-The plugin is still beta.
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
 
-* [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
+The plugin is still beta.
 
 ##Update Site and project URL:
 
-http://pulse00.github.com/p2/
+[http://pulse00.github.com/p2/](http://pulse00.github.com/p2/)
 
 
 ## Current features
