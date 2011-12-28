@@ -14,6 +14,7 @@ import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 
+import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
@@ -332,6 +333,7 @@ public class PreferenceConstants {
 		store.setDefault(EDITOR_NUMBER_COLOR, EDITOR_NUMBER_DEFAULT_COLOR);
 		store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR, EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR);
 		store.setDefault(EDITOR_COMMENT_COLOR, EDITOR_COMMENT_DEFAULT_COLOR);
+		store.setDefault(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, TwigCoreConstants.SYNTAX_IGNORE);
 		
 		// code assist
 		store.setDefault(AUTOCLOSE_PRINT_TAGS, true);
