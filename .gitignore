@@ -7,3 +7,4 @@ com.dubture.twig.core/Resources/parserTools/JFlex.jar
 com.dubture.twig.core/target/*
 com.dubture.twig.parser/target*
 com.dubture.twig.ui/target/*
+com.dubture.twig.antlr/bin/*
