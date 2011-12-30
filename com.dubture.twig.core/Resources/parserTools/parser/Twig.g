@@ -11,11 +11,12 @@ tokens {
 }
 
 @header {
-  package com.dubture.twig.core.ast.parser;
+  package com.dubture.twig.core.parser.ast;
 }
 @lexer::header {
-  package com.dubture.twig.core.ast.parser;  
+  package com.dubture.twig.core.parser.ast;  
 }
+
 
 template
   : twig_print*
@@ -38,7 +39,8 @@ expression
   : term
   | functionCallStatement
   ;
-  
+ 
+ 
 term 
   : IDENT
   | NUMBER 

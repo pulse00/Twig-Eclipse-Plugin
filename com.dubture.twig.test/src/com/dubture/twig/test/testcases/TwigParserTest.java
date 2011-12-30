@@ -14,15 +14,21 @@ import junit.framework.TestCase;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.eclipse.dltk.ast.ASTNode;
+import org.eclipse.dltk.ast.ASTVisitor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.dubture.twig.core.parser.TwigCommonTree;
-import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
-import com.dubture.twig.core.parser.TwigLexer;
-import com.dubture.twig.core.parser.TwigNodeVisitor;
-import com.dubture.twig.core.parser.TwigParser;
+import com.dubture.twig.core.parser.ast.TwigLexer;
+import com.dubture.twig.core.parser.ast.TwigParser;
+import com.dubture.twig.core.parser.ast.TwigParser.template_return;
+import com.dubture.twig.core.parser.ast.TwigTreeWalker;
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase {
 
@@ -41,11 +47,49 @@ public class TwigParserTest extends TestCase {
 	}
 	
 	@Test
-	public void testIsStatement() {
+	public void testNewParser() {
+
+		try {
+	//		CharStream charstream = new ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
+			CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }}");
+			TwigLexer lexer = new TwigLexer(charstream);
+			TokenStream tokenStream = new CommonTokenStream(lexer);
+			TwigParser parser = new TwigParser(tokenStream);
+			
+	
+			template_return template = parser.template();
+			System.err.println("BUILT TREE");
+			
+			CommonTree tree = (CommonTree) template.getTree();
+			
+			System.err.println(tree.toStringTree());
+			CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);		
+			TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
+			
+			TwigModuleDeclaration module = walker.module();
+						
+			try {
+				module.traverse(new ASTVisitor() {
+					
+					@Override
+					public boolean visitGeneral(ASTNode node) throws Exception {
+						System.err.println("visit");
+						return super.visitGeneral(node);
+					}
+					
+					@Override
+					public void endvisitGeneral(ASTNode node) throws Exception {
+						System.err.println("endvisit");
+						super.endvisitGeneral(node);
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
 		
-		//TODO: fix is statement
-//		assertValidTokenstream("{{ foo is bar ? 'odd' : 'even' }}");
-		
+		} catch (RecognitionException e) {
+
+		}		
 	}
 	
 	
@@ -326,26 +370,8 @@ public class TwigParserTest extends TestCase {
 	private void assertValidTokenstream(String tokens) {
 	
 		try {
-
-			CharStream content = new ANTLRStringStream(tokens);
-			TwigLexer lexer = new TwigLexer(content, reporter);
-
-			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-			parser.setErrorReporter(reporter);
-
-			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_source_return root;
-
-			root = parser.twig_source();
-			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			TwigNodeVisitor visitor = new TwigNodeVisitor();
-			
-			assertNotNull(tree);
-			
-			tree.accept(visitor);
-
-			assertFalse("Parser has no errors", reporter.hasErrors());
-
+			//TODO: implement tests with new parser
+			fail();
 
 		} catch (Exception e) {
 			e.printStackTrace();

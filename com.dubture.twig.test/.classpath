@@ -3,6 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-3.3-complete.jar"/>
+	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-3.4.jar"/>
+	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-runtime-3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
