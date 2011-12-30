@@ -8,28 +8,28 @@ import org.eclipse.dltk.ast.statements.Statement;
 
 public class PrintStatement extends Statement
 {
-	protected List<Expression> expressions;
+    protected List<Expression> expressions;
 
-	public PrintStatement(int start, int end, List<Expression> expressions)
-	{
-		this.expressions = expressions;
-	}
+    public PrintStatement(int start, int end, List<Expression> expressions)
+    {
+        this.expressions = expressions;
+    }
 
-	@Override
-	public void traverse(ASTVisitor visitor) throws Exception
-	{
-		if (visitor.visit(this)) {
+    @Override
+    public void traverse(ASTVisitor visitor) throws Exception
+    {
+        if (visitor.visit(this)) {
 
-			for (Expression exp : expressions) {
-				exp.traverse(visitor);
-			}
-			visitor.endvisit(this);
-		}
-	}
+            for (Expression exp : expressions) {
+                exp.traverse(visitor);
+            }
+            visitor.endvisit(this);
+        }
+    }
 
-	@Override
-	public int getKind()
-	{
-		return ASTNodeKinds.PRINT_STATEMENT;
-	}
+    @Override
+    public int getKind()
+    {
+        return ASTNodeKinds.PRINT_STATEMENT;
+    }
 }
