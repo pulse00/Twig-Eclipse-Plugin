@@ -33,493 +33,521 @@ import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 /**
  * 
- * {@link LineStyleProviderForTwig} adds TwigColors
- * to the colorTypes of the {@link LineStyleProviderForPhp}.
- *  
+ * {@link LineStyleProviderForTwig} adds TwigColors to the colorTypes of the
+ * {@link LineStyleProviderForPhp}.
+ * 
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings({"restriction", "unchecked"})
-public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
+public class LineStyleProviderForTwig extends LineStyleProviderForPhp
+{
 
-	private IPreferenceStore twigColorPreferences;	
-	
-	private static final Map<String, String> fTwigColorTypes = new HashMap<String, String>(); 
+    private IPreferenceStore twigColorPreferences;
 
-	static {
-		
-		fTwigColorTypes.put(TwigRegionContext.TWIG_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+    private static final Map<String, String> fTwigColorTypes = new HashMap<String, String>();
 
-		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN, PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE, PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
-		
-		fTwigColorTypes.put(TwigRegionContext.TWIG_CONTENT, PreferenceConstants.EDITOR_LABEL_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT, PreferenceConstants.EDITOR_COMMENT_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_OPEN, PreferenceConstants.EDITOR_COMMENT_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_TEXT, PreferenceConstants.EDITOR_COMMENT_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_CLOSE, PreferenceConstants.EDITOR_COMMENT_COLOR);		
-		fTwigColorTypes.put(TwigRegionContext.TWIG_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);		
-		fTwigColorTypes.put(TwigRegionContext.TWIG_KEYWORD, PreferenceConstants.EDITOR_KEYWORD_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_START, PreferenceConstants.EDITOR_JSON_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_END, PreferenceConstants.EDITOR_JSON_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_DELIMITER, PreferenceConstants.EDITOR_COMMENT_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_WHITESPACE, PreferenceConstants.EDITOR_LABEL_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_NUMBER, PreferenceConstants.EDITOR_NUMBER_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_LABEL, PreferenceConstants.EDITOR_NORMAL_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING, PreferenceConstants.EDITOR_STRING_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT, PreferenceConstants.EDITOR_STRING_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_START, PreferenceConstants.EDITOR_STRING_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_END, PreferenceConstants.EDITOR_STRING_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_BACKTICK_END, PreferenceConstants.EDITOR_LABEL_COLOR);
-		fTwigColorTypes.put(TwigRegionContext.TWIG_BACKTICK_START, PreferenceConstants.EDITOR_LABEL_COLOR);
-		
-		fColorTypes.putAll(fTwigColorTypes);
-	}	
+    static {
 
-	@Override
-	public TextAttribute getAttributeFor(ITextRegion region) {
-		
-		final String type = region.getType();
-		
-		if (type != null && type.startsWith("TWIG_")) {
-			return getAttributeFor(type);
-		}
+        fTwigColorTypes.put(TwigRegionContext.TWIG_OPEN,
+                PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_CLOSE,
+                PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
 
-		return super.getAttributeFor(region);
-	}
+        fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_OPEN,
+                PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_STMT_CLOSE,
+                PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
 
+        fTwigColorTypes.put(TwigRegionContext.TWIG_CONTENT,
+                PreferenceConstants.EDITOR_LABEL_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT,
+                PreferenceConstants.EDITOR_COMMENT_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_OPEN,
+                PreferenceConstants.EDITOR_COMMENT_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_TEXT,
+                PreferenceConstants.EDITOR_COMMENT_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_COMMENT_CLOSE,
+                PreferenceConstants.EDITOR_COMMENT_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_VARIABLE,
+                PreferenceConstants.EDITOR_VARIABLE_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_KEYWORD,
+                PreferenceConstants.EDITOR_KEYWORD_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_START,
+                PreferenceConstants.EDITOR_JSON_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_JSON_END,
+                PreferenceConstants.EDITOR_JSON_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_DELIMITER,
+                PreferenceConstants.EDITOR_COMMENT_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_WHITESPACE,
+                PreferenceConstants.EDITOR_LABEL_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_NUMBER,
+                PreferenceConstants.EDITOR_NUMBER_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_LABEL,
+                PreferenceConstants.EDITOR_NORMAL_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING,
+                PreferenceConstants.EDITOR_STRING_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_CONTENT,
+                PreferenceConstants.EDITOR_STRING_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_START,
+                PreferenceConstants.EDITOR_STRING_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_DOUBLE_QUOTES_END,
+                PreferenceConstants.EDITOR_STRING_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_BACKTICK_END,
+                PreferenceConstants.EDITOR_LABEL_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_BACKTICK_START,
+                PreferenceConstants.EDITOR_LABEL_COLOR);
 
-	@Override
-	protected TextAttribute getAttributeFor(String type) {
+        fColorTypes.putAll(fTwigColorTypes);
+    }
 
-		return super.getAttributeFor(type);
-	}
-	
-	
+    @Override
+    public TextAttribute getAttributeFor(ITextRegion region)
+    {
 
-	public boolean prepareTextRegion(ITextRegionCollection blockedRegion,
-			int partitionStartOffset, int partitionLength,
-			Collection<StyleRange> holdResults) {
+        final String type = region.getType();
 
-		boolean handled = false;
-		final int partitionEndOffset = partitionStartOffset + partitionLength
-				- 1;
-		ITextRegion region = null;
-		ITextRegionList regions = blockedRegion.getRegions();
-		int nRegions = regions.size();
-		StyleRange styleRange = null;
-		for (int i = 0; i < nRegions; i++) {
-			region = regions.get(i);
-			TextAttribute attr = null;
-			TextAttribute previousAttr = null;
-			final int startOffset = blockedRegion.getStartOffset(region);
-			if (startOffset > partitionEndOffset)
-				break;
-			if (blockedRegion.getEndOffset(region) <= partitionStartOffset)
-				continue;
+        if (type != null && type.startsWith("TWIG_")) {
+            return getAttributeFor(type);
+        }
 
-			if (region instanceof ITextRegionCollection) {
-				handled = prepareTextRegion((ITextRegionCollection) region,
-						partitionStartOffset, partitionLength, holdResults);
-			} else {
+        return super.getAttributeFor(region);
+    }
 
-				if (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT) {
-					handled = prepareTwigRegions(holdResults,
-							(ITwigScriptRegion) region, startOffset,
-							partitionStartOffset, partitionLength);
-				} else {
-					
+    @Override
+    protected TextAttribute getAttributeFor(String type)
+    {
 
-					attr = getAttributeFor(region);
-					if (attr != null) {
-						handled = true;
-						styleRange = createStyleRange(blockedRegion,
-								region, attr, partitionStartOffset,
-								partitionLength);
-						holdResults.add(styleRange);
-						// technically speaking, we don't need to update
-						// previousAttr
-						// in the other case, because the other case is when
-						// it hasn't changed
-						previousAttr = attr;
-					} else {
-						previousAttr = null;
-					}
-				}
-			}
-		}
-		return handled;
-	}
+        return super.getAttributeFor(type);
+    }
 
-	private boolean prepareTwigRegions(Collection<StyleRange> holdResults,
-			ITwigScriptRegion region, int regionStart, int partitionStartOffset,
-			int partitionLength) {
+    public boolean prepareTextRegion(ITextRegionCollection blockedRegion,
+            int partitionStartOffset, int partitionLength,
+            Collection<StyleRange> holdResults)
+    {
 
-		
+        boolean handled = false;
+        final int partitionEndOffset = partitionStartOffset + partitionLength
+                - 1;
+        ITextRegion region = null;
+        ITextRegionList regions = blockedRegion.getRegions();
+        int nRegions = regions.size();
+        StyleRange styleRange = null;
+        for (int i = 0; i < nRegions; i++) {
+            region = regions.get(i);
+            TextAttribute attr = null;
+            TextAttribute previousAttr = null;
+            final int startOffset = blockedRegion.getStartOffset(region);
+            if (startOffset > partitionEndOffset)
+                break;
+            if (blockedRegion.getEndOffset(region) <= partitionStartOffset)
+                continue;
 
-		assert (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT);
+            if (region instanceof ITextRegionCollection) {
+                handled = prepareTextRegion((ITextRegionCollection) region,
+                        partitionStartOffset, partitionLength, holdResults);
+            } else {
 
-		StyleRange styleRange = null;
-		TextAttribute attr;
-		TextAttribute previousAttr = null;
+                if (region.getType() == TwigRegionContext.TWIG_CONTENT
+                        || region.getType() == TwigRegionContext.TWIG_COMMENT) {
+                    handled = prepareTwigRegions(holdResults,
+                            (ITwigScriptRegion) region, startOffset,
+                            partitionStartOffset, partitionLength);
+                } else {
 
-		ITextRegion[] twigTokens = null;
-		try {
+                    attr = getAttributeFor(region);
+                    if (attr != null) {
+                        handled = true;
+                        styleRange = createStyleRange(blockedRegion, region,
+                                attr, partitionStartOffset, partitionLength);
+                        holdResults.add(styleRange);
+                        // technically speaking, we don't need to update
+                        // previousAttr
+                        // in the other case, because the other case is when
+                        // it hasn't changed
+                        previousAttr = attr;
+                    } else {
+                        previousAttr = null;
+                    }
+                }
+            }
+        }
+        return handled;
+    }
 
-			int from;
-			int length;
-			if (partitionStartOffset < regionStart) {
-				from = 0;
-				length = partitionLength - (regionStart - partitionStartOffset);
-			} else {
-				from = partitionStartOffset - regionStart;
-				length = partitionLength;
-			}
-			twigTokens = region.getTwigTokens(from,
-					Math.min(length, region.getLength()));
-			ITextRegion prevElement = null;
-			for (int i = 0; i < twigTokens.length; i++) {
-				
-				
-				ITextRegion element = twigTokens[i];
-				attr = getAttributeFor(element);
-				// Check that the elements are different - otherwise the
-				// coloring is not valid
-				if (prevElement == element || attr == null) {
-					continue;
-				}
-				if ((styleRange != null) && (previousAttr != null)
-						&& (previousAttr.equals(attr)) && prevElement != null
-						&& prevElement.getLength() == prevElement.getLength()) {
-					// extends the prev styleRange with the current element
-					// length
-					styleRange.length += element.getLength();
-					if (styleRange.start + styleRange.length > partitionStartOffset
-							+ partitionLength) {
-						styleRange.length -= (styleRange.start + styleRange.length)
-								- (partitionStartOffset + partitionLength);
-					}
-				} else {
-					// create new styleRange
-					int styleStart = regionStart + element.getStart();
-					int styleLength = element.getLength();
-					if (styleStart + styleLength < partitionStartOffset) { // if
-						// the
-						// range
-						// ends
-						// before
-						// the
-						// requested
-						// starting
-						// position
-						// -
-						// ignoring
-						// it
-						continue;
-					}
-					if (styleStart < partitionStartOffset) { // if the region
-						// starts before
-						// the requested
-						// starting
-						// position -
-						// adjusting the
-						// style start
-						// position
-						styleLength -= (partitionStartOffset - styleStart);
-						styleStart = partitionStartOffset;
-					}
-					if (styleStart > partitionStartOffset + partitionLength) {
-						// if the region ends after the requested end position -
-						// making it shorter
-						styleLength -= styleStart
-								- (partitionStartOffset + partitionLength);
-					}
-					if (attr.getBackground() != null
-							&& element.getTextEnd() != element.getEnd()) {// in
-						// case
-						// of
-						// background
-						// color
-						// make
-						// sure
-						// the
-						// highlighting
-						// will
-						// not
-						// paint
-						// the
-						// whitespaces
-						// applying style to the region w/o the whitespace
-						styleRange = new StyleRange(styleStart, styleLength
-								- (element.getEnd() - element.getTextEnd()),
-								attr.getForeground(), attr.getBackground(),
-								attr.getStyle());
-						if ((attr.getStyle() & TextAttribute.UNDERLINE) != 0) {
-							styleRange.underline = true;
-							styleRange.fontStyle &= ~TextAttribute.UNDERLINE;
-						}
-						if ((attr.getStyle() & TextAttribute.STRIKETHROUGH) != 0) {
-							styleRange.strikeout = true;
-							styleRange.fontStyle &= ~TextAttribute.STRIKETHROUGH;
-						}
-						holdResults.add(styleRange);
-						// applying style to the whitespace (important for the
-						// refresh of the specific range
-						styleRange = new StyleRange(regionStart
-								+ element.getTextEnd(), element.getEnd()
-								- element.getTextEnd(), attr.getForeground(),
-								null, attr.getStyle());
-						holdResults.add(styleRange);
-						previousAttr = null;
-					} else {
-						styleRange = new StyleRange(styleStart, styleLength,
-								attr.getForeground(), attr.getBackground(),
-								attr.getStyle());
-						if ((attr.getStyle() & TextAttribute.UNDERLINE) != 0) {
-							styleRange.underline = true;
-							styleRange.fontStyle &= ~TextAttribute.UNDERLINE;
-						}
-						if ((attr.getStyle() & TextAttribute.STRIKETHROUGH) != 0) {
-							styleRange.strikeout = true;
-							styleRange.fontStyle &= ~TextAttribute.STRIKETHROUGH;
-						}
-						holdResults.add(styleRange);
-						// technically speaking, we don't need to update
-						// previousAttr
-						// in the other case, because the other case is when
-						// it hasn't changed
-						previousAttr = attr;
-					}
-				}
-				prevElement = element;
-			}
-			return true;
-		} catch (BadLocationException e) {
-			Logger.logException(e);
-			return false;
-		}		
-	}
+    private boolean prepareTwigRegions(Collection<StyleRange> holdResults,
+            ITwigScriptRegion region, int regionStart,
+            int partitionStartOffset, int partitionLength)
+    {
 
+        assert (region.getType() == TwigRegionContext.TWIG_CONTENT || region
+                .getType() == TwigRegionContext.TWIG_COMMENT);
 
-	@Override
-	public boolean prepareTextRegions(
-			IStructuredDocumentRegion structuredDocumentRegion,
-			int partitionStartOffset, int partitionLength,
-			Collection<StyleRange> holdResults) {
+        StyleRange styleRange = null;
+        TextAttribute attr;
+        TextAttribute previousAttr = null;
 
+        ITextRegion[] twigTokens = null;
+        try {
 
+            int from;
+            int length;
+            if (partitionStartOffset < regionStart) {
+                from = 0;
+                length = partitionLength - (regionStart - partitionStartOffset);
+            } else {
+                from = partitionStartOffset - regionStart;
+                length = partitionLength;
+            }
+            twigTokens = region.getTwigTokens(from,
+                    Math.min(length, region.getLength()));
+            ITextRegion prevElement = null;
+            for (int i = 0; i < twigTokens.length; i++) {
 
-		boolean handled = false;
-		final int partitionEndOffset = partitionStartOffset + partitionLength
-				- 1;
-		while (structuredDocumentRegion != null
-				&& structuredDocumentRegion.getStartOffset() <= partitionEndOffset) {
-			ITextRegion region = null;
-			ITextRegionList regions = structuredDocumentRegion.getRegions();
-			int nRegions = regions.size();
-			StyleRange styleRange = null;
-			
-			for (int i = 0; i < nRegions; i++) {
-				region = regions.get(i);
-				
-				TextAttribute attr = null;
-				TextAttribute previousAttr = null;
-				final int startOffset = structuredDocumentRegion
-						.getStartOffset(region);
-				
-				if (startOffset > partitionEndOffset)
-					break;
-				if (structuredDocumentRegion.getEndOffset(region) <= partitionStartOffset)
-					continue;
+                ITextRegion element = twigTokens[i];
+                attr = getAttributeFor(element);
+                // Check that the elements are different - otherwise the
+                // coloring is not valid
+                if (prevElement == element || attr == null) {
+                    continue;
+                }
+                if ((styleRange != null) && (previousAttr != null)
+                        && (previousAttr.equals(attr)) && prevElement != null
+                        && prevElement.getLength() == prevElement.getLength()) {
+                    // extends the prev styleRange with the current element
+                    // length
+                    styleRange.length += element.getLength();
+                    if (styleRange.start + styleRange.length > partitionStartOffset
+                            + partitionLength) {
+                        styleRange.length -= (styleRange.start + styleRange.length)
+                                - (partitionStartOffset + partitionLength);
+                    }
+                } else {
+                    // create new styleRange
+                    int styleStart = regionStart + element.getStart();
+                    int styleLength = element.getLength();
+                    if (styleStart + styleLength < partitionStartOffset) { // if
+                        // the
+                        // range
+                        // ends
+                        // before
+                        // the
+                        // requested
+                        // starting
+                        // position
+                        // -
+                        // ignoring
+                        // it
+                        continue;
+                    }
+                    if (styleStart < partitionStartOffset) { // if the region
+                        // starts before
+                        // the requested
+                        // starting
+                        // position -
+                        // adjusting the
+                        // style start
+                        // position
+                        styleLength -= (partitionStartOffset - styleStart);
+                        styleStart = partitionStartOffset;
+                    }
+                    if (styleStart > partitionStartOffset + partitionLength) {
+                        // if the region ends after the requested end position -
+                        // making it shorter
+                        styleLength -= styleStart
+                                - (partitionStartOffset + partitionLength);
+                    }
+                    if (attr.getBackground() != null
+                            && element.getTextEnd() != element.getEnd()) {// in
+                        // case
+                        // of
+                        // background
+                        // color
+                        // make
+                        // sure
+                        // the
+                        // highlighting
+                        // will
+                        // not
+                        // paint
+                        // the
+                        // whitespaces
+                        // applying style to the region w/o the whitespace
+                        styleRange = new StyleRange(styleStart, styleLength
+                                - (element.getEnd() - element.getTextEnd()),
+                                attr.getForeground(), attr.getBackground(),
+                                attr.getStyle());
+                        if ((attr.getStyle() & TextAttribute.UNDERLINE) != 0) {
+                            styleRange.underline = true;
+                            styleRange.fontStyle &= ~TextAttribute.UNDERLINE;
+                        }
+                        if ((attr.getStyle() & TextAttribute.STRIKETHROUGH) != 0) {
+                            styleRange.strikeout = true;
+                            styleRange.fontStyle &= ~TextAttribute.STRIKETHROUGH;
+                        }
+                        holdResults.add(styleRange);
+                        // applying style to the whitespace (important for the
+                        // refresh of the specific range
+                        styleRange = new StyleRange(regionStart
+                                + element.getTextEnd(), element.getEnd()
+                                - element.getTextEnd(), attr.getForeground(),
+                                null, attr.getStyle());
+                        holdResults.add(styleRange);
+                        previousAttr = null;
+                    } else {
+                        styleRange = new StyleRange(styleStart, styleLength,
+                                attr.getForeground(), attr.getBackground(),
+                                attr.getStyle());
+                        if ((attr.getStyle() & TextAttribute.UNDERLINE) != 0) {
+                            styleRange.underline = true;
+                            styleRange.fontStyle &= ~TextAttribute.UNDERLINE;
+                        }
+                        if ((attr.getStyle() & TextAttribute.STRIKETHROUGH) != 0) {
+                            styleRange.strikeout = true;
+                            styleRange.fontStyle &= ~TextAttribute.STRIKETHROUGH;
+                        }
+                        holdResults.add(styleRange);
+                        // technically speaking, we don't need to update
+                        // previousAttr
+                        // in the other case, because the other case is when
+                        // it hasn't changed
+                        previousAttr = attr;
+                    }
+                }
+                prevElement = element;
+            }
+            return true;
+        } catch (BadLocationException e) {
+            Logger.logException(e);
+            return false;
+        }
+    }
 
-				if (region instanceof ITextRegionCollection) {
-					handled = prepareTextRegion((ITextRegionCollection) region,
-							partitionStartOffset, partitionLength, holdResults);
-				} else {
+    @Override
+    public boolean prepareTextRegions(
+            IStructuredDocumentRegion structuredDocumentRegion,
+            int partitionStartOffset, int partitionLength,
+            Collection<StyleRange> holdResults)
+    {
 
-					
-					if (region.getType() == TwigRegionContext.TWIG_CONTENT || region.getType() == TwigRegionContext.TWIG_COMMENT) {
-						handled = prepareTwigRegions(holdResults,
-								(ITwigScriptRegion) region, startOffset,
-								partitionStartOffset, partitionLength);
-					} else {
+        boolean handled = false;
+        final int partitionEndOffset = partitionStartOffset + partitionLength
+                - 1;
+        while (structuredDocumentRegion != null
+                && structuredDocumentRegion.getStartOffset() <= partitionEndOffset) {
+            ITextRegion region = null;
+            ITextRegionList regions = structuredDocumentRegion.getRegions();
+            int nRegions = regions.size();
+            StyleRange styleRange = null;
 
-						attr = getAttributeFor(region);
-						if (attr != null) {
-							handled = true;
-							styleRange = createStyleRange(
-									structuredDocumentRegion, region, attr,
-									partitionStartOffset, partitionLength);
-							holdResults.add(styleRange);
-							// technically speaking, we don't need to update
-							// previousAttr
-							// in the other case, because the other case is
-							// when it hasn't changed
-							previousAttr = attr;
-						} else {
-							previousAttr = null;
-						}
-					}
-				}
-			}
-			structuredDocumentRegion = structuredDocumentRegion.getNext();
-		}
-		return handled;		
-	}
-	
-	public Map<String, String> getTwigColorTypesMap() {
-		
-		return fTwigColorTypes;
-	}
-	
-	protected void handlePropertyChange(PropertyChangeEvent event) {
+            for (int i = 0; i < nRegions; i++) {
+                region = regions.get(i);
 
-		if (event != null) {
-			String prefKey = event.getProperty();
-			if (PreferenceConstants.EDITOR_NORMAL_COLOR.equals(prefKey)
-					|| PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR
-							.equals(prefKey)
-					|| PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR
-							.equals(prefKey)							
-					|| PreferenceConstants.EDITOR_VARIABLE_COLOR
-							.equals(prefKey)
-					|| PreferenceConstants.EDITOR_STRING_COLOR.equals(prefKey)
-					|| PreferenceConstants.EDITOR_COMMENT_COLOR.equals(prefKey)
-					|| PreferenceConstants.EDITOR_PHPDOC_COLOR.equals(prefKey)
-					|| PreferenceConstants.EDITOR_NUMBER_COLOR.equals(prefKey)
-					|| PreferenceConstants.EDITOR_TASK_COLOR.equals(prefKey)) {
-				addTextAttribute(prefKey);
-			} else if (PreferenceConstants.getEnabledPreferenceKey(
-					PreferenceConstants.EDITOR_NORMAL_COLOR).equals(prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR)
-							.equals(prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR)
-							.equals(prefKey)							
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_VARIABLE_COLOR).equals(
-							prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_STRING_COLOR).equals(
-							prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_COMMENT_COLOR).equals(
-							prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_PHPDOC_COLOR).equals(
-							prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_NUMBER_COLOR).equals(
-							prefKey)
-					|| PreferenceConstants.getEnabledPreferenceKey(
-							PreferenceConstants.EDITOR_TASK_COLOR).equals(
-							prefKey)) {
-				boolean enabled = getColorPreferences().getBoolean(prefKey);
-				prefKey = prefKey.split("\\.")[1];
-				if (enabled) {
-					addTextAttribute(prefKey);
-				} else {
-					addDefaultTextAttribute(prefKey);
-				}
-			}
-		} else {
-			loadColors();
-		}
+                TextAttribute attr = null;
+                TextAttribute previousAttr = null;
+                final int startOffset = structuredDocumentRegion
+                        .getStartOffset(region);
 
-		if (fRecHighlighter != null) {
-			fRecHighlighter.refreshDisplay();
-		}
-	}	
-	
-	public void loadColors() {
-		
-		
-		addTextAttribute(PreferenceConstants.EDITOR_NORMAL_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_KEYWORD_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_COMMENT_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_JSON_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_NUMBER_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_HEREDOC_COLOR);
-		addTextAttribute(PreferenceConstants.EDITOR_TASK_COLOR);
-	}
+                if (startOffset > partitionEndOffset)
+                    break;
+                if (structuredDocumentRegion.getEndOffset(region) <= partitionStartOffset)
+                    continue;
 
-	protected void clearColors() {
-		getTextAttributes().clear();
-	}
-	
-	protected void addTextAttribute(String colorKey) {
-		if (getColorPreferences() != null) {
-			String prefString = getColorPreferences().getString(colorKey);
-			String[] stylePrefs = ColorHelper
-					.unpackStylePreferences(prefString);
-			if (stylePrefs != null) {
-				getTextAttributes().put(colorKey,
-						createTextAttribute(stylePrefs));
-			}
-		}
-	}
+                if (region instanceof ITextRegionCollection) {
+                    handled = prepareTextRegion((ITextRegionCollection) region,
+                            partitionStartOffset, partitionLength, holdResults);
+                } else {
 
-	protected void addDefaultTextAttribute(String colorKey) {
-		if (getColorPreferences() != null) {
-			String prefString = PreferenceConstants.EDITOR_NORMAL_DEFAULT_COLOR;
-			getColorPreferences().setValue(colorKey, prefString);
-			String[] stylePrefs = ColorHelper
-					.unpackStylePreferences(prefString);
-			if (stylePrefs != null) {
-				getTextAttributes().put(colorKey,
-						createTextAttribute(stylePrefs));
-			}
-		}
-	}
+                    if (region.getType() == TwigRegionContext.TWIG_CONTENT
+                            || region.getType() == TwigRegionContext.TWIG_COMMENT) {
+                        handled = prepareTwigRegions(holdResults,
+                                (ITwigScriptRegion) region, startOffset,
+                                partitionStartOffset, partitionLength);
+                    } else {
 
-	/*
-	 * Creates TextAttribute from the given style description array string
-	 */
-	protected TextAttribute createTextAttribute(String[] stylePrefs) {
-		int fontModifier = SWT.NORMAL;
-		if (Boolean.valueOf(stylePrefs[2]).booleanValue()) { // bold
-			fontModifier |= SWT.BOLD;
-		}
-		if (Boolean.valueOf(stylePrefs[3]).booleanValue()) { // italic
-			fontModifier |= SWT.ITALIC;
-		}
-		if (Boolean.valueOf(stylePrefs[4]).booleanValue()) { // strikethrough
-			fontModifier |= TextAttribute.STRIKETHROUGH;
-		}
-		if (Boolean.valueOf(stylePrefs[5]).booleanValue()) { // underline
-			fontModifier |= TextAttribute.UNDERLINE;
-		}
-		return new TextAttribute(EditorUtility.getColor(ColorHelper
-				.toRGB(stylePrefs[0])), EditorUtility.getColor(ColorHelper
-				.toRGB(stylePrefs[1])), fontModifier);
-	}
+                        attr = getAttributeFor(region);
+                        if (attr != null) {
+                            handled = true;
+                            styleRange = createStyleRange(
+                                    structuredDocumentRegion, region, attr,
+                                    partitionStartOffset, partitionLength);
+                            holdResults.add(styleRange);
+                            // technically speaking, we don't need to update
+                            // previousAttr
+                            // in the other case, because the other case is
+                            // when it hasn't changed
+                            previousAttr = attr;
+                        } else {
+                            previousAttr = null;
+                        }
+                    }
+                }
+            }
+            structuredDocumentRegion = structuredDocumentRegion.getNext();
+        }
+        return handled;
+    }
 
-	public TextAttribute getTextAttributeForColor(String colorKey) {
-		return (TextAttribute) getTextAttributes().get(colorKey);
-	}
-	
-	public void setColorPreferences(IPreferenceStore preferenceStore) {
-		twigColorPreferences = preferenceStore;
-	}
+    public Map<String, String> getTwigColorTypesMap()
+    {
 
-	public IPreferenceStore getColorPreferences() {
-		if (twigColorPreferences != null) {
-			return twigColorPreferences;
-		}
-		return PreferenceConstants.getPreferenceStore();
-	}
-	
-	
-	
+        return fTwigColorTypes;
+    }
+
+    protected void handlePropertyChange(PropertyChangeEvent event)
+    {
+
+        if (event != null) {
+            String prefKey = event.getProperty();
+            if (PreferenceConstants.EDITOR_NORMAL_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR
+                            .equals(prefKey)
+                    || PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR
+                            .equals(prefKey)
+                    || PreferenceConstants.EDITOR_VARIABLE_COLOR
+                            .equals(prefKey)
+                    || PreferenceConstants.EDITOR_STRING_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_COMMENT_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_PHPDOC_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_NUMBER_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_TASK_COLOR.equals(prefKey)) {
+                addTextAttribute(prefKey);
+            } else if (PreferenceConstants.getEnabledPreferenceKey(
+                    PreferenceConstants.EDITOR_NORMAL_COLOR).equals(prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR)
+                            .equals(prefKey)
+                    || PreferenceConstants
+                            .getEnabledPreferenceKey(
+                                    PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR)
+                            .equals(prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_VARIABLE_COLOR).equals(
+                            prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_STRING_COLOR).equals(
+                            prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_COMMENT_COLOR).equals(
+                            prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_PHPDOC_COLOR).equals(
+                            prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_NUMBER_COLOR).equals(
+                            prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_TASK_COLOR).equals(
+                            prefKey)) {
+                boolean enabled = getColorPreferences().getBoolean(prefKey);
+                prefKey = prefKey.split("\\.")[1];
+                if (enabled) {
+                    addTextAttribute(prefKey);
+                } else {
+                    addDefaultTextAttribute(prefKey);
+                }
+            }
+        } else {
+            loadColors();
+        }
+
+        if (fRecHighlighter != null) {
+            fRecHighlighter.refreshDisplay();
+        }
+    }
+
+    public void loadColors()
+    {
+
+        addTextAttribute(PreferenceConstants.EDITOR_NORMAL_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_KEYWORD_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_COMMENT_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_JSON_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_NUMBER_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_HEREDOC_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_TASK_COLOR);
+    }
+
+    protected void clearColors()
+    {
+        getTextAttributes().clear();
+    }
+
+    protected void addTextAttribute(String colorKey)
+    {
+        if (getColorPreferences() != null) {
+            String prefString = getColorPreferences().getString(colorKey);
+            String[] stylePrefs = ColorHelper
+                    .unpackStylePreferences(prefString);
+            if (stylePrefs != null) {
+                getTextAttributes().put(colorKey,
+                        createTextAttribute(stylePrefs));
+            }
+        }
+    }
+
+    protected void addDefaultTextAttribute(String colorKey)
+    {
+        if (getColorPreferences() != null) {
+            String prefString = PreferenceConstants.EDITOR_NORMAL_DEFAULT_COLOR;
+            getColorPreferences().setValue(colorKey, prefString);
+            String[] stylePrefs = ColorHelper
+                    .unpackStylePreferences(prefString);
+            if (stylePrefs != null) {
+                getTextAttributes().put(colorKey,
+                        createTextAttribute(stylePrefs));
+            }
+        }
+    }
+
+    /*
+     * Creates TextAttribute from the given style description array string
+     */
+    protected TextAttribute createTextAttribute(String[] stylePrefs)
+    {
+        int fontModifier = SWT.NORMAL;
+        if (Boolean.valueOf(stylePrefs[2]).booleanValue()) { // bold
+            fontModifier |= SWT.BOLD;
+        }
+        if (Boolean.valueOf(stylePrefs[3]).booleanValue()) { // italic
+            fontModifier |= SWT.ITALIC;
+        }
+        if (Boolean.valueOf(stylePrefs[4]).booleanValue()) { // strikethrough
+            fontModifier |= TextAttribute.STRIKETHROUGH;
+        }
+        if (Boolean.valueOf(stylePrefs[5]).booleanValue()) { // underline
+            fontModifier |= TextAttribute.UNDERLINE;
+        }
+        return new TextAttribute(EditorUtility.getColor(ColorHelper
+                .toRGB(stylePrefs[0])), EditorUtility.getColor(ColorHelper
+                .toRGB(stylePrefs[1])), fontModifier);
+    }
+
+    public TextAttribute getTextAttributeForColor(String colorKey)
+    {
+        return (TextAttribute) getTextAttributes().get(colorKey);
+    }
+
+    public void setColorPreferences(IPreferenceStore preferenceStore)
+    {
+        twigColorPreferences = preferenceStore;
+    }
+
+    public IPreferenceStore getColorPreferences()
+    {
+        if (twigColorPreferences != null) {
+            return twigColorPreferences;
+        }
+        return PreferenceConstants.getPreferenceStore();
+    }
+
 }

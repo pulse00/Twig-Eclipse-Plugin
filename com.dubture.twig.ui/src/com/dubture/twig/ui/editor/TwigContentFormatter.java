@@ -16,57 +16,58 @@ import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import com.dubture.twig.core.format.TwigFormatProcessorImpl;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
-public class TwigContentFormatter implements IContentFormatter {
+public class TwigContentFormatter implements IContentFormatter
+{
 
-	@Override
-	public void format(IDocument document, IRegion region) {
+    @Override
+    public void format(IDocument document, IRegion region)
+    {
 
-		IFile file = TwigUICorePlugin.getDefault().getFile(document);
-		IProject project = null;
-		if (file != null) {
-			project = file.getProject();
-		}
-		
-		if (isFormatFile()) {
-			MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
-					IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
-					IHTMLPartitions.HTML_DEFAULT);
-			pdtFormatter
-					.setMasterStrategy(new StructuredFormattingStrategy(
-							new HTMLFormatProcessorImpl()));
-			pdtFormatter.format(document, region);
-		} else {
-			StructuredTextMultiPassContentFormatter pdtFormatter = new StructuredTextMultiPassContentFormatter(
-					IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
-					IHTMLPartitions.HTML_DEFAULT);
-			pdtFormatter
-					.setMasterStrategy(new StructuredFormattingStrategy(
-							new TwigFormatProcessorImpl()));
-			pdtFormatter.format(document, region);
-//			pdtFormatter.format(document, region);
-		}
+        IFile file = TwigUICorePlugin.getDefault().getFile(document);
+        IProject project = null;
+        if (file != null) {
+            project = file.getProject();
+        }
 
-	}
+        if (isFormatFile()) {
+            MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
+                    IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
+                    IHTMLPartitions.HTML_DEFAULT);
+            pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(
+                    new HTMLFormatProcessorImpl()));
+            pdtFormatter.format(document, region);
+        } else {
+            StructuredTextMultiPassContentFormatter pdtFormatter = new StructuredTextMultiPassContentFormatter(
+                    IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
+                    IHTMLPartitions.HTML_DEFAULT);
+            pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(
+                    new TwigFormatProcessorImpl()));
+            pdtFormatter.format(document, region);
+            // pdtFormatter.format(document, region);
+        }
 
-	@Override
-	public IFormattingStrategy getFormattingStrategy(String contentType) {
-		// TODO Auto-generated method stub
-		return null;
-	
-	
-	}
-	
-	private boolean isFormatFile() {
-		StackTraceElement[] stackTraces = new Exception().getStackTrace();
-		for (StackTraceElement stackTrace : stackTraces) {
-			if (stackTrace.getClassName().equals(
-					PHPFormatProcessorProxy.class.getName())) {
-				if (stackTrace.getMethodName().equals("formatFile")) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}	
+    }
+
+    @Override
+    public IFormattingStrategy getFormattingStrategy(String contentType)
+    {
+        // TODO Auto-generated method stub
+        return null;
+
+    }
+
+    private boolean isFormatFile()
+    {
+        StackTraceElement[] stackTraces = new Exception().getStackTrace();
+        for (StackTraceElement stackTrace : stackTraces) {
+            if (stackTrace.getClassName().equals(
+                    PHPFormatProcessorProxy.class.getName())) {
+                if (stackTrace.getMethodName().equals("formatFile")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }

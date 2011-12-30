@@ -23,82 +23,84 @@ import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
-public class SurroundWithAction extends Action implements ISelectionChangedListener {
+public class SurroundWithAction extends Action implements
+        ISelectionChangedListener
+{
 
-	private TwigStructuredEditor fEditor;
-	private IWorkbenchSite fSite;
-	
-	private ISelectionProvider fSpecialSelectionProvider;
+    private TwigStructuredEditor fEditor;
+    private IWorkbenchSite fSite;
 
-	protected SurroundWithAction(IWorkbenchSite site) {
-		
-		setText("Surround with..."); 
-		fSite = site;		
+    private ISelectionProvider fSpecialSelectionProvider;
 
-	}
-	
-	public SurroundWithAction(TwigStructuredEditor editor) {
+    protected SurroundWithAction(IWorkbenchSite site)
+    {
 
-		this(editor.getEditorSite());
-		
-		fEditor= editor;		
-		
-		
-		
-	}
+        setText("Surround with...");
+        fSite = site;
 
+    }
 
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+    public SurroundWithAction(TwigStructuredEditor editor)
+    {
 
-		
-		
-	}
-	
-	@Override
-	public void run() {
-		
-		ISelection selection = getSelection();
-		
-		if (selection instanceof ITextSelection) {
-			
-			ITextSelection sel = (ITextSelection) selection;
-						
-			try {
-				
-				String[] lines = sel.getText().split("\n");
-				String newText = "{% for item in items %}\n"; 
-				for (String line : lines) {
-					newText += "\t" + line + "\n";					
-				}
+        this(editor.getEditorSite());
 
-				newText += "{% endfor %}\n";
-				fEditor.getDocument().replace(sel.getOffset(), sel.getLength(), newText);
-				
-			} catch (BadLocationException e) {
+        fEditor = editor;
 
-				Logger.logException(e);
+    }
 
-			}			
-		}
-	}
-	
-	public ISelection getSelection() {
-		ISelectionProvider selectionProvider= getSelectionProvider();
-		if (selectionProvider != null)
-			return selectionProvider.getSelection();
-		else
-			return null;
-	}
-	
-	
-	public ISelectionProvider getSelectionProvider() {
-		
-		if (fSpecialSelectionProvider != null) {
-			return fSpecialSelectionProvider;
-		}
-		return fSite.getSelectionProvider();
-	}
-	
+    @Override
+    public void selectionChanged(SelectionChangedEvent event)
+    {
+
+    }
+
+    @Override
+    public void run()
+    {
+
+        ISelection selection = getSelection();
+
+        if (selection instanceof ITextSelection) {
+
+            ITextSelection sel = (ITextSelection) selection;
+
+            try {
+
+                String[] lines = sel.getText().split("\n");
+                String newText = "{% for item in items %}\n";
+                for (String line : lines) {
+                    newText += "\t" + line + "\n";
+                }
+
+                newText += "{% endfor %}\n";
+                fEditor.getDocument().replace(sel.getOffset(), sel.getLength(),
+                        newText);
+
+            } catch (BadLocationException e) {
+
+                Logger.logException(e);
+
+            }
+        }
+    }
+
+    public ISelection getSelection()
+    {
+        ISelectionProvider selectionProvider = getSelectionProvider();
+        if (selectionProvider != null)
+            return selectionProvider.getSelection();
+        else
+            return null;
+    }
+
+    public ISelectionProvider getSelectionProvider()
+    {
+
+        if (fSpecialSelectionProvider != null) {
+            return fSpecialSelectionProvider;
+        }
+        return fSite.getSelectionProvider();
+    }
 
 }

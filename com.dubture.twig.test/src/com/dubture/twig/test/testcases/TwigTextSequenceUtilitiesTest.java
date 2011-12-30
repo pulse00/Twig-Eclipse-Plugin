@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
-
 import junit.framework.TestCase;
 
 import org.eclipse.php.internal.core.util.text.TextSequence;
@@ -24,113 +23,120 @@ import org.junit.Test;
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
-
 /**
  * 
- * Tests for the {@link TwigTextSequenceUtilities} 
+ * Tests for the {@link TwigTextSequenceUtilities}
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class TwigTextSequenceUtilitiesTest extends TestCase {
+public class TwigTextSequenceUtilitiesTest extends TestCase
+{
 
-	@Before
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+    @Before
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+    }
 
-	@After
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
-	
-	@Test
-	public void testStatement() {
+    @After
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+    }
 
-		try {
-			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
+    @Test
+    public void testStatement()
+    {
 
-			IStructuredDocument  fDoc = model.getStructuredDocument();
-			String fText = "{% for item in items %}";
-			fDoc.set(fText);			
-			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
-			
-//			assertEquals(1, regions.length);
-//			int offset = 8;
-//
-//			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
-//			assertEquals("for i", statement.toString());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
+        try {
+            IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 
-		}
-	}
-	
+            IStructuredDocument fDoc = model.getStructuredDocument();
+            String fText = "{% for item in items %}";
+            fDoc.set(fText);
+            IStructuredDocumentRegion[] regions = fDoc
+                    .getStructuredDocumentRegions();
 
-	@Test
-	public void testPrint() {
+            // assertEquals(1, regions.length);
+            // int offset = 8;
+            //
+            // TextSequence statement =
+            // TwigTextSequenceUtilities.getStatement(offset, regions[0],
+            // false);
+            // assertEquals("for i", statement.toString());
 
-		try {
-			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
 
-			IStructuredDocument  fDoc = model.getStructuredDocument();
-			String fText = "{{ item.href }}";
-			fDoc.set(fText);			
-			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
-			
-			assertEquals(1, regions.length);
-			int offset = 8;
-			
-			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
-//			assertNotNull(statement);
-//			assertEquals("item.", statement.toString());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
+        }
+    }
 
-		}
-	}
-	
-	
-	@Test
-	public void testSinglePrint() {
-		
-		
-		
-		try {
-			IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);	
+    @Test
+    public void testPrint()
+    {
 
-			IStructuredDocument  fDoc = model.getStructuredDocument();
-			String fText = "{{ endblock }}";
-			fDoc.set(fText);			
-			IStructuredDocumentRegion[] regions = fDoc.getStructuredDocumentRegions();
-			
-			assertEquals(1, regions.length);
-			int offset = 5;
+        try {
+            IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 
-//			TextSequence statement = TwigTextSequenceUtilities.getStatement(offset, regions[0], false);
-//			assertEquals("en", statement.toString());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
+            IStructuredDocument fDoc = model.getStructuredDocument();
+            String fText = "{{ item.href }}";
+            fDoc.set(fText);
+            IStructuredDocumentRegion[] regions = fDoc
+                    .getStructuredDocumentRegions();
 
-		}
-		
-		
-	}
-	
+            assertEquals(1, regions.length);
+            int offset = 8;
 
-	private IStructuredModel createModel(String contentTypeID) {
+            TextSequence statement = TwigTextSequenceUtilities.getStatement(
+                    offset, regions[0], false);
+            // assertNotNull(statement);
+            // assertEquals("item.", statement.toString());
 
-		IModelManager manager = StructuredModelManager.getModelManager();
-		return manager.createUnManagedStructuredModelFor(contentTypeID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
 
-	}
+        }
+    }
+
+    @Test
+    public void testSinglePrint()
+    {
+
+        try {
+            IStructuredModel model = createModel(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
+
+            IStructuredDocument fDoc = model.getStructuredDocument();
+            String fText = "{{ endblock }}";
+            fDoc.set(fText);
+            IStructuredDocumentRegion[] regions = fDoc
+                    .getStructuredDocumentRegions();
+
+            assertEquals(1, regions.length);
+            int offset = 5;
+
+            // TextSequence statement =
+            // TwigTextSequenceUtilities.getStatement(offset, regions[0],
+            // false);
+            // assertEquals("en", statement.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+
+        }
+
+    }
+
+    private IStructuredModel createModel(String contentTypeID)
+    {
+
+        IModelManager manager = StructuredModelManager.getModelManager();
+        return manager.createUnManagedStructuredModelFor(contentTypeID);
+
+    }
 }

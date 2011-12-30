@@ -16,34 +16,37 @@ import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
 
 import com.dubture.twig.ui.TwigUICorePlugin;
 
-
 /**
  * 
- * {@link TwigTemplatePreferencePage} contributes a preference page
- * for twig code assist templates.
+ * {@link TwigTemplatePreferencePage} contributes a preference page for twig
+ * code assist templates.
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class TwigTemplatePreferencePage extends TemplatePreferencePage {
+public class TwigTemplatePreferencePage extends TemplatePreferencePage
+{
 
-	public TwigTemplatePreferencePage() {
-		
-		TwigUICorePlugin plugin = TwigUICorePlugin.getDefault();
-		
-		setPreferenceStore(plugin.getPreferenceStore());
-		setTemplateStore(plugin.getTemplateStore());
-		setContextTypeRegistry(plugin.getTemplateContextRegistry());
+    public TwigTemplatePreferencePage()
+    {
 
-	}
+        TwigUICorePlugin plugin = TwigUICorePlugin.getDefault();
 
+        setPreferenceStore(plugin.getPreferenceStore());
+        setTemplateStore(plugin.getTemplateStore());
+        setContextTypeRegistry(plugin.getTemplateContextRegistry());
 
-	public void performHelp() {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
-		getControl().notifyListeners(SWT.Help, new Event());
-    }	
+    }
 
+    public void performHelp()
+    {
+        PlatformUI
+                .getWorkbench()
+                .getHelpSystem()
+                .setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
+        getControl().notifyListeners(SWT.Help, new Event());
+    }
 
 }

@@ -22,30 +22,33 @@ import com.dubture.twig.ui.utils.HTMLUtils;
  * 
  * 
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
+ * 
  */
-public class TagProposalInfo extends MemberProposalInfo {
+public class TagProposalInfo extends MemberProposalInfo
+{
 
-	public TagProposalInfo(IScriptProject project, CompletionProposal proposal) {
-		super(project, proposal);
+    public TagProposalInfo(IScriptProject project, CompletionProposal proposal)
+    {
+        super(project, proposal);
 
-	}
-	
-	@Override
-	public String getInfo(IProgressMonitor monitor) {
- 
-		try {
-			
-			Tag tag = (Tag) getModelElement();
-			
-			if (tag != null) {
-				return HTMLUtils.tag2Html(tag);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "";
-	}			
+    }
+
+    @Override
+    public String getInfo(IProgressMonitor monitor)
+    {
+
+        try {
+
+            Tag tag = (Tag) getModelElement();
+
+            if (tag != null) {
+                return HTMLUtils.tag2Html(tag);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 }

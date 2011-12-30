@@ -23,37 +23,37 @@ import com.dubture.twig.ui.utils.HTMLUtils;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class FilterProposalInfo extends MemberProposalInfo {
+public class FilterProposalInfo extends MemberProposalInfo
+{
 
-	public FilterProposalInfo(IScriptProject project,
-			CompletionProposal proposal) {
-		super(project, proposal);
+    public FilterProposalInfo(IScriptProject project,
+            CompletionProposal proposal)
+    {
+        super(project, proposal);
 
-	}
-	
-	
-	@Override
-	public String getInfo(IProgressMonitor monitor) {
- 
-		try {
-			
-			Filter filter = (Filter) getModelElement();
-			
-			if (filter != null) {				
-				return HTMLUtils.filter2Html(filter);
-			}
-			
-			return "";
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-			
-		}
-	}				
+    }
 
+    @Override
+    public String getInfo(IProgressMonitor monitor)
+    {
+
+        try {
+
+            Filter filter = (Filter) getModelElement();
+
+            if (filter != null) {
+                return HTMLUtils.filter2Html(filter);
+            }
+
+            return "";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+
+        }
+    }
 
 }

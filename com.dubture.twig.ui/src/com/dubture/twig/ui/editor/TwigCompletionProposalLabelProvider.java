@@ -19,41 +19,40 @@ import com.dubture.twig.core.model.Tag;
 import com.dubture.twig.core.model.Test;
 import com.dubture.twig.ui.TwigPluginImages;
 
-
 /**
  * 
  * 
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
 public class TwigCompletionProposalLabelProvider extends
-		PHPCompletionProposalLabelProvider {
+        PHPCompletionProposalLabelProvider
+{
 
-	
-	@Override
-	public ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal) {
+    @Override
+    public ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal)
+    {
 
-		IModelElement element = proposal.getModelElement();
-		
-		
-		if (element.getClass() == Tag.class) {
-			
-			return TwigPluginImages.DESC_OBJS_TAG;
+        IModelElement element = proposal.getModelElement();
 
-		} else if (element.getClass() == Filter.class) {
-			
-			return TwigPluginImages.DESC_OBJS_FILTER;
-		} else if (element.getClass() == Function.class) {
-			
-			return TwigPluginImages.DESC_OBJS_FUNCTION;
-		} else if (element.getClass() == Test.class) {
-			
-			return TwigPluginImages.DESC_OBJS_TEST;
-		}
-		
-		return super.createTypeImageDescriptor(proposal);
-	}
+        if (element.getClass() == Tag.class) {
+
+            return TwigPluginImages.DESC_OBJS_TAG;
+
+        } else if (element.getClass() == Filter.class) {
+
+            return TwigPluginImages.DESC_OBJS_FILTER;
+        } else if (element.getClass() == Function.class) {
+
+            return TwigPluginImages.DESC_OBJS_FUNCTION;
+        } else if (element.getClass() == Test.class) {
+
+            return TwigPluginImages.DESC_OBJS_TEST;
+        }
+
+        return super.createTypeImageDescriptor(proposal);
+    }
 }

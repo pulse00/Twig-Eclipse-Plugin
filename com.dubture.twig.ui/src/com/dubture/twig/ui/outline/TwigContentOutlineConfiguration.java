@@ -54,384 +54,400 @@ import org.eclipse.wst.xml.ui.internal.contentoutline.XMLNodeActionManager;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
 public class TwigContentOutlineConfiguration extends
-		HTMLContentOutlineConfiguration {
+        HTMLContentOutlineConfiguration
+{
 
-	public static final int MODE_TWIG = 1;
-	public static final int MODE_HTML = 2;
+    public static final int MODE_TWIG = 1;
+    public static final int MODE_HTML = 2;
 
-	protected TwigOutlineContentProvider fContentProvider = null;
-	protected JFaceNodeContentProvider fContentProviderHTML = null;
-	protected ILabelProvider fLabelProvider = null;
-	protected TwigOutlineLabelProvider fLabelProviderHTML = null;
-	private IPropertyChangeListener propertyChangeListener;
-	private ChangeOutlineModeAction changeOutlineModeActionTwig;
-	private ChangeOutlineModeAction changeOutlineModeActionHTML;
-	static Object[] NO_CHILDREN = new Object[0];
-	private SortAction sortAction;
-	private ScriptUILabelProvider fSimpleLabelProvider;
-	// private ShowGroupsAction fShowGroupsAction;
-	private boolean fShowAttributes = false;
-	protected IPreferenceStore fStore = DLTKUIPlugin.getDefault()
-			.getPreferenceStore();
-	
-	
-	//private CustomFiltersActionGroup fCustomFiltersActionGroup;
+    protected TwigOutlineContentProvider fContentProvider = null;
+    protected JFaceNodeContentProvider fContentProviderHTML = null;
+    protected ILabelProvider fLabelProvider = null;
+    protected TwigOutlineLabelProvider fLabelProviderHTML = null;
+    private IPropertyChangeListener propertyChangeListener;
+    private ChangeOutlineModeAction changeOutlineModeActionTwig;
+    private ChangeOutlineModeAction changeOutlineModeActionHTML;
+    static Object[] NO_CHILDREN = new Object[0];
+    private SortAction sortAction;
+    private ScriptUILabelProvider fSimpleLabelProvider;
+    // private ShowGroupsAction fShowGroupsAction;
+    private boolean fShowAttributes = false;
+    protected IPreferenceStore fStore = DLTKUIPlugin.getDefault()
+            .getPreferenceStore();
 
-	/** See {@link #MODE_TWIG}, {@link #MODE_HTML} */
-	private int mode;
+    // private CustomFiltersActionGroup fCustomFiltersActionGroup;
 
-	public TwigContentOutlineConfiguration() {
-		super();
-		mode = PHPUiPlugin.getDefault().getPreferenceStore().getInt(
-				PreferenceConstants.PREF_OUTLINEMODE);
-	}
+    /** See {@link #MODE_TWIG}, {@link #MODE_HTML} */
+    private int mode;
 
-	public int getMode() {
-		return mode;
-	}
+    public TwigContentOutlineConfiguration()
+    {
+        super();
+        mode = PHPUiPlugin.getDefault().getPreferenceStore()
+                .getInt(PreferenceConstants.PREF_OUTLINEMODE);
+    }
 
-	public void setMode(final int mode) {
-		this.mode = mode;
-	}
+    public int getMode()
+    {
+        return mode;
+    }
 
-	protected IContributionItem[] createMenuContributions(
-			final TreeViewer viewer) {
-		IContributionItem[] items;
+    public void setMode(final int mode)
+    {
+        this.mode = mode;
+    }
 
-		changeOutlineModeActionTwig = new ChangeOutlineModeAction(
-				"twig", MODE_TWIG, this, viewer); //$NON-NLS-1$
-		final IContributionItem showPHPItem = new ActionContributionItem(
-				changeOutlineModeActionTwig);
+    protected IContributionItem[] createMenuContributions(
+            final TreeViewer viewer)
+    {
+        IContributionItem[] items;
 
-		changeOutlineModeActionHTML = new ChangeOutlineModeAction(
-				"html", MODE_HTML, this, viewer); //$NON-NLS-1$
+        changeOutlineModeActionTwig = new ChangeOutlineModeAction(
+                "twig", MODE_TWIG, this, viewer); //$NON-NLS-1$
+        final IContributionItem showPHPItem = new ActionContributionItem(
+                changeOutlineModeActionTwig);
 
-		propertyChangeListener = new IPropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals("checked")) { //$NON-NLS-1$
-					boolean checked = ((Boolean) event.getNewValue())
-							.booleanValue();
-					if (sortAction != null) {
-						sortAction.setEnabled(!checked);
-					}
-				}
-			}
-		};
-		changeOutlineModeActionHTML
-				.addPropertyChangeListener(propertyChangeListener);
+        changeOutlineModeActionHTML = new ChangeOutlineModeAction(
+                "html", MODE_HTML, this, viewer); //$NON-NLS-1$
 
-		final IContributionItem showHTMLItem = new ActionContributionItem(
-				changeOutlineModeActionHTML);
+        propertyChangeListener = new IPropertyChangeListener()
+        {
+            public void propertyChange(PropertyChangeEvent event)
+            {
+                if (event.getProperty().equals("checked")) { //$NON-NLS-1$
+                    boolean checked = ((Boolean) event.getNewValue())
+                            .booleanValue();
+                    if (sortAction != null) {
+                        sortAction.setEnabled(!checked);
+                    }
+                }
+            }
+        };
+        changeOutlineModeActionHTML
+                .addPropertyChangeListener(propertyChangeListener);
 
-		// Custom filter group
-//		if (fCustomFiltersActionGroup == null) {
-//			fCustomFiltersActionGroup = new CustomFiltersActionGroup(
-//					OUTLINE_PAGE, viewer); //$NON-NLS-1$
-//		}
-//
-//		final IContributionItem filtersItem = new FilterActionGroupContributionItem(
-//				fCustomFiltersActionGroup);
+        final IContributionItem showHTMLItem = new ActionContributionItem(
+                changeOutlineModeActionHTML);
 
-		items = super.createMenuContributions(viewer);
+        // Custom filter group
+        // if (fCustomFiltersActionGroup == null) {
+        // fCustomFiltersActionGroup = new CustomFiltersActionGroup(
+        //					OUTLINE_PAGE, viewer); //$NON-NLS-1$
+        // }
+        //
+        // final IContributionItem filtersItem = new
+        // FilterActionGroupContributionItem(
+        // fCustomFiltersActionGroup);
 
-		if (items == null)
-			items = new IContributionItem[] { showPHPItem, showHTMLItem,
-					/*filtersItem */};
-		else {
-			final IContributionItem[] combinedItems = new IContributionItem[items.length + /*3*/ 2];
-			System.arraycopy(items, 0, combinedItems, 0, items.length);
-			combinedItems[items.length] = showPHPItem;
-			combinedItems[items.length + 1] = showHTMLItem;
-//			combinedItems[items.length + 2] = filtersItem;
-			items = combinedItems;
-		}
-		if (changeOutlineModeActionHTML.isChecked()) {
-			sortAction.setEnabled(false);
-		}
-		return items;
-	}
+        items = super.createMenuContributions(viewer);
 
-	protected IContributionItem[] createToolbarContributions(
-			final TreeViewer viewer) {
-		IContributionItem[] items;
-		// fShowGroupsAction = new ShowGroupsAction("Show Groups", viewer);
-		//		final IContributionItem showGroupsItem = new ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
+        if (items == null)
+            items = new IContributionItem[]{showPHPItem, showHTMLItem,
+            /* filtersItem */};
+        else {
+            final IContributionItem[] combinedItems = new IContributionItem[items.length + /* 3 */2];
+            System.arraycopy(items, 0, combinedItems, 0, items.length);
+            combinedItems[items.length] = showPHPItem;
+            combinedItems[items.length + 1] = showHTMLItem;
+            // combinedItems[items.length + 2] = filtersItem;
+            items = combinedItems;
+        }
+        if (changeOutlineModeActionHTML.isChecked()) {
+            sortAction.setEnabled(false);
+        }
+        return items;
+    }
 
-		// fixed bug 174653
-		// use only the toggleLinking menu and dispose the others
-		IContributionItem[] menuContributions = super
-				.createMenuContributions(viewer);
-		final IContributionItem toggleLinking = menuContributions[0];
-		for (int i = 1; i < menuContributions.length; i++) {
-			menuContributions[i].dispose();
-		}
-		sortAction = new SortAction(viewer);
-		final IContributionItem sortItem = new ActionContributionItem(
-				sortAction);
+    protected IContributionItem[] createToolbarContributions(
+            final TreeViewer viewer)
+    {
+        IContributionItem[] items;
+        // fShowGroupsAction = new ShowGroupsAction("Show Groups", viewer);
+        //		final IContributionItem showGroupsItem = new ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
 
-		items = super.createToolbarContributions(viewer);
-		if (items == null)
-			items = new IContributionItem[] { sortItem /* , showGroupsItem */};
-		else {
-			final IContributionItem[] combinedItems = new IContributionItem[items.length + 2];
-			System.arraycopy(items, 0, combinedItems, 0, items.length);
-			combinedItems[items.length] = sortItem;
-			// combinedItems[items.length + 1] = showGroupsItem;
-			combinedItems[items.length + 1] = toggleLinking;
-			items = combinedItems;
-		}
-		return items;
+        // fixed bug 174653
+        // use only the toggleLinking menu and dispose the others
+        IContributionItem[] menuContributions = super
+                .createMenuContributions(viewer);
+        final IContributionItem toggleLinking = menuContributions[0];
+        for (int i = 1; i < menuContributions.length; i++) {
+            menuContributions[i].dispose();
+        }
+        sortAction = new SortAction(viewer);
+        final IContributionItem sortItem = new ActionContributionItem(
+                sortAction);
 
-	}
+        items = super.createToolbarContributions(viewer);
+        if (items == null)
+            items = new IContributionItem[]{sortItem /* , showGroupsItem */};
+        else {
+            final IContributionItem[] combinedItems = new IContributionItem[items.length + 2];
+            System.arraycopy(items, 0, combinedItems, 0, items.length);
+            combinedItems[items.length] = sortItem;
+            // combinedItems[items.length + 1] = showGroupsItem;
+            combinedItems[items.length + 1] = toggleLinking;
+            items = combinedItems;
+        }
+        return items;
 
-	public void unconfigure(TreeViewer viewer) {
-		// if (fShowGroupsAction != null) {
-		// fShowGroupsAction.dispose();
-		// }
-		if (changeOutlineModeActionHTML != null
-				&& propertyChangeListener != null) {
-			changeOutlineModeActionHTML
-					.removePropertyChangeListener(propertyChangeListener);
-		}
-		super.unconfigure(viewer);
-	}
+    }
 
-	public IContentProvider getContentProvider(final TreeViewer viewer) {
-		if (MODE_TWIG == mode) {
-			if (fContentProvider == null) {
-				fContentProvider = new TwigOutlineContentProvider(viewer);
-			}
-			viewer.setContentProvider(fContentProvider);
-		} else if (MODE_HTML == mode) {
-			if (fContentProviderHTML == null) {
-				fContentProviderHTML = new JFaceNodeContentProvider() {
-					public Object[] getElements(Object object) {
-						if (object instanceof ISourceModule) {
-							IEditorPart activeEditor = PHPUiPlugin
-									.getActiveEditor();
-							if (activeEditor instanceof StructuredTextEditor) {
-								StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
-								IDocument document = editor
-										.getDocumentProvider().getDocument(
-												editor.getEditorInput());
-								IStructuredModel model = null;
-								try {
-									model = StructuredModelManager
-											.getModelManager()
-											.getExistingModelForRead(document);
-									return super.getElements(model);
-								} finally {
-									if (model != null) {
-										model.releaseFromRead();
-									}
-								}
-							}
-						}
-						return super.getElements(object);
-					}
+    public void unconfigure(TreeViewer viewer)
+    {
+        // if (fShowGroupsAction != null) {
+        // fShowGroupsAction.dispose();
+        // }
+        if (changeOutlineModeActionHTML != null
+                && propertyChangeListener != null) {
+            changeOutlineModeActionHTML
+                    .removePropertyChangeListener(propertyChangeListener);
+        }
+        super.unconfigure(viewer);
+    }
 
-					@Override
-					public void inputChanged(Viewer viewer, Object oldInput,
-							Object newInput) {
-						if (newInput instanceof ISourceModule) {
-							IEditorPart activeEditor = PHPUiPlugin
-									.getActiveEditor();
-							if (activeEditor instanceof StructuredTextEditor) {
-								StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
-								IDocument document = editor
-										.getDocumentProvider().getDocument(
-												editor.getEditorInput());
-								IStructuredModel model = null;
-								try {
-									model = StructuredModelManager
-											.getModelManager()
-											.getExistingModelForRead(document);
-								} finally {
-									if (model != null) {
-										model.releaseFromRead();
-									}
-								}
-								newInput = model;
-							}
-						}
-						super.inputChanged(viewer, oldInput, newInput);
-					}
-				};
-			}
-			viewer.setContentProvider(fContentProviderHTML);
-		}
-		return viewer.getContentProvider();
-	}
+    public IContentProvider getContentProvider(final TreeViewer viewer)
+    {
+        if (MODE_TWIG == mode) {
+            if (fContentProvider == null) {
+                fContentProvider = new TwigOutlineContentProvider(viewer);
+            }
+            viewer.setContentProvider(fContentProvider);
+        } else if (MODE_HTML == mode) {
+            if (fContentProviderHTML == null) {
+                fContentProviderHTML = new JFaceNodeContentProvider()
+                {
+                    public Object[] getElements(Object object)
+                    {
+                        if (object instanceof ISourceModule) {
+                            IEditorPart activeEditor = PHPUiPlugin
+                                    .getActiveEditor();
+                            if (activeEditor instanceof StructuredTextEditor) {
+                                StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
+                                IDocument document = editor
+                                        .getDocumentProvider().getDocument(
+                                                editor.getEditorInput());
+                                IStructuredModel model = null;
+                                try {
+                                    model = StructuredModelManager
+                                            .getModelManager()
+                                            .getExistingModelForRead(document);
+                                    return super.getElements(model);
+                                } finally {
+                                    if (model != null) {
+                                        model.releaseFromRead();
+                                    }
+                                }
+                            }
+                        }
+                        return super.getElements(object);
+                    }
 
-	public ILabelProvider getLabelProvider(final TreeViewer viewer) {
+                    @Override
+                    public void inputChanged(Viewer viewer, Object oldInput,
+                            Object newInput)
+                    {
+                        if (newInput instanceof ISourceModule) {
+                            IEditorPart activeEditor = PHPUiPlugin
+                                    .getActiveEditor();
+                            if (activeEditor instanceof StructuredTextEditor) {
+                                StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
+                                IDocument document = editor
+                                        .getDocumentProvider().getDocument(
+                                                editor.getEditorInput());
+                                IStructuredModel model = null;
+                                try {
+                                    model = StructuredModelManager
+                                            .getModelManager()
+                                            .getExistingModelForRead(document);
+                                } finally {
+                                    if (model != null) {
+                                        model.releaseFromRead();
+                                    }
+                                }
+                                newInput = model;
+                            }
+                        }
+                        super.inputChanged(viewer, oldInput, newInput);
+                    }
+                };
+            }
+            viewer.setContentProvider(fContentProviderHTML);
+        }
+        return viewer.getContentProvider();
+    }
 
-		if (fLabelProvider == null) {
-			fLabelProvider = new DecoratingModelLabelProvider(
-					new TwigAppearanceAwareLabelProvider(
-							AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
-									| ScriptElementLabels.F_APP_TYPE_SIGNATURE
-									| ScriptElementLabels.ALL_CATEGORY,
-							AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS,
-							fStore));
-		}
+    public ILabelProvider getLabelProvider(final TreeViewer viewer)
+    {
 
-		if (MODE_TWIG == mode) {
-			viewer.setLabelProvider(fLabelProvider);
-		} else if (MODE_HTML == mode) {
-			if (fLabelProviderHTML == null) {
-				fLabelProviderHTML = new TwigOutlineLabelProvider(fLabelProvider);
-				fLabelProviderHTML.fShowAttributes = fShowAttributes;
-			}
-			viewer.setLabelProvider(fLabelProviderHTML);
-		}
-		return (ILabelProvider) viewer.getLabelProvider();
-	}
+        if (fLabelProvider == null) {
+            fLabelProvider = new DecoratingModelLabelProvider(
+                    new TwigAppearanceAwareLabelProvider(
+                            AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
+                                    | ScriptElementLabels.F_APP_TYPE_SIGNATURE
+                                    | ScriptElementLabels.ALL_CATEGORY,
+                            AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS,
+                            fStore));
+        }
 
-	public ISelection getSelection(final TreeViewer viewer,
-			final ISelection selection) {
-		final IContentProvider contentProvider = viewer.getContentProvider();
-		if (contentProvider instanceof PHPOutlineContentProvider) {
-			if (MODE_TWIG == mode) {
-				if (selection instanceof IStructuredSelection
-						&& selection instanceof TextSelection) {
-					IEditorPart activeEditor = PHPUiPlugin.getActiveEditor();
-					if (activeEditor instanceof PHPStructuredEditor) {
-						ISourceReference computedSourceReference = ((PHPStructuredEditor) activeEditor)
-								.computeHighlightRangeSourceReference();
-						if (computedSourceReference != null) {
-							return new StructuredSelection(
-									computedSourceReference);
-						}
-					}
-				}
-			}
-		}
-		return super.getSelection(viewer, selection);
-	}
+        if (MODE_TWIG == mode) {
+            viewer.setLabelProvider(fLabelProvider);
+        } else if (MODE_HTML == mode) {
+            if (fLabelProviderHTML == null) {
+                fLabelProviderHTML = new TwigOutlineLabelProvider(
+                        fLabelProvider);
+                fLabelProviderHTML.fShowAttributes = fShowAttributes;
+            }
+            viewer.setLabelProvider(fLabelProviderHTML);
+        }
+        return (ILabelProvider) viewer.getLabelProvider();
+    }
 
-	public ILabelProvider getStatusLineLabelProvider(TreeViewer treeViewer) {
-		if (fSimpleLabelProvider == null) {
-			fSimpleLabelProvider = new ScriptUILabelProvider();
-			fSimpleLabelProvider
-					.setTextFlags(ScriptElementLabels.DEFAULT_QUALIFIED
-							| ScriptElementLabels.ROOT_POST_QUALIFIED
-							| ScriptElementLabels.APPEND_ROOT_PATH
-							| ScriptElementLabels.M_PARAMETER_TYPES
-							| ScriptElementLabels.M_PARAMETER_NAMES
-							| ScriptElementLabels.M_APP_RETURNTYPE
-							| ScriptElementLabels.M_EXCEPTIONS
-							| ScriptElementLabels.F_APP_TYPE_SIGNATURE
-							| ScriptElementLabels.T_TYPE_PARAMETERS);
-		}
-		return fSimpleLabelProvider;
-	}
+    public ISelection getSelection(final TreeViewer viewer,
+            final ISelection selection)
+    {
+        final IContentProvider contentProvider = viewer.getContentProvider();
+        if (contentProvider instanceof PHPOutlineContentProvider) {
+            if (MODE_TWIG == mode) {
+                if (selection instanceof IStructuredSelection
+                        && selection instanceof TextSelection) {
+                    IEditorPart activeEditor = PHPUiPlugin.getActiveEditor();
+                    if (activeEditor instanceof PHPStructuredEditor) {
+                        ISourceReference computedSourceReference = ((PHPStructuredEditor) activeEditor)
+                                .computeHighlightRangeSourceReference();
+                        if (computedSourceReference != null) {
+                            return new StructuredSelection(
+                                    computedSourceReference);
+                        }
+                    }
+                }
+            }
+        }
+        return super.getSelection(viewer, selection);
+    }
 
-	protected XMLNodeActionManager createNodeActionManager(TreeViewer treeViewer) {
-		IEditorPart activeEditor = PHPUiPlugin.getActiveEditor();
-		if (activeEditor instanceof StructuredTextEditor) {
-			StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
-			IDocument document = editor.getDocumentProvider().getDocument(
-					editor.getEditorInput());
-			IStructuredModel model = null;
-			try {
-				model = StructuredModelManager.getModelManager()
-						.getExistingModelForRead(document);
-				return new TwigNodeActionManager(model, treeViewer);
-			} finally {
-				if (model != null) {
-					model.releaseFromRead();
-				}
-			}
-		}
-		return null;
-	}
+    public ILabelProvider getStatusLineLabelProvider(TreeViewer treeViewer)
+    {
+        if (fSimpleLabelProvider == null) {
+            fSimpleLabelProvider = new ScriptUILabelProvider();
+            fSimpleLabelProvider
+                    .setTextFlags(ScriptElementLabels.DEFAULT_QUALIFIED
+                            | ScriptElementLabels.ROOT_POST_QUALIFIED
+                            | ScriptElementLabels.APPEND_ROOT_PATH
+                            | ScriptElementLabels.M_PARAMETER_TYPES
+                            | ScriptElementLabels.M_PARAMETER_NAMES
+                            | ScriptElementLabels.M_APP_RETURNTYPE
+                            | ScriptElementLabels.M_EXCEPTIONS
+                            | ScriptElementLabels.F_APP_TYPE_SIGNATURE
+                            | ScriptElementLabels.T_TYPE_PARAMETERS);
+        }
+        return fSimpleLabelProvider;
+    }
 
-	protected void enableShowAttributes(boolean showAttributes,
-			TreeViewer treeViewer) {
-		super.enableShowAttributes(showAttributes, treeViewer);
-		// fix bug #241111 - show attributes in outline
-		if (fLabelProviderHTML != null) {
-			// This option is only relevant for the HTML outline
-			fLabelProviderHTML.fShowAttributes = showAttributes;
-		}
-		fShowAttributes = showAttributes;
-	}
+    protected XMLNodeActionManager createNodeActionManager(TreeViewer treeViewer)
+    {
+        IEditorPart activeEditor = PHPUiPlugin.getActiveEditor();
+        if (activeEditor instanceof StructuredTextEditor) {
+            StructuredTextEditor editor = (StructuredTextEditor) activeEditor;
+            IDocument document = editor.getDocumentProvider().getDocument(
+                    editor.getEditorInput());
+            IStructuredModel model = null;
+            try {
+                model = StructuredModelManager.getModelManager()
+                        .getExistingModelForRead(document);
+                return new TwigNodeActionManager(model, treeViewer);
+            } finally {
+                if (model != null) {
+                    model.releaseFromRead();
+                }
+            }
+        }
+        return null;
+    }
 
+    protected void enableShowAttributes(boolean showAttributes,
+            TreeViewer treeViewer)
+    {
+        super.enableShowAttributes(showAttributes, treeViewer);
+        // fix bug #241111 - show attributes in outline
+        if (fLabelProviderHTML != null) {
+            // This option is only relevant for the HTML outline
+            fLabelProviderHTML.fShowAttributes = showAttributes;
+        }
+        fShowAttributes = showAttributes;
+    }
 
-	class TwigAppearanceAwareLabelProvider extends AppearanceAwareLabelProvider {
+    class TwigAppearanceAwareLabelProvider extends AppearanceAwareLabelProvider
+    {
 
-		public TwigAppearanceAwareLabelProvider(IPreferenceStore store) {
-			super(store);
+        public TwigAppearanceAwareLabelProvider(IPreferenceStore store)
+        {
+            super(store);
 
-		}
+        }
 
-		public TwigAppearanceAwareLabelProvider(long textFlags, int imageFlags,
-				IPreferenceStore store) {
-			super(textFlags, imageFlags, store);
+        public TwigAppearanceAwareLabelProvider(long textFlags, int imageFlags,
+                IPreferenceStore store)
+        {
+            super(textFlags, imageFlags, store);
 
-		}
+        }
 
-		public String getText(Object element) {
+        public String getText(Object element)
+        {
 
-			if (element instanceof SourceMethod) {
-				
-				SourceMethod m = (SourceMethod) element;	
-				String[] parameters;
-				
-				try {
-					
-					String t = m.getElementName();
-					
-					
-					parameters = m.getParameterNames();
-					
-					if (parameters != null && parameters.length > 0) {						
-						return m.getElementName() + " - " + parameters[0];						
-					}
-					
-				} catch (ModelException e) {
+            if (element instanceof SourceMethod) {
 
-					e.printStackTrace();
-				}
-				
+                SourceMethod m = (SourceMethod) element;
+                String[] parameters;
 
-				return m.getElementName();
-				
-			}
-			
-			return super.getText(element);
-		}
-		
-		@Override
-		public Image getImage(Object element) {
-		
-			return super.getImage(element);
-		}
-	}
+                try {
 
-/*	class FilterActionGroupContributionItem extends ContributionItem {
+                    String t = m.getElementName();
 
-		// private boolean fState;
-		private CustomFiltersActionGroup fActionGroup;
+                    parameters = m.getParameterNames();
 
-		public FilterActionGroupContributionItem(
-				CustomFiltersActionGroup actionGroup) {
-			super("filters");
-			fActionGroup = actionGroup;
-			// fState= state;
-		}
+                    if (parameters != null && parameters.length > 0) {
+                        return m.getElementName() + " - " + parameters[0];
+                    }
 
-		public void fill(Menu menu, int index) {
-			
-		}
+                } catch (ModelException e) {
 
-		public boolean isDynamic() {
-			return true;
-		}
-	}	*/
+                    e.printStackTrace();
+                }
+
+                return m.getElementName();
+
+            }
+
+            return super.getText(element);
+        }
+
+        @Override
+        public Image getImage(Object element)
+        {
+
+            return super.getImage(element);
+        }
+    }
+
+    /*
+     * class FilterActionGroupContributionItem extends ContributionItem {
+     * 
+     * // private boolean fState; private CustomFiltersActionGroup fActionGroup;
+     * 
+     * public FilterActionGroupContributionItem( CustomFiltersActionGroup
+     * actionGroup) { super("filters"); fActionGroup = actionGroup; // fState=
+     * state; }
+     * 
+     * public void fill(Menu menu, int index) {
+     * 
+     * }
+     * 
+     * public boolean isDynamic() { return true; } }
+     */
 
 }

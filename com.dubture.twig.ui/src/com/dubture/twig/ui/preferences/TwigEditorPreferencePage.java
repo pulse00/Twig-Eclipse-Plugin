@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.ui.preferences;
 
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -30,96 +29,102 @@ import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
-
 /**
  * 
  * The preference page for the Twig editor.
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
 public class TwigEditorPreferencePage extends FieldEditorPreferencePage
-	implements IWorkbenchPreferencePage {
+        implements IWorkbenchPreferencePage
+{
 
-	
-	public TwigEditorPreferencePage() {
-		
-		super(GRID);
-		setPreferenceStore(TwigUICorePlugin.getDefault().getPreferenceStore());
-		
+    public TwigEditorPreferencePage()
+    {
 
-	}
+        super(GRID);
+        setPreferenceStore(TwigUICorePlugin.getDefault().getPreferenceStore());
 
-	@Override
-	protected Control createContents(Composite parent) {
+    }
 
-		
-		createHeader(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.EDITOR_PREFERENCES);		
+    @Override
+    protected Control createContents(Composite parent)
+    {
 
-		
-		return super.createContents(parent);
+        createHeader(parent);
+        PlatformUI.getWorkbench().getHelpSystem()
+                .setHelp(parent, IPHPHelpContextIds.EDITOR_PREFERENCES);
 
-	}
-	
-	
-	
+        return super.createContents(parent);
 
-	private void createHeader(Composite contents) {
-		
-		
-		final Shell shell = contents.getShell();
-		String text = Messages.TwigEditorPreferencePage_0;
-		Link link = new Link(contents, SWT.NONE);
-		link.setText(text);
-		link.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				PreferencesUtil.createPreferenceDialogOn(shell, "org.eclipse.php.ui.preferences.PHPEditorPreferencePage", null, null); //$NON-NLS-1$
-			}
-		});
-		// TODO replace by link-specific tooltips when
-		// bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=88866 gets fixed
-		link.setToolTipText(Messages.TwigEditorPreferencePage_1);
+    }
 
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.widthHint = 150; // only expand further if anyone else requires it
-		link.setLayoutData(gridData);
-	}
+    private void createHeader(Composite contents)
+    {
 
-	@Override
-	public void init(IWorkbench workbench) {
+        final Shell shell = contents.getShell();
+        String text = Messages.TwigEditorPreferencePage_0;
+        Link link = new Link(contents, SWT.NONE);
+        link.setText(text);
+        link.addSelectionListener(new SelectionAdapter()
+        {
+            public void widgetSelected(SelectionEvent e)
+            {
+                PreferencesUtil
+                        .createPreferenceDialogOn(
+                                shell,
+                                "org.eclipse.php.ui.preferences.PHPEditorPreferencePage", null, null); //$NON-NLS-1$
+            }
+        });
+        // TODO replace by link-specific tooltips when
+        // bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=88866 gets fixed
+        link.setToolTipText(Messages.TwigEditorPreferencePage_1);
 
-		
-	}
+        GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+        gridData.widthHint = 150; // only expand further if anyone else requires
+                                  // it
+        link.setLayoutData(gridData);
+    }
 
-	@Override
-	protected void createFieldEditors() {
+    @Override
+    public void init(IWorkbench workbench)
+    {
 
-		String[][] options;		
-		
-		// ProblemSeverity does not work in dltk < 3
-		// so we disable it
-		if (!TwigCorePlugin.getDefault().isDLTK3()) {
-			
-			MessageDialog.openWarning(getShell(), Messages.TwigEditorPreferencePage_2, Messages.TwigEditorPreferencePage_3);
-			options = new String[][] 
-					{ 
-							{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
-					};			
-			
-		} else {
-			options = new String[][] 
-					{ 
-							{ TwigCoreConstants.SYNTAX_ERROR, TwigCoreConstants.SYNTAX_ERROR }, 
-							{ TwigCoreConstants.SYNTAX_WARNING, TwigCoreConstants.SYNTAX_WARNING },
-							{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE },				
-					};			
-		}
-		
+    }
 
-		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, Messages.TwigEditorPreferencePage_4, options, getFieldEditorParent()));		
-		
-	}
+    @Override
+    protected void createFieldEditors()
+    {
+
+        String[][] options;
+
+        // ProblemSeverity does not work in dltk < 3
+        // so we disable it
+        if (!TwigCorePlugin.getDefault().isDLTK3()) {
+
+            MessageDialog.openWarning(getShell(),
+                    Messages.TwigEditorPreferencePage_2,
+                    Messages.TwigEditorPreferencePage_3);
+            options = new String[][]{{TwigCoreConstants.SYNTAX_IGNORE,
+                    TwigCoreConstants.SYNTAX_IGNORE},};
+
+        } else {
+            options = new String[][]{
+                    {TwigCoreConstants.SYNTAX_ERROR,
+                            TwigCoreConstants.SYNTAX_ERROR},
+                    {TwigCoreConstants.SYNTAX_WARNING,
+                            TwigCoreConstants.SYNTAX_WARNING},
+                    {TwigCoreConstants.SYNTAX_IGNORE,
+                            TwigCoreConstants.SYNTAX_IGNORE},};
+        }
+
+        addField(new ComboFieldEditor(
+                TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY,
+                Messages.TwigEditorPreferencePage_4, options,
+                getFieldEditorParent()));
+
+    }
 }

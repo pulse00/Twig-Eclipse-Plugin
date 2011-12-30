@@ -12,6 +12,7 @@ import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredPresentatio
 
 @SuppressWarnings("restriction")
 public class TwigStructuredPresentationReconciler extends
-		PHPStructuredPresentationReconciler {
+        PHPStructuredPresentationReconciler
+{
 
 }

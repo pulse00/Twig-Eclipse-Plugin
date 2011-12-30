@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-
 /**
  * 
  * The base Twig preference page.
@@ -27,41 +26,42 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 public class TwigBasePreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+        IWorkbenchPreferencePage
+{
 
-	public TwigBasePreferencePage() {
+    public TwigBasePreferencePage()
+    {
 
-		super();
-		setPreferenceStore(DLTKUIPlugin.getDefault().getPreferenceStore());
-		setDescription(Messages.TwigBasePreferencePage_0);
-	}
+        super();
+        setPreferenceStore(DLTKUIPlugin.getDefault().getPreferenceStore());
+        setDescription(Messages.TwigBasePreferencePage_0);
+    }
 
+    @Override
+    public void init(IWorkbench workbench)
+    {
 
-	@Override
-	public void init(IWorkbench workbench) {
+    }
 
+    @Override
+    protected Control createContents(Composite parent)
+    {
 
-	}
+        initializeDialogUnits(parent);
 
-	@Override
-	protected Control createContents(Composite parent) {
+        Composite result = new Composite(parent, SWT.NONE);
 
-		initializeDialogUnits(parent);
-		
-		Composite result = new Composite(parent, SWT.NONE);
-		
-		GridLayout layout = new GridLayout();
-		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-		layout.marginWidth = 0;
-		layout.verticalSpacing = convertVerticalDLUsToPixels(10);
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-		result.setLayout(layout);
-		
-		
-		return result;
-	}
+        GridLayout layout = new GridLayout();
+        layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+        layout.marginWidth = 0;
+        layout.verticalSpacing = convertVerticalDLUsToPixels(10);
+        layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+        result.setLayout(layout);
+
+        return result;
+    }
 
 }

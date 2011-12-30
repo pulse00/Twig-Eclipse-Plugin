@@ -13,7 +13,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.dubture.twig.ui.TwigUICorePlugin;
 
-
 /**
  * 
  * Provide access to the eclipse code templates from the
@@ -21,42 +20,44 @@ import com.dubture.twig.ui.TwigUICorePlugin;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TwigTemplateAccess extends ScriptTemplateAccess {
-	
-	private static final String CUSTOM_TEMPLATES_KEY = "com.dubture.twig.Templates"; //$NON-NLS-1$
-	
-	
-	private static TwigTemplateAccess instance;
+public class TwigTemplateAccess extends ScriptTemplateAccess
+{
 
-	public static TwigTemplateAccess getInstance() {
-		if (instance == null) {
-			instance = new TwigTemplateAccess();
-		}
+    private static final String CUSTOM_TEMPLATES_KEY = "com.dubture.twig.Templates"; //$NON-NLS-1$
 
-		return instance;
-	}
-	
-	
+    private static TwigTemplateAccess instance;
 
-	@Override
-	protected String getContextTypeId() {
-		
-		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
-	}
+    public static TwigTemplateAccess getInstance()
+    {
+        if (instance == null) {
+            instance = new TwigTemplateAccess();
+        }
 
-	@Override
-	protected String getCustomTemplatesKey() {
-		
-		return CUSTOM_TEMPLATES_KEY;
-		
-	}
+        return instance;
+    }
 
-	@Override
-	protected IPreferenceStore getPreferenceStore() {
+    @Override
+    protected String getContextTypeId()
+    {
 
-		return TwigUICorePlugin.getDefault().getPreferenceStore();
-	}
+        return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
+    }
+
+    @Override
+    protected String getCustomTemplatesKey()
+    {
+
+        return CUSTOM_TEMPLATES_KEY;
+
+    }
+
+    @Override
+    protected IPreferenceStore getPreferenceStore()
+    {
+
+        return TwigUICorePlugin.getDefault().getPreferenceStore();
+    }
 
 }

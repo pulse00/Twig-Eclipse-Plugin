@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Image;
 
 import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
 
-
 /**
  * 
  * 
@@ -22,35 +21,36 @@ import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class TwigOutlineLabelProvider extends XMLLabelProvider {
+public class TwigOutlineLabelProvider extends XMLLabelProvider
+{
 
-	
-	private ILabelProvider modelElementLabelProvider;
+    private ILabelProvider modelElementLabelProvider;
 
-	public TwigOutlineLabelProvider(ILabelProvider modelElementLabelProvider) {
-		this.modelElementLabelProvider = modelElementLabelProvider;
-	}
+    public TwigOutlineLabelProvider(ILabelProvider modelElementLabelProvider)
+    {
+        this.modelElementLabelProvider = modelElementLabelProvider;
+    }
 
-	public Image getImage(Object o) {
-		
-		if (o instanceof IModelElement) {
-			return modelElementLabelProvider.getImage(o);
-		}
-		return super.getImage(o);
-	}
+    public Image getImage(Object o)
+    {
 
-	public String getText(Object o) {
-		
-		
-		if (o instanceof ElementImplForTwig) {
-			ElementImplForTwig element = (ElementImplForTwig) o;
-			return element.getTagName();
-		}
-		
+        if (o instanceof IModelElement) {
+            return modelElementLabelProvider.getImage(o);
+        }
+        return super.getImage(o);
+    }
 
-		return super.getText(o);
-	}	
+    public String getText(Object o)
+    {
+
+        if (o instanceof ElementImplForTwig) {
+            ElementImplForTwig element = (ElementImplForTwig) o;
+            return element.getTagName();
+        }
+
+        return super.getText(o);
+    }
 }
