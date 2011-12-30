@@ -21,73 +21,83 @@ import org.json.simple.JSONObject;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public abstract class TwigType extends SourceType {
+public abstract class TwigType extends SourceType
+{
 
-	public static final String PHPCLASS = "phpClass";
-	public static final String DOC = "doc";
-	public static final String ARGS = "args";
-	public static final String INTERNAL = "internal";
-	public static final String IS_OPEN_CLOSE = "is_open_close";
-	
-	protected String phpClass;
-	protected String internalFunction;
-	protected String description;
-	
-	public TwigType(ModelElement parent, String name) {
-		super(parent, name);
+    public static final String PHPCLASS = "phpClass";
+    public static final String DOC = "doc";
+    public static final String ARGS = "args";
+    public static final String INTERNAL = "internal";
+    public static final String IS_OPEN_CLOSE = "is_open_close";
 
-	}
-	
-	public String getPhpClass() {
-		return phpClass;
-	}
+    protected String phpClass;
+    protected String internalFunction;
+    protected String description;
 
-	public void setPhpClass(String phpClass) {
-		this.phpClass = phpClass;
-	}
+    public TwigType(ModelElement parent, String name)
+    {
+        super(parent, name);
 
-	public String getInternalFunction() {
-		return internalFunction;
-	}
+    }
 
-	public void setInternalFunction(String internalFunction) {
-		this.internalFunction = internalFunction;
-	}
-	
-	
-	@Override
-	public int getFlags() throws ModelException {
+    public String getPhpClass()
+    {
+        return phpClass;
+    }
 
-		return Modifiers.AccPublic;
-	}
-	
-	@Override
-	public Object getElementInfo() throws ModelException {
+    public void setPhpClass(String phpClass)
+    {
+        this.phpClass = phpClass;
+    }
 
-		return new FakeTypeElementInfo();
-	}
-	
-	@Override
-	protected Object openWhenClosed(Object info, IProgressMonitor monitor)
-			throws ModelException {
+    public String getInternalFunction()
+    {
+        return internalFunction;
+    }
 
-		return new FakeTypeElementInfo();
+    public void setInternalFunction(String internalFunction)
+    {
+        this.internalFunction = internalFunction;
+    }
 
-	}
+    @Override
+    public int getFlags() throws ModelException
+    {
 
-	public String getDescription() {
-		return description;
-	}
+        return Modifiers.AccPublic;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}	
-	
-	public abstract String getMetadata();
-	
-	public abstract void setMetadata(JSONObject data);
+    @Override
+    public Object getElementInfo() throws ModelException
+    {
+
+        return new FakeTypeElementInfo();
+    }
+
+    @Override
+    protected Object openWhenClosed(Object info, IProgressMonitor monitor)
+            throws ModelException
+    {
+
+        return new FakeTypeElementInfo();
+
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public abstract String getMetadata();
+
+    public abstract void setMetadata(JSONObject data);
 
 }

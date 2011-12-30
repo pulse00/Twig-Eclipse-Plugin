@@ -18,66 +18,62 @@ import org.eclipse.dltk.compiler.problem.ProblemSeverity;
 import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.TwigCorePreferences;
 
-
 /**
  * 
  * 
- * The {@link TwigErrorReporter} reports syntaxerrors to the
- *  DLTK ProblemReporting engine.
+ * The {@link TwigErrorReporter} reports syntaxerrors to the DLTK
+ * ProblemReporting engine.
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TwigErrorReporter implements IErrorReporter {
+public class TwigErrorReporter implements IErrorReporter
+{
 
+    private IProblemReporter reporter;
+    private int offset;
+    private int line;
+    private String filename;
 
-	private IProblemReporter reporter;
-	private int offset;
-	private int line;
-	private String filename;
+    public TwigErrorReporter(IProblemReporter problemReporter, String filename)
+    {
 
+        reporter = problemReporter;
+        this.filename = filename;
 
-	public TwigErrorReporter(IProblemReporter problemReporter, String filename) {
+    }
 
-		reporter = problemReporter;
-		this.filename = filename;
+    @Override
+    @SuppressWarnings("deprecation")
+    public void reportError(String header, String message,
+            RecognitionException e)
+    {
 
-	}
+        // disabled due to 3.6 incompatibility
+        // see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
+        if (!TwigCorePlugin.getDefault().isDLTK3()) {
+            return;
+        }
 
+        ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
 
+        if (severity == null || severity == ProblemSeverity.IGNORE)
+            return;
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public void reportError(String header, String message,
-			RecognitionException e) {
+        IProblem problem = new DefaultProblem(filename, message,
+                IProblem.Syntax, new String[0], severity, offset, offset + 1,
+                line);
 
-		
-		// disabled due to 3.6 incompatibility
-		// see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
-		if (!TwigCorePlugin.getDefault().isDLTK3()) {			
-			return;
-		}
+        reporter.reportProblem(problem);
 
+    }
 
-		ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
+    public void setOffset(int offset2, int line2)
+    {
 
-		if (severity == null || severity == ProblemSeverity.IGNORE)
-			return;
+        offset = offset2;
+        line = line2;
 
-		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax,
-				new String[0], severity, offset, offset+1, line);
-
-		reporter.reportProblem(problem);
-
-	}
-
-
-
-	public void setOffset(int offset2, int line2) {
-
-		offset = offset2;
-		line = line2;
-
-	}
+    }
 }

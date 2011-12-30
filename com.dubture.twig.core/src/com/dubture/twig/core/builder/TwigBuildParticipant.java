@@ -23,42 +23,41 @@ import com.dubture.twig.core.model.TwigModelAccess;
 /**
  * 
  * 
- * The {@link TwigBuildParticipant} indexes all 
- * existing twig templates during the buildphase.
+ * The {@link TwigBuildParticipant} indexes all existing twig templates during
+ * the buildphase.
  * 
- * It parses the PHP sourcefiles for the following elements
- * and adds them to the model:
+ * It parses the PHP sourcefiles for the following elements and adds them to the
+ * model:
  * 
  * > Filters
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TwigBuildParticipant implements IBuildParticipant {
-	
-	private TwigModelAccess model = TwigModelAccess.getDefault();
-	
-	
-	@Override
-	public void build(IBuildContext context) throws CoreException {
-		
-		IFile file = context.getFile();
-		ISourceModule sourceModule = context.getSourceModule();
-		
-		
-		try {
-			
-			if (file.getFileExtension().equals("twig")) {
-				model.addTemplate(new Template(sourceModule));
-			} else if (file.getFileExtension().equals("php")) {
-			
-				
-			}			
-						
-		} catch (Exception e) {
-			Logger.logException(e);
-		}
+public class TwigBuildParticipant implements IBuildParticipant
+{
 
-	}
+    private TwigModelAccess model = TwigModelAccess.getDefault();
+
+    @Override
+    public void build(IBuildContext context) throws CoreException
+    {
+
+        IFile file = context.getFile();
+        ISourceModule sourceModule = context.getSourceModule();
+
+        try {
+
+            if (file.getFileExtension().equals("twig")) {
+                model.addTemplate(new Template(sourceModule));
+            } else if (file.getFileExtension().equals("php")) {
+
+            }
+
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+
+    }
 }

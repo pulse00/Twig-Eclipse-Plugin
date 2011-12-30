@@ -16,7 +16,6 @@ import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
-
 /**
  * 
  * Completion context for local template variables, ie:
@@ -26,7 +25,7 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  * 
  * 	{% for user in users %}
  *     {{ |  <--- completes user and users
- *    
+ * 
  * 
  * </pre>
  * 
@@ -34,36 +33,36 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TemplateVariablesContext extends
-		AbstractTwigCompletionContext {
-	
-	
-	@SuppressWarnings("restriction")
-	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset,
-			CompletionRequestor requestor) {
-	
-		if (super.isValid(sourceModule, offset, requestor)) {
-			
-			try {
-				
-				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
-					return false;
-				
-				TextSequence sequence = getStatementText();
-				
-				if (TwigTextSequenceUtilities.isInField(sequence)) {
-					return false;
-				}
-				
-				return true;
-				
-			} catch (Exception e) {
-				Logger.logException(e);
-			}
-		}
-		return false;
-	}
+public class TemplateVariablesContext extends AbstractTwigCompletionContext
+{
+
+    @SuppressWarnings("restriction")
+    @Override
+    public boolean isValid(ISourceModule sourceModule, int offset,
+            CompletionRequestor requestor)
+    {
+
+        if (super.isValid(sourceModule, offset, requestor)) {
+
+            try {
+
+                if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
+                    return false;
+
+                TextSequence sequence = getStatementText();
+
+                if (TwigTextSequenceUtilities.isInField(sequence)) {
+                    return false;
+                }
+
+                return true;
+
+            } catch (Exception e) {
+                Logger.logException(e);
+            }
+        }
+        return false;
+    }
 }

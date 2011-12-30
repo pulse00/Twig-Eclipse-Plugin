@@ -13,7 +13,6 @@ import org.eclipse.dltk.core.ISourceModule;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 
-
 /**
  * 
  * A context for staying inside a twig quotes string, ie
@@ -27,21 +26,23 @@ import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class QuotesContext extends AbstractTwigCompletionContext {
-	
-	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset,
-			CompletionRequestor requestor) {
+public class QuotesContext extends AbstractTwigCompletionContext
+{
 
-		if (super.isValid(sourceModule, offset, requestor)) {
-		
-			return getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING;			
-			
-		}		
-		
-		return false;
-	}
+    @Override
+    public boolean isValid(ISourceModule sourceModule, int offset,
+            CompletionRequestor requestor)
+    {
+
+        if (super.isValid(sourceModule, offset, requestor)) {
+
+            return getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING;
+
+        }
+
+        return false;
+    }
 
 }

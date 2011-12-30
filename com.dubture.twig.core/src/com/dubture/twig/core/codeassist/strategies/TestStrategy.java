@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
@@ -19,31 +18,34 @@ import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.model.Test;
 import com.dubture.twig.core.model.TwigModelAccess;
 
-@SuppressWarnings({ "restriction", "deprecation" })
-public class TestStrategy extends KeywordStrategy {
+@SuppressWarnings({"restriction", "deprecation"})
+public class TestStrategy extends KeywordStrategy
+{
 
-	public TestStrategy(ICompletionContext context) {
-		super(context);
+    public TestStrategy(ICompletionContext context)
+    {
+        super(context);
 
-	}
-	
-	
-	@Override
-	public void apply(ICompletionReporter reporter) throws Exception {
-	
-		TestContext ctx = (TestContext) getContext();
-		
-		IScriptProject project = ctx.getSourceModule().getScriptProject();
-		Test[] tests = TwigModelAccess.getDefault().getTests(project);
-		SourceRange range = getReplacementRange(ctx);
-		String prefix = ctx.getPrefix();
-		
-		for (Test test : tests) {			
-			if (CodeAssistUtils.startsWithIgnoreCase(test.getElementName(), prefix)) {
-				test.setScriptProject(project);			
-				reporter.reportType(test, "", range);				
-			}
-			
-		}
-	}
+    }
+
+    @Override
+    public void apply(ICompletionReporter reporter) throws Exception
+    {
+
+        TestContext ctx = (TestContext) getContext();
+
+        IScriptProject project = ctx.getSourceModule().getScriptProject();
+        Test[] tests = TwigModelAccess.getDefault().getTests(project);
+        SourceRange range = getReplacementRange(ctx);
+        String prefix = ctx.getPrefix();
+
+        for (Test test : tests) {
+            if (CodeAssistUtils.startsWithIgnoreCase(test.getElementName(),
+                    prefix)) {
+                test.setScriptProject(project);
+                reporter.reportType(test, "", range);
+            }
+
+        }
+    }
 }

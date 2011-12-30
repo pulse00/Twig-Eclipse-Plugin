@@ -19,30 +19,31 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class Filter extends TwigCallable {
+public class Filter extends TwigCallable
+{
 
-	
-	
-	public Filter(ModelElement parent, String name) {
-		
-		super(parent, name);
-	}
-	
-	public Filter(Scalar name) {
+    public Filter(ModelElement parent, String name)
+    {
 
-		super(null, null);
-		this.name = name.getValue().replace("'", "").replace("\"", "");
-		
-	}
+        super(parent, name);
+    }
 
-	public Filter(String elementName) {
+    public Filter(Scalar name)
+    {
 
-		super(null, elementName);
+        super(null, null);
+        this.name = name.getValue().replace("'", "").replace("\"", "");
 
-	}
+    }
 
+    public Filter(String elementName)
+    {
+
+        super(null, elementName);
+
+    }
 
 }

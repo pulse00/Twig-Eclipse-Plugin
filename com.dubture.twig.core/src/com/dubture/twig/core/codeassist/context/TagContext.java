@@ -18,26 +18,25 @@ import org.eclipse.dltk.core.ISourceModule;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TagContext extends KeywordContext {
-	
-	
-	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset,
-			CompletionRequestor requestor) {
+public class TagContext extends KeywordContext
+{
 
-		
-		if (super.isValid(sourceModule, offset, requestor)) {
+    @Override
+    public boolean isValid(ISourceModule sourceModule, int offset,
+            CompletionRequestor requestor)
+    {
 
-			//TODO: check if we're in a {% %} statement region
+        if (super.isValid(sourceModule, offset, requestor)) {
 
-			return true;
-			
-		}
-		
-		
-		return false;
-	}
+            // TODO: check if we're in a {% %} statement region
+
+            return true;
+
+        }
+
+        return false;
+    }
 
 }

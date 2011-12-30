@@ -24,75 +24,83 @@ import org.w3c.dom.Text;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class DOMDocumentForTwig extends DocumentStyleImpl {
-	
-	public DOMDocumentForTwig() {
-		super();
-	}
+public class DOMDocumentForTwig extends DocumentStyleImpl
+{
 
-	protected DOMDocumentForTwig(DocumentImpl that) {
-		super(that);
-	}
+    public DOMDocumentForTwig()
+    {
+        super();
+    }
 
-	public Node cloneNode(boolean deep) {
-		DOMDocumentForTwig cloned = new DOMDocumentForTwig(this);
-		if (deep)
-			cloned.importChildNodes(this, true);
-		return cloned;
-	}
+    protected DOMDocumentForTwig(DocumentImpl that)
+    {
+        super(that);
+    }
 
-	/**
-	 * createElement method
-	 * 
-	 * @return org.w3c.dom.Element
-	 * @param tagName
-	 *            java.lang.String
-	 */
-	
-	public Element createElement(String tagName) throws DOMException {
-		checkTagNameValidity(tagName);
+    public Node cloneNode(boolean deep)
+    {
+        DOMDocumentForTwig cloned = new DOMDocumentForTwig(this);
+        if (deep)
+            cloned.importChildNodes(this, true);
+        return cloned;
+    }
 
-		ElementImplForTwig element = new ElementImplForTwig();
-		element.setOwnerDocument(this);
-		element.setTagName(tagName);
-		
-		return element;
-	}
+    /**
+     * createElement method
+     * 
+     * @return org.w3c.dom.Element
+     * @param tagName
+     *            java.lang.String
+     */
 
-	/**
-	 * createAttribute method
-	 * 
-	 * @return org.w3c.dom.Attr
-	 * @param name
-	 *            java.lang.String
-	 */
-	public Attr createAttribute(String name) throws DOMException {
-		
-		AttrImplForTwig attr = new AttrImplForTwig();
-		attr.setOwnerDocument(this);
-		attr.setName(name);
-		return attr;
-	}
+    public Element createElement(String tagName) throws DOMException
+    {
+        checkTagNameValidity(tagName);
 
-	/**
-	 * createTextNode method
-	 * 
-	 * @return org.w3c.dom.Text
-	 * @param data
-	 *            java.lang.String
-	 */
-	public Text createTextNode(String data) {
-		TextImplForTwig text = new TextImplForTwig();
-		text.setOwnerDocument(this);
-		text.setData(data);
-		return text;
-	}
+        ElementImplForTwig element = new ElementImplForTwig();
+        element.setOwnerDocument(this);
+        element.setTagName(tagName);
 
-	public void setModel(IDOMModel model) {
-		super.setModel(model);
-	}	
+        return element;
+    }
+
+    /**
+     * createAttribute method
+     * 
+     * @return org.w3c.dom.Attr
+     * @param name
+     *            java.lang.String
+     */
+    public Attr createAttribute(String name) throws DOMException
+    {
+
+        AttrImplForTwig attr = new AttrImplForTwig();
+        attr.setOwnerDocument(this);
+        attr.setName(name);
+        return attr;
+    }
+
+    /**
+     * createTextNode method
+     * 
+     * @return org.w3c.dom.Text
+     * @param data
+     *            java.lang.String
+     */
+    public Text createTextNode(String data)
+    {
+        TextImplForTwig text = new TextImplForTwig();
+        text.setOwnerDocument(this);
+        text.setData(data);
+        return text;
+    }
+
+    public void setModel(IDOMModel model)
+    {
+        super.setModel(model);
+    }
 
 }

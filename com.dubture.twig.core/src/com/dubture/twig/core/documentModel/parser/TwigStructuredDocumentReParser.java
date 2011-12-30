@@ -19,38 +19,38 @@ import com.dubture.twig.core.util.Debug;
 
 @SuppressWarnings("restriction")
 public class TwigStructuredDocumentReParser extends
-	XMLStructuredDocumentReParser {
-	
-	
-//	@Override
-//	protected boolean isLoneOpenFollowedByContent(
-//			IStructuredDocumentRegion flatNode) {
-//		
-//        boolean result = false;
-//        
-//        if (flatNode == null)
-//        	return false;
-//        
-//        String type = flatNode.getType();
-//        if (type == DOMRegionContext.XML_CONTENT) {
-//            IStructuredDocumentRegion previous = flatNode.getPrevious();
-//            String previousType = null;
-//            if (previous != null) {
-//                previousType = previous.getType();
-//            }
-//            if (previousType != null) {
-//                result = (previousType == DOMRegionContext.XML_TAG_OPEN);
-//            }
-//        }
-//        return result;		
-//	}
-	
-	
-	@Override
-	protected void findDirtyStart(int start) {
-		
-		
-	    IStructuredDocumentRegion result = fStructuredDocument.getRegionAtCharacterOffset(start);
+        XMLStructuredDocumentReParser
+{
+
+    // @Override
+    // protected boolean isLoneOpenFollowedByContent(
+    // IStructuredDocumentRegion flatNode) {
+    //
+    // boolean result = false;
+    //
+    // if (flatNode == null)
+    // return false;
+    //
+    // String type = flatNode.getType();
+    // if (type == DOMRegionContext.XML_CONTENT) {
+    // IStructuredDocumentRegion previous = flatNode.getPrevious();
+    // String previousType = null;
+    // if (previous != null) {
+    // previousType = previous.getType();
+    // }
+    // if (previousType != null) {
+    // result = (previousType == DOMRegionContext.XML_TAG_OPEN);
+    // }
+    // }
+    // return result;
+    // }
+
+    @Override
+    protected void findDirtyStart(int start)
+    {
+
+        IStructuredDocumentRegion result = fStructuredDocument
+                .getRegionAtCharacterOffset(start);
         // heuristic: if the postion is exactly equal to the start, then
         // go back one more, if it exists. This prevents problems with
         // insertions
@@ -59,13 +59,12 @@ public class TwigStructuredDocumentReParser extends
         // off of it as a separate node (ex.: XML content inserted right
         // before an open
         // bracket should become part of the previous content node)
-	    
-	    
+
         if (result != null) {
-        	
-    		
+
             IStructuredDocumentRegion previous = result.getPrevious();
-            if ((previous != null) && ((!(previous.isEnded())) || (start == result.getStart()))) {
+            if ((previous != null)
+                    && ((!(previous.isEnded())) || (start == result.getStart()))) {
                 result = previous;
             }
             // If we are now at the end of a "tag dependent" content area (or
@@ -80,19 +79,20 @@ public class TwigStructuredDocumentReParser extends
                 fStructuredDocument.setCachedDocumentRegion(result);
             }
         }
-        
+
         dirtyStart = result;
 
-	}
-	
-	@Override
-	protected IStructuredDocumentRegion findDirtyEnd(int end) {
-	
-		
-		  // Caution: here's one place we have to cast
-        IStructuredDocumentRegion result = fStructuredDocument.getRegionAtCharacterOffset(end);
+    }
+
+    @Override
+    protected IStructuredDocumentRegion findDirtyEnd(int end)
+    {
+
+        // Caution: here's one place we have to cast
+        IStructuredDocumentRegion result = fStructuredDocument
+                .getRegionAtCharacterOffset(end);
         // if not well formed, get one past, if there is something there
-        
+
         if ((result != null) && (!result.isEnded())) {
             if (result.getNext() != null) {
                 result = result.getNext();
@@ -122,49 +122,49 @@ public class TwigStructuredDocumentReParser extends
             fStructuredDocument.setCachedDocumentRegion(result);
         dirtyEnd = result;
 
-        
-        return dirtyEnd;	
-     }
-	
-	
-	protected StructuredDocumentEvent regionCheck(
-			IStructuredDocumentRegion oldNode, IStructuredDocumentRegion newNode) {
-		final StructuredDocumentEvent event = super.regionCheck(oldNode,
-				newNode);
+        return dirtyEnd;
+    }
 
-		if (event instanceof RegionChangedEvent) {
-			RegionChangedEvent changedEvent = (RegionChangedEvent) event;
+    protected StructuredDocumentEvent regionCheck(
+            IStructuredDocumentRegion oldNode, IStructuredDocumentRegion newNode)
+    {
+        final StructuredDocumentEvent event = super.regionCheck(oldNode,
+                newNode);
 
-			if (changedEvent.getRegion().getType() == TwigRegionContext.TWIG_CONTENT || changedEvent.getRegion().getType() == TwigRegionContext.TWIG_COMMENT) {
-				oldNode.setRegions(newNode.getRegions());
-			}
-		}
-		return event;
-	}
-	
-	
-	
-	@Override
-	public IStructuredTextReParser newInstance() {
+        if (event instanceof RegionChangedEvent) {
+            RegionChangedEvent changedEvent = (RegionChangedEvent) event;
 
-		return new TwigStructuredDocumentReParser();
+            if (changedEvent.getRegion().getType() == TwigRegionContext.TWIG_CONTENT
+                    || changedEvent.getRegion().getType() == TwigRegionContext.TWIG_COMMENT) {
+                oldNode.setRegions(newNode.getRegions());
+            }
+        }
+        return event;
+    }
 
-	}
-	
-	protected StructuredDocumentEvent checkForComments() {
-		
-		StructuredDocumentEvent result = checkForCriticalKey("{#"); //$NON-NLS-1$
-		if (result == null) {
-			result = checkForCriticalKey("#}"); //$NON-NLS-1$
-		}
-		return result != null ? result : super.checkForComments();
-	}
-	
-	
-	public StructuredDocumentEvent reparse() {
-		
-		final StructuredDocumentEvent event = super.reparse();		
-		return event;
-		
-	}
+    @Override
+    public IStructuredTextReParser newInstance()
+    {
+
+        return new TwigStructuredDocumentReParser();
+
+    }
+
+    protected StructuredDocumentEvent checkForComments()
+    {
+
+        StructuredDocumentEvent result = checkForCriticalKey("{#"); //$NON-NLS-1$
+        if (result == null) {
+            result = checkForCriticalKey("#}"); //$NON-NLS-1$
+        }
+        return result != null ? result : super.checkForComments();
+    }
+
+    public StructuredDocumentEvent reparse()
+    {
+
+        final StructuredDocumentEvent event = super.reparse();
+        return event;
+
+    }
 }

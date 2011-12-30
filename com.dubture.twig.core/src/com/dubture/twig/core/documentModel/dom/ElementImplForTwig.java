@@ -30,119 +30,131 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
 public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable,
-IImplForTwig {
+        IImplForTwig
+{
 
-	private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter";
-	private IModelElement modelElement;
-	private TwigModelAccess model = TwigModelAccess.getDefault();
+    private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter";
+    private IModelElement modelElement;
+    private TwigModelAccess model = TwigModelAccess.getDefault();
 
-	public ElementImplForTwig() {
-		super();
-	}
+    public ElementImplForTwig()
+    {
+        super();
+    }
 
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
-		if (adapter != null
-				&& adapter.getName().equals(
-						WORKBENCH_ADAPTER)) {
-			return null;
-		}
-		return Platform.getAdapterManager().getAdapter(this, adapter);
-	}
+    @SuppressWarnings("rawtypes")
+    public Object getAdapter(Class adapter)
+    {
+        if (adapter != null && adapter.getName().equals(WORKBENCH_ADAPTER)) {
+            return null;
+        }
+        return Platform.getAdapterManager().getAdapter(this, adapter);
+    }
 
-	public ElementImplForTwig(ElementStyleImpl that) {
-		super(that);
-	}
+    public ElementImplForTwig(ElementStyleImpl that)
+    {
+        super(that);
+    }
 
-	protected boolean isNestedClosed(String regionType) {
-		return regionType == TwigRegionContext.TWIG_STMT_CLOSE;
-	}
+    protected boolean isNestedClosed(String regionType)
+    {
+        return regionType == TwigRegionContext.TWIG_STMT_CLOSE;
+    }
 
-	public Node cloneNode(boolean deep) {
-		ElementImpl cloned = new ElementImplForTwig(this);
-		if (deep)
-			cloneChildNodes(cloned, deep);
-		return cloned;
-	}
+    public Node cloneNode(boolean deep)
+    {
+        ElementImpl cloned = new ElementImplForTwig(this);
+        if (deep)
+            cloneChildNodes(cloned, deep);
+        return cloned;
+    }
 
-	/**
-	 * @see ElementStyleImpl#setOwnerDocument(Document) make this method package
-	 *      visible
-	 */
-	protected void setOwnerDocument(Document ownerDocument) {
-		super.setOwnerDocument(ownerDocument);
-	}
+    /**
+     * @see ElementStyleImpl#setOwnerDocument(Document) make this method package
+     *      visible
+     */
+    protected void setOwnerDocument(Document ownerDocument)
+    {
+        super.setOwnerDocument(ownerDocument);
+    }
 
-	/**
-	 * @see setTagName(String) make this method package visible
-	 */
-	protected void setTagName(String tagName) {
-		super.setTagName(tagName);
-	}
+    /**
+     * @see setTagName(String) make this method package visible
+     */
+    protected void setTagName(String tagName)
+    {
+        super.setTagName(tagName);
+    }
 
-	public boolean isGlobalTag() {
-		return isTwigTag() ? false : super.isGlobalTag();
-	}
+    public boolean isGlobalTag()
+    {
+        return isTwigTag() ? false : super.isGlobalTag();
+    }
 
-	/**
-	 * @return true if it is a twig element
-	 */
-	public boolean isTwigTag() {
-				
-		boolean isTag =TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
-				|| TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName()); 
-		
-		if (isTag)
-			return true;
-		
-		IScriptProject project = modelElement != null ? modelElement.getScriptProject() : null;
-		
-		if (project == null) {
-			return false;
-		}
-	
-		
-		return model.isTwigTag(project, getNodeName());
-		
-				
-	}
+    /**
+     * @return true if it is a twig element
+     */
+    public boolean isTwigTag()
+    {
 
-	@SuppressWarnings("rawtypes")
-	public INodeAdapter getExistingAdapter(Object type) {
+        boolean isTag = TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
+                || TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName());
 
-		// no validation or validation propagation for PHP tags
-		if (isTwigTag() && type instanceof Class
-				&& ValidationAdapter.class.isAssignableFrom((Class) type)) {
-			return nullValidator;
-		}
-		return super.getExistingAdapter(type);
-	}
+        if (isTag)
+            return true;
 
-	private final static ValidationComponent nullValidator = new NullValidator();
+        IScriptProject project = modelElement != null ? modelElement
+                .getScriptProject() : null;
 
-	public String getPrefix() {
-		final String prefix = super.getPrefix();
-		if (prefix == null && isTwigTag()) {
-			return ""; //$NON-NLS-1$
-		}
-		return prefix;
-	}
+        if (project == null) {
+            return false;
+        }
 
-	public IModelElement getModelElement() {
-		return modelElement;
-	}
+        return model.isTwigTag(project, getNodeName());
 
-	public void setModelElement(IModelElement modelElement) {
-		
-		this.modelElement = modelElement;
-	}
+    }
 
-	@Override
-	public boolean isStartTagClosed() {
-		return isTwigTag() ? true : super.isStartTagClosed();
-	}
+    @SuppressWarnings("rawtypes")
+    public INodeAdapter getExistingAdapter(Object type)
+    {
+
+        // no validation or validation propagation for PHP tags
+        if (isTwigTag() && type instanceof Class
+                && ValidationAdapter.class.isAssignableFrom((Class) type)) {
+            return nullValidator;
+        }
+        return super.getExistingAdapter(type);
+    }
+
+    private final static ValidationComponent nullValidator = new NullValidator();
+
+    public String getPrefix()
+    {
+        final String prefix = super.getPrefix();
+        if (prefix == null && isTwigTag()) {
+            return ""; //$NON-NLS-1$
+        }
+        return prefix;
+    }
+
+    public IModelElement getModelElement()
+    {
+        return modelElement;
+    }
+
+    public void setModelElement(IModelElement modelElement)
+    {
+
+        this.modelElement = modelElement;
+    }
+
+    @Override
+    public boolean isStartTagClosed()
+    {
+        return isTwigTag() ? true : super.isStartTagClosed();
+    }
 }

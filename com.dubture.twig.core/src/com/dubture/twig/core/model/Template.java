@@ -10,32 +10,28 @@ package com.dubture.twig.core.model;
 
 import org.eclipse.dltk.core.ISourceModule;
 
-
 /**
  * 
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class Template {
+public class Template
+{
 
+    private ISourceModule sourceModule;
 
-	private ISourceModule sourceModule;
-	
-	
-	public ISourceModule getSourceModule() {
-		return sourceModule;
-	}
+    public ISourceModule getSourceModule()
+    {
+        return sourceModule;
+    }
 
+    public Template(ISourceModule sourceModule)
+    {
 
-	public Template(ISourceModule sourceModule) {
-		
-		this.sourceModule = sourceModule;
+        this.sourceModule = sourceModule;
 
-	}
-
-
-
+    }
 
 }

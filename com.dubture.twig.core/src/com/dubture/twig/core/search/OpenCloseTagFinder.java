@@ -17,40 +17,41 @@ import com.dubture.twig.core.parser.TwigCommonTree;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class OpenCloseTagFinder extends AbstractOccurrencesFinder {
+public class OpenCloseTagFinder extends AbstractOccurrencesFinder
+{
 
-	@Override
-	protected ITwigNodeVisitor getVisitor(int offset) {
+    @Override
+    protected ITwigNodeVisitor getVisitor(int offset)
+    {
 
-		return new OpenCloseTagVisitor(offset);
-	}
-	
-	
-	private class OpenCloseTagVisitor implements ITwigNodeVisitor {
+        return new OpenCloseTagVisitor(offset);
+    }
 
-		private final int offset;		
-		private int nestCount = 0;
-		
-		public OpenCloseTagVisitor(int offset) {
-			
-			this.offset = offset;
-			
-		}
-		
-		@Override
-		public void beginVisit(TwigCommonTree node) {
-			
-			
+    private class OpenCloseTagVisitor implements ITwigNodeVisitor
+    {
 
-			
-		}
+        private final int offset;
+        private int nestCount = 0;
 
-		@Override
-		public void endVisit(TwigCommonTree node) {
+        public OpenCloseTagVisitor(int offset)
+        {
 
-			
-		}		
-	}
+            this.offset = offset;
+
+        }
+
+        @Override
+        public void beginVisit(TwigCommonTree node)
+        {
+
+        }
+
+        @Override
+        public void endVisit(TwigCommonTree node)
+        {
+
+        }
+    }
 }

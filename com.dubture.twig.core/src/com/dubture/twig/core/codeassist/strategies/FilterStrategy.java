@@ -26,40 +26,45 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-@SuppressWarnings({ "restriction", "deprecation" })
-public class FilterStrategy extends AbstractCompletionStrategy {
+@SuppressWarnings({"restriction", "deprecation"})
+public class FilterStrategy extends AbstractCompletionStrategy
+{
 
-	
-	public FilterStrategy(ICompletionContext context) {
-		super(context);
+    public FilterStrategy(ICompletionContext context)
+    {
+        super(context);
 
-	}
+    }
 
-	@Override
-	public void apply(ICompletionReporter reporter) throws Exception {
+    @Override
+    public void apply(ICompletionReporter reporter) throws Exception
+    {
 
-		try {
+        try {
 
-			FilterContext ctx = (FilterContext) getContext();
-			TwigModelAccess model = TwigModelAccess.getDefault();
-			
-			String prefix = ctx.getPrefix();
-			SourceRange range = getReplacementRange(getContext());
-			
-			Filter[] filters = model.getFilters(ctx.getSourceModule().getScriptProject());
-			
-			for (Filter filter : filters) {				
-				if (CodeAssistUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {		
-					
-					filter.setScriptProject(ctx.getSourceModule().getScriptProject());
-					reporter.reportType(filter, "", range);
-				}
-			}
-			
-		} catch (Exception e) {
-			Logger.logException(e);
-		}	
-	}	
+            FilterContext ctx = (FilterContext) getContext();
+            TwigModelAccess model = TwigModelAccess.getDefault();
+
+            String prefix = ctx.getPrefix();
+            SourceRange range = getReplacementRange(getContext());
+
+            Filter[] filters = model.getFilters(ctx.getSourceModule()
+                    .getScriptProject());
+
+            for (Filter filter : filters) {
+                if (CodeAssistUtils.startsWithIgnoreCase(
+                        filter.getElementName(), prefix)) {
+
+                    filter.setScriptProject(ctx.getSourceModule()
+                            .getScriptProject());
+                    reporter.reportType(filter, "", range);
+                }
+            }
+
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+    }
 }

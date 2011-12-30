@@ -14,47 +14,50 @@ import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
-
 /**
  * 
- * {@link TwigCommonTree} is responsible for traversing
- * the Twig AST.
+ * {@link TwigCommonTree} is responsible for traversing the Twig AST.
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public class TwigCommonTree extends org.antlr.runtime.tree.CommonTree {
+public class TwigCommonTree extends org.antlr.runtime.tree.CommonTree
+{
 
-	public TwigCommonTree(Token payload) {
-		super(payload);
+    public TwigCommonTree(Token payload)
+    {
+        super(payload);
 
-	}
+    }
 
-	public TwigCommonTree(TokenStream input, Token start, Token stop) {
-		
+    public TwigCommonTree(TokenStream input, Token start, Token stop)
+    {
 
-	}
-	
-	@Override
-    public TwigCommonTree getChild(int i) {
-    	
+    }
+
+    @Override
+    public TwigCommonTree getChild(int i)
+    {
+
         if (children == null || i >= children.size()) {
             return null;
         }
-        return (TwigCommonTree)children.get(i);
+        return (TwigCommonTree) children.get(i);
     }
-    
+
     @Override
-    public CommonToken getToken() {
-        return (CommonToken)token;
+    public CommonToken getToken()
+    {
+        return (CommonToken) token;
     }
-    
+
     @SuppressWarnings("unchecked")
-	public List<TwigCommonTree> getChildTrees() {
-    	    	
-    	return (List<TwigCommonTree>) getChildren();
-    	
+    public List<TwigCommonTree> getChildTrees()
+    {
+
+        return (List<TwigCommonTree>) getChildren();
+
     }
 
     /**
@@ -62,18 +65,19 @@ public class TwigCommonTree extends org.antlr.runtime.tree.CommonTree {
      * 
      * @param visitor
      */
-	public void accept(ITwigNodeVisitor visitor) {
+    public void accept(ITwigNodeVisitor visitor)
+    {
 
-		visitor.beginVisit(this);
-		
-		for (int i = 0; i < getChildCount(); i++) {
-			TwigCommonTree child = (TwigCommonTree) getChild(i);
-			child.accept(visitor);
-			
-		}
-		
-		visitor.endVisit(this);
-		
-	}	
+        visitor.beginVisit(this);
+
+        for (int i = 0; i < getChildCount(); i++) {
+            TwigCommonTree child = (TwigCommonTree) getChild(i);
+            child.accept(visitor);
+
+        }
+
+        visitor.endVisit(this);
+
+    }
 
 }

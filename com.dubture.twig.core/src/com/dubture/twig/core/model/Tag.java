@@ -10,68 +10,76 @@ package com.dubture.twig.core.model;
 
 import org.json.simple.JSONObject;
 
-
 /**
  * 
  * 
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class Tag extends TwigType {
-	
-	private String startTag;
-	private String endTag;	
+public class Tag extends TwigType
+{
 
-	public Tag(String startTag) {
+    private String startTag;
+    private String endTag;
 
-		super(null, startTag);
-		this.startTag = startTag;
-		
-	}
+    public Tag(String startTag)
+    {
 
-	public Tag() {
+        super(null, startTag);
+        this.startTag = startTag;
 
-		super(null, null);
-		
-	}
+    }
 
-	public String getStartTag() {
-		return startTag;
-	}
+    public Tag()
+    {
 
-	public void setStartTag(String startTag) {
-		
-		this.name = startTag;
-		this.startTag = startTag;
-	}
+        super(null, null);
 
-	public String getEndTag() {
-		return endTag;
-	}
+    }
 
-	public void setEndTag(String endTag) {
-		this.endTag = endTag;
-	}
-	
-	
-	@Override
-	public String toString() {
+    public String getStartTag()
+    {
+        return startTag;
+    }
 
-		return startTag + " : " + endTag;
-	}
+    public void setStartTag(String startTag)
+    {
 
-	@Override
-	public String getMetadata() {
+        this.name = startTag;
+        this.startTag = startTag;
+    }
 
-		return "";
-	}
+    public String getEndTag()
+    {
+        return endTag;
+    }
 
-	@Override
-	public void setMetadata(JSONObject data) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setEndTag(String endTag)
+    {
+        this.endTag = endTag;
+    }
+
+    @Override
+    public String toString()
+    {
+
+        return startTag + " : " + endTag;
+    }
+
+    @Override
+    public String getMetadata()
+    {
+
+        return "";
+    }
+
+    @Override
+    public void setMetadata(JSONObject data)
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

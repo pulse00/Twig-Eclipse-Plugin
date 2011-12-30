@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.core.search;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,7 +20,6 @@ import com.dubture.twig.core.parser.TwigNode;
 import com.dubture.twig.core.parser.TwigNodeVisitor;
 import com.dubture.twig.core.parser.TwigSourceParser;
 
-
 /**
  * 
  * 
@@ -29,124 +27,130 @@ import com.dubture.twig.core.parser.TwigSourceParser;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implements IOccurrencesFinder {
+abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor
+        implements IOccurrencesFinder
+{
 
+    protected int offset;
+    protected int currentPosition;
+    protected int endOffset;
+    protected int length;
+    protected TwigNode twigNode;
+    protected List<OccurrenceLocation> locations = new ArrayList<OccurrenceLocation>();
 
-	protected int offset;
-	protected int currentPosition;
-	protected int endOffset;
-	protected int length;
-	protected TwigNode twigNode;	
-	protected List<OccurrenceLocation> locations = new ArrayList<OccurrenceLocation>();
+    @Override
+    public String initialize(String source, TwigNode node)
+    {
 
-	@Override
-	public String initialize(String source, TwigNode node) {
+        try {
 
-		try {
+            offset = node.getSourceStart();
+            endOffset = node.getSourceEnd();
 
-			offset = node.getSourceStart();						
-			endOffset = node.getSourceEnd();
+            BufferedReader br = new BufferedReader(new StringReader(source));
 
-			BufferedReader br = new BufferedReader(new StringReader(source));
+            String line;
 
-			String line;
+            twigNode = node;
 
-			twigNode = node;
-			
-			currentPosition = 0;
-			int lineNumber = 0;
+            currentPosition = 0;
+            int lineNumber = 0;
 
-			while( (line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
 
-				lineNumber++;
+                lineNumber++;
 
+                if (line.contains(TwigSourceParser.TWIG_OPEN)) {
+                    parseStatement(line, TwigSourceParser.TWIG_OPEN,
+                            TwigSourceParser.TWIG_CLOSE, lineNumber,
+                            currentPosition);
+                } else if (line.contains(TwigSourceParser.STMT_OPEN)) {
+                    parseStatement(line, TwigSourceParser.STMT_OPEN,
+                            TwigSourceParser.STMT_CLOSE, lineNumber,
+                            currentPosition);
+                }
 
-				if (line.contains(TwigSourceParser.TWIG_OPEN)) {
-					parseStatement(line, TwigSourceParser.TWIG_OPEN, TwigSourceParser.TWIG_CLOSE, lineNumber, currentPosition);				
-				} else if (line.contains(TwigSourceParser.STMT_OPEN)) {
-					parseStatement(line, TwigSourceParser.STMT_OPEN, TwigSourceParser.STMT_CLOSE, lineNumber, currentPosition);								
-				}
+                // +1 for the line break which apparently doesn't count in
+                // .length();
+                currentPosition += line.length() + 1;
 
-				// +1 for the line break which apparently doesn't count in .length();
-				currentPosition += line.length() + 1;
+            }
 
-			}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		} catch (IOException e) { 
-			e.printStackTrace();
-		}
+        return null;
+    }
 
-		return null;
-	}
+    private void parseStatement(String line, String open, String close,
+            int lineNumber, int current)
+    {
 
-	private void parseStatement(String line, String open, String close,
-			int lineNumber, int current) {
+        int start = 0;
+        int end = 0;
 
-		int start = 0;
-		int end = 0;
+        while ((start = line.indexOf(open)) >= 0) {
 
-		while( (start = line.indexOf(open)) >= 0) {
+            end = line.indexOf(close);
 
-			end = line.indexOf(close);
+            if (end == -1) {
+                // TODO: report error
+                break;
+            }
 
-			if (end == -1) {
-				//TODO: report error
-				break;
-			}
+            String twig = line.substring(start, end + 2);
+            parseTwig(twig, (current + start), lineNumber);
 
+            if (line.length() > end + 1) {
+                // TODO: report error
+                break;
+            }
 
-			String twig = line.substring(start, end+2);
-			parseTwig(twig, (current + start), lineNumber);
+            line = line.substring(end + 2);
 
-			if (line.length() > end +1) {						
-				//TODO: report error
-				break;
-			}
+        }
 
-			line = line.substring(end + 2);
+    }
 
-		}		
+    private void parseTwig(String source, int offset, int line)
+    {
 
+        try {
 
-	}
+            // TODO: REWRITE AFTER PARSER IMPLEMENTATION
+            // CharStream content = new ANTLRStringStream(source);
+            // TwigLexer lexer = new TwigLexer(content);
+            //
+            // TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
+            //
+            // parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+            // TwigParser.twig_source_return root;
+            //
+            // root = parser.twig_source();
+            // TwigCommonTree tree = (TwigCommonTree) root.getTree();
+            // ITwigNodeVisitor visitor = getVisitor(offset);
+            //
+            // if (tree != null)
+            // tree.accept(visitor);
+            //
 
-	private void parseTwig(String source, int offset, int line) {
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+    }
 
-		try {
+    abstract protected ITwigNodeVisitor getVisitor(int offset);
 
-			//TODO: REWRITE AFTER PARSER IMPLEMENTATION			
-//			CharStream content = new ANTLRStringStream(source);
-//			TwigLexer lexer = new TwigLexer(content);
-//
-//			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-//
-//			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-//			TwigParser.twig_source_return root;
-//
-//			root = parser.twig_source();
-//			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-//			ITwigNodeVisitor visitor = getVisitor(offset);
-//			
-//			if (tree != null)
-//				tree.accept(visitor);
-//
+    @Override
+    public OccurrenceLocation[] getOccurrences()
+    {
 
-		} catch (Exception e) {
-			Logger.logException(e);
-		}
-	}	
+        return (OccurrenceLocation[]) locations
+                .toArray(new OccurrenceLocation[locations.size()]);
 
-
-	abstract protected ITwigNodeVisitor getVisitor(int offset);
-	
-	@Override
-	public OccurrenceLocation[] getOccurrences() {
-		
-		return (OccurrenceLocation[]) locations.toArray(new OccurrenceLocation[locations.size()]);
-		
-	}
-
+    }
 
 }

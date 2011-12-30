@@ -16,15 +16,16 @@ import org.eclipse.dltk.internal.core.SourceTypeElementInfo;
  * 
  * 
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class FakeTypeElementInfo extends SourceTypeElementInfo {
+public class FakeTypeElementInfo extends SourceTypeElementInfo
+{
 
-	
-	@Override
-	public String getFileName() {
+    @Override
+    public String getFileName()
+    {
 
-		return "";
-	}	
+        return "";
+    }
 }

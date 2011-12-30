@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.core.parser;
 
-
 /**
  * 
  * Interface for Twig node visitors.
@@ -16,12 +15,12 @@ package com.dubture.twig.core.parser;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
-public interface ITwigNodeVisitor {
-	
-	
-	void beginVisit(TwigCommonTree node);
-	void endVisit(TwigCommonTree node);	
+public interface ITwigNodeVisitor
+{
+
+    void beginVisit(TwigCommonTree node);
+    void endVisit(TwigCommonTree node);
 
 }

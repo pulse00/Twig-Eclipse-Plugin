@@ -8,49 +8,49 @@
  ******************************************************************************/
 package com.dubture.twig.core.parser;
 
-public class TwigStatementVisitor implements ITwigNodeVisitor {
+public class TwigStatementVisitor implements ITwigNodeVisitor
+{
 
-	
-	private int type = -1;
-	
-	private String text = null;
-	
-	
-	@Override
-	public void beginVisit(TwigCommonTree node) {
+    private int type = -1;
 
-		//TODO: REWRITE AFTER PARSER IMPLEMENTATION
-//		if (node.getType() == TwigParser.TWIG_TAG) {
-//
-//			if (node.getChildCount() == 1) {
-//				
-//				type = node.getType();
-//				
-//				TwigCommonTree child = node.getChild(0);
-//				text = child.getText();				
-//				
-//			}
-//		}
-	}
+    private String text = null;
 
-	@Override
-	public void endVisit(TwigCommonTree node) {
+    @Override
+    public void beginVisit(TwigCommonTree node)
+    {
 
+        // TODO: REWRITE AFTER PARSER IMPLEMENTATION
+        // if (node.getType() == TwigParser.TWIG_TAG) {
+        //
+        // if (node.getChildCount() == 1) {
+        //
+        // type = node.getType();
+        //
+        // TwigCommonTree child = node.getChild(0);
+        // text = child.getText();
+        //
+        // }
+        // }
+    }
 
-	}
-	
-	
-	public int getStatementType() {
-		
-		return type;
-		
-	}
-	
-	public String getTag() {
-		
+    @Override
+    public void endVisit(TwigCommonTree node)
+    {
 
-		return text;
-		
-	}
+    }
+
+    public int getStatementType()
+    {
+
+        return type;
+
+    }
+
+    public String getTag()
+    {
+
+        return text;
+
+    }
 
 }

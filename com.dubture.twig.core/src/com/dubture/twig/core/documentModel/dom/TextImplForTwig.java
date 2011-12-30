@@ -17,38 +17,47 @@ import org.w3c.dom.Document;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 @SuppressWarnings("restriction")
-public class TextImplForTwig extends TextImpl implements IAdaptable, IImplForTwig {
+public class TextImplForTwig extends TextImpl implements IAdaptable,
+        IImplForTwig
+{
 
-	private IModelElement modelElement;
+    private IModelElement modelElement;
 
-	protected TextImplForTwig() {
-		super();
-	}
+    protected TextImplForTwig()
+    {
+        super();
+    }
 
-	protected TextImplForTwig(Document doc, String data) {
-		super();
-		setOwnerDocument(doc);
-		setData(data);
-	}
+    protected TextImplForTwig(Document doc, String data)
+    {
+        super();
+        setOwnerDocument(doc);
+        setData(data);
+    }
 
-	protected boolean isNotNestedContent(String regionType) {
-		return regionType != TwigRegionTypes.TWIG_CONTENT;
-	}
+    protected boolean isNotNestedContent(String regionType)
+    {
+        return regionType != TwigRegionTypes.TWIG_CONTENT;
+    }
 
-	protected void setOwnerDocument(Document ownerDocument) {
-		super.setOwnerDocument(ownerDocument);
-	}
+    protected void setOwnerDocument(Document ownerDocument)
+    {
+        super.setOwnerDocument(ownerDocument);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
-		return Platform.getAdapterManager().getAdapter(this, adapter);
-	}
+    @SuppressWarnings("rawtypes")
+    public Object getAdapter(Class adapter)
+    {
+        return Platform.getAdapterManager().getAdapter(this, adapter);
+    }
 
-	public IModelElement getModelElement() {
-		return modelElement;
-	}
+    public IModelElement getModelElement()
+    {
+        return modelElement;
+    }
 
-	public void setModelElement(IModelElement modelElement) {
-		this.modelElement = modelElement;
-	}
+    public void setModelElement(IModelElement modelElement)
+    {
+        this.modelElement = modelElement;
+    }
 }

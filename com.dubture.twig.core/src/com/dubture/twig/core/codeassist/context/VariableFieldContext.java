@@ -17,53 +17,53 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
  * 
- * A {@link VariableFieldContext} detects completion of twig
- * variables:
+ * A {@link VariableFieldContext} detects completion of twig variables:
  * 
  * <pre>
  * 
- * {{ user.| 
+ * {{ user.|
  * 
  * </pre>
  * 
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
+ * 
  */
-public class VariableFieldContext extends AbstractTwigCompletionContext {
+public class VariableFieldContext extends AbstractTwigCompletionContext
+{
 
-	
-	private String variable = null;
-	
-	public String getVariable() {
-		
-		return variable;
-		
-	}
-	
-	@SuppressWarnings("restriction")
-	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset,
-			CompletionRequestor requestor) {
-	
-		if (super.isValid(sourceModule, offset, requestor)) {
-						
-			try {
-				
-				TextSequence statement = getStatementText();
-				
-				if (TwigTextSequenceUtilities.isInField(statement)) {
-					
-					variable = TwigTextSequenceUtilities.getVariable(statement);
-					return true;
-				}
-				
-				return true;
-				
-				
-			} catch (Exception e) {
-				Logger.logException(e);
-			}
-		}		
-		return false;
-	}	
+    private String variable = null;
+
+    public String getVariable()
+    {
+
+        return variable;
+
+    }
+
+    @SuppressWarnings("restriction")
+    @Override
+    public boolean isValid(ISourceModule sourceModule, int offset,
+            CompletionRequestor requestor)
+    {
+
+        if (super.isValid(sourceModule, offset, requestor)) {
+
+            try {
+
+                TextSequence statement = getStatementText();
+
+                if (TwigTextSequenceUtilities.isInField(statement)) {
+
+                    variable = TwigTextSequenceUtilities.getVariable(statement);
+                    return true;
+                }
+
+                return true;
+
+            } catch (Exception e) {
+                Logger.logException(e);
+            }
+        }
+        return false;
+    }
 }

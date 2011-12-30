@@ -16,33 +16,34 @@ import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
 import com.dubture.twig.core.util.Debug;
 
 /**
- * {@link TwigSourceParserFactory} overrides parse()
- * for modules with the .twig extension, otherwise
- * delegates parsing to the {@link PHPSourceParserFactory}
- *  
+ * {@link TwigSourceParserFactory} overrides parse() for modules with the .twig
+ * extension, otherwise delegates parsing to the {@link PHPSourceParserFactory}
+ * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class TwigSourceParserFactory extends PHPSourceParserFactory {
+public class TwigSourceParserFactory extends PHPSourceParserFactory
+{
 
-	public TwigSourceParserFactory() {
+    public TwigSourceParserFactory()
+    {
 
-	}
+    }
 
+    @Override
+    public IModuleDeclaration parse(IModuleSource module,
+            IProblemReporter reporter)
+    {
 
-	@Override
-	public IModuleDeclaration parse(IModuleSource module,
-			IProblemReporter reporter) {
+        if (!module.getFileName().endsWith(".twig")) {
+            return super.parse(module, reporter);
+        }
 
-		if (!module.getFileName().endsWith(".twig")) {
-			return super.parse(module, reporter);
-		}
-		
-		final String fileName = module.getFileName();
-		TwigSourceParser parser = new TwigSourceParser(fileName);		
-		return parser.parse(module, reporter);		
-		
-	}
+        final String fileName = module.getFileName();
+        TwigSourceParser parser = new TwigSourceParser(fileName);
+        return parser.parse(module, reporter);
+
+    }
 }

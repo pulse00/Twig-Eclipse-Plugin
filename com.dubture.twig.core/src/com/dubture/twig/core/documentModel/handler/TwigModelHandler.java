@@ -21,14 +21,14 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
 /**
  * 
  * 
- * The {@link TwigModelHandler} is the main entry point of
- * the org.eclipse.wst.sse.core.modelHandler extension point.
+ * The {@link TwigModelHandler} is the main entry point of the
+ * org.eclipse.wst.sse.core.modelHandler extension point.
  * 
  * It creates the {@link TwigModelLoader} and {@link TwigDocumentLoader}
  * instances.
  * 
- * The most part of this procedure is basically copy-pasted from
- * the SmartyPlugin:
+ * The most part of this procedure is basically copy-pasted from the
+ * SmartyPlugin:
  * 
  * http://code.google.com/p/smartypdt/
  * 
@@ -42,55 +42,54 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
  * 
  * It boils down to this:
  * 
- * The grammar of the underlying XML Tokenizer is created
- * using jflex (http://jflex.de/) - namely version 1.2.2
- * which is not available anymore.
+ * The grammar of the underlying XML Tokenizer is created using jflex
+ * (http://jflex.de/) - namely version 1.2.2 which is not available anymore.
  * 
- * The current version (1.4.3) of jflex does not compile the grammar,
- * so i just used the generated parser from the SmartyPlugin,
- * as it was the only one which extends the WTP HTML editor,
- * instead of writing one from scratch - like the Django plugin
- * does: http://eclipse.kacprzak.org/
+ * The current version (1.4.3) of jflex does not compile the grammar, so i just
+ * used the generated parser from the SmartyPlugin, as it was the only one which
+ * extends the WTP HTML editor, instead of writing one from scratch - like the
+ * Django plugin does: http://eclipse.kacprzak.org/
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class TwigModelHandler extends PHPModelHandler {
-	
-	
-	private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
-	
-	
-	public TwigModelHandler() {
-	
-		super();
-		
-		setId(ModelHandlerID);
-		setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
-		
-	}
-	
-	/*
-	@Override
-	public IModelLoader getModelLoader() {
+public class TwigModelHandler extends PHPModelHandler
+{
 
-		return new TwigModelLoader();
-		
-	}
-	*/
-	
-	@Override
-	public IDocumentCharsetDetector getEncodingDetector() {
-		
-		return new PHPDocumentCharsetDetector();
-	}
-	
-	@Override
-	public IDocumentLoader getDocumentLoader() {
+    private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
 
-		return new TwigDocumentLoader();
-	}
-	
+    public TwigModelHandler()
+    {
+
+        super();
+
+        setId(ModelHandlerID);
+        setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
+
+    }
+
+    /*
+     * @Override public IModelLoader getModelLoader() {
+     * 
+     * return new TwigModelLoader();
+     * 
+     * }
+     */
+
+    @Override
+    public IDocumentCharsetDetector getEncodingDetector()
+    {
+
+        return new PHPDocumentCharsetDetector();
+    }
+
+    @Override
+    public IDocumentLoader getDocumentLoader()
+    {
+
+        return new TwigDocumentLoader();
+    }
+
 }

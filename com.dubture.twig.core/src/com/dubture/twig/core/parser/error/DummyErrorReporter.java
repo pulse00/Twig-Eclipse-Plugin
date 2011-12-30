@@ -10,12 +10,14 @@ package com.dubture.twig.core.parser.error;
 
 import org.antlr.runtime.RecognitionException;
 
-public class DummyErrorReporter implements IErrorReporter {
+public class DummyErrorReporter implements IErrorReporter
+{
 
-	@Override
-	public void reportError(String header, String message,
-			RecognitionException e) {
+    @Override
+    public void reportError(String header, String message,
+            RecognitionException e)
+    {
 
-	}
+    }
 
 }

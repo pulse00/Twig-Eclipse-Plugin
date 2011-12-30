@@ -18,8 +18,8 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class SourceParserUtil
 {
-    public static TwigModuleDeclaration parseSourceModule(Reader in) throws IOException,
-            RecognitionException
+    public static TwigModuleDeclaration parseSourceModule(Reader in)
+            throws IOException, RecognitionException
     {
 
         CharStream content = new ANTLRReaderStream(in);
