@@ -12,21 +12,26 @@ public class Test {
 	
 	public static void main(String[] args) throws RecognitionException {
 
-		CharStream charstream = new ANTLRStringStream("{{ foo }}");
+		CharStream charstream = new ANTLRStringStream("{{  foo(aha)  }}");
 		TwigLexer lexer = new TwigLexer(charstream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		TwigParser parser = new TwigParser(tokenStream);
 		
 		parser.setTreeAdaptor(new TwigTreeAdaptor());
+		
+//		AstNode root = parser.template();
+		
 		template_return template = parser.template();				
 		TwigCommonTree ast = template.tree;
+
+		System.err.println(ast.getToken());
 		
 		Visitor visitor = new Visitor() {
             
             @Override
             public boolean beginVisit(AstNode node) {
 
-                System.err.println("begin visit " + node.getClass());
+//                System.err.println("begin visit " + node.getClass());
                 
                 return true;
                 
@@ -35,7 +40,7 @@ public class Test {
             @Override
             public boolean endVisit(AstNode node) {
 
-                System.err.println("end visit " + node.getClass());
+//                System.err.println("end visit " + node.getClass());
                 
                 return true;                
             }

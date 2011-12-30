@@ -16,9 +16,7 @@ public class IdentNode implements AstNode {
     public IdentNode(String text) {
 //        System.err.println("creating ident node " + text);
     }
-    /* (non-Javadoc)
-     * @see com.dubture.twig.core.ast.parser.AstNode#accept(com.dubture.twig.core.ast.parser.Visitor)
-     */
+
     @Override
     public void accept(Visitor visitor) {
         // TODO Auto-generated method stub

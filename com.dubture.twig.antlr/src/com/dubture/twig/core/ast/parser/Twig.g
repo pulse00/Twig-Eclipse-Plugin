@@ -6,9 +6,6 @@ options {
   ASTLabelType=TwigCommonTree;
 }
 
-tokens {
-  FUNCTIONNAME;
-}
 
 @header {
   package com.dubture.twig.core.ast.parser;
@@ -19,7 +16,7 @@ tokens {
 }
 
 template returns [AstNode node]
-  : twig_print { $node = $twig_print.node; }
+  : e=twig_print { $node = new PrintNode($e.node); }
   ; 
   
 twig_print returns [AstNode node]
@@ -27,9 +24,19 @@ twig_print returns [AstNode node]
     e=expression* { $node = new ExpressionNode($e.node); } 
     T_CLOSE_PRINT!
   ;
+  
+functionCallStatement returns [AstNode node]
+  : IDENT 
+    '(' f=functionParameters ')' { $node = new FunctionCall($f.node, $IDENT.text); }
+  ;
+  
+functionParameters returns [AstNode node]
+  : expression { $node = new FunctionParameter($expression.node); }
+  ;  
     
 expression returns [AstNode node]
   : t=term { $node = new TermNode($t.node); }
+  | functionCallStatement { $node = new ExpressionNode($functionCallStatement.node); }
   ;
   
 term returns [AstNode node]
