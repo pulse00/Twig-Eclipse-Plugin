@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2011-12-30 23:04:26
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2011-12-30 23:20:32
 
   package com.dubture.twig.core.parser.ast;
   
@@ -182,7 +182,7 @@ public class TwigTreeWalker extends TreeParser {
                  
                   CommonToken startToken = (CommonToken) T_OPEN_PRINT1.getToken();
                   CommonToken endToken = (CommonToken) T_CLOSE_PRINT2.getToken();
-                  statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);           
+                  statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
                 
 
             }

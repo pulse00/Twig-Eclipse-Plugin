@@ -15,8 +15,8 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.BufferedTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.ASTVisitor;
 import org.junit.After;
@@ -62,7 +62,10 @@ public class TwigParserTest extends TestCase
             CommonTree tree = (CommonTree) template.getTree();
 
             System.err.println(tree.toStringTree());
-            CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);
+            
+//            CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);
+            // to get the size of the input stream, it's not the size of the tokenstream though...
+            BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
             TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
 
             TwigModuleDeclaration module = walker.module();

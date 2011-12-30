@@ -35,7 +35,7 @@ twig_print returns [Statement statement]
     {     
       CommonToken startToken = (CommonToken) $T_OPEN_PRINT.getToken();
       CommonToken endToken = (CommonToken) $T_CLOSE_PRINT.getToken();
-      statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);           
+      statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
     }
   ;
  
