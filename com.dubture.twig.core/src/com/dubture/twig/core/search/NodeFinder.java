@@ -12,17 +12,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.ITwigNodeVisitor;
 import com.dubture.twig.core.parser.TwigCommonTree;
-import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
-import com.dubture.twig.core.parser.TwigLexer;
 import com.dubture.twig.core.parser.TwigNode;
-import com.dubture.twig.core.parser.TwigParser;
 import com.dubture.twig.core.parser.TwigSourceParser;
 
 
@@ -119,21 +112,21 @@ public class NodeFinder {
 	private void parseTwig(String source, int offset, int line) {
 
 		try {
-
-			CharStream content = new ANTLRStringStream(source);
-			TwigLexer lexer = new TwigLexer(content);
-
-			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-
-			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_source_return root;
-
-			root = parser.twig_source();
-			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			NodeVisitor visitor = new NodeVisitor(offset);
-			
-			if (tree != null)
-				tree.accept(visitor);
+			//TODO: REWRITE AFTER PARSER IMPLEMENTATION
+//			CharStream content = new ANTLRStringStream(source);
+//			TwigLexer lexer = new TwigLexer(content);
+//
+//			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
+//
+//			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+//			TwigParser.twig_source_return root;
+//
+//			root = parser.twig_source();
+//			TwigCommonTree tree = (TwigCommonTree) root.getTree();
+//			NodeVisitor visitor = new NodeVisitor(offset);
+//			
+//			if (tree != null)
+//				tree.accept(visitor);
 
 
 		} catch (Exception e) {
@@ -160,12 +153,13 @@ public class NodeFinder {
 			int nodeEnd = nodeStart + length;
 
 			if (nodeStart <= offset && nodeEnd >= offset) {
-
-				if (node.getType() == TwigParser.STRING) {
-					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.STRING);
-				}/* else if (node.getType() == TwigParser.BLOCK) {
-					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.BLOCK);					
-				}		*/		
+				
+				//TODO: REWRITE AFTER PARSER IMPLEMENTATION
+//				if (node.getType() == TwigParser.STRING) {
+//					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.STRING);
+//				}/* else if (node.getType() == TwigParser.BLOCK) {
+//					NodeFinder.this.node= new TwigNode(node.getText(), nodeStart, nodeEnd, TwigParser.BLOCK);					
+//				}		*/		
 			}
 		}
 

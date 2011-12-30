@@ -75,10 +75,8 @@ import com.dubture.twig.core.documentModel.dom.IImplForTwig;
 import com.dubture.twig.core.documentModel.parser.TwigSourceParser;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.TwigNode;
-import com.dubture.twig.core.parser.TwigParser;
 import com.dubture.twig.core.search.IOccurrencesFinder;
 import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
-import com.dubture.twig.core.search.LocalVariableOccurrencesFinder;
 import com.dubture.twig.core.search.NodeFinder;
 import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
 
@@ -289,23 +287,23 @@ public class TwigStructuredEditor extends PHPStructuredEditor {
 		if (node == null)
 			return;
 
-
-		if (node.getType() == TwigParser.STRING) {
-			
-			IOccurrencesFinder finder = new LocalVariableOccurrencesFinder();
-
-			if (finder.initialize(source, node) == null) {
-				locations = finder.getOccurrences();
-			}
-			
-		}/* else if (node.getType() == TwigParser.BLOCK) {
-			
-			IOccurrencesFinder finder = new OpenCloseTagFinder();
-			
-			if (finder.initialize(source, node) == null) {				
-				locations = finder.getOccurrences();
-			}
-		}*/
+		//TODO: REWRITE AFTER PARSER IMPLEMENTATION
+//		if (node.getType() == TwigParser.STRING) {
+//			
+//			IOccurrencesFinder finder = new LocalVariableOccurrencesFinder();
+//
+//			if (finder.initialize(source, node) == null) {
+//				locations = finder.getOccurrences();
+//			}
+//			
+//		}/* else if (node.getType() == TwigParser.BLOCK) {
+//			
+//			IOccurrencesFinder finder = new OpenCloseTagFinder();
+//			
+//			if (finder.initialize(source, node) == null) {				
+//				locations = finder.getOccurrences();
+//			}
+//		}*/
 		
 
 		if (locations == null)

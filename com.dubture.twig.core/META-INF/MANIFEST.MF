@@ -40,6 +40,6 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.util,
  com.dubture.twig.core.util.text
 Bundle-Vendor: https://github.com/pulse00
-Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.3.jar,
+Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.4.jar,
  .,
  lib/json_simple-1.1.jar

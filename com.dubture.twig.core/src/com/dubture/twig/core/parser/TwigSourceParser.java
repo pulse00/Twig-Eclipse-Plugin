@@ -9,12 +9,16 @@
 package com.dubture.twig.core.parser;
 
 
-import java.io.BufferedReader;
 import java.io.Reader;
 
+import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.eclipse.dltk.ast.ASTNode;
+import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.parser.ISourceParser;
@@ -22,6 +26,11 @@ import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
 
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.ast.TwigLexer;
+import com.dubture.twig.core.parser.ast.TwigParser;
+import com.dubture.twig.core.parser.ast.TwigParser.template_return;
+import com.dubture.twig.core.parser.ast.TwigTreeWalker;
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.error.TwigErrorReporter;
 
 
@@ -39,9 +48,9 @@ import com.dubture.twig.core.parser.error.TwigErrorReporter;
 public class TwigSourceParser extends AbstractPHPSourceParser implements
 ISourceParser {
 
-	private String fileName;
-	private IProblemReporter problemReporter;
-	private TwigErrorReporter reporter;
+//	private String fileName;
+//	private IProblemReporter problemReporter;
+//	private TwigErrorReporter reporter;
 	
 	public static final String TWIG_OPEN = "{{";
 	public static final String TWIG_CLOSE = "}}";
@@ -60,84 +69,50 @@ ISourceParser {
 			boolean useShortTags) throws Exception {
 
 
-		this.problemReporter = reporter;
-		BufferedReader br = new BufferedReader(in);
-		this.reporter = new TwigErrorReporter(problemReporter, fileName);
-		
-		String line;
-		
-		int current = 0;
-		int lineNumber = 0;
-		
-		while( (line = br.readLine()) != null) {
-			
-			lineNumber++;
-			current += line.length();
-			
-			if (line.contains(TWIG_OPEN)) {
-				parseStatement(line, TWIG_OPEN, TWIG_CLOSE, lineNumber, current);				
-			} else if (line.contains(STMT_OPEN)) {
-				parseStatement(line, STMT_OPEN, STMT_CLOSE, lineNumber, current);								
-			}
-		}
-				
-		//return an empty moduledeclaration
-		return new ModuleDeclaration(0);		
-
-	}
-	
-	
-	private void parseStatement(String line, String open, String close, int lineNumber, int current) {
-		
-		int start = 0;
-		int end = 0;
-		
-		while( (start = line.indexOf(open)) >= 0) {
-			
-			end = line.indexOf(close);
-			
-			if (end == -1) {
-				//TODO: report error
-				break;
-			}
-			
-			String twig = line.substring(start, end+2);
-			parseTwig(twig, current + start, lineNumber);
-			
-			if (line.length() > end +1) {						
-				//TODO: report error
-				break;
-			}
-			
-			line = line.substring(end + 2);
-			
-		}
-	}	
-	
-	private void parseTwig(String source, int offset, int line) {
-		
 		try {
 
-			reporter.setOffset(offset, line);
-			CharStream content = new ANTLRStringStream(source);
-			TwigLexer lexer = new TwigLexer(content, reporter);
-			
-			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-			parser.setErrorReporter(reporter);
 
-			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_source_return root;
-
-			root = parser.twig_source();
-			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			TwigNodeVisitor visitor = new TwigNodeVisitor();
+			CharStream content = new ANTLRReaderStream(in);
+			TwigLexer lexer = new TwigLexer(content);
 			
-			if (tree != null)
-				tree.accept(visitor);
+			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));			
+
+			template_return template = parser.template();
+
+			CommonTree tree = (CommonTree) template.getTree();			
+			CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);		
+			TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
+			
+			TwigModuleDeclaration module = walker.module();
+			
+
+			try {
+				module.traverse(new ASTVisitor() {
+					
+					@Override
+					public boolean visitGeneral(ASTNode node) throws Exception {
+//						System.err.println("visit");
+						return super.visitGeneral(node);
+					}
+					
+					@Override
+					public void endvisitGeneral(ASTNode node) throws Exception {
+//						System.err.println("endvisit");
+						super.endvisitGeneral(node);
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
+			
 
 
 		} catch (Exception e) {
 			Logger.logException(e);
-		}
+		}		
+				
+		//return an empty moduledeclaration
+		return new ModuleDeclaration(0);		
+
 	}
 }

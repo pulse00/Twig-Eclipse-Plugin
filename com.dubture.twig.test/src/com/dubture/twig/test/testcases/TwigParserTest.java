@@ -51,7 +51,7 @@ public class TwigParserTest extends TestCase {
 
 		try {
 	//		CharStream charstream = new ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-			CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }}");
+			CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }} \n\n\n{{  foo(bar)  }}");
 			TwigLexer lexer = new TwigLexer(charstream);
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			TwigParser parser = new TwigParser(tokenStream);
@@ -73,13 +73,13 @@ public class TwigParserTest extends TestCase {
 					
 					@Override
 					public boolean visitGeneral(ASTNode node) throws Exception {
-						System.err.println("visit");
+//						System.err.println("visit");
 						return super.visitGeneral(node);
 					}
 					
 					@Override
 					public void endvisitGeneral(ASTNode node) throws Exception {
-						System.err.println("endvisit");
+//						System.err.println("endvisit");
 						super.endvisitGeneral(node);
 					}
 				});

@@ -19,17 +19,18 @@ public class TwigStatementVisitor implements ITwigNodeVisitor {
 	@Override
 	public void beginVisit(TwigCommonTree node) {
 
-		if (node.getType() == TwigParser.TWIG_TAG) {
-
-			if (node.getChildCount() == 1) {
-				
-				type = node.getType();
-				
-				TwigCommonTree child = node.getChild(0);
-				text = child.getText();				
-				
-			}
-		}
+		//TODO: REWRITE AFTER PARSER IMPLEMENTATION
+//		if (node.getType() == TwigParser.TWIG_TAG) {
+//
+//			if (node.getChildCount() == 1) {
+//				
+//				type = node.getType();
+//				
+//				TwigCommonTree child = node.getChild(0);
+//				text = child.getText();				
+//				
+//			}
+//		}
 	}
 
 	@Override

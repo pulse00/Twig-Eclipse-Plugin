@@ -15,18 +15,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.ITwigNodeVisitor;
-import com.dubture.twig.core.parser.TwigCommonTree;
-import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
-import com.dubture.twig.core.parser.TwigLexer;
 import com.dubture.twig.core.parser.TwigNode;
 import com.dubture.twig.core.parser.TwigNodeVisitor;
-import com.dubture.twig.core.parser.TwigParser;
 import com.dubture.twig.core.parser.TwigSourceParser;
 
 
@@ -124,21 +116,22 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor implemen
 
 		try {
 
-			CharStream content = new ANTLRStringStream(source);
-			TwigLexer lexer = new TwigLexer(content);
-
-			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-
-			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_source_return root;
-
-			root = parser.twig_source();
-			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			ITwigNodeVisitor visitor = getVisitor(offset);
-			
-			if (tree != null)
-				tree.accept(visitor);
-
+			//TODO: REWRITE AFTER PARSER IMPLEMENTATION			
+//			CharStream content = new ANTLRStringStream(source);
+//			TwigLexer lexer = new TwigLexer(content);
+//
+//			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
+//
+//			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+//			TwigParser.twig_source_return root;
+//
+//			root = parser.twig_source();
+//			TwigCommonTree tree = (TwigCommonTree) root.getTree();
+//			ITwigNodeVisitor visitor = getVisitor(offset);
+//			
+//			if (tree != null)
+//				tree.accept(visitor);
+//
 
 		} catch (Exception e) {
 			Logger.logException(e);

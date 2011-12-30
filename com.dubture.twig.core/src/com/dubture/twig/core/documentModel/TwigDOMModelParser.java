@@ -8,9 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.core.documentModel;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -20,11 +17,6 @@ import org.eclipse.wst.xml.core.internal.document.XMLModelParser;
 import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
-import com.dubture.twig.core.parser.TwigCommonTree;
-import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
-import com.dubture.twig.core.parser.TwigLexer;
-import com.dubture.twig.core.parser.TwigParser;
-import com.dubture.twig.core.parser.TwigStatementVisitor;
 
 /**
  * 
@@ -80,29 +72,30 @@ public class TwigDOMModelParser extends XMLModelParser {
 				if (cached != null) {		
 					return (String) cached;
 				}
-				
-				CharStream content = new ANTLRStringStream(text);
-				TwigLexer lexer = new TwigLexer(content);
 
-				TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
-
-				parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-				TwigParser.twig_source_return root;
-				
-				root = parser.twig_source();
-				TwigCommonTree tree = (TwigCommonTree) root.getTree();
-				TwigStatementVisitor visitor = new TwigStatementVisitor();
-				
-				if (tree != null) {
-					
-					tree.accept(visitor);
-	
-					if (visitor.getStatementType() == TwigParser.TWIG_TAG) {				
-						String tag = visitor.getTag();
-						cache.put(text, tag);
-						return tag;			
-					}
-				}
+				//TODO: REWRITE AFTER PARSER IMPLEMENTATION				
+//				CharStream content = new ANTLRStringStream(text);
+//				TwigLexer lexer = new TwigLexer(content);
+//
+//				TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
+//
+//				parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+//				TwigParser.twig_source_return root;
+//				
+//				root = parser.twig_source();
+//				TwigCommonTree tree = (TwigCommonTree) root.getTree();
+//				TwigStatementVisitor visitor = new TwigStatementVisitor();
+//				
+//				if (tree != null) {
+//					
+//					tree.accept(visitor);
+//	
+//					if (visitor.getStatementType() == TwigParser.TWIG_TAG) {				
+//						String tag = visitor.getTag();
+//						cache.put(text, tag);
+//						return tag;			
+//					}
+//				}
 				
 			} catch (Exception e) {
 				TwigCorePlugin.log(e);				

@@ -8,21 +8,11 @@
  ******************************************************************************/
 package com.dubture.twig.core.documentModel.parser;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
-import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
-import org.osgi.service.framework.SurrogateBundle;
 
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.TwigCommonTree;
-import com.dubture.twig.core.parser.TwigCommonTreeAdaptor;
-import com.dubture.twig.core.parser.TwigLexer;
-import com.dubture.twig.core.parser.TwigParser;
-import com.dubture.twig.core.parser.error.DummyErrorReporter;
 
 
 
@@ -129,27 +119,28 @@ public class TwigSourceElementRequestorExtension extends
 
 		try {
 
-			CharStream content = new ANTLRStringStream(source);
-			DummyErrorReporter dummy = new DummyErrorReporter();
-			TwigLexer lexer = new TwigLexer(content, dummy);
-
-			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));		
-			parser.setErrorReporter(dummy);
-
-			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-			TwigParser.twig_source_return root;
-
-			root = parser.twig_source();
-			TwigCommonTree tree = (TwigCommonTree) root.getTree();
-			
-			
-			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start, getSourceModule().getModelElement());
-			
-			if (tree != null)
-				tree.accept(visitor);
-			else {
-				Logger.debugMSG("unable to create antlr commontree");
-			}
+			//TODO: REWRITE AFTER PARSER IMPLEMENTATION			
+//			CharStream content = new ANTLRStringStream(source);
+//			DummyErrorReporter dummy = new DummyErrorReporter();
+//			TwigLexer lexer = new TwigLexer(content, dummy);
+//
+//			TwigParser parser = new TwigParser(new CommonTokenStream(lexer));		
+//			parser.setErrorReporter(dummy);
+//
+//			parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+//			TwigParser.twig_source_return root;
+//
+//			root = parser.twig_source();
+//			TwigCommonTree tree = (TwigCommonTree) root.getTree();
+//			
+//			
+//			TwigIndexingVisitor visitor = new TwigIndexingVisitor(requestor, start, getSourceModule().getModelElement());
+//			
+//			if (tree != null)
+//				tree.accept(visitor);
+//			else {
+//				Logger.debugMSG("unable to create antlr commontree");
+//			}
 			
 		} catch (Exception e) {
 			Logger.logException(e);
