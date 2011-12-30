@@ -7,7 +7,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>com.dubture.twig.core</module>
-    <module>com.dubture.twig.parser</module>
     <module>com.dubture.twig.ui</module>
     <module>com.dubture.twig.test</module>
   </modules>
