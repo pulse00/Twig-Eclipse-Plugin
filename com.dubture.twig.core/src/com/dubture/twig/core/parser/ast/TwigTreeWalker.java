@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2011-12-30 23:20:32
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2011-12-30 23:45:34
 
   package com.dubture.twig.core.parser.ast;
   
@@ -16,23 +16,23 @@ import java.util.ArrayList;
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class TwigTreeWalker extends TreeParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "DIGIT", "IDENT", "LETTER", "NUMBER", "TWIG_VAR", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "'('", "')'", "','"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "DIGIT", "IDENT", "LETTER", "NUMBER", "TWIG_VAR", "T_CLOSE_PAREN", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_PAREN", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "','"
     };
 
     public static final int EOF=-1;
-    public static final int T__14=14;
-    public static final int T__15=15;
     public static final int T__16=16;
     public static final int DIGIT=4;
     public static final int IDENT=5;
     public static final int LETTER=6;
     public static final int NUMBER=7;
     public static final int TWIG_VAR=8;
-    public static final int T_CLOSE_PRINT=9;
-    public static final int T_CLOSE_STMT=10;
-    public static final int T_OPEN_PRINT=11;
-    public static final int T_OPEN_STMT=12;
-    public static final int WS=13;
+    public static final int T_CLOSE_PAREN=9;
+    public static final int T_CLOSE_PRINT=10;
+    public static final int T_CLOSE_STMT=11;
+    public static final int T_OPEN_PAREN=12;
+    public static final int T_OPEN_PRINT=13;
+    public static final int T_OPEN_STMT=14;
+    public static final int WS=15;
 
     // delegates
     public TreeParser[] getDelegates() {
@@ -122,9 +122,9 @@ public class TwigTreeWalker extends TreeParser {
 
 
     // $ANTLR start "twig_print"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:28:1: twig_print returns [Statement statement] : ^( T_OPEN_PRINT (e= expression )* T_CLOSE_PRINT ) ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:28:1: twig_print returns [Statement node] : ^( T_OPEN_PRINT (e= expression )* T_CLOSE_PRINT ) ;
     public final Statement twig_print() throws RecognitionException {
-        Statement statement = null;
+        Statement node = null;
 
 
         CommonTree T_OPEN_PRINT1=null;
@@ -182,7 +182,7 @@ public class TwigTreeWalker extends TreeParser {
                  
                   CommonToken startToken = (CommonToken) T_OPEN_PRINT1.getToken();
                   CommonToken endToken = (CommonToken) T_CLOSE_PRINT2.getToken();
-                  statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
+                  node = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
                 
 
             }
@@ -196,25 +196,24 @@ public class TwigTreeWalker extends TreeParser {
         finally {
         	// do for sure before leaving
         }
-        return statement;
+        return node;
     }
     // $ANTLR end "twig_print"
 
 
 
     // $ANTLR start "expression"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:42:1: expression returns [Expression node] : ( ^( IDENT e= expression ) | IDENT );
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:42:1: expression returns [Expression node] : (f= function | IDENT );
     public final Expression expression() throws RecognitionException {
         Expression node = null;
 
 
         CommonTree IDENT3=null;
-        CommonTree IDENT4=null;
-        Expression e =null;
+        Expression f =null;
 
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:44:3: ( ^( IDENT e= expression ) | IDENT )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:43:3: (f= function | IDENT )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -224,7 +223,7 @@ public class TwigTreeWalker extends TreeParser {
                 if ( (LA3_1==DOWN) ) {
                     alt3=1;
                 }
-                else if ( (LA3_1==UP||LA3_1==IDENT||LA3_1==T_CLOSE_PRINT) ) {
+                else if ( (LA3_1==IDENT||(LA3_1 >= T_CLOSE_PAREN && LA3_1 <= T_CLOSE_PRINT)) ) {
                     alt3=2;
                 }
                 else {
@@ -244,30 +243,24 @@ public class TwigTreeWalker extends TreeParser {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:44:5: ^( IDENT e= expression )
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:43:5: f= function
                     {
-                    IDENT3=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_expression152); 
-
-                    match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_expression_in_expression156);
-                    e=expression();
+                    pushFollow(FOLLOW_function_in_expression152);
+                    f=function();
 
                     state._fsp--;
 
 
-                    match(input, Token.UP, null); 
-
-
-                     node = new TwigCallExpression(e, (IDENT3!=null?IDENT3.getText():null)); 
+                     node = f; 
 
                     }
                     break;
                 case 2 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:47:5: IDENT
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:44:5: IDENT
                     {
-                    IDENT4=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_expression175); 
+                    IDENT3=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_expression160); 
 
-                     node = new IdentNode((IDENT4!=null?IDENT4.getText():null)); 
+                     node = new IdentNode((IDENT3!=null?IDENT3.getText():null)); 
 
                     }
                     break;
@@ -286,17 +279,100 @@ public class TwigTreeWalker extends TreeParser {
     }
     // $ANTLR end "expression"
 
+
+
+    // $ANTLR start "function"
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:50:1: function returns [Expression node] : ^( IDENT (e= expression )* T_CLOSE_PAREN ) ;
+    public final Expression function() throws RecognitionException {
+        Expression node = null;
+
+
+        CommonTree IDENT4=null;
+        CommonTree T_CLOSE_PAREN5=null;
+        Expression e =null;
+
+
+
+            List<Expression> arguments = new ArrayList<Expression>();
+          
+        try {
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:56:3: ( ^( IDENT (e= expression )* T_CLOSE_PAREN ) )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:56:5: ^( IDENT (e= expression )* T_CLOSE_PAREN )
+            {
+            IDENT4=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_function194); 
+
+            match(input, Token.DOWN, null); 
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:56:13: (e= expression )*
+            loop4:
+            do {
+                int alt4=2;
+                int LA4_0 = input.LA(1);
+
+                if ( (LA4_0==IDENT) ) {
+                    alt4=1;
+                }
+
+
+                switch (alt4) {
+            	case 1 :
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:56:14: e= expression
+            	    {
+            	    pushFollow(FOLLOW_expression_in_function199);
+            	    e=expression();
+
+            	    state._fsp--;
+
+
+            	     arguments.add(e); 
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop4;
+                }
+            } while (true);
+
+
+            T_CLOSE_PAREN5=(CommonTree)match(input,T_CLOSE_PAREN,FOLLOW_T_CLOSE_PAREN_in_function206); 
+
+            match(input, Token.UP, null); 
+
+
+                
+                  CommonToken startToken = (CommonToken) IDENT4.getToken();
+                  CommonToken endToken = (CommonToken) T_CLOSE_PAREN5.getToken();     
+                  node = new TwigCallExpression(startToken.getStartIndex(), endToken.getStopIndex(), (IDENT4!=null?IDENT4.getText():null), arguments); 
+                
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return node;
+    }
+    // $ANTLR end "function"
+
     // Delegated rules
 
 
  
 
-    public static final BitSet FOLLOW_twig_print_in_module71 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_twig_print_in_module71 = new BitSet(new long[]{0x0000000000002002L});
     public static final BitSet FOLLOW_T_OPEN_PRINT_in_twig_print113 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_twig_print118 = new BitSet(new long[]{0x0000000000000220L});
+    public static final BitSet FOLLOW_expression_in_twig_print118 = new BitSet(new long[]{0x0000000000000420L});
     public static final BitSet FOLLOW_T_CLOSE_PRINT_in_twig_print124 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_IDENT_in_expression152 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_expression156 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_IDENT_in_expression175 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_function_in_expression152 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENT_in_expression160 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENT_in_function194 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expression_in_function199 = new BitSet(new long[]{0x0000000000000220L});
+    public static final BitSet FOLLOW_T_CLOSE_PAREN_in_function206 = new BitSet(new long[]{0x0000000000000008L});
 
 }

@@ -51,7 +51,7 @@ public class TwigParserTest extends TestCase
         try {
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }} {{  foo  }}");
+            CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }} {{  mancha(aha, mah)  }}");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);

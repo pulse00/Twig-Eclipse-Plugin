@@ -25,7 +25,7 @@ module returns [TwigModuleDeclaration node]
     { node = new TwigModuleDeclaration(0, statements); }
   ;
   
-twig_print returns [Statement statement]
+twig_print returns [Statement node]
 
   @init {
     List<Expression> expressions = new ArrayList<Expression>();
@@ -35,14 +35,28 @@ twig_print returns [Statement statement]
     {     
       CommonToken startToken = (CommonToken) $T_OPEN_PRINT.getToken();
       CommonToken endToken = (CommonToken) $T_CLOSE_PRINT.getToken();
-      statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
+      node = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
     }
   ;
  
 expression returns [Expression node]
-
-  : ^(IDENT e=expression) 
-    { node = new TwigCallExpression(e, $IDENT.text); }
-    
+  : f=function { node = f; }
   | IDENT { node = new IdentNode($IDENT.text); }
+  ;
+  
+// a function tree has is passed in in the form <IDENT expression T_CLOSE_PAREN>
+// we need the close parenthesis to get the absolute end position of the function in 
+// the template
+function returns [Expression node]
+
+  @init {
+    List<Expression> arguments = new ArrayList<Expression>();
+  }
+
+  : ^(IDENT (e=expression { arguments.add(e); })*  T_CLOSE_PAREN) 
+    {    
+      CommonToken startToken = (CommonToken) $IDENT.getToken();
+      CommonToken endToken = (CommonToken) $T_CLOSE_PAREN.getToken();     
+      node = new TwigCallExpression(startToken.getStartIndex(), endToken.getStopIndex(), $IDENT.text, arguments); 
+    }
   ;
