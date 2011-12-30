@@ -1,1 +1,4 @@
 script: mvn install
+braches:
+  only:
+    master
