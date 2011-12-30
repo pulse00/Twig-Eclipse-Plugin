@@ -11,7 +11,10 @@ options {
 }
 
 template returns [AstNode node]
-  : p=twig_print* { node = new Template(p); }
+  @init {
+    List<AstNode> statements = new ArrayList<AstNode>();
+  }
+  : (p=twig_print { statements.add(p); })* { node = new Template(statements); }
   ;
   
 twig_print returns [AstNode node]
@@ -22,6 +25,6 @@ twig_print returns [AstNode node]
   ;
  
 expression returns [AstNode node]
-  : ^(FUNCTION_IDENTIFIER e=expression) { node = new FunctionCall(e, $FUNCTION_IDENTIFIER.text); }
+  : ^(IDENT e=expression) { node = new FunctionCall(e, $IDENT.text); }
   | IDENT { node = new IdentNode($IDENT.text); }
   ;

@@ -4,19 +4,25 @@ import java.util.List;
 
 public class PrintStatement implements AstNode {
 
+	protected List<AstNode> expressions;
+	
+	
 	public PrintStatement(List<AstNode> expressions) {
 
-		System.err.println("creating print node with " + expressions.size() + " children:");
+		this.expressions = expressions;		
 		
-		for (AstNode child : expressions) {			
-			System.err.println(child.getClass());
-		}
 	}
 
 	@Override
 	public void accept(Visitor visitor) {
 
+		visitor.beginVisit(this);
 
+		for (AstNode expression : expressions) {			
+			expression.accept(visitor);
+		}
+		
+		visitor.endVisit(this);
 	}
 
 }

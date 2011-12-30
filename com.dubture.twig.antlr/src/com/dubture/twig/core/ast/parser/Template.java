@@ -1,15 +1,27 @@
 package com.dubture.twig.core.ast.parser;
 
-public class Template extends AbstractAstNode {
+import java.util.List;
 
-	public Template(AstNode parent) {
-		super(parent);
-		// TODO Auto-generated constructor stub
+public class Template implements AstNode {
+
+	protected List<AstNode> statements;
+	
+	public Template(List<AstNode> statements) {
+
+		this.statements = statements;
+		System.err.println("created template containing " + statements.size() + " statements");
 	}
 
 	@Override
 	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
+		
+		visitor.beginVisit(this);
+
+		for (AstNode statement : statements) {			
+			statement.accept(visitor);	
+		}
+		
+		visitor.endVisit(this);
 
 	}
 

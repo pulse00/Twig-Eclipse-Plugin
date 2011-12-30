@@ -24,17 +24,19 @@ public class Test {
 		System.err.println("BUILT TREE");
 		System.err.println(template.tree.toStringTree());
 		System.err.println();
+		
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(template.tree);		
 		TwigTreeWalker walker = new TwigTreeWalker(nodeStream);		
 		AstNode root = walker.template();
+		
+		System.err.println("root node is " + root.getClass());
 		
 		Visitor visitor = new Visitor() {
             
             @Override
             public boolean beginVisit(AstNode node) {
 
-                System.err.println("begin visit " + node.getClass());
-                
+                System.err.println("begin visit " + node.getClass());                
                 return true;
                 
             }
@@ -42,8 +44,7 @@ public class Test {
             @Override
             public boolean endVisit(AstNode node) {
 
-                System.err.println("end visit " + node.getClass());
-                
+                System.err.println("end visit " + node.getClass());                
                 return true;                
             }
             

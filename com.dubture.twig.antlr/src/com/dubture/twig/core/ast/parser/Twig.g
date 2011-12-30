@@ -7,7 +7,6 @@ options {
 }
 
 tokens {
-  FUNCTION_IDENTIFIER;
   TWIG_VAR;
 }
 
@@ -32,11 +31,7 @@ twig_var
   ;
   
 functionCallStatement 
-  : functionIdentifier^ '('! functionParameters ')'!
-  ;
-  
-functionIdentifier
-  : IDENT -> FUNCTION_IDENTIFIER
+  : IDENT^ '('! functionParameters ')'!
   ;
   
 functionParameters
