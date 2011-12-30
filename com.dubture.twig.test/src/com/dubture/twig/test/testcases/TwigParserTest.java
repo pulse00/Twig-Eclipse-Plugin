@@ -32,8 +32,6 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 public class TwigParserTest extends TestCase
 {
 
-    private TestErrorReporter reporter = new TestErrorReporter();
-
     @Before
     protected void setUp() throws Exception
     {
@@ -53,8 +51,7 @@ public class TwigParserTest extends TestCase
         try {
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream(
-                    "{{  foo(bar)  }} \n\n\n{{  foo(bar)  }}");
+            CharStream charstream = new ANTLRStringStream("{{  foo(bar)  }} {{  foo  }}");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);

@@ -14,6 +14,7 @@ options {
   import org.eclipse.dltk.ast.expressions.Expression;
 }
 
+
 module returns [TwigModuleDeclaration node]
 
   @init {
@@ -30,8 +31,12 @@ twig_print returns [Statement statement]
     List<Expression> expressions = new ArrayList<Expression>();
   }
   
-  : ^(T_OPEN_PRINT (e=expression { expressions.add(e); })*) 
-    { statement = new PrintStatement(0, 0, expressions); }
+  : ^(T_OPEN_PRINT (e=expression { expressions.add(e); })* T_CLOSE_PRINT) 
+    {     
+      CommonToken startToken = (CommonToken) $T_OPEN_PRINT.getToken();
+      CommonToken endToken = (CommonToken) $T_CLOSE_PRINT.getToken();
+      statement = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);           
+    }
   ;
  
 expression returns [Expression node]

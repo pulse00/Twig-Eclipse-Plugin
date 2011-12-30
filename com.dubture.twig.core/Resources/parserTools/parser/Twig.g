@@ -23,7 +23,7 @@ template
   ; 
   
 twig_print
-  : T_OPEN_PRINT^ (expression)* T_CLOSE_PRINT!
+  : T_OPEN_PRINT^ (expression)* T_CLOSE_PRINT
   ;
   
   
