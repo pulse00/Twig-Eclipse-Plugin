@@ -6,12 +6,15 @@ import org.eclipse.dltk.ast.expressions.Expression;
 
 public class TwigCallExpression extends Expression
 {
- 
+    
+    protected final List<Expression> arguments;
+    protected final String name;
+
     public TwigCallExpression(int startIndex, int stopIndex, String name, List<Expression> arguments)
     {
         super(startIndex, stopIndex);
-        
-        System.err.println("twig function " + name + " called with " + arguments.size() + " arguments");
+        this.name = name;
+        this.arguments = arguments;        
     }
 
     @Override
@@ -19,4 +22,14 @@ public class TwigCallExpression extends Expression
     {
         return ASTNodeKinds.CALL_EXPRESSION;
     }
+    
+    public List<Expression> getArguments()
+    {
+        return arguments;
+    }
+
+    public String getName()
+    {
+        return name;
+    }    
 }

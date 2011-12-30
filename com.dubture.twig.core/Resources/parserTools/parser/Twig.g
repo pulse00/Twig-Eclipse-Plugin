@@ -38,8 +38,16 @@ functionParameters
 expression 
   : term
   | functionCallStatement
+  | hash
   ;
- 
+  
+hash
+  : T_OPEN_CURLY^ hash_body* T_CLOSE_CURLY
+  ; 
+  
+hash_body
+  : expression (COLON expression)
+  ;
  
 term 
   : IDENT
@@ -52,6 +60,11 @@ fragment DIGIT : '0'..'9';
 T_OPEN_PAREN: '(';  
 T_CLOSE_PAREN: ')';
 
+T_OPEN_CURLY: '{';  
+T_CLOSE_CURLY: '}';
+
+COLON: ':';
+
 T_OPEN_PRINT: '{{';  
 T_CLOSE_PRINT: '}}';
 
@@ -60,4 +73,5 @@ T_CLOSE_STMT: '%}';
 
 NUMBER : DIGIT+;
 IDENT : (LETTER)(LETTER | DIGIT)*;
+PUNCTUATION: '(' | ')'  | '['  | ']'  | '?'  | '.'  | ','  | '|'  | '\'';
 WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;
