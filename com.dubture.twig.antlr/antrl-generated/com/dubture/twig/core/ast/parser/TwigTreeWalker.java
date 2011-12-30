@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g 2011-12-30 18:56:36
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g 2011-12-30 19:00:02
 
   package com.dubture.twig.core.ast.parser; 
 
@@ -12,24 +12,23 @@ import java.util.ArrayList;
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class TwigTreeWalker extends TreeParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "DIGIT", "FUNCTION_IDENTIFIER", "IDENT", "LETTER", "NUMBER", "TWIG_VAR", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "'('", "')'", "','"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "DIGIT", "IDENT", "LETTER", "NUMBER", "TWIG_VAR", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "'('", "')'", "','"
     };
 
     public static final int EOF=-1;
+    public static final int T__14=14;
     public static final int T__15=15;
     public static final int T__16=16;
-    public static final int T__17=17;
     public static final int DIGIT=4;
-    public static final int FUNCTION_IDENTIFIER=5;
-    public static final int IDENT=6;
-    public static final int LETTER=7;
-    public static final int NUMBER=8;
-    public static final int TWIG_VAR=9;
-    public static final int T_CLOSE_PRINT=10;
-    public static final int T_CLOSE_STMT=11;
-    public static final int T_OPEN_PRINT=12;
-    public static final int T_OPEN_STMT=13;
-    public static final int WS=14;
+    public static final int IDENT=5;
+    public static final int LETTER=6;
+    public static final int NUMBER=7;
+    public static final int TWIG_VAR=8;
+    public static final int T_CLOSE_PRINT=9;
+    public static final int T_CLOSE_STMT=10;
+    public static final int T_OPEN_PRINT=11;
+    public static final int T_OPEN_STMT=12;
+    public static final int WS=13;
 
     // delegates
     public TreeParser[] getDelegates() {
@@ -73,7 +72,7 @@ public class TwigTreeWalker extends TreeParser {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==TWIG_VAR) ) {
+                if ( (LA1_0==T_OPEN_PRINT) ) {
                     alt1=1;
                 }
 
@@ -119,7 +118,7 @@ public class TwigTreeWalker extends TreeParser {
 
 
     // $ANTLR start "twig_print"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:20:1: twig_print returns [AstNode node] : ^( TWIG_VAR (e= expression )* ) ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:20:1: twig_print returns [AstNode node] : ^( T_OPEN_PRINT (e= expression )* ) ;
     public final AstNode twig_print() throws RecognitionException {
         AstNode node = null;
 
@@ -131,14 +130,14 @@ public class TwigTreeWalker extends TreeParser {
             List<AstNode> expressions = new ArrayList<AstNode>();
           
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:3: ( ^( TWIG_VAR (e= expression )* ) )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:5: ^( TWIG_VAR (e= expression )* )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:3: ( ^( T_OPEN_PRINT (e= expression )* ) )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:5: ^( T_OPEN_PRINT (e= expression )* )
             {
-            match(input,TWIG_VAR,FOLLOW_TWIG_VAR_in_twig_print99); 
+            match(input,T_OPEN_PRINT,FOLLOW_T_OPEN_PRINT_in_twig_print99); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:16: (e= expression )*
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:20: (e= expression )*
                 loop2:
                 do {
                     int alt2=2;
@@ -151,7 +150,7 @@ public class TwigTreeWalker extends TreeParser {
 
                     switch (alt2) {
                 	case 1 :
-                	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:17: e= expression
+                	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.antlr/src/com/dubture/twig/core/ast/parser/TwigTreeWalker.g:24:21: e= expression
                 	    {
                 	    pushFollow(FOLLOW_expression_in_twig_print104);
                 	    e=expression();
@@ -282,9 +281,9 @@ public class TwigTreeWalker extends TreeParser {
 
  
 
-    public static final BitSet FOLLOW_twig_print_in_template66 = new BitSet(new long[]{0x0000000000000202L});
-    public static final BitSet FOLLOW_TWIG_VAR_in_twig_print99 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_twig_print104 = new BitSet(new long[]{0x0000000000000048L});
+    public static final BitSet FOLLOW_twig_print_in_template66 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_T_OPEN_PRINT_in_twig_print99 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expression_in_twig_print104 = new BitSet(new long[]{0x0000000000000028L});
     public static final BitSet FOLLOW_IDENT_in_expression130 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_expression_in_expression134 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_IDENT_in_expression143 = new BitSet(new long[]{0x0000000000000002L});

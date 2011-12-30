@@ -13,7 +13,6 @@ tokens {
 @header {
   package com.dubture.twig.core.ast.parser;
 }
-
 @lexer::header {
   package com.dubture.twig.core.ast.parser;  
 }
@@ -23,12 +22,9 @@ template
   ; 
   
 twig_print
-  : twig_var^ (expression)* T_CLOSE_PRINT!
+  : T_OPEN_PRINT^ (expression)* T_CLOSE_PRINT!
   ;
   
-twig_var
-  : T_OPEN_PRINT -> TWIG_VAR
-  ;
   
 functionCallStatement 
   : IDENT^ '('! functionParameters ')'!

@@ -21,7 +21,7 @@ twig_print returns [AstNode node]
   @init {
     List<AstNode> expressions = new ArrayList<AstNode>();
   }
-  : ^(TWIG_VAR (e=expression { expressions.add(e); })*) { node = new PrintStatement(expressions); }
+  : ^(T_OPEN_PRINT (e=expression { expressions.add(e); })*) { node = new PrintStatement(expressions); }
   ;
  
 expression returns [AstNode node]
