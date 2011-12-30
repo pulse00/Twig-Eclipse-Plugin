@@ -3,9 +3,13 @@ grammar Twig;
 options {
   language = Java;
   output=AST;
-  ASTLabelType=TwigCommonTree;
+  ASTLabelType=CommonTree;
 }
 
+tokens {
+  FUNCTION_IDENTIFIER;
+  TWIG_VAR;
+}
 
 @header {
   package com.dubture.twig.core.ast.parser;
@@ -15,33 +19,38 @@ options {
   package com.dubture.twig.core.ast.parser;  
 }
 
-template returns [AstNode node]
-  : e=twig_print { $node = new PrintNode($e.node); }
+template
+  : twig_print*
   ; 
   
-twig_print returns [AstNode node]
-  : T_OPEN_PRINT! 
-    e=expression* { $node = new ExpressionNode($e.node); } 
-    T_CLOSE_PRINT!
+twig_print
+  : twig_var^ (expression)* T_CLOSE_PRINT!
   ;
   
-functionCallStatement returns [AstNode node]
-  : IDENT 
-    '(' f=functionParameters ')' { $node = new FunctionCall($f.node, $IDENT.text); }
+twig_var
+  : T_OPEN_PRINT -> TWIG_VAR
   ;
   
-functionParameters returns [AstNode node]
-  : expression { $node = new FunctionParameter($expression.node); }
+functionCallStatement 
+  : functionIdentifier^ '('! functionParameters ')'!
+  ;
+  
+functionIdentifier
+  : IDENT -> FUNCTION_IDENTIFIER
+  ;
+  
+functionParameters
+  : expression (',' expression)*
   ;  
     
-expression returns [AstNode node]
-  : t=term { $node = new TermNode($t.node); }
-  | functionCallStatement { $node = new ExpressionNode($functionCallStatement.node); }
+expression 
+  : term
+  | functionCallStatement
   ;
   
-term returns [AstNode node]
-  : IDENT { $node = new IdentNode($IDENT.text); }
-  | NUMBER { $node = new NumberNode(Integer.parseInt($NUMBER.text)); }
+term 
+  : IDENT
+  | NUMBER 
   ;
 
 fragment LETTER : ('a'..'z' | 'A'..'Z') ;
