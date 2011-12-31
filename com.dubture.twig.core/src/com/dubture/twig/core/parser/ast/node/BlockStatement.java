@@ -15,7 +15,7 @@ public class BlockStatement extends Statement
         super(startIndex, stopIndex);
         this.name = name;
         
-        System.err.println("creating block statement " + name +  " with " + expressions.size() + " children:");
+        System.err.println("creating block statement '" + name +  "' with " + expressions.size() + " children:");
         
         for (Expression expr : expressions) {
             System.err.println(expr.getClass());
@@ -26,8 +26,6 @@ public class BlockStatement extends Statement
     @Override
     public int getKind()
     {
-
-        return 0;
+        return ASTNodeKinds.BLOCK_STATEMENT;
     }
-
 }

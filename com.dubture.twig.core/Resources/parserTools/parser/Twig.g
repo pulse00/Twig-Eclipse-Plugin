@@ -27,15 +27,15 @@ template
 twig_print 
   // in the tree walker we ar only interested in the expressions inside the print statement
   // so throw away the | and . operators
-  : T_OPEN_PRINT^ body T_CLOSE_PRINT
+  : T_OPEN_PRINT^ body? T_CLOSE_PRINT
   ;
   
 twig_block
-  : T_OPEN_STMT^ IDENT body T_CLOSE_STMT
+  : T_OPEN_STMT^ IDENT body? T_CLOSE_STMT
   ;
   
 body
-  : expression ( ('|' | '.' | ',' | '~')! expression)*
+  : expression ( (('|' | '.' | ',' | '~')?)! expression)*
   ;
   
 functionCallStatement 
