@@ -16,14 +16,13 @@ options {
   import org.eclipse.dltk.ast.expressions.Expression;
 }
 
-
 module returns [TwigModuleDeclaration node]
 
   @init {
     List<Statement> statements = new ArrayList<Statement>();
   }
   
-  :   ( (p=twig_print) { statements.add(p);} | (b=twig_block) { statements.add(b); } )*
+  :   ( (p=twig_print) { statements.add(p);} | (b=twig_block) { statements.add(b); } )* EOF
     { node = new TwigModuleDeclaration(0, statements); }
   ;
   
@@ -73,7 +72,7 @@ expression returns [Expression node]
   ;
   
 variable_access returns [VariableAccess node]
-  : DOT e=expression
+  : ^(DOT e=expression)
     {
       CommonToken startToken = (CommonToken) $DOT.getToken();     
       node = new VariableAccess(startToken.getStartIndex(), startToken.getStopIndex(), e); 

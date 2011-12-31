@@ -18,7 +18,7 @@ public class VariableAccess extends Expression {
     /**
      * @param startIndex
      * @param stopIndex
-     * @param e
+     * @param expression
      */
     public VariableAccess(int startIndex, int stopIndex, Expression expression) {
         super(startIndex, stopIndex);

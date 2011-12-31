@@ -21,7 +21,7 @@ tokens {
 
 
 template
-  : (twig_print | twig_block)*
+  : (twig_print | twig_block)* EOF
   ; 
   
 twig_print 
@@ -57,7 +57,7 @@ expression
   ;
   
 variable_access
-  : DOT expression
+  : DOT^ expression
   ;
   
   

@@ -50,8 +50,6 @@ public class TwigParserTest extends TestCase
 
         try {
             
-            
-            
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
             CharStream charstream = new ANTLRStringStream("{{ foo(manchu).getUser }}");
