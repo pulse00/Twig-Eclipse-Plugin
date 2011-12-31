@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2011-12-31 02:14:08
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2011-12-31 10:57:18
 
   package com.dubture.twig.core.parser.ast;  
 
@@ -16,6 +16,7 @@ public class TwigLexer extends Lexer {
     public static final int T__24=24;
     public static final int T__25=25;
     public static final int T__26=26;
+    public static final int T__27=27;
     public static final int ARRAY_CLOSE=4;
     public static final int ARRAY_OPEN=5;
     public static final int COLON=6;
@@ -154,6 +155,27 @@ public class TwigLexer extends Lexer {
         }
     }
     // $ANTLR end "T__26"
+
+    // $ANTLR start "T__27"
+    public final void mT__27() throws RecognitionException {
+        try {
+            int _type = T__27;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:16:7: ( '~' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:16:9: '~'
+            {
+            match('~'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        	// do for sure before leaving
+        }
+    }
+    // $ANTLR end "T__27"
 
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
@@ -615,8 +637,8 @@ public class TwigLexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:8: ( T__22 | T__23 | T__24 | T__25 | T__26 | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | COLON | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | NUMBER | IDENT | PUNCTUATION | WS )
-        int alt4=18;
+        // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:8: ( T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | COLON | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | NUMBER | IDENT | PUNCTUATION | WS )
+        int alt4=19;
         switch ( input.LA(1) ) {
         case ',':
             {
@@ -643,14 +665,19 @@ public class TwigLexer extends Lexer {
             alt4=5;
             }
             break;
-        case '(':
+        case '~':
             {
             alt4=6;
             }
             break;
-        case ')':
+        case '(':
             {
             alt4=7;
+            }
+            break;
+        case ')':
+            {
+            alt4=8;
             }
             break;
         case '{':
@@ -658,40 +685,40 @@ public class TwigLexer extends Lexer {
             switch ( input.LA(2) ) {
             case '{':
                 {
-                alt4=11;
+                alt4=12;
                 }
                 break;
             case '%':
                 {
-                alt4=13;
+                alt4=14;
                 }
                 break;
             default:
-                alt4=8;
+                alt4=9;
             }
 
             }
             break;
         case '}':
             {
-            int LA4_9 = input.LA(2);
+            int LA4_10 = input.LA(2);
 
-            if ( (LA4_9=='}') ) {
-                alt4=12;
+            if ( (LA4_10=='}') ) {
+                alt4=13;
             }
             else {
-                alt4=9;
+                alt4=10;
             }
             }
             break;
         case ':':
             {
-            alt4=10;
+            alt4=11;
             }
             break;
         case '%':
             {
-            alt4=14;
+            alt4=15;
             }
             break;
         case '0':
@@ -705,7 +732,7 @@ public class TwigLexer extends Lexer {
         case '8':
         case '9':
             {
-            alt4=15;
+            alt4=16;
             }
             break;
         case 'A':
@@ -761,13 +788,13 @@ public class TwigLexer extends Lexer {
         case 'y':
         case 'z':
             {
-            alt4=16;
+            alt4=17;
             }
             break;
         case '\'':
         case '?':
             {
-            alt4=17;
+            alt4=18;
             }
             break;
         case '\t':
@@ -776,7 +803,7 @@ public class TwigLexer extends Lexer {
         case '\r':
         case ' ':
             {
-            alt4=18;
+            alt4=19;
             }
             break;
         default:
@@ -829,103 +856,111 @@ public class TwigLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:40: T_OPEN_PAREN
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:40: T__27
+                {
+                mT__27(); 
+
+
+                }
+                break;
+            case 7 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:46: T_OPEN_PAREN
                 {
                 mT_OPEN_PAREN(); 
 
 
                 }
                 break;
-            case 7 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:53: T_CLOSE_PAREN
+            case 8 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:59: T_CLOSE_PAREN
                 {
                 mT_CLOSE_PAREN(); 
 
 
                 }
                 break;
-            case 8 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:67: T_OPEN_CURLY
+            case 9 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:73: T_OPEN_CURLY
                 {
                 mT_OPEN_CURLY(); 
 
 
                 }
                 break;
-            case 9 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:80: T_CLOSE_CURLY
+            case 10 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:86: T_CLOSE_CURLY
                 {
                 mT_CLOSE_CURLY(); 
 
 
                 }
                 break;
-            case 10 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:94: COLON
+            case 11 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:100: COLON
                 {
                 mCOLON(); 
 
 
                 }
                 break;
-            case 11 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:100: T_OPEN_PRINT
+            case 12 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:106: T_OPEN_PRINT
                 {
                 mT_OPEN_PRINT(); 
 
 
                 }
                 break;
-            case 12 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:113: T_CLOSE_PRINT
+            case 13 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:119: T_CLOSE_PRINT
                 {
                 mT_CLOSE_PRINT(); 
 
 
                 }
                 break;
-            case 13 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:127: T_OPEN_STMT
+            case 14 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:133: T_OPEN_STMT
                 {
                 mT_OPEN_STMT(); 
 
 
                 }
                 break;
-            case 14 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:139: T_CLOSE_STMT
+            case 15 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:145: T_CLOSE_STMT
                 {
                 mT_CLOSE_STMT(); 
 
 
                 }
                 break;
-            case 15 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:152: NUMBER
+            case 16 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:158: NUMBER
                 {
                 mNUMBER(); 
 
 
                 }
                 break;
-            case 16 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:159: IDENT
+            case 17 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:165: IDENT
                 {
                 mIDENT(); 
 
 
                 }
                 break;
-            case 17 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:165: PUNCTUATION
+            case 18 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:171: PUNCTUATION
                 {
                 mPUNCTUATION(); 
 
 
                 }
                 break;
-            case 18 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:177: WS
+            case 19 :
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:183: WS
                 {
                 mWS(); 
 

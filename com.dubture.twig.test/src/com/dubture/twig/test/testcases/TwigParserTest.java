@@ -27,7 +27,6 @@ import com.dubture.twig.core.parser.ast.TwigLexer;
 import com.dubture.twig.core.parser.ast.TwigParser;
 import com.dubture.twig.core.parser.ast.TwigParser.template_return;
 import com.dubture.twig.core.parser.ast.TwigTreeWalker;
-import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase
@@ -50,9 +49,12 @@ public class TwigParserTest extends TestCase
     {
 
         try {
+            
+            
+            
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream("{% frenzn foo %}");
+            CharStream charstream = new ANTLRStringStream("{{ { aha : bar  } }}");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);

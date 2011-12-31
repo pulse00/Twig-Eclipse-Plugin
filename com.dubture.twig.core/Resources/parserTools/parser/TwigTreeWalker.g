@@ -57,7 +57,16 @@ twig_block returns [Statement node]
  
 expression returns [Expression node]
   : f=function { node = f; }
-  | IDENT { node = new IdentNode($IDENT.text); }
+  | IDENT 
+    { 
+      CommonToken startToken = (CommonToken) $IDENT.getToken();
+      node = new IdentNode(startToken.getStartIndex(), startToken.getStopIndex(), $IDENT.text); 
+    }
+  | NUMBER 
+    {
+      CommonToken startToken = (CommonToken) $NUMBER.getToken();     
+      node = new NumberNode(startToken.getStartIndex(), startToken.getStopIndex(), Integer.parseInt($NUMBER.text)); 
+    }
   | h=hash { node = h; }
   | a=array { node = a; }
   ;
@@ -77,20 +86,27 @@ array returns [Expression node]
     }
   ;
   
+  
 // again, in this tree we need the open/closing brackets for positioning
 hash returns [Expression node]
 
   @init {
-    Map<Expression, Expression> expressions = new HashMap<Expression, Expression>();
+    List<Expression> expressions = new ArrayList<Expression>();
   }  
 
-  : ^(T_OPEN_CURLY (left=expression COLON right=expression { expressions.put(left, right); } )* T_CLOSE_CURLY)
+  : ^(T_OPEN_CURLY ( h=hash_argument)* T_CLOSE_CURLY)
     {
       CommonToken startToken = (CommonToken) $T_OPEN_CURLY.getToken();
       CommonToken endToken = (CommonToken) $T_CLOSE_CURLY.getToken();
       node = new Hash(startToken.getStartIndex(), endToken.getStopIndex(), expressions);
     }
+  ;
+  
+ 
+hash_argument returns [Expression node]
+  : left=expression right=expression { node = new HashEntry(left,right); }
   ;  
+
   
 // a function tree has is passed in in the form <IDENT expression T_CLOSE_PAREN>
 // we need the close parenthesis to get the absolute end position of the function in 

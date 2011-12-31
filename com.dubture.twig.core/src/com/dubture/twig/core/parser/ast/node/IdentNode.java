@@ -4,16 +4,13 @@ import org.eclipse.dltk.ast.expressions.Literal;
 
 public class IdentNode extends Literal
 {
+    private final String value;
 
-    protected IdentNode(int start, int end)
+    public IdentNode(int startIndex, int stopIndex, String string)
     {
-        super(start, end);
-
-    }
-
-    public IdentNode(String string)
-    {
-        super(0, 0);
+        super(startIndex, stopIndex);
+        this.value = string;        
+        System.err.println("ident node: " + string);        
     }
 
     @Override
@@ -21,6 +18,11 @@ public class IdentNode extends Literal
     {
 
         return ASTNodeKinds.IDENT;
+    }
+    
+    public String toString() {
+        
+        return value;
     }
 
 }

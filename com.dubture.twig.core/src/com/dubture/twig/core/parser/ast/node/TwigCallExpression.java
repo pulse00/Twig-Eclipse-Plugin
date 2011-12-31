@@ -1,5 +1,6 @@
 package com.dubture.twig.core.parser.ast.node;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.dltk.ast.expressions.Expression;
@@ -14,7 +15,13 @@ public class TwigCallExpression extends Expression
     {
         super(startIndex, stopIndex);
         this.name = name;
-        this.arguments = arguments;        
+        this.arguments = arguments;
+        
+        System.err.println("creating function " + name + " with " + arguments.size() + " arguments");
+        
+        for (Expression expression : arguments) {
+            System.err.println(expression.getClass());
+        }
     }
 
     @Override

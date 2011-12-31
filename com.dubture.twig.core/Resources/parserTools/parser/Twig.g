@@ -35,7 +35,7 @@ twig_block
   ;
   
 body
-  : (expression ( ('|' | '.' | ',')! expression)* )*
+  : expression ( ('|' | '.' | ',' | '~')! expression)*
   ;
   
 functionCallStatement 
@@ -68,11 +68,11 @@ array_close
   ;  
   
 hash
-  : T_OPEN_CURLY^ hash_body* T_CLOSE_CURLY
+  : T_OPEN_CURLY^ hash_argument (',' hash_argument)* T_CLOSE_CURLY
   ; 
   
-hash_body
-  : expression (COLON expression)
+hash_argument
+  : expression COLON! expression
   ;
  
 term 
