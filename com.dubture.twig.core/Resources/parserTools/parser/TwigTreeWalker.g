@@ -66,10 +66,15 @@ expression returns [Expression node]
       CommonToken startToken = (CommonToken) $NUMBER.getToken();     
       node = new NumberNode(startToken.getStartIndex(), startToken.getStopIndex(), Integer.parseInt($NUMBER.text)); 
     }
+  | STRING
+    {
+      node = new StringLiteral(0,0, $STRING.text);
+    }
   | h=hash { node = h; }
   | a=array { node = a; }
   | v=variable_access { node = v; }
   ;
+  
   
 variable_access returns [VariableAccess node]
   : ^(DOT e=expression)
