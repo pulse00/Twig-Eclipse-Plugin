@@ -22,12 +22,16 @@ template
   : twig_print*
   ; 
   
-twig_print
-  : T_OPEN_PRINT^ (expression)* T_CLOSE_PRINT
+twig_print 
+  // in the tree walker we ar only interested in the expressions inside the print statement
+  // so throw away the | and . operators
+  : T_OPEN_PRINT^ (expression ( ('|' | '.')! expression)* )* T_CLOSE_PRINT
   ;
   
   
 functionCallStatement 
+  // we need the closing parenthesis in the tree walker to detecte the absolute
+  // end position of the statement, but we can throw away the opening paren
   : IDENT^ T_OPEN_PAREN! functionParameters T_CLOSE_PAREN
   ;
   
@@ -51,7 +55,7 @@ hash_body
  
 term 
   : IDENT
-  | NUMBER 
+  | NUMBER
   ;
 
 fragment LETTER : ('a'..'z' | 'A'..'Z') ;

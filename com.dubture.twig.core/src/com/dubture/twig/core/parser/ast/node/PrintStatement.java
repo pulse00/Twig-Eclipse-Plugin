@@ -13,6 +13,8 @@ public class PrintStatement extends Statement
     public PrintStatement(int start, int end, List<Expression> expressions)
     {
         this.expressions = expressions;
+        
+        System.err.println("print with " + expressions.size() +  " expressions");
     }
 
     @Override

@@ -1,4 +1,6 @@
 T__20=20
+T__21=21
+T__22=22
 COLON=4
 DIGIT=5
 IDENT=6
@@ -16,3 +18,5 @@ T_OPEN_PRINT=17
 T_OPEN_STMT=18
 WS=19
 ','=20
+'.'=21
+'|'=22
