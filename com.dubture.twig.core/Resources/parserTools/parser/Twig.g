@@ -35,7 +35,7 @@ twig_block
   ;
   
 body
-  : expression ( (('|' | '.' | ',' | '~')?)! expression)*
+  : expression ( (('|' | ',' | '~')?)! expression)*
   ;
   
 functionCallStatement 
@@ -53,7 +53,13 @@ expression
   | functionCallStatement
   | hash
   | array
+  | variable_access
   ;
+  
+variable_access
+  : DOT expression
+  ;
+  
   
 array
   : array_open^ (expression (','! expression)*)? array_close
@@ -95,10 +101,12 @@ COLON: ':';
 T_OPEN_PRINT: '{{';  
 T_CLOSE_PRINT: '}}';
 
-T_OPEN_STMT: '{%';  
+T_OPEN_STMT: '{%';
 T_CLOSE_STMT: '%}';
+
+DOT: '.';
 
 NUMBER : DIGIT+;
 IDENT : (LETTER)(LETTER | DIGIT)*;
-PUNCTUATION:  '?'  | '.'  | ','   | '\'';
+PUNCTUATION:  '?'   | ','   | '\'';
 WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;

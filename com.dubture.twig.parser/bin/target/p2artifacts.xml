@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='com.dubture.twig.parser' version='1.0.93.201112252112'>
+    <properties size='6'>
+      <property name='artifact.size' value='81787'/>
+      <property name='download.size' value='81787'/>
+      <property name='download.md5' value='70f3d2e3e0f2a4f8e2fe0a6734154740'/>
+      <property name='maven-groupId' value='com.dubture.twig'/>
+      <property name='maven-artifactId' value='com.dubture.twig.parser'/>
+      <property name='maven-version' value='1.0.93.qualifier'/>
+    </properties>
+  </artifact>
+</artifacts>

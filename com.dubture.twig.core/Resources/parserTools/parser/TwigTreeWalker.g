@@ -69,8 +69,16 @@ expression returns [Expression node]
     }
   | h=hash { node = h; }
   | a=array { node = a; }
+  | v=variable_access { node = v; }
   ;
- 
+  
+variable_access returns [VariableAccess node]
+  : DOT e=expression
+    {
+      CommonToken startToken = (CommonToken) $DOT.getToken();     
+      node = new VariableAccess(startToken.getStartIndex(), startToken.getStopIndex(), e); 
+    }
+  ;
  
 array returns [Expression node]
 
