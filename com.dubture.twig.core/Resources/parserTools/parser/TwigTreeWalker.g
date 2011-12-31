@@ -23,7 +23,7 @@ module returns [TwigModuleDeclaration node]
     List<Statement> statements = new ArrayList<Statement>();
   }
   
-  : (p=twig_print { statements.add(p); })* 
+  :   ( (p=twig_print) { statements.add(p);} | (b=twig_block) { statements.add(b); } )*
     { node = new TwigModuleDeclaration(0, statements); }
   ;
   
@@ -38,6 +38,20 @@ twig_print returns [Statement node]
       CommonToken startToken = (CommonToken) $T_OPEN_PRINT.getToken();
       CommonToken endToken = (CommonToken) $T_CLOSE_PRINT.getToken();
       node = new PrintStatement(startToken.getStartIndex(), endToken.getStopIndex(), expressions);            
+    }
+  ;
+  
+twig_block returns [Statement node]
+
+  @init {
+    List<Expression> expressions = new ArrayList<Expression>();
+  }
+  
+  : ^(T_OPEN_STMT IDENT (e=expression { expressions.add(e); })* T_CLOSE_STMT) 
+    {     
+      CommonToken startToken = (CommonToken) $T_OPEN_STMT.getToken();
+      CommonToken endToken = (CommonToken) $T_CLOSE_STMT.getToken();
+      node = new BlockStatement(startToken.getStartIndex(), endToken.getStopIndex(), $IDENT.text, expressions);            
     }
   ;
  

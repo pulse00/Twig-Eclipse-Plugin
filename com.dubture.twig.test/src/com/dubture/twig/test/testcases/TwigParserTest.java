@@ -52,7 +52,7 @@ public class TwigParserTest extends TestCase
         try {
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream("{{ entity.subject }}");
+            CharStream charstream = new ANTLRStringStream("{% frenzn foo %}");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);
@@ -72,9 +72,9 @@ public class TwigParserTest extends TestCase
             TwigModuleDeclaration module = walker.module();
             
             
-            PrintStatement print = (PrintStatement) module.getStatements().get(0);
+//            PrintStatement print = (PrintStatement) module.getStatements().get(0);
             
-            System.err.println(print.getChilds().size());
+//            System.err.println(print.getChilds().size());
             
 
             try {
