@@ -8,6 +8,8 @@ options {
 
 tokens {
   TWIG_VAR;
+  ARRAY_OPEN;
+  ARRAY_CLOSE;
 }
 
 @header {
@@ -25,7 +27,7 @@ template
 twig_print 
   // in the tree walker we ar only interested in the expressions inside the print statement
   // so throw away the | and . operators
-  : T_OPEN_PRINT^ (expression ( ('|' | '.')! expression)* )* T_CLOSE_PRINT
+  : T_OPEN_PRINT^ (expression ( ('|' | '.' | ',')! expression)* )* T_CLOSE_PRINT
   ;
   
   
@@ -43,7 +45,20 @@ expression
   : term
   | functionCallStatement
   | hash
+  | array
   ;
+  
+array
+  : array_open^ (expression (','! expression)*)? array_close
+  ;
+  
+array_open
+  : '[' -> ARRAY_OPEN
+  ;
+  
+array_close
+  : ']' -> ARRAY_CLOSE
+  ;  
   
 hash
   : T_OPEN_CURLY^ hash_body* T_CLOSE_CURLY
@@ -64,6 +79,7 @@ fragment DIGIT : '0'..'9';
 T_OPEN_PAREN: '(';  
 T_CLOSE_PAREN: ')';
 
+
 T_OPEN_CURLY: '{';  
 T_CLOSE_CURLY: '}';
 
@@ -77,5 +93,5 @@ T_CLOSE_STMT: '%}';
 
 NUMBER : DIGIT+;
 IDENT : (LETTER)(LETTER | DIGIT)*;
-PUNCTUATION: '(' | ')'  | '['  | ']'  | '?'  | '.'  | ','  | '|'  | '\'';
+PUNCTUATION:  '?'  | '.'  | ','   | '\'';
 WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;

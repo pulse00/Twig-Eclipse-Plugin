@@ -45,8 +45,24 @@ expression returns [Expression node]
   : f=function { node = f; }
   | IDENT { node = new IdentNode($IDENT.text); }
   | h=hash { node = h; }
+  | a=array { node = a; }
   ;
  
+ 
+array returns [Expression node]
+
+  @init {
+    List<Expression> arguments = new ArrayList<Expression>();
+  }
+
+  : ^(ARRAY_OPEN (e=expression { arguments.add(e); })* ARRAY_CLOSE)
+    {
+      CommonToken startToken = (CommonToken) $ARRAY_OPEN.getToken();
+      CommonToken endToken = (CommonToken) $ARRAY_CLOSE.getToken();    
+      node = new ArrayDeclaration(startToken.getStartIndex(), endToken.getStartIndex(), arguments);
+    }
+  ;
+  
 // again, in this tree we need the open/closing brackets for positioning
 hash returns [Expression node]
 

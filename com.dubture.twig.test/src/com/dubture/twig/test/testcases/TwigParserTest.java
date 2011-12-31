@@ -27,6 +27,7 @@ import com.dubture.twig.core.parser.ast.TwigLexer;
 import com.dubture.twig.core.parser.ast.TwigParser;
 import com.dubture.twig.core.parser.ast.TwigParser.template_return;
 import com.dubture.twig.core.parser.ast.TwigTreeWalker;
+import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase
@@ -51,7 +52,7 @@ public class TwigParserTest extends TestCase
         try {
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream("{{ foo | bar }} ");
+            CharStream charstream = new ANTLRStringStream("{{ entity.subject }}");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);
@@ -69,6 +70,12 @@ public class TwigParserTest extends TestCase
             TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
 
             TwigModuleDeclaration module = walker.module();
+            
+            
+            PrintStatement print = (PrintStatement) module.getStatements().get(0);
+            
+            System.err.println(print.getChilds().size());
+            
 
             try {
                 module.traverse(new ASTVisitor()
