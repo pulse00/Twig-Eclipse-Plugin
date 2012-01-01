@@ -22,7 +22,7 @@ module returns [TwigModuleDeclaration node]
     List<Statement> statements = new ArrayList<Statement>();
   }
   
-  :   ( (p=twig_print) { statements.add(p);} | (b=twig_block) { statements.add(b); } )* EOF
+  :   ( (p=twig_print) { statements.add(p);} | (b=twig_block) { statements.add(b); } )*
     { node = new TwigModuleDeclaration(0, statements); }
   ;
   

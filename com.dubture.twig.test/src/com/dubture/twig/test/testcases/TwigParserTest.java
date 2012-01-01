@@ -52,7 +52,7 @@ public class TwigParserTest extends TestCase
             
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream("{{ \"ah\\\"a\" }}");
+            CharStream charstream = new ANTLRStringStream(" {{ aha }} ");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);
@@ -66,6 +66,7 @@ public class TwigParserTest extends TestCase
             
 //            CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);
             // to get the size of the input stream, it's not the size of the tokenstream though...
+            /*
             BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
             TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
 
@@ -96,6 +97,7 @@ public class TwigParserTest extends TestCase
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            */
 
         } catch (RecognitionException e) {
 

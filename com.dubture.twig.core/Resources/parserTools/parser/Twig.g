@@ -20,9 +20,17 @@ tokens {
 }
 
 
+@lexer::members {
+  private boolean insideTag = false;  
+}
+
 template
-  : (twig_print | twig_block)* EOF
+  : template_body^ EOF! 
   ; 
+  
+template_body
+  : ( twig_print | twig_block )*
+  ;
   
 twig_print 
   // in the tree walker we ar only interested in the expressions inside the print statement
@@ -99,11 +107,47 @@ T_CLOSE_CURLY: '}';
 
 COLON: ':';
 
-T_OPEN_PRINT: '{{';  
-T_CLOSE_PRINT: '}}';
+T_OPEN_PRINT
+  @after {
+    insideTag=true; 
+  }
+  : '{{';
+    
+T_CLOSE_PRINT
+  @after {
+    insideTag=false;
+  }
+  : '}}';
 
-T_OPEN_STMT: '{%';
-T_CLOSE_STMT: '%}';
+T_OPEN_STMT
+  @after {
+    insideTag=true;
+  }
+  : '{%';
+  
+T_CLOSE_STMT
+  @after {
+    insideTag=false;
+  }
+  : '%}';
+  
+T_OPEN_CMT
+  @after {
+    insideTag=true;
+  }
+  : '{#';
+  
+T_CLOSE_CMT
+  @after {
+    insideTag=false;
+  }
+  : '#}';
+  
+// TODO: find reason for NPE when this rule is uncomented
+//BUFFER
+//  : { !insideTag}?=> ~(T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT)+
+//  ;
+  
 
 DOT: '.';
 
