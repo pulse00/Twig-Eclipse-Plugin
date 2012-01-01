@@ -21,15 +21,33 @@ tokens {
 
 
 @lexer::members {
+
+  // flag to switch the lexer state
+  // between raw and twig context
   private boolean insideTag = false;  
+  
+  // is still raw content ahead or do we see a twig tag?
+  private boolean rawAhead() {
+  
+    if(insideTag) return false;
+    int ch1 = input.LA(1), ch2 = input.LA(2);
+    return !(
+        (ch1 == '{' && ch2 == '{') ||
+        // 37 = percentage sign, this is a bug in antlr it seems:
+        // http://www.antlr.org/pipermail/antlr-interest/2007-June/021188.html
+        (ch1 == '{' && ch2 == 37) ||
+        (ch1 == '{' && ch2 == '#')
+    );
+    
+  }    
 }
 
 template
-  : template_body^ EOF! 
+  : (template_body)*
   ; 
   
 template_body
-  : ( twig_print | twig_block)*
+  : twig_print | twig_block
   ;
   
 twig_print 
@@ -95,9 +113,6 @@ term
   | STRING
   ;
 
-fragment LETTER : ('a'..'z' | 'A'..'Z') ;
-fragment DIGIT : '0'..'9';
-
 T_OPEN_PAREN: '(';  
 T_CLOSE_PAREN: ')';
 
@@ -110,14 +125,13 @@ COLON: ':';
 T_OPEN_PRINT
   @after {
     insideTag=true;
-    System.err.println("INSIDE TAG");     
+    System.err.println("FLIPPING STATE"); 
   }
   : '{{';
     
 T_CLOSE_PRINT
   @after {
     insideTag=false;
-    System.err.println("OUTSITE TAG");
   }
   : '}}';
 
@@ -144,12 +158,9 @@ T_CLOSE_CMT
     insideTag=false;
   }
   : '#}';
-  
-WS: (' ' | '\t' | '\n' | '\r' | '\f')+ { $channel = HIDDEN; } ;  
 
-BUFFER
-  : { !insideTag}?=> ~(T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT)+  ;  
-
+// send raw content to hidden channel  
+RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };  
 DOT: '.';
 
 STRING          
@@ -179,7 +190,10 @@ ESC
         )
     ;
 
+fragment LETTER : ('a'..'z' | 'A'..'Z') ;
+fragment DIGIT : '0'..'9';
 
 NUMBER : DIGIT+;
 IDENT : (LETTER)(LETTER | DIGIT)*;
 PUNCTUATION:  '?'   | ','   | '\'';
+WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;
