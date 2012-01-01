@@ -6,41 +6,20 @@ digraph {
 		width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
 	edge [arrowsize=.5, color="black", style="bold"]
 
-  n0 [label=""];
-  n1 [label="metaHttpEquiv"];
-  n1 [label="metaHttpEquiv"];
-  n2 [label="{%"];
-  n3 [label="Content-Type"];
-  n4 [label="with"];
-  n5 [label="{"];
-  n5 [label="{"];
-  n6 [label="foo"];
-  n7 [label="bar"];
-  n8 [label="}"];
-  n9 [label="%}"];
-  n10 [label="{{"];
-  n10 [label="{{"];
-  n11 [label="someFunc"];
-  n11 [label="someFunc"];
-  n12 [label="param1"];
-  n13 [label="param2"];
-  n14 [label=")"];
-  n15 [label="}}"];
+  n0 [label="foo"];
+  n1 [label="{%"];
+  n2 [label="?"];
+  n2 [label="?"];
+  n3 [label="bar"];
+  n4 [label=":"];
+  n5 [label="aha"];
+  n6 [label="%}"];
 
-  n0 -> n1 // "" -> "metaHttpEquiv"
-  n1 -> n2 // "metaHttpEquiv" -> "{%"
-  n1 -> n3 // "metaHttpEquiv" -> "Content-Type"
-  n1 -> n4 // "metaHttpEquiv" -> "with"
-  n1 -> n5 // "metaHttpEquiv" -> "{"
-  n5 -> n6 // "{" -> "foo"
-  n5 -> n7 // "{" -> "bar"
-  n5 -> n8 // "{" -> "}"
-  n1 -> n9 // "metaHttpEquiv" -> "%}"
-  n0 -> n10 // "" -> "{{"
-  n10 -> n11 // "{{" -> "someFunc"
-  n11 -> n12 // "someFunc" -> "param1"
-  n11 -> n13 // "someFunc" -> "param2"
-  n11 -> n14 // "someFunc" -> ")"
-  n10 -> n15 // "{{" -> "}}"
+  n0 -> n1 // "foo" -> "{%"
+  n0 -> n2 // "foo" -> "?"
+  n2 -> n3 // "?" -> "bar"
+  n2 -> n4 // "?" -> ":"
+  n2 -> n5 // "?" -> "aha"
+  n0 -> n6 // "foo" -> "%}"
 
 }

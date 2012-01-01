@@ -1,0 +1,5 @@
+{% for user in users %}
+
+{{ compute(user) | someFilter |ÊsomeCall('foo') }}
+
+{% endfor %}
