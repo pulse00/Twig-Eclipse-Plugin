@@ -13,8 +13,7 @@ public class PrintStatement extends Statement
     public PrintStatement(int start, int end, List<Expression> expressions)
     {
         this.expressions = expressions;
-        
-        System.err.println("print with " + expressions.size() +  " expressions");
+        System.err.println("print with " + expressions.size() + " expressions");
     }
 
     @Override
@@ -22,8 +21,14 @@ public class PrintStatement extends Statement
     {
         if (visitor.visit(this)) {
 
-            for (Expression exp : expressions) {
-                exp.traverse(visitor);
+            if (expressions != null) {
+                for (Expression exp : expressions) {
+
+                    if (exp != null) {
+                        exp.traverse(visitor);
+                    }
+
+                }
             }
             visitor.endvisit(this);
         }

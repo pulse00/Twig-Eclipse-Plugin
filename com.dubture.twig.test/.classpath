@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-3.4.jar"/>
-	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-runtime-3.4.jar"/>
+	<classpathentry kind="lib" path="/com.dubture.twig.core/Resources/parserTools/parser/antlr-runtime-3.4.jar" sourcepath="/Users/sobert/source/antlr-runtime-3.4-sources.jar"/>
+	<classpathentry kind="lib" path="Resources/stringtemplate-3.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

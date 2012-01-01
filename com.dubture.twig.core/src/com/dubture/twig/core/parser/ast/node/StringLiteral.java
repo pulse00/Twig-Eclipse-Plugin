@@ -1,5 +1,5 @@
 /*
- * This file is part of the PDT Extensions eclipse plugin.
+ * This file is part of the Twig Eclipse Plugin.
  *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
  *
@@ -13,27 +13,45 @@ import org.eclipse.dltk.ast.expressions.Literal;
 /**
  *
  */
-public class StringLiteral extends Literal {
+public class StringLiteral extends Literal
+{
 
     /**
      * @param start
      * @param end
-     * @param string 
+     * @param string
      */
-    public StringLiteral(int start, int end, String string) {
+    public StringLiteral(int start, int end, String string)
+    {
         super(start, end);
-        
-        System.err.println("create string literal with " + string);
+        fLiteralValue = string;
+//        System.err.println("create string literal with " + string);
 
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.dltk.ast.statements.Statement#getKind()
-     */
     @Override
-    public int getKind() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int getKind()
+    {
+        return ASTNodeKinds.STRING_LITERAL;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return String.format("[StringLiteral %d - %d] : %s", start(), end(), fLiteralValue);
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof StringLiteral)) {
+            return false;
+        }
+
+        StringLiteral other = (StringLiteral) obj;
+
+        return other.start() == start() && other.end() == end()
+                && other.getValue().equals(getValue());
+
+    }
 }

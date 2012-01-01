@@ -62,27 +62,6 @@ expression returns [Expression node]
   | v=variable_access { node = v; }
   ;
 
-term returns [Expression node]
-  : IDENT 
-    { 
-      CommonToken startToken = (CommonToken) $IDENT.getToken();
-      node = new IdentNode(startToken.getStartIndex(), startToken.getStopIndex(), $IDENT.text); 
-    }
-  | NUMBER 
-    {
-      CommonToken startToken = (CommonToken) $NUMBER.getToken();
-      node = new NumberNode(startToken.getStartIndex(), startToken.getStopIndex(), Integer.parseInt($NUMBER.text)); 
-    }
-  | STRING
-    {
-      node = new StringLiteral(0,0, $STRING.text);
-    }   
-  | SQ_STRING
-    {
-      node = new StringLiteral(0,0, $SQ_STRING.text);
-    }       
-  ;
- 
 variable_access returns [VariableAccess node]
   : ^(DOT e=expression)
     {
@@ -143,3 +122,28 @@ function returns [Expression node]
       node = new TwigCallExpression(startToken.getStartIndex(), endToken.getStopIndex(), $IDENT.text, arguments); 
     }
   ;
+  
+term returns [Expression node]
+  : IDENT 
+    { 
+      CommonToken startToken = (CommonToken) $IDENT.getToken();
+      node = new IdentNode(startToken.getStartIndex(), startToken.getStopIndex(), $IDENT.text); 
+    }
+  | NUMBER 
+    {
+      CommonToken startToken = (CommonToken) $NUMBER.getToken();
+      node = new NumberNode(startToken.getStartIndex(), startToken.getStopIndex(), Integer.parseInt($NUMBER.text)); 
+    }
+  | STRING
+    {
+      CommonToken t = (CommonToken) $STRING.getToken();
+      node = new StringLiteral(t.getStartIndex(), t.getStopIndex(), $STRING.text);
+    }   
+  | SQ_STRING
+    {
+      CommonToken t = (CommonToken) $SQ_STRING.getToken();
+      node = new StringLiteral(t.getStartIndex(), t.getStopIndex(), $SQ_STRING.text);
+    }       
+  ;
+ 
+  

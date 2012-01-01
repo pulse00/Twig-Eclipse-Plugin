@@ -11,5 +11,6 @@ public interface ASTNodeKinds
     public static final int HASH_ENTRY      = 105;
     public static final int ARRAY           = 106;
     public static final int VARIABLE_ACCESS = 107;
+    public static final int STRING_LITERAL  = 106;
 
 }

@@ -4,25 +4,36 @@ import org.eclipse.dltk.ast.expressions.Literal;
 
 public class IdentNode extends Literal
 {
-    private final String value;
 
     public IdentNode(int startIndex, int stopIndex, String string)
     {
         super(startIndex, stopIndex);
-        this.value = string;        
-        System.err.println("ident node: " + string);        
+        fLiteralValue = string;
+//        System.err.println("ident node: " + string);
     }
 
     @Override
     public int getKind()
     {
-
         return ASTNodeKinds.IDENT;
     }
-    
-    public String toString() {
-        
-        return value;
+
+    public String toString()
+    {
+        return fLiteralValue;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof IdentNode)) {
+            return false;
+        }
+
+        IdentNode other = (IdentNode) obj;
+
+        return other.start() == start() && other.end() == end()
+                && other.getValue() == getValue();
+
+    }
 }

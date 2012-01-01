@@ -42,8 +42,10 @@ tokens {
   }    
 }
 
+// PARSER RULES
+
 template
-  : (template_body)*
+  : (template_body)* EOF!
   ; 
   
 template_body
@@ -51,8 +53,6 @@ template_body
   ;
   
 twig_print 
-  // in the tree walker we ar only interested in the expressions inside the print statement
-  // so throw away the | and . operators
   : T_OPEN_PRINT^ body? T_CLOSE_PRINT
   ;
   
@@ -61,7 +61,9 @@ twig_block
   ;
   
 body
-  : expression ( (('|' | ',' | '~')?)! expression)*
+  // in the tree we are only interested in the expressions inside the print statement
+  // so throw away the | and . operators
+  : expression ( (('|' | ',' | '~')? )! expression)*
   ;
   
 functionCallStatement 
@@ -114,55 +116,30 @@ term
   | SQ_STRING
   ;
 
+// LEXER RULES
+
+T_OPEN_PRINT @after { insideTag=true; }   : '{{';    
+T_CLOSE_PRINT @after { insideTag=false; } : '}}';
+
+T_OPEN_STMT @after { insideTag=true; }    : '{%';  
+T_CLOSE_STMT @after {insideTag=false; }   : '%}';
+  
+T_OPEN_CMT @after { insideTag=true; }     : '{#';  
+T_CLOSE_CMT @after { insideTag=false; }   : '#}';
+
 T_OPEN_PAREN: '(';  
 T_CLOSE_PAREN: ')';
-
 
 T_OPEN_CURLY: '{';  
 T_CLOSE_CURLY: '}';
 
-COLON: ':';
-
-T_OPEN_PRINT
-  @after {
-    insideTag=true; 
-  }
-  : '{{';
-    
-T_CLOSE_PRINT
-  @after {
-    insideTag=false;
-  }
-  : '}}';
-
-T_OPEN_STMT
-  @after {
-    insideTag=true;
-  }
-  : '{%';
-  
-T_CLOSE_STMT
-  @after {
-    insideTag=false;
-  }
-  : '%}';
-  
-T_OPEN_CMT
-  @after {
-    insideTag=true;
-  }
-  : '{#';
-  
-T_CLOSE_CMT
-  @after {
-    insideTag=false;
-  }
-  : '#}';
-
 // send raw content to hidden channel  
-RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };  
-DOT: '.';
+RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };
+  
+DOT   : '.';
+COLON : ':';
 
+// double quoted string
 STRING          
 @init{StringBuilder lBuf = new StringBuilder();}
     :   
@@ -173,6 +150,7 @@ STRING
            {setText(lBuf.toString());}
     ;
     
+// single quoted string
 SQ_STRING          
 @init{StringBuilder lBuf = new StringBuilder();}
     :   
@@ -183,6 +161,7 @@ SQ_STRING
            {setText(lBuf.toString());}
     ;    
 
+// escape characters
 fragment
 ESC
     :   '\\'

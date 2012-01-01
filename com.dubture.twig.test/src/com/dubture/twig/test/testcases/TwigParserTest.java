@@ -8,6 +8,10 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -19,6 +23,7 @@ import org.antlr.runtime.tree.BufferedTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.ASTVisitor;
+import org.eclipse.dltk.ast.expressions.Expression;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +32,9 @@ import com.dubture.twig.core.parser.ast.TwigLexer;
 import com.dubture.twig.core.parser.ast.TwigParser;
 import com.dubture.twig.core.parser.ast.TwigParser.template_return;
 import com.dubture.twig.core.parser.ast.TwigTreeWalker;
+import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.IdentNode;
+import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase
@@ -43,63 +51,93 @@ public class TwigParserTest extends TestCase
     {
         super.tearDown();
     }
+    
+    
+    @SuppressWarnings("rawtypes")
+    public void testStatement(String statement, String name, List<Expression> children) throws RecognitionException 
+    {
 
+        CharStream charstream = new ANTLRStringStream(statement);
+        TwigLexer lexer = new TwigLexer(charstream);
+        TokenStream tokenStream = new CommonTokenStream(lexer);
+        TwigParser parser = new TwigParser(tokenStream);
+
+        template_return template = parser.template();
+        System.err.println("BUILT TREE");
+
+        CommonTree tree = (CommonTree) template.getTree();
+        System.err.println(tree.toStringTree());
+        
+        BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
+        TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
+        
+        TwigModuleDeclaration module = walker.module();
+        
+        List<?> statements = module.getStatements();        
+        
+        assertEquals(1, statements.size());
+        
+        BlockStatement block = (BlockStatement) statements.get(0);
+        
+        assertNotNull(block);        
+        assertEquals(name, block.getName());
+        
+        int i = 0;
+        
+        for (Object object : block.getChilds()) {
+            
+            System.err.println(children.get(i++));
+            System.err.println(object);
+            assertTrue(object.equals(children.get(i)));
+            
+        }
+        
+        
+        try {
+            System.err.println("-- TRAVERSING");
+            module.traverse(new ASTVisitor()
+            {
+
+                @Override
+                public boolean visitGeneral(ASTNode node) throws Exception
+                {
+                     System.err.println("visit " + node.getClass());
+                    return super.visitGeneral(node);
+                }
+
+                @Override
+                public void endvisitGeneral(ASTNode node) throws Exception
+                {
+                     System.err.println("endvisit " + node.getClass());
+                    super.endvisitGeneral(node);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
+        
+        
+        
+    }
+    
     @Test
     public void testNewParser()
     {
-
         try {
+
+            testStatement("{% metaHttpEquiv 'Content-Type' with 'text/html; charset=utf-8' %}", 
+                    "metaHttpEquiv", 
+                    new ArrayList<Expression>(Arrays.asList(
+                            new StringLiteral(17, 30, "Content-Type"),
+                            new IdentNode(32, 37, "with"),
+                            new StringLiteral(38, 55, "text/html; charset=utf-8")
+                    )
+            ));
             
-            // CharStream charstream = new
-            // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream(" { whatever } yo  {{ 'aha' }} asdfasfd { tralala ");
-            TwigLexer lexer = new TwigLexer(charstream);
-            TokenStream tokenStream = new CommonTokenStream(lexer);
-            TwigParser parser = new TwigParser(tokenStream);
-
-            template_return template = parser.template();
-            System.err.println("BUILT TREE");
-
-            CommonTree tree = (CommonTree) template.getTree();
-            System.err.println(tree.toStringTree());
-            
-//            CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);
-            // to get the size of the input stream, it's not the size of the tokenstream though...
-
-            BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
-            TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
-
-            TwigModuleDeclaration module = walker.module();
-            
-            
-            
-            
-
-            try {
-                module.traverse(new ASTVisitor()
-                {
-
-                    @Override
-                    public boolean visitGeneral(ASTNode node) throws Exception
-                    {
-                        // System.err.println("visit");
-                        return super.visitGeneral(node);
-                    }
-
-                    @Override
-                    public void endvisitGeneral(ASTNode node) throws Exception
-                    {
-                        // System.err.println("endvisit");
-                        super.endvisitGeneral(node);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        } catch (RecognitionException e) {
-
+        } catch (RecognitionException e) {            
+            fail("Error parsing template");
         }
     }
 
