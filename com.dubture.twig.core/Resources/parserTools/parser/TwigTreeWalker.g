@@ -46,7 +46,7 @@ twig_block returns [Statement node]
     List<Expression> expressions = new ArrayList<Expression>();
   }
   
-  : ^(T_OPEN_STMT IDENT (e=expression { expressions.add(e); })* T_CLOSE_STMT) 
+  : ^(IDENT T_OPEN_STMT (e=expression { expressions.add(e); })* T_CLOSE_STMT) 
     {     
       CommonToken startToken = (CommonToken) $T_OPEN_STMT.getToken();
       CommonToken endToken = (CommonToken) $T_CLOSE_STMT.getToken();

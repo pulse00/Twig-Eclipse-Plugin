@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2012-01-01 17:55:36
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2012-01-01 20:38:17
 
   package com.dubture.twig.core.parser.ast;
   
@@ -100,7 +100,7 @@ public class TwigTreeWalker extends TreeParser {
                 if ( (LA1_0==T_OPEN_PRINT) ) {
                     alt1=1;
                 }
-                else if ( (LA1_0==T_OPEN_STMT) ) {
+                else if ( (LA1_0==IDENT) ) {
                     alt1=2;
                 }
 
@@ -252,7 +252,7 @@ public class TwigTreeWalker extends TreeParser {
 
 
     // $ANTLR start "twig_block"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:43:1: twig_block returns [Statement node] : ^( T_OPEN_STMT IDENT (e= expression )* T_CLOSE_STMT ) ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:43:1: twig_block returns [Statement node] : ^( IDENT T_OPEN_STMT (e= expression )* T_CLOSE_STMT ) ;
     public final Statement twig_block() throws RecognitionException {
         Statement node = null;
 
@@ -267,13 +267,13 @@ public class TwigTreeWalker extends TreeParser {
             List<Expression> expressions = new ArrayList<Expression>();
           
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:49:3: ( ^( T_OPEN_STMT IDENT (e= expression )* T_CLOSE_STMT ) )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:49:5: ^( T_OPEN_STMT IDENT (e= expression )* T_CLOSE_STMT )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:49:3: ( ^( IDENT T_OPEN_STMT (e= expression )* T_CLOSE_STMT ) )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:49:5: ^( IDENT T_OPEN_STMT (e= expression )* T_CLOSE_STMT )
             {
-            T_OPEN_STMT3=(CommonTree)match(input,T_OPEN_STMT,FOLLOW_T_OPEN_STMT_in_twig_block177); 
+            IDENT5=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_twig_block177); 
 
             match(input, Token.DOWN, null); 
-            IDENT5=(CommonTree)match(input,IDENT,FOLLOW_IDENT_in_twig_block179); 
+            T_OPEN_STMT3=(CommonTree)match(input,T_OPEN_STMT,FOLLOW_T_OPEN_STMT_in_twig_block179); 
 
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g:49:25: (e= expression )*
             loop3:
@@ -935,13 +935,13 @@ public class TwigTreeWalker extends TreeParser {
 
  
 
-    public static final BitSet FOLLOW_twig_print_in_module74 = new BitSet(new long[]{0x000000000C000002L});
-    public static final BitSet FOLLOW_twig_block_in_module84 = new BitSet(new long[]{0x000000000C000002L});
+    public static final BitSet FOLLOW_twig_print_in_module74 = new BitSet(new long[]{0x0000000004000402L});
+    public static final BitSet FOLLOW_twig_block_in_module84 = new BitSet(new long[]{0x0000000004000402L});
     public static final BitSet FOLLOW_T_OPEN_PRINT_in_twig_print127 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_expression_in_twig_print132 = new BitSet(new long[]{0x0000000001219520L});
     public static final BitSet FOLLOW_T_CLOSE_PRINT_in_twig_print138 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_T_OPEN_STMT_in_twig_block177 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENT_in_twig_block179 = new BitSet(new long[]{0x0000000001419520L});
+    public static final BitSet FOLLOW_IDENT_in_twig_block177 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_T_OPEN_STMT_in_twig_block179 = new BitSet(new long[]{0x0000000001419520L});
     public static final BitSet FOLLOW_expression_in_twig_block184 = new BitSet(new long[]{0x0000000001419520L});
     public static final BitSet FOLLOW_T_CLOSE_STMT_in_twig_block190 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_function_in_expression218 = new BitSet(new long[]{0x0000000000000002L});

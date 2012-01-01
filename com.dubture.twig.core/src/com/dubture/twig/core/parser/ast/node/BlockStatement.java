@@ -18,11 +18,11 @@ public class BlockStatement extends Statement
         this.name = name;
         this.expressions = expressions;
         
-//        System.err.println("creating block statement '" + name +  "' with " + expressions.size() + " children:");
+        System.err.println("creating block statement '" + name +  "' with " + expressions.size() + " children:");
 //        
-//        for (Expression expr : expressions) {
-//            System.err.println(expr.getClass());
-//        }
+        for (Expression expr : expressions) {
+            System.err.println(expr.getClass());
+        }
         
     }
     

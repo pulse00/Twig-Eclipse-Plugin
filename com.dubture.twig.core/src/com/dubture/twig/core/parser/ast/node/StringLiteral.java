@@ -50,8 +50,11 @@ public class StringLiteral extends Literal
 
         StringLiteral other = (StringLiteral) obj;
 
-        return other.start() == start() && other.end() == end()
+        boolean equal =  other.start() == start() && other.end() == end()
                 && other.getValue().equals(getValue());
+       
+        System.err.println(equal);
+        return equal;
 
     }
 }

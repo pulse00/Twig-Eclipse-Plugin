@@ -57,7 +57,7 @@ twig_print
   ;
   
 twig_block
-  : T_OPEN_STMT^ IDENT body? T_CLOSE_STMT
+  : T_OPEN_STMT IDENT^  body? T_CLOSE_STMT
   ;
   
 body
@@ -102,8 +102,12 @@ array_close
   ;  
   
 hash
-  : T_OPEN_CURLY^ hash_argument (',' hash_argument)* T_CLOSE_CURLY
-  ; 
+  : T_OPEN_CURLY^ hash_body T_CLOSE_CURLY
+  ;
+  
+hash_body
+  : hash_argument (',' hash_argument)*
+  ;
   
 hash_argument
   : expression COLON! expression
@@ -117,6 +121,9 @@ term
   ;
 
 // LEXER RULES
+
+// send raw content to hidden channel  
+RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };
 
 T_OPEN_PRINT @after { insideTag=true; }   : '{{';    
 T_CLOSE_PRINT @after { insideTag=false; } : '}}';
@@ -133,9 +140,6 @@ T_CLOSE_PAREN: ')';
 T_OPEN_CURLY: '{';  
 T_CLOSE_CURLY: '}';
 
-// send raw content to hidden channel  
-RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };
-  
 DOT   : '.';
 COLON : ':';
 
@@ -183,6 +187,6 @@ fragment LETTER : ('a'..'z' | 'A'..'Z') ;
 fragment DIGIT : '0'..'9';
 
 NUMBER : DIGIT+;
-IDENT : (LETTER)(LETTER | DIGIT)*;
+IDENT : (LETTER)(LETTER | DIGIT)+;
 PUNCTUATION:  '?'   | ','   | '\'';
 WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;
