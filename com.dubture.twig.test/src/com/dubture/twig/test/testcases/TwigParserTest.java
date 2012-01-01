@@ -15,10 +15,7 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.BufferedTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.dltk.ast.ASTNode;
-import org.eclipse.dltk.ast.ASTVisitor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +23,6 @@ import org.junit.Test;
 import com.dubture.twig.core.parser.ast.TwigLexer;
 import com.dubture.twig.core.parser.ast.TwigParser;
 import com.dubture.twig.core.parser.ast.TwigParser.template_return;
-import com.dubture.twig.core.parser.ast.TwigTreeWalker;
-import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase
 {
@@ -52,7 +47,7 @@ public class TwigParserTest extends TestCase
             
             // CharStream charstream = new
             // ANTLRStringStream("{{  foo(aha) bar  }}  {{  bar  }}");
-            CharStream charstream = new ANTLRStringStream(" {{ aha }} ");
+            CharStream charstream = new ANTLRStringStream(" { aha } ");
             TwigLexer lexer = new TwigLexer(charstream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             TwigParser parser = new TwigParser(tokenStream);

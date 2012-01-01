@@ -29,7 +29,7 @@ template
   ; 
   
 template_body
-  : ( twig_print | twig_block )*
+  : ( twig_print | twig_block)*
   ;
   
 twig_print 
@@ -109,13 +109,15 @@ COLON: ':';
 
 T_OPEN_PRINT
   @after {
-    insideTag=true; 
+    insideTag=true;
+    System.err.println("INSIDE TAG");     
   }
   : '{{';
     
 T_CLOSE_PRINT
   @after {
     insideTag=false;
+    System.err.println("OUTSITE TAG");
   }
   : '}}';
 
@@ -143,11 +145,10 @@ T_CLOSE_CMT
   }
   : '#}';
   
-// TODO: find reason for NPE when this rule is uncomented
-//BUFFER
-//  : { !insideTag}?=> ~(T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT)+
-//  ;
-  
+WS: (' ' | '\t' | '\n' | '\r' | '\f')+ { $channel = HIDDEN; } ;  
+
+BUFFER
+  : { !insideTag}?=> ~(T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT)+  ;  
 
 DOT: '.';
 
@@ -182,4 +183,3 @@ ESC
 NUMBER : DIGIT+;
 IDENT : (LETTER)(LETTER | DIGIT)*;
 PUNCTUATION:  '?'   | ','   | '\'';
-WS: (' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;} ;
