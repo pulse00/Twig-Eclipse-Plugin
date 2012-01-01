@@ -111,6 +111,7 @@ term
   : IDENT
   | NUMBER
   | STRING
+  | SQ_STRING
   ;
 
 T_OPEN_PAREN: '(';  
@@ -124,8 +125,7 @@ COLON: ':';
 
 T_OPEN_PRINT
   @after {
-    insideTag=true;
-    System.err.println("FLIPPING STATE"); 
+    insideTag=true; 
   }
   : '{{';
     
@@ -172,6 +172,16 @@ STRING
            '"'     
            {setText(lBuf.toString());}
     ;
+    
+SQ_STRING          
+@init{StringBuilder lBuf = new StringBuilder();}
+    :   
+           '\'' 
+           ( escaped=ESC {lBuf.append(escaped.getText());} | 
+             normal=~('\''|'\\'|'\n'|'\r')     {lBuf.appendCodePoint(normal);} )* 
+           '\''     
+           {setText(lBuf.toString());}
+    ;    
 
 fragment
 ESC

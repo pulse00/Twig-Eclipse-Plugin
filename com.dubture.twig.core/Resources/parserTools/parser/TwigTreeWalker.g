@@ -56,26 +56,33 @@ twig_block returns [Statement node]
  
 expression returns [Expression node]
   : f=function { node = f; }
-  | IDENT 
+  | t=term { node = t; }
+  | h=hash { node = h; }
+  | a=array { node = a; }
+  | v=variable_access { node = v; }
+  ;
+
+term returns [Expression node]
+  : IDENT 
     { 
       CommonToken startToken = (CommonToken) $IDENT.getToken();
       node = new IdentNode(startToken.getStartIndex(), startToken.getStopIndex(), $IDENT.text); 
     }
   | NUMBER 
     {
-      CommonToken startToken = (CommonToken) $NUMBER.getToken();     
+      CommonToken startToken = (CommonToken) $NUMBER.getToken();
       node = new NumberNode(startToken.getStartIndex(), startToken.getStopIndex(), Integer.parseInt($NUMBER.text)); 
     }
   | STRING
     {
       node = new StringLiteral(0,0, $STRING.text);
-    }
-  | h=hash { node = h; }
-  | a=array { node = a; }
-  | v=variable_access { node = v; }
+    }   
+  | SQ_STRING
+    {
+      node = new StringLiteral(0,0, $SQ_STRING.text);
+    }       
   ;
-  
-  
+ 
 variable_access returns [VariableAccess node]
   : ^(DOT e=expression)
     {
