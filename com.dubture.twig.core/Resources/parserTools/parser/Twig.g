@@ -7,7 +7,6 @@ options {
 }
 
 tokens {
-  TWIG_VAR;
   ARRAY_OPEN;
   ARRAY_CLOSE;
 }
