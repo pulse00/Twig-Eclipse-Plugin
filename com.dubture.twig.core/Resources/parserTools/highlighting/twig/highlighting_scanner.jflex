@@ -132,7 +132,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {KEYWORD} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -140,7 +140,7 @@ NUMBER=([0-9])+
 	return TWIG_KEYWORD;
 }
 
-<ST_TWIG_IN_STATEMENT> "-" {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_JSON> "-" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG MINUS");
@@ -150,7 +150,7 @@ NUMBER=([0-9])+
 
 }
 
-<ST_TWIG_IN_STATEMENT> {LABEL} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_JSON> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -160,7 +160,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {LABEL} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG LABEL");
@@ -168,7 +168,7 @@ NUMBER=([0-9])+
 	return TWIG_LABEL;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {NUMBER} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {NUMBER} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG NUMBER");
@@ -212,7 +212,7 @@ NUMBER=([0-9])+
 
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {TWIG_WHITESPACE} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {TWIG_WHITESPACE} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG WHITESPACE");
@@ -232,18 +232,16 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> "{" {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> "{" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON START");
 
-	System.err.println("push json");
-	pushState(ST_TWIG_JSON);
-		
+	pushState(ST_TWIG_JSON);		
     return TWIG_JSON_START;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> "}" {
+<ST_TWIG_JSON> "}" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON END");
@@ -255,7 +253,7 @@ NUMBER=([0-9])+
 
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([']([^'\\]|("\\".))*[']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([']([^'\\]|("\\".))*[']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -263,7 +261,7 @@ NUMBER=([0-9])+
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([\"]([^\"\\]|("\\".))*[\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([\"]([^\"\\]|("\\".))*[\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -272,7 +270,7 @@ NUMBER=([0-9])+
 }
 
 // ST_TWIG_DOUBLE_QUOTES // 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
@@ -281,7 +279,7 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_START;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT>([']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
@@ -327,7 +325,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT> {TOKENS} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {TOKENS} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DELIMITER TOKEN");
