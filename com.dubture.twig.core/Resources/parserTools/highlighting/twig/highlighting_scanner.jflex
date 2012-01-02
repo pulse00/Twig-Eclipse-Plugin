@@ -150,7 +150,7 @@ NUMBER=([0-9])+
 
 }
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_HASH> {LABEL} {
+<ST_TWIG_IN_STATEMENT> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
