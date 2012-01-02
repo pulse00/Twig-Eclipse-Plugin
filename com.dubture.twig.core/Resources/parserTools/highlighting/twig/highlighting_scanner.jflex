@@ -221,8 +221,9 @@ NUMBER=([0-9])+
 }
 
 
-//<ST_TWIG_COMMENT> .|\r|\n {
-<ST_TWIG_COMMENT> [^#]+ {
+<ST_TWIG_COMMENT> .|\r|\n {
+// see github #41
+//<ST_TWIG_COMMENT> [^#]+ {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG COMMENT");
