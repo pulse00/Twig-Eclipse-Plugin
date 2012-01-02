@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2012-01-01 20:59:20
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/TwigTreeWalker.g 2012-01-02 15:20:39
 
   package com.dubture.twig.core.parser.ast;
   
@@ -18,40 +18,39 @@ import java.util.ArrayList;
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class TwigTreeWalker extends TreeParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ARRAY_CLOSE", "ARRAY_OPEN", "COLON", "DIGIT", "DOT", "ESC", "IDENT", "LETTER", "NUMBER", "PUNCTUATION", "RAW", "SQ_STRING", "STRING", "TWIG_VAR", "T_CLOSE_CMT", "T_CLOSE_CURLY", "T_CLOSE_PAREN", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_CMT", "T_OPEN_CURLY", "T_OPEN_PAREN", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "','", "'['", "']'", "'|'", "'~'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ARRAY_CLOSE", "ARRAY_OPEN", "COLON", "COMMA", "DIGIT", "DOT", "ESC", "IDENT", "LETTER", "NUMBER", "PIPE", "QMARK", "RAW", "SQ_STRING", "STRING", "TILDE", "T_CLOSE_CMT", "T_CLOSE_CURLY", "T_CLOSE_PAREN", "T_CLOSE_PRINT", "T_CLOSE_STMT", "T_OPEN_CMT", "T_OPEN_CURLY", "T_OPEN_PAREN", "T_OPEN_PRINT", "T_OPEN_STMT", "WS", "'['", "']'"
     };
 
     public static final int EOF=-1;
-    public static final int T__29=29;
-    public static final int T__30=30;
     public static final int T__31=31;
     public static final int T__32=32;
-    public static final int T__33=33;
     public static final int ARRAY_CLOSE=4;
     public static final int ARRAY_OPEN=5;
     public static final int COLON=6;
-    public static final int DIGIT=7;
-    public static final int DOT=8;
-    public static final int ESC=9;
-    public static final int IDENT=10;
-    public static final int LETTER=11;
-    public static final int NUMBER=12;
-    public static final int PUNCTUATION=13;
-    public static final int RAW=14;
-    public static final int SQ_STRING=15;
-    public static final int STRING=16;
-    public static final int TWIG_VAR=17;
-    public static final int T_CLOSE_CMT=18;
-    public static final int T_CLOSE_CURLY=19;
-    public static final int T_CLOSE_PAREN=20;
-    public static final int T_CLOSE_PRINT=21;
-    public static final int T_CLOSE_STMT=22;
-    public static final int T_OPEN_CMT=23;
-    public static final int T_OPEN_CURLY=24;
-    public static final int T_OPEN_PAREN=25;
-    public static final int T_OPEN_PRINT=26;
-    public static final int T_OPEN_STMT=27;
-    public static final int WS=28;
+    public static final int COMMA=7;
+    public static final int DIGIT=8;
+    public static final int DOT=9;
+    public static final int ESC=10;
+    public static final int IDENT=11;
+    public static final int LETTER=12;
+    public static final int NUMBER=13;
+    public static final int PIPE=14;
+    public static final int QMARK=15;
+    public static final int RAW=16;
+    public static final int SQ_STRING=17;
+    public static final int STRING=18;
+    public static final int TILDE=19;
+    public static final int T_CLOSE_CMT=20;
+    public static final int T_CLOSE_CURLY=21;
+    public static final int T_CLOSE_PAREN=22;
+    public static final int T_CLOSE_PRINT=23;
+    public static final int T_CLOSE_STMT=24;
+    public static final int T_OPEN_CMT=25;
+    public static final int T_OPEN_CURLY=26;
+    public static final int T_OPEN_PAREN=27;
+    public static final int T_OPEN_PRINT=28;
+    public static final int T_OPEN_STMT=29;
+    public static final int WS=30;
 
     // delegates
     public TreeParser[] getDelegates() {
@@ -935,14 +934,14 @@ public class TwigTreeWalker extends TreeParser {
 
  
 
-    public static final BitSet FOLLOW_twig_print_in_module74 = new BitSet(new long[]{0x0000000004000402L});
-    public static final BitSet FOLLOW_twig_block_in_module84 = new BitSet(new long[]{0x0000000004000402L});
+    public static final BitSet FOLLOW_twig_print_in_module74 = new BitSet(new long[]{0x0000000010000802L});
+    public static final BitSet FOLLOW_twig_block_in_module84 = new BitSet(new long[]{0x0000000010000802L});
     public static final BitSet FOLLOW_T_OPEN_PRINT_in_twig_print127 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_twig_print132 = new BitSet(new long[]{0x0000000001219520L});
+    public static final BitSet FOLLOW_expression_in_twig_print132 = new BitSet(new long[]{0x0000000004862A20L});
     public static final BitSet FOLLOW_T_CLOSE_PRINT_in_twig_print138 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_IDENT_in_twig_block177 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_T_OPEN_STMT_in_twig_block179 = new BitSet(new long[]{0x0000000001419520L});
-    public static final BitSet FOLLOW_expression_in_twig_block184 = new BitSet(new long[]{0x0000000001419520L});
+    public static final BitSet FOLLOW_T_OPEN_STMT_in_twig_block179 = new BitSet(new long[]{0x0000000005062A20L});
+    public static final BitSet FOLLOW_expression_in_twig_block184 = new BitSet(new long[]{0x0000000005062A20L});
     public static final BitSet FOLLOW_T_CLOSE_STMT_in_twig_block190 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_function_in_expression218 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_term_in_expression228 = new BitSet(new long[]{0x0000000000000002L});
@@ -952,15 +951,15 @@ public class TwigTreeWalker extends TreeParser {
     public static final BitSet FOLLOW_DOT_in_variable_access278 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_expression_in_variable_access282 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_ARRAY_OPEN_in_array317 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_array322 = new BitSet(new long[]{0x0000000001019530L});
+    public static final BitSet FOLLOW_expression_in_array322 = new BitSet(new long[]{0x0000000004062A30L});
     public static final BitSet FOLLOW_ARRAY_CLOSE_in_array328 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_T_OPEN_CURLY_in_hash370 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_hash_argument_in_hash376 = new BitSet(new long[]{0x0000000001099520L});
+    public static final BitSet FOLLOW_hash_argument_in_hash376 = new BitSet(new long[]{0x0000000004262A20L});
     public static final BitSet FOLLOW_T_CLOSE_CURLY_in_hash380 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_expression_in_hash_argument410 = new BitSet(new long[]{0x0000000001019520L});
+    public static final BitSet FOLLOW_expression_in_hash_argument410 = new BitSet(new long[]{0x0000000004062A20L});
     public static final BitSet FOLLOW_expression_in_hash_argument414 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IDENT_in_function451 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_function456 = new BitSet(new long[]{0x0000000001119520L});
+    public static final BitSet FOLLOW_expression_in_function456 = new BitSet(new long[]{0x0000000004462A20L});
     public static final BitSet FOLLOW_T_CLOSE_PAREN_in_function463 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_IDENT_in_term490 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_NUMBER_in_term503 = new BitSet(new long[]{0x0000000000000002L});

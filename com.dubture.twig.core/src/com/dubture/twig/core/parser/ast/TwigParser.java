@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2012-01-01 23:01:44
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2012-01-02 17:01:42
 
   package com.dubture.twig.core.parser.ast;
 
@@ -82,7 +82,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "template"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:46:1: template : ( twig_print | twig_block )* EOF !;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:1: template : ( twig_print | twig_block )* EOF !;
     public final TwigParser.template_return template() throws RecognitionException {
         TwigParser.template_return retval = new TwigParser.template_return();
         retval.start = input.LT(1);
@@ -99,13 +99,13 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree EOF3_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:3: ( ( twig_print | twig_block )* EOF !)
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:5: ( twig_print | twig_block )* EOF !
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:62:3: ( ( twig_print | twig_block )* EOF !)
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:62:5: ( twig_print | twig_block )* EOF !
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:5: ( twig_print | twig_block )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:62:5: ( twig_print | twig_block )*
             loop1:
             do {
                 int alt1=3;
@@ -121,7 +121,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:6: twig_print
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:62:6: twig_print
             	    {
             	    pushFollow(FOLLOW_twig_print_in_template82);
             	    twig_print1=twig_print();
@@ -133,7 +133,7 @@ public TreeAdaptor getTreeAdaptor() {
             	    }
             	    break;
             	case 2 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:19: twig_block
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:62:19: twig_block
             	    {
             	    pushFollow(FOLLOW_twig_block_in_template86);
             	    twig_block2=twig_block();
@@ -184,7 +184,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "twig_print"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:50:1: twig_print : T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:65:1: twig_print : T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT ;
     public final TwigParser.twig_print_return twig_print() throws RecognitionException {
         TwigParser.twig_print_return retval = new TwigParser.twig_print_return();
         retval.start = input.LT(1);
@@ -201,8 +201,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree T_CLOSE_PRINT6_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:51:3: ( T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:51:5: T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:66:3: ( T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:66:5: T_OPEN_PRINT ^ ( body )? T_CLOSE_PRINT
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -214,7 +214,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.becomeRoot(T_OPEN_PRINT4_tree, root_0);
 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:51:19: ( body )?
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:66:19: ( body )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -223,7 +223,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:51:19: body
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:66:19: body
                     {
                     pushFollow(FOLLOW_body_in_twig_print111);
                     body5=body();
@@ -276,7 +276,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "twig_block"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:54:1: twig_block : T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:69:1: twig_block : T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT ;
     public final TwigParser.twig_block_return twig_block() throws RecognitionException {
         TwigParser.twig_block_return retval = new TwigParser.twig_block_return();
         retval.start = input.LT(1);
@@ -295,8 +295,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree T_CLOSE_STMT10_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:55:3: ( T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:55:5: T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:70:3: ( T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:70:5: T_OPEN_STMT IDENT ^ ( body )? T_CLOSE_STMT
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -315,7 +315,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.becomeRoot(IDENT8_tree, root_0);
 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:55:24: ( body )?
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:70:24: ( body )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -324,7 +324,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:55:24: body
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:70:24: body
                     {
                     pushFollow(FOLLOW_body_in_twig_block134);
                     body9=body();
@@ -377,7 +377,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "body"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:58:1: body : expression ( ( ( COMMA )? ) ! expression )* ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:73:1: body : expression ( ( ( COMMA )? ) ! expression )* ;
     public final TwigParser.body_return body() throws RecognitionException {
         TwigParser.body_return retval = new TwigParser.body_return();
         retval.start = input.LT(1);
@@ -394,8 +394,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COMMA12_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:3: ( expression ( ( ( COMMA )? ) ! expression )* )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:5: expression ( ( ( COMMA )? ) ! expression )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:3: ( expression ( ( ( COMMA )? ) ! expression )* )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:5: expression ( ( ( COMMA )? ) ! expression )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -407,7 +407,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             adaptor.addChild(root_0, expression11.getTree());
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:16: ( ( ( COMMA )? ) ! expression )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:16: ( ( ( COMMA )? ) ! expression )*
             loop5:
             do {
                 int alt5=2;
@@ -420,12 +420,12 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt5) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:18: ( ( COMMA )? ) ! expression
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:18: ( ( COMMA )? ) ! expression
             	    {
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:18: ( ( COMMA )? )
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:19: ( COMMA )?
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:18: ( ( COMMA )? )
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:19: ( COMMA )?
             	    {
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:19: ( COMMA )?
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:19: ( COMMA )?
             	    int alt4=2;
             	    int LA4_0 = input.LA(1);
 
@@ -434,7 +434,7 @@ public TreeAdaptor getTreeAdaptor() {
             	    }
             	    switch (alt4) {
             	        case 1 :
-            	            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:61:19: COMMA
+            	            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:19: COMMA
             	            {
             	            COMMA12=(Token)match(input,COMMA,FOLLOW_COMMA_in_body163); 
             	            COMMA12_tree = 
@@ -499,7 +499,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "functionCallStatement"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:64:1: functionCallStatement : IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:79:1: functionCallStatement : IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN ;
     public final TwigParser.functionCallStatement_return functionCallStatement() throws RecognitionException {
         TwigParser.functionCallStatement_return retval = new TwigParser.functionCallStatement_return();
         retval.start = input.LT(1);
@@ -518,8 +518,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree T_CLOSE_PAREN17_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:67:3: ( IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:67:5: IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:82:3: ( IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:82:5: IDENT ^ T_OPEN_PAREN ! functionParameters T_CLOSE_PAREN
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -578,7 +578,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "functionParameters"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:70:1: functionParameters : expression ( COMMA ! expression )* ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:85:1: functionParameters : expression ( COMMA ! expression )* ;
     public final TwigParser.functionParameters_return functionParameters() throws RecognitionException {
         TwigParser.functionParameters_return retval = new TwigParser.functionParameters_return();
         retval.start = input.LT(1);
@@ -595,8 +595,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COMMA19_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:71:3: ( expression ( COMMA ! expression )* )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:71:5: expression ( COMMA ! expression )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:86:3: ( expression ( COMMA ! expression )* )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:86:5: expression ( COMMA ! expression )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -608,7 +608,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             adaptor.addChild(root_0, expression18.getTree());
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:71:16: ( COMMA ! expression )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:86:16: ( COMMA ! expression )*
             loop6:
             do {
                 int alt6=2;
@@ -621,7 +621,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt6) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:71:17: COMMA ! expression
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:86:17: COMMA ! expression
             	    {
             	    COMMA19=(Token)match(input,COMMA,FOLLOW_COMMA_in_functionParameters218); 
 
@@ -672,7 +672,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "expression"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:74:1: expression : ( term | functionCallStatement | hash | array | variable_access | filter | ternary );
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:89:1: expression : ( term | functionCallStatement | hash | array | variable_access | filter | ternary );
     public final TwigParser.expression_return expression() throws RecognitionException {
         TwigParser.expression_return retval = new TwigParser.expression_return();
         retval.start = input.LT(1);
@@ -697,7 +697,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:75:3: ( term | functionCallStatement | hash | array | variable_access | filter | ternary )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:90:3: ( term | functionCallStatement | hash | array | variable_access | filter | ternary )
             int alt7=7;
             switch ( input.LA(1) ) {
             case IDENT:
@@ -761,7 +761,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             switch (alt7) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:75:5: term
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:90:5: term
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -776,7 +776,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:76:5: functionCallStatement
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:91:5: functionCallStatement
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -791,7 +791,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 3 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:77:5: hash
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:92:5: hash
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -806,7 +806,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 4 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:78:5: array
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:93:5: array
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -821,7 +821,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 5 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:79:5: variable_access
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:94:5: variable_access
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -836,7 +836,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 6 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:80:5: filter
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:95:5: filter
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -851,7 +851,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 7 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:81:5: ternary
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:96:5: ternary
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -896,7 +896,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "ternary"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:84:1: ternary : QMARK ^ expression COLON expression ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:99:1: ternary : QMARK ^ expression COLON expression ;
     public final TwigParser.ternary_return ternary() throws RecognitionException {
         TwigParser.ternary_return retval = new TwigParser.ternary_return();
         retval.start = input.LT(1);
@@ -915,8 +915,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COLON30_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:85:3: ( QMARK ^ expression COLON expression )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:85:5: QMARK ^ expression COLON expression
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:100:3: ( QMARK ^ expression COLON expression )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:100:5: QMARK ^ expression COLON expression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -980,7 +980,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "concat"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:88:1: concat : TILDE ^ expression ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:103:1: concat : TILDE ^ expression ;
     public final TwigParser.concat_return concat() throws RecognitionException {
         TwigParser.concat_return retval = new TwigParser.concat_return();
         retval.start = input.LT(1);
@@ -995,8 +995,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree TILDE32_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:89:3: ( TILDE ^ expression )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:89:5: TILDE ^ expression
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:104:3: ( TILDE ^ expression )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:104:5: TILDE ^ expression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1046,7 +1046,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "filter"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:92:1: filter : PIPE ^ expression ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:107:1: filter : PIPE ^ expression ;
     public final TwigParser.filter_return filter() throws RecognitionException {
         TwigParser.filter_return retval = new TwigParser.filter_return();
         retval.start = input.LT(1);
@@ -1061,8 +1061,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree PIPE34_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:93:3: ( PIPE ^ expression )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:93:5: PIPE ^ expression
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:108:3: ( PIPE ^ expression )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:108:5: PIPE ^ expression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1112,7 +1112,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "variable_access"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:96:1: variable_access : DOT ^ expression ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:111:1: variable_access : DOT ^ expression ;
     public final TwigParser.variable_access_return variable_access() throws RecognitionException {
         TwigParser.variable_access_return retval = new TwigParser.variable_access_return();
         retval.start = input.LT(1);
@@ -1127,8 +1127,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree DOT36_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:97:3: ( DOT ^ expression )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:97:5: DOT ^ expression
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:112:3: ( DOT ^ expression )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:112:5: DOT ^ expression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1178,7 +1178,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "array"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:100:1: array : array_open ^ ( expression ( COMMA ! expression )* )? array_close ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:115:1: array : array_open ^ ( expression ( COMMA ! expression )* )? array_close ;
     public final TwigParser.array_return array() throws RecognitionException {
         TwigParser.array_return retval = new TwigParser.array_return();
         retval.start = input.LT(1);
@@ -1199,8 +1199,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COMMA40_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:3: ( array_open ^ ( expression ( COMMA ! expression )* )? array_close )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:5: array_open ^ ( expression ( COMMA ! expression )* )? array_close
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:3: ( array_open ^ ( expression ( COMMA ! expression )* )? array_close )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:5: array_open ^ ( expression ( COMMA ! expression )* )? array_close
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1212,7 +1212,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             root_0 = (CommonTree)adaptor.becomeRoot(array_open38.getTree(), root_0);
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:17: ( expression ( COMMA ! expression )* )?
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:17: ( expression ( COMMA ! expression )* )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1221,7 +1221,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt9) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:18: expression ( COMMA ! expression )*
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:18: expression ( COMMA ! expression )*
                     {
                     pushFollow(FOLLOW_expression_in_array374);
                     expression39=expression();
@@ -1230,7 +1230,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                     adaptor.addChild(root_0, expression39.getTree());
 
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:29: ( COMMA ! expression )*
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:29: ( COMMA ! expression )*
                     loop8:
                     do {
                         int alt8=2;
@@ -1243,7 +1243,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:101:30: COMMA ! expression
+                    	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:30: COMMA ! expression
                     	    {
                     	    COMMA40=(Token)match(input,COMMA,FOLLOW_COMMA_in_array377); 
 
@@ -1307,7 +1307,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "array_open"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:104:1: array_open : '[' -> ARRAY_OPEN ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:119:1: array_open : '[' -> ARRAY_OPEN ;
     public final TwigParser.array_open_return array_open() throws RecognitionException {
         TwigParser.array_open_return retval = new TwigParser.array_open_return();
         retval.start = input.LT(1);
@@ -1321,8 +1321,8 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_31=new RewriteRuleTokenStream(adaptor,"token 31");
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:105:3: ( '[' -> ARRAY_OPEN )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:105:5: '['
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:120:3: ( '[' -> ARRAY_OPEN )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:120:5: '['
             {
             char_literal43=(Token)match(input,31,FOLLOW_31_in_array_open401);  
             stream_31.add(char_literal43);
@@ -1339,7 +1339,7 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 105:9: -> ARRAY_OPEN
+            // 120:9: -> ARRAY_OPEN
             {
                 adaptor.addChild(root_0, 
                 (CommonTree)adaptor.create(ARRAY_OPEN, "ARRAY_OPEN")
@@ -1381,7 +1381,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "array_close"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:108:1: array_close : ']' -> ARRAY_CLOSE ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:123:1: array_close : ']' -> ARRAY_CLOSE ;
     public final TwigParser.array_close_return array_close() throws RecognitionException {
         TwigParser.array_close_return retval = new TwigParser.array_close_return();
         retval.start = input.LT(1);
@@ -1395,8 +1395,8 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_32=new RewriteRuleTokenStream(adaptor,"token 32");
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:109:3: ( ']' -> ARRAY_CLOSE )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:109:5: ']'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:124:3: ( ']' -> ARRAY_CLOSE )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:124:5: ']'
             {
             char_literal44=(Token)match(input,32,FOLLOW_32_in_array_close420);  
             stream_32.add(char_literal44);
@@ -1413,7 +1413,7 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 109:9: -> ARRAY_CLOSE
+            // 124:9: -> ARRAY_CLOSE
             {
                 adaptor.addChild(root_0, 
                 (CommonTree)adaptor.create(ARRAY_CLOSE, "ARRAY_CLOSE")
@@ -1455,7 +1455,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "hash"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:112:1: hash : T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:127:1: hash : T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY ;
     public final TwigParser.hash_return hash() throws RecognitionException {
         TwigParser.hash_return retval = new TwigParser.hash_return();
         retval.start = input.LT(1);
@@ -1472,8 +1472,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree T_CLOSE_CURLY47_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:113:3: ( T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:113:5: T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:128:3: ( T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:128:5: T_OPEN_CURLY ^ hash_body T_CLOSE_CURLY
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1530,7 +1530,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "hash_body"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:116:1: hash_body : hash_argument ( COMMA hash_argument )* ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:131:1: hash_body : hash_argument ( COMMA hash_argument )* ;
     public final TwigParser.hash_body_return hash_body() throws RecognitionException {
         TwigParser.hash_body_return retval = new TwigParser.hash_body_return();
         retval.start = input.LT(1);
@@ -1547,8 +1547,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COMMA49_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:117:3: ( hash_argument ( COMMA hash_argument )* )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:117:5: hash_argument ( COMMA hash_argument )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:132:3: ( hash_argument ( COMMA hash_argument )* )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:132:5: hash_argument ( COMMA hash_argument )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1560,7 +1560,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             adaptor.addChild(root_0, hash_argument48.getTree());
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:117:19: ( COMMA hash_argument )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:132:19: ( COMMA hash_argument )*
             loop10:
             do {
                 int alt10=2;
@@ -1573,7 +1573,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt10) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:117:20: COMMA hash_argument
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:132:20: COMMA hash_argument
             	    {
             	    COMMA49=(Token)match(input,COMMA,FOLLOW_COMMA_in_hash_body464); 
             	    COMMA49_tree = 
@@ -1629,7 +1629,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "hash_argument"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:120:1: hash_argument : expression COLON ! expression ;
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:135:1: hash_argument : expression COLON ! expression ;
     public final TwigParser.hash_argument_return hash_argument() throws RecognitionException {
         TwigParser.hash_argument_return retval = new TwigParser.hash_argument_return();
         retval.start = input.LT(1);
@@ -1646,8 +1646,8 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree COLON52_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:121:3: ( expression COLON ! expression )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:121:5: expression COLON ! expression
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:136:3: ( expression COLON ! expression )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:136:5: expression COLON ! expression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1699,7 +1699,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "term"
-    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:124:1: term : ( IDENT | NUMBER | STRING | SQ_STRING );
+    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:139:1: term : ( IDENT | NUMBER | STRING | SQ_STRING );
     public final TwigParser.term_return term() throws RecognitionException {
         TwigParser.term_return retval = new TwigParser.term_return();
         retval.start = input.LT(1);
@@ -1712,7 +1712,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree set54_tree=null;
 
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:125:3: ( IDENT | NUMBER | STRING | SQ_STRING )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:140:3: ( IDENT | NUMBER | STRING | SQ_STRING )
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:
             {
             root_0 = (CommonTree)adaptor.nil();

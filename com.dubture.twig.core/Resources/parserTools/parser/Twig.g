@@ -23,7 +23,11 @@ tokens {
 
   // flag to switch the lexer state
   // between raw and twig context
-  private boolean insideTag = false;  
+  private boolean insideTag = false;
+  
+  private String T_OPEN = "{{";
+  private String T_CLOSE = "}}";
+    
   
   // is still raw content ahead or do we see a twig tag?
   private boolean rawAhead() {
@@ -38,7 +42,18 @@ tokens {
         (ch1 == '{' && ch2 == '#')
     );
     
-  }    
+  }
+  
+  // implementation of custom delimters
+  private boolean ahead(String str) {
+    for(int i = 0; i < str.length(); i++) {
+      if(input.LA(i + 1) != str.charAt(i)) {
+        return false;
+      }
+    }  
+    return true;
+  }
+        
 }
 
 // PARSER RULES
@@ -134,8 +149,8 @@ term
 // see http://stackoverflow.com/questions/8693187/switching-lexer-state-in-antlr3-grammar
 RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };
 
-T_OPEN_PRINT  @after { insideTag=true;  } : '{{';    
-T_CLOSE_PRINT @after { insideTag=false; } : '}}';
+T_OPEN_PRINT  @after { insideTag=true;  } : { ahead(T_OPEN)}?=> { match(T_OPEN); } ;    
+T_CLOSE_PRINT @after { insideTag=false; } : { ahead(T_CLOSE)}?=> { match(T_CLOSE); } ;
 
 T_OPEN_STMT   @after { insideTag=true;  } : '{%';  
 T_CLOSE_STMT  @after { insideTag=false; } : '%}';
