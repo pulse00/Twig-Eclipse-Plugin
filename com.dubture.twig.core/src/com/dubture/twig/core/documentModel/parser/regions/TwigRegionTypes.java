@@ -39,8 +39,8 @@ public interface TwigRegionTypes
     public static final String TWIG_BACKTICK_END = "ST_TWIG_BACKTICK_END"; //$NON-NLS-1$	
     public static final String TWIG_BACKTICK_START = "TWIG_BACKTICK_START"; //$NON-NLS-1$		
 
-    public static final String TWIG_JSON_START = "TWIG_JSON_START"; //$NON-NLS-1$
-    public static final String TWIG_JSON_END = "TWIG_JSON_END"; //$NON-NLS-1$	
+    public static final String TWIG_HASH_START = "TWIG_HASH_START"; //$NON-NLS-1$
+    public static final String TWIG_HASH_END = "TWIG_HASH_END"; //$NON-NLS-1$	
 
     static final String PHP_KEYWORD = "PHP_KEYWORD"; //$NON-NLS-1$
 

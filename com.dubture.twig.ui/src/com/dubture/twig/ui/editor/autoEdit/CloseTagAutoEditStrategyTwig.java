@@ -404,9 +404,9 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy
                             }
                         } else if (regionType == PHPRegionTypes.PHP_CURLY_OPEN
                                 || regionType == PHPRegionTypes.PHP_CURLY_CLOSE
-                                || regionType == TwigRegionTypes.TWIG_JSON_END) {
+                                || regionType == TwigRegionTypes.TWIG_HASH_END) {
                             return MATCHING_BRACKET_NOT_NEEDED;
-                        } else if (regionType == TwigRegionTypes.TWIG_JSON_START) {
+                        } else if (regionType == TwigRegionTypes.TWIG_HASH_START) {
                             return MATCHING_BRACKET_NEEDED;
                         }
 

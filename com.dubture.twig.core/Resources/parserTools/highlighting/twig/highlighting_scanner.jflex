@@ -31,7 +31,7 @@ import com.dubture.twig.core.util.Debug;
 %state ST_TWIG_SINGLE_QUOTES
 %state ST_TWIG_HIGHLIGHTING_ERROR
 %state ST_TWIG_COMMENT
-%state ST_TWIG_JSON
+%state ST_TWIG_HASH
 
 
 %{
@@ -132,7 +132,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {KEYWORD} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -140,7 +140,7 @@ NUMBER=([0-9])+
 	return TWIG_KEYWORD;
 }
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_JSON> "-" {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_HASH> "-" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG MINUS");
@@ -150,7 +150,7 @@ NUMBER=([0-9])+
 
 }
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_JSON> {LABEL} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_HASH> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -160,7 +160,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {LABEL} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG LABEL");
@@ -168,7 +168,7 @@ NUMBER=([0-9])+
 	return TWIG_LABEL;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {NUMBER} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {NUMBER} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG NUMBER");
@@ -212,7 +212,7 @@ NUMBER=([0-9])+
 
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {TWIG_WHITESPACE} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {TWIG_WHITESPACE} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG WHITESPACE");
@@ -232,28 +232,28 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> "{" {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> "{" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON START");
 
-	pushState(ST_TWIG_JSON);		
-    return TWIG_JSON_START;
+	pushState(ST_TWIG_HASH);		
+    return TWIG_HASH_START;
 }
 
-<ST_TWIG_JSON> "}" {
+<ST_TWIG_HASH> "}" {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG JSON END");
 
-	//yybegin(ST_TWIG_JSON)
+	//yybegin(ST_TWIG_HASH)
 	popState();
-    return TWIG_JSON_END;
+    return TWIG_HASH_END;
 }
 
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([']([^'\\]|("\\".))*[']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([']([^'\\]|("\\".))*[']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -261,7 +261,7 @@ NUMBER=([0-9])+
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([\"]([^\"\\]|("\\".))*[\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([\"]([^\"\\]|("\\".))*[\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG_CONSTANT_ENCAPSED_STRING");
@@ -270,7 +270,7 @@ NUMBER=([0-9])+
 }
 
 // ST_TWIG_DOUBLE_QUOTES // 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([\"]) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
@@ -279,7 +279,7 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_START;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON>([']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([']) {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
@@ -325,7 +325,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_JSON> {TOKENS} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {TOKENS} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DELIMITER TOKEN");
@@ -347,7 +347,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES, ST_TWIG_JSON>. {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES, ST_TWIG_HASH>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");
