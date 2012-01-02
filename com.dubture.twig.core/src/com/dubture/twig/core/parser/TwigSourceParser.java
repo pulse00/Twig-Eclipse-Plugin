@@ -56,11 +56,11 @@ public class TwigSourceParser extends AbstractPHPSourceParser implements
     {
         try {
 
-            TwigModuleDeclaration module = SourceParserUtil
-                    .parseSourceModule(in);
-            module.traverse(new SourceParserVisitor(reporter));
-
-            return module;
+//            TwigModuleDeclaration module = SourceParserUtil
+//                    .parseSourceModule(in);
+//            module.traverse(new SourceParserVisitor(reporter));
+//
+//            return module;
 
         } catch (Exception e) {
             Logger.logException(e);
