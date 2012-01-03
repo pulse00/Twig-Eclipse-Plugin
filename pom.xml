@@ -26,6 +26,11 @@
      <layout>p2</layout>
      <url>http://download.eclipse.org/releases/indigo</url>
    </repository>	
+   <repository>
+     <id>dltk</id>
+     <layout>p2</layout>
+     <url>http://build.xored.com/browse/DLTK-DLTKCORE-120/artifact/JOB1/All-Update-Site</url>
+   </repository>
   </repositories>
 
   <build>
