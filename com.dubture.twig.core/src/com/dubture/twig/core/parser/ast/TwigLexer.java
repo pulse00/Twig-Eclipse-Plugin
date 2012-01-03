@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2012-01-02 23:59:13
+// $ANTLR 3.4 /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g 2012-01-03 19:46:06
 
   package com.dubture.twig.core.parser.ast;  
 
@@ -11,35 +11,43 @@ import java.util.ArrayList;
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class TwigLexer extends Lexer {
     public static final int EOF=-1;
-    public static final int T__31=31;
-    public static final int T__32=32;
+    public static final int T__39=39;
+    public static final int T__40=40;
     public static final int ARRAY_CLOSE=4;
     public static final int ARRAY_OPEN=5;
-    public static final int COLON=6;
-    public static final int COMMA=7;
-    public static final int DIGIT=8;
-    public static final int DOT=9;
-    public static final int ESC=10;
-    public static final int IDENT=11;
-    public static final int LETTER=12;
-    public static final int NUMBER=13;
-    public static final int PIPE=14;
-    public static final int QMARK=15;
-    public static final int RAW=16;
-    public static final int SQ_STRING=17;
-    public static final int STRING=18;
-    public static final int TILDE=19;
-    public static final int T_CLOSE_CMT=20;
-    public static final int T_CLOSE_CURLY=21;
-    public static final int T_CLOSE_PAREN=22;
-    public static final int T_CLOSE_PRINT=23;
-    public static final int T_CLOSE_STMT=24;
-    public static final int T_OPEN_CMT=25;
-    public static final int T_OPEN_CURLY=26;
-    public static final int T_OPEN_PAREN=27;
-    public static final int T_OPEN_PRINT=28;
-    public static final int T_OPEN_STMT=29;
-    public static final int WS=30;
+    public static final int BODY=6;
+    public static final int CALL=7;
+    public static final int COLON=8;
+    public static final int COMMA=9;
+    public static final int DIGIT=10;
+    public static final int DISPATCH=11;
+    public static final int DOT=12;
+    public static final int ESC=13;
+    public static final int FILTER=14;
+    public static final int ID=15;
+    public static final int IDENT=16;
+    public static final int LETTER=17;
+    public static final int LHS=18;
+    public static final int NUMBER=19;
+    public static final int PARAMS=20;
+    public static final int PIPE=21;
+    public static final int QMARK=22;
+    public static final int RAW=23;
+    public static final int RHS=24;
+    public static final int SQ_STRING=25;
+    public static final int STRING=26;
+    public static final int TILDE=27;
+    public static final int T_CLOSE_CMT=28;
+    public static final int T_CLOSE_CURLY=29;
+    public static final int T_CLOSE_PAREN=30;
+    public static final int T_CLOSE_PRINT=31;
+    public static final int T_CLOSE_STMT=32;
+    public static final int T_OPEN_CMT=33;
+    public static final int T_OPEN_CURLY=34;
+    public static final int T_OPEN_PAREN=35;
+    public static final int T_OPEN_PRINT=36;
+    public static final int T_OPEN_STMT=37;
+    public static final int WS=38;
 
 
       // flag to switch the lexer state
@@ -92,10 +100,10 @@ public class TwigLexer extends Lexer {
     }
     public String getGrammarFileName() { return "/Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g"; }
 
-    // $ANTLR start "T__31"
-    public final void mT__31() throws RecognitionException {
+    // $ANTLR start "T__39"
+    public final void mT__39() throws RecognitionException {
         try {
-            int _type = T__31;
+            int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:7: ( '[' )
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:47:9: '['
@@ -111,12 +119,12 @@ public class TwigLexer extends Lexer {
         	// do for sure before leaving
         }
     }
-    // $ANTLR end "T__31"
+    // $ANTLR end "T__39"
 
-    // $ANTLR start "T__32"
-    public final void mT__32() throws RecognitionException {
+    // $ANTLR start "T__40"
+    public final void mT__40() throws RecognitionException {
         try {
-            int _type = T__32;
+            int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:48:7: ( ']' )
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:48:9: ']'
@@ -132,17 +140,17 @@ public class TwigLexer extends Lexer {
         	// do for sure before leaving
         }
     }
-    // $ANTLR end "T__32"
+    // $ANTLR end "T__40"
 
     // $ANTLR start "RAW"
     public final void mRAW() throws RecognitionException {
         try {
             int _type = RAW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:7: ( ({...}? => . )+ )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:9: ({...}? => . )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:145:7: ( ({...}? => . )+ )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:145:9: ({...}? => . )+
             {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:9: ({...}? => . )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:145:9: ({...}? => . )+
             int cnt1=0;
             loop1:
             do {
@@ -156,7 +164,7 @@ public class TwigLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:10: {...}? => .
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:145:10: {...}? => .
             	    {
             	    if ( !((rawAhead())) ) {
             	        throw new FailedPredicateException(input, "RAW", "rawAhead()");
@@ -195,14 +203,12 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_OPEN_PRINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:152:43: ({...}? =>)
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:152:45: {...}? =>
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:147:43: ( '{{' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:147:45: '{{'
             {
-            if ( !(( ahead(T_OPEN))) ) {
-                throw new FailedPredicateException(input, "T_OPEN_PRINT", " ahead(T_OPEN)");
-            }
+            match("{{"); 
 
-             match(T_OPEN); 
+
 
             }
 
@@ -221,14 +227,12 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_CLOSE_PRINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:153:43: ({...}? =>)
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:153:45: {...}? =>
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:148:43: ( '}}' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:148:45: '}}'
             {
-            if ( !(( ahead(T_CLOSE))) ) {
-                throw new FailedPredicateException(input, "T_CLOSE_PRINT", " ahead(T_CLOSE)");
-            }
+            match("}}"); 
 
-             match(T_CLOSE); 
+
 
             }
 
@@ -247,8 +251,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_OPEN_STMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:155:43: ( '{%' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:155:45: '{%'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:43: ( '{%' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:150:45: '{%'
             {
             match("{%"); 
 
@@ -271,8 +275,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_CLOSE_STMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:156:43: ( '%}' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:156:45: '%}'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:151:43: ( '%}' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:151:45: '%}'
             {
             match("%}"); 
 
@@ -295,8 +299,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_OPEN_CMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:158:43: ( '{#' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:158:45: '{#'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:153:43: ( '{#' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:153:45: '{#'
             {
             match("{#"); 
 
@@ -319,8 +323,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_CLOSE_CMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:159:43: ( '#}' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:159:45: '#}'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:154:43: ( '#}' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:154:45: '#}'
             {
             match("#}"); 
 
@@ -343,8 +347,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_OPEN_PAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:161:15: ( '(' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:161:17: '('
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:156:15: ( '(' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:156:17: '('
             {
             match('('); 
 
@@ -364,8 +368,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_CLOSE_PAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:162:15: ( ')' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:162:17: ')'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:157:15: ( ')' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:157:17: ')'
             {
             match(')'); 
 
@@ -385,8 +389,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_OPEN_CURLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:164:15: ( '{' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:164:17: '{'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:159:15: ( '{' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:159:17: '{'
             {
             match('{'); 
 
@@ -406,8 +410,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = T_CLOSE_CURLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:165:15: ( '}' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:165:17: '}'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:160:15: ( '}' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:160:17: '}'
             {
             match('}'); 
 
@@ -427,8 +431,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = DOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:167:7: ( '.' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:167:9: '.'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:162:7: ( '.' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:162:9: '.'
             {
             match('.'); 
 
@@ -448,8 +452,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:168:7: ( ':' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:168:9: ':'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:163:7: ( ':' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:163:9: ':'
             {
             match(':'); 
 
@@ -469,8 +473,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = PIPE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:169:7: ( '|' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:169:9: '|'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:164:7: ( '|' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:164:9: '|'
             {
             match('|'); 
 
@@ -490,8 +494,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = TILDE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:170:7: ( '~' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:170:9: '~'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:165:7: ( '~' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:165:9: '~'
             {
             match('~'); 
 
@@ -511,8 +515,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = QMARK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:171:7: ( '?' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:171:9: '?'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:166:7: ( '?' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:166:9: '?'
             {
             match('?'); 
 
@@ -532,8 +536,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:172:7: ( ',' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:172:9: ','
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:167:7: ( ',' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:167:9: ','
             {
             match(','); 
 
@@ -557,12 +561,12 @@ public class TwigLexer extends Lexer {
             int normal;
 
             StringBuilder lBuf = new StringBuilder();
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:178:5: ( '\"' (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:179:12: '\"' (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"'
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:173:5: ( '\"' (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:174:12: '\"' (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"'
             {
             match('\"'); 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:180:12: (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:175:12: (escaped= ESC |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )*
             loop2:
             do {
                 int alt2=3;
@@ -578,15 +582,15 @@ public class TwigLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:180:14: escaped= ESC
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:175:14: escaped= ESC
             	    {
-            	    int escapedStart295 = getCharIndex();
-            	    int escapedStartLine295 = getLine();
-            	    int escapedStartCharPos295 = getCharPositionInLine();
+            	    int escapedStart287 = getCharIndex();
+            	    int escapedStartLine287 = getLine();
+            	    int escapedStartCharPos287 = getCharPositionInLine();
             	    mESC(); 
-            	    escaped = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, escapedStart295, getCharIndex()-1);
-            	    escaped.setLine(escapedStartLine295);
-            	    escaped.setCharPositionInLine(escapedStartCharPos295);
+            	    escaped = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, escapedStart287, getCharIndex()-1);
+            	    escaped.setLine(escapedStartLine287);
+            	    escaped.setCharPositionInLine(escapedStartCharPos287);
 
 
             	    lBuf.append(escaped.getText());
@@ -594,7 +598,7 @@ public class TwigLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:181:14: normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' )
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:176:14: normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' )
             	    {
             	    normal= input.LA(1);
 
@@ -643,12 +647,12 @@ public class TwigLexer extends Lexer {
             int normal;
 
             StringBuilder lBuf = new StringBuilder();
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:189:5: ( '\\'' (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )* '\\'' )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:190:12: '\\'' (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )* '\\''
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:184:5: ( '\\'' (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )* '\\'' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:185:12: '\\'' (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )* '\\''
             {
             match('\''); 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:191:12: (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )*
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:186:12: (escaped= ESC |normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' ) )*
             loop3:
             do {
                 int alt3=3;
@@ -664,15 +668,15 @@ public class TwigLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:191:14: escaped= ESC
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:186:14: escaped= ESC
             	    {
-            	    int escapedStart429 = getCharIndex();
-            	    int escapedStartLine429 = getLine();
-            	    int escapedStartCharPos429 = getCharPositionInLine();
+            	    int escapedStart421 = getCharIndex();
+            	    int escapedStartLine421 = getLine();
+            	    int escapedStartCharPos421 = getCharPositionInLine();
             	    mESC(); 
-            	    escaped = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, escapedStart429, getCharIndex()-1);
-            	    escaped.setLine(escapedStartLine429);
-            	    escaped.setCharPositionInLine(escapedStartCharPos429);
+            	    escaped = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, escapedStart421, getCharIndex()-1);
+            	    escaped.setLine(escapedStartLine421);
+            	    escaped.setCharPositionInLine(escapedStartCharPos421);
 
 
             	    lBuf.append(escaped.getText());
@@ -680,7 +684,7 @@ public class TwigLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:192:14: normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' )
+            	    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:187:14: normal=~ ( '\\'' | '\\\\' | '\\n' | '\\r' )
             	    {
             	    normal= input.LA(1);
 
@@ -723,12 +727,12 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "ESC"
     public final void mESC() throws RecognitionException {
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:201:5: ( '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' ) )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:201:9: '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:196:5: ( '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' ) )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:196:9: '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
             {
             match('\\'); 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:202:9: ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:197:9: ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
             int alt4=9;
             switch ( input.LA(1) ) {
             case 'n':
@@ -786,7 +790,7 @@ public class TwigLexer extends Lexer {
 
             switch (alt4) {
                 case 1 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:202:17: 'n'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:197:17: 'n'
                     {
                     match('n'); 
 
@@ -795,7 +799,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:203:17: 'r'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:198:17: 'r'
                     {
                     match('r'); 
 
@@ -804,7 +808,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:204:17: 't'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:199:17: 't'
                     {
                     match('t'); 
 
@@ -813,7 +817,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:205:17: 'b'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:200:17: 'b'
                     {
                     match('b'); 
 
@@ -822,7 +826,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:206:17: 'f'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:201:17: 'f'
                     {
                     match('f'); 
 
@@ -831,7 +835,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:207:17: '\"'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:202:17: '\"'
                     {
                     match('\"'); 
 
@@ -840,7 +844,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:208:17: '\\''
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:203:17: '\\''
                     {
                     match('\''); 
 
@@ -849,7 +853,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 8 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:209:17: '/'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:204:17: '/'
                     {
                     match('/'); 
 
@@ -858,7 +862,7 @@ public class TwigLexer extends Lexer {
                     }
                     break;
                 case 9 :
-                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:210:17: '\\\\'
+                    // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:205:17: '\\\\'
                     {
                     match('\\'); 
 
@@ -883,7 +887,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:214:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:209:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
@@ -909,7 +913,7 @@ public class TwigLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:215:17: ( '0' .. '9' )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:210:17: ( '0' .. '9' )
             // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:
             {
             if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
@@ -937,10 +941,10 @@ public class TwigLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:217:9: ( ( DIGIT )+ )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:217:11: ( DIGIT )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:212:9: ( ( DIGIT )+ )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:212:11: ( DIGIT )+
             {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:217:11: ( DIGIT )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:212:11: ( DIGIT )+
             int cnt5=0;
             loop5:
             do {
@@ -995,8 +999,8 @@ public class TwigLexer extends Lexer {
         try {
             int _type = IDENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:218:9: ( ( LETTER ) ( LETTER | DIGIT )+ )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:218:11: ( LETTER ) ( LETTER | DIGIT )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:213:9: ( ( LETTER ) ( LETTER | DIGIT )+ )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:213:11: ( LETTER ) ( LETTER | DIGIT )+
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
@@ -1008,7 +1012,7 @@ public class TwigLexer extends Lexer {
             }
 
 
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:218:20: ( LETTER | DIGIT )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:213:20: ( LETTER | DIGIT )+
             int cnt6=0;
             loop6:
             do {
@@ -1063,10 +1067,10 @@ public class TwigLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:219:9: ( ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+ )
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:219:11: ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:214:9: ( ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+ )
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:214:11: ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+
             {
-            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:219:11: ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+
+            // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:214:11: ( ' ' | '\\t' | '\\n' | '\\r' | '\\f' )+
             int cnt7=0;
             loop7:
             do {
@@ -1119,22 +1123,22 @@ public class TwigLexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:8: ( T__31 | T__32 | RAW | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | T_OPEN_CMT | T_CLOSE_CMT | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | DOT | COLON | PIPE | TILDE | QMARK | COMMA | STRING | SQ_STRING | NUMBER | IDENT | WS )
+        // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:8: ( T__39 | T__40 | RAW | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | T_OPEN_CMT | T_CLOSE_CMT | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | DOT | COLON | PIPE | TILDE | QMARK | COMMA | STRING | SQ_STRING | NUMBER | IDENT | WS )
         int alt8=24;
         alt8 = dfa8.predict(input);
         switch (alt8) {
             case 1 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:10: T__31
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:10: T__39
                 {
-                mT__31(); 
+                mT__39(); 
 
 
                 }
                 break;
             case 2 :
-                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:16: T__32
+                // /Users/sobert/Documents/workspaces/main/Twig-Eclipse-Plugin/com.dubture.twig.core/Resources/parserTools/parser/Twig.g:1:16: T__40
                 {
-                mT__32(); 
+                mT__40(); 
 
 
                 }
@@ -1323,125 +1327,128 @@ public class TwigLexer extends Lexer {
 
     protected DFA8 dfa8 = new DFA8(this);
     static final String DFA8_eotS =
-        "\1\4\1\26\1\27\1\32\1\uffff\2\25\1\37\1\40\1\41\1\42\1\43\1\44\1"+
-        "\45\1\46\1\47\2\25\1\56\1\25\1\60\3\uffff\1\63\1\64\3\uffff\1\66"+
-        "\1\67\11\uffff\2\25\1\112\2\25\1\124\1\uffff\1\126\21\uffff\11\25"+
-        "\1\uffff\11\25\13\uffff";
+        "\1\uffff\1\25\1\26\1\32\1\34\2\24\1\37\1\40\1\41\1\42\1\43\1\44"+
+        "\1\45\1\46\2\24\1\55\1\24\1\57\3\uffff\1\62\1\63\1\64\1\uffff\1"+
+        "\66\1\uffff\1\70\1\71\10\uffff\2\24\1\113\2\24\1\125\1\uffff\1\127"+
+        "\23\uffff\11\24\1\uffff\11\24\15\uffff";
     static final String DFA8_eofS =
-        "\137\uffff";
+        "\142\uffff";
     static final String DFA8_minS =
-        "\5\0\2\175\14\0\1\60\1\0\1\uffff\5\0\2\uffff\13\0\1\42\2\0\1\42"+
-        "\5\0\2\uffff\2\0\1\uffff\2\0\11\uffff\24\0\1\uffff\1\0\10\uffff";
+        "\5\0\2\175\13\0\1\60\1\0\1\uffff\22\0\1\42\2\0\1\42\5\0\2\uffff"+
+        "\3\0\1\uffff\1\0\1\uffff\2\0\10\uffff\24\0\1\uffff\1\0\12\uffff";
     static final String DFA8_maxS =
-        "\4\uffff\1\0\2\175\14\uffff\1\172\1\uffff\1\uffff\2\0\2\uffff\1"+
-        "\0\2\uffff\2\uffff\11\0\1\164\2\uffff\1\164\2\uffff\1\0\1\uffff"+
-        "\1\0\2\uffff\2\0\1\uffff\2\0\11\uffff\11\uffff\1\0\11\uffff\1\0"+
-        "\1\uffff\1\0\10\uffff";
+        "\5\uffff\2\175\13\uffff\1\172\1\uffff\1\uffff\2\0\3\uffff\1\0\1"+
+        "\uffff\1\0\2\uffff\10\0\1\164\2\uffff\1\164\2\uffff\1\0\1\uffff"+
+        "\1\0\2\uffff\3\0\1\uffff\1\0\1\uffff\2\0\10\uffff\11\uffff\1\0\11"+
+        "\uffff\1\0\1\uffff\1\0\12\uffff";
     static final String DFA8_acceptS =
-        "\25\uffff\1\3\5\uffff\1\4\1\5\24\uffff\1\1\1\2\2\uffff\1\14\2\uffff"+
-        "\1\12\1\13\1\15\1\16\1\17\1\20\1\21\1\22\1\23\24\uffff\1\26\1\uffff"+
-        "\1\30\1\6\1\10\1\7\1\11\1\24\1\25\1\27";
+        "\24\uffff\1\3\33\uffff\1\1\1\2\3\uffff\1\14\1\uffff\1\15\2\uffff"+
+        "\1\12\1\13\1\16\1\17\1\20\1\21\1\22\1\23\24\uffff\1\26\1\uffff\1"+
+        "\30\1\4\1\6\1\10\1\5\1\7\1\11\1\24\1\25\1\27";
     static final String DFA8_specialS =
-        "\1\6\1\15\1\21\1\1\1\101\1\24\1\25\1\26\1\22\1\12\1\11\1\2\1\62"+
-        "\1\50\1\55\1\46\1\14\1\60\1\10\1\27\1\76\1\uffff\1\54\1\52\1\66"+
-        "\1\44\1\64\2\uffff\1\53\1\36\1\106\1\63\1\67\1\70\1\72\1\73\1\74"+
-        "\1\75\1\35\1\30\1\16\1\51\1\43\1\61\1\23\1\32\1\41\1\37\2\uffff"+
-        "\1\100\1\104\1\uffff\1\103\1\105\11\uffff\1\56\1\65\1\77\1\3\1\5"+
-        "\1\7\1\13\1\17\1\20\1\34\1\4\1\0\1\71\1\102\1\47\1\57\1\42\1\45"+
-        "\1\31\1\33\1\uffff\1\40\10\uffff}>";
+        "\1\7\1\56\1\50\1\52\1\57\1\14\1\12\1\15\1\13\1\11\1\5\1\3\1\110"+
+        "\1\61\1\55\1\21\1\1\1\41\1\22\1\16\1\uffff\1\62\1\60\1\43\1\35\1"+
+        "\26\1\106\1\45\1\107\1\32\1\23\1\103\1\105\1\111\1\67\1\71\1\72"+
+        "\1\73\1\74\1\10\1\20\1\66\1\70\1\0\1\4\1\77\1\104\1\53\2\uffff\1"+
+        "\63\1\64\1\101\1\uffff\1\65\1\uffff\1\100\1\102\10\uffff\1\17\1"+
+        "\24\1\25\1\27\1\31\1\33\1\36\1\2\1\6\1\75\1\51\1\47\1\46\1\44\1"+
+        "\42\1\40\1\34\1\37\1\30\1\76\1\uffff\1\54\12\uffff}>";
     static final String[] DFA8_transitionS = {
-            "\11\25\2\24\1\25\2\24\22\25\1\24\1\25\1\20\1\6\1\25\1\5\1\25"+
-            "\1\21\1\7\1\10\2\25\1\17\1\25\1\12\1\25\12\22\1\13\4\25\1\16"+
-            "\1\25\32\23\1\1\1\25\1\2\3\25\32\23\1\3\1\14\1\11\1\15\uff81"+
-            "\25",
-            "\0\25",
-            "\0\25",
-            "\43\25\1\31\1\25\1\30\uffda\25",
-            "\1\uffff",
+            "\11\24\2\23\1\24\2\23\22\24\1\23\1\24\1\17\1\6\1\24\1\5\1\24"+
+            "\1\20\1\7\1\10\2\24\1\16\1\24\1\11\1\24\12\21\1\12\4\24\1\15"+
+            "\1\24\32\22\1\1\1\24\1\2\3\24\32\22\1\3\1\13\1\4\1\14\uff81"+
+            "\24",
+            "\0\24",
+            "\0\24",
+            "\43\24\1\31\1\24\1\30\125\24\1\27\uff84\24",
+            "\175\24\1\33\uff82\24",
             "\1\35",
             "\1\36",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\0\25",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\60\25\12\22\uffc6\25",
-            "\12\57\7\uffff\32\57\6\uffff\32\57",
-            "\11\25\2\24\1\25\2\24\22\25\1\24\uffdf\25",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\60\24\12\21\uffc6\24",
+            "\12\56\7\uffff\32\56\6\uffff\32\56",
+            "\11\24\2\23\1\24\2\23\22\24\1\23\uffdf\24",
             "",
             "\1\uffff",
             "\1\uffff",
-            "\0\25",
-            "\0\25",
+            "\0\24",
+            "\0\24",
+            "\0\24",
+            "\1\uffff",
+            "\0\24",
+            "\1\uffff",
+            "\0\24",
+            "\0\24",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\107\4\uffff\1\110\7\uffff\1\111\54\uffff\1\112\5\uffff\1"+
+            "\105\3\uffff\1\106\7\uffff\1\102\3\uffff\1\103\1\uffff\1\104",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\0\24",
+            "\1\121\4\uffff\1\122\7\uffff\1\123\54\uffff\1\124\5\uffff\1"+
+            "\117\3\uffff\1\120\7\uffff\1\114\3\uffff\1\115\1\uffff\1\116",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\0\24",
+            "\1\uffff",
+            "\60\24\12\56\7\24\32\56\6\24\32\56\uff85\24",
             "\1\uffff",
             "",
             "",
-            "\0\25",
-            "\0\25",
             "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\106\4\uffff\1\107\7\uffff\1\110\54\uffff\1\111\5\uffff\1"+
-            "\104\3\uffff\1\105\7\uffff\1\101\3\uffff\1\102\1\uffff\1\103",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\0\25",
-            "\1\120\4\uffff\1\121\7\uffff\1\122\54\uffff\1\123\5\uffff\1"+
-            "\116\3\uffff\1\117\7\uffff\1\113\3\uffff\1\114\1\uffff\1\115",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\0\25",
-            "\1\uffff",
-            "\60\25\12\57\7\25\32\57\6\25\32\57\uff85\25",
-            "\1\uffff",
-            "",
-            "",
             "\1\uffff",
             "\1\uffff",
             "",
             "\1\uffff",
+            "",
             "\1\uffff",
-            "",
-            "",
-            "",
-            "",
+            "\1\uffff",
             "",
             "",
             "",
             "",
             "",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
-            "\12\51\1\uffff\2\51\1\uffff\24\51\1\52\71\51\1\50\uffa3\51",
+            "",
+            "",
+            "",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
+            "\12\50\1\uffff\2\50\1\uffff\24\50\1\51\71\50\1\47\uffa3\50",
             "\1\uffff",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
-            "\12\54\1\uffff\2\54\1\uffff\31\54\1\55\64\54\1\53\uffa3\54",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
+            "\12\53\1\uffff\2\53\1\uffff\31\53\1\54\64\53\1\52\uffa3\53",
             "\1\uffff",
             "",
             "\1\uffff",
+            "",
+            "",
             "",
             "",
             "",
@@ -1482,57 +1489,79 @@ public class TwigLexer extends Lexer {
             this.transition = DFA8_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__31 | T__32 | RAW | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | T_OPEN_CMT | T_CLOSE_CMT | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | DOT | COLON | PIPE | TILDE | QMARK | COMMA | STRING | SQ_STRING | NUMBER | IDENT | WS );";
+            return "1:1: Tokens : ( T__39 | T__40 | RAW | T_OPEN_PRINT | T_CLOSE_PRINT | T_OPEN_STMT | T_CLOSE_STMT | T_OPEN_CMT | T_CLOSE_CMT | T_OPEN_PAREN | T_CLOSE_PAREN | T_OPEN_CURLY | T_CLOSE_CURLY | DOT | COLON | PIPE | TILDE | QMARK | COMMA | STRING | SQ_STRING | NUMBER | IDENT | WS );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA8_76 = input.LA(1);
+                        int LA8_43 = input.LA(1);
 
                          
-                        int index8_76 = input.index();
+                        int index8_43 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_76=='\'') ) {s = 45;}
+                        if ( (LA8_43=='\'') ) {s = 44;}
 
-                        else if ( (LA8_76=='\\') ) {s = 43;}
+                        else if ( (LA8_43=='\\') ) {s = 42;}
 
-                        else if ( ((LA8_76 >= '\u0000' && LA8_76 <= '\t')||(LA8_76 >= '\u000B' && LA8_76 <= '\f')||(LA8_76 >= '\u000E' && LA8_76 <= '&')||(LA8_76 >= '(' && LA8_76 <= '[')||(LA8_76 >= ']' && LA8_76 <= '\uFFFF')) ) {s = 44;}
+                        else if ( ((LA8_43 >= '\u0000' && LA8_43 <= '\t')||(LA8_43 >= '\u000B' && LA8_43 <= '\f')||(LA8_43 >= '\u000E' && LA8_43 <= '&')||(LA8_43 >= '(' && LA8_43 <= '[')||(LA8_43 >= ']' && LA8_43 <= '\uFFFF')) ) {s = 43;}
 
-                        else s = 21;
+                        else s = 20;
 
                          
-                        input.seek(index8_76);
+                        input.seek(index8_43);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 1 : 
-                        int LA8_3 = input.LA(1);
+                        int LA8_16 = input.LA(1);
 
                          
-                        int index8_3 = input.index();
+                        int index8_16 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_3=='%') ) {s = 24;}
+                        if ( (LA8_16=='\\') ) {s = 42;}
 
-                        else if ( (LA8_3=='#') ) {s = 25;}
+                        else if ( ((LA8_16 >= '\u0000' && LA8_16 <= '\t')||(LA8_16 >= '\u000B' && LA8_16 <= '\f')||(LA8_16 >= '\u000E' && LA8_16 <= '&')||(LA8_16 >= '(' && LA8_16 <= '[')||(LA8_16 >= ']' && LA8_16 <= '\uFFFF')) ) {s = 43;}
 
-                        else if ( ((LA8_3 >= '\u0000' && LA8_3 <= '\"')||LA8_3=='$'||(LA8_3 >= '&' && LA8_3 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        else if ( (LA8_16=='\'') ) {s = 44;}
 
-                        else s = 26;
+                        else s = 20;
 
                          
-                        input.seek(index8_3);
+                        input.seek(index8_16);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 2 : 
+                        int LA8_73 = input.LA(1);
+
+                         
+                        int index8_73 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_73=='\"') ) {s = 41;}
+
+                        else if ( (LA8_73=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_73 >= '\u0000' && LA8_73 <= '\t')||(LA8_73 >= '\u000B' && LA8_73 <= '\f')||(LA8_73 >= '\u000E' && LA8_73 <= '!')||(LA8_73 >= '#' && LA8_73 <= '[')||(LA8_73 >= ']' && LA8_73 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_73);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 3 : 
                         int LA8_11 = input.LA(1);
 
                          
@@ -1540,7 +1569,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_11 >= '\u0000' && LA8_11 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_11 >= '\u0000' && LA8_11 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 35;
 
@@ -1550,73 +1579,65 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 3 : 
-                        int LA8_68 = input.LA(1);
-
-                         
-                        int index8_68 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_68=='\"') ) {s = 42;}
-
-                        else if ( (LA8_68=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_68 >= '\u0000' && LA8_68 <= '\t')||(LA8_68 >= '\u000B' && LA8_68 <= '\f')||(LA8_68 >= '\u000E' && LA8_68 <= '!')||(LA8_68 >= '#' && LA8_68 <= '[')||(LA8_68 >= ']' && LA8_68 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_68);
-
-                        if ( s>=0 ) return s;
-                        break;
-
                     case 4 : 
-                        int LA8_75 = input.LA(1);
+                        int LA8_44 = input.LA(1);
 
                          
-                        int index8_75 = input.index();
+                        int index8_44 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_75=='\'') ) {s = 45;}
+                        if ( ((LA8_44 >= '\u0000' && LA8_44 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else if ( (LA8_75=='\\') ) {s = 43;}
-
-                        else if ( ((LA8_75 >= '\u0000' && LA8_75 <= '\t')||(LA8_75 >= '\u000B' && LA8_75 <= '\f')||(LA8_75 >= '\u000E' && LA8_75 <= '&')||(LA8_75 >= '(' && LA8_75 <= '[')||(LA8_75 >= ']' && LA8_75 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
+                        else s = 85;
 
                          
-                        input.seek(index8_75);
+                        input.seek(index8_44);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 5 : 
-                        int LA8_69 = input.LA(1);
+                        int LA8_10 = input.LA(1);
 
                          
-                        int index8_69 = input.index();
+                        int index8_10 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_69=='\"') ) {s = 42;}
+                        if ( ((LA8_10 >= '\u0000' && LA8_10 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else if ( (LA8_69=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_69 >= '\u0000' && LA8_69 <= '\t')||(LA8_69 >= '\u000B' && LA8_69 <= '\f')||(LA8_69 >= '\u000E' && LA8_69 <= '!')||(LA8_69 >= '#' && LA8_69 <= '[')||(LA8_69 >= ']' && LA8_69 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
+                        else s = 34;
 
                          
-                        input.seek(index8_69);
+                        input.seek(index8_10);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 6 : 
+                        int LA8_74 = input.LA(1);
+
+                         
+                        int index8_74 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_74=='\"') ) {s = 41;}
+
+                        else if ( (LA8_74=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_74 >= '\u0000' && LA8_74 <= '\t')||(LA8_74 >= '\u000B' && LA8_74 <= '\f')||(LA8_74 >= '\u000E' && LA8_74 <= '!')||(LA8_74 >= '#' && LA8_74 <= '[')||(LA8_74 >= ']' && LA8_74 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_74);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 7 : 
                         int LA8_0 = input.LA(1);
 
                          
@@ -1630,6 +1651,8 @@ public class TwigLexer extends Lexer {
 
                         else if ( (LA8_0=='{') ) {s = 3;}
 
+                        else if ( (LA8_0=='}') ) {s = 4;}
+
                         else if ( (LA8_0=='%') ) {s = 5;}
 
                         else if ( (LA8_0=='#') ) {s = 6;}
@@ -1638,33 +1661,29 @@ public class TwigLexer extends Lexer {
 
                         else if ( (LA8_0==')') ) {s = 8;}
 
-                        else if ( (LA8_0=='}') ) {s = 9;}
+                        else if ( (LA8_0=='.') ) {s = 9;}
 
-                        else if ( (LA8_0=='.') ) {s = 10;}
+                        else if ( (LA8_0==':') ) {s = 10;}
 
-                        else if ( (LA8_0==':') ) {s = 11;}
+                        else if ( (LA8_0=='|') ) {s = 11;}
 
-                        else if ( (LA8_0=='|') ) {s = 12;}
+                        else if ( (LA8_0=='~') ) {s = 12;}
 
-                        else if ( (LA8_0=='~') ) {s = 13;}
+                        else if ( (LA8_0=='?') ) {s = 13;}
 
-                        else if ( (LA8_0=='?') ) {s = 14;}
+                        else if ( (LA8_0==',') ) {s = 14;}
 
-                        else if ( (LA8_0==',') ) {s = 15;}
+                        else if ( (LA8_0=='\"') ) {s = 15;}
 
-                        else if ( (LA8_0=='\"') ) {s = 16;}
+                        else if ( (LA8_0=='\'') ) {s = 16;}
 
-                        else if ( (LA8_0=='\'') ) {s = 17;}
+                        else if ( ((LA8_0 >= '0' && LA8_0 <= '9')) ) {s = 17;}
 
-                        else if ( ((LA8_0 >= '0' && LA8_0 <= '9')) ) {s = 18;}
+                        else if ( ((LA8_0 >= 'A' && LA8_0 <= 'Z')||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {s = 18;}
 
-                        else if ( ((LA8_0 >= 'A' && LA8_0 <= 'Z')||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {s = 19;}
+                        else if ( ((LA8_0 >= '\t' && LA8_0 <= '\n')||(LA8_0 >= '\f' && LA8_0 <= '\r')||LA8_0==' ') ) {s = 19;}
 
-                        else if ( ((LA8_0 >= '\t' && LA8_0 <= '\n')||(LA8_0 >= '\f' && LA8_0 <= '\r')||LA8_0==' ') ) {s = 20;}
-
-                        else if ( ((LA8_0 >= '\u0000' && LA8_0 <= '\b')||LA8_0=='\u000B'||(LA8_0 >= '\u000E' && LA8_0 <= '\u001F')||LA8_0=='!'||LA8_0=='$'||LA8_0=='&'||(LA8_0 >= '*' && LA8_0 <= '+')||LA8_0=='-'||LA8_0=='/'||(LA8_0 >= ';' && LA8_0 <= '>')||LA8_0=='@'||LA8_0=='\\'||(LA8_0 >= '^' && LA8_0 <= '`')||(LA8_0 >= '\u007F' && LA8_0 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 4;
+                        else if ( ((LA8_0 >= '\u0000' && LA8_0 <= '\b')||LA8_0=='\u000B'||(LA8_0 >= '\u000E' && LA8_0 <= '\u001F')||LA8_0=='!'||LA8_0=='$'||LA8_0=='&'||(LA8_0 >= '*' && LA8_0 <= '+')||LA8_0=='-'||LA8_0=='/'||(LA8_0 >= ';' && LA8_0 <= '>')||LA8_0=='@'||LA8_0=='\\'||(LA8_0 >= '^' && LA8_0 <= '`')||(LA8_0 >= '\u007F' && LA8_0 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                          
                         input.seek(index8_0);
@@ -1672,67 +1691,41 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 7 : 
-                        int LA8_70 = input.LA(1);
-
-                         
-                        int index8_70 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_70=='\"') ) {s = 42;}
-
-                        else if ( (LA8_70=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_70 >= '\u0000' && LA8_70 <= '\t')||(LA8_70 >= '\u000B' && LA8_70 <= '\f')||(LA8_70 >= '\u000E' && LA8_70 <= '!')||(LA8_70 >= '#' && LA8_70 <= '[')||(LA8_70 >= ']' && LA8_70 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_70);
-
-                        if ( s>=0 ) return s;
-                        break;
-
                     case 8 : 
-                        int LA8_18 = input.LA(1);
+                        int LA8_39 = input.LA(1);
 
                          
-                        int index8_18 = input.index();
+                        int index8_39 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_18 >= '0' && LA8_18 <= '9')) ) {s = 18;}
+                        if ( (LA8_39=='n') ) {s = 66;}
 
-                        else if ( ((LA8_18 >= '\u0000' && LA8_18 <= '/')||(LA8_18 >= ':' && LA8_18 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        else if ( (LA8_39=='r') ) {s = 67;}
 
-                        else s = 46;
+                        else if ( (LA8_39=='t') ) {s = 68;}
+
+                        else if ( (LA8_39=='b') ) {s = 69;}
+
+                        else if ( (LA8_39=='f') ) {s = 70;}
+
+                        else if ( (LA8_39=='\"') ) {s = 71;}
+
+                        else if ( (LA8_39=='\'') ) {s = 72;}
+
+                        else if ( (LA8_39=='/') ) {s = 73;}
+
+                        else if ( (LA8_39=='\\') ) {s = 74;}
+
+                        else s = 20;
 
                          
-                        input.seek(index8_18);
+                        input.seek(index8_39);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 9 : 
-                        int LA8_10 = input.LA(1);
-
-                         
-                        int index8_10 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_10 >= '\u0000' && LA8_10 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 34;
-
-                         
-                        input.seek(index8_10);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 10 : 
                         int LA8_9 = input.LA(1);
 
                          
@@ -1740,7 +1733,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_9 >= '\u0000' && LA8_9 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_9 >= '\u0000' && LA8_9 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 33;
 
@@ -1750,207 +1743,7 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 11 : 
-                        int LA8_71 = input.LA(1);
-
-                         
-                        int index8_71 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_71=='\"') ) {s = 42;}
-
-                        else if ( (LA8_71=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_71 >= '\u0000' && LA8_71 <= '\t')||(LA8_71 >= '\u000B' && LA8_71 <= '\f')||(LA8_71 >= '\u000E' && LA8_71 <= '!')||(LA8_71 >= '#' && LA8_71 <= '[')||(LA8_71 >= ']' && LA8_71 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_71);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 12 : 
-                        int LA8_16 = input.LA(1);
-
-                         
-                        int index8_16 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_16=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_16 >= '\u0000' && LA8_16 <= '\t')||(LA8_16 >= '\u000B' && LA8_16 <= '\f')||(LA8_16 >= '\u000E' && LA8_16 <= '!')||(LA8_16 >= '#' && LA8_16 <= '[')||(LA8_16 >= ']' && LA8_16 <= '\uFFFF')) ) {s = 41;}
-
-                        else if ( (LA8_16=='\"') ) {s = 42;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_16);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 13 : 
-                        int LA8_1 = input.LA(1);
-
-                         
-                        int index8_1 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_1 >= '\u0000' && LA8_1 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 22;
-
-                         
-                        input.seek(index8_1);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 14 : 
-                        int LA8_41 = input.LA(1);
-
-                         
-                        int index8_41 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_41=='\"') ) {s = 42;}
-
-                        else if ( (LA8_41=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_41 >= '\u0000' && LA8_41 <= '\t')||(LA8_41 >= '\u000B' && LA8_41 <= '\f')||(LA8_41 >= '\u000E' && LA8_41 <= '!')||(LA8_41 >= '#' && LA8_41 <= '[')||(LA8_41 >= ']' && LA8_41 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_41);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 15 : 
-                        int LA8_72 = input.LA(1);
-
-                         
-                        int index8_72 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_72=='\"') ) {s = 42;}
-
-                        else if ( (LA8_72=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_72 >= '\u0000' && LA8_72 <= '\t')||(LA8_72 >= '\u000B' && LA8_72 <= '\f')||(LA8_72 >= '\u000E' && LA8_72 <= '!')||(LA8_72 >= '#' && LA8_72 <= '[')||(LA8_72 >= ']' && LA8_72 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_72);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 16 : 
-                        int LA8_73 = input.LA(1);
-
-                         
-                        int index8_73 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_73=='\"') ) {s = 42;}
-
-                        else if ( (LA8_73=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_73 >= '\u0000' && LA8_73 <= '\t')||(LA8_73 >= '\u000B' && LA8_73 <= '\f')||(LA8_73 >= '\u000E' && LA8_73 <= '!')||(LA8_73 >= '#' && LA8_73 <= '[')||(LA8_73 >= ']' && LA8_73 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_73);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 17 : 
-                        int LA8_2 = input.LA(1);
-
-                         
-                        int index8_2 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_2 >= '\u0000' && LA8_2 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 23;
-
-                         
-                        input.seek(index8_2);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 18 : 
-                        int LA8_8 = input.LA(1);
-
-                         
-                        int index8_8 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_8 >= '\u0000' && LA8_8 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 32;
-
-                         
-                        input.seek(index8_8);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 19 : 
-                        int LA8_45 = input.LA(1);
-
-                         
-                        int index8_45 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_45 >= '\u0000' && LA8_45 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 84;
-
-                         
-                        input.seek(index8_45);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 20 : 
-                        int LA8_5 = input.LA(1);
-
-                         
-                        int index8_5 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_5=='}') ) {s = 29;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_5);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 21 : 
+                    case 10 : 
                         int LA8_6 = input.LA(1);
 
                          
@@ -1960,7 +1753,7 @@ public class TwigLexer extends Lexer {
                         s = -1;
                         if ( (LA8_6=='}') ) {s = 30;}
 
-                        else s = 21;
+                        else s = 20;
 
                          
                         input.seek(index8_6);
@@ -1968,7 +1761,43 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 22 : 
+                    case 11 : 
+                        int LA8_8 = input.LA(1);
+
+                         
+                        int index8_8 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_8 >= '\u0000' && LA8_8 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 32;
+
+                         
+                        input.seek(index8_8);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 12 : 
+                        int LA8_5 = input.LA(1);
+
+                         
+                        int index8_5 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_5=='}') ) {s = 29;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_5);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 13 : 
                         int LA8_7 = input.LA(1);
 
                          
@@ -1976,7 +1805,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_7 >= '\u0000' && LA8_7 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_7 >= '\u0000' && LA8_7 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 31;
 
@@ -1986,7 +1815,7 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 23 : 
+                    case 14 : 
                         int LA8_19 = input.LA(1);
 
                          
@@ -1994,9 +1823,11 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_19 >= '0' && LA8_19 <= '9')||(LA8_19 >= 'A' && LA8_19 <= 'Z')||(LA8_19 >= 'a' && LA8_19 <= 'z')) ) {s = 47;}
+                        if ( ((LA8_19 >= '\t' && LA8_19 <= '\n')||(LA8_19 >= '\f' && LA8_19 <= '\r')||LA8_19==' ') ) {s = 19;}
 
-                        else s = 21;
+                        else if ( ((LA8_19 >= '\u0000' && LA8_19 <= '\b')||LA8_19=='\u000B'||(LA8_19 >= '\u000E' && LA8_19 <= '\u001F')||(LA8_19 >= '!' && LA8_19 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 47;
 
                          
                         input.seek(index8_19);
@@ -2004,7 +1835,29 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 24 : 
+                    case 15 : 
+                        int LA8_66 = input.LA(1);
+
+                         
+                        int index8_66 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_66=='\"') ) {s = 41;}
+
+                        else if ( (LA8_66=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_66 >= '\u0000' && LA8_66 <= '\t')||(LA8_66 >= '\u000B' && LA8_66 <= '\f')||(LA8_66 >= '\u000E' && LA8_66 <= '!')||(LA8_66 >= '#' && LA8_66 <= '[')||(LA8_66 >= ']' && LA8_66 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_66);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 16 : 
                         int LA8_40 = input.LA(1);
 
                          
@@ -2012,25 +1865,13 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_40=='n') ) {s = 65;}
+                        if ( (LA8_40=='\"') ) {s = 41;}
 
-                        else if ( (LA8_40=='r') ) {s = 66;}
+                        else if ( (LA8_40=='\\') ) {s = 39;}
 
-                        else if ( (LA8_40=='t') ) {s = 67;}
+                        else if ( ((LA8_40 >= '\u0000' && LA8_40 <= '\t')||(LA8_40 >= '\u000B' && LA8_40 <= '\f')||(LA8_40 >= '\u000E' && LA8_40 <= '!')||(LA8_40 >= '#' && LA8_40 <= '[')||(LA8_40 >= ']' && LA8_40 <= '\uFFFF')) ) {s = 40;}
 
-                        else if ( (LA8_40=='b') ) {s = 68;}
-
-                        else if ( (LA8_40=='f') ) {s = 69;}
-
-                        else if ( (LA8_40=='\"') ) {s = 70;}
-
-                        else if ( (LA8_40=='\'') ) {s = 71;}
-
-                        else if ( (LA8_40=='/') ) {s = 72;}
-
-                        else if ( (LA8_40=='\\') ) {s = 73;}
-
-                        else s = 21;
+                        else s = 20;
 
                          
                         input.seek(index8_40);
@@ -2038,101 +1879,47 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 25 : 
-                        int LA8_83 = input.LA(1);
+                    case 17 : 
+                        int LA8_15 = input.LA(1);
 
                          
-                        int index8_83 = input.index();
+                        int index8_15 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_83=='\'') ) {s = 45;}
+                        if ( (LA8_15=='\\') ) {s = 39;}
 
-                        else if ( (LA8_83=='\\') ) {s = 43;}
+                        else if ( ((LA8_15 >= '\u0000' && LA8_15 <= '\t')||(LA8_15 >= '\u000B' && LA8_15 <= '\f')||(LA8_15 >= '\u000E' && LA8_15 <= '!')||(LA8_15 >= '#' && LA8_15 <= '[')||(LA8_15 >= ']' && LA8_15 <= '\uFFFF')) ) {s = 40;}
 
-                        else if ( ((LA8_83 >= '\u0000' && LA8_83 <= '\t')||(LA8_83 >= '\u000B' && LA8_83 <= '\f')||(LA8_83 >= '\u000E' && LA8_83 <= '&')||(LA8_83 >= '(' && LA8_83 <= '[')||(LA8_83 >= ']' && LA8_83 <= '\uFFFF')) ) {s = 44;}
+                        else if ( (LA8_15=='\"') ) {s = 41;}
 
-                        else s = 21;
+                        else s = 20;
 
                          
-                        input.seek(index8_83);
+                        input.seek(index8_15);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 26 : 
-                        int LA8_46 = input.LA(1);
+                    case 18 : 
+                        int LA8_18 = input.LA(1);
 
                          
-                        int index8_46 = input.index();
+                        int index8_18 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( ((LA8_18 >= '0' && LA8_18 <= '9')||(LA8_18 >= 'A' && LA8_18 <= 'Z')||(LA8_18 >= 'a' && LA8_18 <= 'z')) ) {s = 46;}
 
-                        else if ( (true) ) {s = 85;}
+                        else s = 20;
 
                          
-                        input.seek(index8_46);
+                        input.seek(index8_18);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 27 : 
-                        int LA8_84 = input.LA(1);
-
-                         
-                        int index8_84 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 93;}
-
-                         
-                        input.seek(index8_84);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 28 : 
-                        int LA8_74 = input.LA(1);
-
-                         
-                        int index8_74 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 92;}
-
-                         
-                        input.seek(index8_74);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 29 : 
-                        int LA8_39 = input.LA(1);
-
-                         
-                        int index8_39 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 64;}
-
-                         
-                        input.seek(index8_39);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 30 : 
+                    case 19 : 
                         int LA8_30 = input.LA(1);
 
                          
@@ -2140,9 +1927,9 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_30 >= '\u0000' && LA8_30 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_30 >= '\u0000' && LA8_30 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else s = 55;
+                        else s = 57;
 
                          
                         input.seek(index8_30);
@@ -2150,119 +1937,51 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 31 : 
-                        int LA8_48 = input.LA(1);
+                    case 20 : 
+                        int LA8_67 = input.LA(1);
 
                          
-                        int index8_48 = input.index();
+                        int index8_67 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( (LA8_67=='\"') ) {s = 41;}
 
-                        else if ( (true) ) {s = 87;}
+                        else if ( (LA8_67=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_67 >= '\u0000' && LA8_67 <= '\t')||(LA8_67 >= '\u000B' && LA8_67 <= '\f')||(LA8_67 >= '\u000E' && LA8_67 <= '!')||(LA8_67 >= '#' && LA8_67 <= '[')||(LA8_67 >= ']' && LA8_67 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
 
                          
-                        input.seek(index8_48);
+                        input.seek(index8_67);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 32 : 
-                        int LA8_86 = input.LA(1);
+                    case 21 : 
+                        int LA8_68 = input.LA(1);
 
                          
-                        int index8_86 = input.index();
+                        int index8_68 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( (LA8_68=='\"') ) {s = 41;}
 
-                        else if ( (true) ) {s = 94;}
+                        else if ( (LA8_68=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_68 >= '\u0000' && LA8_68 <= '\t')||(LA8_68 >= '\u000B' && LA8_68 <= '\f')||(LA8_68 >= '\u000E' && LA8_68 <= '!')||(LA8_68 >= '#' && LA8_68 <= '[')||(LA8_68 >= ']' && LA8_68 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
 
                          
-                        input.seek(index8_86);
+                        input.seek(index8_68);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 33 : 
-                        int LA8_47 = input.LA(1);
-
-                         
-                        int index8_47 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_47 >= '0' && LA8_47 <= '9')||(LA8_47 >= 'A' && LA8_47 <= 'Z')||(LA8_47 >= 'a' && LA8_47 <= 'z')) ) {s = 47;}
-
-                        else if ( ((LA8_47 >= '\u0000' && LA8_47 <= '/')||(LA8_47 >= ':' && LA8_47 <= '@')||(LA8_47 >= '[' && LA8_47 <= '`')||(LA8_47 >= '{' && LA8_47 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 86;
-
-                         
-                        input.seek(index8_47);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 34 : 
-                        int LA8_81 = input.LA(1);
-
-                         
-                        int index8_81 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_81=='\'') ) {s = 45;}
-
-                        else if ( (LA8_81=='\\') ) {s = 43;}
-
-                        else if ( ((LA8_81 >= '\u0000' && LA8_81 <= '\t')||(LA8_81 >= '\u000B' && LA8_81 <= '\f')||(LA8_81 >= '\u000E' && LA8_81 <= '&')||(LA8_81 >= '(' && LA8_81 <= '[')||(LA8_81 >= ']' && LA8_81 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_81);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 35 : 
-                        int LA8_43 = input.LA(1);
-
-                         
-                        int index8_43 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_43=='n') ) {s = 75;}
-
-                        else if ( (LA8_43=='r') ) {s = 76;}
-
-                        else if ( (LA8_43=='t') ) {s = 77;}
-
-                        else if ( (LA8_43=='b') ) {s = 78;}
-
-                        else if ( (LA8_43=='f') ) {s = 79;}
-
-                        else if ( (LA8_43=='\"') ) {s = 80;}
-
-                        else if ( (LA8_43=='\'') ) {s = 81;}
-
-                        else if ( (LA8_43=='/') ) {s = 82;}
-
-                        else if ( (LA8_43=='\\') ) {s = 83;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_43);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 36 : 
+                    case 22 : 
                         int LA8_25 = input.LA(1);
 
                          
@@ -2270,7 +1989,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_25 >= '\u0000' && LA8_25 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_25 >= '\u0000' && LA8_25 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 52;
 
@@ -2280,123 +1999,73 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 37 : 
-                        int LA8_82 = input.LA(1);
+                    case 23 : 
+                        int LA8_69 = input.LA(1);
 
                          
-                        int index8_82 = input.index();
+                        int index8_69 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_82=='\'') ) {s = 45;}
+                        if ( (LA8_69=='\"') ) {s = 41;}
 
-                        else if ( (LA8_82=='\\') ) {s = 43;}
+                        else if ( (LA8_69=='\\') ) {s = 39;}
 
-                        else if ( ((LA8_82 >= '\u0000' && LA8_82 <= '\t')||(LA8_82 >= '\u000B' && LA8_82 <= '\f')||(LA8_82 >= '\u000E' && LA8_82 <= '&')||(LA8_82 >= '(' && LA8_82 <= '[')||(LA8_82 >= ']' && LA8_82 <= '\uFFFF')) ) {s = 44;}
+                        else if ( ((LA8_69 >= '\u0000' && LA8_69 <= '\t')||(LA8_69 >= '\u000B' && LA8_69 <= '\f')||(LA8_69 >= '\u000E' && LA8_69 <= '!')||(LA8_69 >= '#' && LA8_69 <= '[')||(LA8_69 >= ']' && LA8_69 <= '\uFFFF')) ) {s = 40;}
 
-                        else s = 21;
+                        else s = 20;
 
                          
-                        input.seek(index8_82);
+                        input.seek(index8_69);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 38 : 
-                        int LA8_15 = input.LA(1);
+                    case 24 : 
+                        int LA8_84 = input.LA(1);
 
                          
-                        int index8_15 = input.index();
+                        int index8_84 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_15 >= '\u0000' && LA8_15 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( (LA8_84=='\'') ) {s = 44;}
 
-                        else s = 39;
+                        else if ( (LA8_84=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_84 >= '\u0000' && LA8_84 <= '\t')||(LA8_84 >= '\u000B' && LA8_84 <= '\f')||(LA8_84 >= '\u000E' && LA8_84 <= '&')||(LA8_84 >= '(' && LA8_84 <= '[')||(LA8_84 >= ']' && LA8_84 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
 
                          
-                        input.seek(index8_15);
+                        input.seek(index8_84);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 39 : 
-                        int LA8_79 = input.LA(1);
+                    case 25 : 
+                        int LA8_70 = input.LA(1);
 
                          
-                        int index8_79 = input.index();
+                        int index8_70 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_79=='\'') ) {s = 45;}
+                        if ( (LA8_70=='\"') ) {s = 41;}
 
-                        else if ( (LA8_79=='\\') ) {s = 43;}
+                        else if ( (LA8_70=='\\') ) {s = 39;}
 
-                        else if ( ((LA8_79 >= '\u0000' && LA8_79 <= '\t')||(LA8_79 >= '\u000B' && LA8_79 <= '\f')||(LA8_79 >= '\u000E' && LA8_79 <= '&')||(LA8_79 >= '(' && LA8_79 <= '[')||(LA8_79 >= ']' && LA8_79 <= '\uFFFF')) ) {s = 44;}
+                        else if ( ((LA8_70 >= '\u0000' && LA8_70 <= '\t')||(LA8_70 >= '\u000B' && LA8_70 <= '\f')||(LA8_70 >= '\u000E' && LA8_70 <= '!')||(LA8_70 >= '#' && LA8_70 <= '[')||(LA8_70 >= ']' && LA8_70 <= '\uFFFF')) ) {s = 40;}
 
-                        else s = 21;
+                        else s = 20;
 
                          
-                        input.seek(index8_79);
+                        input.seek(index8_70);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 40 : 
-                        int LA8_13 = input.LA(1);
-
-                         
-                        int index8_13 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_13 >= '\u0000' && LA8_13 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 37;
-
-                         
-                        input.seek(index8_13);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 41 : 
-                        int LA8_42 = input.LA(1);
-
-                         
-                        int index8_42 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_42 >= '\u0000' && LA8_42 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 74;
-
-                         
-                        input.seek(index8_42);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 42 : 
-                        int LA8_23 = input.LA(1);
-
-                         
-                        int index8_23 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (!(((rawAhead())))) ) {s = 50;}
-
-                        else if ( ((rawAhead())) ) {s = 21;}
-
-                         
-                        input.seek(index8_23);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 43 : 
+                    case 26 : 
                         int LA8_29 = input.LA(1);
 
                          
@@ -2404,9 +2073,9 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_29 >= '\u0000' && LA8_29 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_29 >= '\u0000' && LA8_29 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else s = 54;
+                        else s = 56;
 
                          
                         input.seek(index8_29);
@@ -2414,20 +2083,374 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 44 : 
-                        int LA8_22 = input.LA(1);
+                    case 27 : 
+                        int LA8_71 = input.LA(1);
 
                          
-                        int index8_22 = input.index();
+                        int index8_71 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (!(((rawAhead())))) ) {s = 49;}
+                        if ( (LA8_71=='\"') ) {s = 41;}
 
-                        else if ( ((rawAhead())) ) {s = 21;}
+                        else if ( (LA8_71=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_71 >= '\u0000' && LA8_71 <= '\t')||(LA8_71 >= '\u000B' && LA8_71 <= '\f')||(LA8_71 >= '\u000E' && LA8_71 <= '!')||(LA8_71 >= '#' && LA8_71 <= '[')||(LA8_71 >= ']' && LA8_71 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
 
                          
-                        input.seek(index8_22);
+                        input.seek(index8_71);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 28 : 
+                        int LA8_82 = input.LA(1);
+
+                         
+                        int index8_82 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_82=='\'') ) {s = 44;}
+
+                        else if ( (LA8_82=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_82 >= '\u0000' && LA8_82 <= '\t')||(LA8_82 >= '\u000B' && LA8_82 <= '\f')||(LA8_82 >= '\u000E' && LA8_82 <= '&')||(LA8_82 >= '(' && LA8_82 <= '[')||(LA8_82 >= ']' && LA8_82 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_82);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 29 : 
+                        int LA8_24 = input.LA(1);
+
+                         
+                        int index8_24 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_24 >= '\u0000' && LA8_24 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 51;
+
+                         
+                        input.seek(index8_24);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 30 : 
+                        int LA8_72 = input.LA(1);
+
+                         
+                        int index8_72 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_72=='\"') ) {s = 41;}
+
+                        else if ( (LA8_72=='\\') ) {s = 39;}
+
+                        else if ( ((LA8_72 >= '\u0000' && LA8_72 <= '\t')||(LA8_72 >= '\u000B' && LA8_72 <= '\f')||(LA8_72 >= '\u000E' && LA8_72 <= '!')||(LA8_72 >= '#' && LA8_72 <= '[')||(LA8_72 >= ']' && LA8_72 <= '\uFFFF')) ) {s = 40;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_72);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 31 : 
+                        int LA8_83 = input.LA(1);
+
+                         
+                        int index8_83 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_83=='\'') ) {s = 44;}
+
+                        else if ( (LA8_83=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_83 >= '\u0000' && LA8_83 <= '\t')||(LA8_83 >= '\u000B' && LA8_83 <= '\f')||(LA8_83 >= '\u000E' && LA8_83 <= '&')||(LA8_83 >= '(' && LA8_83 <= '[')||(LA8_83 >= ']' && LA8_83 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_83);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 32 : 
+                        int LA8_81 = input.LA(1);
+
+                         
+                        int index8_81 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_81=='\'') ) {s = 44;}
+
+                        else if ( (LA8_81=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_81 >= '\u0000' && LA8_81 <= '\t')||(LA8_81 >= '\u000B' && LA8_81 <= '\f')||(LA8_81 >= '\u000E' && LA8_81 <= '&')||(LA8_81 >= '(' && LA8_81 <= '[')||(LA8_81 >= ']' && LA8_81 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_81);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 33 : 
+                        int LA8_17 = input.LA(1);
+
+                         
+                        int index8_17 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_17 >= '0' && LA8_17 <= '9')) ) {s = 17;}
+
+                        else if ( ((LA8_17 >= '\u0000' && LA8_17 <= '/')||(LA8_17 >= ':' && LA8_17 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 45;
+
+                         
+                        input.seek(index8_17);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 34 : 
+                        int LA8_80 = input.LA(1);
+
+                         
+                        int index8_80 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_80=='\'') ) {s = 44;}
+
+                        else if ( (LA8_80=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_80 >= '\u0000' && LA8_80 <= '\t')||(LA8_80 >= '\u000B' && LA8_80 <= '\f')||(LA8_80 >= '\u000E' && LA8_80 <= '&')||(LA8_80 >= '(' && LA8_80 <= '[')||(LA8_80 >= ']' && LA8_80 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_80);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 35 : 
+                        int LA8_23 = input.LA(1);
+
+                         
+                        int index8_23 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_23 >= '\u0000' && LA8_23 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 50;
+
+                         
+                        input.seek(index8_23);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 36 : 
+                        int LA8_79 = input.LA(1);
+
+                         
+                        int index8_79 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_79=='\'') ) {s = 44;}
+
+                        else if ( (LA8_79=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_79 >= '\u0000' && LA8_79 <= '\t')||(LA8_79 >= '\u000B' && LA8_79 <= '\f')||(LA8_79 >= '\u000E' && LA8_79 <= '&')||(LA8_79 >= '(' && LA8_79 <= '[')||(LA8_79 >= ']' && LA8_79 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_79);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 37 : 
+                        int LA8_27 = input.LA(1);
+
+                         
+                        int index8_27 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_27 >= '\u0000' && LA8_27 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 54;
+
+                         
+                        input.seek(index8_27);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 38 : 
+                        int LA8_78 = input.LA(1);
+
+                         
+                        int index8_78 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_78=='\'') ) {s = 44;}
+
+                        else if ( (LA8_78=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_78 >= '\u0000' && LA8_78 <= '\t')||(LA8_78 >= '\u000B' && LA8_78 <= '\f')||(LA8_78 >= '\u000E' && LA8_78 <= '&')||(LA8_78 >= '(' && LA8_78 <= '[')||(LA8_78 >= ']' && LA8_78 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_78);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 39 : 
+                        int LA8_77 = input.LA(1);
+
+                         
+                        int index8_77 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_77=='\'') ) {s = 44;}
+
+                        else if ( (LA8_77=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_77 >= '\u0000' && LA8_77 <= '\t')||(LA8_77 >= '\u000B' && LA8_77 <= '\f')||(LA8_77 >= '\u000E' && LA8_77 <= '&')||(LA8_77 >= '(' && LA8_77 <= '[')||(LA8_77 >= ']' && LA8_77 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_77);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 40 : 
+                        int LA8_2 = input.LA(1);
+
+                         
+                        int index8_2 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_2 >= '\u0000' && LA8_2 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 22;
+
+                         
+                        input.seek(index8_2);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 41 : 
+                        int LA8_76 = input.LA(1);
+
+                         
+                        int index8_76 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_76=='\'') ) {s = 44;}
+
+                        else if ( (LA8_76=='\\') ) {s = 42;}
+
+                        else if ( ((LA8_76 >= '\u0000' && LA8_76 <= '\t')||(LA8_76 >= '\u000B' && LA8_76 <= '\f')||(LA8_76 >= '\u000E' && LA8_76 <= '&')||(LA8_76 >= '(' && LA8_76 <= '[')||(LA8_76 >= ']' && LA8_76 <= '\uFFFF')) ) {s = 43;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_76);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 42 : 
+                        int LA8_3 = input.LA(1);
+
+                         
+                        int index8_3 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_3=='{') ) {s = 23;}
+
+                        else if ( (LA8_3=='%') ) {s = 24;}
+
+                        else if ( (LA8_3=='#') ) {s = 25;}
+
+                        else if ( ((LA8_3 >= '\u0000' && LA8_3 <= '\"')||LA8_3=='$'||(LA8_3 >= '&' && LA8_3 <= 'z')||(LA8_3 >= '|' && LA8_3 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 26;
+
+                         
+                        input.seek(index8_3);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 43 : 
+                        int LA8_47 = input.LA(1);
+
+                         
+                        int index8_47 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 88;}
+
+                         
+                        input.seek(index8_47);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 44 : 
+                        int LA8_87 = input.LA(1);
+
+                         
+                        int index8_87 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 97;}
+
+                         
+                        input.seek(index8_87);
 
                         if ( s>=0 ) return s;
                         break;
@@ -2440,7 +2463,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_14 >= '\u0000' && LA8_14 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_14 >= '\u0000' && LA8_14 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 38;
 
@@ -2451,112 +2474,440 @@ public class TwigLexer extends Lexer {
                         break;
 
                     case 46 : 
-                        int LA8_65 = input.LA(1);
+                        int LA8_1 = input.LA(1);
 
                          
-                        int index8_65 = input.index();
+                        int index8_1 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_65=='\"') ) {s = 42;}
-
-                        else if ( (LA8_65=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_65 >= '\u0000' && LA8_65 <= '\t')||(LA8_65 >= '\u000B' && LA8_65 <= '\f')||(LA8_65 >= '\u000E' && LA8_65 <= '!')||(LA8_65 >= '#' && LA8_65 <= '[')||(LA8_65 >= ']' && LA8_65 <= '\uFFFF')) ) {s = 41;}
+                        if ( ((LA8_1 >= '\u0000' && LA8_1 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
                         else s = 21;
 
                          
-                        input.seek(index8_65);
+                        input.seek(index8_1);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 47 : 
-                        int LA8_80 = input.LA(1);
+                        int LA8_4 = input.LA(1);
 
                          
-                        int index8_80 = input.index();
+                        int index8_4 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_80=='\'') ) {s = 45;}
+                        if ( (LA8_4=='}') ) {s = 27;}
 
-                        else if ( (LA8_80=='\\') ) {s = 43;}
+                        else if ( ((LA8_4 >= '\u0000' && LA8_4 <= '|')||(LA8_4 >= '~' && LA8_4 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else if ( ((LA8_80 >= '\u0000' && LA8_80 <= '\t')||(LA8_80 >= '\u000B' && LA8_80 <= '\f')||(LA8_80 >= '\u000E' && LA8_80 <= '&')||(LA8_80 >= '(' && LA8_80 <= '[')||(LA8_80 >= ']' && LA8_80 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
+                        else s = 28;
 
                          
-                        input.seek(index8_80);
+                        input.seek(index8_4);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 48 : 
-                        int LA8_17 = input.LA(1);
+                        int LA8_22 = input.LA(1);
 
                          
-                        int index8_17 = input.index();
+                        int index8_22 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_17=='\\') ) {s = 43;}
+                        if ( (!(((rawAhead())))) ) {s = 49;}
 
-                        else if ( ((LA8_17 >= '\u0000' && LA8_17 <= '\t')||(LA8_17 >= '\u000B' && LA8_17 <= '\f')||(LA8_17 >= '\u000E' && LA8_17 <= '&')||(LA8_17 >= '(' && LA8_17 <= '[')||(LA8_17 >= ']' && LA8_17 <= '\uFFFF')) ) {s = 44;}
-
-                        else if ( (LA8_17=='\'') ) {s = 45;}
-
-                        else s = 21;
+                        else if ( ((rawAhead())) ) {s = 20;}
 
                          
-                        input.seek(index8_17);
+                        input.seek(index8_22);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 49 : 
-                        int LA8_44 = input.LA(1);
+                        int LA8_13 = input.LA(1);
 
                          
-                        int index8_44 = input.index();
+                        int index8_13 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_44=='\'') ) {s = 45;}
+                        if ( ((LA8_13 >= '\u0000' && LA8_13 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else if ( (LA8_44=='\\') ) {s = 43;}
-
-                        else if ( ((LA8_44 >= '\u0000' && LA8_44 <= '\t')||(LA8_44 >= '\u000B' && LA8_44 <= '\f')||(LA8_44 >= '\u000E' && LA8_44 <= '&')||(LA8_44 >= '(' && LA8_44 <= '[')||(LA8_44 >= ']' && LA8_44 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
+                        else s = 37;
 
                          
-                        input.seek(index8_44);
+                        input.seek(index8_13);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 50 : 
-                        int LA8_12 = input.LA(1);
+                        int LA8_21 = input.LA(1);
 
                          
-                        int index8_12 = input.index();
+                        int index8_21 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_12 >= '\u0000' && LA8_12 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( (!(((rawAhead())))) ) {s = 48;}
 
-                        else s = 36;
+                        else if ( ((rawAhead())) ) {s = 20;}
 
                          
-                        input.seek(index8_12);
+                        input.seek(index8_21);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 51 : 
+                        int LA8_50 = input.LA(1);
+
+                         
+                        int index8_50 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 89;}
+
+                         
+                        input.seek(index8_50);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 52 : 
+                        int LA8_51 = input.LA(1);
+
+                         
+                        int index8_51 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 90;}
+
+                         
+                        input.seek(index8_51);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 53 : 
+                        int LA8_54 = input.LA(1);
+
+                         
+                        int index8_54 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 92;}
+
+                         
+                        input.seek(index8_54);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 54 : 
+                        int LA8_41 = input.LA(1);
+
+                         
+                        int index8_41 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_41 >= '\u0000' && LA8_41 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 75;
+
+                         
+                        input.seek(index8_41);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 55 : 
+                        int LA8_34 = input.LA(1);
+
+                         
+                        int index8_34 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 61;}
+
+                         
+                        input.seek(index8_34);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 56 : 
+                        int LA8_42 = input.LA(1);
+
+                         
+                        int index8_42 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA8_42=='n') ) {s = 76;}
+
+                        else if ( (LA8_42=='r') ) {s = 77;}
+
+                        else if ( (LA8_42=='t') ) {s = 78;}
+
+                        else if ( (LA8_42=='b') ) {s = 79;}
+
+                        else if ( (LA8_42=='f') ) {s = 80;}
+
+                        else if ( (LA8_42=='\"') ) {s = 81;}
+
+                        else if ( (LA8_42=='\'') ) {s = 82;}
+
+                        else if ( (LA8_42=='/') ) {s = 83;}
+
+                        else if ( (LA8_42=='\\') ) {s = 84;}
+
+                        else s = 20;
+
+                         
+                        input.seek(index8_42);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 57 : 
+                        int LA8_35 = input.LA(1);
+
+                         
+                        int index8_35 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 62;}
+
+                         
+                        input.seek(index8_35);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 58 : 
+                        int LA8_36 = input.LA(1);
+
+                         
+                        int index8_36 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 63;}
+
+                         
+                        input.seek(index8_36);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 59 : 
+                        int LA8_37 = input.LA(1);
+
+                         
+                        int index8_37 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 64;}
+
+                         
+                        input.seek(index8_37);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 60 : 
+                        int LA8_38 = input.LA(1);
+
+                         
+                        int index8_38 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 65;}
+
+                         
+                        input.seek(index8_38);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 61 : 
+                        int LA8_75 = input.LA(1);
+
+                         
+                        int index8_75 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 95;}
+
+                         
+                        input.seek(index8_75);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 62 : 
+                        int LA8_85 = input.LA(1);
+
+                         
+                        int index8_85 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 96;}
+
+                         
+                        input.seek(index8_85);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 63 : 
+                        int LA8_45 = input.LA(1);
+
+                         
+                        int index8_45 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 86;}
+
+                         
+                        input.seek(index8_45);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 64 : 
+                        int LA8_56 = input.LA(1);
+
+                         
+                        int index8_56 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 93;}
+
+                         
+                        input.seek(index8_56);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 65 : 
+                        int LA8_52 = input.LA(1);
+
+                         
+                        int index8_52 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 91;}
+
+                         
+                        input.seek(index8_52);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 66 : 
+                        int LA8_57 = input.LA(1);
+
+                         
+                        int index8_57 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 94;}
+
+                         
+                        input.seek(index8_57);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 67 : 
+                        int LA8_31 = input.LA(1);
+
+                         
+                        int index8_31 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((rawAhead())) ) {s = 20;}
+
+                        else if ( (true) ) {s = 58;}
+
+                         
+                        input.seek(index8_31);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 68 : 
+                        int LA8_46 = input.LA(1);
+
+                         
+                        int index8_46 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA8_46 >= '0' && LA8_46 <= '9')||(LA8_46 >= 'A' && LA8_46 <= 'Z')||(LA8_46 >= 'a' && LA8_46 <= 'z')) ) {s = 46;}
+
+                        else if ( ((LA8_46 >= '\u0000' && LA8_46 <= '/')||(LA8_46 >= ':' && LA8_46 <= '@')||(LA8_46 >= '[' && LA8_46 <= '`')||(LA8_46 >= '{' && LA8_46 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
+
+                        else s = 87;
+
+                         
+                        input.seek(index8_46);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 69 : 
                         int LA8_32 = input.LA(1);
 
                          
@@ -2564,9 +2915,9 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( ((rawAhead())) ) {s = 20;}
 
-                        else if ( (true) ) {s = 57;}
+                        else if ( (true) ) {s = 59;}
 
                          
                         input.seek(index8_32);
@@ -2574,7 +2925,7 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 52 : 
+                    case 70 : 
                         int LA8_26 = input.LA(1);
 
                          
@@ -2582,7 +2933,7 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( ((rawAhead())) ) {s = 20;}
 
                         else if ( (true) ) {s = 53;}
 
@@ -2592,47 +2943,43 @@ public class TwigLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 53 : 
-                        int LA8_66 = input.LA(1);
+                    case 71 : 
+                        int LA8_28 = input.LA(1);
 
                          
-                        int index8_66 = input.index();
+                        int index8_28 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA8_66=='\"') ) {s = 42;}
+                        if ( ((rawAhead())) ) {s = 20;}
 
-                        else if ( (LA8_66=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_66 >= '\u0000' && LA8_66 <= '\t')||(LA8_66 >= '\u000B' && LA8_66 <= '\f')||(LA8_66 >= '\u000E' && LA8_66 <= '!')||(LA8_66 >= '#' && LA8_66 <= '[')||(LA8_66 >= ']' && LA8_66 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
+                        else if ( (true) ) {s = 55;}
 
                          
-                        input.seek(index8_66);
+                        input.seek(index8_28);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 54 : 
-                        int LA8_24 = input.LA(1);
+                    case 72 : 
+                        int LA8_12 = input.LA(1);
 
                          
-                        int index8_24 = input.index();
+                        int index8_12 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA8_24 >= '\u0000' && LA8_24 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
+                        if ( ((LA8_12 >= '\u0000' && LA8_12 <= '\uFFFF')) && ((rawAhead()))) {s = 20;}
 
-                        else s = 51;
+                        else s = 36;
 
                          
-                        input.seek(index8_24);
+                        input.seek(index8_12);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 55 : 
+                    case 73 : 
                         int LA8_33 = input.LA(1);
 
                          
@@ -2640,296 +2987,12 @@ public class TwigLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 58;}
-
-                         
-                        input.seek(index8_33);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 56 : 
-                        int LA8_34 = input.LA(1);
-
-                         
-                        int index8_34 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 59;}
-
-                         
-                        input.seek(index8_34);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 57 : 
-                        int LA8_77 = input.LA(1);
-
-                         
-                        int index8_77 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_77=='\'') ) {s = 45;}
-
-                        else if ( (LA8_77=='\\') ) {s = 43;}
-
-                        else if ( ((LA8_77 >= '\u0000' && LA8_77 <= '\t')||(LA8_77 >= '\u000B' && LA8_77 <= '\f')||(LA8_77 >= '\u000E' && LA8_77 <= '&')||(LA8_77 >= '(' && LA8_77 <= '[')||(LA8_77 >= ']' && LA8_77 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_77);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 58 : 
-                        int LA8_35 = input.LA(1);
-
-                         
-                        int index8_35 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
+                        if ( ((rawAhead())) ) {s = 20;}
 
                         else if ( (true) ) {s = 60;}
 
                          
-                        input.seek(index8_35);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 59 : 
-                        int LA8_36 = input.LA(1);
-
-                         
-                        int index8_36 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 61;}
-
-                         
-                        input.seek(index8_36);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 60 : 
-                        int LA8_37 = input.LA(1);
-
-                         
-                        int index8_37 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 62;}
-
-                         
-                        input.seek(index8_37);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 61 : 
-                        int LA8_38 = input.LA(1);
-
-                         
-                        int index8_38 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 63;}
-
-                         
-                        input.seek(index8_38);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 62 : 
-                        int LA8_20 = input.LA(1);
-
-                         
-                        int index8_20 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA8_20 >= '\t' && LA8_20 <= '\n')||(LA8_20 >= '\f' && LA8_20 <= '\r')||LA8_20==' ') ) {s = 20;}
-
-                        else if ( ((LA8_20 >= '\u0000' && LA8_20 <= '\b')||LA8_20=='\u000B'||(LA8_20 >= '\u000E' && LA8_20 <= '\u001F')||(LA8_20 >= '!' && LA8_20 <= '\uFFFF')) && ((rawAhead()))) {s = 21;}
-
-                        else s = 48;
-
-                         
-                        input.seek(index8_20);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 63 : 
-                        int LA8_67 = input.LA(1);
-
-                         
-                        int index8_67 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_67=='\"') ) {s = 42;}
-
-                        else if ( (LA8_67=='\\') ) {s = 40;}
-
-                        else if ( ((LA8_67 >= '\u0000' && LA8_67 <= '\t')||(LA8_67 >= '\u000B' && LA8_67 <= '\f')||(LA8_67 >= '\u000E' && LA8_67 <= '!')||(LA8_67 >= '#' && LA8_67 <= '[')||(LA8_67 >= ']' && LA8_67 <= '\uFFFF')) ) {s = 41;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_67);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 64 : 
-                        int LA8_51 = input.LA(1);
-
-                         
-                        int index8_51 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 88;}
-
-                         
-                        input.seek(index8_51);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 65 : 
-                        int LA8_4 = input.LA(1);
-
-                         
-                        int index8_4 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (( ahead(T_OPEN))) ) {s = 27;}
-
-                        else if ( (( ahead(T_CLOSE))) ) {s = 28;}
-
-                         
-                        input.seek(index8_4);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 66 : 
-                        int LA8_78 = input.LA(1);
-
-                         
-                        int index8_78 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA8_78=='\'') ) {s = 45;}
-
-                        else if ( (LA8_78=='\\') ) {s = 43;}
-
-                        else if ( ((LA8_78 >= '\u0000' && LA8_78 <= '\t')||(LA8_78 >= '\u000B' && LA8_78 <= '\f')||(LA8_78 >= '\u000E' && LA8_78 <= '&')||(LA8_78 >= '(' && LA8_78 <= '[')||(LA8_78 >= ']' && LA8_78 <= '\uFFFF')) ) {s = 44;}
-
-                        else s = 21;
-
-                         
-                        input.seek(index8_78);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 67 : 
-                        int LA8_54 = input.LA(1);
-
-                         
-                        int index8_54 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 90;}
-
-                         
-                        input.seek(index8_54);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 68 : 
-                        int LA8_52 = input.LA(1);
-
-                         
-                        int index8_52 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 89;}
-
-                         
-                        input.seek(index8_52);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 69 : 
-                        int LA8_55 = input.LA(1);
-
-                         
-                        int index8_55 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 91;}
-
-                         
-                        input.seek(index8_55);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 70 : 
-                        int LA8_31 = input.LA(1);
-
-                         
-                        int index8_31 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((rawAhead())) ) {s = 21;}
-
-                        else if ( (true) ) {s = 56;}
-
-                         
-                        input.seek(index8_31);
+                        input.seek(index8_33);
 
                         if ( s>=0 ) return s;
                         break;

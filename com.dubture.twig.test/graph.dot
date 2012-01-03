@@ -6,20 +6,29 @@ digraph {
 		width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
 	edge [arrowsize=.5, color="black", style="bold"]
 
-  n0 [label="foo"];
-  n1 [label="{%"];
-  n2 [label="?"];
-  n2 [label="?"];
-  n3 [label="bar"];
-  n4 [label=":"];
-  n5 [label="aha"];
-  n6 [label="%}"];
+  n0 [label="{{"];
+  n1 [label="CALL"];
+  n1 [label="CALL"];
+  n2 [label="ID"];
+  n3 [label="ID"];
+  n4 [label="DISPATCH"];
+  n4 [label="DISPATCH"];
+  n5 [label="LHS"];
+  n5 [label="LHS"];
+  n6 [label="ID"];
+  n7 [label="RHS"];
+  n7 [label="RHS"];
+  n8 [label="ID"];
+  n9 [label="}}"];
 
-  n0 -> n1 // "foo" -> "{%"
-  n0 -> n2 // "foo" -> "?"
-  n2 -> n3 // "?" -> "bar"
-  n2 -> n4 // "?" -> ":"
-  n2 -> n5 // "?" -> "aha"
-  n0 -> n6 // "foo" -> "%}"
+  n0 -> n1 // "{{" -> "CALL"
+  n1 -> n2 // "CALL" -> "ID"
+  n1 -> n3 // "CALL" -> "ID"
+  n1 -> n4 // "CALL" -> "DISPATCH"
+  n4 -> n5 // "DISPATCH" -> "LHS"
+  n5 -> n6 // "LHS" -> "ID"
+  n4 -> n7 // "DISPATCH" -> "RHS"
+  n7 -> n8 // "RHS" -> "ID"
+  n0 -> n9 // "{{" -> "}}"
 
 }

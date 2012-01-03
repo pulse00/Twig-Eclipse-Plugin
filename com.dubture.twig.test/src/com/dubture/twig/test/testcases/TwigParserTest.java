@@ -8,6 +8,10 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,10 +23,9 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.BufferedTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.dltk.ast.ASTNode;
-import org.eclipse.dltk.ast.ASTVisitor;
+import org.antlr.runtime.tree.DOTTreeGenerator;
+import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.junit.After;
 import org.junit.Before;
@@ -31,11 +34,8 @@ import org.junit.Test;
 import com.dubture.twig.core.parser.ast.TwigLexer;
 import com.dubture.twig.core.parser.ast.TwigParser;
 import com.dubture.twig.core.parser.ast.TwigParser.template_return;
-import com.dubture.twig.core.parser.ast.TwigTreeWalker;
-import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.IdentNode;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
-import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 public class TwigParserTest extends TestCase
 {
@@ -73,22 +73,22 @@ public class TwigParserTest extends TestCase
 //        TwigModuleDeclaration module = walker.module();
         
 //        dot -Tpng graph.dot > output.png
-//        DOTTreeGenerator gen = new DOTTreeGenerator();
-//        StringTemplate dot = gen.toDOT(tree);
+        DOTTreeGenerator gen = new DOTTreeGenerator();
+        StringTemplate dot = gen.toDOT(tree);
 
-//        try {
-//            
-//            String cur = new File(".").getAbsolutePath();
-//                        
-//            FileOutputStream fos = new FileOutputStream(cur +  "/graph.dot");
-//            fos.write(dot.toString().getBytes());
-//        } catch (FileNotFoundException e1) {
-//
-//            e1.printStackTrace();
-//        } catch (IOException e1) {
-//
-//            e1.printStackTrace();
-//        }
+        try {
+            
+            String cur = new File(".").getAbsolutePath();
+                        
+            FileOutputStream fos = new FileOutputStream(cur +  "/graph.dot");
+            fos.write(dot.toString().getBytes());
+        } catch (FileNotFoundException e1) {
+
+            e1.printStackTrace();
+        } catch (IOException e1) {
+
+            e1.printStackTrace();
+        }
         
 //        List<?> statements = module.getStatements();        
         
@@ -151,7 +151,7 @@ public class TwigParserTest extends TestCase
     {
         try {
 
-            testStatement("{% foo ? 'bar' : 'aha' %}", 
+            testStatement("{{ foo(aha, aha.id) }}",
                     "metaHttpEquiv", 
                     new ArrayList<Expression>(Arrays.asList(
                             new StringLiteral(17, 30, "Content-Type"),

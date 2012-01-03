@@ -9,6 +9,15 @@ options {
 tokens {
   ARRAY_OPEN;
   ARRAY_CLOSE;
+  
+  BODY;
+  DISPATCH;
+  FILTER;
+  CALL;
+  PARAMS;
+  LHS;
+  RHS;
+  ID;
 }
 
 @header {
@@ -76,23 +85,14 @@ body
   : expression ( (COMMA?)! expression)*
   ;
   
-functionCallStatement 
-  // we need the closing parenthesis in the tree walker to detecte the absolute
-  // end position of the statement, but we can throw away the opening paren
-  : IDENT^ T_OPEN_PAREN! functionParameters T_CLOSE_PAREN
-  ;
-  
-functionParameters
+params
   : expression (COMMA! expression)*
   ;  
     
 expression 
   : term
-  | functionCallStatement
   | hash
   | array
-  | variable_access
-  | filter
   | ternary
   ;
   
@@ -102,14 +102,6 @@ ternary
   
 concat
   : TILDE^ expression
-  ;
-  
-filter
-  : PIPE^ expression
-  ;
-  
-variable_access
-  : DOT^ expression
   ;
   
 array
@@ -137,7 +129,10 @@ hash_argument
   ;
  
 term 
-  : IDENT
+  : (IDENT -> ID)  ( (T_OPEN_PAREN params T_CLOSE_PAREN -> ^(CALL ID params)) (DOT expression -> ^(DISPATCH ^(LHS ^(CALL ID params)) ^(RHS expression)))?
+                      | DOT expression  -> ^(DISPATCH ^(LHS ID) ^(RHS expression))
+                      | PIPE expression  -> ^(FILTER ^(LHS ID) ^(RHS expression))
+                   )?
   | NUMBER
   | STRING
   | SQ_STRING
@@ -149,8 +144,8 @@ term
 // see http://stackoverflow.com/questions/8693187/switching-lexer-state-in-antlr3-grammar
 RAW   : ({rawAhead()}?=> . )+ { $channel=HIDDEN; };
 
-T_OPEN_PRINT  @after { insideTag=true;  } : { ahead(T_OPEN)}?=> { match(T_OPEN); } ;    
-T_CLOSE_PRINT @after { insideTag=false; } : { ahead(T_CLOSE)}?=> { match(T_CLOSE); } ;
+T_OPEN_PRINT  @after { insideTag=true;  } : '{{';    
+T_CLOSE_PRINT @after { insideTag=false; } : '}}';
 
 T_OPEN_STMT   @after { insideTag=true;  } : '{%';  
 T_CLOSE_STMT  @after { insideTag=false; } : '%}';
