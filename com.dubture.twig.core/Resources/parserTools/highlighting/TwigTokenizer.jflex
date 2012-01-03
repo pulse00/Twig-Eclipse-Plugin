@@ -358,34 +358,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 	return searchContext;
 }
 
-/**
- * Method doScanEndPhp
- * 
- * @see doScan(searchString, req...) 
- * this version can handle two strings as options to search string
- * it originally written to support ?> or %> close tags to php
- * The two strings must be on the same length
- *
- * @param isAsp - whether the asp %> close is premited
- * @param context - the context of the scanned region if non-zero length
- * @param exitState - the state to go to if the region was of non-zero length
- * @param abortState - the state to go to if the searchString was found immediately
- * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
- * @throws IOException
- */
 private ITextRegion bufferedTextRegion = null;
-private final String doScanEndPhp(boolean isAsp, String searchContext, int exitState, int immediateFallbackState) throws IOException {
-	yypushback(1); // begin with the last char
-	
-	final AbstractPhpLexer phpLexer = getPhpLexer(); 
-	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, project, phpLexer);
-
-	// restore the locations / states
-	reset(yy_reader, phpLexer.getZZBuffer(), phpLexer.getParamenters());
-	
-	yybegin(exitState);
-	return searchContext;
-}
 
 
 /**
@@ -1014,8 +987,7 @@ private void assembleEmbeddedTwigOpen() {
 
 %state ST_BLOCK_TAG_SCAN
 
-// added states to PHP 
-%state ST_PHP_CONTENT
+ 
 %state ST_XML_ATTRIBUTE_VALUE_SQUOTED
 %state ST_XML_ATTRIBUTE_VALUE_DQUOTED
 %state ST_BLOCK_TAG_INTERNAL_SCAN
@@ -1847,64 +1819,6 @@ NUMBER=([0-9])+
 	}
 }
 
-
-{PHP_START} | {PHP_ASP_START} | {PIstart} {
-
-	if(Debug.debugTokenizer)
-		dump("\nprocessing instruction start");//$NON-NLS-1$
-	if ("<?".equals(yytext())
-			&& !(ProjectOptions.useShortTags(project) && Character.isWhitespace(yy_buffer[yy_currentPos - 1]))) {
-		yybegin(ST_PI);
-		return XML_PI_OPEN;
-
-	} else {
-		// removeing trailing whitespaces for the php open
-		String phpStart = yytext();
-		int i = phpStart.length() - 1;
-		while (i >= 0
-				&& Character.isWhitespace(phpStart.charAt(i--))) {
-			yypushback(1);
-		}
-		fStateStack.push(yystate());// YYINITIAL
-		if (fStateStack.peek() == YYINITIAL) {
-			// the simple case, just a regular scriptlet out in
-			// content
-			yybegin(ST_PHP_CONTENT);
-			return PHP_OPEN;
-		} else {
-			if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
-			else if (yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
-			else if (yystate() == ST_CDATA_TEXT) {
-				fEmbeddedPostState = ST_CDATA_TEXT;
-				fEmbeddedHint = XML_CDATA_TEXT;
-			}
-			yybegin(ST_PHP_CONTENT);
-			assembleEmbeddedContainer(PHP_OPEN, PHP_CLOSE);
-			if (yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
-				yybegin(ST_BLOCK_TAG_SCAN);
-				return BLOCK_TEXT;
-			}
-			// required help for successive embedded regions
-			if (yystate() == ST_XML_TAG_NAME) {
-				fEmbeddedHint = XML_TAG_NAME;
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-			} else if ((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
-				fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
-				fEmbeddedPostState = ST_XML_EQUALS;
-			} else if (yystate() == ST_XML_ATTRIBUTE_VALUE) {
-				fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-			}
-			return PROXY_CONTEXT;
-		}
-	}
-
-}
-
-
-
 // XML & PHP Comments
 
 <YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> {CommentStart} {
@@ -1981,16 +1895,6 @@ NUMBER=([0-9])+
         return XML_TAG_NAME;
 }
 // XML declarations
-<ST_PI> ((P|p)(H|h)(P|p)) {
-	if(Debug.debugTokenizer)
-		dump("PHP processing instruction target");//$NON-NLS-1$
-	//fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
-	//fEmbeddedPostState = ST_XML_EQUALS;
-        //yybegin(ST_XML_PI_ATTRIBUTE_NAME);
-        //return XML_TAG_NAME;
-        yybegin(ST_PHP_CONTENT);
-		return PHP_OPEN;
-}
 <ST_PI> ([iI][mM][pP][oO][rR][tT]) {
 	if(Debug.debugTokenizer)
 		dump("DHTML processing instruction target");//$NON-NLS-1$
@@ -2483,84 +2387,6 @@ NUMBER=([0-9])+
 	}
 }
 
-
-//PHP PROCESSING ACTIONS
-<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {PHP_START} | {PHP_ASP_START} {
-
-	if (Debug.debugTokenizer) {	
-		dump("PHP PROCESSING START");	
-	}
-	
-    if (ProjectOptions.isSupportingAspTags(project) ||yytext().charAt(1) != '%') {
-		//removeing trailing whitespaces for the php open
-		String phpStart = yytext();
-		int i = phpStart.length() - 1; 
-		while(i >= 0 && Character.isWhitespace(phpStart.charAt(i--))){
-			yypushback(1);
-		}
-
-		fStateStack.push(yystate());
-		if(fStateStack.peek()==YYINITIAL) {
-			// the simple case, just a regular scriptlet out in content
-			yybegin(ST_PHP_CONTENT);
-			return PHP_OPEN;
-		}
-		else {
-			if(yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
-			else if(yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
-			else if(yystate() == ST_CDATA_TEXT) {
-				fEmbeddedPostState = ST_CDATA_TEXT;
-				fEmbeddedHint = XML_CDATA_TEXT;
-			}
-			yybegin(ST_PHP_CONTENT);
-			assembleEmbeddedContainer(PHP_OPEN, PHP_CLOSE);
-			if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
-				yybegin(ST_BLOCK_TAG_SCAN);
-				return BLOCK_TEXT;
-			}
-			// required help for successive embedded regions
-			if(yystate() == ST_XML_TAG_NAME) {
-				fEmbeddedHint = XML_TAG_NAME;
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-			}
-			else if((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
-				fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
-				fEmbeddedPostState = ST_XML_EQUALS;
-			}
-			else if(yystate() == ST_XML_ATTRIBUTE_VALUE) {
-				fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
-				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-			}
-			return PROXY_CONTEXT;
-		}
-    }
-    yypushback(1);
-	yybegin(ST_XML_TAG_NAME);
-	return XML_TAG_OPEN;
-}
-
-
-
-<ST_PHP_CONTENT> {PIend} | {PHP_ASP_END} {
-	yybegin(fStateStack.pop());
-	
-	if (Debug.debugTokenizer) {
-	   dump("PHP_CLOSE");
-	}
-	
-	return PHP_CLOSE;
-	
-}
-<ST_PHP_CONTENT> .|\n|\r {
-
-	if (Debug.debugTokenizer) {
-	   dump("ST_PHP_CONTENT");
-	}
-
-	return doScanEndPhp(ProjectOptions.isSupportingAspTags(project), PHP_CONTENT, ST_PHP_CONTENT, ST_PHP_CONTENT);
-}
 
 . {
 	if (Debug.debugTokenizer) {
