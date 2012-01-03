@@ -472,6 +472,7 @@ private AbstractPhpLexer getPhpLexer() {
 private AbstractTwigLexer getTwigLexer(String lexerState) {
 
 	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
+	lexer.setTokenizer(this);
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
@@ -1432,7 +1433,7 @@ LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"with"
 
-TWIG_WHITESPACE=[ \n\r\t]+
+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
 

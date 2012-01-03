@@ -35,6 +35,9 @@ import com.dubture.twig.core.util.Debug;
 
 
 %{
+
+    private boolean insideRaw = false;
+    
     public TwigLexer(int state){
         initialize(state);
     }
@@ -154,6 +157,18 @@ NUMBER=([0-9])+
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
+
+    if (tokenizer != null) {        
+        if ("raw".equals(yytext())) {
+            insideRaw = true;
+            tokenizer.startRaw();    
+        } else if ("endraw".equals(yytext())) {
+            insideRaw = true;
+            tokenizer.endRaw();                
+        }
+    }
+    
+    pushState(ST_TWIG_IN_STATEMENT_BODY);
 
 	pushState(ST_TWIG_IN_STATEMENT_BODY);
 	return TWIG_KEYWORD;

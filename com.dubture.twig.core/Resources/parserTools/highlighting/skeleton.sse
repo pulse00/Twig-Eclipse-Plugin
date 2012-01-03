@@ -68,6 +68,11 @@
 
   /** yy_atEOF == true <=> the scanner has returned a value for EOF */
   private boolean yy_atEOF;
+  
+  /**  are we inside a raw tag? **/
+  private boolean insideRaw = false;
+  
+  private TwigTokenizer twigTokenizer = null;
 
 --- user class code
 
@@ -79,6 +84,20 @@
    */
 --- constructor declaration
 
+    public void setTokenizer(TwigTokenizer tokenizer) {
+        twigTokenizer = tokenizer;
+    }
+
+    public void startRaw() {
+        
+        insideRaw = true;
+        
+    }
+    public void endRaw() {
+    
+        insideRaw = false;
+        
+    }    
 
   /**
    * Gets the next input character.
@@ -254,6 +273,11 @@
 		
 		case 0:
 
+            // don't evaluate inside raw blocks
+            if (insideRaw) {
+              return insideOf;
+            }
+
 			delim = "{{";
 
 			if (Debug.debugTokenizer) {
@@ -318,6 +342,11 @@
 			break;
 			
 		case 2:
+
+            // don't evaluate inside raw blocks
+            if (insideRaw) {
+              return insideOf;
+            }
 			
 			// search for comments first
 			delim = "{#";
