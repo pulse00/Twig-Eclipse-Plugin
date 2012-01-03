@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2006 Zend Corporation and IBM Corporation.
+ * Copyright (c) 2012 Zend Corporation and IBM Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *   Zend and IBM - Initial implementation
+ *   Robert Gruendler <r.gruendler@gmail.com> - Twig additions
  *******************************************************************************/
 /*nlsXXX*/
 package com.dubture.twig.core.documentModel.parser;
@@ -213,7 +214,7 @@ public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
  * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
  * @throws IOException
  */
-private final String doScan(String searchString, boolean allowPHP, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+private final String doScan(String searchString, boolean allowTWIG, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	boolean stillSearching = true;
 	// Disable further block (probably)
 	fIsBlockingEnabled = false;
@@ -235,12 +236,12 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 		else {
 			
 			/**
-			 * Look for starting PHPs "{?"
+			 * Look for starting Twig "{%"
 			 */
-			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
+			// Look for a TWIG beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
+			if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
 					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || (yy_buffer[yy_currentPos] == '%'))) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
@@ -259,7 +260,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a JSP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
+			else if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
 					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || yy_buffer[yy_currentPos] == '%')) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
@@ -276,7 +277,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// ---
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
 			// since it relies upon yy_currentPos equaling exactly the previous end +1 to work as designed.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
+			else if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
 					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '{' && yy_buffer[yy_startRead + 1] == '{') {
 				fLastInternalBlockStart = yy_markedPos = yy_startRead;
 				yy_currentPos = yy_markedPos + 1;
@@ -433,7 +434,7 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 	return lexer;
 }
 
-// call the doScan without searching for PHP internal code
+// call the doScan without searching for Twig internal code
 private final String doScan(String searchString, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	return doScan(searchString, true, requireTailSeparator, searchContext, exitState, immediateFallbackState);	
 }
@@ -1384,7 +1385,7 @@ NUMBER=([0-9])+
 }
 
 /* VERY special cases for tags as values */
-/* quoted Php */
+/* quoted Twig */
 <ST_XML_ATTRIBUTE_VALUE_DQUOTED> [\"] {
 
 	if (Debug.debugTokenizer) {
@@ -1481,7 +1482,7 @@ NUMBER=([0-9])+
 	int incomingState = yystate();
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-	// Php attribute value start - end tag
+	// Twig attribute value start - end tag
 	yybegin(ST_XML_TAG_NAME);
 	assembleEmbeddedContainer(XML_END_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	if(yystate() != ST_ABORT_EMBEDDED)
@@ -1500,7 +1501,7 @@ NUMBER=([0-9])+
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
 	fStateStack.push(yystate());
-	// PHP tag embedded name start - start tag
+	// Twig tag embedded name start - start tag
 	yybegin(ST_XML_TAG_NAME);
 	assembleEmbeddedContainer(XML_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	fStateStack.pop();
@@ -1770,7 +1771,7 @@ NUMBER=([0-9])+
 	}
 }
 
-// XML & PHP Comments
+// XML & Twig Comments
 
 <YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> {CommentStart} {
 	if(Debug.debugTokenizer)
