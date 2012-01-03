@@ -18,24 +18,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.php.internal.core.PHPVersion;
-import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
-import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
-import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
-import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
-import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
-import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import com.dubture.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.Logger;
 import org.eclipse.wst.xml.core.internal.parser.ContextRegionContainer;
 import org.eclipse.wst.xml.core.internal.parser.IntStack;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+
+import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
+import com.dubture.twig.core.util.Debug;
 
 
 %%
@@ -53,7 +48,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	private int fBufferedStart = 1;
 	private int fBufferedLength = 0;
 	
-	// help for php container text region
+	// help for twig container text region
 	private ContextRegionContainer fBufferedEmbeddedContainer = null;
 	private String f_context = null;
 
@@ -385,7 +380,7 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	
 	yypushback(1); // begin with the last char
 	
-	// the phpLexer should read until the last token, so
+	// the twigLexer should read until the last token, so
 	// the position after this method should match
 	// <ST_TWIG_CONTENT> "}}" otherwise we'll
 	// get an infinite loop ;)
@@ -418,30 +413,6 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
  * @param stream
  * @return a new lexer for the given project with the given stream initialized with current parameters
  */
-private AbstractPhpLexer getPhpLexer() {
-	final PHPVersion phpVersion = ProjectOptions.getPhpVersion(project);
-	final AbstractPhpLexer lexer = PhpLexerFactory.createLexer(yy_reader, phpVersion);
-	int[] currentParameters = getParamenters();
-	try {
-		// set initial lexer state - we use reflection here since we don't know the constant value of 
-		// of this state in specific PHP version lexer 
-		currentParameters[6] = lexer.getClass().getField("ST_PHP_IN_SCRIPTING").getInt(lexer);
-	} catch (Exception e) {
-		Logger.logException(e);
-	}
-	lexer.initialize(currentParameters[6]);
-	lexer.reset(yy_reader, yy_buffer, currentParameters);
-	lexer.setPatterns(project);
-
-	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
-	return lexer;
-}
-
-/**
- * @param project
- * @param stream
- * @return a new lexer for the given project with the given stream initialized with current parameters
- */
 private AbstractTwigLexer getTwigLexer(String lexerState) {
 
 	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
@@ -449,7 +420,7 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
-		// of this state in specific PHP version lexer 
+		// of this state in specific Twig version lexer 
 		currentParameters[6] = lexer.getClass().getField(lexerState).getInt(lexer);
 	} catch (Exception e) {
 		Logger.logException(e);
@@ -470,10 +441,6 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 	/* user method */
 	private final void assembleEmbeddedTagSequence(String startType, String endTagName) {
 		assembleEmbeddedContainer(startType, null, endTagName);
-	}
-	/* user method */
-	private final void assembleEmbeddedContainer(String startType, String[] endTypes) {
-		assembleEmbeddedContainer(startType, endTypes, null);
 	}
 	/* user method */
 	private final void assembleEmbeddedContainer(String startType, String endType) {
@@ -513,7 +480,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 			if (internalContext != null && internalContext != PROXY_CONTEXT) {
 
 				ITextRegion newToken;
-				// if it is php content we extract the tokens
+				// if it is twig content we extract the tokens
 				if (internalContext == TWIG_CONTENT) {
 					newToken = bufferedTextRegion; 
 					bufferedTextRegion.adjustStart(-containerStart);
@@ -571,7 +538,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 					// inside the embedded container
 
 					ITextRegion newToken;
-					// if it is php content we extract the tokens
+					// if it is twig content we extract the tokens
 					if (internalContext == TWIG_CONTENT) {
 						newToken = bufferedTextRegion; 
 						bufferedTextRegion.adjustStart(-containerStart);
@@ -922,13 +889,6 @@ private final String scanXMLCommentText() throws IOException {
 }
 
 
-private void assembleEmbeddedTwigOpen() {
-	
-
-	System.err.println("assemble embedded twig open");	
-	
-}
-
 %}
 
 %eof{
@@ -937,7 +897,7 @@ private void assembleEmbeddedTwigOpen() {
 
 %public
 %class TwigTokenizer
-%implements BlockTokenizer, PHPRegionContext, DOMRegionContext, TwigRegionContext
+%implements BlockTokenizer, DOMRegionContext, TwigRegionContext
 %function primGetNextToken
 %type String
 %char
@@ -1388,24 +1348,15 @@ Extender = [\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005\u3031-\u3035\u309D-
 
 
 
-//PHP MACROS
-WHITESPACE = [\n\r \t]
-PHP_START       = <\?[Pp][Hh][P|p]{WHITESPACE}*
-//PHP_START       = "{%"{WHITESPACE}*
-PHP_ASP_START=<%
-PHP_ASP_END=%>
-
 
 // TWIG MACROS
 
+WHITESPACE = [\n\r \t]
 TW_START = \{\{{WHITESPACE}*
-
 TW_STMT_DEL_LEFT = \{\%{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"with"
-
-
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
 
@@ -1774,11 +1725,11 @@ NUMBER=([0-9])+
 		return XML_PI_OPEN;
 
 	} else {
-		// removeing trailing whitespaces for the php open
-		String phpStart = yytext();
-		int i = phpStart.length() - 1;
+		// removeing trailing whitespaces for the twig open
+		String twigStart = yytext();
+		int i = twigStart.length() - 1;
 		while (i >= 0
-				&& Character.isWhitespace(phpStart.charAt(i--))) {
+				&& Character.isWhitespace(twigStart.charAt(i--))) {
 			yypushback(1);
 		}
 		fStateStack.push(yystate());// YYINITIAL
