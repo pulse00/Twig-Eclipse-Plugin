@@ -17,3 +17,7 @@ The plugin is still beta.
 [http://pulse00.github.com/p2/](http://pulse00.github.com/p2/)
 
 For more info visit [http://twig.dubture.com/](http://twig.dubture.com/)
+
+### Acknowledgements
+
+- [Bart Kiers](http://big-o.nl) for helping with key parts of the new ANTLR parser
