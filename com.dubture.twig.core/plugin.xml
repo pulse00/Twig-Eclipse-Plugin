@@ -51,11 +51,14 @@ com.dubture.twig.core.TwigNature
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
-            base-type="org.eclipse.php.core.phpsource"
-            file-extensions="twig, html, phtml"
+            base-type="org.eclipse.core.runtime.text"
+            file-extensions="twig"
             id="twigtemplate"
             name="Twig Template"
             priority="high">
+         <describer
+               class="com.dubture.twig.core.documentModel.ContentDescriber">
+         </describer>
       </content-type>
    </extension>
    <extension

@@ -37,7 +37,7 @@ public class TwigSourceParserFactory extends PHPSourceParserFactory
             IProblemReporter reporter)
     {
 
-        if (!module.getFileName().endsWith(".twig")) {
+        if (module.getFileName().endsWith(".php")) {
             return super.parse(module, reporter);
         }
 

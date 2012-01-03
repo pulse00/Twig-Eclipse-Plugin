@@ -8,10 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +21,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.BufferedTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.DOTTreeGenerator;
-import org.antlr.stringtemplate.StringTemplate;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.expressions.Expression;
@@ -73,38 +67,38 @@ public class TwigParserTest extends TestCase
         CommonTree tree = (CommonTree) template.getTree();
         System.err.println(tree.toStringTree());
         
-        BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
-        TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
+//        BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
+//        TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
         
-        TwigModuleDeclaration module = walker.module();
+//        TwigModuleDeclaration module = walker.module();
         
 //        dot -Tpng graph.dot > output.png
-        DOTTreeGenerator gen = new DOTTreeGenerator();
-        StringTemplate dot = gen.toDOT(tree);
+//        DOTTreeGenerator gen = new DOTTreeGenerator();
+//        StringTemplate dot = gen.toDOT(tree);
 
-        try {
-            
-            String cur = new File(".").getAbsolutePath();
-                        
-            FileOutputStream fos = new FileOutputStream(cur +  "/graph.dot");
-            fos.write(dot.toString().getBytes());
-        } catch (FileNotFoundException e1) {
-
-            e1.printStackTrace();
-        } catch (IOException e1) {
-
-            e1.printStackTrace();
-        }
+//        try {
+//            
+//            String cur = new File(".").getAbsolutePath();
+//                        
+//            FileOutputStream fos = new FileOutputStream(cur +  "/graph.dot");
+//            fos.write(dot.toString().getBytes());
+//        } catch (FileNotFoundException e1) {
+//
+//            e1.printStackTrace();
+//        } catch (IOException e1) {
+//
+//            e1.printStackTrace();
+//        }
         
-        List<?> statements = module.getStatements();        
+//        List<?> statements = module.getStatements();        
         
 //        assertEquals(1, statements.size());
         
-        BlockStatement block = (BlockStatement) statements.get(0);
+//        BlockStatement block = (BlockStatement) statements.get(0);
         
 //        assertNotNull(block);        
 //        assertEquals(name, block.getName());
-        
+        /*
         int i = 0;
         
         List childs = block.getChilds();
@@ -118,6 +112,7 @@ public class TwigParserTest extends TestCase
 //            assertTrue(object.equals(children.get(i)));
             
         }
+
         
         
         try {
@@ -142,7 +137,7 @@ public class TwigParserTest extends TestCase
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+        */        
         
 
         
