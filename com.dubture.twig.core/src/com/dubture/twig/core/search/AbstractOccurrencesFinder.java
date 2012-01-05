@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.ITwigNodeVisitor;
 import com.dubture.twig.core.parser.TwigNode;
-import com.dubture.twig.core.parser.TwigNodeVisitor;
 import com.dubture.twig.core.parser.TwigSourceParser;
 
 /**
@@ -29,7 +27,7 @@ import com.dubture.twig.core.parser.TwigSourceParser;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor
+abstract public class AbstractOccurrencesFinder 
         implements IOccurrencesFinder
 {
 
@@ -142,7 +140,6 @@ abstract public class AbstractOccurrencesFinder extends TwigNodeVisitor
         }
     }
 
-    abstract protected ITwigNodeVisitor getVisitor(int offset);
 
     @Override
     public OccurrenceLocation[] getOccurrences()

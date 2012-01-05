@@ -13,8 +13,6 @@ import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
 
-import com.dubture.twig.core.util.Debug;
-
 /**
  * {@link TwigSourceParserFactory} overrides parse() for modules with the .twig
  * extension, otherwise delegates parsing to the {@link PHPSourceParserFactory}
@@ -23,13 +21,12 @@ import com.dubture.twig.core.util.Debug;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings("restriction")
 public class TwigSourceParserFactory extends PHPSourceParserFactory
 {
 
     public TwigSourceParserFactory()
     {
-
+        System.err.println("create source parser factory");
     }
 
     @Override

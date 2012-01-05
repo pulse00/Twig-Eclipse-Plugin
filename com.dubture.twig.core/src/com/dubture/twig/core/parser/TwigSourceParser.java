@@ -30,7 +30,6 @@ import com.dubture.twig.core.parser.ast.visitor.SourceParserVisitor;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings("restriction")
 public class TwigSourceParser extends AbstractPHPSourceParser implements
         ISourceParser
 {
@@ -55,12 +54,16 @@ public class TwigSourceParser extends AbstractPHPSourceParser implements
             boolean useShortTags) throws Exception
     {
         try {
+            
+            
 
-//            TwigModuleDeclaration module = SourceParserUtil
-//                    .parseSourceModule(in);
-//            module.traverse(new SourceParserVisitor(reporter));
-//
-//            return module;
+            TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(in);
+            
+            if (module != null) {
+                module.traverse(new SourceParserVisitor(reporter));    
+            }            
+
+            return module;
 
         } catch (Exception e) {
             Logger.logException(e);

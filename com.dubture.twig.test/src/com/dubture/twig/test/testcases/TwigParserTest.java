@@ -8,34 +8,16 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.StringReader;
 
 import junit.framework.TestCase;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.DOTTreeGenerator;
-import org.antlr.stringtemplate.StringTemplate;
-import org.eclipse.dltk.ast.expressions.Expression;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.dubture.twig.core.parser.ast.TwigLexer;
-import com.dubture.twig.core.parser.ast.TwigParser;
-import com.dubture.twig.core.parser.ast.TwigParser.template_return;
-import com.dubture.twig.core.parser.ast.node.IdentNode;
-import com.dubture.twig.core.parser.ast.node.StringLiteral;
+import com.dubture.twig.core.parser.ast.CompilerAstLexer;
+import com.dubture.twig.core.parser.ast.TwigAstParser;
 
 public class TwigParserTest extends TestCase
 {
@@ -51,135 +33,32 @@ public class TwigParserTest extends TestCase
     {
         super.tearDown();
     }
-    
-    
-    public void testStatement(String statement, String name, List<Expression> children) throws RecognitionException 
-    {
 
-        CharStream charstream = new ANTLRStringStream(statement);
-        TwigLexer lexer = new TwigLexer(charstream);
-        TokenStream tokenStream = new CommonTokenStream(lexer);
-        TwigParser parser = new TwigParser(tokenStream);
-
-        template_return template = parser.template();
-        System.err.println("BUILT TREE");
-
-        CommonTree tree = (CommonTree) template.getTree();
-        System.err.println(tree.toStringTree());
-        
-//        BufferedTreeNodeStream nodeStream = new BufferedTreeNodeStream(tree);
-//        TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
-        
-//        TwigModuleDeclaration module = walker.module();
-        
-//        dot -Tpng graph.dot > output.png
-        DOTTreeGenerator gen = new DOTTreeGenerator();
-        StringTemplate dot = gen.toDOT(tree);
-
-        try {
-            
-            String cur = new File(".").getAbsolutePath();
-                        
-            FileOutputStream fos = new FileOutputStream(cur +  "/graph.dot");
-            fos.write(dot.toString().getBytes());
-        } catch (FileNotFoundException e1) {
-
-            e1.printStackTrace();
-        } catch (IOException e1) {
-
-            e1.printStackTrace();
-        }
-        
-//        List<?> statements = module.getStatements();        
-        
-//        assertEquals(1, statements.size());
-        
-//        BlockStatement block = (BlockStatement) statements.get(0);
-        
-//        assertNotNull(block);        
-//        assertEquals(name, block.getName());
-        /*
-        int i = 0;
-        
-        List childs = block.getChilds();
-        
-        
-        
-        for (Object object : block.getChilds()) {
-            
-            System.err.println(children.get(i++));
-            System.err.println(object);
-//            assertTrue(object.equals(children.get(i)));
-            
-        }
-
-        
-        
-        try {
-//            System.err.println("-- TRAVERSING");
-            module.traverse(new ASTVisitor()
-            {
-
-                @Override
-                public boolean visitGeneral(ASTNode node) throws Exception
-                {
-//                     System.err.println("visit " + node.getClass());
-                    return super.visitGeneral(node);
-                }
-
-                @Override
-                public void endvisitGeneral(ASTNode node) throws Exception
-                {
-//                     System.err.println("endvisit " + node.getClass());
-                    super.endvisitGeneral(node);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        */        
-        
-
-        
-        
-        
-        
-    }
-    
     @Test
-    public void testNewParser()
-    {
+    public void testJflex()
+    {        
         try {
 
-            testStatement("{{ foo(aha, aha.id) }}",
-                    "metaHttpEquiv", 
-                    new ArrayList<Expression>(Arrays.asList(
-                            new StringLiteral(17, 30, "Content-Type"),
-                            new IdentNode(32, 37, "with"),
-                            new StringLiteral(38, 55, "text/html; charset=utf-8")
-                    )
-            ));
-            
-        } catch (RecognitionException e) {            
-//            fail("Error parsing template");
+            CompilerAstLexer lexer = new CompilerAstLexer(new StringReader("{%  %}"));
+            TwigAstParser parser = new TwigAstParser(lexer);
+            parser.parse();
+                        
+        } catch (Exception e) {
+            fail();
         }
     }
 
     @Test
     public void testStringLiterals()
     {
-
         assertValidTokenstream("{% metaHttpEquiv 'Content-Type' with 'text/html; charset=utf-8' %}");
-
     }
 
     @Test
     public void testVariableAccess()
     {
-
         assertValidTokenstream("{{ entity.subject }}");
         assertValidTokenstream("{{ path('post_show', { 'id': entity.id }) }}");
-
     }
 
     @Test

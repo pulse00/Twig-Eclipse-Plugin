@@ -3,37 +3,31 @@ package com.dubture.twig.core.parser;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.antlr.runtime.ANTLRReaderStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 
-import com.dubture.twig.core.parser.ast.TwigLexer;
-import com.dubture.twig.core.parser.ast.TwigParser;
-import com.dubture.twig.core.parser.ast.TwigParser.template_return;
-import com.dubture.twig.core.parser.ast.TwigTreeWalker;
-import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
+import com.dubture.twig.core.parser.ast.CompilerAstLexer;
+import com.dubture.twig.core.parser.ast.TwigAstParser;
 
 public class SourceParserUtil
 {
-    public static TwigModuleDeclaration parseSourceModule(Reader in)
-            throws IOException, RecognitionException
+    public static ModuleDeclaration parseSourceModule(Reader in)
+            throws IOException
     {
 
-        CharStream content = new ANTLRReaderStream(in);
-        TwigLexer lexer = new TwigLexer(content);
-        TwigParser parser = new TwigParser(new CommonTokenStream(lexer));
+        System.err.println("parse source");
+        CompilerAstLexer lexer = new CompilerAstLexer(in);
+        TwigAstParser parser = new TwigAstParser(lexer);
 
-        template_return template = parser.template();
-
-        CommonTree tree = (CommonTree) template.getTree();
-        CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(tree);
-        TwigTreeWalker walker = new TwigTreeWalker(nodeStream);
-
-        return walker.module();
+        // parser.setFileName(fileName);
+        try {
+            parser.parse();
+        } catch (Exception e) {
+            // TODO: add recovery
+            e.printStackTrace();
+            return new ModuleDeclaration(0);
+        }
+        
+        return parser.getModuleDeclaration();
 
     }
-
 }

@@ -43,6 +43,7 @@ import com.dubture.twig.core.model.Test;
 import com.dubture.twig.core.model.TwigType;
 import com.dubture.twig.core.util.TwigModelUtils;
 
+
 /**
  * 
  * {@link TwigIndexingVisitorExtension} indexes:
@@ -54,7 +55,6 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings("restriction")
 public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 {
 

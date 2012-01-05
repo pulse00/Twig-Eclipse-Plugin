@@ -11,7 +11,6 @@ import java_cup.sym;
    
 %class TwigAstLexer
 
-
 /*
   The current line number can be accessed with the variable yyline
   and the current column number with the variable yycolumn.
@@ -24,7 +23,8 @@ import java_cup.sym;
 
 /* %debug */
 
-/* make the generated class public */
+/* make the lexer public */
+
 %public
    
 /* Declarations */
@@ -98,9 +98,11 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
         yybegin(ST_TWIG_VAR);
     }
     
+    
     {TWIG_STMT_OPEN}  {
         System.err.println("twig open block"); 
         yybegin(ST_TWIG_BLOCK_NAME);
+        return symbol(ParserConstants.TWIG_STMT_OPEN);
     }
         
     /* Don't do anything if whitespace is found */
@@ -119,6 +121,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     {TWIG_STMT_CLOSE}  { 
         System.err.println("twig close"); 
         yybegin(YYINITIAL);
+        return symbol(ParserConstants.TWIG_STMT_CLOSE);
     }
     
     /* Don't do anything if whitespace is found */
@@ -132,11 +135,12 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     {TWIG_STMT_CLOSE}  { 
         System.err.println("twig close"); 
         yybegin(YYINITIAL);
+        return symbol(ParserConstants.TWIG_STMT_CLOSE);
     }
     
     {LABEL} {
         return fullSymbol(ParserConstants.T_VARIABLE);    
-    }
+    }   
     
     {WHITESPACE} { 
         System.err.println("ws in print"); /* just skip what was found, do nothing */ 

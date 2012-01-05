@@ -1,9 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Test
-Bundle-SymbolicName: com.dubture.twig.test
+Bundle-Name: com.dubture.twig.test
+Bundle-SymbolicName: com.dubture.twig.test;singleton:=true
 Bundle-Version: 1.0.94.qualifier
 Fragment-Host: com.dubture.twig.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit4,
  org.eclipse.ui
+Bundle-ClassPath: .,
+ java-cup-0.11a.jar,
+ antlr-runtime-3.4.jar,
+ json_simple-1.1.jar,
+ junit.jar

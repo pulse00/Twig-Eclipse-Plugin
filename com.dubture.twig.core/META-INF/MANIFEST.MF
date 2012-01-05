@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Twig core plugin
+Bundle-Name: com.dubture.twig.core
 Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
 Bundle-Version: 1.0.94.qualifier
 Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
@@ -39,6 +39,7 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.util,
  com.dubture.twig.core.util.text
 Bundle-Vendor: https://github.com/pulse00
-Bundle-ClassPath: Resources/parserTools/parser/antlr-runtime-3.4.jar,
- .,
- lib/json_simple-1.1.jar
+Import-Package: com.dubture.twig.core.model
+Bundle-ClassPath: .,
+ json-simple-1.1.jar,
+ java-cup-0.11a.jar

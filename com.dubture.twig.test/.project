@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>com.dubture.twig.test</name>
-	<comment></comment>
+	<comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -25,4 +25,26 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>antlr-runtime-3.4.jar</name>
+			<type>1</type>
+			<location>/Users/sobert/.m2/repository/.cache/tycho/com.dubture.twig.core-1.0.94.qualifier.jar/Resources/parserTools/parser/antlr-runtime-3.4.jar</location>
+		</link>
+		<link>
+			<name>java-cup-0.11a.jar</name>
+			<type>1</type>
+			<location>/Users/sobert/.m2/repository/net/sf/squirrel-sql/thirdparty-non-maven/java-cup/0.11a/java-cup-0.11a.jar</location>
+		</link>
+		<link>
+			<name>json_simple-1.1.jar</name>
+			<type>1</type>
+			<location>/Users/sobert/.m2/repository/.cache/tycho/com.dubture.twig.core-1.0.94.qualifier.jar/lib/json_simple-1.1.jar</location>
+		</link>
+		<link>
+			<name>junit.jar</name>
+			<type>1</type>
+			<location>/Users/sobert/.m2/repository/.cache/tycho/org.junit-4.8.2.v4_8_2_v20110321-1705.jar/junit.jar</location>
+		</link>
+	</linkedResources>
 </projectDescription>

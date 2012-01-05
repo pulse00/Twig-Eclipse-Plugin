@@ -13,8 +13,6 @@ import org.eclipse.dltk.core.IModelElement;
 
 import com.dubture.twig.core.index.ITwigElementRequestor.BlockInfo;
 import com.dubture.twig.core.model.TwigModelAccess;
-import com.dubture.twig.core.parser.ITwigNodeVisitor;
-import com.dubture.twig.core.parser.TwigCommonTree;
 
 /**
  * 
@@ -24,7 +22,7 @@ import com.dubture.twig.core.parser.TwigCommonTree;
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  * 
  */
-public class TwigIndexingVisitor implements ITwigNodeVisitor
+public class TwigIndexingVisitor 
 {
 
     private IElementRequestor requestor;
@@ -44,22 +42,5 @@ public class TwigIndexingVisitor implements ITwigNodeVisitor
         this.modelElement = modelElement;
     }
 
-    @Override
-    public void beginVisit(TwigCommonTree node)
-    {
 
-        String text = node.getText();
-        int start = node.getCharPositionInLine() + offset;
-        int end = text != null ? start + node.getText().length() : 0;
-
-        // TODO: REWRITE AFTER PARSER IMPLEMENTATION
-        // use requestor for folding (enterMethod / exitMethod etc);
-
-    }
-
-    @Override
-    public void endVisit(TwigCommonTree node)
-    {
-
-    }
 }

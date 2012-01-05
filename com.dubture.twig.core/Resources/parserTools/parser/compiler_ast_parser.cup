@@ -1,7 +1,14 @@
 /* ----------------------Preliminary Declarations Section--------------------*/
+
+package com.dubture.twig.core.parser.ast;
    
-/* Import the class java_cup.runtime.*  */
-import java_cup.runtime.*;
+import java.util.LinkedList;
+
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
+import com.dubture.twig.core.parser.ast.node.BlockStatement;
+
+import org.eclipse.dltk.ast.expressions.Expression;
+
 
 
 /* Parser code to change the way the parser reports errors (include
@@ -56,13 +63,17 @@ parser code {:
        'message' and then exit.*/
     public void report_fatal_error(String message, Object info) {
         report_error(message, info);
-        System.exit(1);       
+       
     }
 :};
    
 
 terminal        T_RAW;
 terminal        T_QUATE,T_BACKQUATE;
+terminal        TWIG_VAR_OPEN;
+terminal        TWIG_VAR_CLOSE;
+terminal        TWIG_STMT_OPEN;
+terminal        TWIG_STMT_CLOSE;
 
 terminal String NUMBER, ID;
 terminal String T_VARIABLE;
@@ -71,14 +82,32 @@ terminal String T_CONSTANT_ENCAPSED_STRING;
 terminal String T_BLOCK_NAME;
 
 
-non terminal String    expr, term;
+non terminal TwigModuleDeclaration module;
+non terminal BlockStatement block;
+non terminal String  term;
+non terminal String  body;
    
 /* ----------------------------Grammar Section-------------------- */
    
-   expr      ::= term:t 
-                 {: RESULT = new String(t); System.out.println("create term"); :}
-                 ;
    
+   module      ::= block:t
+                 {:                 
+                    TwigModuleDeclaration module = parser.getModuleDeclaration();
+                    System.err.println("create module...");
+                    RESULT = module;
+                 :}
+                 ;
+                 
+   block     ::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name body:b TWIG_STMT_CLOSE:end
+                 {:
+                    BlockStatement stmt = new BlockStatement(startleft, endright, name, new LinkedList<Expression>());
+                    RESULT = stmt;
+                 :}
+                 ;
+                
+   body      ::= term
+                 ;
+    
    term      ::= NUMBER:n
                  {: RESULT = n; :}
                  |

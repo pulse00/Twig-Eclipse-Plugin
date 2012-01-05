@@ -8,8 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.core.parser.error;
 
-import org.antlr.runtime.RecognitionException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.compiler.problem.DefaultProblem;
 import org.eclipse.dltk.compiler.problem.IProblem;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
@@ -28,7 +26,7 @@ import com.dubture.twig.core.TwigCorePreferences;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigErrorReporter implements IErrorReporter
+public class TwigErrorReporter
 {
 
     private IProblemReporter reporter;
@@ -44,10 +42,8 @@ public class TwigErrorReporter implements IErrorReporter
 
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public void reportError(String header, String message,
-            RecognitionException e)
+    public void reportError(String header, String message)
     {
 
         // disabled due to 3.6 incompatibility

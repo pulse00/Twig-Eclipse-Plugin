@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.ITwigNodeVisitor;
-import com.dubture.twig.core.parser.TwigCommonTree;
 import com.dubture.twig.core.parser.TwigNode;
 import com.dubture.twig.core.parser.TwigSourceParser;
 
@@ -135,45 +133,6 @@ public class NodeFinder
 
         } catch (Exception e) {
             Logger.logException(e);
-        }
-    }
-
-    private class NodeVisitor implements ITwigNodeVisitor
-    {
-
-        private final int curOffset;
-
-        public NodeVisitor(int offset)
-        {
-
-            this.curOffset = offset;
-        }
-
-        @Override
-        public void beginVisit(TwigCommonTree node)
-        {
-
-            int nodeStart = node.getCharPositionInLine() + curOffset /* + 1 */;
-            int length = node.getText() != null ? node.getText().length() : 0;
-            int nodeEnd = nodeStart + length;
-
-            if (nodeStart <= offset && nodeEnd >= offset) {
-
-                // TODO: REWRITE AFTER PARSER IMPLEMENTATION
-                // if (node.getType() == TwigParser.STRING) {
-                // NodeFinder.this.node= new TwigNode(node.getText(), nodeStart,
-                // nodeEnd, TwigParser.STRING);
-                // }/* else if (node.getType() == TwigParser.BLOCK) {
-                // NodeFinder.this.node= new TwigNode(node.getText(), nodeStart,
-                // nodeEnd, TwigParser.BLOCK);
-                // } */
-            }
-        }
-
-        @Override
-        public void endVisit(TwigCommonTree node)
-        {
-
         }
     }
 }
