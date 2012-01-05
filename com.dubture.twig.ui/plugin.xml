@@ -72,23 +72,16 @@
             adaptable="true"
             id="com.dubture.twig.ui.contextmenu"
             objectClass="org.eclipse.dltk.core.IScriptProject">
-         <menu
-               id="com.dubture.twig.ui.menu1"
-               label="%menu.label"
-               path="additions">
-            <separator
-                  name="group1">
-            </separator>
-         </menu>
          <action
                class="com.dubture.twig.ui.popup.actions.AddRemoveTwigNatureAction"
-               enablesFor="1"
+               enablesFor="+"
                id="com.dubture.twig.ui.toggleNatureAction"
                label="%action.label"
-               menubarPath="com.dubture.twig.ui.menu1/group1">
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
          </action>
       </objectContribution>
       
+        <!--
 		<objectContribution objectClass="org.eclipse.dltk.core.IModelElement"
 			id="com.dubture.twig.ui.modelElementContribution">
 			<menu label="%category.source.name" path="additions" id="source" />
@@ -103,6 +96,7 @@
 				</or>
 			</visibility>
 		</objectContribution>
+		-->
       
    </extension>
    

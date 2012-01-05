@@ -14,6 +14,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.internal.core.ScriptProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -36,6 +38,7 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate
 {
 
     private ISelection selection;
+    private Object[] fTarget;
 
     /**
      * Constructor for Action1.
@@ -84,6 +87,40 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate
     public void selectionChanged(IAction action, ISelection selection)
     {
 
+        if (selection instanceof IStructuredSelection) {
+            fTarget = ((IStructuredSelection) selection).toArray();
+            boolean enabled = true;
+            for (Object obj : fTarget) {
+                if (!(obj instanceof IProject) && !(obj instanceof IScriptProject)) {
+                    enabled = false;
+                    break;
+                }
+                
+                IProject project = null;
+                
+                if (obj instanceof IProject) {
+                    project = (IProject) obj;
+                } else {                    
+                    project = ((IScriptProject)obj).getProject();
+                }
+                
+                try {
+                    if (!project.isAccessible()
+                            || project.hasNature(TwigNature.NATURE_ID)) {
+                        enabled = false;
+                        break;
+                    }
+                } catch (CoreException e) {
+                    enabled = false;
+                    Logger.logException(e);
+                }
+            }
+            action.setEnabled(enabled);
+        } else {
+            fTarget = null;
+            action.setEnabled(false);
+        }       
+        
         this.selection = selection;
     }
 
