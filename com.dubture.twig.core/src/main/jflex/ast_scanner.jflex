@@ -70,6 +70,7 @@ TABS_AND_SPACES=[ \t]*
 ANY_CHAR=[^]
 NEWLINE=("\r"|"\n"|"\r\n")
 
+
 DOUBLE_QUOTES_CHARS=(([^\"\\]|("\\"{ANY_CHAR})))
 BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 
@@ -137,7 +138,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     }   
     
     {WHITESPACE} { 
-        System.err.println("ws in print"); /* just skip what was found, do nothing */ 
+        System.err.println("ws in stmt"); /* just skip what was found, do nothing */ 
     }
     
     /* sc are allowed in block tags */

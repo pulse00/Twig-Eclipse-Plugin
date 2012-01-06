@@ -5,10 +5,12 @@ package com.dubture.twig.core.parser.ast;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
+import com.dubture.twig.core.parser.ast.node.StringLiteral;
 
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
@@ -78,6 +80,9 @@ terminal        TWIG_VAR_OPEN;
 terminal        TWIG_VAR_CLOSE;
 terminal        TWIG_STMT_OPEN;
 terminal        TWIG_STMT_CLOSE;
+terminal		T_OPEN_PARENTHESE;
+terminal		T_CLOSE_PARENTHESE;
+terminal		T_DOT;
 
 terminal String NUMBER, ID;
 terminal String T_VARIABLE;
@@ -93,8 +98,7 @@ non terminal Statement top_statement;
 non terminal List inner_statement_list;
 non terminal Statement inner_statement;
 non terminal Statement statement;
-non terminal String  term;
-non terminal String  body;
+non terminal TwigCallExpression function;
 
 
 precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
@@ -171,12 +175,25 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
 					    {: 
 					        RESULT = statement; 
 					    :}
+					    | function:function
+					    {:
+					    	RESULT = function;
+					    :}
 					    ;
     
+    function			::= T_VARIABLE:id T_OPEN_PARENTHESE:open inner_statement_list:stmt T_CLOSE_PARENTHESE:close
+    					{:
+    						RESULT = new TwigCallExpression(openleft, closeright, id, stmt);
+    					:}
+    					;
     
     statement			::= T_VARIABLE:stmt
 					    {: 
 					        RESULT = new Variable(stmtleft, stmtright, stmt); 
+					    :}
+					    | T_CONSTANT_ENCAPSED_STRING:string
+					    {:
+					    	RESULT = new StringLiteral(stringleft, stringright, string);
 					    :}
 					    ;
     

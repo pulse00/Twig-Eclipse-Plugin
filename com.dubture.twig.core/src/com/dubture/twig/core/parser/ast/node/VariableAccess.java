@@ -15,15 +15,20 @@ import org.eclipse.dltk.ast.expressions.Expression;
  */
 public class VariableAccess extends Expression {
 
+    private final Expression lhs;
+    private final Expression rhs;
+
     /**
      * @param startIndex
      * @param stopIndex
      * @param expression
      */
-    public VariableAccess(int startIndex, int stopIndex, Expression expression) {
+    public VariableAccess(int startIndex, int stopIndex, Expression lhs, Expression rhs) {
         super(startIndex, stopIndex);
+        this.lhs = lhs;
+        this.rhs = rhs;
         
-        System.err.println("creating variable access with " + expression.getClass());
+        System.err.println("creating variable access with " + lhs.getClass() + " . " + rhs.getClass());
     }
 
     @Override

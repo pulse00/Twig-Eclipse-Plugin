@@ -31,12 +31,6 @@ abstract class AbstractAstParser extends lr_parser
         super(s);
     }
 
-    /** Constructor which sets the default scanner. */
-    public AbstractAstParser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf)
-    {
-        super(s, sf);
-    }
-    
     private TwigModuleDeclaration module = new TwigModuleDeclaration(0, new LinkedList<Statement>());
     
     public TwigModuleDeclaration getModuleDeclaration()

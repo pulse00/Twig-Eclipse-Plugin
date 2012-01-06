@@ -37,30 +37,51 @@
 				</executions>
 			</plugin>
 
-			<!-- run java cup to generate the parser -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.5</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>java</goal>
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
+
 				<configuration>
-					<mainClass>java_cup.Main</mainClass>
-					<arguments>
-						<argument>-parser</argument>
-						<argument>TwigAstParser</argument>
-						<argument>-symbols</argument>
-						<argument>ParserConstants</argument>
-						<argument>${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup</argument>
-					</arguments>
+					<target>
+						<property name="runtime_classpath" refid="maven.runtime.classpath" />
+
+						<java classname="java_cup.Main" fork="true" failonerror="true"
+							maxmemory="512m">
+							<classpath>
+								<pathelement path="${basedir}/java-cup-10k.jar" />
+								<pathelement path="${runtime_classpath}" />
+							</classpath>
+							<arg value="-parser" />
+							<arg value="TwigAstParser" />
+							<arg value="-symbols" />
+							<arg value="ParserConstants" />
+
+							<arg
+								value="${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup" />
+						</java>
+					</target>
 				</configuration>
 			</plugin>
+
+
+
+			<!-- run java cup to generate the parser -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId> 
+				<version>1.2.1</version> <executions> <execution> <phase>generate-sources</phase> 
+				<goals> <goal>java</goal> </goals> </execution> </executions> <configuration> 
+				<mainClass>java_cup.Main</mainClass> <arguments> <argument>-parser</argument> 
+				<argument>TwigAstParser</argument> <argument>-symbols</argument> <argument>ParserConstants</argument> 
+				<argument>${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup</argument> 
+				</arguments> </configuration> </plugin> -->
 
 			<!-- copy the cup parser to the source directory -->
 			<plugin>
@@ -134,7 +155,7 @@
 
 		</plugins>
 	</build>
-	
+
 
 	<profiles>
 		<profile>
@@ -155,25 +176,6 @@
 			</properties>
 		</profile>
 	</profiles>
-	
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>
-                    net.sf.squirrel-sql.thirdparty-non-maven
-                </groupId>
-				<artifactId>java-cup</artifactId>
-				<version>0.11a</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>net.sf.squirrel-sql.thirdparty-non-maven</groupId>
-			<artifactId>java-cup</artifactId>
-		</dependency>
-	</dependencies>
 
 </project>

@@ -14,6 +14,16 @@ public class PrintStatement extends Statement
     {
         this.expressions = expressions;
         System.err.println("print with " + expressions.size() + " expressions");
+        
+        for (Expression expression : expressions) {
+            
+            System.err.println(expression.getClass());
+            if (expression instanceof Variable) {
+                
+                Variable var = (Variable) expression;
+                System.err.println(var.getValue());
+            }
+        }
     }
 
     @Override
