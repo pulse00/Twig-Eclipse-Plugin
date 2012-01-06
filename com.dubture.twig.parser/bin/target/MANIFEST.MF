@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Export-Package: java_cup,java_cup.runtime
-Bundle-Vendor: https://github.com/pulse00
-Bundle-Version: 1.0.93.201112252112
-Bundle-Name: Twig Parser
-Bundle-ManifestVersion: 2
-Bundle-SymbolicName: com.dubture.twig.parser
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-

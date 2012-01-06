@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.php.core;bundle-version="3.0.1",
  org.eclipse.dltk.core;bundle-version="4.0.0",
  org.eclipse.dltk.ui,
- org.eclipse.php.ui
+ org.eclipse.php.ui,
+ com.dubture.twig.core.lib,
+ com.dubture.twig.core.json
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.dubture.twig.core,
@@ -41,5 +43,4 @@ Export-Package: com.dubture.twig.core,
 Bundle-Vendor: https://github.com/pulse00
 Import-Package: com.dubture.twig.core.model
 Bundle-ClassPath: .,
- lib/java-cup-11a.jar,
  lib/json_simple-1.1.jar

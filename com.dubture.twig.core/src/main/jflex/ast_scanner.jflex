@@ -173,6 +173,6 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     return fullSymbol(ParserConstants.T_CONSTANT_ENCAPSED_STRING);
 }
 
-/* No token was found for the input so through an error.  Print out an
-   Illegal character message with the illegal character that was found. */
-ANY_CHAR                { throw new Error("Illegal character <"+yytext()+">"); }
+<ST_TWIG_BLOCK, ST_TWIG_VAR, ST_TWIG_BLOCK_NAME, YYINITIAL> {ANY_CHAR} {
+	// do nothing
+}
