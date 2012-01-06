@@ -3,26 +3,25 @@ package com.dubture.twig.core.parser.ast.node;
 import java.util.List;
 
 import org.eclipse.dltk.ast.ASTVisitor;
-import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
 
 public class BlockStatement extends Statement
 {
 
     protected final String name;
-    private final List<Object> expressions;
+    private final List<Statement> expressions;
 
-    public BlockStatement(int startIndex, int stopIndex, String name, List<Object> expressions)
+    public BlockStatement(int startIndex, int stopIndex, String name, List<Statement> statements)
     {
         super(startIndex, stopIndex);
         this.name = name;
-        this.expressions = expressions;
+        this.expressions = statements;
         
-        System.err.println("creating block statement '" + name +  "' with " + expressions.size() + " children:");
-//        
-//        for (Object expr : expressions) {
-//            System.err.println(expr.getClass());
-//        }
+        System.err.println("creating block statement '" + name +  "' with " + statements.size() + " children:");
+        
+        for (Object expr : statements) {
+            System.err.println(expr.getClass());
+        }
         
     }
     
@@ -35,8 +34,8 @@ public class BlockStatement extends Statement
         final boolean visit = visitor.visit(this);
         if (visit) {
             if ( expressions != null) {                
-                for (Object exp : expressions) {
-//                    qexp.traverse(visitor);
+                for (Statement exp : expressions) {
+                    exp.traverse(visitor);
                 }                
             }
         }

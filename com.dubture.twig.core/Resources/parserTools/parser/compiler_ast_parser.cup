@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.Variable;
+import com.dubture.twig.core.parser.ast.node.PrintStatement;
 
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
@@ -83,76 +85,98 @@ terminal String T_ENCAPSED_AND_WHITESPACE;
 terminal String T_CONSTANT_ENCAPSED_STRING;
 terminal String T_BLOCK_NAME;
 
-
 non terminal TwigModuleDeclaration module;
 non terminal BlockStatement block;
+non terminal PrintStatement var;
+non terminal List top_statement_list;
+non terminal Statement top_statement;
 non terminal List inner_statement_list;
-non terminal Object inner_statement;
-non terminal Object statement;
+non terminal Statement inner_statement;
+non terminal Statement statement;
 non terminal String  term;
 non terminal String  body;
+
+
+precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
+
    
 /* ----------------------------Grammar Section-------------------- */
    
    
-   module      ::= block:b
-                 {:                 
-                    TwigModuleDeclaration module = parser.getModuleDeclaration();
-                    System.err.println("create module...");
-                    RESULT = module;
-                 :}
-                 | error:e
-                 {: 
-                    System.err.println("error");
-                    RESULT = null;
-                 :}
-                 ;
+	module				::= top_statement_list:sList
+                 		{:                 
+                    		TwigModuleDeclaration module = parser.getModuleDeclaration();
+                    		module.setStatements(sList);
+                    		System.err.println("create module...");
+                    		RESULT = module;
+                 		:}
+		                ;
                  
-   block     ::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name inner_statement_list:inner TWIG_STMT_CLOSE:end
-                 {:
-                    BlockStatement stmt = new BlockStatement(startleft, endright, name, inner);
-                    RESULT = stmt;
-                 :}
-                 ;
+    top_statement_list	::= top_statement_list:sList top_statement:statement
+    					{:
+							if(statement != null) {
+								sList.add(statement);
+							}
+							RESULT = sList;
+						:}						
+						| /* empty */
+						{: 
+							RESULT = new LinkedList();
+						:}
+						;
+												
+	top_statement		::= statement:statement
+						{:
+							RESULT = statement;
+						:}
+						| var:v
+						{:
+							RESULT = v; 
+						:}
+						| block:b
+						{:
+							RESULT = b; 
+						:}						
+						;
+	    					
+	var					::= TWIG_VAR_OPEN:start inner_statement_list:inner TWIG_VAR_CLOSE:end
+						{:
+							PrintStatement stmt = new PrintStatement(startleft, endright, inner);
+							RESULT = stmt;
+						:}
+						;
+	                 
+	block     			::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name inner_statement_list:inner TWIG_STMT_CLOSE:end
+		                {:
+		                	BlockStatement stmt = new BlockStatement(startleft, endright, name, inner);
+		                    RESULT = stmt;
+		                :}
+		                ;
                  
-    inner_statement_list ::=
-    inner_statement_list:statementList inner_statement:statement
-    {:
-        // Ignore null statements
-        if(statement != null) {
-            statementList.add(statement);
-        }
-        RESULT = statementList;
-    :}
-    
-    | /* empty */
-    {: 
-        RESULT = new LinkedList(); 
-    :}
-    ;                                 
+    inner_statement_list ::= inner_statement_list:statementList inner_statement:statement
+					    {:
+							// Ignore null statements
+							if(statement != null) {
+							    statementList.add(statement);
+							}
+							RESULT = statementList;
+					    :}    
+					    | /* empty */
+					    {: 
+					        RESULT = new LinkedList(); 
+					    :}
+					    ;                                 
                 
-    inner_statement ::=
-    statement:statement
-    {: 
-        RESULT = statement; 
-    :}
-    ;
+    inner_statement 	::=statement:statement
+					    {: 
+					        RESULT = statement; 
+					    :}
+					    ;
     
     
-    statement ::=
-    T_VARIABLE:statement
-    {: 
-        RESULT = statement; 
-    :}
-    | NUMBER:n
-    {:
-        RESULT = n;
-    :}
-    ;    
-                
-   term      ::= NUMBER:n
-                 {: RESULT = n; :}
-                 |
-                 T_VARIABLE:var
-                 {: RESULT = var; :}
-                 ;
+    statement			::= T_VARIABLE:stmt
+					    {: 
+					        RESULT = new Variable(stmtleft, stmtright, stmt); 
+					    :}
+					    ;
+    

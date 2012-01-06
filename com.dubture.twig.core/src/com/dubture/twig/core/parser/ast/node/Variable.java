@@ -2,14 +2,14 @@ package com.dubture.twig.core.parser.ast.node;
 
 import org.eclipse.dltk.ast.expressions.Literal;
 
-public class IdentNode extends Literal
+public class Variable extends Literal
 {
 
-    public IdentNode(int startIndex, int stopIndex, String string)
+    public Variable(int startIndex, int stopIndex, String string)
     {
         super(startIndex, stopIndex);
         fLiteralValue = string;
-//        System.err.println("ident node: " + string);
+        System.err.println("creating variable AST node: " + string);
     }
 
     @Override
@@ -26,11 +26,11 @@ public class IdentNode extends Literal
     @Override
     public boolean equals(Object obj)
     {
-        if (!(obj instanceof IdentNode)) {
+        if (!(obj instanceof Variable)) {
             return false;
         }
 
-        IdentNode other = (IdentNode) obj;
+        Variable other = (Variable) obj;
 
         return other.start() == start() && other.end() == end()
                 && other.getValue() == getValue();

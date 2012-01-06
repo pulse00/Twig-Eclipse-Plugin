@@ -88,7 +88,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
       
 <YYINITIAL> (  ( [^{] | "{" [^?%s{] )+  ) |" {s" | "{" {
     System.err.println("raw content");
-    return symbol(ParserConstants.T_RAW);
+    //return symbol(ParserConstants.T_RAW);
 }
    
 <YYINITIAL> {
@@ -96,6 +96,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     {TWIG_VAR_OPEN}  {
         System.err.println("twig open var"); 
         yybegin(ST_TWIG_VAR);
+        return symbol(ParserConstants.TWIG_VAR_OPEN);
     }
     
     
@@ -149,6 +150,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     {TWIG_VAR_CLOSE}  { 
         System.err.println("twig close"); 
         yybegin(YYINITIAL);
+        return symbol(ParserConstants.TWIG_VAR_CLOSE);
     }
     
     {LABEL} {
