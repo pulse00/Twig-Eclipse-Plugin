@@ -41,5 +41,5 @@ Export-Package: com.dubture.twig.core,
 Bundle-Vendor: https://github.com/pulse00
 Import-Package: com.dubture.twig.core.model
 Bundle-ClassPath: .,
- json-simple-1.1.jar,
- java-cup-0.11a.jar
+ lib/java-cup-11a.jar,
+ lib/json_simple-1.1.jar
