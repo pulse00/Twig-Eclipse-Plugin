@@ -3,11 +3,13 @@
 package com.dubture.twig.core.parser.ast;
    
 import java.util.LinkedList;
+import java.util.List;
 
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 
 import org.eclipse.dltk.ast.expressions.Expression;
+import org.eclipse.dltk.ast.statements.Statement;
 
 
 
@@ -84,33 +86,73 @@ terminal String T_BLOCK_NAME;
 
 non terminal TwigModuleDeclaration module;
 non terminal BlockStatement block;
+non terminal List inner_statement_list;
+non terminal Object inner_statement;
+non terminal Object statement;
 non terminal String  term;
 non terminal String  body;
    
 /* ----------------------------Grammar Section-------------------- */
    
    
-   module      ::= block:t
+   module      ::= block:b
                  {:                 
                     TwigModuleDeclaration module = parser.getModuleDeclaration();
                     System.err.println("create module...");
                     RESULT = module;
                  :}
+                 | error:e
+                 {: 
+                    System.err.println("error");
+                    RESULT = null;
+                 :}
                  ;
                  
-   block     ::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name body:b TWIG_STMT_CLOSE:end
+   block     ::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name inner_statement_list:inner TWIG_STMT_CLOSE:end
                  {:
-                    BlockStatement stmt = new BlockStatement(startleft, endright, name, new LinkedList<Expression>());
+                    BlockStatement stmt = new BlockStatement(startleft, endright, name, inner);
                     RESULT = stmt;
                  :}
                  ;
-                
-   body      ::= term
-                 ;
+                 
+    inner_statement_list ::=
+    inner_statement_list:statementList inner_statement:statement
+    {:
+        // Ignore null statements
+        if(statement != null) {
+            statementList.add(statement);
+        }
+        RESULT = statementList;
+    :}
     
+    | /* empty */
+    {: 
+        RESULT = new LinkedList(); 
+    :}
+    ;                                 
+                
+    inner_statement ::=
+    statement:statement
+    {: 
+        RESULT = statement; 
+    :}
+    ;
+    
+    
+    statement ::=
+    T_VARIABLE:statement
+    {: 
+        RESULT = statement; 
+    :}
+    | NUMBER:n
+    {:
+        RESULT = n;
+    :}
+    ;    
+                
    term      ::= NUMBER:n
                  {: RESULT = n; :}
                  |
-                 ID:i
-                 {: RESULT = i; :}
+                 T_VARIABLE:var
+                 {: RESULT = var; :}
                  ;

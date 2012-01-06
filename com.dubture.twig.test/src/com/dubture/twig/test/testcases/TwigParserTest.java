@@ -10,6 +10,7 @@ package com.dubture.twig.test.testcases;
 
 import java.io.StringReader;
 
+import java_cup.runtime.Symbol;
 import junit.framework.TestCase;
 
 import org.junit.After;
@@ -39,11 +40,13 @@ public class TwigParserTest extends TestCase
     {        
         try {
 
-            CompilerAstLexer lexer = new CompilerAstLexer(new StringReader("{%  %}"));
+            CompilerAstLexer lexer = new CompilerAstLexer(new StringReader("{% fooasdf bar %}"));
             TwigAstParser parser = new TwigAstParser(lexer);
-            parser.parse();
-                        
+            Symbol moduleDeclaration = parser.parse();
+            System.err.println(moduleDeclaration);
+            
         } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
     }

@@ -10,9 +10,9 @@ public class BlockStatement extends Statement
 {
 
     protected final String name;
-    private final List<Expression> expressions;
+    private final List<Object> expressions;
 
-    public BlockStatement(int startIndex, int stopIndex, String name, List<Expression> expressions)
+    public BlockStatement(int startIndex, int stopIndex, String name, List<Object> expressions)
     {
         super(startIndex, stopIndex);
         this.name = name;
@@ -20,9 +20,9 @@ public class BlockStatement extends Statement
         
         System.err.println("creating block statement '" + name +  "' with " + expressions.size() + " children:");
 //        
-        for (Expression expr : expressions) {
-            System.err.println(expr.getClass());
-        }
+//        for (Object expr : expressions) {
+//            System.err.println(expr.getClass());
+//        }
         
     }
     
@@ -35,8 +35,8 @@ public class BlockStatement extends Statement
         final boolean visit = visitor.visit(this);
         if (visit) {
             if ( expressions != null) {                
-                for (Expression exp : expressions) {
-                    exp.traverse(visitor);
+                for (Object exp : expressions) {
+//                    qexp.traverse(visitor);
                 }                
             }
         }

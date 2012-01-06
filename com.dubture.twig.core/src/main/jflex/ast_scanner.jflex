@@ -113,15 +113,8 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 <ST_TWIG_BLOCK_NAME> {
 
     {LABEL} {
-        System.err.println("label in block name");
         yybegin(ST_TWIG_BLOCK);
         return fullSymbol(ParserConstants.T_BLOCK_NAME);
-    }
-    
-    {TWIG_STMT_CLOSE}  { 
-        System.err.println("twig close"); 
-        yybegin(YYINITIAL);
-        return symbol(ParserConstants.TWIG_STMT_CLOSE);
     }
     
     /* Don't do anything if whitespace is found */
