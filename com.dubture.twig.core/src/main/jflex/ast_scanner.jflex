@@ -163,6 +163,12 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     }
 
 }
+<ST_TWIG_BLOCK, ST_TWIG_VAR> {
+
+	"("					{ return symbol(ParserConstants.T_OPEN_PARENTHESE); }
+	")"					{ return symbol(ParserConstants.T_CLOSE_PARENTHESE); }
+}
+
 
 /* double quoted string */
 <ST_TWIG_BLOCK, ST_TWIG_VAR>(b?[\"]{DOUBLE_QUOTES_CHARS}*[\"]) {
