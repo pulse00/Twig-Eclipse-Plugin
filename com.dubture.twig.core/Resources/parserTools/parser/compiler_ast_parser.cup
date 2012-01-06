@@ -74,19 +74,14 @@ parser code {:
 :};
    
 
-terminal        T_RAW;
-terminal        T_QUATE,T_BACKQUATE;
 terminal        TWIG_VAR_OPEN;
 terminal        TWIG_VAR_CLOSE;
 terminal        TWIG_STMT_OPEN;
 terminal        TWIG_STMT_CLOSE;
 terminal		T_OPEN_PARENTHESE;
 terminal		T_CLOSE_PARENTHESE;
-terminal		T_DOT;
 
-terminal String NUMBER, ID;
 terminal String T_VARIABLE;
-terminal String T_ENCAPSED_AND_WHITESPACE;
 terminal String T_CONSTANT_ENCAPSED_STRING;
 terminal String T_BLOCK_NAME;
 
