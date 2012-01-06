@@ -59,7 +59,7 @@ parser code {:
    
         /* Print the contents of the StringBuffer 'm', which contains
            an error message, out on a line. */
-        System.err.println(m + " tralala");
+        System.err.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal
@@ -106,7 +106,6 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
                  		{:                 
                     		TwigModuleDeclaration module = parser.getModuleDeclaration();
                     		module.setStatements(sList);
-                    		System.err.println("create module...");
                     		RESULT = module;
                  		:}
 		                ;

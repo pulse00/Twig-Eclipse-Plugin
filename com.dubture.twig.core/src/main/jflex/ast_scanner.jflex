@@ -43,7 +43,6 @@ import java_cup.sym;
 
         Symbol symbol = symbol(type);
         symbol.value = yytext();
-        System.err.println("creating full symbol " + type + " " + symbol.value);
         return symbol;    
     }
     
@@ -88,21 +87,18 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 /* ------------------------Lexical Rules Section---------------------- */
       
 <YYINITIAL> (  ( [^{] | "{" [^?%s{] )+  ) |" {s" | "{" {
-    System.err.println("raw content");
-    //return symbol(ParserConstants.T_RAW);
+// raw content
 }
    
 <YYINITIAL> {
    
-    {TWIG_VAR_OPEN}  {
-        System.err.println("twig open var"); 
+    {TWIG_VAR_OPEN}  { 
         yybegin(ST_TWIG_VAR);
         return symbol(ParserConstants.TWIG_VAR_OPEN);
     }
     
     
-    {TWIG_STMT_OPEN}  {
-        System.err.println("twig open block"); 
+    {TWIG_STMT_OPEN}  { 
         yybegin(ST_TWIG_BLOCK_NAME);
         return symbol(ParserConstants.TWIG_STMT_OPEN);
     }
@@ -127,8 +123,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 /* inside block tags {% %} */
 <ST_TWIG_BLOCK> {
 
-    {TWIG_STMT_CLOSE}  { 
-        System.err.println("twig close"); 
+    {TWIG_STMT_CLOSE}  {  
         yybegin(YYINITIAL);
         return symbol(ParserConstants.TWIG_STMT_CLOSE);
     }
@@ -138,18 +133,16 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     }   
     
     {WHITESPACE} { 
-        System.err.println("ws in stmt"); /* just skip what was found, do nothing */ 
+ 
     }
     
-    /* sc are allowed in block tags */
     "," { }
 }
 
 /* inside VAR tags {{ }} */
 <ST_TWIG_VAR> {
 
-    {TWIG_VAR_CLOSE}  { 
-        System.err.println("twig close"); 
+    {TWIG_VAR_CLOSE}  {  
         yybegin(YYINITIAL);
         return symbol(ParserConstants.TWIG_VAR_CLOSE);
     }
@@ -159,7 +152,7 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
     }
     
     {WHITESPACE} { 
-        System.err.println("ws in print"); /* just skip what was found, do nothing */ 
+     
     }
 
 }
