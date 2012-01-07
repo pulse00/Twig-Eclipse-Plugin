@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.TwigTokenizer;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
 
 /**
@@ -203,6 +204,40 @@ public class TokenizerTest extends TestCase
             for (String region : regions) {
                 assertEquals(region, textRegions.get(i++).getType());
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    
+    @Test
+    public void testStringInterpolation() 
+    {
+
+        try {
+
+            tokens = "{{ \"foo #{ baz } \" }}";
+            tokenizer = new TwigTokenizer(tokens.toCharArray());
+            textRegions = new Stack<ITextRegion>();
+            assertTrue(textRegions.size() == 0);
+
+            while (!tokenizer.isEOF()) {
+                ITextRegion region = tokenizer.getNextToken();
+                textRegions.push(region);
+            }
+            
+            assertEquals(3, textRegions.size());            
+            assertEquals(TwigRegionContext.TWIG_OPEN, textRegions.get(0).getType());
+            assertEquals(TwigRegionContext.TWIG_CONTENT, textRegions.get(1).getType());
+            assertEquals(TwigRegionContext.TWIG_CLOSE, textRegions.get(2).getType());
+            
+            TwigScriptRegion region = (TwigScriptRegion) textRegions.get(1);
+            assertNotNull(region);
+            assertEquals(10, region.getTokenCount());
+            assertEquals(TwigRegionContext.TWIG_INTERPOLATION_START, region.getTwigToken(7).getType());
+            assertEquals(TwigRegionContext.TWIG_LABEL, region.getTwigToken(9).getType());
 
         } catch (Exception e) {
             e.printStackTrace();
