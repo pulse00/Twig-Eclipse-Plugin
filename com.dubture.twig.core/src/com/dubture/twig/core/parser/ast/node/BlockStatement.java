@@ -43,21 +43,22 @@ public class BlockStatement extends Statement
         visitor.endvisit(this);
     }
     
-    public String getBlockName()
+    /**
+     * Get the BlockName variable: {% block NAME %}
+     * 
+     * @return the first block variable or null if none available
+     */
+    public Variable getBlockName()
     {
-        if (statements != null && statements.size() > 0) {
-            
+        if (statements != null && statements.size() > 0) {            
             Statement statement = statements.get(0);
             
             if (statement instanceof Variable) {
-                Variable var = (Variable) statement;
-                
-                return var.getValue();
+                return (Variable) statement;
             }            
         }        
         
-        return "";
-        
+        return null;        
     }
     
     

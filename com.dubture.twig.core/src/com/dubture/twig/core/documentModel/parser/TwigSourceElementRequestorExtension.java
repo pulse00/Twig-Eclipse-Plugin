@@ -9,8 +9,11 @@
 package com.dubture.twig.core.documentModel.parser;
 
 import java.io.StringReader;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
+import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.compiler.IElementRequestor;
 import org.eclipse.dltk.compiler.IElementRequestor.MethodInfo;
 import org.eclipse.dltk.compiler.env.IModuleSource;
@@ -19,6 +22,7 @@ import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 
 /**
@@ -61,37 +65,67 @@ public class TwigSourceElementRequestorExtension extends
              requestor = getRequestor();
              requestor.enterModule();
              
-             ModuleDeclaration decl = SourceParserUtil.parseSourceModule(new StringReader(source));
+             final ModuleDeclaration decl = SourceParserUtil.parseSourceModule(new StringReader(source));
              
              decl.traverse(new TwigASTVisitor()
-             {
-                 
+             {                 
                 @Override                
                 public boolean visit(BlockStatement block) throws Exception
                 {
                     if ("block".equals(block.getName())) {
-                        MethodInfo info = new MethodInfo();                        
-                        info.nameSourceStart = block.sourceStart();
-                        info.nameSourceEnd = block.sourceEnd();
                         
-                        System.err.println("block start " + block.sourceStart());
-                        info.name = block.getName() + " (" + block.getBlockName() + ")";                    
-                        requestor.enterMethod(info);                        
-                    }
-                    
+                        Variable name = block.getBlockName();
+                        
+                        if (name == null) {
+                            return false;                            
+                        }
+                        
+                        int openCount = 0;
+                        int closeCount = 0;
+
+                        for (Object stmt : decl.getStatements()) {
+                            
+                            if (stmt instanceof BlockStatement) {                                
+                                BlockStatement bstmt = (BlockStatement) stmt;                                
+                                if (bstmt.sourceStart() <= block.sourceStart()) {
+                                    continue;
+                                }                                
+                                Variable bName = bstmt.getBlockName();                                
+                                if (bName == null) {
+                                    closeCount++;
+                                } else {
+                                    openCount++;
+                                }
+                            }                            
+                        }
+                        
+                        MethodInfo info = new MethodInfo();                        
+                        info.nameSourceStart = name.sourceStart();
+                        info.nameSourceEnd = name.sourceEnd() - 1;
+                        info.declarationStart = block.sourceStart();
+
+                        info.name = block.getName() + " " + name.getValue() ;                    
+                        requestor.enterMethod(info);
+                     
+                        // if after the current block tag we have an equal amount
+                        // of opening and closing tags it means that the current
+                        // block tag has no closing tag.
+                        if (openCount == closeCount) {                                                        
+                            requestor.exitMethod(block.sourceEnd());
+                            return false;
+                        }
+                    }                    
                     return false;
                 }
                 
                 @Override
                 public boolean endvisit(BlockStatement block) throws Exception
                 {
-                    if ("endblock".equals(block.getName())) {                        
+                    if ("endblock".equals(block.getName())) {
                         requestor.exitMethod(block.sourceStart());
-                    }
-                    
+                    }                    
                     return false;
-                }
-                
+                }                
             });
                         
              requestor.exitModule(0);
