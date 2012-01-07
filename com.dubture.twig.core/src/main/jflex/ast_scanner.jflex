@@ -59,19 +59,23 @@ TWIG_VAR_CLOSE = "}}"
 TWIG_STMT_OPEN = "{%"
 TWIG_STMT_CLOSE = "%}"
 
+LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
+WHITESPACE=[ \n\r\t]+
+
+ANY_CHAR=[^]
+DOUBLE_QUOTES_CHARS=(([^\"\\]|("\\"{ANY_CHAR})))
+
+/* 
+
 LNUM=[0-9]+
 DNUM=([0-9]*"."[0-9]+)|([0-9]+"."[0-9]*)
 EXPONENT_DNUM=(({LNUM}|{DNUM})[eE][+-]?{LNUM})
 HNUM="0x"[0-9a-fA-F]+
-LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
-WHITESPACE=[ \n\r\t]+
-TABS_AND_SPACES=[ \t]*
-ANY_CHAR=[^]
+TABS_AND_SPACES=[ \t]* 
+BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 NEWLINE=("\r"|"\n"|"\r\n")
 
-
-DOUBLE_QUOTES_CHARS=(([^\"\\]|("\\"{ANY_CHAR})))
-BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
+*/
 
 
 /* lexical states */
@@ -87,7 +91,8 @@ BACKQUOTE_CHARS=(([^`\\]|("\\"{ANY_CHAR})))
 /* ------------------------Lexical Rules Section---------------------- */
       
 <YYINITIAL> (  ( [^{] | "{" [^?%s{] )+  ) |" {s" | "{" {
-// raw content
+	// raw content
+	return symbol(ParserConstants.T_INLINE_HTML);
 }
    
 <YYINITIAL> {

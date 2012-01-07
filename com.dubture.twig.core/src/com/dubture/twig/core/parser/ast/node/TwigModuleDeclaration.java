@@ -13,6 +13,7 @@ public class TwigModuleDeclaration extends ModuleDeclaration
         super(length);
         
         for (Statement statement : statements) {
+            System.err.println("--- adding statement " + statement.getClass());
             addStatement(statement);
         }
     }

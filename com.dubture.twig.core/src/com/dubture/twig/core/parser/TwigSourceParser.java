@@ -30,6 +30,7 @@ import com.dubture.twig.core.parser.ast.visitor.SourceParserVisitor;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
+@SuppressWarnings("restriction")
 public class TwigSourceParser extends AbstractPHPSourceParser implements
         ISourceParser
 {
@@ -55,12 +56,10 @@ public class TwigSourceParser extends AbstractPHPSourceParser implements
     {
         try {
             
-            
-
             TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(in);
             
             if (module != null) {
-                module.traverse(new SourceParserVisitor(reporter));    
+                module.traverse(new SourceParserVisitor(reporter));
             }            
 
             return module;

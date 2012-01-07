@@ -11,6 +11,7 @@ import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
+import com.dubture.twig.core.parser.ast.node.InLineHtml;
 
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
@@ -80,6 +81,7 @@ terminal        TWIG_STMT_OPEN;
 terminal        TWIG_STMT_CLOSE;
 terminal		T_OPEN_PARENTHESE;
 terminal		T_CLOSE_PARENTHESE;
+terminal		T_INLINE_HTML;
 
 terminal String T_VARIABLE;
 terminal String T_CONSTANT_ENCAPSED_STRING;
@@ -188,6 +190,10 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
 					    | T_CONSTANT_ENCAPSED_STRING:string
 					    {:
 					    	RESULT = new StringLiteral(stringleft, stringright, string);
+					    :}
+					    | T_INLINE_HTML:html
+					    {:
+					    	RESULT = new InLineHtml(htmlleft, htmlright);
 					    :}
 					    ;
     
