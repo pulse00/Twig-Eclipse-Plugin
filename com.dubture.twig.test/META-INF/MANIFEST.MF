@@ -7,8 +7,5 @@ Fragment-Host: com.dubture.twig.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit4,
  org.eclipse.ui
-Bundle-ClassPath: .,
- java-cup-0.11a.jar,
- antlr-runtime-3.4.jar,
- json_simple-1.1.jar,
- junit.jar
+Bundle-ClassPath: .
+Import-Package: java_cup.runtime

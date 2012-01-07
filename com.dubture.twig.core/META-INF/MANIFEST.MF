@@ -16,8 +16,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.dltk.core;bundle-version="4.0.0",
  org.eclipse.dltk.ui,
  org.eclipse.php.ui,
- com.dubture.twig.core.json,
- org.eclipse.php.core.parser
+ org.eclipse.php.core.parser,
+ com.dubture.twig.core.json
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.dubture.twig.core,
