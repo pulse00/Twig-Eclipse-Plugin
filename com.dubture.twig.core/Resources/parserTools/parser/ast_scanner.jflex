@@ -10,33 +10,42 @@ import java_cup.sym;
 /* -----------------Options and Declarations Section----------------- */
    
 %class TwigAstLexer
-
-/*
-  The current line number can be accessed with the variable yyline
-  and the current column number with the variable yycolumn.
-*/
+%public
+%unicode
 %line
-%column
     
 /* Will switch to a CUP compatibility mode to interface with a CUP generated parser */
 %cup
+
+%caseless
+
+%standalone
+
 
 /* %debug */
 
 /* make the lexer public */
 
-%public
+
    
 /* Declarations */
 
 %{   
        
-    private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
+    protected int getTokenStartPosition() {
+        return yy_startRead - yy_pushbackPos;
     }
     
-    private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
+    protected int getTokenLength() {
+        return yy_markedPos - yy_startRead;
+    }
+
+    
+       
+    private Symbol symbol(int type) {
+    
+		int leftPosition = getTokenStartPosition();    
+        return new Symbol(type, leftPosition, leftPosition + getTokenLength());
     }
     
     private Symbol fullSymbol(int type) {
@@ -47,7 +56,7 @@ import java_cup.sym;
     }
     
     public boolean isEOF() {
-        return zzAtEOF;
+        return yy_atEOF;
     }
 %}
 
@@ -62,7 +71,7 @@ TWIG_STMT_CLOSE = "%}"
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 WHITESPACE=[ \n\r\t]+
 
-ANY_CHAR=[^]
+ANY_CHAR=[.]
 DOUBLE_QUOTES_CHARS=(([^\"\\]|("\\"{ANY_CHAR})))
 
 /* 

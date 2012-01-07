@@ -17,21 +17,20 @@ public class ContentDescriber implements ITextContentDescriber
     public int describe(InputStream contents, IContentDescription description)
             throws IOException
     {
-
-        System.err.println("descript content");
-        BufferedInputStream bis = new BufferedInputStream(contents);
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        int result = bis.read();
-        while(result != -1) {
-          byte b = (byte)result;
-          buf.write(b);
-          result = bis.read();
-        }        
-        
-        if ( buf.toString().indexOf("{{") >= 0) {
-            
-            return VALID;
-        }
+//
+//        BufferedInputStream bis = new BufferedInputStream(contents);
+//        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+//        int result = bis.read();
+//        while(result != -1) {
+//          byte b = (byte)result;
+//          buf.write(b);
+//          result = bis.read();
+//        }        
+//        
+//        if ( buf.toString().indexOf("{{") >= 0) {
+//            
+//            return VALID;
+//        }
 
         return INDETERMINATE;
         
@@ -40,7 +39,6 @@ public class ContentDescriber implements ITextContentDescriber
     @Override
     public QualifiedName[] getSupportedOptions()
     {
-        System.err.println("getsupportedoptions");
         return null;
     }
 
@@ -49,7 +47,6 @@ public class ContentDescriber implements ITextContentDescriber
             throws IOException
     {
 
-        System.err.println("describe 2");
         return 0;
     }
 

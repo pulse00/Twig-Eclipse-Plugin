@@ -16,72 +16,75 @@
 	<build>
 		<plugins>
 
-			<!-- run the jflex compiler -->
-			<plugin>
-				<groupId>de.jflex</groupId>
-				<artifactId>maven-jflex-plugin</artifactId>
-				<version>1.4.3</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src</outputDirectory>
-							<!-- <lexDefintions> <lexFile>${project.basedir}/Resources/parserTools/parser/ast_scanner.jflex</lexFile> 
-								</lexDefintions> -->
-							<verbose>false</verbose>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.5</version>
 				<executions>
+
 					<execution>
+						<id>generate-lexer</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
+
+						<configuration>
+							<target name="generateTokenizer">
+								<property name="runtime_classpath" refid="maven.runtime.classpath" />
+
+								<property name="destination"
+									value="${project.basedir}/src/com/dubture/twig/core/parser/ast" />
+
+								<java classpath="JFlex.jar" classname="JFlex.Main">
+									<classpath>
+										<pathelement
+											path="${basedir}/Resources/parserTools/lib/JFlex.jar" />
+										<pathelement path="${runtime_classpath}" />
+									</classpath>
+									<arg
+										value="${basedir}/Resources/parserTools/parser/ast_scanner.jflex" />
+								</java>
+								<move
+									file="${basedir}/Resources/parserTools/parser/TwigAstLexer.java"
+									todir="${destination}" />
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>generate-parser</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+
+						<configuration>
+							<target>
+								<property name="runtime_classpath" refid="maven.runtime.classpath" />
+
+								<java classname="java_cup.Main" fork="true" failonerror="true"
+									maxmemory="512m">
+									<classpath>
+										<pathelement
+											path="${basedir}/Resources/parserTools/lib/java-cup-10k.jar" />
+										<pathelement path="${runtime_classpath}" />
+									</classpath>
+									<arg value="-compact_red" />
+									<arg value="-parser" />
+									<arg value="TwigAstParser" />
+									<arg value="-symbols" />
+									<arg value="ParserConstants" />
+									<arg value="-interface" />
+
+									<arg
+										value="${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup" />
+								</java>
+							</target>
+						</configuration>
 					</execution>
 				</executions>
-
-				<configuration>
-					<target>
-						<property name="runtime_classpath" refid="maven.runtime.classpath" />
-
-						<java classname="java_cup.Main" fork="true" failonerror="true"
-							maxmemory="512m">
-							<classpath>
-								<pathelement path="${basedir}/java-cup-10k.jar" />
-								<pathelement path="${runtime_classpath}" />
-							</classpath>
-							<arg value="-parser" />
-							<arg value="TwigAstParser" />
-							<arg value="-symbols" />
-							<arg value="ParserConstants" />
-
-							<arg
-								value="${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup" />
-						</java>
-					</target>
-				</configuration>
 			</plugin>
-
-
-
-			<!-- run java cup to generate the parser -->
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId> 
-				<version>1.2.1</version> <executions> <execution> <phase>generate-sources</phase> 
-				<goals> <goal>java</goal> </goals> </execution> </executions> <configuration> 
-				<mainClass>java_cup.Main</mainClass> <arguments> <argument>-parser</argument> 
-				<argument>TwigAstParser</argument> <argument>-symbols</argument> <argument>ParserConstants</argument> 
-				<argument>${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup</argument> 
-				</arguments> </configuration> </plugin> -->
 
 			<!-- copy the cup parser to the source directory -->
 			<plugin>
@@ -115,7 +118,17 @@
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.4.1</version>
-				<configuration>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>generate-sources</phase>						
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+				
+				<configuration>				
 					<filesets>
 						<fileset>
 							<directory>${project.basedir}</directory>
@@ -127,7 +140,6 @@
 					</filesets>
 				</configuration>
 			</plugin>
-
 
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>

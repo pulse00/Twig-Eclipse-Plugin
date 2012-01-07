@@ -9,7 +9,7 @@ public class Variable extends Literal
     {
         super(startIndex, stopIndex);
         fLiteralValue = string;
-        System.err.println("creating variable AST node: " + string);
+//        System.err.println("creating variable AST node: " + string);
     }
 
     @Override

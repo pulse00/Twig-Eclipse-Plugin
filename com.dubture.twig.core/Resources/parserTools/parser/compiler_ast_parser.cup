@@ -18,6 +18,8 @@ import org.eclipse.dltk.ast.statements.Statement;
 
 
 
+
+
 /* Parser code to change the way the parser reports errors (include
    line and column number of the error). */
 parser code {:

@@ -14,7 +14,6 @@ public class SourceParserUtil
             throws IOException
     {
 
-        System.err.println("parse source");
         CompilerAstLexer lexer = new CompilerAstLexer(in);
         TwigAstParser parser = new TwigAstParser(lexer);
 

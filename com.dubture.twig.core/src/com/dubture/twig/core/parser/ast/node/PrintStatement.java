@@ -13,15 +13,15 @@ public class PrintStatement extends Statement
     public PrintStatement(int start, int end, List<Expression> expressions)
     {
         this.expressions = expressions;
-        System.err.println("print with " + expressions.size() + " expressions");
+//        System.err.println("print with " + expressions.size() + " expressions");
         
         for (Expression expression : expressions) {
             
-            System.err.println(expression.getClass());
+//            System.err.println(expression.getClass());
             if (expression instanceof Variable) {
                 
                 Variable var = (Variable) expression;
-                System.err.println(var.getValue());
+//                System.err.println(var.getValue());
             }
         }
     }

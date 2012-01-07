@@ -17,17 +17,17 @@ public class BlockStatement extends Statement
         this.name = name;
         this.statements = statements;
         
-        System.err.println("creating block statement '" + name +  "' with " + statements.size() + " children:");
-        
-        for (Object expr : statements) {
-            System.err.println(expr.getClass());
-        }
+//        System.err.println("creating block statement '" + name +  "' with " + statements.size() + " children:");
+//        
+//        for (Object expr : statements) {
+//            System.err.println(expr.getClass());
+//        }
         
     }
     
     public String getName() 
     {        
-        System.err.println("+++ name is " + name);
+//        System.err.println("+++ name is " + name);
         return name; 
     }
     
