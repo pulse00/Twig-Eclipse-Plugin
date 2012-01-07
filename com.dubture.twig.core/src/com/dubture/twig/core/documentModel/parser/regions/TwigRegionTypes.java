@@ -42,6 +42,11 @@ public interface TwigRegionTypes
     public static final String TWIG_HASH_START = "TWIG_HASH_START"; //$NON-NLS-1$
     public static final String TWIG_HASH_END = "TWIG_HASH_END"; //$NON-NLS-1$	
 
+    public static final String TWIG_INTERPOLATION_START = "TWIG_INTERPOLATION_START"; //$NON-NLS-1$
+    public static final String TWIG_INTERPOLATION_END = "TWIG_INTERPOLATION_END"; //$NON-NLS-1$   
+    
+    
+
     static final String PHP_KEYWORD = "PHP_KEYWORD"; //$NON-NLS-1$
 
     static final String PHP_OBJECT_OPERATOR = "PHP_OBJECT_OPERATOR"; //$//$NON-NLS-N$

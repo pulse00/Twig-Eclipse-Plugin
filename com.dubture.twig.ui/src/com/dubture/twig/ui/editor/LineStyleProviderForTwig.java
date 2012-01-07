@@ -76,9 +76,13 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
         fTwigColorTypes.put(TwigRegionContext.TWIG_KEYWORD,
                 PreferenceConstants.EDITOR_KEYWORD_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_HASH_START,
-                PreferenceConstants.EDITOR_JSON_COLOR);
+                PreferenceConstants.EDITOR_HASH_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_HASH_END,
-                PreferenceConstants.EDITOR_JSON_COLOR);
+                PreferenceConstants.EDITOR_HASH_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_INTERPOLATION_START,
+                PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_INTERPOLATION_END,
+                PreferenceConstants.EDITOR_INTERPOLATION_COLOR);        
         fTwigColorTypes.put(TwigRegionContext.TWIG_DELIMITER,
                 PreferenceConstants.EDITOR_COMMENT_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_WHITESPACE,
@@ -468,7 +472,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
         addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_COMMENT_COLOR);
-        addTextAttribute(PreferenceConstants.EDITOR_JSON_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_HASH_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_LINE_COMMENT_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COMMENT_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_PHPDOC_COLOR);

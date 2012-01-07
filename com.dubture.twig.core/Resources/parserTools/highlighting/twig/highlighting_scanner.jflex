@@ -33,7 +33,7 @@ import com.dubture.twig.core.util.Debug;
 %state ST_TWIG_HIGHLIGHTING_ERROR
 %state ST_TWIG_COMMENT
 %state ST_TWIG_HASH
-
+%state ST_TWIG_INTERPOLATION
 
 %{
 
@@ -125,6 +125,8 @@ LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"is"|"defined"|"and"|"with"|"or"|"only"
 
+ANY_CHAR=[^]
+DOUBLE_QUOTES_CHARS=("{"*([^#\"\\{]|("\\"{ANY_CHAR})))
 TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
@@ -136,7 +138,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {KEYWORD} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -176,7 +178,7 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {LABEL} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG LABEL");
@@ -184,7 +186,7 @@ NUMBER=([0-9])+
 	return TWIG_LABEL;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {NUMBER} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {NUMBER} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG NUMBER");
@@ -228,7 +230,7 @@ NUMBER=([0-9])+
 
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {TWIG_WHITESPACE} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG WHITESPACE");
@@ -273,21 +275,21 @@ NUMBER=([0-9])+
 <ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([']([^'\\]|("\\".))*[']) {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG_CONSTANT_ENCAPSED_STRING");
+		dump("TWIG_CONSTANT_ENCAPSED_STRING SINGLE");
 
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([\"]([^\"\\]|("\\".))*[\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>(b?[\"]{DOUBLE_QUOTES_CHARS}*("#"*|"{"*)[\"]) {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG_CONSTANT_ENCAPSED_STRING");
+		dump("TWIG_CONSTANT_ENCAPSED_STRING DOUBLE");
 
     return TWIG_CONSTANT_ENCAPSED_STRING;
 }
 
 // ST_TWIG_DOUBLE_QUOTES // 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([\"]) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>b?[\"] {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES START");
@@ -296,15 +298,23 @@ NUMBER=([0-9])+
     return TWIG_DOUBLE_QUOTES_START;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>([']) {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH>b?['] {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG DOUBLE QUOTES START");
+		dump("TWIG SINGLE QUOTES START");
 
 	pushState(ST_TWIG_SINGLE_QUOTES);
     return TWIG_SINGLE_QUOTES_START;
 }
 
+<ST_TWIG_DOUBLE_QUOTES> "#{" {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG INTERPOLATION START");
+
+	pushState(ST_TWIG_INTERPOLATION);
+	return TWIG_INTERPOLATION_START;
+}
 
 <ST_TWIG_DOUBLE_QUOTES>([\"]) {
 
@@ -318,14 +328,14 @@ NUMBER=([0-9])+
 <ST_TWIG_SINGLE_QUOTES>([']) {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG DOUBLE QUOTES END");
+		dump("TWIG SINGLE QUOTES END");
 
 	popState();
     return TWIG_SINGLE_QUOTES_END;
 }
 
 
-<ST_TWIG_DOUBLE_QUOTES>([^\"])+ {
+<ST_TWIG_DOUBLE_QUOTES>{DOUBLE_QUOTES_CHARS}+ {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DOUBLE QUOTES CONTENT");
@@ -342,11 +352,20 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH> {TOKENS} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TOKENS} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG DELIMITER TOKEN");
 	return TWIG_DELIMITER;
+}
+
+<ST_TWIG_INTERPOLATION> "}"{TWIG_WHITESPACE}? {
+
+	if(Debug.debugTokenizer)
+		dump("TWIG INTERPOLATION END");
+		
+	popState();	
+	return TWIG_INTERPOLATION_END;
 }
 
 /* ============================================
@@ -364,7 +383,7 @@ NUMBER=([0-9])+
    This rule must be the last in the section!!
    it should contain all the states.
    ============================================ */
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES, ST_TWIG_HASH>. {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_COMMENT, ST_TWIG_DOUBLE_QUOTES, ST_TWIG_SINGLE_QUOTES, ST_TWIG_HASH, ST_TWIG_INTERPOLATION>. {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG HIGHLIGHT ERROR");

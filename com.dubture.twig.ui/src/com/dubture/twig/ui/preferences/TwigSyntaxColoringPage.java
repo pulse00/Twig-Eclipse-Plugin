@@ -306,7 +306,8 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
             styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
             styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
-            styles.add(PreferenceConstants.EDITOR_JSON_COLOR);
+            styles.add(PreferenceConstants.EDITOR_HASH_COLOR);
+            styles.add(PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
 
             fStylePreferenceKeys = styles;
         }
@@ -321,7 +322,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                 PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR, "Print tags");
         fStyleToDescriptionMap.put(
                 PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR,
-                "Statement tags");
+                "Block tags");
 
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR,
                 "Label");
@@ -330,8 +331,8 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         fStyleToDescriptionMap
                 .put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR,
                         "Double quotes");
-        fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_JSON_COLOR,
-                "Json");
+        fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_HASH_COLOR,
+                "Hash");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR,
                 "Keyword");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
@@ -340,6 +341,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                 "Number");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_COMMENT_COLOR,
                 "Comment");
+        fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_INTERPOLATION_COLOR,
+                "String Interpolation");
+        
 
     }
 

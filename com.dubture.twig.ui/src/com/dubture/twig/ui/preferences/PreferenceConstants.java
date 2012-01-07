@@ -131,7 +131,7 @@ public class PreferenceConstants
     public static final String EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR = ColorHelper
             .getColorString(0, 130, 130);
 
-    public static final String EDITOR_JSON_DEFAULT_COLOR = ColorHelper
+    public static final String EDITOR_HASH_DEFAULT_COLOR = ColorHelper
             .getColorString(0, 130, 130);
 
     public static final String EDITOR_KEYWORD_DEFAULT_COLOR = ColorHelper
@@ -266,7 +266,9 @@ public class PreferenceConstants
 
     public static final String EDITOR_HEREDOC_COLOR = "editorColorHeredoc"; //$NON-NLS-1$
 
-    public static final String EDITOR_JSON_COLOR = "editorColorJson";
+    public static final String EDITOR_HASH_COLOR = "editorColorJson";
+    
+    public static final String EDITOR_INTERPOLATION_COLOR= "editorColorInterpolation";
 
     /**
      * A named preference that controls whether the 'close braces' feature is
@@ -352,7 +354,8 @@ public class PreferenceConstants
         store.setDefault(EDITOR_LABEL_COLOR, EDITOR_LABEL_DEFAULT_COLOR);
         store.setDefault(EDITOR_VARIABLE_COLOR, EDITOR_VARIABLE_DEFAULT_COLOR);
         store.setDefault(EDITOR_STRING_COLOR, EDITOR_STRING_DEFAULT_COLOR);
-        store.setDefault(EDITOR_JSON_COLOR, EDITOR_JSON_DEFAULT_COLOR);
+        store.setDefault(EDITOR_HASH_COLOR, EDITOR_HASH_DEFAULT_COLOR);
+        store.setDefault(EDITOR_INTERPOLATION_COLOR, EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR);
         store.setDefault(EDITOR_KEYWORD_COLOR, EDITOR_KEYWORD_DEFAULT_COLOR);
         store.setDefault(EDITOR_NUMBER_COLOR, EDITOR_NUMBER_DEFAULT_COLOR);
         store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR,
