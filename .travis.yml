@@ -1,4 +1,4 @@
 script: mvn install
-braches:
+branches:
   only:
     master
