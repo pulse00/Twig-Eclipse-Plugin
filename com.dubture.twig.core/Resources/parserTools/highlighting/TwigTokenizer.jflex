@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2012 Zend Corporation and IBM Corporation.
+ * Copyright (c) 2006 Zend Corporation and IBM Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,6 @@
  *
  * Contributors:
  *   Zend and IBM - Initial implementation
- *   Robert Gruendler <r.gruendler@gmail.com> - Twig additions
  *******************************************************************************/
 /*nlsXXX*/
 package com.dubture.twig.core.documentModel.parser;
@@ -19,19 +18,24 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.php.internal.core.PHPVersion;
+import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
+import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
+import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
+import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
+import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
+import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
+import com.dubture.twig.core.util.Debug;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.Logger;
 import org.eclipse.wst.xml.core.internal.parser.ContextRegionContainer;
 import org.eclipse.wst.xml.core.internal.parser.IntStack;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
-
-import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
-import com.dubture.twig.core.util.Debug;
 
 
 %%
@@ -49,7 +53,7 @@ import com.dubture.twig.core.util.Debug;
 	private int fBufferedStart = 1;
 	private int fBufferedLength = 0;
 	
-	// help for twig container text region
+	// help for php container text region
 	private ContextRegionContainer fBufferedEmbeddedContainer = null;
 	private String f_context = null;
 
@@ -214,7 +218,7 @@ public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
  * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
  * @throws IOException
  */
-private final String doScan(String searchString, boolean allowTWIG, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+private final String doScan(String searchString, boolean allowPHP, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	boolean stillSearching = true;
 	// Disable further block (probably)
 	fIsBlockingEnabled = false;
@@ -236,12 +240,12 @@ private final String doScan(String searchString, boolean allowTWIG, boolean requ
 		else {
 			
 			/**
-			 * Look for starting Twig "{%"
+			 * Look for starting PHPs "{?"
 			 */
-			// Look for a TWIG beginning at the current position; this case wouldn't be handled by the preceding section
+			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
+			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
 					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || (yy_buffer[yy_currentPos] == '%'))) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
@@ -260,7 +264,7 @@ private final String doScan(String searchString, boolean allowTWIG, boolean requ
 			// Look for a JSP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			else if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
+			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
 					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || yy_buffer[yy_currentPos] == '%')) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
@@ -277,7 +281,7 @@ private final String doScan(String searchString, boolean allowTWIG, boolean requ
 			// ---
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
 			// since it relies upon yy_currentPos equaling exactly the previous end +1 to work as designed.
-			else if(allowTWIG && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
+			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
 					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '{' && yy_buffer[yy_startRead + 1] == '{') {
 				fLastInternalBlockStart = yy_markedPos = yy_startRead;
 				yy_currentPos = yy_markedPos + 1;
@@ -354,7 +358,34 @@ private final String doScan(String searchString, boolean allowTWIG, boolean requ
 	return searchContext;
 }
 
+/**
+ * Method doScanEndPhp
+ * 
+ * @see doScan(searchString, req...) 
+ * this version can handle two strings as options to search string
+ * it originally written to support ?> or %> close tags to php
+ * The two strings must be on the same length
+ *
+ * @param isAsp - whether the asp %> close is premited
+ * @param context - the context of the scanned region if non-zero length
+ * @param exitState - the state to go to if the region was of non-zero length
+ * @param abortState - the state to go to if the searchString was found immediately
+ * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
+ * @throws IOException
+ */
 private ITextRegion bufferedTextRegion = null;
+private final String doScanEndPhp(boolean isAsp, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+	yypushback(1); // begin with the last char
+	
+	final AbstractPhpLexer phpLexer = getPhpLexer(); 
+	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, project, phpLexer);
+
+	// restore the locations / states
+	reset(yy_reader, phpLexer.getZZBuffer(), phpLexer.getParamenters());
+	
+	yybegin(exitState);
+	return searchContext;
+}
 
 
 /**
@@ -381,7 +412,7 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 	
 	yypushback(1); // begin with the last char
 	
-	// the twigLexer should read until the last token, so
+	// the phpLexer should read until the last token, so
 	// the position after this method should match
 	// <ST_TWIG_CONTENT> "}}" otherwise we'll
 	// get an infinite loop ;)
@@ -414,14 +445,37 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
  * @param stream
  * @return a new lexer for the given project with the given stream initialized with current parameters
  */
-private AbstractTwigLexer getTwigLexer(String lexerState) {
-
-	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
-	lexer.setTokenizer(this);
+private AbstractPhpLexer getPhpLexer() {
+	final PHPVersion phpVersion = ProjectOptions.getPhpVersion(project);
+	final AbstractPhpLexer lexer = PhpLexerFactory.createLexer(yy_reader, phpVersion);
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
-		// of this state in specific Twig version lexer 
+		// of this state in specific PHP version lexer 
+		currentParameters[6] = lexer.getClass().getField("ST_PHP_IN_SCRIPTING").getInt(lexer);
+	} catch (Exception e) {
+		Logger.logException(e);
+	}
+	lexer.initialize(currentParameters[6]);
+	lexer.reset(yy_reader, yy_buffer, currentParameters);
+	lexer.setPatterns(project);
+
+	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
+	return lexer;
+}
+
+/**
+ * @param project
+ * @param stream
+ * @return a new lexer for the given project with the given stream initialized with current parameters
+ */
+private AbstractTwigLexer getTwigLexer(String lexerState) {
+
+	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
+	int[] currentParameters = getParamenters();
+	try {
+		// set initial lexer state - we use reflection here since we don't know the constant value of 
+		// of this state in specific PHP version lexer 
 		currentParameters[6] = lexer.getClass().getField(lexerState).getInt(lexer);
 	} catch (Exception e) {
 		Logger.logException(e);
@@ -434,7 +488,7 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 	return lexer;
 }
 
-// call the doScan without searching for Twig internal code
+// call the doScan without searching for PHP internal code
 private final String doScan(String searchString, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	return doScan(searchString, true, requireTailSeparator, searchContext, exitState, immediateFallbackState);	
 }
@@ -442,6 +496,10 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 	/* user method */
 	private final void assembleEmbeddedTagSequence(String startType, String endTagName) {
 		assembleEmbeddedContainer(startType, null, endTagName);
+	}
+	/* user method */
+	private final void assembleEmbeddedContainer(String startType, String[] endTypes) {
+		assembleEmbeddedContainer(startType, endTypes, null);
 	}
 	/* user method */
 	private final void assembleEmbeddedContainer(String startType, String endType) {
@@ -481,7 +539,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 			if (internalContext != null && internalContext != PROXY_CONTEXT) {
 
 				ITextRegion newToken;
-				// if it is twig content we extract the tokens
+				// if it is php content we extract the tokens
 				if (internalContext == TWIG_CONTENT) {
 					newToken = bufferedTextRegion; 
 					bufferedTextRegion.adjustStart(-containerStart);
@@ -539,7 +597,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 					// inside the embedded container
 
 					ITextRegion newToken;
-					// if it is twig content we extract the tokens
+					// if it is php content we extract the tokens
 					if (internalContext == TWIG_CONTENT) {
 						newToken = bufferedTextRegion; 
 						bufferedTextRegion.adjustStart(-containerStart);
@@ -890,6 +948,13 @@ private final String scanXMLCommentText() throws IOException {
 }
 
 
+private void assembleEmbeddedTwigOpen() {
+	
+
+	System.err.println("assemble embedded twig open");	
+	
+}
+
 %}
 
 %eof{
@@ -898,7 +963,7 @@ private final String scanXMLCommentText() throws IOException {
 
 %public
 %class TwigTokenizer
-%implements BlockTokenizer, DOMRegionContext, TwigRegionContext
+%implements BlockTokenizer, PHPRegionContext, DOMRegionContext, TwigRegionContext
 %function primGetNextToken
 %type String
 %char
@@ -948,7 +1013,8 @@ private final String scanXMLCommentText() throws IOException {
 
 %state ST_BLOCK_TAG_SCAN
 
- 
+// added states to PHP 
+%state ST_PHP_CONTENT
 %state ST_XML_ATTRIBUTE_VALUE_SQUOTED
 %state ST_XML_ATTRIBUTE_VALUE_DQUOTED
 %state ST_BLOCK_TAG_INTERNAL_SCAN
@@ -1349,15 +1415,24 @@ Extender = [\u00B7\u02D0\u02D1\u0387\u0640\u0E46\u0EC6\u3005\u3031-\u3035\u309D-
 
 
 
+//PHP MACROS
+WHITESPACE = [\n\r \t]
+PHP_START       = <\?[Pp][Hh][P|p]{WHITESPACE}*
+//PHP_START       = "{%"{WHITESPACE}*
+PHP_ASP_START=<%
+PHP_ASP_END=%>
+
 
 // TWIG MACROS
 
-WHITESPACE = [\n\r \t]
 TW_START = \{\{{WHITESPACE}*
+
 TW_STMT_DEL_LEFT = \{\%{WHITESPACE}*
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"with"
+
+TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
 NUMBER=([0-9])+
 
@@ -1385,7 +1460,7 @@ NUMBER=([0-9])+
 }
 
 /* VERY special cases for tags as values */
-/* quoted Twig */
+/* quoted Php */
 <ST_XML_ATTRIBUTE_VALUE_DQUOTED> [\"] {
 
 	if (Debug.debugTokenizer) {
@@ -1482,7 +1557,7 @@ NUMBER=([0-9])+
 	int incomingState = yystate();
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
-	// Twig attribute value start - end tag
+	// Php attribute value start - end tag
 	yybegin(ST_XML_TAG_NAME);
 	assembleEmbeddedContainer(XML_END_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	if(yystate() != ST_ABORT_EMBEDDED)
@@ -1501,7 +1576,7 @@ NUMBER=([0-9])+
 	fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
 	fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
 	fStateStack.push(yystate());
-	// Twig tag embedded name start - start tag
+	// PHP tag embedded name start - start tag
 	yybegin(ST_XML_TAG_NAME);
 	assembleEmbeddedContainer(XML_TAG_OPEN, new String[]{XML_TAG_CLOSE,XML_EMPTY_TAG_CLOSE});
 	fStateStack.pop();
@@ -1726,11 +1801,11 @@ NUMBER=([0-9])+
 		return XML_PI_OPEN;
 
 	} else {
-		// removeing trailing whitespaces for the twig open
-		String twigStart = yytext();
-		int i = twigStart.length() - 1;
+		// removeing trailing whitespaces for the php open
+		String phpStart = yytext();
+		int i = phpStart.length() - 1;
 		while (i >= 0
-				&& Character.isWhitespace(twigStart.charAt(i--))) {
+				&& Character.isWhitespace(phpStart.charAt(i--))) {
 			yypushback(1);
 		}
 		fStateStack.push(yystate());// YYINITIAL
@@ -1771,7 +1846,65 @@ NUMBER=([0-9])+
 	}
 }
 
-// XML & Twig Comments
+
+{PHP_START} | {PHP_ASP_START} | {PIstart} {
+
+	if(Debug.debugTokenizer)
+		dump("\nprocessing instruction start");//$NON-NLS-1$
+	if ("<?".equals(yytext())
+			&& !(ProjectOptions.useShortTags(project) && Character.isWhitespace(yy_buffer[yy_currentPos - 1]))) {
+		yybegin(ST_PI);
+		return XML_PI_OPEN;
+
+	} else {
+		// removeing trailing whitespaces for the php open
+		String phpStart = yytext();
+		int i = phpStart.length() - 1;
+		while (i >= 0
+				&& Character.isWhitespace(phpStart.charAt(i--))) {
+			yypushback(1);
+		}
+		fStateStack.push(yystate());// YYINITIAL
+		if (fStateStack.peek() == YYINITIAL) {
+			// the simple case, just a regular scriptlet out in
+			// content
+			yybegin(ST_PHP_CONTENT);
+			return PHP_OPEN;
+		} else {
+			if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+			else if (yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+			else if (yystate() == ST_CDATA_TEXT) {
+				fEmbeddedPostState = ST_CDATA_TEXT;
+				fEmbeddedHint = XML_CDATA_TEXT;
+			}
+			yybegin(ST_PHP_CONTENT);
+			assembleEmbeddedContainer(PHP_OPEN, PHP_CLOSE);
+			if (yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
+				yybegin(ST_BLOCK_TAG_SCAN);
+				return BLOCK_TEXT;
+			}
+			// required help for successive embedded regions
+			if (yystate() == ST_XML_TAG_NAME) {
+				fEmbeddedHint = XML_TAG_NAME;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			} else if ((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+				fEmbeddedPostState = ST_XML_EQUALS;
+			} else if (yystate() == ST_XML_ATTRIBUTE_VALUE) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			}
+			return PROXY_CONTEXT;
+		}
+	}
+
+}
+
+
+
+// XML & PHP Comments
 
 <YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION> {CommentStart} {
 	if(Debug.debugTokenizer)
@@ -1847,6 +1980,16 @@ NUMBER=([0-9])+
         return XML_TAG_NAME;
 }
 // XML declarations
+<ST_PI> ((P|p)(H|h)(P|p)) {
+	if(Debug.debugTokenizer)
+		dump("PHP processing instruction target");//$NON-NLS-1$
+	//fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+	//fEmbeddedPostState = ST_XML_EQUALS;
+        //yybegin(ST_XML_PI_ATTRIBUTE_NAME);
+        //return XML_TAG_NAME;
+        yybegin(ST_PHP_CONTENT);
+		return PHP_OPEN;
+}
 <ST_PI> ([iI][mM][pP][oO][rR][tT]) {
 	if(Debug.debugTokenizer)
 		dump("DHTML processing instruction target");//$NON-NLS-1$
@@ -2339,6 +2482,84 @@ NUMBER=([0-9])+
 	}
 }
 
+
+//PHP PROCESSING ACTIONS
+<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {PHP_START} | {PHP_ASP_START} {
+
+	if (Debug.debugTokenizer) {	
+		dump("PHP PROCESSING START");	
+	}
+	
+    if (ProjectOptions.isSupportingAspTags(project) ||yytext().charAt(1) != '%') {
+		//removeing trailing whitespaces for the php open
+		String phpStart = yytext();
+		int i = phpStart.length() - 1; 
+		while(i >= 0 && Character.isWhitespace(phpStart.charAt(i--))){
+			yypushback(1);
+		}
+
+		fStateStack.push(yystate());
+		if(fStateStack.peek()==YYINITIAL) {
+			// the simple case, just a regular scriptlet out in content
+			yybegin(ST_PHP_CONTENT);
+			return PHP_OPEN;
+		}
+		else {
+			if(yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+			else if(yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+			else if(yystate() == ST_CDATA_TEXT) {
+				fEmbeddedPostState = ST_CDATA_TEXT;
+				fEmbeddedHint = XML_CDATA_TEXT;
+			}
+			yybegin(ST_PHP_CONTENT);
+			assembleEmbeddedContainer(PHP_OPEN, PHP_CLOSE);
+			if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
+				yybegin(ST_BLOCK_TAG_SCAN);
+				return BLOCK_TEXT;
+			}
+			// required help for successive embedded regions
+			if(yystate() == ST_XML_TAG_NAME) {
+				fEmbeddedHint = XML_TAG_NAME;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			}
+			else if((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+				fEmbeddedPostState = ST_XML_EQUALS;
+			}
+			else if(yystate() == ST_XML_ATTRIBUTE_VALUE) {
+				fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+				fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+			}
+			return PROXY_CONTEXT;
+		}
+    }
+    yypushback(1);
+	yybegin(ST_XML_TAG_NAME);
+	return XML_TAG_OPEN;
+}
+
+
+
+<ST_PHP_CONTENT> {PIend} | {PHP_ASP_END} {
+	yybegin(fStateStack.pop());
+	
+	if (Debug.debugTokenizer) {
+	   dump("PHP_CLOSE");
+	}
+	
+	return PHP_CLOSE;
+	
+}
+<ST_PHP_CONTENT> .|\n|\r {
+
+	if (Debug.debugTokenizer) {
+	   dump("ST_PHP_CONTENT");
+	}
+
+	return doScanEndPhp(ProjectOptions.isSupportingAspTags(project), PHP_CONTENT, ST_PHP_CONTENT, ST_PHP_CONTENT);
+}
 
 . {
 	if (Debug.debugTokenizer) {

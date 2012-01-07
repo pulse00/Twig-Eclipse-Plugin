@@ -11,9 +11,10 @@ package com.dubture.twig.core.documentModel.parser;
 import java.io.StringReader;
 import java.util.List;
 
+import org.eclipse.dltk.ast.Modifiers;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.statements.Statement;
-import org.eclipse.dltk.compiler.IElementRequestor;
+import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 import org.eclipse.dltk.compiler.IElementRequestor.MethodInfo;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
@@ -44,7 +45,7 @@ public class TwigSourceElementRequestorExtension extends
     public static String STMT_START = "{%";
     public static String STMT_END = "%}";
 
-    private IElementRequestor requestor;
+
 
     @Override
     public void setSourceModule(IModuleSource sourceModule)
@@ -56,9 +57,8 @@ public class TwigSourceElementRequestorExtension extends
             if (sourceModule.getFileName().endsWith(".php"))
                 return;
 
-            String source = sourceModule.getSourceContents();
-            requestor = getRequestor();
-            requestor.enterModule();
+            String source = sourceModule.getSourceContents();            
+            fRequestor.enterModule();
 
             final ModuleDeclaration decl = SourceParserUtil
                     .parseSourceModule(new StringReader(source));
@@ -84,10 +84,10 @@ public class TwigSourceElementRequestorExtension extends
                         info.declarationStart = block.sourceStart();
 
                         info.name = name.getValue();
-                        requestor.enterMethod(info);
+                        fRequestor.enterMethod(info);
 
                         if (statements.size() > 1) {
-                            requestor.exitMethod(block.sourceEnd());
+                            fRequestor.exitMethod(block.sourceEnd());
                         }
 
                     } else if (TwigCoreConstants.EXTENDS.equals(block.getName())) {
@@ -97,7 +97,7 @@ public class TwigSourceElementRequestorExtension extends
                         if (first instanceof StringLiteral) {
                             StringLiteral parent = (StringLiteral) first;
                             String display = TwigCoreConstants.EXTENDS + " " + parent.getValue();
-                            requestor.acceptPackage(block.sourceStart(),
+                            fRequestor.acceptPackage(block.sourceStart(),
                                     block.sourceEnd(), display);
                         }
                     }
@@ -108,13 +108,33 @@ public class TwigSourceElementRequestorExtension extends
                 public boolean endvisit(BlockStatement block) throws Exception
                 {
                     if (TwigCoreConstants.END_BLOCK.equals(block.getName())) {
-                        requestor.exitMethod(block.sourceEnd());
+                        fRequestor.exitMethod(block.sourceEnd());
                     }
+                    return false;
+                }
+                
+                @Override
+                public boolean endvisit(Variable s) throws Exception
+                {
+
+                    FieldInfo info = new FieldInfo();
+                    
+                    info.declarationStart =s.sourceStart();
+                    info.nameSourceStart = s.sourceStart();
+                    info.nameSourceEnd = s.sourceEnd();
+                    info.name = s.getValue();
+                    info.modifiers = Modifiers.AccPublic;
+                    
+                    fRequestor.enterField(info);
+                    
+                    fRequestor.exitField(s.sourceEnd());
                     return false;
                 }
             });
 
-            requestor.exitModule(decl.sourceEnd());
+
+
+            fRequestor.exitModule(decl.sourceEnd());
 
         } catch (Exception e) {
              Logger.logException(e);

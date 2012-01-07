@@ -51,8 +51,12 @@ public interface TwigRegionContext
     public static final String TWIG_HASH_START                  = "TWIG_HASH_START"; //$NON-NLS-1$
     public static final String TWIG_HASH_END                    = "TWIG_HASH_END"; //$NON-NLS-1$
     
-    public static final String XML_TAG_ATTRIBUTE_VALUE_DQUOTE = "XML_TAG_ATTRIBUTE_VALUE_DQUOTE"; //$NON-NLS-1$
-    public static final String XML_TAG_ATTRIBUTE_VALUE_SQUOTE = "XML_TAG_ATTRIBUTE_VALUE_SQUOTE"; //$NON-NLS-1$
+    public static final String TWIG_INTERPOLATION_START         = "TWIG_INTERPOLATION_START"; //$NON-NLS-1$
+    public static final String TWIG_INTERPOLATION_END           = "TWIG_INTERPOLATION_END"; //$NON-NLS-1$   
+   
+    
+//    public static final String XML_TAG_ATTRIBUTE_VALUE_DQUOTE = "XML_TAG_ATTRIBUTE_VALUE_DQUOTE"; //$NON-NLS-1$
+//    public static final String XML_TAG_ATTRIBUTE_VALUE_SQUOTE = "XML_TAG_ATTRIBUTE_VALUE_SQUOTE"; //$NON-NLS-1$
     
 
 }
