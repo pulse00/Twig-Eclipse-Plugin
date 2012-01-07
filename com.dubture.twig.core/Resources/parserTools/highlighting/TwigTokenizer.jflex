@@ -1023,8 +1023,6 @@ private void assembleEmbeddedTwigOpen() {
 // added states to TWIG 
 %state ST_TWIG_CONTENT
 %state ST_TWIG_COMMENT
-%state ST_TWIG_DOUBLE_QUOTES
-%state ST_TWIG_DOUBLE_QUOTES_SPECIAL
 
 
 
@@ -2313,101 +2311,6 @@ NUMBER=([0-9])+
 }
 
 
-<ST_TWIG_DOUBLE_QUOTES>([\"]) {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG DOUBLE QUOTES END");
-
-	yybegin(ST_TWIG_CONTENT);
-    return TWIG_DOUBLE_QUOTES_END;
-}
-
-<ST_TWIG_DOUBLE_QUOTES>([^`$\"])+ {
-
-	if(Debug.debugTokenizer)
-		dump("TWIG DOUBLE QUOTES CONTENT");
-
-    return TWIG_DOUBLE_QUOTES_CONTENT;
-}
-
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL} {
-
-	if (Debug.debugTokenizer)
-		dump("TWIG DOLLAR VAR");
-		
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{NUMBER}[\]] {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable3");
-
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES> "$"{LABEL}[\[]{LABEL}[\]] {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable4");
-
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES> ([\`]) {
-
-	if (Debug.debugTokenizer) {	
-	  dump("TWIG BACKTICK START");
-	}
-
-	yybegin(ST_TWIG_DOUBLE_QUOTES_SPECIAL);
-    return TWIG_BACKTICK_START;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> ([\`]) {
-
-	if (Debug.debugTokenizer) {	
-	  dump("TWIG BACKTICK END");
-	}
-
-	yybegin(ST_TWIG_DOUBLE_QUOTES);
-    return TWIG_BACKTICK_END;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> "$"{LABEL} {
-
-	if (Debug.debugTokenizer)
-		System.out.println("variable5");
-
-    return TWIG_VARIABLE;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> [\.\-\>()] {
-
-	if (Debug.debugTokenizer) {	
-	  dump("TWIG DELIMITER");
-	}
-
-    return TWIG_DELIMITER;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {NUMBER} {
-
-	if (Debug.debugTokenizer) {	
-	  dump("TWIG NUMBER");
-	}
-
-    return TWIG_NUMBER;
-}
-
-<ST_TWIG_DOUBLE_QUOTES_SPECIAL> {LABEL} {
-
-	if (Debug.debugTokenizer) {	
-	  dump("TWIG LABEL");
-	}
-
-    return TWIG_LABEL;
-}
 
 
 
