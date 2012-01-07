@@ -2,3 +2,4 @@
 /TwigAstParser.java
 /ParserConstants.java
 /Resources/parserTools/parser/Twig.tokens
+*.java~

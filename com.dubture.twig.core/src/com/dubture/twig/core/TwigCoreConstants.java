@@ -25,8 +25,12 @@ public class TwigCoreConstants
     public static final String SYNTAX_WARNING = "Warning";
     public static final String SYNTAX_PROBLEM_SEVERITY = "syntax_problem_severity";
 
+    // Twig core tags
+    public static final String START_BLOCK ="block";
+    public static final String END_BLOCK ="endblock";
+    public static final String EXTENDS ="extends";
+    
     // Twig core classes
-
     public static final String TWIG_EXTENSION = "Twig_Extension";
     public static final String TWIG_FILTER_FUNCTION = "Twig_Filter_Function";
     public static final String TWIG_FUNCTION_METHOD = "Twig_Function_Method";

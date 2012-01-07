@@ -57,4 +57,19 @@ public class StringLiteral extends Literal
         return equal;
 
     }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.dltk.ast.expressions.Literal#getValue()
+     */
+    @Override
+    public String getValue()
+    {
+        String val = super.getValue();
+        
+        if (val != null) {
+            val = val.replaceAll("'", "").replaceAll("\"", "");
+        }
+        
+        return val;
+    }
 }

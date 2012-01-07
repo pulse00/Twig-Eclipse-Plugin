@@ -55,6 +55,7 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
+@SuppressWarnings("restriction")
 public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 {
 

@@ -9,7 +9,6 @@
 package com.dubture.twig.core.documentModel.parser;
 
 import java.io.StringReader;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -19,9 +18,11 @@ import org.eclipse.dltk.compiler.IElementRequestor.MethodInfo;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.php.core.compiler.PHPSourceElementRequestorExtension;
 
+import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 
@@ -45,94 +46,78 @@ public class TwigSourceElementRequestorExtension extends
 
     private IElementRequestor requestor;
 
-    public TwigSourceElementRequestorExtension()
-    {
-
-    }
-
     @Override
     public void setSourceModule(IModuleSource sourceModule)
     {
-
         try {
 
             super.setSourceModule(sourceModule);
-            
-             if (sourceModule.getFileName().endsWith(".php"))
-                 return;
-            
-             String source = sourceModule.getSourceContents();
-             requestor = getRequestor();
-             requestor.enterModule();
-             
-             final ModuleDeclaration decl = SourceParserUtil.parseSourceModule(new StringReader(source));
-             
-             decl.traverse(new TwigASTVisitor()
-             {                 
-                @Override                
+
+            if (sourceModule.getFileName().endsWith(".php"))
+                return;
+
+            String source = sourceModule.getSourceContents();
+            requestor = getRequestor();
+            requestor.enterModule();
+
+            final ModuleDeclaration decl = SourceParserUtil
+                    .parseSourceModule(new StringReader(source));
+
+            decl.traverse(new TwigASTVisitor()
+            {
+                @Override
                 public boolean visit(BlockStatement block) throws Exception
                 {
-                    if ("block".equals(block.getName())) {
-                        
-                        Variable name = block.getBlockName();
-                        
-                        if (name == null) {
-                            return false;                            
-                        }
-                        
-                        int openCount = 0;
-                        int closeCount = 0;
+                    if (TwigCoreConstants.START_BLOCK.equals(block.getName())) {
 
-                        for (Object stmt : decl.getStatements()) {
-                            
-                            if (stmt instanceof BlockStatement) {                                
-                                BlockStatement bstmt = (BlockStatement) stmt;                                
-                                if (bstmt.sourceStart() <= block.sourceStart()) {
-                                    continue;
-                                }                                
-                                Variable bName = bstmt.getBlockName();                                
-                                if (bName == null) {
-                                    closeCount++;
-                                } else {
-                                    openCount++;
-                                }
-                            }                            
+                        Variable name = block.getBlockName();
+
+                        if (name == null) {
+                            return false;
                         }
-                        
-                        MethodInfo info = new MethodInfo();                        
+
+                        List<?> statements = block.getChilds();
+
+                        MethodInfo info = new MethodInfo();
                         info.nameSourceStart = name.sourceStart();
                         info.nameSourceEnd = name.sourceEnd() - 1;
                         info.declarationStart = block.sourceStart();
 
-                        info.name = block.getName() + " " + name.getValue() ;                    
+                        info.name = name.getValue();
                         requestor.enterMethod(info);
-                     
-                        // if after the current block tag we have an equal amount
-                        // of opening and closing tags it means that the current
-                        // block tag has no closing tag.
-                        if (openCount == closeCount) {                                                        
+
+                        if (statements.size() > 1) {
                             requestor.exitMethod(block.sourceEnd());
-                            return false;
                         }
-                    }                    
+
+                    } else if (TwigCoreConstants.EXTENDS.equals(block.getName())) {
+
+                        Statement first = block.getFirstChild();
+
+                        if (first instanceof StringLiteral) {
+                            StringLiteral parent = (StringLiteral) first;
+                            String display = TwigCoreConstants.EXTENDS + " " + parent.getValue();
+                            requestor.acceptPackage(block.sourceStart(),
+                                    block.sourceEnd(), display);
+                        }
+                    }
                     return false;
                 }
-                
+
                 @Override
                 public boolean endvisit(BlockStatement block) throws Exception
                 {
-                    if ("endblock".equals(block.getName())) {
-                        requestor.exitMethod(block.sourceStart());
-                    }                    
+                    if (TwigCoreConstants.END_BLOCK.equals(block.getName())) {
+                        requestor.exitMethod(block.sourceEnd());
+                    }
                     return false;
-                }                
+                }
             });
-                        
-             requestor.exitModule(0);
+
+            requestor.exitModule(decl.sourceEnd());
 
         } catch (Exception e) {
-
-            Logger.logException(e);
+             Logger.logException(e);
         }
     }
 }

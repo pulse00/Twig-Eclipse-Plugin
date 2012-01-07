@@ -2,11 +2,13 @@ package com.dubture.twig.core.parser.ast.visitor;
 
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.ASTVisitor;
+import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
 
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
+import com.dubture.twig.core.parser.ast.node.Variable;
 
 public abstract class TwigASTVisitor extends ASTVisitor
 {
@@ -21,6 +23,18 @@ public abstract class TwigASTVisitor extends ASTVisitor
         endvisitGeneral(s);
         return false;
     }
+    
+    public boolean visit(Variable s) throws Exception
+    {
+        return visitGeneral(s);
+    }
+
+    public boolean endvisit(Variable s) throws Exception
+    {
+        endvisitGeneral(s);
+        return false;
+    }
+    
     
     public boolean visit(BlockStatement block) throws Exception
     {        
@@ -44,6 +58,26 @@ public abstract class TwigASTVisitor extends ASTVisitor
         return false;
     }
     
+    public boolean visit(Expression s) throws Exception
+    {
+        Class<? extends ASTNode> nodeClass = s.getClass();
+        if (nodeClass.equals(Variable.class)) {
+            return visit((Variable)s);
+        }
+        return true;
+
+    }
+
+    public boolean endvisit(Expression s) throws Exception
+    {
+        Class<? extends ASTNode> nodeClass = s.getClass();
+        if (nodeClass.equals(Variable.class)) {
+            return endvisit((Variable)s);
+        }
+        return true;
+
+    } 
+    
     public boolean visit(Statement s) throws Exception
     {
 
@@ -54,7 +88,10 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return visit((TwigCallExpression) s);
         } else if (nodeClass.equals(BlockStatement.class)) {
             return visit((BlockStatement)s);
+        } else if (nodeClass.equals(Variable.class)) {
+            return visit((Variable)s);
         }
+
         return true;
     }
     
@@ -69,6 +106,8 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return endvisit((TwigCallExpression) s);
         } else if (nodeClass.equals(BlockStatement.class)) {
             return endvisit((BlockStatement)s);
+        } else if (nodeClass.equals(Variable.class)) {
+            return endvisit((Variable)s);
         }
         
         return true;
@@ -83,8 +122,6 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return visit((PrintStatement) s);
         } else if (nodeClass.equals(TwigCallExpression.class)) {
             return visit((TwigCallExpression) s);
-        } else if (nodeClass.equals(BlockStatement.class)) {
-            return visit((BlockStatement)s);
         }
 
         return true;
@@ -99,8 +136,6 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return endvisit((PrintStatement) s);
         } else if (nodeClass.equals(TwigCallExpression.class)) {
             return endvisit((TwigCallExpression) s);
-        } else if (nodeClass.equals(BlockStatement.class)) {
-            return endvisit((BlockStatement)s);
         }
 
         return true;

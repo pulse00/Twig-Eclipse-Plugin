@@ -21,13 +21,9 @@ import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
+@SuppressWarnings("restriction")
 public class TwigSourceParserFactory extends PHPSourceParserFactory
 {
-
-    public TwigSourceParserFactory()
-    {
-        System.err.println("create source parser factory");
-    }
 
     @Override
     public IModuleDeclaration parse(IModuleSource module,
