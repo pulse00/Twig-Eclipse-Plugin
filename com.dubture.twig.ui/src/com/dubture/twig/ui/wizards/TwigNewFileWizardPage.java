@@ -10,28 +10,32 @@ package com.dubture.twig.ui.wizards;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.dltk.core.IProjectFragment;
 import org.eclipse.dltk.core.IScriptFolder;
 import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.core.ProjectFragment;
-import org.eclipse.jface.dialogs.IDialogPage;
+import org.eclipse.dltk.ui.dialogs.StatusInfo;
+import org.eclipse.dltk.ui.wizards.NewSourceModulePage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+
+import com.dubture.twig.core.TwigNature;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -40,13 +44,17 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  */
 
 @SuppressWarnings("restriction")
-public class TwigNewFileWizardPage extends WizardPage
+public class TwigNewFileWizardPage extends NewSourceModulePage
 {
     private Text containerText;
 
     private Text fileText;
 
     private ISelection selection;
+    
+    private String filename = "";
+    
+    private String containername = "";
 
     /**
      * Constructor for SampleNewWizardPage.
@@ -55,22 +63,20 @@ public class TwigNewFileWizardPage extends WizardPage
      */
     public TwigNewFileWizardPage(ISelection selection)
     {
-        super("wizardPage");
         setTitle("New Twig template");
         setDescription("This wizard creates an empty twig.");
         this.selection = selection;
     }
 
-    /**
-     * @see IDialogPage#createControl(Composite)
-     */
-    public void createControl(Composite parent)
+    @Override
+    protected void createContentControls(Composite container, int nColumns) 
     {
-        Composite container = new Composite(parent, SWT.NULL);
-        GridLayout layout = new GridLayout();
-        container.setLayout(layout);
-        layout.numColumns = 3;
-        layout.verticalSpacing = 9;
+
+//        Composite container = new Composite(parent, SWT.NULL);
+//        GridLayout layout = new GridLayout();
+//        container.setLayout(layout);
+//        layout.numColumns = 3;
+//        layout.verticalSpacing = 9;
         Label label = new Label(container, SWT.NULL);
         label.setText("&Source folder:");
 
@@ -104,13 +110,15 @@ public class TwigNewFileWizardPage extends WizardPage
         {
             public void modifyText(ModifyEvent e)
             {
+                filename = fileText.getText();
                 dialogChanged();
             }
         });
         initialize();
         dialogChanged();
-        setControl(container);
+        setControl(container);        
     }
+
 
     /**
      * Tests if the current workbench selection is a suitable container to use.
@@ -220,7 +228,7 @@ public class TwigNewFileWizardPage extends WizardPage
         // return;
         // }
         // }
-        updateStatus(null);
+        updateStatus(new IStatus[]{new StatusInfo()});
     }
 
     private void updateStatus(String message)
@@ -231,11 +239,37 @@ public class TwigNewFileWizardPage extends WizardPage
 
     public String getContainerName()
     {
-        return containerText.getText();
+        return getScriptFolderText();
     }
 
     public String getFileName()
     {
-        return fileText.getText();
+        return filename;
+    }
+
+    @Override
+    protected String getPageTitle()
+    {
+        return "New Twig template";
+    }
+
+    @Override
+    protected String getPageDescription()
+    {
+        return "Create a new twig template";
+    }
+
+    @Override
+    protected String getRequiredNature()
+    {
+        return TwigNature.NATURE_ID;
+    }
+    
+    
+    @Override
+    protected String getFileContent(ISourceModule module) throws CoreException
+    {        
+        return "{{ foobar }}";
+        
     }
 }
