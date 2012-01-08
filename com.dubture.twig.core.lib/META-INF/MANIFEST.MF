@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Lib
-Bundle-SymbolicName: com.dubture.twig.core.lib
-Bundle-Version: 1.0.0
-Bundle-ClassPath: java-cup-11a.jar
-Export-Package: java_cup;version="0.11.0.qualifier",
- java_cup.runtime;version="0.11.0.qualifier"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
