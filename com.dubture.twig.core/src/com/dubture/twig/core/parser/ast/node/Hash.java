@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
 package com.dubture.twig.core.parser.ast.node;
 
 import java.util.List;
@@ -12,13 +20,6 @@ public class Hash extends Expression
     {
         super(startIndex, stopIndex);
         this.expressions = expressions;
-        
-        System.err.println("creating hash at " + startIndex + " to " + stopIndex + " with " + expressions.size() + " items:");
-        
-        for (Expression e : expressions) {
-            System.err.println(e.getClass());
-        }
-
     }
 
     @Override

@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
+
 /* ----------------------Preliminary Declarations Section--------------------*/
 
 package com.dubture.twig.core.parser.ast;
@@ -62,7 +71,6 @@ parser code {:
    
         /* Print the contents of the StringBuffer 'm', which contains
            an error message, out on a line. */
-        System.err.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal

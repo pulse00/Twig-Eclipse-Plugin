@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
 package com.dubture.twig.core.parser.ast.node;
 
 import java.util.List;
@@ -20,18 +28,10 @@ public class BlockStatement extends Statement
         this.name = name;
         this.statements = statements;
 
-        // System.err.println("creating block statement '" + name + "' with " +
-        // statements.size() + " children:");
-        //
-        // for (Object expr : statements) {
-        // System.err.println(expr.getClass());
-        // }
-
     }
 
     public String getName()
     {
-        // System.err.println("+++ name is " + name);
         return name;
     }
 

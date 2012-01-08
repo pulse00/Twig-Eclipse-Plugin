@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
 package com.dubture.twig.core.parser.ast.node;
 
 import java.util.List;
@@ -13,17 +21,6 @@ public class PrintStatement extends Statement
     public PrintStatement(int start, int end, List<Expression> expressions)
     {
         this.expressions = expressions;
-//        System.err.println("print with " + expressions.size() + " expressions");
-        
-        for (Expression expression : expressions) {
-            
-//            System.err.println(expression.getClass());
-            if (expression instanceof Variable) {
-                
-                Variable var = (Variable) expression;
-//                System.err.println(var.getValue());
-            }
-        }
     }
 
     @Override
@@ -37,7 +34,6 @@ public class PrintStatement extends Statement
                     if (exp != null) {
                         exp.traverse(visitor);
                     }
-
                 }
             }
             visitor.endvisit(this);

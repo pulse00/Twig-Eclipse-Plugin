@@ -9,10 +9,6 @@
 package com.dubture.twig.core.parser.ast.node;
 
 import org.eclipse.dltk.ast.expressions.Literal;
-
-/**
- *
- */
 public class StringLiteral extends Literal
 {
 
@@ -25,8 +21,6 @@ public class StringLiteral extends Literal
     {
         super(start, end);
         fLiteralValue = string;
-//        System.err.println("create string literal with " + string);
-
     }
 
     @Override
@@ -34,11 +28,12 @@ public class StringLiteral extends Literal
     {
         return ASTNodeKinds.STRING_LITERAL;
     }
-    
+
     @Override
     public String toString()
     {
-        return String.format("[StringLiteral %d - %d] : %s", start(), end(), fLiteralValue);
+        return String.format("[StringLiteral %d - %d] : %s", start(), end(),
+                fLiteralValue);
     }
 
     @Override
@@ -50,26 +45,22 @@ public class StringLiteral extends Literal
 
         StringLiteral other = (StringLiteral) obj;
 
-        boolean equal =  other.start() == start() && other.end() == end()
+        boolean equal = other.start() == start() && other.end() == end()
                 && other.getValue().equals(getValue());
-       
-        System.err.println(equal);
+
         return equal;
 
     }
-    
-    /* (non-Javadoc)
-     * @see org.eclipse.dltk.ast.expressions.Literal#getValue()
-     */
+
     @Override
     public String getValue()
     {
         String val = super.getValue();
-        
+
         if (val != null) {
             val = val.replaceAll("'", "").replaceAll("\"", "");
         }
-        
+
         return val;
     }
 }

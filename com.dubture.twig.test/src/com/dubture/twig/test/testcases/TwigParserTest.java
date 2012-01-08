@@ -43,7 +43,6 @@ public class TwigParserTest extends TestCase
             CompilerAstLexer lexer = new CompilerAstLexer(new StringReader("{% fooasdf bar %}"));
             TwigAstParser parser = new TwigAstParser(lexer);
             Symbol moduleDeclaration = parser.parse();
-            System.err.println(moduleDeclaration);
             
         } catch (Exception e) {
             e.printStackTrace();

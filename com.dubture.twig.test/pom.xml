@@ -2,13 +2,11 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-	<!-- 
     <parent>
         <groupId>com.dubture.twig</groupId>
         <artifactId>parent</artifactId>
         <version>1.0.94.qualifier</version>
     </parent>
-     -->
 
     <artifactId>com.dubture.twig.test</artifactId>
     <packaging>${packaging.type}</packaging>
@@ -32,8 +30,7 @@
         </plugins>
     </build>
 
-    <profiles>
-    
+    <profiles>    
     	<profile>
     		<id>deploy</id>
     		<activation>

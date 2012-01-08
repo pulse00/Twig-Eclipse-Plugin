@@ -1,13 +1,11 @@
-/********************************************************************************
- * Copyright (c) 2006 Zend Corporation and IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *   Zend and IBM - Initial implementation
- *******************************************************************************/
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
 /*nlsXXX*/
 package com.dubture.twig.core.documentModel.parser;
 
@@ -950,8 +948,7 @@ private final String scanXMLCommentText() throws IOException {
 
 private void assembleEmbeddedTwigOpen() {
 	
-
-	System.err.println("assemble embedded twig open");	
+	
 	
 }
 

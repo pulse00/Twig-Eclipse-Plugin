@@ -56,11 +56,11 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     private Text fileText;
 
     private ISelection selection;
-    
+
     private String filename = "";
 
     private ArrayList<ITemplateProvider> extensions;
-    
+
     public static final String TEMPLATE_PROVIDER_ID = "com.dubture.twig.ui.templateProvider";
 
     /**
@@ -70,11 +70,11 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
      */
     public TwigNewFileWizardPage(ISelection selection)
     {
-        this.selection = selection;        
+        this.selection = selection;
     }
 
     @Override
-    protected void createContentControls(Composite container, int nColumns) 
+    protected void createContentControls(Composite container, int nColumns)
     {
 
         Label label = new Label(container, SWT.NULL);
@@ -114,31 +114,31 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
                 dialogChanged();
             }
         });
-        
+
         Label label2 = new Label(container, SWT.NONE);
         label2.setVisible(false);
-                
-        IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);           
+
+        IConfigurationElement[] config = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);
         extensions = new ArrayList<ITemplateProvider>();
-        
-        try {               
-            for (IConfigurationElement e : config) {                
+
+        try {
+            for (IConfigurationElement e : config) {
                 final Object object = e.createExecutableExtension("class");
                 if (object instanceof ITemplateProvider) {
-                    ITemplateProvider provider = (ITemplateProvider) object;                                        
+                    ITemplateProvider provider = (ITemplateProvider) object;
                     provider.createContentControls(getScriptFolder(), container);
                     extensions.add(provider);
                 }
-            }               
+            }
         } catch (Exception e) {
             Logger.logException(e);
         }
-        
+
         initialize();
         dialogChanged();
-        setControl(container);        
+        setControl(container);
     }
-
 
     /**
      * Tests if the current workbench selection is a suitable container to use.
@@ -284,23 +284,21 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     {
         return TwigNature.NATURE_ID;
     }
-    
-    
+
     @Override
     protected String getFileContent(ISourceModule module) throws CoreException
-    {        
+    {
 
         if (extensions == null || extensions.size() == 0) {
             return "";
         }
-        
+
         String content = "";
-        
+
         for (ITemplateProvider provider : extensions) {
-            content += provider.getContents();                        
+            content += provider.getContents();
         }
-        System.err.println("returning file contents " + content);
         return content;
-        
+
     }
 }
