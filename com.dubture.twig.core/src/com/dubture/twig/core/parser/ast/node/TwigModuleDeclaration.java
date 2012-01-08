@@ -1,5 +1,6 @@
 package com.dubture.twig.core.parser.ast.node;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -16,5 +17,18 @@ public class TwigModuleDeclaration extends ModuleDeclaration
             System.err.println("--- adding statement " + statement.getClass());
             addStatement(statement);
         }
+    }
+    
+    public List<BlockStatement> getBlocks()
+    {        
+        List<BlockStatement> blocks = new LinkedList<BlockStatement>();
+        
+        for (Object o : getStatements()) {            
+            if (o instanceof BlockStatement) {                
+                blocks.add((BlockStatement) o);
+            }
+        }
+        return blocks;
+        
     }
 }

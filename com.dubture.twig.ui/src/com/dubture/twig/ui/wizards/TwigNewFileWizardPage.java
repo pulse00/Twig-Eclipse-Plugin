@@ -8,11 +8,15 @@
  ******************************************************************************/
 package com.dubture.twig.ui.wizards;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.core.IProjectFragment;
 import org.eclipse.dltk.core.IScriptFolder;
 import org.eclipse.dltk.core.IScriptProject;
@@ -36,6 +40,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 import com.dubture.twig.core.TwigNature;
+import com.dubture.twig.core.log.Logger;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -53,8 +58,10 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     private ISelection selection;
     
     private String filename = "";
+
+    private ArrayList<ITemplateProvider> extensions;
     
-    private String containername = "";
+    public static final String TEMPLATE_PROVIDER_ID = "com.dubture.twig.ui.templateProvider";
 
     /**
      * Constructor for SampleNewWizardPage.
@@ -63,20 +70,13 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
      */
     public TwigNewFileWizardPage(ISelection selection)
     {
-        setTitle("New Twig template");
-        setDescription("This wizard creates an empty twig.");
-        this.selection = selection;
+        this.selection = selection;        
     }
 
     @Override
     protected void createContentControls(Composite container, int nColumns) 
     {
 
-//        Composite container = new Composite(parent, SWT.NULL);
-//        GridLayout layout = new GridLayout();
-//        container.setLayout(layout);
-//        layout.numColumns = 3;
-//        layout.verticalSpacing = 9;
         Label label = new Label(container, SWT.NULL);
         label.setText("&Source folder:");
 
@@ -114,6 +114,26 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
                 dialogChanged();
             }
         });
+        
+        Label label2 = new Label(container, SWT.NONE);
+        label2.setVisible(false);
+                
+        IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);           
+        extensions = new ArrayList<ITemplateProvider>();
+        
+        try {               
+            for (IConfigurationElement e : config) {                
+                final Object object = e.createExecutableExtension("class");
+                if (object instanceof ITemplateProvider) {
+                    ITemplateProvider provider = (ITemplateProvider) object;                                        
+                    provider.createContentControls(getScriptFolder(), container);
+                    extensions.add(provider);
+                }
+            }               
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+        
         initialize();
         dialogChanged();
         setControl(container);        
@@ -256,7 +276,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     @Override
     protected String getPageDescription()
     {
-        return "Create a new twig template";
+        return "Create a new twig template.";
     }
 
     @Override
@@ -269,7 +289,18 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     @Override
     protected String getFileContent(ISourceModule module) throws CoreException
     {        
-        return "{{ foobar }}";
+
+        if (extensions == null || extensions.size() == 0) {
+            return "";
+        }
+        
+        String content = "";
+        
+        for (ITemplateProvider provider : extensions) {
+            content += provider.getContents();                        
+        }
+        System.err.println("returning file contents " + content);
+        return content;
         
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.statements.Statement;
 
+import com.dubture.twig.core.TwigCoreConstants;
+
 public class BlockStatement extends Statement
 {
 
@@ -80,5 +82,10 @@ public class BlockStatement extends Statement
     public int getKind()
     {
         return ASTNodeKinds.BLOCK_STATEMENT;
+    }
+    
+    public boolean isBlock() 
+    {
+        return TwigCoreConstants.START_BLOCK.equals(name);       
     }
 }

@@ -49,6 +49,10 @@ public class TwigPluginImages
     public static final ImageDescriptor DESC_OBJS_TEST = createManagedFromKey(
             T_OBJ, IMG_OBJS_TEST);
 
+    private static final String T_WIZBAN = "wizban"; //$NON-NLS-1$
+    
+    public static final ImageDescriptor DESC_WIZBAN_ADD_TWIG_FILE = create(T_WIZBAN, "new_file.gif");//$NON-NLS-1$   
+    
     private static ImageDescriptor createManagedFromKey(String prefix,
             String key)
     {

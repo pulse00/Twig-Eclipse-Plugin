@@ -11,12 +11,19 @@ package com.dubture.twig.ui.wizards;
 import org.eclipse.dltk.ui.wizards.NewSourceModulePage;
 import org.eclipse.dltk.ui.wizards.NewSourceModuleWizard;
 
+import com.dubture.twig.ui.TwigPluginImages;
+
 /**
  * 
  */
 public class NewTemplateWizard extends NewSourceModuleWizard
 {
 
+    public NewTemplateWizard()
+    {
+        setDefaultPageImageDescriptor(TwigPluginImages.DESC_WIZBAN_ADD_TWIG_FILE);       
+    }
+    
     @Override
     protected NewSourceModulePage createNewSourceModulePage()
     {

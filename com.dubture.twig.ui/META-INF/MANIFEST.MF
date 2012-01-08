@@ -33,5 +33,6 @@ Export-Package: com.dubture.twig.ui,
  com.dubture.twig.ui.editor.autoEdit,
  com.dubture.twig.ui.editor.configuration,
  com.dubture.twig.ui.editor.contentassist,
- com.dubture.twig.ui.editor.folding
+ com.dubture.twig.ui.editor.folding,
+ com.dubture.twig.ui.wizards
 Bundle-Vendor: %Bundle-Vendor
