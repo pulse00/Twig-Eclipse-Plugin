@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Simple Json Bundle
 Bundle-SymbolicName: com.dubture.twig.core.json
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.95.qualifier
 Export-Package: org.json.simple,
  org.json.simple.parser
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

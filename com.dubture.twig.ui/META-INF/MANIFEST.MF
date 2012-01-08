@@ -2,9 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.dubture.twig.ui;singleton:=true
-Bundle-Version: 1.0.94.qualifier
+Bundle-Version: 1.0.95.qualifier
 Bundle-Activator: com.dubture.twig.ui.TwigUICorePlugin
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: com.dubture.twig.core,
+ org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.expressions,
  org.eclipse.php,
@@ -22,8 +23,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.dltk.ui,
  org.eclipse.dltk.core,
- org.eclipse.wst.xml.ui,
- com.dubture.twig.core
+ org.eclipse.wst.xml.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.texteditor.link,

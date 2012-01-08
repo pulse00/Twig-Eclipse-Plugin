@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.dubture.twig</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.94.qualifier</version>
+		<version>1.0.95.qualifier</version>
     </parent>
 
     <artifactId>com.dubture.twig.test</artifactId>
-    <packaging>${packaging.type}</packaging>
+    <packaging>eclipse-test-plugin</packaging>
 
 
     <build>
