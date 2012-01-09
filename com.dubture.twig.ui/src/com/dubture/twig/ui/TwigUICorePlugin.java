@@ -18,6 +18,8 @@ import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.util.ImageDescriptorRegistry;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -169,5 +171,18 @@ public class TwigUICorePlugin extends AbstractUIPlugin
         }
         return file;
     }
+    
+    public static IWorkbenchPage getActivePage() {
+        return getDefault().internalGetActivePage();
+    }
+    
+    private IWorkbenchPage internalGetActivePage() {
+        IWorkbenchWindow window = getWorkbench().getActiveWorkbenchWindow();
+        if (window == null)
+            return null;
+        return getWorkbench().getActiveWorkbenchWindow().getActivePage();
+    }
+    
+    
 
 }

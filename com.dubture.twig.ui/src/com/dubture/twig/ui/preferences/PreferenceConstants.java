@@ -16,6 +16,7 @@ import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 
 import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.ui.TwigUICorePlugin;
+import com.dubture.twig.ui.editor.SemanticHighlightingManager;
 
 /**
  * 
@@ -254,8 +255,20 @@ public class PreferenceConstants
 
     public static final String AUTOCREATE_STATEMENT_TAGS = "autocreate_statement_tags";
 
-    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX = "semanticHighlighting."; //$NON-NLS-1$	
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX = "semanticHighlighting."; //$NON-NLS-1$
+    
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX = ".bold"; //$NON-NLS-1$
+    
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX = ".color"; //$NON-NLS-1$
 
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_BGCOLOR_SUFFIX = ".bgcolor"; //$NON-NLS-1$
+
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX = ".italic"; //$NON-NLS-1$
+    
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX = ".strikethrough"; //$NON-NLS-1$
+    
+    public static final String EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX = ".underline"; //$NON-NLS-1$
+    
     public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX = ".enabled"; //$NON-NLS-1$	
 
     public static final String EDITOR_KEYWORD_COLOR = "editorColorKeyword"; //$NON-NLS-1$
@@ -367,6 +380,8 @@ public class PreferenceConstants
         // code assist
         store.setDefault(AUTOCLOSE_PRINT_TAGS, true);
         store.setDefault(AUTOCLOSE_STATEMENT_TAGS, true);
+        
+        SemanticHighlightingManager.getInstance().initDefaults(store);
 
     }
 
