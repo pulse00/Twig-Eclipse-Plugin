@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.dubture.twig.test
 Bundle-SymbolicName: com.dubture.twig.test;singleton:=true
 Bundle-Version: 1.0.95.qualifier
-Fragment-Host: com.dubture.twig.core;bundle-version="1.0.0"
+Fragment-Host: com.dubture.twig.core;bundle-version="1.0.95.qualifier"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit4,
  org.eclipse.ui

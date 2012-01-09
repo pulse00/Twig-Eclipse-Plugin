@@ -524,7 +524,7 @@ public class TwigAstLexer implements java_cup.runtime.Scanner {
         case 13: 
         case 17: 
         case 18: 
-          { System.out.print(yytext()); }
+          {  }
         case 48: break;
         default: 
           if (yy_input == YYEOF && yy_startRead == yy_currentPos) {

@@ -48,4 +48,16 @@ public class SourceParserUtil
         return parseSourceModule(new StringReader(module.getSource()));
         
     }
+
+    /**
+     * @param tokens
+     * @return 
+     * @throws IOException 
+     */
+    public static ModuleDeclaration parseSourceModule(String tokens) throws IOException
+    {
+        Assert.isNotNull(tokens);
+        return parseSourceModule(new StringReader(tokens));
+        
+    }
 }

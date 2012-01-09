@@ -31,23 +31,6 @@
     </build>
 
     <profiles>    
-    	<profile>
-    		<id>deploy</id>
-    		<activation>
-    			<activeByDefault>true</activeByDefault>
-    		</activation>
-    		<properties>
-    			<packaging.type>eclipse-test-plugin</packaging.type>
-    		</properties>    	
-    	</profile>
-
-    	<profile>
-    		<id>parser</id>
-    		<properties>
-    			<packaging.type>jar</packaging.type>
-    		</properties>    	
-    	</profile>
-    	
         <profile>
             <id>osx</id>
             <activation>
