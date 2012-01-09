@@ -16,16 +16,19 @@
   </properties>
 
   <repositories>
+
    <repository>
      <id>github</id>
      <layout>p2</layout>
      <url>http://pulse00.github.com/p2-nightly</url>
    </repository>	
+
    <repository>
      <id>indigo</id>
      <layout>p2</layout>
      <url>http://download.eclipse.org/releases/indigo</url>
    </repository>	
+
    <repository>
      <id>dltk</id>
      <layout>p2</layout>
