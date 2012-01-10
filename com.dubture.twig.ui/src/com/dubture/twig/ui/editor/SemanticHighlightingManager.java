@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.ui.editor.highlighters.AbstractSemanticHighlighting;
+import com.dubture.twig.ui.editor.highlighter.AbstractSemanticHighlighting;
 
 @SuppressWarnings("restriction")
 public class SemanticHighlightingManager

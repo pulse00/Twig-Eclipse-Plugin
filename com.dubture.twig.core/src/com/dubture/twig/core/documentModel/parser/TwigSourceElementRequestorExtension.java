@@ -68,7 +68,7 @@ public class TwigSourceElementRequestorExtension extends
                 @Override
                 public boolean visit(BlockStatement block) throws Exception
                 {
-                    if (TwigCoreConstants.START_BLOCK.equals(block.getName())) {
+                    if (TwigCoreConstants.START_BLOCK.equals(block.getName().getValue())) {
 
                         Variable name = block.getBlockName();
 
@@ -90,7 +90,7 @@ public class TwigSourceElementRequestorExtension extends
                             fRequestor.exitMethod(block.sourceEnd());
                         }
 
-                    } else if (TwigCoreConstants.EXTENDS.equals(block.getName())) {
+                    } else if (TwigCoreConstants.EXTENDS.equals(block.getName().getValue())) {
 
                         Statement first = block.getFirstChild();
 
@@ -107,7 +107,7 @@ public class TwigSourceElementRequestorExtension extends
                 @Override
                 public boolean endvisit(BlockStatement block) throws Exception
                 {
-                    if (TwigCoreConstants.END_BLOCK.equals(block.getName())) {
+                    if (TwigCoreConstants.END_BLOCK.equals(block.getName().getValue())) {
                         fRequestor.exitMethod(block.sourceEnd());
                     }
                     return false;

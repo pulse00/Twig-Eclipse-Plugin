@@ -64,7 +64,9 @@ public class PreferenceConstants
      */
     public static final String EDITOR_BOUNDARYMARKER_COLOR = "editorColorBoundarymaker"; //$NON-NLS-1$
 
-    public static final String EDITOR_STMT_BOUNDARYMARKER_COLOR = "editorStmtColorBoundarymaker"; //$NON-NLS-1$	
+    public static final String EDITOR_STMT_BOUNDARYMARKER_COLOR = "editorStmtColorBoundarymaker"; //$NON-NLS-1$
+    
+    public static final String EDITOR_BLOCKNAME_COLOR = "editorBlocknameColor"; //$NON-NLS-1$
 
     /**
      * A named preference that holds the default color for the PHP boundary
@@ -138,6 +140,12 @@ public class PreferenceConstants
     public static final String EDITOR_KEYWORD_DEFAULT_COLOR = ColorHelper
             .packStylePreferences(new String[]{
                     ColorHelper.getColorString(127, 0, 85), null, "true"});
+    
+
+    public static final String EDITOR_BLOCKNAME_DEFAULT_COLOR = ColorHelper
+            .packStylePreferences(new String[]{
+                    ColorHelper.getColorString(127, 0, 85), null, "true"});
+    
 
     /**
      * A named preference that holds the color for the PHP keyword
@@ -360,23 +368,35 @@ public class PreferenceConstants
 
         // SyntaxColoringPage
         store.setDefault(EDITOR_NORMAL_COLOR, EDITOR_NORMAL_DEFAULT_COLOR);
-        store.setDefault(EDITOR_BOUNDARYMARKER_COLOR,
-                EDITOR_BOUNDARYMARKER_DEFAULT_COLOR);
-        store.setDefault(EDITOR_STMT_BOUNDARYMARKER_COLOR,
-                EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR);
+        store.setDefault(EDITOR_BOUNDARYMARKER_COLOR, EDITOR_BOUNDARYMARKER_DEFAULT_COLOR);
+        store.setDefault(EDITOR_STMT_BOUNDARYMARKER_COLOR, EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR);
         store.setDefault(EDITOR_LABEL_COLOR, EDITOR_LABEL_DEFAULT_COLOR);
         store.setDefault(EDITOR_VARIABLE_COLOR, EDITOR_VARIABLE_DEFAULT_COLOR);
         store.setDefault(EDITOR_STRING_COLOR, EDITOR_STRING_DEFAULT_COLOR);
         store.setDefault(EDITOR_HASH_COLOR, EDITOR_HASH_DEFAULT_COLOR);
         store.setDefault(EDITOR_INTERPOLATION_COLOR, EDITOR_STMT_BOUNDARYMARKER_DEFAULT_COLOR);
         store.setDefault(EDITOR_KEYWORD_COLOR, EDITOR_KEYWORD_DEFAULT_COLOR);
+        store.setDefault(EDITOR_BLOCKNAME_COLOR, EDITOR_BLOCKNAME_DEFAULT_COLOR);        
         store.setDefault(EDITOR_NUMBER_COLOR, EDITOR_NUMBER_DEFAULT_COLOR);
-        store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR,
-                EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR);
+        store.setDefault(EDITOR_DOUBLE_QUOTED_COLOR, EDITOR_DOUBLE_QUOTED_DEFAULT_COLOR);
         store.setDefault(EDITOR_COMMENT_COLOR, EDITOR_COMMENT_DEFAULT_COLOR);
-        store.setDefault(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY,
-                TwigCoreConstants.SYNTAX_IGNORE);
 
+        store.setDefault(getEnabledPreferenceKey(EDITOR_NORMAL_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_BOUNDARYMARKER_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_STMT_BOUNDARYMARKER_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_LABEL_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_VARIABLE_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_STRING_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_HASH_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_INTERPOLATION_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_KEYWORD_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_BLOCKNAME_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_NUMBER_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_DOUBLE_QUOTED_COLOR), true);
+        store.setDefault(getEnabledPreferenceKey(EDITOR_COMMENT_COLOR), true);
+        
+        store.setDefault(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, TwigCoreConstants.SYNTAX_IGNORE);
+        
         // code assist
         store.setDefault(AUTOCLOSE_PRINT_TAGS, true);
         store.setDefault(AUTOCLOSE_STATEMENT_TAGS, true);

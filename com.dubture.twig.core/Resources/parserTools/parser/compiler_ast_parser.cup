@@ -20,6 +20,7 @@ import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
+import com.dubture.twig.core.parser.ast.node.BlockName;
 import com.dubture.twig.core.parser.ast.node.InLineHtml;
 
 import org.eclipse.dltk.ast.expressions.Expression;
@@ -106,6 +107,7 @@ non terminal List inner_statement_list;
 non terminal Statement inner_statement;
 non terminal Statement statement;
 non terminal TwigCallExpression function;
+non terminal BlockName blockname;
 
 
 precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
@@ -156,7 +158,7 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
 						:}
 						;
 	                 
-	block     			::= TWIG_STMT_OPEN:start T_BLOCK_NAME:name inner_statement_list:inner TWIG_STMT_CLOSE:end
+	block     			::= TWIG_STMT_OPEN:start blockname:name inner_statement_list:inner TWIG_STMT_CLOSE:end
 		                {:
 		                	BlockStatement stmt = new BlockStatement(startleft, endright, name, inner);
 		                    RESULT = stmt;
@@ -193,9 +195,9 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
     					:}
     					;
     
-    statement			::= T_VARIABLE:stmt
+    statement			::= T_VARIABLE:var
 					    {: 
-					        RESULT = new Variable(stmtleft, stmtright, stmt); 
+					        RESULT = new Variable(varleft, varright, var); 
 					    :}
 					    | T_CONSTANT_ENCAPSED_STRING:string
 					    {:
@@ -206,4 +208,11 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
 					    	RESULT = new InLineHtml(htmlleft, htmlright);
 					    :}
 					    ;
+					    
+    blockname           ::= T_BLOCK_NAME:stmt
+                        {: 
+                            RESULT = new BlockName(stmtleft, stmtright, stmt); 
+                        :}
+                        ;
+    					    
     

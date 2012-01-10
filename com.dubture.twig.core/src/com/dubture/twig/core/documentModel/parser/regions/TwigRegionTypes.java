@@ -21,7 +21,9 @@ public interface TwigRegionTypes
     public static final String TWIG_COMMENT_CLOSE = "TWIG_COMMENT_CLOSE"; //$NON-NLS-1$	
     public static final String TWIG_COMMENT = "TWIG_COMMENT"; //$NON-NLS-1$
     public static final String TWIG_VARIABLE = "TWIG_VARIABLE"; //$NON-NLS-1$
-    public static final String TWIG_KEYWORD = "TWIG_KEYWORD"; //$NON-NLS-1$	
+    public static final String TWIG_KEYWORD = "TWIG_KEYWORD"; //$NON-NLS-1$
+    public static final String TWIG_BLOCKNAME = "TWIG_BLOCKNAME"; //$NON-NLS-1$
+    
     public static final String TWIG_DELIMITER = "TWIG_DELIMITER"; //$NON-NLS-1$
     public static final String TWIG_WHITESPACE = "TWIG_WHITESPACE"; //$NON-NLS-1$
     public static final String TWIG_NUMBER = "TWIG_NUMBER"; //$NON-NLS-1$	

@@ -5,6 +5,7 @@ import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.statements.Statement;
 
+import com.dubture.twig.core.parser.ast.node.BlockName;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
@@ -35,7 +36,17 @@ public abstract class TwigASTVisitor extends ASTVisitor
         return false;
     }
     
-    
+    public boolean visit(BlockName s) throws Exception
+    {
+        return visitGeneral(s);
+    }
+
+    public boolean endvisit(BlockName s) throws Exception
+    {
+        endvisitGeneral(s);
+        return false;
+    }
+        
     public boolean visit(BlockStatement block) throws Exception
     {        
        return visitGeneral(block);
@@ -63,7 +74,10 @@ public abstract class TwigASTVisitor extends ASTVisitor
         Class<? extends ASTNode> nodeClass = s.getClass();
         if (nodeClass.equals(Variable.class)) {
             return visit((Variable)s);
+        } else if (nodeClass.equals(BlockName.class)) {
+            return visit((BlockName)s);
         }
+
         return true;
 
     }
@@ -73,6 +87,8 @@ public abstract class TwigASTVisitor extends ASTVisitor
         Class<? extends ASTNode> nodeClass = s.getClass();
         if (nodeClass.equals(Variable.class)) {
             return endvisit((Variable)s);
+        } else if (nodeClass.equals(BlockName.class)) {
+            return endvisit((BlockName)s);
         }
         return true;
 

@@ -1,19 +1,16 @@
-package com.dubture.twig.ui.editor.highlighters;
+package com.dubture.twig.ui.editor.highlighter;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.dltk.ast.ASTNode;
+import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.dltk.core.ModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Position;
-import org.eclipse.php.internal.core.ast.nodes.ASTNode;
-import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
-import org.eclipse.php.internal.ui.editor.highlighter.AbstractSemanticApply;
-import org.eclipse.php.ui.editor.SharedASTProvider;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -21,6 +18,8 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.ui.ISemanticHighlighting;
 import org.eclipse.wst.sse.ui.ISemanticHighlightingExtension2;
 
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.ui.TwigUICorePlugin;
 import com.dubture.twig.ui.editor.SemanticHighlightingStyle;
 import com.dubture.twig.ui.preferences.PreferenceConstants;
@@ -65,7 +64,7 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
         if (node == null) {
             throw new IllegalArgumentException("Node cannot be null");
         }
-        return highlight(node.getStart(), node.getLength());
+        return highlight(node.sourceStart(), (node.sourceEnd()-node.sourceStart()));
     }
 
     protected AbstractSemanticHighlighting highlight(int start, int length) {
@@ -76,12 +75,17 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
         return this;
     }
 
-    public Position[] consumes(Program program) {
+    public Position[] consumes(ModuleDeclaration program) {
         if (program != null) {
             list = new ArrayList<Position>();
-            sourceModule = program.getSourceModule();
-            AbstractSemanticApply apply = getSemanticApply();
-            program.accept(apply);
+            
+            try {
+                AbstractSemanticApply apply = getSemanticApply();
+                program.traverse(apply);
+            } catch (Exception e) {
+                Logger.logException(e);
+            } 
+            
             return list.toArray(new Position[list.size()]);
         }
         return new Position[0];
@@ -90,13 +94,13 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
     public Position[] consumes(IStructuredDocumentRegion region) {
         // System.err.println("consumes php " + region.getType());
         if (region.getStart() == 0) {
-            Program program = getProgram(region);
+            ModuleDeclaration program = getProgram(region);
             return consumes(program);
         }
         return new Position[0];
     }
 
-    protected Program getProgram(final IStructuredDocumentRegion region) {// region.getParentDocument().get()
+    protected ModuleDeclaration getProgram(final IStructuredDocumentRegion region) {// region.getParentDocument().get()
         sourceModule = null;
         // resolve current sourceModule
         PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
@@ -121,19 +125,13 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
             }
         });
 
-        // resolve AST
-        Program program = null;
-        if (sourceModule != null) {
-            try {
-                program = SharedASTProvider.getAST(sourceModule,
-                        SharedASTProvider.WAIT_YES, null);
-            } catch (ModelException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        ModuleDeclaration module = null;
+        try {
+            module = SourceParserUtil.parseSourceModule(sourceModule.getSource());
+        } catch (Exception e) {
+            Logger.logException(e);
         }
-        return program;
+        return module;
     }
 
     public String getBoldPreferenceKey() {

@@ -18,19 +18,20 @@ import com.dubture.twig.core.TwigCoreConstants;
 public class BlockStatement extends Statement
 {
 
-    protected final String name;
+    protected final BlockName name;
     private final List<Statement> statements;
 
-    public BlockStatement(int startIndex, int stopIndex, String name,
+    public BlockStatement(int startIndex, int stopIndex, BlockName name2,
             List<Statement> statements)
     {
         super(startIndex, stopIndex);        
-        this.name = name;
+        this.name = name2;
         this.statements = statements;
+
 
     }
 
-    public String getName()
+    public BlockName getName()
     {
         return name;
     }

@@ -75,6 +75,8 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                 PreferenceConstants.EDITOR_VARIABLE_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_KEYWORD,
                 PreferenceConstants.EDITOR_KEYWORD_COLOR);
+        fTwigColorTypes.put(TwigRegionContext.TWIG_BLOCKNAME,
+                PreferenceConstants.EDITOR_BLOCKNAME_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_HASH_START,
                 PreferenceConstants.EDITOR_HASH_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_HASH_END,
@@ -469,6 +471,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
         addTextAttribute(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_KEYWORD_COLOR);
+        addTextAttribute(PreferenceConstants.EDITOR_BLOCKNAME_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_VARIABLE_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_STRING_COLOR);
         addTextAttribute(PreferenceConstants.EDITOR_COMMENT_COLOR);

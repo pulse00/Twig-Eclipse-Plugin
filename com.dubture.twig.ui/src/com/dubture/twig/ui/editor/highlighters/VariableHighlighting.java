@@ -1,5 +1,5 @@
 /*
- * This file is part of the Twig eclipse plugin.
+ * This file is part of the Twig Eclipse Plugin.
  *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
  *
@@ -8,18 +8,18 @@
  */
 package com.dubture.twig.ui.editor.highlighters;
 
-import com.dubture.twig.core.parser.ast.node.BlockName;
+import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.ui.editor.highlighter.AbstractSemanticApply;
 import com.dubture.twig.ui.editor.highlighter.AbstractSemanticHighlighting;
 
-public class BlockHighlighting extends AbstractSemanticHighlighting
+public class VariableHighlighting extends AbstractSemanticHighlighting
 {
-    protected class BlockApply extends AbstractSemanticApply {
-        
+    protected class VariableApply extends AbstractSemanticApply
+    {
         @Override
-        public boolean visit(BlockName block) throws Exception
+        public boolean visit(Variable var) throws Exception
         {
-            highlight(block);
+            highlight(var);
             return false;
         }
     }
@@ -27,18 +27,18 @@ public class BlockHighlighting extends AbstractSemanticHighlighting
     @Override
     public AbstractSemanticApply getSemanticApply()
     {
-        return new BlockApply();
+        return new VariableApply();
     }
 
     @Override
     public void initDefaultPreferences()
     {
-        
+
     }
 
     @Override
     public String getDisplayName()
     {
-        return "Blocks";
+        return "Variables";
     }
 }

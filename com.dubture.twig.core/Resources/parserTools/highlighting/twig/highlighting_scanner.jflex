@@ -138,7 +138,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {KEYWORD} {
+<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE}? {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
@@ -156,10 +156,10 @@ NUMBER=([0-9])+
 
 }
 
-<ST_TWIG_IN_STATEMENT> {LABEL} {
+<ST_TWIG_IN_STATEMENT>{TWIG_WHITESPACE}? {LABEL} {
 
 	if(Debug.debugTokenizer)
-		dump("TWIG KEYWORD");
+		dump("TWIG BLOCKNAME");
 
     if (tokenizer != null) {        
         if ("raw".equals(yytext())) {
@@ -172,13 +172,11 @@ NUMBER=([0-9])+
     }
     
     pushState(ST_TWIG_IN_STATEMENT_BODY);
-
-	pushState(ST_TWIG_IN_STATEMENT_BODY);
-	return TWIG_KEYWORD;
+	return TWIG_BLOCKNAME;
 }
 
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {LABEL} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION>{TWIG_WHITESPACE}? {LABEL} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG LABEL");
@@ -186,7 +184,7 @@ NUMBER=([0-9])+
 	return TWIG_LABEL;
 }
 
-<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {NUMBER} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION>{TWIG_WHITESPACE}? {NUMBER} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG NUMBER");

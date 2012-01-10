@@ -24,7 +24,7 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.preference.ColorSelector;
@@ -47,11 +47,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
-import org.eclipse.php.internal.core.PHPVersion;
-import org.eclipse.php.internal.core.ast.nodes.ASTParser;
-import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.ui.IPHPHelpContextIds;
 import org.eclipse.php.internal.ui.editor.input.NonExistingPHPFileEditorInput;
+import org.eclipse.php.internal.ui.preferences.PHPSyntaxColoringPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -101,11 +99,14 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.ui.TwigUICorePlugin;
 import com.dubture.twig.ui.TwigUIMessages;
 import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
 import com.dubture.twig.ui.editor.SemanticHighlightingManager;
-import com.dubture.twig.ui.editor.highlighters.AbstractSemanticHighlighting;
+import com.dubture.twig.ui.editor.highlighter.AbstractSemanticHighlighting;
+import com.dubture.twig.ui.editor.highlighters.BlockHighlighting;
+import com.dubture.twig.ui.editor.highlighters.VariableHighlighting;
 
 /**
  * 
@@ -215,7 +216,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
          */
         public void setEnabled(boolean isEnabled)
         {
-            System.err.println("set enabled");
             fIsEnabled = isEnabled;
         }
     }
@@ -291,6 +291,34 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                             .getEnabledPreferenceKey(key)));
         }
 
+        for (AbstractSemanticHighlighting rule : SemanticHighlightingManager
+                .getInstance().getSemanticHighlightings().values()) {
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+                    OverlayPreferenceStore.STRING, rule
+                            .getEnabledPreferenceKey()));
+            overlayKeys
+                    .add(new OverlayPreferenceStore.OverlayKey(
+                            OverlayPreferenceStore.STRING, rule
+                                    .getColorPreferenceKey()));
+
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+                    OverlayPreferenceStore.STRING, rule
+                            .getBackgroundColorPreferenceKey()));
+            overlayKeys
+                    .add(new OverlayPreferenceStore.OverlayKey(
+                            OverlayPreferenceStore.STRING, rule
+                                    .getBoldPreferenceKey()));
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+                    OverlayPreferenceStore.STRING, rule
+                            .getItalicPreferenceKey()));
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+                    OverlayPreferenceStore.STRING, rule
+                            .getStrikethroughPreferenceKey()));
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+                    OverlayPreferenceStore.STRING, rule
+                            .getUnderlinePreferenceKey()));
+        }
+
         OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
                 .size()];
 
@@ -306,6 +334,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
             styles.add(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
             styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
+            styles.add(PreferenceConstants.EDITOR_BLOCKNAME_COLOR);
             styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
             styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
             styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
@@ -328,7 +357,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         fStyleToDescriptionMap.put(
                 PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR,
                 "Block tags");
-
+        fStyleToDescriptionMap.put(
+                PreferenceConstants.EDITOR_BLOCKNAME_COLOR,
+                "Block name");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR,
                 "Label");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
@@ -754,11 +785,25 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             public void widgetSelected(SelectionEvent e)
             {
                 // get current (newly old) style
+                
                 Object o = ((IStructuredSelection) fStylesViewer.getSelection())
                         .getFirstElement();
+                System.err.println(o.toString());
                 String namedStyle = o.toString();
 
-                if (getStylePreferenceKeys().contains(namedStyle)) {
+                Map<String, AbstractSemanticHighlighting> highlightingMap = SemanticHighlightingManager
+                        .getInstance().getSemanticHighlightings();
+
+                if (highlightingMap.containsKey(namedStyle)) {
+                    AbstractSemanticHighlighting semantic = highlightingMap
+                            .get(namedStyle);
+                    boolean enablement = fEnabler.getSelection();
+                    semantic.getStyle().setEnabledByDefault(enablement);
+                    switchEnablement(enablement);
+                    getOverlayStore().setValue(
+                            semantic.getEnabledPreferenceKey(), enablement);
+
+                } else if (getStylePreferenceKeys().contains(namedStyle)) {
                     boolean enablement = fEnabler.getSelection();
                     switchEnablement(enablement);
                     getOverlayStore().setValue(
@@ -766,6 +811,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                                     .getEnabledPreferenceKey(namedStyle),
                             enablement);
                 }
+                
             }
 
         });
@@ -786,11 +832,11 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
         highlightingPositionMap = new HashMap<String, Position[]>();
         IPath stateLocation = TwigUICorePlugin.getDefault().getStateLocation();
-        IPath path = stateLocation.append("/_" + "PHPSyntax"); //$NON-NLS-1$
+        IPath path = stateLocation.append("/_" + "TwigSyntax"); //$NON-NLS-1$
         IFileStore fileStore = EFS.getLocalFileSystem().getStore(path);
 
         NonExistingPHPFileEditorInput input = new NonExistingPHPFileEditorInput(
-                fileStore, "PHPSyntax");
+                fileStore, "TwigSyntax");
 
         File realFile = ((NonExistingPHPFileEditorInput) input).getPath(input)
                 .toFile();
@@ -802,32 +848,61 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             DLTKUIPlugin.getDocumentProvider().connect(input);
             final ISourceModule sourceModule = DLTKUIPlugin
                     .getDocumentProvider().getWorkingCopy(input);
+            
+            final ModuleDeclaration module = SourceParserUtil.parseSourceModule(sourceModule.getSource());            
             if (sourceModule != null) {
-                ASTParser parser = ASTParser.newParser(PHPVersion.PHP5_3,
-                        sourceModule);
-                parser.setSource(fDocument.get().toCharArray());
-
-                final Program program = parser.createAST(null);
+                
                 List<AbstractSemanticHighlighting> highlightings = new ArrayList<AbstractSemanticHighlighting>();
 
                 Collections.sort(highlightings);
 
+                highlightings.add(new BlockHighlighting() {
+
+                    protected ModuleDeclaration getProgram(
+                            IStructuredDocumentRegion region) {
+                        return module;
+                    }
+
+                    @Override
+                    public String getPreferenceKey() {
+                        return BlockHighlighting.class.getName();
+                    }
+                });
+                
+                highlightings.add(new VariableHighlighting() {
+                    
+                    @Override
+                    protected ModuleDeclaration getProgram(
+                            IStructuredDocumentRegion region)
+                    {
+                        return module;
+                    }
+                    
+                    @Override
+                    public String getPreferenceKey()
+                    {
+                        return VariableApply.class.getName();
+                    }
+                });
+                
                 for (Iterator iterator = highlightings.iterator(); iterator
                         .hasNext();) {
                     AbstractSemanticHighlighting abstractSemanticHighlighting = (AbstractSemanticHighlighting) iterator
                             .next();
+                    
                     Position[] positions = abstractSemanticHighlighting
-                            .consumes(program);
+                            .consumes(module);
 
                     if (positions != null && positions.length > 0) {
                         highlightingPositionMap
                                 .put(abstractSemanticHighlighting
                                         .getPreferenceKey(), positions);
-
                     }
                 }
             }
+            
             DLTKUIPlugin.getDocumentProvider().disconnect(input);
+            
         } catch (CoreException e1) {
             e1.printStackTrace();
         } catch (IOException e) {
@@ -893,6 +968,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
             public Object[] getChildren(Object parentElement)
             {
+                Object[] chi = getStylePreferenceKeys().toArray();
                 return getStylePreferenceKeys().toArray();
             }
 
@@ -1237,9 +1313,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         if (property == null)
             return;
         
+        
         Map<String, AbstractSemanticHighlighting> semanticHighlightings = SemanticHighlightingManager.getInstance().getSemanticHighlightings();
         
-        System.err.println(semanticHighlightings.size());
         
         for (Iterator iterator = SemanticHighlightingManager.getInstance()
                 .getSemanticHighlightings().keySet().iterator(); iterator
@@ -1248,6 +1324,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             ISemanticHighlighting highlighting = SemanticHighlightingManager
                     .getInstance().getSemanticHighlightings().get(type);
             HighlightingStyle style = highlightingStyleMap.get(type);
+//            System.err.println(property );
             if (property.equals(highlighting.getBoldPreferenceKey())) {
                 adaptToTextStyleChange(style, event, SWT.BOLD);
             } else if (property.equals(highlighting.getColorPreferenceKey())) {
