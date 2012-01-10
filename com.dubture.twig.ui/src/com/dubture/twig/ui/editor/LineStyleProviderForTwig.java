@@ -407,6 +407,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
 
         if (event != null) {
             String prefKey = event.getProperty();
+            System.err.println(prefKey);
             if (PreferenceConstants.EDITOR_NORMAL_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR
                             .equals(prefKey)
@@ -418,6 +419,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                     || PreferenceConstants.EDITOR_COMMENT_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_PHPDOC_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_NUMBER_COLOR.equals(prefKey)
+                    || PreferenceConstants.EDITOR_KEYWORD_COLOR.equals(prefKey)                    
                     || PreferenceConstants.EDITOR_TASK_COLOR.equals(prefKey)) {
                 addTextAttribute(prefKey);
             } else if (PreferenceConstants.getEnabledPreferenceKey(
@@ -429,12 +431,23 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                             .getEnabledPreferenceKey(
                                     PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR)
                             .equals(prefKey)
+                    || PreferenceConstants
+                            .getEnabledPreferenceKey(
+                                    PreferenceConstants.EDITOR_BLOCKNAME_COLOR)
+                            .equals(prefKey)                       
+                    || PreferenceConstants
+                            .getEnabledPreferenceKey(
+                                    PreferenceConstants.EDITOR_HASH_COLOR)
+                            .equals(prefKey)                                                        
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_VARIABLE_COLOR).equals(
                             prefKey)
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_STRING_COLOR).equals(
                             prefKey)
+                    || PreferenceConstants.getEnabledPreferenceKey(
+                            PreferenceConstants.EDITOR_KEYWORD_COLOR).equals(
+                            prefKey)                            
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_COMMENT_COLOR).equals(
                             prefKey)

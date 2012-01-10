@@ -9,7 +9,7 @@
 package com.dubture.twig.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.php.internal.ui.PHPUiPlugin;
+
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
@@ -20,7 +20,6 @@ import com.dubture.twig.ui.editor.SemanticHighlightingManager;
 
 /**
  * 
- * @see http://code.google.com/p/smartypdt/
  * 
  */
 @SuppressWarnings("restriction")
@@ -252,7 +251,7 @@ public class PreferenceConstants
     /**
      * A named preference that defines the key for the hover modifiers.
      */
-    public static final String EDITOR_TEXT_HOVER_MODIFIERS = PHPUiPlugin.ID
+    public static final String EDITOR_TEXT_HOVER_MODIFIERS = TwigUICorePlugin.PLUGIN_ID
             + "hoverModifiers"; //$NON-NLS-1$
 
     public static final String TEMPLATES_KEY = "org.eclipse.php.smarty.ui.editor.templates"; //$NON-NLS-1$	
@@ -407,9 +406,17 @@ public class PreferenceConstants
 
     public static String getEnabledPreferenceKey(String preferenceKey)
     {
-        return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX
+        String key = PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX
                 + preferenceKey
                 + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+
+        try {
+            throw new Exception("who called?");
+        } catch (Exception e) {
+            System.err.println(e.getStackTrace()[1].getClassName() + " - "
+                    + e.getStackTrace()[1].getMethodName() + " : " + key);
+        }
+        return key;
     }
 
     public static IPreferenceStore getPreferenceStore()

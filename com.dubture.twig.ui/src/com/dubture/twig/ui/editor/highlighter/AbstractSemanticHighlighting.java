@@ -127,7 +127,9 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
 
         ModuleDeclaration module = null;
         try {
-            module = SourceParserUtil.parseSourceModule(sourceModule.getSource());
+            if (sourceModule != null) {
+                module = SourceParserUtil.parseSourceModule(sourceModule.getSource());
+            }
         } catch (Exception e) {
             Logger.logException(e);
         }

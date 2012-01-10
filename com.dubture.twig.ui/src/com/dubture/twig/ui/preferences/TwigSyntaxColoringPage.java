@@ -333,13 +333,13 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             styles.add(PreferenceConstants.EDITOR_NORMAL_COLOR);
             styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
             styles.add(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
-            styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
+//            styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
             styles.add(PreferenceConstants.EDITOR_BLOCKNAME_COLOR);
             styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
             styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
             styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
             styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
-            styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
+//            styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
             styles.add(PreferenceConstants.EDITOR_HASH_COLOR);
             styles.add(PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
 
@@ -362,13 +362,13 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                 "Block name");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_LABEL_COLOR,
                 "Label");
-        fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
-                "Variable");
-        fStyleToDescriptionMap
-                .put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR,
-                        "Double quotes");
+//        fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_VARIABLE_COLOR,
+//                "Variable");
+//        fStyleToDescriptionMap
+//                .put(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR,
+//                        "Double quotes");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_HASH_COLOR,
-                "Hash");
+                "Hash Braces");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_KEYWORD_COLOR,
                 "Keyword");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_STRING_COLOR,
