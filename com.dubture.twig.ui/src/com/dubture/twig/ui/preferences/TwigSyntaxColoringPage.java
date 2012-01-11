@@ -105,8 +105,6 @@ import com.dubture.twig.ui.TwigUIMessages;
 import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
 import com.dubture.twig.ui.editor.SemanticHighlightingManager;
 import com.dubture.twig.ui.editor.highlighter.AbstractSemanticHighlighting;
-import com.dubture.twig.ui.editor.highlighters.BlockHighlighting;
-import com.dubture.twig.ui.editor.highlighters.VariableHighlighting;
 
 /**
  * 
@@ -281,46 +279,28 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
         List<OverlayKey> overlayKeys = new ArrayList<OverlayKey>();
 
+        
         Iterator<String> i = getStylePreferenceKeys().iterator();
+        
         while (i.hasNext()) {
+            
             String key = i.next();
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, key));
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.BOOLEAN, PreferenceConstants
-                            .getEnabledPreferenceKey(key)));
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, key));
+            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.getEnabledPreferenceKey(key)));
         }
+        
+//        for (AbstractSemanticHighlighting rule : SemanticHighlightingManager.getInstance().getSemanticHighlightings().values()) {
+//            
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getEnabledPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getColorPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getBackgroundColorPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getBoldPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getItalicPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getStrikethroughPreferenceKey()));
+//            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getUnderlinePreferenceKey()));
+//        }
 
-        for (AbstractSemanticHighlighting rule : SemanticHighlightingManager
-                .getInstance().getSemanticHighlightings().values()) {
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, rule
-                            .getEnabledPreferenceKey()));
-            overlayKeys
-                    .add(new OverlayPreferenceStore.OverlayKey(
-                            OverlayPreferenceStore.STRING, rule
-                                    .getColorPreferenceKey()));
-
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, rule
-                            .getBackgroundColorPreferenceKey()));
-            overlayKeys
-                    .add(new OverlayPreferenceStore.OverlayKey(
-                            OverlayPreferenceStore.STRING, rule
-                                    .getBoldPreferenceKey()));
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, rule
-                            .getItalicPreferenceKey()));
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, rule
-                            .getStrikethroughPreferenceKey()));
-            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-                    OverlayPreferenceStore.STRING, rule
-                            .getUnderlinePreferenceKey()));
-        }
-
-        OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
-                .size()];
+        OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys.size()];
 
         overlayKeys.toArray(keys);
         return keys;
@@ -333,15 +313,16 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             styles.add(PreferenceConstants.EDITOR_NORMAL_COLOR);
             styles.add(PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
             styles.add(PreferenceConstants.EDITOR_STMT_BOUNDARYMARKER_COLOR);
-//            styles.add(PreferenceConstants.EDITOR_VARIABLE_COLOR);
             styles.add(PreferenceConstants.EDITOR_BLOCKNAME_COLOR);
             styles.add(PreferenceConstants.EDITOR_STRING_COLOR);
             styles.add(PreferenceConstants.EDITOR_NUMBER_COLOR);
             styles.add(PreferenceConstants.EDITOR_COMMENT_COLOR);
             styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
-//            styles.add(PreferenceConstants.EDITOR_DOUBLE_QUOTED_COLOR);
             styles.add(PreferenceConstants.EDITOR_HASH_COLOR);
             styles.add(PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
+            
+//            styles.addAll(SemanticHighlightingManager.getInstance()
+//                    .getSemanticHighlightings().keySet());            
 
             fStylePreferenceKeys = styles;
         }
@@ -786,30 +767,27 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             {
                 // get current (newly old) style
                 
-                Object o = ((IStructuredSelection) fStylesViewer.getSelection())
-                        .getFirstElement();
-                System.err.println(o.toString());
+                Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
                 String namedStyle = o.toString();
+                
 
-                Map<String, AbstractSemanticHighlighting> highlightingMap = SemanticHighlightingManager
-                        .getInstance().getSemanticHighlightings();
+//                Map<String, AbstractSemanticHighlighting> highlightingMap = SemanticHighlightingManager
+//                        .getInstance().getSemanticHighlightings();
 
-                if (highlightingMap.containsKey(namedStyle)) {
-                    AbstractSemanticHighlighting semantic = highlightingMap
-                            .get(namedStyle);
+//                if (highlightingMap.containsKey(namedStyle)) {
+//                    AbstractSemanticHighlighting semantic = highlightingMap
+//                            .get(namedStyle);
+//                    boolean enablement = fEnabler.getSelection();
+//                    semantic.getStyle().setEnabledByDefault(enablement);
+//                    switchEnablement(enablement);
+//                    getOverlayStore().setValue(
+//                            semantic.getEnabledPreferenceKey(), enablement);
+//
+//                }
+                if (getStylePreferenceKeys().contains(namedStyle)) {
                     boolean enablement = fEnabler.getSelection();
-                    semantic.getStyle().setEnabledByDefault(enablement);
                     switchEnablement(enablement);
-                    getOverlayStore().setValue(
-                            semantic.getEnabledPreferenceKey(), enablement);
-
-                } else if (getStylePreferenceKeys().contains(namedStyle)) {
-                    boolean enablement = fEnabler.getSelection();
-                    switchEnablement(enablement);
-                    getOverlayStore().setValue(
-                            PreferenceConstants
-                                    .getEnabledPreferenceKey(namedStyle),
-                            enablement);
+                    getOverlayStore().setValue(PreferenceConstants.getEnabledPreferenceKey(namedStyle),enablement);
                 }
                 
             }
@@ -827,7 +805,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
     }
 
-    private void initHighlightingPositions()
+    protected void initHighlightingPositions()
     {
 
         highlightingPositionMap = new HashMap<String, Position[]>();
@@ -855,35 +833,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                 List<AbstractSemanticHighlighting> highlightings = new ArrayList<AbstractSemanticHighlighting>();
 
                 Collections.sort(highlightings);
-
-                highlightings.add(new BlockHighlighting() {
-
-                    protected ModuleDeclaration getProgram(
-                            IStructuredDocumentRegion region) {
-                        return module;
-                    }
-
-                    @Override
-                    public String getPreferenceKey() {
-                        return BlockHighlighting.class.getName();
-                    }
-                });
-                
-                highlightings.add(new VariableHighlighting() {
-                    
-                    @Override
-                    protected ModuleDeclaration getProgram(
-                            IStructuredDocumentRegion region)
-                    {
-                        return module;
-                    }
-                    
-                    @Override
-                    public String getPreferenceKey()
-                    {
-                        return VariableApply.class.getName();
-                    }
-                });
                 
                 for (Iterator iterator = highlightings.iterator(); iterator
                         .hasNext();) {
@@ -1314,7 +1263,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             return;
         
         
-        Map<String, AbstractSemanticHighlighting> semanticHighlightings = SemanticHighlightingManager.getInstance().getSemanticHighlightings();
         
         
         for (Iterator iterator = SemanticHighlightingManager.getInstance()
@@ -1324,7 +1272,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             ISemanticHighlighting highlighting = SemanticHighlightingManager
                     .getInstance().getSemanticHighlightings().get(type);
             HighlightingStyle style = highlightingStyleMap.get(type);
-//            System.err.println(property );
             if (property.equals(highlighting.getBoldPreferenceKey())) {
                 adaptToTextStyleChange(style, event, SWT.BOLD);
             } else if (property.equals(highlighting.getColorPreferenceKey())) {

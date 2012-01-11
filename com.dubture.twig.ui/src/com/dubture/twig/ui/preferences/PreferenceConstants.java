@@ -409,13 +409,6 @@ public class PreferenceConstants
         String key = PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX
                 + preferenceKey
                 + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
-
-        try {
-            throw new Exception("who called?");
-        } catch (Exception e) {
-            System.err.println(e.getStackTrace()[1].getClassName() + " - "
-                    + e.getStackTrace()[1].getMethodName() + " : " + key);
-        }
         return key;
     }
 

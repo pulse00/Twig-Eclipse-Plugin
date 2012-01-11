@@ -8,6 +8,7 @@ import org.eclipse.dltk.ast.statements.Statement;
 import com.dubture.twig.core.parser.ast.node.BlockName;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.PrintStatement;
+import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
@@ -31,6 +32,17 @@ public abstract class TwigASTVisitor extends ASTVisitor
     }
 
     public boolean endvisit(Variable s) throws Exception
+    {
+        endvisitGeneral(s);
+        return false;
+    }
+    
+    public boolean visit(StringLiteral s) throws Exception
+    {
+        return visitGeneral(s);
+    }
+
+    public boolean endvisit(StringLiteral s) throws Exception
     {
         endvisitGeneral(s);
         return false;
@@ -69,6 +81,7 @@ public abstract class TwigASTVisitor extends ASTVisitor
         return false;
     }
     
+    
     public boolean visit(Expression s) throws Exception
     {
         Class<? extends ASTNode> nodeClass = s.getClass();
@@ -76,6 +89,10 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return visit((Variable)s);
         } else if (nodeClass.equals(BlockName.class)) {
             return visit((BlockName)s);
+        } else if (nodeClass.equals(TwigCallExpression.class)) {
+            return visit((TwigCallExpression) s);
+        } else if (nodeClass.equals(StringLiteral.class)) {
+            return visit((StringLiteral)s);
         }
 
         return true;
@@ -89,6 +106,10 @@ public abstract class TwigASTVisitor extends ASTVisitor
             return endvisit((Variable)s);
         } else if (nodeClass.equals(BlockName.class)) {
             return endvisit((BlockName)s);
+        } else if (nodeClass.equals(TwigCallExpression.class)) {
+            return endvisit((TwigCallExpression) s);
+        } else if (nodeClass.equals(StringLiteral.class)) {
+            return endvisit((StringLiteral)s);
         }
         return true;
 
@@ -100,8 +121,6 @@ public abstract class TwigASTVisitor extends ASTVisitor
         Class<? extends ASTNode> nodeClass = s.getClass();
         if (nodeClass.equals(PrintStatement.class)) {
             return visit((PrintStatement) s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return visit((TwigCallExpression) s);
         } else if (nodeClass.equals(BlockStatement.class)) {
             return visit((BlockStatement)s);
         } else if (nodeClass.equals(Variable.class)) {
@@ -118,8 +137,6 @@ public abstract class TwigASTVisitor extends ASTVisitor
         Class<? extends ASTNode> nodeClass = s.getClass();
         if (nodeClass.equals(PrintStatement.class)) {
             return endvisit((PrintStatement) s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return endvisit((TwigCallExpression) s);
         } else if (nodeClass.equals(BlockStatement.class)) {
             return endvisit((BlockStatement)s);
         } else if (nodeClass.equals(Variable.class)) {
@@ -128,33 +145,4 @@ public abstract class TwigASTVisitor extends ASTVisitor
         
         return true;
     }
-
-    @Override
-    public boolean visit(ASTNode s) throws Exception
-    {
-
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(PrintStatement.class)) {
-            return visit((PrintStatement) s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return visit((TwigCallExpression) s);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean endvisit(ASTNode s) throws Exception
-    {
-
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(PrintStatement.class)) {
-            return endvisit((PrintStatement) s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return endvisit((TwigCallExpression) s);
-        }
-
-        return true;
-    }
-
 }

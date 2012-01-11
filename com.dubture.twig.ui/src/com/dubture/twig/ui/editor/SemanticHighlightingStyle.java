@@ -25,6 +25,7 @@ public class SemanticHighlightingStyle {
 	private boolean underlineByDefault = false;
 	private RGB defaultTextColor = new RGB(0, 0, 0);
 	private boolean enabledByDefault = true;
+    private RGB defaultBackgroundColor = new RGB(255, 255, 255);
 
 	public SemanticHighlightingStyle setDefaultTextColor(int red, int green,
 			int blue) {
@@ -34,6 +35,15 @@ public class SemanticHighlightingStyle {
 	public SemanticHighlightingStyle setDefaultTextColor(RGB defaultTextColor) {
 		this.defaultTextColor = defaultTextColor;
 		return this;
+	}
+	
+	public SemanticHighlightingStyle setDefaultBackgroundColor(int red, int green, int blue) {
+	    return setDefaultBackgroundColor(new RGB(red, green, blue));
+	}
+	
+	public SemanticHighlightingStyle setDefaultBackgroundColor(RGB defaultBackgroundColor) {
+	    this.defaultBackgroundColor = defaultBackgroundColor;
+	    return this;
 	}
 
 	public SemanticHighlightingStyle(String preferenceKey) {
@@ -63,6 +73,10 @@ public class SemanticHighlightingStyle {
 	 */
 	protected RGB getDefaultTextColor() {
 		return defaultTextColor;
+	}
+	
+	protected RGB getDefaultBackgroundColor() {
+	    return defaultBackgroundColor;
 	}
 
 	private String getThemeColorKey() {

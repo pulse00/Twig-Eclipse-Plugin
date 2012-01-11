@@ -120,6 +120,8 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
                  		{:                 
                     		TwigModuleDeclaration module = parser.getModuleDeclaration();
                     		module.setStatements(sList);
+                    		module.setStart(sListleft);
+                    		module.setEnd(sListright);
                     		RESULT = module;
                  		:}
 		                ;
@@ -191,7 +193,7 @@ precedence left TWIG_VAR_OPEN, TWIG_STMT_OPEN;
     
     function			::= T_VARIABLE:id T_OPEN_PARENTHESE:open inner_statement_list:stmt T_CLOSE_PARENTHESE:close
     					{:
-    						RESULT = new TwigCallExpression(openleft, closeright, id, stmt);
+    						RESULT = new TwigCallExpression(idleft, closeright, id, stmt);
     					:}
     					;
     

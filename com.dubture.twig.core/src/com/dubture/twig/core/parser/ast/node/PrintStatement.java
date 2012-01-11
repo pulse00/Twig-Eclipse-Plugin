@@ -20,7 +20,9 @@ public class PrintStatement extends Statement
 
     public PrintStatement(int start, int end, List<Expression> expressions)
     {
+        super(start, end);
         this.expressions = expressions;
+        
     }
 
     @Override

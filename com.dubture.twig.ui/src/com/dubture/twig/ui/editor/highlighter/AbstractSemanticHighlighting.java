@@ -92,7 +92,6 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
     }
 
     public Position[] consumes(IStructuredDocumentRegion region) {
-        // System.err.println("consumes php " + region.getType());
         if (region.getStart() == 0) {
             ModuleDeclaration program = getProgram(region);
             return consumes(program);

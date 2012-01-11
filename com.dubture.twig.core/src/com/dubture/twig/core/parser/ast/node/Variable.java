@@ -10,6 +10,13 @@ package com.dubture.twig.core.parser.ast.node;
 
 import org.eclipse.dltk.ast.expressions.Literal;
 
+/**
+ * 
+ * A twig variable.
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class Variable extends Literal
 {
 
@@ -22,7 +29,7 @@ public class Variable extends Literal
     @Override
     public int getKind()
     {
-        return ASTNodeKinds.IDENT;
+        return ASTNodeKinds.IDENTIFIER;
     }
 
     public String toString()

@@ -84,10 +84,10 @@ public class SemanticHighlightingManager
             rule.initDefaultPreferences();
             SemanticHighlightingStyle style = rule.getStyle();
             setDefaultAndFireEvent(store, rule.getColorPreferenceKey(),
-                    style.getDefaultTextColor());
-            // setDefaultAndFireEvent(store,
-            // rule.getBackgroundColorPreferenceKey(), style
-            // .);
+                    style.getDefaultTextColor());            
+            setDefaultAndFireEvent(store, rule.getBackgroundColorPreferenceKey(), 
+                    style.getDefaultBackgroundColor());
+            
             store.setDefault(rule.getBoldPreferenceKey(),
                     style.isBoldByDefault());
             store.setDefault(rule.getItalicPreferenceKey(),

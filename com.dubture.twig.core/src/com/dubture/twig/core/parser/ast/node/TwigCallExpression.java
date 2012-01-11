@@ -10,8 +10,16 @@ package com.dubture.twig.core.parser.ast.node;
 
 import java.util.List;
 
+import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.expressions.Expression;
 
+/**
+ * 
+ * Anything in the form: foo(..) 
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class TwigCallExpression extends Expression
 {
 
@@ -25,6 +33,24 @@ public class TwigCallExpression extends Expression
         this.name = name;
         this.arguments = arguments;
     }
+    
+    
+    @Override
+    public void traverse(ASTVisitor visitor) throws Exception
+    {
+        if (visitor.visit(this)) {
+
+            if (arguments != null) {
+                for (Expression exp : arguments) {
+
+                    if (exp != null) {
+                        exp.traverse(visitor);
+                    }
+                }
+            }
+            visitor.endvisit(this);
+        }
+    }
 
     @Override
     public int getKind()
@@ -33,6 +59,12 @@ public class TwigCallExpression extends Expression
     }
 
     public List<Expression> getArguments()
+    {
+        return arguments;
+    }
+    
+    @Override
+    public List getChilds()
     {
         return arguments;
     }

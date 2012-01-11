@@ -398,16 +398,13 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
 
     public Map<String, String> getTwigColorTypesMap()
     {
-
         return fTwigColorTypes;
     }
 
     protected void handlePropertyChange(PropertyChangeEvent event)
     {
-
         if (event != null) {
             String prefKey = event.getProperty();
-            System.err.println(prefKey);
             if (PreferenceConstants.EDITOR_NORMAL_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR
                             .equals(prefKey)

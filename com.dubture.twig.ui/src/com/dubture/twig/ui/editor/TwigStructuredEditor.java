@@ -16,11 +16,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.IMember;
-import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.dltk.core.ISourceReference;
 import org.eclipse.dltk.core.ModelException;
@@ -30,13 +28,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISelectionValidator;
 import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.ITextInputListener;
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
@@ -49,7 +44,6 @@ import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.ImageUtilities;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.php.internal.core.ast.nodes.Program;
 import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
@@ -73,11 +67,8 @@ import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
 
 import com.dubture.twig.core.documentModel.dom.IImplForTwig;
 import com.dubture.twig.core.documentModel.parser.TwigSourceParser;
-import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.TwigNode;
 import com.dubture.twig.core.search.IOccurrencesFinder;
 import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
-import com.dubture.twig.core.search.NodeFinder;
 import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
 
 /**
@@ -110,15 +101,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor
      * @since 3.4
      */
     private Annotation[] fOccurrenceAnnotations = null;
-
-    private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
-    /**
-     * The region of the word under the caret used to when computing the current
-     * occurrence markings.
-     * 
-     * @since 3.4
-     */
-    private IRegion fMarkOccurrenceTargetRegion;
 
     public TwigStructuredEditor()
     {
@@ -235,92 +217,6 @@ public class TwigStructuredEditor extends PHPStructuredEditor
                 getOverviewRuler(), isOverviewRulerVisible(), styles);
     }
 
-    @Override
-    protected void updateOccurrenceAnnotations(ITextSelection selection,
-            Program astRoot)
-    {
-
-        super.updateOccurrenceAnnotations(selection, astRoot);
-
-        if (astRoot == null || selection == null)
-            return;
-
-        IDocument document = getSourceViewer().getDocument();
-        if (document == null)
-            return;
-
-        // TODO: see the method comment, need to be removed once
-        // PHPStructuredEditor#aboutToBeChangedEvent is used
-        if (document.getLength() != astRoot.getEnd()) {
-            return;
-        }
-
-        // boolean hasChanged = false;
-
-        // if (document instanceof IDocumentExtension4) {
-        // int offset = selection.getOffset();
-        // long currentModificationStamp = ((IDocumentExtension4) document)
-        // .getModificationStamp();
-        // IRegion markOccurrenceTargetRegion = fMarkOccurrenceTargetRegion;
-        // hasChanged = currentModificationStamp !=
-        // fMarkOccurrenceModificationStamp;
-        // if (markOccurrenceTargetRegion != null && !hasChanged) {
-        // if (markOccurrenceTargetRegion.getOffset() <= offset
-        // && offset <= markOccurrenceTargetRegion.getOffset()
-        // + markOccurrenceTargetRegion.getLength())
-        // return;
-        // }
-        // fMarkOccurrenceTargetRegion = ScriptWordFinder.findWord(document,
-        // offset);
-        // fMarkOccurrenceModificationStamp = currentModificationStamp;
-        // }
-
-        OccurrenceLocation[] locations = null;
-        ISourceModule module = (ISourceModule) getModelElement();
-
-        String source;
-        try {
-            source = module.getSource();
-        } catch (ModelException e) {
-            Logger.logException(e);
-            return;
-        }
-
-        NodeFinder nodeFinder = new NodeFinder();
-
-        TwigNode node = nodeFinder.find(source, selection.getOffset());
-
-        if (node == null)
-            return;
-
-        // TODO: REWRITE AFTER PARSER IMPLEMENTATION
-        // if (node.getType() == TwigParser.STRING) {
-        //
-        // IOccurrencesFinder finder = new LocalVariableOccurrencesFinder();
-        //
-        // if (finder.initialize(source, node) == null) {
-        // locations = finder.getOccurrences();
-        // }
-        //
-        // }/* else if (node.getType() == TwigParser.BLOCK) {
-        //
-        // IOccurrencesFinder finder = new OpenCloseTagFinder();
-        //
-        // if (finder.initialize(source, node) == null) {
-        // locations = finder.getOccurrences();
-        // }
-        // }*/
-
-        if (locations == null)
-            return;
-
-        removeTwigOccurrenceAnnotations();
-
-        fOccurrencesFinderJob = new OccurrencesFinderJob(document, locations,
-                selection);
-        fOccurrencesFinderJob.run(new NullProgressMonitor());
-
-    }
 
     class OccurrencesFinderJobCanceler implements IDocumentListener,
             ITextInputListener

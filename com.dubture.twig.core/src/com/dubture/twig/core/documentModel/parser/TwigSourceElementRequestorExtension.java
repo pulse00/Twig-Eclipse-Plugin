@@ -23,6 +23,7 @@ import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
@@ -103,6 +104,32 @@ public class TwigSourceElementRequestorExtension extends
                     }
                     return false;
                 }
+                /*
+                
+                @Override
+                public boolean visit(PrintStatement print) throws Exception
+                {
+                    System.err.println("request print element");
+                    MethodInfo info = new MethodInfo();
+                    info.nameSourceStart = print.sourceStart();
+                    info.nameSourceEnd = print.sourceEnd();
+                    info.name = "var";
+                    info.declarationStart = print.sourceStart();
+                    
+                    fRequestor.enterMethod(info);
+
+                    
+                    
+                    return true;
+                }
+                
+                @Override
+                public boolean endvisit(PrintStatement s) throws Exception
+                {
+                    fRequestor.exitMethod(s.sourceEnd());
+                    return true;
+                }
+                */
 
                 @Override
                 public boolean endvisit(BlockStatement block) throws Exception

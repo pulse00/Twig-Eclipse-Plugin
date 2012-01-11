@@ -13,6 +13,7 @@ import java.io.Reader;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.parser.ISourceParser;
+import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.AbstractPHPSourceParser;
 
@@ -48,6 +49,28 @@ public class TwigSourceParser extends AbstractPHPSourceParser implements
     public TwigSourceParser(String filename)
     {
         super(filename);
+    }
+    
+    @Override
+    public IModuleDeclaration parse(IModuleSource input, IProblemReporter reporter)
+    {
+        try {
+            
+            TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(input.getSourceContents());
+            
+            if (module != null) {
+                module.traverse(new SourceParserVisitor(reporter));
+            }            
+
+            return module;
+
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+
+        // return an empty moduledeclaration
+        return new ModuleDeclaration(0);
+        
     }
 
     @Override

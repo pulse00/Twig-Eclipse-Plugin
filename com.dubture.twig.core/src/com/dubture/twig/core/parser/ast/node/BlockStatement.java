@@ -40,6 +40,9 @@ public class BlockStatement extends Statement
     {
         final boolean visit = visitor.visit(this);
         if (visit) {
+            
+            name.traverse(visitor);
+            
             if (statements != null) {
                 for (Statement exp : statements) {
                     exp.traverse(visitor);

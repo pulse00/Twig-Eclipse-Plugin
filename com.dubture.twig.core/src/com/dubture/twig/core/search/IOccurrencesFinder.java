@@ -8,7 +8,10 @@
  ******************************************************************************/
 package com.dubture.twig.core.search;
 
+import org.eclipse.dltk.ast.ASTNode;
+
 import com.dubture.twig.core.parser.TwigNode;
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 /**
  * 
@@ -72,7 +75,7 @@ public interface IOccurrencesFinder
 
     }
 
-    public String initialize(String source, TwigNode node);
+    public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode);
 
     /**
      * Returns the occurrences
