@@ -97,6 +97,10 @@ public class BlockStatement extends Statement
     
     public boolean isBlock() 
     {
-        return TwigCoreConstants.START_BLOCK.equals(name);       
+        if (name == null) {
+            return false;
+        }
+        
+        return TwigCoreConstants.START_BLOCK.equals(name.getValue());
     }
 }

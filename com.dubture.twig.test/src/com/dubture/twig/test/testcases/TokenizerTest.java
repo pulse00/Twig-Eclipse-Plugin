@@ -235,9 +235,9 @@ public class TokenizerTest extends TestCase
             
             TwigScriptRegion region = (TwigScriptRegion) textRegions.get(1);
             assertNotNull(region);
-            assertEquals(10, region.getTokenCount());
-            assertEquals(TwigRegionContext.TWIG_INTERPOLATION_START, region.getTwigToken(7).getType());
-            assertEquals(TwigRegionContext.TWIG_LABEL, region.getTwigToken(9).getType());
+            assertEquals(9, region.getTokenCount());
+            assertEquals(TwigRegionContext.TWIG_INTERPOLATION_START, region.getTwigToken(6).getType());
+            assertEquals(TwigRegionContext.TWIG_LABEL, region.getTwigToken(8).getType());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -318,17 +318,15 @@ public class TokenizerTest extends TestCase
                     .get(1);
             assertNotNull(scriptRegion);
 
-            assertEquals(13, scriptRegion.getTokenCount());
+            assertEquals(12, scriptRegion.getTokenCount());
 
             assertEquals(scriptRegion.getTwigToken(0).getType(),
-                    TwigRegionContext.TWIG_WHITESPACE);
+                    TwigRegionContext.TWIG_LABEL);
             assertEquals(scriptRegion.getTwigToken(1).getType(),
                     TwigRegionContext.TWIG_LABEL);
-            assertEquals(scriptRegion.getTwigToken(2).getType(),
-                    TwigRegionContext.TWIG_LABEL);
-            assertEquals(scriptRegion.getTwigToken(7).getType(),
+            assertEquals(scriptRegion.getTwigToken(6).getType(),
                     TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
-            assertEquals(scriptRegion.getTwigToken(17).getType(),
+            assertEquals(scriptRegion.getTwigToken(16).getType(),
                     TwigRegionContext.TWIG_CONSTANT_ENCAPSED_STRING);
 
         } catch (Exception e) {
