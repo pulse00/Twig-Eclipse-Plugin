@@ -61,6 +61,13 @@ public class BlockStatement extends Statement
         return null;
 
     }
+    
+    @Override
+    @SuppressWarnings("rawtypes")
+    public List getChilds()
+    {
+        return statements;
+    }
 
     /**
      * Get the BlockName variable: {% block NAME %}
