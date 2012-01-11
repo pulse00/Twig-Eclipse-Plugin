@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('.slideshow').cycle({
     		fx: 'scrollLeft',
             speed:    500, 
-            timeout:  4000,
+            timeout:  3000,
             before:  onBefore, 
             after:   onAfter            
     	});
