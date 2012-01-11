@@ -109,26 +109,31 @@
             id="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             name="%twigPageName">
       </page>
+      <!-- validation has been removed for now, too buggy and time consuming to implement -->
+      <!-- it's not worth the effort as the twig runtime throws errors anyway on syntax errors -->
+      <!-- maybe implemented properly at a later time-->
+      <!--
       <page
             category="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             class="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             id="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
             name="%twigEditorPageName">
       </page>
+      -->
       <page
-            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             class="com.dubture.twig.ui.preferences.TwigTemplatePreferencePage"
             id="com.dubture.twig.ui.preferences.TwigTemplatesPreferencePage"
             name="%templatesPreferencePageName">
       </page>
       <page
-            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             class="com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage"
             id="com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage"
             name="%codeassistPreferencePageName">
       </page>
       <page
-            category="com.dubture.twig.ui.preferences.TwigEditorPreferencePage"
+            category="com.dubture.twig.ui.preferences.TwigBasePreferencePage"
             class="com.dubture.twig.ui.preferences.TwigSyntaxColoringPage"
             id="com.dubture.twig.ui.preferences.TwigSyntaxcolorPreferencePage"
             name="%page.name">

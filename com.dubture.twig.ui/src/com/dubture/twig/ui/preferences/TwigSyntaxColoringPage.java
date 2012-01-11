@@ -506,7 +506,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         fText = viewer.getTextWidget();
         GridData gridData3 = new GridData(SWT.FILL, SWT.FILL, true, true);
         gridData3.widthHint = convertWidthInCharsToPixels(20);
-        gridData3.heightHint = convertHeightInCharsToPixels(5);
+        gridData3.heightHint = convertHeightInCharsToPixels(18);
         gridData3.horizontalSpan = 2;
         fText.setLayoutData(gridData3);
         fText.setEditable(false);
