@@ -20,7 +20,7 @@
    <repository>
      <id>github</id>
      <layout>p2</layout>
-     <url>http://pulse00.github.com/p2-nightly</url>
+     <url>http://pulse00.github.com/p2</url>
    </repository>	
 
    <repository>
