@@ -1,4 +1,4 @@
-script: mvn install
+language: java
 branches:
   only:
     master
