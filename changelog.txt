@@ -1,3 +1,7 @@
+1.0.98
+
+* merged PR https://github.com/pulse00/Twig-Eclipse-Plugin/pull/53
+
 1.0.95
 
 * re-written parser

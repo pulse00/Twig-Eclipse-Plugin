@@ -8,16 +8,11 @@ The plugin is still beta.
 
 ### Requirements
 
-- Eclipse >= 3.7 (aka Indigo)
+- Eclipse >= 3.7.2 (aka Indigo SR2)
 - Java >= 6
-- PHP Development Tools - Development build (available in the updatesite)
 
 ### Updatesite
 
 [http://pulse00.github.com/p2/](http://pulse00.github.com/p2/)
 
 For more info visit [http://twig.dubture.com/](http://twig.dubture.com/)
-
-### Acknowledgements
-
-- [Bart Kiers](http://big-o.nl) for helping with key parts of the new ANTLR parser
