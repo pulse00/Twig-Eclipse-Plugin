@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -55,6 +55,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -72,14 +73,14 @@ import com.dubture.twig.core.search.IOccurrencesFinder.OccurrenceLocation;
 import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
 
 /**
- * 
+ *
  * A modified {@link PHPStructuredEditor} for Twig templates.
- * 
+ *
  * Modifications concerning:
- * 
+ *
  * - attaching {@link TwigSourceParser} instead of {@link PhpSourceParser} -
  * finding occurences
- * 
+ *
  */
 @SuppressWarnings({"restriction", "unchecked"})
 public class TwigStructuredEditor extends PHPStructuredEditor
@@ -97,7 +98,7 @@ public class TwigStructuredEditor extends PHPStructuredEditor
 
     /**
      * Holds the current occurrence annotations.
-     * 
+     *
      * @since 3.4
      */
     private Annotation[] fOccurrenceAnnotations = null;
@@ -303,7 +304,7 @@ public class TwigStructuredEditor extends PHPStructuredEditor
 
     /**
      * Finds and marks occurrence annotations.
-     * 
+     *
      * @since 3.0
      */
     class OccurrencesFinderJob extends Job
@@ -492,7 +493,19 @@ public class TwigStructuredEditor extends PHPStructuredEditor
     {
         if (getSelectionProvider() == null)
             return;
-        ISelection selection = getSelectionProvider().getSelection();
+
+        final ISelection[] selections = new ISelection[1];
+        Display.getDefault().syncExec(new Runnable() {
+            public void run() {
+                selections[0] = getSelectionProvider().getSelection();
+            }
+        });
+
+        if (selections[0] == null) {
+            return;
+        }
+
+        final ISelection selection = selections[0];
         if (selection instanceof TextSelection) {
             TextSelection textSelection = (TextSelection) selection;
             if (textSelection instanceof IStructuredSelection) {
