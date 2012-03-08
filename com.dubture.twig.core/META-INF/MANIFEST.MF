@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.dubture.twig.core
 Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
-Bundle-Version: 1.0.97.qualifier
+Bundle-Version: 1.0.98.qualifier
 Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -12,8 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.html.core,
  org.eclipse.wst.xml.core,
  org.eclipse.wst.validation,
- org.eclipse.php.core;bundle-version="3.0.1",
- org.eclipse.dltk.core;bundle-version="4.0.0",
+ org.eclipse.php.core,
+ org.eclipse.dltk.core,
  org.eclipse.dltk.ui,
  org.eclipse.php.ui,
  org.eclipse.php.core.parser,
