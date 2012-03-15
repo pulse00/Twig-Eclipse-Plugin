@@ -7,8 +7,10 @@
   <packaging>pom</packaging>
   <modules>
     <module>com.dubture.twig.core</module>
+    <module>com.dubture.twig.core.json</module>
     <module>com.dubture.twig.ui</module>
-    <module>com.dubture.twig.test</module>
+    <module>com.dubture.twig.test</module>	
+    <module>com.dubture.twig.feature</module>
   </modules>
 
   <properties>
@@ -28,12 +30,6 @@
      <layout>p2</layout>
      <url>http://download.eclipse.org/releases/indigo</url>
    </repository>	
-
-   <repository>
-     <id>dltk</id>
-     <layout>p2</layout>
-     <url>http://build.xored.com/browse/DLTK-DLTKCORE-123/artifact/JOB1/All-Update-Site</url>
-   </repository>
   </repositories>
 
   <build>

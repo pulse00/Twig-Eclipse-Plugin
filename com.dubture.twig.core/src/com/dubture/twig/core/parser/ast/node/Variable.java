@@ -46,7 +46,7 @@ public class Variable extends Literal
 
         Variable other = (Variable) obj;
 
-        return other.start() == start() && other.end() == end()
+        return other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
                 && other.getValue() == getValue();
 
     }

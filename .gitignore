@@ -10,3 +10,4 @@ com.dubture.twig.ui/target/*
 com.dubture.twig.core/Resources/parserTools/parser/output/*
 com.dubture.twig.core.json/bin/*
 com.dubture.twig.core.json/target/*
+com.dubture.twig.feature/target/*

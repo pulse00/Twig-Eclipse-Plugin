@@ -32,7 +32,7 @@ public class StringLiteral extends Literal
     @Override
     public String toString()
     {
-        return String.format("[StringLiteral %d - %d] : %s", start(), end(),
+        return String.format("[StringLiteral %d - %d] : %s", sourceStart(), sourceEnd(),
                 fLiteralValue);
     }
 
@@ -45,7 +45,7 @@ public class StringLiteral extends Literal
 
         StringLiteral other = (StringLiteral) obj;
 
-        boolean equal = other.start() == start() && other.end() == end()
+        boolean equal = other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
                 && other.getValue().equals(getValue());
 
         return equal;
