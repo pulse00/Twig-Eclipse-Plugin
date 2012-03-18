@@ -1,3 +1,7 @@
+1.0.99
+
+* integrated into automatic p2 build process
+
 1.0.98
 
 * merged PR https://github.com/pulse00/Twig-Eclipse-Plugin/pull/53
