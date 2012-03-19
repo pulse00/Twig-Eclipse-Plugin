@@ -1,3 +1,7 @@
+1.0.100
+
+* removed pdt 3.0.1 requirement
+
 1.0.99
 
 * integrated into automatic p2 build process

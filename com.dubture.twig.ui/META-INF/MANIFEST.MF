@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.dubture.twig.ui;singleton:=true
-Bundle-Version: 1.0.99
+Bundle-Version: 1.0.100
 Bundle-Activator: com.dubture.twig.ui.TwigUICorePlugin
 Require-Bundle: com.dubture.twig.core,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.expressions,
  org.eclipse.php,
- org.eclipse.php.core;bundle-version="3.0.1",
+ org.eclipse.php.core,
  org.eclipse.php.ui,
  org.eclipse.wst.sse.core,
  org.eclipse.wst.xml.core,
