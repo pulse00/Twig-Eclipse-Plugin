@@ -1,3 +1,7 @@
+1.0.101
+
+* fixed bug in twig template detection
+
 1.0.100
 
 * removed pdt 3.0.1 requirement

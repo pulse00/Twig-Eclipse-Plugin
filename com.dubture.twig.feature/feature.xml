@@ -2,7 +2,7 @@
 <feature
       id="com.dubture.twig.feature"
       label="Twig Editor Feature"
-      version="1.0.100"
+      version="1.0.101"
       provider-name="https://github.com/pulse00">
 
    <description url="https://github.com/pulse00/Twig-Eclipse-Plugin">
@@ -29,21 +29,21 @@
          id="com.dubture.twig.core"
          download-size="0"
          install-size="0"
-         version="1.0.100"
+         version="1.0.101"
          unpack="false"/>
 
    <plugin
          id="com.dubture.twig.ui"
          download-size="0"
          install-size="0"
-         version="1.0.100"
+         version="1.0.101"
          unpack="false"/>
 
    <plugin
          id="com.dubture.twig.core.json"
          download-size="0"
          install-size="0"
-         version="1.0.100"
+         version="1.0.101"
          unpack="false"/>
 
 </feature>
