@@ -11,6 +11,9 @@ package com.dubture.twig.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayCreation;
@@ -20,7 +23,10 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
+import org.eclipse.ui.IFileEditorMapping;
+import org.eclipse.ui.PlatformUI;
 
+import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.log.Logger;
 
 /**
@@ -33,6 +39,33 @@ import com.dubture.twig.core.log.Logger;
 @SuppressWarnings("restriction")
 public class TwigModelUtils
 {
+    
+    public static boolean isTwigTemplate(String filename)
+    {
+        IContentTypeManager manager = Platform.getContentTypeManager();
+        IContentType[] contentTypes = manager.findContentTypesFor(filename);
+        
+        for (IContentType type : contentTypes) {
+            if (ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG.equals(type.getId())) {
+                return true;
+            }
+        }
+        
+        IFileEditorMapping[] editorMappings = PlatformUI.getWorkbench().getEditorRegistry().getFileEditorMappings();
+        String extension = filename.substring(0, filename.lastIndexOf("."));
+        
+        if (extension == null) {
+            return false;
+        }
+        
+        for (IFileEditorMapping mapping : editorMappings) {
+            if (mapping.getExtension().equals(extension)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     /***
      * 

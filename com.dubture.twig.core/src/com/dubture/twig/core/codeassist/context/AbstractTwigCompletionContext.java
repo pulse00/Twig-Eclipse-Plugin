@@ -38,6 +38,7 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.model.Template;
 import com.dubture.twig.core.model.TwigModelAccess;
 import com.dubture.twig.core.util.Debug;
+import com.dubture.twig.core.util.TwigModelUtils;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
@@ -110,8 +111,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
             this.offset = offset;
 
             if (sourceModule.getUnderlyingResource() == null
-                    || sourceModule.getUnderlyingResource().getFileExtension()
-                            .equals("php")) {
+                    || TwigModelUtils.isTwigTemplate(sourceModule.getUnderlyingResource().getName()) == false) {
                 return false;
             }
 

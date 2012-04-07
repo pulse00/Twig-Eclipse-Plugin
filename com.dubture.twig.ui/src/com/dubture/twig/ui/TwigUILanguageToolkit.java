@@ -14,6 +14,7 @@ import org.eclipse.dltk.ui.IDLTKUILanguageToolkit;
 import org.eclipse.dltk.ui.ScriptElementLabels;
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.TwigLanguageToolkit;
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 
@@ -44,7 +45,6 @@ public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit
 
     public String getEditorId(Object inputElement)
     {
-        return "com.dubture.twig.editor";
+        return TwigCorePlugin.EDITOR_ID;
     }
-
 }

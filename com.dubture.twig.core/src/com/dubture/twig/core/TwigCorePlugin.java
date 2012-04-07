@@ -25,6 +25,8 @@ public class TwigCorePlugin extends Plugin
 
     // The plug-in ID
     public static final String PLUGIN_ID = "com.dubture.twig.core";
+    
+    public static final String EDITOR_ID = "com.dubture.twig.editor";
 
     public static final int INTERNAL_ERROR = 10001;
 

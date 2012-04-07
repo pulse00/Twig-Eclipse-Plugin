@@ -10,15 +10,14 @@ package com.dubture.twig.core.builder;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.core.SourceParserUtil;
 import org.eclipse.dltk.core.builder.IBuildContext;
 import org.eclipse.dltk.core.builder.IBuildParticipant;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.model.Template;
 import com.dubture.twig.core.model.TwigModelAccess;
+import com.dubture.twig.core.util.TwigModelUtils;
 
 /**
  * 
@@ -48,16 +47,11 @@ public class TwigBuildParticipant implements IBuildParticipant
         ISourceModule sourceModule = context.getSourceModule();
 
         try {
-
-            if (file.getFileExtension().equals("twig")) {
+            if (TwigModelUtils.isTwigTemplate(file.getName())) {
                 model.addTemplate(new Template(sourceModule));
-            } else if (file.getFileExtension().equals("php")) {
-
             }
-
         } catch (Exception e) {
             Logger.logException(e);
         }
-
     }
 }

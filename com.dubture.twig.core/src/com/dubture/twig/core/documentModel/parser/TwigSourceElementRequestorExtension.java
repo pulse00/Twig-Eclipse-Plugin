@@ -27,6 +27,7 @@ import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
+import com.dubture.twig.core.util.TwigModelUtils;
 
 /**
  * 
@@ -55,7 +56,7 @@ public class TwigSourceElementRequestorExtension extends
 
             super.setSourceModule(sourceModule);
 
-            if (sourceModule.getFileName().endsWith(".php"))
+            if (TwigModelUtils.isTwigTemplate(sourceModule.getFileName()) == false)
                 return;
 
             String source = sourceModule.getSourceContents();            

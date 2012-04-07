@@ -13,6 +13,8 @@ import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 import org.eclipse.php.internal.core.compiler.ast.parser.PHPSourceParserFactory;
 
+import com.dubture.twig.core.util.TwigModelUtils;
+
 /**
  * {@link TwigSourceParserFactory} overrides parse() for modules with the .twig
  * extension, otherwise delegates parsing to the {@link PHPSourceParserFactory}
@@ -30,7 +32,7 @@ public class TwigSourceParserFactory extends PHPSourceParserFactory
             IProblemReporter reporter)
     {
 
-        if (module.getFileName().endsWith(".php")) {
+        if (TwigModelUtils.isTwigTemplate(module.getFileName()) == false) {
             return super.parse(module, reporter);
         }
 
