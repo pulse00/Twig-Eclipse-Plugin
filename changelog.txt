@@ -1,3 +1,8 @@
+1.0.102
+
+* added propsalProvider extension
+* fixed StackOverflow Exception (https://github.com/pulse00/Twig-Eclipse-Plugin/issues/58)
+
 1.0.101
 
 * fixed bug in twig template detection

@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="templateProvider" name="Empty Template Provider" schema="schema/templateProvider.exsd"/>
+   <extension-point id="completionProposalProvider" name="Completion Proposal Provider" schema="schema/completionProposalProvider.exsd"/>
    <extension
          point="org.eclipse.dltk.ui.language">
       <language

@@ -13,7 +13,9 @@ import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.ui.text.completion.CompletionProposalLabelProvider;
 import org.eclipse.dltk.ui.text.completion.IScriptCompletionProposal;
+import org.eclipse.dltk.ui.text.completion.ProposalInfo;
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposal;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalCollector;
 import org.eclipse.swt.graphics.Image;
@@ -29,6 +31,7 @@ import com.dubture.twig.ui.contentassist.FunctionProposalInfo;
 import com.dubture.twig.ui.contentassist.TagProposalInfo;
 import com.dubture.twig.ui.contentassist.TestProposalInfo;
 import com.dubture.twig.ui.editor.TwigCompletionProposalLabelProvider;
+import com.dubture.twig.ui.extension.ExtensionManager;
 
 /**
  * {@link TwigCompletionProposalCollector}
@@ -43,8 +46,11 @@ import com.dubture.twig.ui.editor.TwigCompletionProposalLabelProvider;
 public class TwigCompletionProposalCollector extends
         PHPCompletionProposalCollector
 {
+    
 
     private TwigCompletionProposalLabelProvider lProvider = null;
+    
+    
 
     public TwigCompletionProposalCollector(IDocument document,
             ISourceModule cu, boolean explicit)
@@ -92,7 +98,19 @@ public class TwigCompletionProposalCollector extends
         } else if (element.getClass() == Test.class) {
             return createTestProposal(proposal);
         }
-
+        
+        for (ICompletionProposalProvider provider : ExtensionManager.getInstance().getProposalExtensions()) {
+            ProposalInfo proposalInfo = provider.createScriptCompletionProposal(proposal, this);
+            ImageDescriptor descriptor = provider.createTypeImageDescriptor(proposal);
+            
+            if (proposalInfo != null) {
+                ScriptCompletionProposal twigProposal = generateTwigProposal(proposal, descriptor);
+                twigProposal.setProposalInfo(proposalInfo);
+                twigProposal.setRelevance(computeRelevance(proposal));
+                return twigProposal;                
+            }
+        }
+        
         return super.createScriptCompletionProposal(proposal);
     }
 
@@ -143,17 +161,15 @@ public class TwigCompletionProposalCollector extends
         return scriptProposal;
 
     }
-
+    
     private ScriptCompletionProposal generateTwigProposal(
-            CompletionProposal typeProposal)
-    {
+            CompletionProposal typeProposal, ImageDescriptor descriptor) {
 
         String completion = new String(typeProposal.getCompletion());
         int replaceStart = typeProposal.getReplaceStart();
         int length = getLength(typeProposal);
-        Image image = getImage(((TwigCompletionProposalLabelProvider) getLabelProvider())
-                .createTypeImageDescriptor(typeProposal));
-
+        Image image = getImage(descriptor);
+        
         String displayString = ((TwigCompletionProposalLabelProvider) getLabelProvider())
                 .createTypeProposalLabel(typeProposal);
 
@@ -161,7 +177,15 @@ public class TwigCompletionProposalCollector extends
                 completion, replaceStart, length, image, displayString, 0);
 
         return scriptProposal;
+        
+    }
+    
+
+    private ScriptCompletionProposal generateTwigProposal(
+            CompletionProposal typeProposal)
+    {
+        ImageDescriptor descriptor = ((TwigCompletionProposalLabelProvider) getLabelProvider()).createTypeImageDescriptor(typeProposal);
+        return generateTwigProposal(typeProposal, descriptor);
 
     }
-
 }
