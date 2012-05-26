@@ -57,7 +57,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 
 
 	// state stack for handling embedded regions
-	private IntStack fStateStack = new IntStack();
+	private IntStack fStateStack = new IntStack(500);
 
 	// a "hint" as to what an embedded region should be evaluated
 	private String fEmbeddedHint = UNDEFINED;
@@ -912,7 +912,7 @@ public void reset(java.io.Reader in, int newOffset) {
 	fBufferedText = null;
 	fBufferedStart = 1;
 	fBufferedLength = 0;
-	fStateStack = new IntStack();
+	fStateStack = new IntStack(500);
 
 	context = null;
 	text = null;
