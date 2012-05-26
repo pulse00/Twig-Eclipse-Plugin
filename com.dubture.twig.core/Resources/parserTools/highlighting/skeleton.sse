@@ -252,136 +252,138 @@
 	}
 	
 /* user method - skeleton.sse */
-protected final String findTwigDelimiter(String text, String insideOf, String delim, String delimType, int afterDelimType){
+	protected final String findTwigDelimiter(String text, String insideOf, String delim, String delimType, int afterDelimType) {
 
-int current = -1;
-int firstOccurence = text.length();
-int delimiter = -1;
+	    int current = -1;
+	    int firstOccurence = text.length();
+	    int delimiter = -1;
 
-for (int i=0; i < leftDelimiters.length; i++) {
+	    for (int i=0; i < leftDelimiters.length; i++) {
 
-current = text.indexOf(leftDelimiters[i]);
+	        current = text.indexOf(leftDelimiters[i]);
 
-if (current > -1 && current < firstOccurence) {
-firstOccurence = current;
-delimiter = i;
-}
-}
+	        if (current > -1 && current < firstOccurence) {
+	            firstOccurence = current;
+	            delimiter = i;
+	        }
+	    }
 
-if (delimiter <= -1)
-return insideOf;
+	    if (delimiter <= -1)
+	        return insideOf;
 
-switch (delimiter) {
+	    switch (delimiter) {
 
-case 0:
+	        case 0:
 
-            // don't evaluate inside raw blocks
-            if (insideRaw) {
-              return insideOf;
-            }
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
 
-delim = "{{";
+	            delim = "{{";
 
-if (Debug.debugTokenizer) {
-// System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
-}
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
 
-//System.err.println("a");
-//go to the char right before the text, so it doesnt mark the whole thing red...
-if (firstOccurence > 0){
-// System.err.println("b");
-//push to right before the delim
-yypushback(yylength() - firstOccurence);
-return insideOf;
-//return YYINITIAL;
-} else {
-// System.err.println("c");
-stateHint = "ST_TWIG_IN_PRINT";
-yybegin(afterDelimType);
-// pushback to just after the closing bracket
-int delemLen = delim.length();
-yypushback(yylength() - firstOccurence - delemLen);
-return delimType;
-}
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                stateHint = "ST_TWIG_IN_PRINT";
+	                fStateStack.push(yystate());
+	                yybegin(afterDelimType);
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return delimType;
+	            }
 
-case 1:
+	        case 1:
 
-delim = "{%";
+	            delim = "{%";
 
-if (Debug.debugTokenizer) {
-// System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
-}
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
 
-if (firstOccurence != -1) {
+	            if (firstOccurence != -1) {
 
-if (Debug.debugTokenizer)
-System.err.println("a");
-//go to the char right before the text, so it doesnt mark the whole thing red...
-if (firstOccurence > 0){
+	                if (Debug.debugTokenizer)
+	                    System.err.println("a");
+	                //go to the char right before the text, so it doesnt mark the whole thing red...
+	                if (firstOccurence > 0){
 
-if (Debug.debugTokenizer)
-System.err.println("b");
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("b");
 
-//push to right before the delim
-yypushback(yylength() - firstOccurence);
-return insideOf;
-//return YYINITIAL;
-} else {
+	                    //push to right before the delim
+	                    yypushback(yylength() - firstOccurence);
+	                    return insideOf;
+	                    //return YYINITIAL;
+	                } else {
 
-if (Debug.debugTokenizer)
-System.err.println("c");
-yybegin(afterDelimType);
-stateHint = "ST_TWIG_IN_STATEMENT";
-// pushback to just after the closing bracket
-int delemLen = delim.length();
-yypushback(yylength() - firstOccurence - delemLen);
-return TWIG_STMT_OPEN;
-}
-}
-
-
-
-break;
-
-case 2:
-
-            // don't evaluate inside raw blocks
-            if (insideRaw) {
-              return insideOf;
-            }
-
-// search for comments first
-delim = "{#";
-
-//System.err.println("a");
-//go to the char right before the text, so it doesnt mark the whole thing red...
-if (firstOccurence > 0){
-// System.err.println("b");
-//push to right before the delim
-yypushback(yylength() - firstOccurence);
-return insideOf;
-//return YYINITIAL;
-} else {
-// System.err.println("c");
-yybegin(ST_TWIG_COMMENT);
-stateHint = "ST_TWIG_COMMENT";
-// pushback to just after the closing bracket
-int delemLen = delim.length();
-yypushback(yylength() - firstOccurence - delemLen);
-return TWIG_COMMENT_OPEN;
-}
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("c");
+	                    
+	                    fStateStack.push(yystate());
+	                    yybegin(afterDelimType);
+	                    stateHint = "ST_TWIG_IN_STATEMENT";
+	                    // pushback to just after the closing bracket
+	                    int delemLen = delim.length();
+	                    yypushback(yylength() - firstOccurence - delemLen);
+	                    return TWIG_STMT_OPEN;
+	                }
+	            }
 
 
-default:
-return insideOf;
 
-}
+	            break;
+
+	        case 2:
+
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
+
+	            // search for comments first
+	            delim = "{#";
+
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                fStateStack.push(yystate());
+	                yybegin(ST_TWIG_COMMENT);
+	                stateHint = "ST_TWIG_COMMENT";
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return TWIG_COMMENT_OPEN;
+	            }
 
 
-return insideOf;
-}
+	        default:
+	            return insideOf;
+
+	    }
 
 
+	    return insideOf;
+	}
 
 
 		
