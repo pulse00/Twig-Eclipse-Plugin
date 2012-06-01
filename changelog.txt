@@ -1,3 +1,7 @@
+1.0.103
+
+* parser bugfix (#60)
+
 1.0.102
 
 * added propsalProvider extension

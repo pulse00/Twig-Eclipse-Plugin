@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dubture.twig</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.102</version>
+  <version>1.0.103</version>
   <packaging>pom</packaging>
   <modules>
     <module>com.dubture.twig.core</module>
