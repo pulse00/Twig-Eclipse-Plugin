@@ -2246,7 +2246,7 @@ NUMBER=([0-9])+
 	  dump("TW START EMBEDDED");
 	}
 
-	stateHint = "ST_TWIG_IN_PRINT";	
+	stateHint = "ST_TWIG_IN_STATEMENT";	
 	//removeing trailing whitespaces for the twig open
 	String twigStart = yytext();
 	int i = twigStart.length() - 1; 
