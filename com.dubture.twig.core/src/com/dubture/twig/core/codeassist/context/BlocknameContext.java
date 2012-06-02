@@ -10,17 +10,24 @@ package com.dubture.twig.core.codeassist.context;
 
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.internal.core.SourceModule;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.SourceParserUtil;
+import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 /**
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
+@SuppressWarnings("restriction")
 public class BlocknameContext extends AbstractTwigCompletionContext
 {
 
+    protected TwigModuleDeclaration module;
+    
     /* (non-Javadoc)
      * @see com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext#isValid(org.eclipse.dltk.core.ISourceModule, int, org.eclipse.dltk.core.CompletionRequestor)
      */
@@ -48,13 +55,24 @@ public class BlocknameContext extends AbstractTwigCompletionContext
                     return false;
                 }
                 
-                return true;
+                module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule) getSourceModule());
+                
+                for(BlockStatement block : module.getBlocks()) {
+                    if ("extends".equals(block.getName().getValue())) {
+                        return true;
+                    }
+                }
+                return false;
             }
-            
         } catch (Exception e) {
             Logger.logException(e);
         }
         
         return false;
+    }
+    
+    public TwigModuleDeclaration getModule()
+    {
+        return module;
     }
 }

@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="completionStrategyResolvers" name="Twig Completion Strategy Resolvers" schema="schema/completionStrategyResolvers.exsd"/>
    <extension-point id="completionContextResolvers" name="Twig Completion Context Resolvers" schema="schema/completionContextResolvers.exsd"/>
+   <extension-point id="templateResolvers" name="Twig Template path resolvers" schema="schema/templateResolvers.exsd"/>
 
 <!--
 org.eclipse.php.core.PHPNature

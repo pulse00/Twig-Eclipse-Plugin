@@ -18,6 +18,7 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.core.codeassist.ICompletionStrategy;
 import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
 
+import com.dubture.twig.core.codeassist.context.BlocknameContext;
 import com.dubture.twig.core.codeassist.context.FilterContext;
 import com.dubture.twig.core.codeassist.context.FunctionContext;
 import com.dubture.twig.core.codeassist.context.KeywordContext;
@@ -26,6 +27,7 @@ import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
 import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.codeassist.context.VariableFieldContext;
 import com.dubture.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
+import com.dubture.twig.core.codeassist.strategies.BlocknameStrategy;
 import com.dubture.twig.core.codeassist.strategies.FilterStrategy;
 import com.dubture.twig.core.codeassist.strategies.FunctionStrategy;
 import com.dubture.twig.core.codeassist.strategies.KeywordStrategy;
@@ -77,6 +79,8 @@ public class TwigCompletionStrategyFactory implements
                 result.add(new TagStrategy(context));
             } else if (context.getClass() == TestContext.class) {
                 result.add(new TestStrategy(context));
+            } else if (context.getClass() == BlocknameContext.class) {
+                result.add(new BlocknameStrategy(context));
             }
         }
 
