@@ -41,6 +41,14 @@ public class KeywordContext extends AbstractTwigCompletionContext
 
                 if (!prefix.contains(".") && !prefix.contains("\"")
                         && !prefix.contains("'")) {
+                    
+                    String previous = getPreviousWord();
+                    
+                    // {% block |   <-- we complete parent blocks in here
+                    if (previous != null && "block".equals(previous)) {
+                        return false;
+                    }
+                    
                     return true;
                 }
 

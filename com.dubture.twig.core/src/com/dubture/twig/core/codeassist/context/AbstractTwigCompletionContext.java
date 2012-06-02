@@ -80,6 +80,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     public void init(CompletionCompanion companion)
     {
         this.companion = companion;
+        phpVersion = PHPVersion.PHP5_4;
     }
 
     protected CompletionCompanion getCompanion()
@@ -453,6 +454,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     {
         TextSequence statementText = getStatementText();
 
+        
         int statementLength = statementText.length();
         int wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(
                 statementText, statementLength); // read whitespace

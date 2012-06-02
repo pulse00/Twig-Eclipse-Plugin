@@ -19,6 +19,7 @@ import org.eclipse.php.core.codeassist.ICompletionContextResolver;
 import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
 
 import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
+import com.dubture.twig.core.codeassist.context.BlocknameContext;
 import com.dubture.twig.core.codeassist.context.FilterContext;
 import com.dubture.twig.core.codeassist.context.FunctionContext;
 import com.dubture.twig.core.codeassist.context.KeywordContext;
@@ -62,6 +63,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver
         contexts.add(new FunctionContext());
         contexts.add(new TagContext());
         contexts.add(new TestContext());
+        contexts.add(new BlocknameContext());
 
         IConfigurationElement[] config = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CONTEXTYFACTORY_ID);
