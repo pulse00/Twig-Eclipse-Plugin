@@ -12,6 +12,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.php.internal.ui.actions.SelectionHandler;
+import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 @SuppressWarnings("restriction")
 public class SurroundWithHandler extends SelectionHandler implements IHandler
@@ -20,11 +23,13 @@ public class SurroundWithHandler extends SelectionHandler implements IHandler
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException
     {
-
-        // final SurroundWithAction surroundWithAction = new
-        // SurroundWithAction();
-        // surroundWithAction.run(null);
-
+        IEditorPart editor = HandlerUtil.getActiveEditor(event);
+        
+        if (editor instanceof PHPStructuredEditor) {
+            final SurroundWithAction surroundWithAction = new SurroundWithAction((PHPStructuredEditor) editor);
+            surroundWithAction.run();
+        }
+        
         return null;
     }
 

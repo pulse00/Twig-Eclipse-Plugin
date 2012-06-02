@@ -17,7 +17,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
@@ -27,7 +29,7 @@ public class SurroundWithAction extends Action implements
         ISelectionChangedListener
 {
 
-    private TwigStructuredEditor fEditor;
+    private PHPStructuredEditor fEditor;
     private IWorkbenchSite fSite;
 
     private ISelectionProvider fSpecialSelectionProvider;
@@ -40,7 +42,7 @@ public class SurroundWithAction extends Action implements
 
     }
 
-    public SurroundWithAction(TwigStructuredEditor editor)
+    public SurroundWithAction(PHPStructuredEditor editor)
     {
 
         this(editor.getEditorSite());
@@ -64,6 +66,8 @@ public class SurroundWithAction extends Action implements
         if (selection instanceof ITextSelection) {
 
             ITextSelection sel = (ITextSelection) selection;
+            
+            System.err.println(sel);
 
             try {
 
