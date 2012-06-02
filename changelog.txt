@@ -1,3 +1,8 @@
+1.0.104
+
+* improved template wizard
+* added debug log to wizard
+
 1.0.103
 
 * parser bugfix (#60)
