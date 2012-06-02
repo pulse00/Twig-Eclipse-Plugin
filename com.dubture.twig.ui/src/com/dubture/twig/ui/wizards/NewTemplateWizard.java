@@ -11,6 +11,7 @@ package com.dubture.twig.ui.wizards;
 import org.eclipse.dltk.ui.wizards.NewSourceModulePage;
 import org.eclipse.dltk.ui.wizards.NewSourceModuleWizard;
 
+import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.TwigPluginImages;
 
 /**
@@ -26,7 +27,8 @@ public class NewTemplateWizard extends NewSourceModuleWizard
     
     @Override
     protected NewSourceModulePage createNewSourceModulePage()
-    {
+    {   
+        Logger.debugMSG("Creating twig wizard first page");
         return new TwigNewFileWizardPage(getSelection());        
     }
 }

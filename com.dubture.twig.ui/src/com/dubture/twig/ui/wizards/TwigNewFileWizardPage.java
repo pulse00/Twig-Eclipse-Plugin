@@ -9,6 +9,7 @@
 package com.dubture.twig.ui.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -41,6 +42,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 import com.dubture.twig.core.TwigNature;
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.ui.extension.ExtensionManager;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -59,9 +61,9 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
 
     private String filename = "";
 
-    private ArrayList<ITemplateProvider> extensions;
+    private List<ITemplateProvider> extensions;
 
-    public static final String TEMPLATE_PROVIDER_ID = "com.dubture.twig.ui.templateProvider";
+    
 
     /**
      * Constructor for SampleNewWizardPage.
@@ -118,23 +120,13 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
         Label label2 = new Label(container, SWT.NONE);
         label2.setVisible(false);
 
-        IConfigurationElement[] config = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);
-        extensions = new ArrayList<ITemplateProvider>();
-
-        try {
-            for (IConfigurationElement e : config) {
-                final Object object = e.createExecutableExtension("class");
-                if (object instanceof ITemplateProvider) {
-                    ITemplateProvider provider = (ITemplateProvider) object;
-                    provider.createContentControls(getScriptFolder(), container);
-                    extensions.add(provider);
-                }
-            }
-        } catch (Exception e) {
-            Logger.logException(e);
+        extensions = ExtensionManager.getInstance().getTemplateProviders();
+        
+        Logger.debugMSG("Creating extension controls");
+        for (ITemplateProvider provider : extensions) {
+            provider.createContentControls(getScriptFolder(), container);
         }
-
+        
         initialize();
         dialogChanged();
         setControl(container);
@@ -146,44 +138,62 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
 
     private void initialize()
     {
-
+        Logger.debugMSG("Initializing twig file wizard");
+        
         if (selection != null && selection.isEmpty() == false
                 && selection instanceof IStructuredSelection) {
 
             IStructuredSelection ssel = (IStructuredSelection) selection;
 
-            if (ssel.size() > 1)
+            if (ssel.size() > 1) {
+                Logger.debugMSG("Selection container more than one elements.");
                 return;
+            }
 
             Object obj = ssel.getFirstElement();
 
             if (obj instanceof IScriptFolder) {
 
+                Logger.debugMSG("Selection is scriptfolder");
+                
                 IScriptFolder folder = (IScriptFolder) obj;
                 try {
-                    containerText.setText(folder.getUnderlyingResource()
-                            .getFullPath().toString());
+                    String fullPath = folder.getUnderlyingResource().getFullPath().toString();
+                    Logger.debugMSG("Setting container text to " + fullPath);
+                    containerText.setText(fullPath);
                 } catch (ModelException e) {
-
-                    e.printStackTrace();
+                    Logger.logException(e);
                 }
             } else if (obj instanceof ProjectFragment) {
 
                 IProjectFragment fragment = (IProjectFragment) obj;
-
+                Logger.debugMSG("Selection is projectfragment");
+                
                 try {
-                    containerText.setText(fragment.getUnderlyingResource()
-                            .getFullPath().toString());
+                    String fullPath = fragment.getUnderlyingResource().getFullPath().toString();
+                    Logger.debugMSG("Setting container text to " + fullPath);
+                    containerText.setText(fullPath);
                 } catch (ModelException e) {
-                    e.printStackTrace();
+                    Logger.logException(e);
                 }
 
             } else if (obj instanceof IScriptProject) {
-
                 IScriptProject proj = (IScriptProject) obj;
+                Logger.debugMSG("Selection is scriptproject");
                 containerText.setText(proj.getPath().toString());
+            } else {
+                Logger.debugMSG("Could not determine selection type");
+                if (obj != null) {
+                    Logger.debugMSG("type was " + obj.getClass());
+                } else {
+                    Logger.debugMSG("type was null");
+                }
             }
+        } else {
+            Logger.debugMSG("File wizard couldn't retrieve selection");
         }
+        
+        Logger.debugMSG("Final container text: " + containerText.getText());
 
         fileText.setText("template.twig");
         fileText.forceFocus();

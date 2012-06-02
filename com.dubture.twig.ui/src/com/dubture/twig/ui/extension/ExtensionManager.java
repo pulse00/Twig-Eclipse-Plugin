@@ -10,11 +10,19 @@ import org.eclipse.core.runtime.Platform;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.contentassist.ICompletionProposalProvider;
+import com.dubture.twig.ui.wizards.ITemplateProvider;
 
+/**
+ * Manages plugin extensions.
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 public class ExtensionManager
 {
-    
     public static final String PROPOSAL_PROVIDER_ID = "com.dubture.twig.ui.completionProposalProvider";
+    public static final String TEMPLATE_PROVIDER_ID = "com.dubture.twig.ui.templateProvider";
+    
     private Map<String, List<?>> extensions = new HashMap<String, List<?>>();
     private static ExtensionManager instance = null;
     
@@ -61,5 +69,32 @@ public class ExtensionManager
     {
         return (List<ICompletionProposalProvider>) extensions.get(PROPOSAL_PROVIDER_ID);
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public List<ITemplateProvider> getTemplateProviders()
+    {
+        if (extensions.containsKey(TEMPLATE_PROVIDER_ID)) {
+            return (List<ITemplateProvider>) extensions.get(TEMPLATE_PROVIDER_ID);
+        }
+        
+        IConfigurationElement[] config = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);
+        
+         ArrayList<ITemplateProvider> providers = new ArrayList<ITemplateProvider>();
+
+        try {
+            for (IConfigurationElement e : config) {
+                final Object object = e.createExecutableExtension("class");
+                if (object instanceof ITemplateProvider) {
+                    ITemplateProvider provider = (ITemplateProvider) object;
+                    providers.add(provider);
+                }
+            }
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+
+        extensions.put(TEMPLATE_PROVIDER_ID, providers);
+        return providers;
+    }
 }
