@@ -8,17 +8,18 @@
 */
 package com.dubture.twig.core.model;
 
-import org.eclipse.dltk.core.IScriptProject;
 
-import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
+import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.internal.core.SourceModule;
 
 /**
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
+@SuppressWarnings("restriction")
 public interface ITemplateResolver
 {
     
-    TwigModuleDeclaration revolePath(String path, IScriptProject project);
+    SourceModule revolePath(String path, IScriptProject project);
 
 }

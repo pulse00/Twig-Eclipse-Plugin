@@ -8,13 +8,15 @@
  ******************************************************************************/
 package com.dubture.twig.core.model;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dltk.ast.statements.Statement;
+import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.core.index2.search.ISearchEngine;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.SearchFor;
@@ -22,6 +24,7 @@ import org.eclipse.dltk.core.index2.search.ISearchRequestor;
 import org.eclipse.dltk.core.index2.search.ModelAccess;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
+import org.eclipse.dltk.internal.core.SourceModule;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
@@ -29,7 +32,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.dubture.twig.core.ExtensionManager;
-import com.dubture.twig.core.parser.ast.node.BlockName;
+import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
@@ -538,9 +542,8 @@ public class TwigModelAccess extends PhpModelAccess
 
     }
     
-    public TwigModuleDeclaration getParent(TwigModuleDeclaration child, IScriptProject project)
+    public String getParentPath(TwigModuleDeclaration child, IScriptProject project)
     {
-        TwigModuleDeclaration parent = null;
         BlockStatement statement = child.getExtends();
         
         if (statement == null) {
@@ -553,17 +556,70 @@ public class TwigModelAccess extends PhpModelAccess
             return null;
         }
         
-        System.err.println(name.getClass());
+        return name.getValue();
         
-        String path = name.getValue();
+    }
+    
+    public TwigModuleDeclaration getParent(TwigModuleDeclaration child, IScriptProject project)
+    {
+        TwigModuleDeclaration parent = null;
+        String path = getParentPath(child, project);
         
         for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
-            parent = resolver.revolePath(path, project);
-            if (parent != null) {
-                break;
+            
+            SourceModule module = resolver.revolePath(path, project);
+            
+            if (module != null) {
+                
+                try {
+                    parent = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(module);
+                } catch (ModelException e) {
+                    Logger.logException(e);
+                } catch (IOException e) {
+                    Logger.logException(e);
+                }
+                
+                if (parent != null) {
+                   return parent;
+                }
             }
         }
         
         return parent;
+    }
+
+    /**
+     * @param sourceModule
+     * @param scriptProject
+     * @return 
+     */
+    public List<BlockName> findBlocks(SourceModule sourceModule,
+            IScriptProject scriptProject)
+    {
+        IDLTKSearchScope scope = SearchEngine.createSearchScope(sourceModule);
+        ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
+        
+        final List<BlockName> blocks = new ArrayList<BlockName>();
+        
+        ISearchRequestor requestor = new ISearchRequestor()
+        {
+            @Override
+            public void match(int elementType, int flags, int offset, int length,
+                    int nameOffset, int nameLength, String elementName,
+                    String metadata, String doc, String qualifier, String parent,
+                    ISourceModule sourceModule, boolean isReference)
+            {
+                BlockName blockName = new BlockName(sourceModule, elementName, offset, offset+length, offset, offset+length, "block");
+                blocks.add(blockName);
+            }
+        };
+        
+        if (scope == null || scope.getLanguageToolkit() == null) {
+            return null;
+        }
+        
+        engine.search(ITwigModelElement.BLOCK, null, null, 0, 0, 100, SearchFor.REFERENCES, MatchRule.EXACT, scope, requestor, null);
+        
+        return blocks;
     }
 }

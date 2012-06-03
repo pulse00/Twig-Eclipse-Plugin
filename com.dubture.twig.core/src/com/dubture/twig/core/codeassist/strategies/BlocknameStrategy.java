@@ -11,6 +11,7 @@ package com.dubture.twig.core.codeassist.strategies;
 import java.util.List;
 
 import org.eclipse.dltk.internal.core.ModelElement;
+import org.eclipse.dltk.internal.core.SourceModule;
 import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
@@ -20,6 +21,7 @@ import org.eclipse.php.internal.core.typeinference.FakeField;
 import com.dubture.twig.core.ExtensionManager;
 import com.dubture.twig.core.codeassist.context.BlocknameContext;
 import com.dubture.twig.core.model.ITemplateResolver;
+import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockName;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
@@ -67,7 +69,10 @@ public class BlocknameStrategy extends KeywordStrategy
         SourceRange range = getReplacementRange(context);
         
         for (ITemplateResolver resolver : providers) {
-            TwigModuleDeclaration parent = resolver.revolePath(path, context.getSourceModule().getScriptProject());
+            
+            SourceModule sourceModule = resolver.revolePath(path, context.getSourceModule().getScriptProject());
+            TwigModuleDeclaration parent = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(sourceModule);
+            
             if (parent != null) {
                 for (BlockStatement block : parent.getBlocks()) {
                     BlockName name = block.getName();

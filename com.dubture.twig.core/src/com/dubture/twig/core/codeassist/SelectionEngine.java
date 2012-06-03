@@ -1,6 +1,15 @@
+/*******************************************************************************
+ * This file is part of the Twig eclipse plugin.
+ * 
+ * (c) Robert Gruendler <r.gruendler@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ ******************************************************************************/
 package com.dubture.twig.core.codeassist;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.codeassist.ScriptSelectionEngine;
@@ -21,6 +30,13 @@ import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
+/**
+ * 
+ * Selects {% block name %}  tags and opens the parent block for now.
+ * 
+ * @author Robert Gruendler <r.gruendler@gmail.com>
+ *
+ */
 @SuppressWarnings("restriction")
 public class SelectionEngine extends ScriptSelectionEngine
 {
@@ -32,13 +48,13 @@ public class SelectionEngine extends ScriptSelectionEngine
         
         ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
         
-        
         try {
             TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule)source);
             
             if (module == null) {
                 return null;
             }
+            
             
             for (BlockStatement block : module.getBlocks()) {
                 if (block.sourceStart() < offset && block.sourceEnd() > offset) {
@@ -56,11 +72,15 @@ public class SelectionEngine extends ScriptSelectionEngine
                         
                         if (blockName != null) {
                             for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
-                                TwigModuleDeclaration parent = TwigModelAccess.getDefault().getParent(module, source.getScriptProject());
-                                for (BlockStatement parentBlock : parent.getBlocks()) {
-                                    if (parentBlock.isBlock() && blockName.equals(parentBlock.getTag())) {
-                                        
-//                                        return new IModelElement[] { parentBlock };
+                                String path = TwigModelAccess.getDefault().getParentPath(module, source.getScriptProject());
+                                SourceModule sourceModule = resolver.revolePath(path, source.getScriptProject());
+                                List<com.dubture.twig.core.model.BlockName> blocks = TwigModelAccess.getDefault().findBlocks(sourceModule, source.getScriptProject());
+                                
+                                if (blocks != null) {
+                                    for (com.dubture.twig.core.model.BlockName parentBlockName : blocks) {
+                                        if (blockName.equals(parentBlockName.getElementName())) {
+                                            return new IModelElement[] {parentBlockName};
+                                        }
                                     }
                                 }
                             }
