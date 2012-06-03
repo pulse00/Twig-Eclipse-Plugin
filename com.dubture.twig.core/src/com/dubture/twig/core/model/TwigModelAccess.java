@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.index2.search.ISearchEngine;
@@ -26,6 +27,12 @@ import org.eclipse.php.internal.core.PHPLanguageToolkit;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import com.dubture.twig.core.ExtensionManager;
+import com.dubture.twig.core.parser.ast.node.BlockName;
+import com.dubture.twig.core.parser.ast.node.BlockStatement;
+import com.dubture.twig.core.parser.ast.node.StringLiteral;
+import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 /**
  * 
@@ -529,5 +536,34 @@ public class TwigModelAccess extends PhpModelAccess
 
         return (Test[]) tests.toArray(new Test[tests.size()]);
 
+    }
+    
+    public TwigModuleDeclaration getParent(TwigModuleDeclaration child, IScriptProject project)
+    {
+        TwigModuleDeclaration parent = null;
+        BlockStatement statement = child.getExtends();
+        
+        if (statement == null) {
+            return null;
+        }
+        
+        StringLiteral name = (StringLiteral) statement.getFirstChild();
+        
+        if (name == null) {
+            return null;
+        }
+        
+        System.err.println(name.getClass());
+        
+        String path = name.getValue();
+        
+        for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
+            parent = resolver.revolePath(path, project);
+            if (parent != null) {
+                break;
+            }
+        }
+        
+        return parent;
     }
 }

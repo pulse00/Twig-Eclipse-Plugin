@@ -11,6 +11,7 @@ package com.dubture.twig.core.index;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.declarations.TypeDeclaration;
@@ -18,6 +19,7 @@ import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.references.SimpleReference;
 import org.eclipse.dltk.ast.statements.Statement;
+import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
 import org.eclipse.php.core.index.PhpIndexingVisitorExtension;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayCreation;
@@ -59,23 +61,30 @@ import com.dubture.twig.core.util.TwigModelUtils;
 public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 {
 
-    private boolean inTwigExtension;
-    private boolean inTokenParser;
-    private boolean inTagParseMethod;
-    private ClassDeclaration currentClass;
-
-    private Tag tag;
-
-    private List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
-
-    private List<Function> functions = new ArrayList<Function>();
-    private List<Filter> filters = new ArrayList<Filter>();
-    private List<Test> tests = new ArrayList<Test>();
+    protected boolean inTwigExtension;
+    protected boolean inTokenParser;
+    protected boolean inTagParseMethod;
+    protected ClassDeclaration currentClass;
+    protected Tag tag;
+    protected List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+    protected List<Function> functions = new ArrayList<Function>();
+    protected List<Filter> filters = new ArrayList<Filter>();
+    protected List<Test> tests = new ArrayList<Test>();
+    
+    protected TwigIndexingVisitor visitor;
 
     public TwigIndexingVisitorExtension()
     {
-
+        
     }
+    
+    @Override
+    public void setSourceModule(ISourceModule module)
+    {
+        super.setSourceModule(module);
+        visitor = new TwigIndexingVisitor(requestor, sourceModule);
+    }
+    
 
     @Override
     @SuppressWarnings("unchecked")
@@ -406,7 +415,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     @Override
     public boolean visit(Statement s) throws Exception
     {
-
         if (!inTagParseMethod)
             return false;
 
@@ -416,7 +424,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
             @Override
             public boolean visit(PHPCallExpression callExpr) throws Exception
             {
-
                 SimpleReference ref = callExpr.getCallName();
 
                 if (ref != null
@@ -424,12 +431,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
                     callExpr.traverse(new PHPASTVisitor()
                     {
-
                         @Override
                         public boolean visit(ArrayCreation array)
                                 throws Exception
                         {
-
                             for (ArrayElement elem : array.getElements()) {
 
                                 Expression value = elem.getValue();
@@ -458,9 +463,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                                                     tag.setEndTag(stmt);
                                                     return false;
                                                 }
-
                                             }
-
                                         }
                                     }
                                 }
@@ -585,11 +588,20 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
     protected void addReferenceInfo(ReferenceInfo info)
     {
-
         try {
             requestor.addReference(info);
         } catch (Exception e) {
             Logger.logException(e);
         }
+    }
+    
+    @Override
+    public boolean visitGeneral(ASTNode node) throws Exception
+    {
+        if (node instanceof org.eclipse.dltk.ast.statements.Block) {
+            node.traverse(new TwigIndexingVisitor(requestor, sourceModule));
+        }
+        
+        return super.visitGeneral(node);
     }
 }

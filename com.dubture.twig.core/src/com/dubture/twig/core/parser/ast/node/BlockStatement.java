@@ -103,4 +103,24 @@ public class BlockStatement extends Statement
         
         return TwigCoreConstants.START_BLOCK.equals(name.getValue());
     }
+    
+    public boolean isExtends()
+    {
+        if (name == null) {
+            return false;
+        }
+        
+        return TwigCoreConstants.EXTENDS.equals(name.getValue());
+    }
+    
+    public String getTag()
+    {
+        BlockName name = getName();
+        
+        if (name == null) {
+            return "";
+        }
+        
+        return name.getValue();
+    }
 }

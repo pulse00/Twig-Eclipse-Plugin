@@ -16,5 +16,7 @@ public interface ITwigModelElement
     int FILTER = 802;
     int FUNCTION = 803;
     int TEST = 804;
+    int BLOCK = 805;
+    int EXTENDS = 806;
 
 }
