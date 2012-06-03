@@ -18,6 +18,7 @@ import org.eclipse.dltk.ast.declarations.TypeDeclaration;
 import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.references.SimpleReference;
+import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
@@ -98,9 +99,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
             PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) s;
 
-            if (inTwigExtension
-                    && phpMethod.getName()
-                            .equals(TwigCoreConstants.GET_FILTERS)) {
+            if (inTwigExtension&& phpMethod.getName().equals(TwigCoreConstants.GET_FILTERS)) {
 
                 phpMethod.traverse(new PHPASTVisitor()
                 {
@@ -112,30 +111,41 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                         Expression key = s.getKey();
                         Expression value = s.getValue();
 
-                        if (key == null | value == null)
+                        if (key == null | value == null) {
                             return false;
+                        }
 
-                        if (key.getClass() == Scalar.class
-                                && value.getClass() == ClassInstanceCreation.class) {
+                        if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
 
                             Scalar name = (Scalar) key;
                             ClassInstanceCreation filterClass = (ClassInstanceCreation) value;
 
-                            Object child = filterClass.getCtorParams()
-                                    .getChilds().get(0);
+                            CallArgumentsList ctorParams = filterClass.getCtorParams();
+                            Object child = ctorParams.getChilds().get(0);
 
-                            if (!(child instanceof Scalar))
+                            if (child instanceof VariableReference && ((VariableReference)child).getName().equals("$this") &&
+                                    filterClass.getClassName().toString().equals((TwigCoreConstants.TWIG_FILTER_METHOD))) {
+                                
+                                    if (ctorParams.getChilds().size() > 2 && ctorParams.getChilds().get(1) instanceof Scalar) {
+                                        Scalar internal = (Scalar) ctorParams.getChilds().get(1);
+                                        String elemName = name.getValue().replaceAll("['\"]", "");
+                                        Filter filter = new Filter(elemName);
+                                        filter.setInternalFunction(internal.getValue().replaceAll("['\"]", ""));
+                                        filter.setPhpClass(currentClass.getName());
+                                        filters.add(filter);
+                                    }
+                            }
+                            
+                            if (!(child instanceof Scalar)) {
                                 return true;
+                            }
 
                             Scalar internal = (Scalar) child;
+                            System.err.println("check child");
 
-                            if (filterClass
-                                    .getClassName()
-                                    .toString()
-                                    .equals(TwigCoreConstants.TWIG_FILTER_FUNCTION)) {
+                            if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FILTER_FUNCTION)) {
 
-                                String elemName = name.getValue().replaceAll(
-                                        "['\"]", "");
+                                String elemName = name.getValue().replaceAll("['\"]", "");
 
                                 Filter filter = new Filter(elemName);
                                 filter.setInternalFunction(internal.getValue()
@@ -150,8 +160,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                     }
                 });
 
-            } else if (inTwigExtension
-                    && TwigCoreConstants.GET_TESTS.equals(s.getName())) {
+            } else if (inTwigExtension && TwigCoreConstants.GET_TESTS.equals(s.getName())) {
 
                 phpMethod.traverse(new PHPASTVisitor()
                 {
@@ -166,36 +175,27 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                         if (key == null || value == null)
                             return false;
 
-                        if (key.getClass() == Scalar.class
-                                && value.getClass() == ClassInstanceCreation.class) {
+                        if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
 
                             Scalar name = (Scalar) key;
                             ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
 
-                            CallArgumentsList args = functionClass
-                                    .getCtorParams();
-                            Scalar internalFunction = (Scalar) args.getChilds()
-                                    .get(0);
+                            CallArgumentsList args = functionClass.getCtorParams();
+                            Scalar internalFunction = (Scalar) args.getChilds().get(0);
 
                             if (internalFunction == null)
                                 return true;
 
-                            if (functionClass
-                                    .getClassName()
-                                    .toString()
-                                    .equals(TwigCoreConstants.TWIG_TEST_FUNCTION)) {
+                            if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_TEST_FUNCTION)) {
 
-                                String elemName = name.getValue().replaceAll(
-                                        "['\"]", "");
+                                String elemName = name.getValue().replaceAll("['\"]", "");
 
                                 JSONObject metadata = new JSONObject();
-                                metadata.put(TwigType.PHPCLASS,
-                                        currentClass.getName());
+                                metadata.put(TwigType.PHPCLASS,currentClass.getName());
 
                                 Test test = new Test(elemName);
                                 test.setPhpClass(currentClass.getName());
-                                test.setInternalFunction(internalFunction
-                                        .getValue().replaceAll("['\"]", ""));
+                                test.setInternalFunction(internalFunction.getValue().replaceAll("['\"]", ""));
                                 tests.add(test);
 
                             }
@@ -204,12 +204,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                     }
                 });
 
-            } else if (inTwigExtension
-                    && TwigCoreConstants.GET_FUNCTIONS.equals(s.getName())) {
+            } else if (inTwigExtension&& TwigCoreConstants.GET_FUNCTIONS.equals(s.getName())) {
 
                 phpMethod.traverse(new PHPASTVisitor()
                 {
-
                     @Override
                     public boolean visit(ArrayElement s) throws Exception
                     {
@@ -217,88 +215,65 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                         Expression key = s.getKey();
                         Expression value = s.getValue();
 
-                        if (key == null || value == null)
+                        if (key == null || value == null) {
                             return false;
+                        }
 
-                        if (key.getClass() == Scalar.class
-                                && value.getClass() == ClassInstanceCreation.class) {
+                        if (key.getClass() == Scalar.class && value.getClass() == ClassInstanceCreation.class) {
 
                             Scalar name = (Scalar) key;
                             ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
-
-                            CallArgumentsList args = functionClass
-                                    .getCtorParams();
-
+                            CallArgumentsList args = functionClass.getCtorParams();
+                            String functionClassName = functionClass.getClassName().toString();
                             int index = -1;
-
-                            if (functionClass
-                                    .getClassName()
-                                    .toString()
-                                    .equals(TwigCoreConstants.TWIG_FUNCTION_FUNCTION)) {
+                            
+                            if (functionClassName.equals(TwigCoreConstants.TWIG_FUNCTION_FUNCTION)) {
                                 index = 0;
-                            } else if (functionClass
-                                    .getClassName()
-                                    .toString()
-                                    .equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {
+                            } else if (functionClassName.equals(TwigCoreConstants.TWIG_FUNCTION_METHOD)) {
                                 index = 1;
                             }
 
-                            if (index > -1
-                                    && args.getChilds().get(index) instanceof Scalar) {
+                            if (index > -1 && args.getChilds().get(index) instanceof Scalar) {
 
-                                Scalar internalFunction = (Scalar) args
-                                        .getChilds().get(index);
+                                Scalar internalFunction = (Scalar) args.getChilds().get(index);
 
-                                if (internalFunction == null)
+                                if (internalFunction == null) {
                                     return true;
+                                }
 
-                                String elemName = name.getValue().replaceAll(
-                                        "['\"]", "");
-
+                                String elemName = name.getValue().replaceAll("['\"]", "");
                                 JSONObject metadata = new JSONObject();
-                                metadata.put(TwigType.PHPCLASS,
-                                        currentClass.getName());
+                                metadata.put(TwigType.PHPCLASS, currentClass.getName());
 
                                 Function function = new Function(elemName);
                                 function.setPhpClass(currentClass.getName());
-                                function.setInternalFunction(internalFunction
-                                        .getValue().replaceAll("['\"]", ""));
+                                function.setInternalFunction(internalFunction.getValue().replaceAll("['\"]", ""));
                                 functions.add(function);
-
                             }
                         }
                         return true;
                     }
                 });
 
-            } else if (inTokenParser
-                    && TwigCoreConstants.PARSE_TOKEN_METHOD.equals(s.getName())) {
+            } else if (inTokenParser && TwigCoreConstants.PARSE_TOKEN_METHOD.equals(s.getName())) {
 
                 inTagParseMethod = true;
 
-            } else if (inTokenParser
-                    && TwigCoreConstants.PARSE_GET_TAG_METHOD.equals(s
-                            .getName())) {
+            } else if (inTokenParser && TwigCoreConstants.PARSE_GET_TAG_METHOD.equals(s.getName())) {
 
                 phpMethod.traverse(new PHPASTVisitor()
                 {
-
                     @Override
                     public boolean visit(ReturnStatement s) throws Exception
                     {
-
                         if (s.getExpr().getClass() == Scalar.class) {
                             Scalar scalar = (Scalar) s.getExpr();
-                            tag.setStartTag(scalar.getValue().replaceAll(
-                                    "['\"]", ""));
-
+                            tag.setStartTag(scalar.getValue().replaceAll("['\"]", ""));
                         }
-
                         return false;
                     }
                 });
             }
-
         }
 
         return false;
