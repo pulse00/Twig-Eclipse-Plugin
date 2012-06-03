@@ -71,7 +71,7 @@ public class SelectionEngine extends ScriptSelectionEngine
                 @Override
                 public boolean visit(TwigCallExpression s) throws Exception
                 {
-                    if (s.start() <= offset && s.end() >= offset) {
+                    if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
                         Function[] functions = TwigModelAccess.getDefault().getFunctions(project);
                         
                         for (Function function : functions) {
@@ -112,7 +112,7 @@ public class SelectionEngine extends ScriptSelectionEngine
                 public boolean visit(BlockStatement block) throws Exception
                 {
                     if (block.isBlock() && block.getBlockName() != null 
-                            && block.start() <= offset && (block.end()+1) >= offset) {
+                            && block.sourceStart() <= offset && (block.sourceEnd()+1) >= offset) {
                         String blockName = block.getBlockName().getValue();
 
                         for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
