@@ -282,7 +282,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     @Override
     public boolean endvisit(MethodDeclaration s) throws Exception
     {
-
         inTagParseMethod = false;
         return true;
     }
@@ -290,7 +289,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     @Override
     public boolean visit(TypeDeclaration s) throws Exception
     {
-
         if (s instanceof ClassDeclaration) {
 
             inTwigExtension = false;
@@ -299,19 +297,13 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
             for (String superclass : currentClass.getSuperClassNames()) {
                 if (superclass.equals(TwigCoreConstants.TWIG_EXTENSION)) {
                     inTwigExtension = true;
-                } else if (superclass
-                        .equals(TwigCoreConstants.TWIG_TOKEN_PARSER)) {
-
+                } else if (superclass.equals(TwigCoreConstants.TWIG_TOKEN_PARSER)) {
                     tag = new Tag();
-
                     inTokenParser = true;
                 }
             }
-
             return true;
-
         }
-
         return false;
     }
 
@@ -319,21 +311,12 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     @Override
     public boolean endvisit(TypeDeclaration s) throws Exception
     {
-
         if (s instanceof ClassDeclaration) {
-
-            if (inTwigExtension) {
-
-            }
-
             if (tag != null) {
-
                 if (tag.getStartTag() != null) {
 
-                    int length = currentClass.sourceEnd()
-                            - currentClass.sourceStart();
+                    int length = currentClass.sourceEnd() - currentClass.sourceStart();
                     PHPDocBlock block = currentClass.getPHPDoc();
-
                     String desc = "";
                     if (block != null) {
                         String shortDesc = block.getShortDescription() != null
@@ -377,11 +360,9 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
             inTwigExtension = false;
             inTokenParser = false;
             currentClass = null;
-
         }
 
         return false;
-
     }
 
     @Override
@@ -392,7 +373,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
         s.traverse(new PHPASTVisitor()
         {
-
             @Override
             public boolean visit(PHPCallExpression callExpr) throws Exception
             {
@@ -417,20 +397,14 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                                 if (value.getClass() == Scalar.class) {
 
                                     Scalar scalar = (Scalar) value;
-                                    String subParseMethod = scalar.getValue()
-                                            .replaceAll("['\"]", "");
+                                    String subParseMethod = scalar.getValue().replaceAll("['\"]", "");
 
-                                    for (MethodDeclaration method : currentClass
-                                            .getMethods()) {
+                                    for (MethodDeclaration method : currentClass.getMethods()) {
+                                        if (subParseMethod.equals(method.getName())) {
 
-                                        if (subParseMethod.equals(method
-                                                .getName())) {
-
-                                            String[] endStatements = TwigModelUtils
-                                                    .getEndStatements((PHPMethodDeclaration) method);
+                                            String[] endStatements = TwigModelUtils.getEndStatements((PHPMethodDeclaration) method);
 
                                             for (String stmt : endStatements) {
-
                                                 if (stmt.startsWith("end")) {
                                                     tag.setEndTag(stmt);
                                                     return false;
@@ -454,7 +428,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     @Override
     public boolean endvisit(Statement s) throws Exception
     {
-
         if (s instanceof ExpressionStatement) {
 
             ExpressionStatement stmt = (ExpressionStatement) s;
@@ -466,17 +439,13 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
         }
 
         return false;
-
     }
 
     @Override
     public boolean endvisit(ModuleDeclaration s) throws Exception
     {
-
         for (Test test : tests) {
-
             for (MethodDeclaration method : methods) {
-
                 if (method.getName().equals(test.getInternalFunction())) {
 
                     PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) method;

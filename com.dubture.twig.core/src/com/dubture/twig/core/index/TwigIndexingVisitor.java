@@ -77,8 +77,6 @@ public class TwigIndexingVisitor extends TwigASTVisitor
     {
         if (blockTag != null) {
             Logger.debugMSG("Indexing block reference " + s.getValue()  + " in " + module.getElementName() + " / " + module.getScriptProject().getElementName());
-            
-            
             ReferenceInfo info = new ReferenceInfo(ITwigModelElement.BLOCK, s.sourceStart(), s.sourceEnd() - s.sourceStart(), s.getValue(), null, null);
             requestor.addReference(info);
         }
