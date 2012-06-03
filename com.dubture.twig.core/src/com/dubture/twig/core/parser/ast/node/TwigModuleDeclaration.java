@@ -47,7 +47,7 @@ public class TwigModuleDeclaration extends ModuleDeclaration
     
     public BlockStatement getExtends()
     {
-        for (BlockStatement block : blocks) {
+        for (BlockStatement block : getBlocks()) {
             BlockName name = block.getName();
             
             if (name != null && "extends".equals(name.getValue())) {

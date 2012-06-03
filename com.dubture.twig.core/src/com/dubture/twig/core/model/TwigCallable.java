@@ -139,9 +139,7 @@ public abstract class TwigCallable extends TwigType
 
     public IScriptProject getScriptProject()
     {
-
         return _project;
-
     }
 
     @SuppressWarnings("unchecked")

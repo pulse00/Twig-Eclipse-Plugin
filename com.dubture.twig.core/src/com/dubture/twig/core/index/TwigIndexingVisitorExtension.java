@@ -129,9 +129,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
                             Scalar internal = (Scalar) child;
 
-                            if (internal == null)
-                                return true;
-
                             if (filterClass
                                     .getClassName()
                                     .toString()

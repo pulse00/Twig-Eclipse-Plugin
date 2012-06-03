@@ -13,7 +13,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
@@ -24,6 +23,7 @@ import org.eclipse.dltk.core.index2.search.ISearchRequestor;
 import org.eclipse.dltk.core.index2.search.ModelAccess;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
+import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceModule;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
@@ -50,15 +50,12 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 @SuppressWarnings("restriction")
 public class TwigModelAccess extends PhpModelAccess
 {
-
     private static TwigModelAccess instance = null;
     private List<Template> templates = new ArrayList<Template>();
-
     private LRUCache tagCache = new LRUCache();
 
     private TwigModelAccess()
     {
-
     }
 
     public static TwigModelAccess getDefault()
@@ -101,7 +98,6 @@ public class TwigModelAccess extends PhpModelAccess
      */
     public Function[] getFunctions(IScriptProject scriptProject)
     {
-
         IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
         ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit
                 .getDefault());
@@ -124,10 +120,8 @@ public class TwigModelAccess extends PhpModelAccess
 
                         try {
 
-                            Function function = new Function(elementName);
-
+                            Function function = new Function((ModelElement) sourceModule, elementName);
                             if (metadata != null) {
-
                                 JSONObject mdata = (JSONObject) parser
                                         .parse(new StringReader(metadata));
 
@@ -135,19 +129,16 @@ public class TwigModelAccess extends PhpModelAccess
                                     function.setPhpClass((String) mdata
                                             .get(TwigType.PHPCLASS));
                                 }
-
                             }
                             functions.add(function);
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, null);
 
         return (Function[]) functions.toArray(new Function[functions.size()]);
-
     }
 
     /**
@@ -598,7 +589,6 @@ public class TwigModelAccess extends PhpModelAccess
     {
         IDLTKSearchScope scope = SearchEngine.createSearchScope(sourceModule);
         ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
-        
         final List<BlockName> blocks = new ArrayList<BlockName>();
         
         ISearchRequestor requestor = new ISearchRequestor()
@@ -618,8 +608,7 @@ public class TwigModelAccess extends PhpModelAccess
             return null;
         }
         
-        engine.search(ITwigModelElement.BLOCK, null, null, 0, 0, 100, SearchFor.REFERENCES, MatchRule.EXACT, scope, requestor, null);
-        
+        engine.search(ITwigModelElement.BLOCK, null, null, 0, 0, 200, SearchFor.REFERENCES, null, scope, requestor, null);
         return blocks;
     }
 }

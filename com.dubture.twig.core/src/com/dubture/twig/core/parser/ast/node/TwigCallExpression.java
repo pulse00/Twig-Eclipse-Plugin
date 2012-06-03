@@ -22,7 +22,6 @@ import org.eclipse.dltk.ast.expressions.Expression;
  */
 public class TwigCallExpression extends Expression
 {
-
     protected final List<Expression> arguments;
     protected final String name;
 
@@ -63,6 +62,7 @@ public class TwigCallExpression extends Expression
         return arguments;
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public List getChilds()
     {

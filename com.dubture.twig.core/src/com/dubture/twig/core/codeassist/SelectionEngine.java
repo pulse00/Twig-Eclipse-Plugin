@@ -8,31 +8,33 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.codeassist.ScriptSelectionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.IModelElement;
+import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.core.SourceModule;
 
 import com.dubture.twig.core.ExtensionManager;
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.model.Function;
 import com.dubture.twig.core.model.ITemplateResolver;
 import com.dubture.twig.core.model.TwigModelAccess;
 import com.dubture.twig.core.parser.SourceParserUtil;
-import com.dubture.twig.core.parser.ast.node.BlockName;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
-import com.dubture.twig.core.parser.ast.node.StringLiteral;
+import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
-import com.dubture.twig.core.parser.ast.node.Variable;
+import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 
 /**
  * 
- * Selects {% block name %}  tags and opens the parent block for now.
+ * Selects the following model elements:
+ * 
+ * - 'block' tags
+ * - functions
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
@@ -42,59 +44,73 @@ public class SelectionEngine extends ScriptSelectionEngine
 {
 
     @Override
-    public IModelElement[] select(IModuleSource sourceUnit, int offset,
+    public IModelElement[] select(IModuleSource sourceUnit, final int offset,
             int end)
     {
-        
         ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
+        final IScriptProject project = source.getScriptProject();
         
         try {
-            TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule)source);
+            
+            final TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule)source);
+            final List<IModelElement> elements = new ArrayList<IModelElement>();
             
             if (module == null) {
                 return null;
             }
             
-            
-            for (BlockStatement block : module.getBlocks()) {
-                if (block.sourceStart() < offset && block.sourceEnd() > offset) {
-                    BlockName name = block.getName();
-                    if ("block".equals(name.getValue())) {
-                        Statement child = block.getFirstChild();
-                        String blockName = null;
-                        if (child instanceof Variable) {
-                            Variable var = (Variable) child;
-                            blockName = var.getValue();
-                        } else if (child instanceof StringLiteral) {
-                            StringLiteral literal = (StringLiteral) child;
-                            blockName = literal.getValue();
-                        }
+            module.traverse(new TwigASTVisitor()
+            {
+                @Override
+                public boolean visit(TwigCallExpression s) throws Exception
+                {
+                    if (s.start() <= offset && s.end() >= offset) {
+                        Function[] functions = TwigModelAccess.getDefault().getFunctions(project);
                         
-                        if (blockName != null) {
-                            for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
-                                String path = TwigModelAccess.getDefault().getParentPath(module, source.getScriptProject());
-                                SourceModule sourceModule = resolver.revolePath(path, source.getScriptProject());
-                                List<com.dubture.twig.core.model.BlockName> blocks = TwigModelAccess.getDefault().findBlocks(sourceModule, source.getScriptProject());
-                                
-                                if (blocks != null) {
-                                    for (com.dubture.twig.core.model.BlockName parentBlockName : blocks) {
-                                        if (blockName.equals(parentBlockName.getElementName())) {
-                                            return new IModelElement[] {parentBlockName};
-                                        }
+                        for (Function function : functions) {
+                            if (function.getElementName().equals(s.getName())) {
+                                elements.add(function);
+                                return false;
+                            }
+                        }
+                    }
+                    
+                    return true;
+                }
+                
+                @Override
+                public boolean visit(BlockStatement block) throws Exception
+                {
+                    if (block.isBlock() && block.getBlockName() != null 
+                            && block.start() <= offset && (block.end()+1) >= offset) {
+                        String blockName = block.getBlockName().getValue();
+
+                        for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
+                            String path = TwigModelAccess.getDefault().getParentPath(module, project);
+                            SourceModule sourceModule = resolver.revolePath(path, project);
+                            List<com.dubture.twig.core.model.BlockName> blocks = TwigModelAccess.getDefault().findBlocks(sourceModule, project);
+                            if (blocks != null) {
+                                for (com.dubture.twig.core.model.BlockName parentBlockName : blocks) {
+                                    if (blockName.equals(parentBlockName.getElementName())) {
+                                        elements.add(parentBlockName);
+                                        return false;
                                     }
                                 }
                             }
                         }
                     }
+                    return true;
                 }
+            });
+            
+            if (elements.size() > 0) {
+                return elements.toArray(new IModelElement[elements.size()]);
             }
-        } catch (ModelException e) {
-            Logger.logException(e);
-        } catch (IOException e) {
+            
+        } catch (Exception e) {
             Logger.logException(e);
         }
         
         return null;
     }
-
 }

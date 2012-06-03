@@ -8,7 +8,6 @@
 */
 package com.dubture.twig.core.index;
 
-import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.index2.IIndexingRequestor;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
@@ -77,7 +76,9 @@ public class TwigIndexingVisitor extends TwigASTVisitor
     public boolean visit(Variable s) throws Exception
     {
         if (blockTag != null) {
-            Logger.debugMSG("Indexing block reference " + s.getValue());
+            Logger.debugMSG("Indexing block reference " + s.getValue()  + " in " + module.getElementName() + " / " + module.getScriptProject().getElementName());
+            
+            
             ReferenceInfo info = new ReferenceInfo(ITwigModelElement.BLOCK, s.sourceStart(), s.sourceEnd() - s.sourceStart(), s.getValue(), null, null);
             requestor.addReference(info);
         }
@@ -94,14 +95,5 @@ public class TwigIndexingVisitor extends TwigASTVisitor
             requestor.addReference(info);
         }
         return false;
-    }
-    
-    /* (non-Javadoc)
-     * @see com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor#visit(org.eclipse.dltk.ast.statements.Statement)
-     */
-    @Override
-    public boolean visit(Statement s) throws Exception
-    {
-        return super.visit(s);
     }
 }

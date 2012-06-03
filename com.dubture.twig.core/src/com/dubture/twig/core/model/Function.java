@@ -23,25 +23,21 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 @SuppressWarnings("restriction")
 public class Function extends TwigCallable
 {
-
     public Function(ModelElement parent, String name)
     {
-
         super(parent, name);
+        if (parent != null) {
+            setScriptProject(parent.getScriptProject());
+        }
     }
 
     public Function(Scalar scalar)
     {
-
-        super(null, null);
-        name = scalar.getValue().replaceAll("['\"]", "");
+        super(null, scalar.getValue().replaceAll("['\"]", ""));
 
     }
     public Function(String elementName)
     {
-
         super(null, elementName);
-
     }
-
 }
