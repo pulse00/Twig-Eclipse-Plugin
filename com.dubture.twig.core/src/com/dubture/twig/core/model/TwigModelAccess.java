@@ -128,6 +128,7 @@ public class TwigModelAccess extends PhpModelAccess
                                 if (mdata != null && mdata.size() > 0) {
                                     function.setPhpClass((String) mdata
                                             .get(TwigType.PHPCLASS));
+                                    function.setInternalFunction((String) mdata.get(TwigType.INTERNAL));
                                 }
                             }
                             functions.add(function);
@@ -151,13 +152,11 @@ public class TwigModelAccess extends PhpModelAccess
      */
     public Filter[] getFilters(IScriptProject scriptProject)
     {
-
         IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
         ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit
                 .getDefault());
 
         final JSONParser parser = new JSONParser();
-
         final List<Filter> filters = new ArrayList<Filter>();
 
         engine.search(ITwigModelElement.FILTER, null, null, 0, 0, 100,
@@ -174,7 +173,7 @@ public class TwigModelAccess extends PhpModelAccess
                     {
 
                         try {
-                            Filter filter = new Filter(elementName);
+                            Filter filter = new Filter((ModelElement) sourceModule, elementName);
                             if (metadata != null) {
                                 JSONObject mdata = (JSONObject) parser
                                         .parse(new StringReader(metadata));

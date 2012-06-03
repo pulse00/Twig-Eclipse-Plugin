@@ -27,23 +27,20 @@ public class Filter extends TwigCallable
 
     public Filter(ModelElement parent, String name)
     {
-
         super(parent, name);
+        
+        if (parent != null) {
+            setScriptProject(parent.getScriptProject());
+        }
     }
 
     public Filter(Scalar name)
     {
-
-        super(null, null);
-        this.name = name.getValue().replace("'", "").replace("\"", "");
-
+        super(null, name.getValue().replace("'", "").replace("\"", ""));
     }
 
     public Filter(String elementName)
     {
-
         super(null, elementName);
-
     }
-
 }

@@ -13,13 +13,19 @@ import java.util.List;
 
 import org.eclipse.dltk.codeassist.ScriptSelectionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
+import org.eclipse.dltk.core.IMethod;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
+import org.eclipse.dltk.core.search.IDLTKSearchScope;
+import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.internal.core.SourceModule;
+import org.eclipse.php.internal.core.model.PhpModelAccess;
 
 import com.dubture.twig.core.ExtensionManager;
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.core.model.Filter;
 import com.dubture.twig.core.model.Function;
 import com.dubture.twig.core.model.ITemplateResolver;
 import com.dubture.twig.core.model.TwigModelAccess;
@@ -27,6 +33,7 @@ import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
+import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 
 /**
@@ -69,12 +76,35 @@ public class SelectionEngine extends ScriptSelectionEngine
                         
                         for (Function function : functions) {
                             if (function.getElementName().equals(s.getName())) {
-                                elements.add(function);
+                                IDLTKSearchScope scope = SearchEngine.createSearchScope(function.getSourceModule());
+                                IMethod[] methods = PhpModelAccess.getDefault().findMethods(function.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
+                                if (methods.length == 1) {
+                                    elements.add(methods[0]);
+                                }
                                 return false;
                             }
                         }
                     }
                     
+                    return true;
+                }
+                
+                @Override
+                public boolean visit(Variable s) throws Exception
+                {
+                    if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
+                        for (Filter filter : TwigModelAccess.getDefault().getFilters(project)) {
+                            if (filter.getElementName().equals(s.getValue())) {
+                                
+                                IDLTKSearchScope scope = SearchEngine.createSearchScope(filter.getSourceModule());
+                                IMethod[] methods = PhpModelAccess.getDefault().findMethods(filter.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
+                                if (methods.length == 1) {
+                                    elements.add(methods[0]);
+                                }
+                                return false;
+                            }
+                        }
+                    }
                     return true;
                 }
                 
