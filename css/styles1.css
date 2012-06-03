@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 42px;
+	font-size: 30px;
 	line-height: 0.9;
 	color: #666666;
 	text-align: left;
@@ -339,23 +339,23 @@ footer, .push {
 ***************************************************/
 
 nav {
-	position: absolute;
-	width: 265px;
-	top: 15px;
-	left: 715px;
-	background: transparent;
-	border-top: 1px solid #A3A3A3;
-	border-bottom: 1px solid #A3A3A3;
+    background: none repeat scroll 0 0 transparent;
+      border-bottom: 1px solid #A3A3A3;
+      border-top: 1px solid #A3A3A3;
+      left: 750px;
+      position: absolute;
+      top: 15px;
+      width: 186px;
 }
 
 nav ul li {
 	float: left;
-	margin-left: 16px;
+	margin-left: 5px;
 	line-height: normal;
 }
 
 nav ul li a {
-	font-size: 20px;
+	font-size: 16px;
    font-family: Arial, Helvetica, sans-serif;
 	color: #666666;
 	font-weight: normal;
@@ -450,7 +450,7 @@ div.title {
 	position: relative;
     float: left;
 	left: 0px;
-	width: 530px;
+	width: 440px;
 	height: 43px;
 	top: 7px;
 	text-decoration: none;
@@ -560,3 +560,17 @@ li.githubpanel {
  padding-bottom: 5px;	
 }
 
+
+.flattr {
+
+	float: left;
+	margin-right: 10px;
+}
+
+.market {
+
+}
+.social {
+
+	padding-top: 10px;
+}
