@@ -8,9 +8,8 @@ title: Twig Eclipse Plugin - FAQ
         <h2>How can i install the plugin into an existing eclipse build?<span class="sub">(Zend Studio, Aptana, FlashBuilder, [enter your build here])</span></h2>
     </div>
     <div class="answer">
-        <p>The reason why the plugin currently needs a development build of <a href="http://www.eclipse.org/projects/project.php">PDT</a> is because it contains new API methods for PDT extenders to index PHP sourcecode. This API is used by the plugin to parse and index Twig Extensions for tokenizers/functions/filters etc which is then used to implement codeassist in the editor. That's why with the current stable release of PDT twig-codeassist will not work - but syntax highlighting will.</p>
-        
-        <p>So if your Eclipse build comes with a pre-installed version of PDT, you can probably use the syntax highlighting feature, but you'll not be able to use the codeassist features of the editor (although there might exist a <a href="https://github.com/pulse00/Symfony-2-Eclipse-Plugin/issues/55">workaround</a> for codeassist.)</p>
-        <p>If your eclipse build is not bundled with PDT, you can simply install PDT + Twig through the Twig updatesite like in the vanilla eclipse installation.</p>
+        <p>The Twig editor is based on the PHP Development Tools <a href="http://www.eclipse.org/projects/project.php">PDT</a>. Therefore, any eclipse build which does not ship with built-in PDT needs to be configured to allow the twig plugin 
+		to resolve the PDT dependency.</p>     
+        <p>So if your Eclipse build does not come with a pre-installed version of PDT, make sure that the default eclipse updatesite (currently Indigo) is available in your installation.</p>
     </div>
 </div>
