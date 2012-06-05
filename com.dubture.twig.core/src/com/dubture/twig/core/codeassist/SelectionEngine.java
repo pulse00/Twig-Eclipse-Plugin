@@ -11,7 +11,6 @@ package com.dubture.twig.core.codeassist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dltk.codeassist.ScriptSelectionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.IMethod;
 import org.eclipse.dltk.core.IModelElement;
@@ -21,6 +20,7 @@ import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.internal.core.SourceModule;
+import org.eclipse.php.internal.core.codeassist.PHPSelectionEngine;
 import org.eclipse.php.internal.core.model.PhpModelAccess;
 
 import com.dubture.twig.core.ExtensionManager;
@@ -35,6 +35,7 @@ import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
+import com.dubture.twig.core.util.TwigModelUtils;
 
 /**
  * 
@@ -47,13 +48,18 @@ import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
  *
  */
 @SuppressWarnings("restriction")
-public class SelectionEngine extends ScriptSelectionEngine
+public class SelectionEngine extends PHPSelectionEngine
 {
 
     @Override
     public IModelElement[] select(IModuleSource sourceUnit, final int offset,
             int end)
     {
+        
+        if (TwigModelUtils.isTwigTemplate(sourceUnit.getFileName()) == false) {
+            return super.select(sourceUnit, offset, end);
+        }
+        
         ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
         final IScriptProject project = source.getScriptProject();
         

@@ -1,3 +1,7 @@
+1.0.107
+
+* fixed bug in selectionengine which caused PHP linking to fail
+
 1.0.106
 
 * added hyperlinks for functions and filters to the corresponding php implementation
