@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.dltk.core.IScriptProject;
-import org.eclipse.dltk.internal.core.ScriptProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -27,12 +26,12 @@ import com.dubture.twig.core.TwigNature;
 import com.dubture.twig.core.log.Logger;
 
 /**
- * 
+ *
  * Toggle the TwigNature.
- * 
- * 
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 public class AddRemoveTwigNatureAction implements IObjectActionDelegate
 {
@@ -59,6 +58,7 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate
     /**
      * @see IActionDelegate#run(IAction)
      */
+    @SuppressWarnings("rawtypes")
     public void run(IAction action)
     {
 
@@ -95,15 +95,15 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate
                     enabled = false;
                     break;
                 }
-                
+
                 IProject project = null;
-                
+
                 if (obj instanceof IProject) {
                     project = (IProject) obj;
-                } else {                    
+                } else {
                     project = ((IScriptProject)obj).getProject();
                 }
-                
+
                 try {
                     if (!project.isAccessible()
                             || project.hasNature(TwigNature.NATURE_ID)) {
@@ -119,8 +119,8 @@ public class AddRemoveTwigNatureAction implements IObjectActionDelegate
         } else {
             fTarget = null;
             action.setEnabled(false);
-        }       
-        
+        }
+
         this.selection = selection;
     }
 

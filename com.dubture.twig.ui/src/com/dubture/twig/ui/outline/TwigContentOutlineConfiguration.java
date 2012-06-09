@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -47,14 +47,14 @@ import org.eclipse.wst.xml.ui.internal.contentoutline.JFaceNodeContentProvider;
 import org.eclipse.wst.xml.ui.internal.contentoutline.XMLNodeActionManager;
 
 /**
- * 
+ *
  * A modified {@link PHPContentOutlineConfiguration} for Twig.
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TwigContentOutlineConfiguration extends
@@ -136,7 +136,7 @@ public class TwigContentOutlineConfiguration extends
         // Custom filter group
         // if (fCustomFiltersActionGroup == null) {
         // fCustomFiltersActionGroup = new CustomFiltersActionGroup(
-        //					OUTLINE_PAGE, viewer); //$NON-NLS-1$
+        //                    OUTLINE_PAGE, viewer); //$NON-NLS-1$
         // }
         //
         // final IContributionItem filtersItem = new
@@ -167,7 +167,7 @@ public class TwigContentOutlineConfiguration extends
     {
         IContributionItem[] items;
         // fShowGroupsAction = new ShowGroupsAction("Show Groups", viewer);
-        //		final IContributionItem showGroupsItem = new ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
+        //        final IContributionItem showGroupsItem = new ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
 
         // fixed bug 174653
         // use only the toggleLinking menu and dispose the others
@@ -405,9 +405,6 @@ public class TwigContentOutlineConfiguration extends
                 String[] parameters;
 
                 try {
-
-                    String t = m.getElementName();
-
                     parameters = m.getParameterNames();
 
                     if (parameters != null && parameters.length > 0) {
@@ -436,17 +433,17 @@ public class TwigContentOutlineConfiguration extends
 
     /*
      * class FilterActionGroupContributionItem extends ContributionItem {
-     * 
+     *
      * // private boolean fState; private CustomFiltersActionGroup fActionGroup;
-     * 
+     *
      * public FilterActionGroupContributionItem( CustomFiltersActionGroup
      * actionGroup) { super("filters"); fActionGroup = actionGroup; // fState=
      * state; }
-     * 
+     *
      * public void fill(Menu menu, int index) {
-     * 
+     *
      * }
-     * 
+     *
      * public boolean isDynamic() { return true; } }
      */
 

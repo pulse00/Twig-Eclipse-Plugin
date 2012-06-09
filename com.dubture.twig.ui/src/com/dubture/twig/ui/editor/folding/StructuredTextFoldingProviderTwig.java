@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -81,24 +81,24 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 /**
- * 
+ *
  * A folding structured provider based on
  * {@link StructuredTextFoldingProviderPHP} to work with twig.
- * 
- * 
+ *
+ *
  * Q: How is folding implemented? A: To enable folding for Twig structures like
  * {% block %} {% endblock %}, the {@link TwigSourceElementRequestorExtension}
  * parses twig sources and adds those structures as "PHP Methods" to the php
  * engine.
- * 
+ *
  * This way, we can use the built-in PDT folding logic and don't have to provide
  * our own hints on where folding starts and end.
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class StructuredTextFoldingProviderTwig implements IProjectionListener,
@@ -314,7 +314,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
         /**
          * Finds the offset of the first identifier part within
          * <code>content</code>. Returns 0 if none is found.
-         * 
+         *
          * @param content
          *            the content to search
          * @param prefixEnd
@@ -439,7 +439,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Creates a new projection annotation.
-         * 
+         *
          * @param isCollapsed
          *            <code>true</code> to set the initial state to collapsed,
          *            <code>false</code> to set it to expanded
@@ -560,7 +560,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
          * <code>false</code> when updating the folding structure while typing;
          * it may be <code>true</code> when computing or restoring the initial
          * folding structure.
-         * 
+         *
          * @return <code>true</code> if newly created folding regions may be
          *         collapsed, <code>false</code> if not
          */
@@ -571,7 +571,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns the document which contains the code being folded.
-         * 
+         *
          * @return the document which contains the code being folded
          */
         private IDocument getDocument()
@@ -589,7 +589,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
          * annotation / position pair will be added to the
          * {@link ProjectionAnnotationModel} of the {@link ProjectionViewer} of
          * the editor.
-         * 
+         *
          * @param annotation
          *            the annotation to add
          * @param position
@@ -603,7 +603,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns <code>true</code> if header comments should be collapsed.
-         * 
+         *
          * @return <code>true</code> if header comments should be collapsed
          */
         public boolean collapseHeaderComments()
@@ -613,7 +613,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns <code>true</code> if import containers should be collapsed.
-         * 
+         *
          * @return <code>true</code> if import containers should be collapsed
          */
         public boolean collapseImportContainer()
@@ -623,7 +623,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns <code>true</code> if inner types should be collapsed.
-         * 
+         *
          * @return <code>true</code> if inner types should be collapsed
          */
         public boolean collapseTypes()
@@ -633,7 +633,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns <code>true</code> if javadoc comments should be collapsed.
-         * 
+         *
          * @return <code>true</code> if javadoc comments should be collapsed
          */
         public boolean collapseJavadoc()
@@ -643,7 +643,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Returns <code>true</code> if methods should be collapsed.
-         * 
+         *
          * @return <code>true</code> if methods should be collapsed
          */
         public boolean collapseMembers()
@@ -678,7 +678,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
 
         /**
          * Registers the listener with the viewer.
-         * 
+         *
          * @param viewer
          *            the viewer to register a listener with
          */
@@ -1336,6 +1336,10 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
         return EditorUtility.getEditorInputModelElement(fEditor, false);
     }
 
+    public int getUpdatingCount() {
+        return fUpdatingCount;
+    }
+
     @Override
     public void projectionEnabled()
     {
@@ -1606,7 +1610,7 @@ public class StructuredTextFoldingProviderTwig implements IProjectionListener,
          * We don't ignore the delta if an import is added and the caret isn't
          * inside the import container.
          * </p>
-         * 
+         *
          * @param ast
          *            the compilation unit AST
          * @param delta

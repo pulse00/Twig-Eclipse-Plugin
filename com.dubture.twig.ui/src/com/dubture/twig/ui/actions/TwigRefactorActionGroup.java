@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -19,6 +19,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
+@SuppressWarnings("restriction")
 public class TwigRefactorActionGroup extends ActionGroup
 {
 
@@ -40,7 +41,7 @@ public class TwigRefactorActionGroup extends ActionGroup
 
         // super.fillContextMenu(menu);
 
-        IMenuManager target = menu;
+//        IMenuManager target = menu;
         IMenuManager searchSubMenu = null;
         if (fEditor != null) {
             String groupName = "SearchMessages.group_search";
@@ -48,7 +49,7 @@ public class TwigRefactorActionGroup extends ActionGroup
                     ITextEditorActionConstants.GROUP_FIND);
             searchSubMenu.add(new GroupMarker(
                     ITextEditorActionConstants.GROUP_FIND));
-            target = searchSubMenu;
+//            target = searchSubMenu;
         }
 
         // if (searchSubMenu != null) {

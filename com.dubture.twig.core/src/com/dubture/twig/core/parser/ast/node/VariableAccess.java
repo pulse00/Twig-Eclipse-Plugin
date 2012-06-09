@@ -40,4 +40,12 @@ public class VariableAccess extends Expression
         return ASTNodeKinds.VARIABLE_ACCESS;
     }
 
+    public Expression getLeftHandSide() {
+        return lhs;
+    }
+
+    public Expression getRightHandSide() {
+        return rhs;
+    }
+
 }

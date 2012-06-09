@@ -1,15 +1,13 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
 package com.dubture.twig.ui.editor;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.formatter.IContentFormatter;
@@ -22,21 +20,13 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredPartitionin
 import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 
 import com.dubture.twig.core.format.TwigFormatProcessorImpl;
-import com.dubture.twig.ui.TwigUICorePlugin;
 
+@SuppressWarnings("restriction")
 public class TwigContentFormatter implements IContentFormatter
 {
-
     @Override
     public void format(IDocument document, IRegion region)
     {
-
-        IFile file = TwigUICorePlugin.getDefault().getFile(document);
-        IProject project = null;
-        if (file != null) {
-            project = file.getProject();
-        }
-
         if (isFormatFile()) {
             MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
                     IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,

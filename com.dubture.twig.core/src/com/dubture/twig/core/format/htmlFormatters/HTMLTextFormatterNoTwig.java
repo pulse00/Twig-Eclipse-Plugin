@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -20,7 +20,7 @@ public class HTMLTextFormatterNoTwig extends HTMLTextFormatter
 {
 
     /**
-	 */
+    */
     protected void formatChildNodes(IDOMNode node,
             HTMLFormatContraints contraints)
     {
@@ -77,7 +77,7 @@ public class HTMLTextFormatterNoTwig extends HTMLTextFormatter
     }
 
     /**
-	 */
+    */
     protected void insertBreakAfter(IDOMNode node,
             HTMLFormatContraints contraints)
     {
@@ -118,7 +118,7 @@ public class HTMLTextFormatterNoTwig extends HTMLTextFormatter
     }
 
     /**
-	 */
+    */
     protected void insertBreakBefore(IDOMNode node,
             HTMLFormatContraints contraints)
     {
@@ -142,9 +142,6 @@ public class HTMLTextFormatterNoTwig extends HTMLTextFormatter
                     HTMLTextFormatterNoTwig textFormatter = (HTMLTextFormatterNoTwig) formatter;
                     textFormatter.formatText(text, contraints,
                             HTMLTextFormatter.FORMAT_TAIL);
-
-                    if (node == null)
-                        return;
 
                     if (node.hasChildNodes()) { // container
                         formatChildNodes(node, contraints);
@@ -174,7 +171,7 @@ public class HTMLTextFormatterNoTwig extends HTMLTextFormatter
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.wst.html.core.internal.format.HTMLTextFormatter#formatText
      * (org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode,

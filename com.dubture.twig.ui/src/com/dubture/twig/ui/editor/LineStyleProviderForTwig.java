@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -32,14 +32,14 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 /**
- * 
+ *
  * {@link LineStyleProviderForTwig} adds TwigColors to the colorTypes of the
  * {@link LineStyleProviderForPhp}.
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings({"restriction", "unchecked"})
 public class LineStyleProviderForTwig extends LineStyleProviderForPhp
@@ -84,7 +84,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
         fTwigColorTypes.put(TwigRegionContext.TWIG_INTERPOLATION_START,
                 PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_INTERPOLATION_END,
-                PreferenceConstants.EDITOR_INTERPOLATION_COLOR);        
+                PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_DELIMITER,
                 PreferenceConstants.EDITOR_COMMENT_COLOR);
         fTwigColorTypes.put(TwigRegionContext.TWIG_WHITESPACE,
@@ -144,7 +144,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
         for (int i = 0; i < nRegions; i++) {
             region = regions.get(i);
             TextAttribute attr = null;
-            TextAttribute previousAttr = null;
+//            TextAttribute previousAttr = null;
             final int startOffset = blockedRegion.getStartOffset(region);
             if (startOffset > partitionEndOffset)
                 break;
@@ -173,9 +173,9 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                         // previousAttr
                         // in the other case, because the other case is when
                         // it hasn't changed
-                        previousAttr = attr;
+//                        previousAttr = attr;
                     } else {
-                        previousAttr = null;
+//                        previousAttr = null;
                     }
                 }
             }
@@ -352,7 +352,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                 region = regions.get(i);
 
                 TextAttribute attr = null;
-                TextAttribute previousAttr = null;
+//                TextAttribute previousAttr = null;
                 final int startOffset = structuredDocumentRegion
                         .getStartOffset(region);
 
@@ -384,9 +384,9 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                             // previousAttr
                             // in the other case, because the other case is
                             // when it hasn't changed
-                            previousAttr = attr;
+//                            previousAttr = attr;
                         } else {
-                            previousAttr = null;
+//                            previousAttr = null;
                         }
                     }
                 }
@@ -416,7 +416,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                     || PreferenceConstants.EDITOR_COMMENT_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_PHPDOC_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_NUMBER_COLOR.equals(prefKey)
-                    || PreferenceConstants.EDITOR_KEYWORD_COLOR.equals(prefKey)                    
+                    || PreferenceConstants.EDITOR_KEYWORD_COLOR.equals(prefKey)
                     || PreferenceConstants.EDITOR_TASK_COLOR.equals(prefKey)) {
                 addTextAttribute(prefKey);
             } else if (PreferenceConstants.getEnabledPreferenceKey(
@@ -431,11 +431,11 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                     || PreferenceConstants
                             .getEnabledPreferenceKey(
                                     PreferenceConstants.EDITOR_BLOCKNAME_COLOR)
-                            .equals(prefKey)                       
+                            .equals(prefKey)
                     || PreferenceConstants
                             .getEnabledPreferenceKey(
                                     PreferenceConstants.EDITOR_HASH_COLOR)
-                            .equals(prefKey)                                                        
+                            .equals(prefKey)
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_VARIABLE_COLOR).equals(
                             prefKey)
@@ -444,7 +444,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp
                             prefKey)
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_KEYWORD_COLOR).equals(
-                            prefKey)                            
+                            prefKey)
                     || PreferenceConstants.getEnabledPreferenceKey(
                             PreferenceConstants.EDITOR_COMMENT_COLOR).equals(
                             prefKey)

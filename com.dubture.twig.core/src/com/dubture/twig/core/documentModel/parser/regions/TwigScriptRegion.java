@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -29,14 +29,14 @@ import com.dubture.twig.core.documentModel.parser.AbstractTwigLexer;
 import com.dubture.twig.core.documentModel.parser.TwigLexer;
 
 /**
- * 
- * 
+ *
+ *
  * {@link ITwigScriptRegion} implementation.
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TwigScriptRegion extends ForeignRegion implements
@@ -237,7 +237,7 @@ public class TwigScriptRegion extends ForeignRegion implements
             }
 
             // 1. replace the regions
-            final ListIterator oldIterator = tokensContainer
+            final ListIterator<ITextRegion> oldIterator = tokensContainer
                     .removeTokensSubList(tokenStart, tokenEnd);
             ITextRegion[] newTokens = newContainer.getTwigTokens(); // now, add
             // the new
@@ -286,8 +286,6 @@ public class TwigScriptRegion extends ForeignRegion implements
 
         isFullReparsed = true;
         assert lexer != null;
-
-        int s = 0;
 
         int start = 0;
         this.tokensContainer.getModelForCreation();
@@ -343,7 +341,7 @@ public class TwigScriptRegion extends ForeignRegion implements
      * Returns a stream that represents the new text We have three regions: 1)
      * the php region before the change 2) the change 3) the php region after
      * the region without the deleted text
-     * 
+     *
      * @param flatnode
      * @param change
      * @param requestStart
@@ -409,7 +407,7 @@ public class TwigScriptRegion extends ForeignRegion implements
             /**
              * For boosting performance - Read only 80 characters from the
              * buffer as the changes are usually small
-             * 
+             *
              * Start of change
              */
             len = len > 80 ? 80 : len;
@@ -456,7 +454,7 @@ public class TwigScriptRegion extends ForeignRegion implements
 
     /**
      * Returns a stream that represents the document
-     * 
+     *
      * @param StructuredDocument
      * @param start
      * @param length

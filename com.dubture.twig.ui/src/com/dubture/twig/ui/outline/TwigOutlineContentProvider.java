@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -30,15 +30,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
- * 
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TwigOutlineContentProvider implements ITreeContentProvider
@@ -93,10 +93,6 @@ public class TwigOutlineContentProvider implements ITreeContentProvider
     {
         Object[] children = getChildren(parent);
 
-        if (parent instanceof ISourceModule) {
-            ISourceModule sourceModule = (ISourceModule) parent;
-
-        }
         return children;
     }
 
@@ -157,7 +153,7 @@ public class TwigOutlineContentProvider implements ITreeContentProvider
 
     /**
      * The element change listener of the java outline viewer.
-     * 
+     *
      * @see IElementChangedListener
      */
     protected class ElementChangedListener implements IElementChangedListener

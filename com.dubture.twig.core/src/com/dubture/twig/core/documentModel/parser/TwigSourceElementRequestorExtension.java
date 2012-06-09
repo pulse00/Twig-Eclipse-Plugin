@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -23,20 +23,19 @@ import com.dubture.twig.core.TwigCoreConstants;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
-import com.dubture.twig.core.parser.ast.node.PrintStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.Variable;
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 import com.dubture.twig.core.util.TwigModelUtils;
 
 /**
- * 
+ *
  * The {@link TwigSourceElementRequestorExtension} is called when a twig file is
  * opened and indexes all model elements inside the template.
- * 
- * 
+ *
+ *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- * 
+ *
  */
 public class TwigSourceElementRequestorExtension extends
         PHPSourceElementRequestorExtension
@@ -59,7 +58,7 @@ public class TwigSourceElementRequestorExtension extends
             if (TwigModelUtils.isTwigTemplate(sourceModule.getFileName()) == false)
                 return;
 
-            String source = sourceModule.getSourceContents();            
+            String source = sourceModule.getSourceContents();
             fRequestor.enterModule();
 
             final ModuleDeclaration decl = SourceParserUtil
@@ -106,7 +105,7 @@ public class TwigSourceElementRequestorExtension extends
                     return false;
                 }
                 /*
-                
+
                 @Override
                 public boolean visit(PrintStatement print) throws Exception
                 {
@@ -116,14 +115,14 @@ public class TwigSourceElementRequestorExtension extends
                     info.nameSourceEnd = print.sourceEnd();
                     info.name = "var";
                     info.declarationStart = print.sourceStart();
-                    
+
                     fRequestor.enterMethod(info);
 
-                    
-                    
+
+
                     return true;
                 }
-                
+
                 @Override
                 public boolean endvisit(PrintStatement s) throws Exception
                 {
@@ -140,21 +139,21 @@ public class TwigSourceElementRequestorExtension extends
                     }
                     return false;
                 }
-                
+
                 @Override
                 public boolean endvisit(Variable s) throws Exception
                 {
 
                     FieldInfo info = new FieldInfo();
-                    
+
                     info.declarationStart =s.sourceStart();
                     info.nameSourceStart = s.sourceStart();
                     info.nameSourceEnd = s.sourceEnd();
                     info.name = s.getValue();
                     info.modifiers = Modifiers.AccPublic;
-                    
+
                     fRequestor.enterField(info);
-                    
+
                     fRequestor.exitField(s.sourceEnd());
                     return false;
                 }

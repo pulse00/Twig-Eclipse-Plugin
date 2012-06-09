@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -89,11 +89,11 @@ import com.dubture.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
 import com.dubture.twig.ui.editor.autoEdit.MainAutoEditStrategy;
 
 /**
- * 
+ *
  * A modified {@link PHPStructuredTextViewerConfiguration} for Twig templates.
- * 
+ *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- * 
+ *
  */
 @SuppressWarnings({"restriction", "unchecked", "rawtypes"})
 public class TwigStructuredTextViewerConfiguration extends
@@ -108,22 +108,22 @@ public class TwigStructuredTextViewerConfiguration extends
     private static final IAutoEditStrategy[] phpStrategies = new IAutoEditStrategy[]{mainAutoEditStrategy};
 
     private ReconcilerHighlighter fHighlighter = null;
-    
+
     private OccurrencesFinderJob fOccurrencesFinderJob;
-    
+
     private Annotation[] fOccurrenceAnnotations = null;
-    
+
     private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
-    
+
     private IRegion fMarkOccurrenceTargetRegion;
-    
+
     private boolean fMarkOccurrenceAnnotations;
-    
+
     private ISelection fForcedMarkOccurrencesSelection;
-    
+
     public TwigStructuredTextViewerConfiguration()
     {
-        
+
         fMarkOccurrenceAnnotations = true;
 
     }
@@ -209,8 +209,6 @@ public class TwigStructuredTextViewerConfiguration extends
     private ArrayList processors = null;
 
     private ISourceViewer sourceViewer;
-
-    private boolean fMarkExceptions;
 
     private ArrayList getTwigDefaultProcessors(ISourceViewer sourceViewer)
     {
@@ -333,7 +331,7 @@ public class TwigStructuredTextViewerConfiguration extends
     /*
      * @Override public IContentFormatter getContentFormatter(ISourceViewer
      * sourceViewer) { IContentFormatter usedFormatter = null;
-     * 
+     *
      * // System.err.println("get formatter"); // String formatterExtensionName
      * = "org.eclipse.php.ui.phpFormatterProcessor"; //$NON-NLS-1$ //
      * IConfigurationElement[] elements =
@@ -349,11 +347,11 @@ public class TwigStructuredTextViewerConfiguration extends
      * (sourceViewer), IHTMLPartitions.HTML_DEFAULT); //
      * ((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new
      * StructuredFormattingStrategy(new TwigFormatProcessorImpl())); // }
-     * 
-     * 
+     *
+     *
      * TwigContentFormatter formatter = new TwigContentFormatter(); return
      * formatter;
-     * 
+     *
      * }
      */
 
@@ -449,11 +447,11 @@ public class TwigStructuredTextViewerConfiguration extends
         reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
         String[] contentTypes = getConfiguredContentTypes(sourceViewer);
         ITextEditor textEditor = ((PHPStructuredTextViewer) sourceViewer).getTextEditor();
-        
-        
+
+
         SelectionListenerWithASTManager.getDefault().addListener(textEditor, new ISelectionListenerWithAST()
         {
-            
+
             @Override
             public void selectionChanged(IEditorPart part, ITextSelection selection,
                     ISourceModule module, IModuleDeclaration astRoot)
@@ -461,7 +459,7 @@ public class TwigStructuredTextViewerConfiguration extends
                 updateOccurrenceAnnotations(selection, (TwigModuleDeclaration) astRoot);
             }
         });
-        
+
 
 
         if (contentTypes != null) {
@@ -490,16 +488,16 @@ public class TwigStructuredTextViewerConfiguration extends
         fHighlighter = highlighter;
         super.setHighlighter(highlighter);
     }
-    
+
     public StructuredTextViewer getTextViewer() {
-        
+
         return (PHPStructuredTextViewer) sourceViewer;
     }
-    
+
 
     protected void updateOccurrenceAnnotations(ITextSelection selection, TwigModuleDeclaration astRoot) {
 
-        
+
         if (fOccurrencesFinderJob != null)
             fOccurrencesFinderJob.cancel();
 
@@ -508,16 +506,16 @@ public class TwigStructuredTextViewerConfiguration extends
 
         if (astRoot == null || selection == null || sourceViewer == null)
             return;
-        
+
         IDocument document = sourceViewer.getDocument();
-        
+
         if (document == null)
             return;
-        
+
         if (document.getLength() != astRoot.sourceEnd()) {
             return;
         }
-        
+
         boolean hasChanged = false;
         if (document instanceof IDocumentExtension4) {
             int offset = selection.getOffset();
@@ -547,26 +545,26 @@ public class TwigStructuredTextViewerConfiguration extends
                 locations = finder.getOccurrences();
             }
         }
-        
+
         if (locations == null || locations.length == 0) {
             IOccurrencesFinder finder = new CallFinder();
             if (finder.initialize(astRoot, selectedNode) == null) {
                 locations = finder.getOccurrences();
             }
         }
-        
+
         if (locations == null || locations.length == 0) {
             IOccurrencesFinder finder = new StringFinder();
             if (finder.initialize(astRoot, selectedNode) == null) {
                 locations = finder.getOccurrences();
             }
         }
-        
+
         if (locations == null) {
             return;
         }
-        
-        
+
+
         fOccurrencesFinderJob = new OccurrencesFinderJob(document, locations,
                 selection);
         // fOccurrencesFinderJob.setPriority(Job.DECORATE);
@@ -575,7 +573,7 @@ public class TwigStructuredTextViewerConfiguration extends
         fOccurrencesFinderJob.run(new NullProgressMonitor());
 
     }
-    
+
     class OccurrencesFinderJob extends Job {
 
         private final IDocument fDocument;
@@ -695,7 +693,7 @@ public class TwigStructuredTextViewerConfiguration extends
             return Status.OK_STATUS;
         }
     }
-    
+
     private Object getLockObject(IAnnotationModel annotationModel) {
         if (annotationModel instanceof ISynchronizable) {
             Object lock = ((ISynchronizable) annotationModel).getLockObject();
@@ -704,7 +702,7 @@ public class TwigStructuredTextViewerConfiguration extends
         }
         return annotationModel;
     }
-    
+
     void removeOccurrenceAnnotations() {
         fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
         fMarkOccurrenceTargetRegion = null;
