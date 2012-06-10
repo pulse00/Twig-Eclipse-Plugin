@@ -1,15 +1,13 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
 package com.dubture.twig.ui.actions;
 
-import org.eclipse.dltk.internal.corext.refactoring.RefactoringExecutionStarter;
-import org.eclipse.dltk.internal.ui.refactoring.RefactoringExecutionHelper;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextSelection;
@@ -19,10 +17,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.ui.IWorkbenchSite;
-import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
 public class SurroundWithAction extends Action implements
@@ -66,7 +62,7 @@ public class SurroundWithAction extends Action implements
         if (selection instanceof ITextSelection) {
 
             ITextSelection sel = (ITextSelection) selection;
-            
+
             System.err.println(sel);
 
             try {

@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -16,8 +16,6 @@ import java.util.ListIterator;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.php.internal.core.documentModel.parser.Scanner.LexerState;
-import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
@@ -29,7 +27,7 @@ public class TwigTokenContainer
 {
 
     // holds Twig tokens
-    protected final LinkedList<ContextRegion> twigTokens = new LinkedList<ContextRegion>(); // of
+    protected final LinkedList<ITextRegion> twigTokens = new LinkedList<ITextRegion>(); // of
     // ITextRegion
 
     // holds the location and state, where the lexical anlyzer state was changed
@@ -39,7 +37,7 @@ public class TwigTokenContainer
     // holds the iterator for the twig tokens linked list
     // this iterator follows the localization principle
     // i.e. the user usually works in the same area of the document
-    protected ListIterator<ContextRegion> tokensIterator = null;
+    protected ListIterator<ITextRegion> tokensIterator = null;
 
     public void getModelForCreation()
     {
@@ -127,7 +125,7 @@ public class TwigTokenContainer
         }
     }
 
-    public synchronized ListIterator<ContextRegion> removeTokensSubList(
+    public synchronized ListIterator<ITextRegion> removeTokensSubList(
             ITextRegion tokenStart, ITextRegion tokenEnd)
     {
         assert tokenStart != null;
@@ -202,10 +200,6 @@ public class TwigTokenContainer
         assert (twigTokens.size() == 0 || getLastToken().getEnd() == start)
                 && tokensIterator == null;
 
-        if (twigTokens.size() > 0) {
-            ContextRegion lastContextRegion = (ContextRegion) twigTokens
-                    .get(twigTokens.size() - 1);
-        }
         // if state was change - we add a new token and add state
         if (lexerStateChanges.size() == 0
                 || !getLastChange().state.equals(lexerState)) {

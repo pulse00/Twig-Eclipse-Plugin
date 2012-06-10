@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -37,29 +37,28 @@ import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.model.Template;
 import com.dubture.twig.core.model.TwigModelAccess;
-import com.dubture.twig.core.util.Debug;
 import com.dubture.twig.core.util.TwigModelUtils;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
- * 
+ *
  * The {@link AbstractTwigCompletionContext} checks if we're inside a twig
  * structure:
- * 
+ *
  * <pre>
- * 
- * 	{{ ... | ... }}
- * 
- *  or 
- *  
+ *
+ *     {{ ... | ... }}
+ *
+ *  or
+ *
  *  {% ... | .. %}
- * 
+ *
  * </pre>
- * 
- * 
- * 
+ *
+ *
+ *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class AbstractTwigCompletionContext extends AbstractCompletionContext
@@ -206,7 +205,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Determines the structured document region of the place in PHP code where
      * completion was requested
-     * 
+     *
      * @return structured document region or <code>null</code> in case it could
      *         not be determined
      */
@@ -215,8 +214,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     {
 
         IStructuredDocumentRegion sdRegion = null;
-        IStructuredDocumentRegion[] regions = document
-                .getStructuredDocumentRegions();
 
         int lastOffset = offset;
         // find the structured document region:
@@ -231,7 +228,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Determines the relevant region collection of the place in PHP code where
      * completion was requested
-     * 
+     *
      * @return text region collection or <code>null</code> in case it could not
      *         be determined
      */
@@ -250,7 +247,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Determines the text region from the text region collection and offset
-     * 
+     *
      * @param regionCollection
      * @param offset
      */
@@ -270,7 +267,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Determines the document associated with the editor where code assist has
      * been invoked.
-     * 
+     *
      * @param module
      *            Source module ({@link ISourceModule})
      * @param requestor
@@ -325,7 +322,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns PHP version of the file where code assist was requested
-     * 
+     *
      * @return PHP version
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -336,7 +333,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns the file where code assist was requested
-     * 
+     *
      * @return source module
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -348,7 +345,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Returns document associated with the editor where code assist was
      * requested
-     * 
+     *
      * @return document
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -360,7 +357,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Returns the relevant region collection of the place in PHP code where
      * completion was requested
-     * 
+     *
      * @return text region collection
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -371,7 +368,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns the PHP script region of PHP code where completion was requested
-     * 
+     *
      * @return php script region (see {@link ItwigScriptRegion})
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -382,7 +379,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns partition type of the code where cursor is located.
-     * 
+     *
      * @return partition type (see {@link PHPRegionTypes})
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -393,7 +390,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns the statement text that is before the cursor
-     * 
+     *
      * @return statement text
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -407,7 +404,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
     /**
      * Returns whether there are whitespace characters before the cursor where
      * code assist was being invoked
-     * 
+     *
      * @return <code>true</code> if there are whitespace characters before the
      *         cursor
      */
@@ -426,7 +423,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns completion requestor
-     * 
+     *
      * @return completion requestor (see {@link CompletionRequestor})
      * @see #isValid(ISourceModule, int, CompletionRequestor)
      */
@@ -437,7 +434,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns offset of the cursor position when code assist was invoked
-     * 
+     *
      * @return offset
      */
     public int getOffset()
@@ -447,14 +444,14 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns previous word before the cursor position
-     * 
+     *
      * @throws BadLocationException
      */
     public String getPreviousWord() throws BadLocationException
     {
         TextSequence statementText = getStatementText();
 
-        
+
         int statementLength = statementText.length();
         int wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(
                 statementText, statementLength); // read whitespace
@@ -484,7 +481,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns previous word before the cursor position
-     * 
+     *
      * @throws BadLocationException
      */
     public String getPreviousWord(int times) throws BadLocationException
@@ -529,7 +526,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns PHP token under offset
-     * 
+     *
      * @return PHP token
      * @throws BadLocationException
      */
@@ -547,7 +544,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns the word on which code assist was invoked
-     * 
+     *
      * @return prefix
      * @throws BadLocationException
      */
@@ -575,7 +572,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns the end of the word on which code assist was invoked
-     * 
+     *
      * @return
      * @throws BadLocationException
      */
@@ -592,7 +589,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns next PHP token after offset
-     * 
+     *
      * @return PHP token
      * @throws BadLocationException
      */
@@ -638,7 +635,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns next word after the cursor position
-     * 
+     *
      * @throws BadLocationException
      */
     public String getNextWord() throws BadLocationException
@@ -659,7 +656,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
 
     /**
      * Returns next word after the cursor position
-     * 
+     *
      * @throws BadLocationException
      */
     public char getNextChar() throws BadLocationException

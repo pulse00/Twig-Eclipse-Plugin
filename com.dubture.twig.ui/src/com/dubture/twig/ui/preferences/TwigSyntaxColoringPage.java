@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -107,13 +107,13 @@ import com.dubture.twig.ui.editor.SemanticHighlightingManager;
 import com.dubture.twig.ui.editor.highlighter.AbstractSemanticHighlighting;
 
 /**
- * 
+ *
  * The Twig Syntac color preference page. An adapted version of the
  * {@link PHPSyntaxColoringPage}.
- * 
- * 
+ *
+ *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- * 
+ *
  */
 @SuppressWarnings({"restriction", "rawtypes"})
 public class TwigSyntaxColoringPage extends PreferencePage implements
@@ -171,7 +171,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
         /**
          * Initialize with the given text attribute.
-         * 
+         *
          * @param textAttribute
          *            The text attribute
          * @param isEnabled
@@ -254,11 +254,12 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         return PreferenceConstants.getPreferenceStore();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean performOk()
     {
         getOverlayStore().propagate();
-        
+
         TwigUICorePlugin.getDefault().savePluginPreferences();
         return true;
     }
@@ -279,18 +280,18 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
         List<OverlayKey> overlayKeys = new ArrayList<OverlayKey>();
 
-        
+
         Iterator<String> i = getStylePreferenceKeys().iterator();
-        
+
         while (i.hasNext()) {
-            
+
             String key = i.next();
             overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, key));
             overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.getEnabledPreferenceKey(key)));
         }
-        
+
 //        for (AbstractSemanticHighlighting rule : SemanticHighlightingManager.getInstance().getSemanticHighlightings().values()) {
-//            
+//
 //            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getEnabledPreferenceKey()));
 //            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getColorPreferenceKey()));
 //            overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, rule.getBackgroundColorPreferenceKey()));
@@ -320,9 +321,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             styles.add(PreferenceConstants.EDITOR_KEYWORD_COLOR);
             styles.add(PreferenceConstants.EDITOR_HASH_COLOR);
             styles.add(PreferenceConstants.EDITOR_INTERPOLATION_COLOR);
-            
+
 //            styles.addAll(SemanticHighlightingManager.getInstance()
-//                    .getSemanticHighlightings().keySet());            
+//                    .getSemanticHighlightings().keySet());
 
             fStylePreferenceKeys = styles;
         }
@@ -360,7 +361,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                 "Comment");
         fStyleToDescriptionMap.put(PreferenceConstants.EDITOR_INTERPOLATION_COLOR,
                 "String Interpolation");
-        
+
 
     }
 
@@ -766,10 +767,10 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             public void widgetSelected(SelectionEvent e)
             {
                 // get current (newly old) style
-                
+
                 Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
                 String namedStyle = o.toString();
-                
+
 
 //                Map<String, AbstractSemanticHighlighting> highlightingMap = SemanticHighlightingManager
 //                        .getInstance().getSemanticHighlightings();
@@ -789,7 +790,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                     switchEnablement(enablement);
                     getOverlayStore().setValue(PreferenceConstants.getEnabledPreferenceKey(namedStyle),enablement);
                 }
-                
+
             }
 
         });
@@ -826,19 +827,19 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             DLTKUIPlugin.getDocumentProvider().connect(input);
             final ISourceModule sourceModule = DLTKUIPlugin
                     .getDocumentProvider().getWorkingCopy(input);
-            
-            final ModuleDeclaration module = SourceParserUtil.parseSourceModule(sourceModule.getSource());            
+
+            final ModuleDeclaration module = SourceParserUtil.parseSourceModule(sourceModule.getSource());
             if (sourceModule != null) {
-                
+
                 List<AbstractSemanticHighlighting> highlightings = new ArrayList<AbstractSemanticHighlighting>();
 
                 Collections.sort(highlightings);
-                
+
                 for (Iterator iterator = highlightings.iterator(); iterator
                         .hasNext();) {
                     AbstractSemanticHighlighting abstractSemanticHighlighting = (AbstractSemanticHighlighting) iterator
                             .next();
-                    
+
                     Position[] positions = abstractSemanticHighlighting
                             .consumes(module);
 
@@ -849,9 +850,9 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                     }
                 }
             }
-            
+
             DLTKUIPlugin.getDocumentProvider().disconnect(input);
-            
+
         } catch (CoreException e1) {
             e1.printStackTrace();
         } catch (IOException e) {
@@ -917,7 +918,6 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
 
             public Object[] getChildren(Object parentElement)
             {
-                Object[] chi = getStylePreferenceKeys().toArray();
                 return getStylePreferenceKeys().toArray();
             }
 
@@ -1261,10 +1261,10 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
         String property = event.getProperty();
         if (property == null)
             return;
-        
-        
-        
-        
+
+
+
+
         for (Iterator iterator = SemanticHighlightingManager.getInstance()
                 .getSemanticHighlightings().keySet().iterator(); iterator
                 .hasNext();) {
@@ -1293,7 +1293,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
                     .equals(highlighting.getUnderlinePreferenceKey())) {
                 adaptToTextStyleChange(style, event, TextAttribute.UNDERLINE);
             }
-        }        
+        }
     }
 
     void applyStyles()
@@ -1320,7 +1320,7 @@ public class TwigSyntaxColoringPage extends PreferencePage implements
             documentRegion = documentRegion.getNext();
         }
     }
-    
+
     private void adaptToEnablementChange(HighlightingStyle highlighting,
             PropertyChangeEvent event) {
         Object value = event.getNewValue();

@@ -1,16 +1,13 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
 package com.dubture.twig.ui.editor.autoEdit;
 
-import java.io.BufferedReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +28,13 @@ import com.dubture.twig.core.format.DefaultIndentationStrategy;
 import com.dubture.twig.core.format.TwigFormatter;
 
 /**
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
@@ -68,7 +65,7 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
     /**
      * Set the indent of a bracket based on the command provided in the supplied
      * document.
-     * 
+     *
      * @param document
      *            - the document being parsed
      * @param command
@@ -125,8 +122,6 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
         TwigFormatter formatter = new TwigFormatter(0, newdocument.getLength());
         formatter.format(newdocument.getFirstStructuredDocumentRegion());
 
-        Reader reader = new StringReader(newdocument.get());
-        BufferedReader br = new BufferedReader(reader);
         List<String> list = new ArrayList<String>();
         try {
             int lineNumber = newdocument.getNumberOfLines();

@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -25,12 +25,10 @@ public class TwigCorePlugin extends Plugin
 
     // The plug-in ID
     public static final String PLUGIN_ID = "com.dubture.twig.core";
-    
+
     public static final String EDITOR_ID = "com.dubture.twig.editor";
 
     public static final int INTERNAL_ERROR = 10001;
-
-    private static final boolean DEBUG = false;
 
     private Boolean _isDltk3 = null;
 
@@ -39,7 +37,7 @@ public class TwigCorePlugin extends Plugin
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
      * )
@@ -69,7 +67,7 @@ public class TwigCorePlugin extends Plugin
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */

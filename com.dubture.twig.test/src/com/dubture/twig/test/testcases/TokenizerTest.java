@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -23,17 +23,16 @@ import org.junit.Test;
 
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.TwigTokenizer;
-import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
 
 /**
- * 
+ *
  * Tests for the {@link TwigTokenizer}
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TokenizerTest extends TestCase
@@ -59,7 +58,7 @@ public class TokenizerTest extends TestCase
 
     /**
      * Load a test template.
-     * 
+     *
      * @param path
      * @return
      */
@@ -210,10 +209,10 @@ public class TokenizerTest extends TestCase
             fail();
         }
     }
-    
-    
+
+
     @Test
-    public void testStringInterpolation() 
+    public void testStringInterpolation()
     {
 
         try {
@@ -227,12 +226,12 @@ public class TokenizerTest extends TestCase
                 ITextRegion region = tokenizer.getNextToken();
                 textRegions.push(region);
             }
-            
-            assertEquals(3, textRegions.size());            
+
+            assertEquals(3, textRegions.size());
             assertEquals(TwigRegionContext.TWIG_OPEN, textRegions.get(0).getType());
             assertEquals(TwigRegionContext.TWIG_CONTENT, textRegions.get(1).getType());
             assertEquals(TwigRegionContext.TWIG_CLOSE, textRegions.get(2).getType());
-            
+
             TwigScriptRegion region = (TwigScriptRegion) textRegions.get(1);
             assertNotNull(region);
             assertEquals(9, region.getTokenCount());

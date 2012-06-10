@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -20,7 +20,6 @@ import org.eclipse.php.internal.ui.autoEdit.PairCurlyBracketAutoEditStrategy;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 
 import com.dubture.twig.core.format.DefaultIndentationStrategy;
-import com.dubture.twig.core.format.FormatterUtils;
 import com.dubture.twig.core.log.Logger;
 
 @SuppressWarnings("restriction")
@@ -117,9 +116,6 @@ public class IndentLineAutoEditStrategy extends DefaultIndentationStrategy
         if (command.length > 0)
             return null;
         final int offset = command.offset;
-
-        String currentState = FormatterUtils.getPartitionType(document, offset,
-                true);
 
         // fixed bug 186710
         // scan for the first char that not equals to space or tab

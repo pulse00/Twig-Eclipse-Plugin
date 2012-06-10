@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -27,6 +27,7 @@ import org.eclipse.wst.sse.ui.internal.ExtendedConfigurationBuilder;
  * additional slave formatting strategies via the
  * <code>org.eclipse.wst.sse.ui.editorConfiguration</code> extension point
  */
+@SuppressWarnings("restriction")
 public class StructuredTextMultiPassContentFormatter extends
         MultiPassContentFormatter
 {
@@ -37,11 +38,11 @@ public class StructuredTextMultiPassContentFormatter extends
     /**
      * list of partition types that already have a formatting strategy
      */
-    private List fInstalledPartitionTypes;
+    private List<String> fInstalledPartitionTypes;
 
     /**
      * Creates a new content formatter.
-     * 
+     *
      * @param partitioning
      *            the document partitioning for this formatter
      * @param type
@@ -74,7 +75,7 @@ public class StructuredTextMultiPassContentFormatter extends
     protected void formatSlave(IFormattingContext context, IDocument document,
             int offset, int length, String type)
     {
-        List installedTypes = getInstalledPartitionTypes();
+        List<String> installedTypes = getInstalledPartitionTypes();
         if (installedTypes.contains(type)) {
             // we've already set the slave formatter strategy so just perform
             // as normal
@@ -123,13 +124,13 @@ public class StructuredTextMultiPassContentFormatter extends
     /**
      * Get the list of partition types that have already been evaluated for
      * slave formatting strategies for this formatter.
-     * 
+     *
      * @return List
      */
-    private List getInstalledPartitionTypes()
+    private List<String> getInstalledPartitionTypes()
     {
         if (fInstalledPartitionTypes == null)
-            fInstalledPartitionTypes = new ArrayList();
+            fInstalledPartitionTypes = new ArrayList<String>();
         return fInstalledPartitionTypes;
     }
 }

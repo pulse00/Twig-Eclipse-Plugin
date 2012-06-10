@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -10,7 +10,6 @@ package com.dubture.twig.test.testcases;
 
 import junit.framework.TestCase;
 
-import org.eclipse.php.internal.core.util.text.TextSequence;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -24,12 +23,12 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
- * 
+ *
  * Tests for the {@link TwigTextSequenceUtilities}
- * 
- * 
+ *
+ *
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class TwigTextSequenceUtilitiesTest extends TestCase
@@ -57,8 +56,8 @@ public class TwigTextSequenceUtilitiesTest extends TestCase
             IStructuredDocument fDoc = model.getStructuredDocument();
             String fText = "{% for item in items %}";
             fDoc.set(fText);
-            IStructuredDocumentRegion[] regions = fDoc
-                    .getStructuredDocumentRegions();
+//            IStructuredDocumentRegion[] regions = fDoc
+//                    .getStructuredDocumentRegions();
 
             // assertEquals(1, regions.length);
             // int offset = 8;
@@ -89,10 +88,10 @@ public class TwigTextSequenceUtilitiesTest extends TestCase
                     .getStructuredDocumentRegions();
 
             assertEquals(1, regions.length);
-            int offset = 8;
+//            int offset = 8;
 
-            TextSequence statement = TwigTextSequenceUtilities.getStatement(
-                    offset, regions[0], false);
+//            TextSequence statement = TwigTextSequenceUtilities.getStatement(
+//                    offset, regions[0], false);
             // assertNotNull(statement);
             // assertEquals("item.", statement.toString());
 
@@ -117,7 +116,7 @@ public class TwigTextSequenceUtilitiesTest extends TestCase
                     .getStructuredDocumentRegions();
 
             assertEquals(1, regions.length);
-            int offset = 5;
+            //int offset = 5;
 
             // TextSequence statement =
             // TwigTextSequenceUtilities.getStatement(offset, regions[0],

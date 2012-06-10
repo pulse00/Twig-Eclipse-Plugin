@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -12,8 +12,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
-
-import com.dubture.twig.core.model.Function;
 
 public class FunctionProposalInfo extends MemberProposalInfo
 {
@@ -31,7 +29,7 @@ public class FunctionProposalInfo extends MemberProposalInfo
 
         try {
 
-            Function tag = (Function) getModelElement();
+//            Function tag = (Function) getModelElement();
 
             // if (tag != null && tag.getPHPClass() != null) {
             // return tag.getPHPClass() + " <br/><br/>";

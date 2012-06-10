@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -189,8 +189,6 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
 
     private static class ToggleLinesRunnable implements IRunnableWithProgress
     {
-
-        private String fContentType;
         private IStructuredDocument fDocument;
         private int fSelectionStartLine;
         private int fSelectionEndLine;
@@ -200,8 +198,6 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
                 IStructuredDocument document, int selectionStartLine,
                 int selectionEndLine, Display display)
         {
-
-            this.fContentType = contentTypeIdentifier;
             this.fDocument = document;
             this.fSelectionStartLine = selectionStartLine;
             this.fSelectionEndLine = selectionEndLine;
@@ -270,7 +266,7 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
          * Assumes that the given offset is at the begining of a line and adds
          * the line comment prefix there
          * </p>
-         * 
+         *
          */
         public void apply(IStructuredDocument document, int offset, int length)
                 throws BadLocationException
@@ -289,12 +285,12 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
          * line comment that does not have a suffix, pass <code>null</code> for
          * the comment suffix and it and its associated offset will be ignored.
          * </p>
-         * 
+         *
          * <p>
          * <b>NOTE:</b> it is a good idea if a model is at hand when calling
          * this to warn the model of an impending update
          * </p>
-         * 
+         *
          * @param document
          *            the document to remove the comment from
          * @param commentPrefixOffset
@@ -357,7 +353,7 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
          * line, leading whitespace on the line will not prevent this method
          * from finishing correctly
          * </p>
-         * 
+         *
          */
         public void remove(IStructuredDocument document, int offset,
                 int length, boolean removeEnclosing)
@@ -399,7 +395,7 @@ public class TwigToggleLineCommentHandler extends AbstractCommentHandler
          * {@link Display#readAndDispatch()} because they are not caused by this
          * code and do not effect it.
          * </p>
-         * 
+         *
          * @param display
          *            the {@link Display} to call <code>readAndDispatch</code>
          *            on with exception/error handling.

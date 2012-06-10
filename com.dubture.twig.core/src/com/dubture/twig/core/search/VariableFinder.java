@@ -10,7 +10,6 @@ package com.dubture.twig.core.search;
 
 import org.eclipse.dltk.ast.ASTNode;
 
-import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
@@ -30,7 +29,7 @@ public class VariableFinder extends AbstractOccurrencesFinder
             return null;
         }
 
-        return "Variable finder"; //$NON-NLS-1$;        
+        return "Variable finder"; //$NON-NLS-1$;
 
     }
 

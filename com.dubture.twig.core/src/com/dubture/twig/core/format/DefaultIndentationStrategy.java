@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -249,7 +249,7 @@ public class DefaultIndentationStrategy implements IIndentationStrategy
      * a statement spanning multi line starts with a region of type
      * regionType,the lines'(except 1st) indentation are same as/based on 1st
      * line,then this this method return true,else return false.
-     * 
+     *
      * @param regionType
      * @return
      */
@@ -364,8 +364,6 @@ public class DefaultIndentationStrategy implements IIndentationStrategy
     {
         try {
             IRegion lineInfo = document.getLineInformation(lineNumber);
-            final IStructuredDocumentRegion sdRegion = document
-                    .getRegionAtCharacterOffset(offset);
             ITextRegion token = getLastTokenRegion(document, lineInfo,
                     lineInfo.getOffset() + lineInfo.getLength());
             if (token == null)// comment

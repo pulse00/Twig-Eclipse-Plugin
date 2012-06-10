@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -26,7 +26,7 @@ import org.eclipse.wst.sse.core.StructuredModelManager;
 
 import com.dubture.twig.core.documentModel.DOMModelForTwig;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "deprecation"})
 public class FormatPreferencesSupport
 {
 
