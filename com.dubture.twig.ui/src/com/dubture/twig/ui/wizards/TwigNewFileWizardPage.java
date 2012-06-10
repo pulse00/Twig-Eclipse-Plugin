@@ -1,23 +1,21 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
 package com.dubture.twig.ui.wizards;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.core.IProjectFragment;
 import org.eclipse.dltk.core.IScriptFolder;
 import org.eclipse.dltk.core.IScriptProject;
@@ -63,11 +61,11 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
 
     private List<ITemplateProvider> extensions;
 
-    
+
 
     /**
      * Constructor for SampleNewWizardPage.
-     * 
+     *
      * @param pageName
      */
     public TwigNewFileWizardPage(ISelection selection)
@@ -121,12 +119,12 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
         label2.setVisible(false);
 
         extensions = ExtensionManager.getInstance().getTemplateProviders();
-        
+
         Logger.debugMSG("Creating extension controls");
         for (ITemplateProvider provider : extensions) {
             provider.createContentControls(getScriptFolder(), container);
         }
-        
+
         initialize();
         dialogChanged();
         setControl(container);
@@ -139,7 +137,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
     private void initialize()
     {
         Logger.debugMSG("Initializing twig file wizard");
-        
+
         if (selection != null && selection.isEmpty() == false
                 && selection instanceof IStructuredSelection) {
 
@@ -155,7 +153,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
             if (obj instanceof IScriptFolder) {
 
                 Logger.debugMSG("Selection is scriptfolder");
-                
+
                 IScriptFolder folder = (IScriptFolder) obj;
                 try {
                     String fullPath = folder.getUnderlyingResource().getFullPath().toString();
@@ -168,7 +166,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
 
                 IProjectFragment fragment = (IProjectFragment) obj;
                 Logger.debugMSG("Selection is projectfragment");
-                
+
                 try {
                     String fullPath = fragment.getUnderlyingResource().getFullPath().toString();
                     Logger.debugMSG("Setting container text to " + fullPath);
@@ -181,6 +179,11 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
                 IScriptProject proj = (IScriptProject) obj;
                 Logger.debugMSG("Selection is scriptproject");
                 containerText.setText(proj.getPath().toString());
+
+            } else if (obj instanceof IFolder) {
+                IFolder folder = (IFolder) obj;
+                Logger.debugMSG("Selection is folder");
+                containerText.setText(folder.getFullPath().toString());
             } else {
                 Logger.debugMSG("Could not determine selection type");
                 if (obj != null) {
@@ -192,7 +195,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage
         } else {
             Logger.debugMSG("File wizard couldn't retrieve selection");
         }
-        
+
         Logger.debugMSG("Final container text: " + containerText.getText());
 
         fileText.setText("template.twig");
