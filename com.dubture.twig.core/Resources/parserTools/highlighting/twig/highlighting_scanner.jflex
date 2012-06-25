@@ -123,7 +123,7 @@ import com.dubture.twig.core.util.Debug;
 // twig macros
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="not"|"in"|"as"|"is"|"defined"|"and"|"with"|"or"|"only"
+KEYWORD="not"|"in"|"if"|"as"|"is"|"defined"|"and"|"with"|"or"|"only"
 
 ANY_CHAR=[^]
 DOUBLE_QUOTES_CHARS=("{"*([^#\"\\{]|("\\"{ANY_CHAR})))
