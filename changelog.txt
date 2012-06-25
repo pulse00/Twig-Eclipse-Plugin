@@ -1,3 +1,7 @@
+1.0.108
+
+* fixed minor highlighting bug
+
 1.0.107
 
 * fixed bug in selectionengine which caused PHP linking to fail
