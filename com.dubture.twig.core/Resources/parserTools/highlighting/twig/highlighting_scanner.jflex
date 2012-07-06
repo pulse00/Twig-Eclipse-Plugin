@@ -138,7 +138,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE}? {KEYWORD} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE}? {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
