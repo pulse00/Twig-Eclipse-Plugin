@@ -16,6 +16,7 @@ import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import com.dubture.twig.core.util.Debug;
 
+
 %%
 
 %public
@@ -123,7 +124,7 @@ import com.dubture.twig.core.util.Debug;
 // twig macros
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
-KEYWORD="not"|"in"|"as"|"is"|"defined"|"and"|"with"|"or"|"only"
+KEYWORD="not"|"in"|"if"|"as"|"is"|"defined"|"and"|"with"|"or"|"only"
 
 ANY_CHAR=[^]
 DOUBLE_QUOTES_CHARS=("{"*([^#\"\\{]|("\\"{ANY_CHAR})))
@@ -138,7 +139,7 @@ NUMBER=([0-9])+
 **************************************** T W I G  ***********************************************
 ***********************************************************************************************/
 
-<ST_TWIG_IN_STATEMENT, ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE}? {KEYWORD} {
+<ST_TWIG_IN_STATEMENT_BODY, ST_TWIG_IN_PRINT, ST_TWIG_HASH, ST_TWIG_INTERPOLATION> {TWIG_WHITESPACE}? {KEYWORD} {
 
 	if(Debug.debugTokenizer)
 		dump("TWIG KEYWORD");
