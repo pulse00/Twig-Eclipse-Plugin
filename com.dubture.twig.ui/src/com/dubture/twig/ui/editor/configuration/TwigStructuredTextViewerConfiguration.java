@@ -26,6 +26,7 @@ import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.internal.ui.text.ScriptWordFinder;
 import org.eclipse.dltk.ui.viewsupport.ISelectionListenerWithAST;
 import org.eclipse.dltk.ui.viewsupport.SelectionListenerWithASTManager;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
@@ -83,10 +84,12 @@ import com.dubture.twig.core.search.CallFinder;
 import com.dubture.twig.core.search.NodeFinder;
 import com.dubture.twig.core.search.StringFinder;
 import com.dubture.twig.core.search.VariableFinder;
+import com.dubture.twig.ui.TwigUICorePlugin;
 import com.dubture.twig.ui.editor.LineStyleProviderForTwig;
 import com.dubture.twig.ui.editor.autoEdit.CloseTagAutoEditStrategyTwig;
 import com.dubture.twig.ui.editor.autoEdit.IndentLineAutoEditStrategy;
 import com.dubture.twig.ui.editor.autoEdit.MainAutoEditStrategy;
+import com.dubture.twig.ui.preferences.PreferenceConstants;
 
 /**
  *
@@ -456,7 +459,14 @@ public class TwigStructuredTextViewerConfiguration extends
             public void selectionChanged(IEditorPart part, ITextSelection selection,
                     ISourceModule module, IModuleDeclaration astRoot)
             {
-                updateOccurrenceAnnotations(selection, (TwigModuleDeclaration) astRoot);
+                IPreferenceStore store = TwigUICorePlugin.getDefault()
+                        .getPreferenceStore();
+                boolean doMark = store
+                        .getBoolean(PreferenceConstants.MARK_OCCURRENCES);
+
+                if (doMark) {
+                	updateOccurrenceAnnotations(selection, (TwigModuleDeclaration) astRoot);
+                }
             }
         });
 

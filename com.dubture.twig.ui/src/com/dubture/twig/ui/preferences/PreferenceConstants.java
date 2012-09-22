@@ -256,11 +256,13 @@ public class PreferenceConstants
 
     public static final String TEMPLATES_KEY = "org.eclipse.php.smarty.ui.editor.templates"; //$NON-NLS-1$	
 
-    public static final String AUTOCLOSE_PRINT_TAGS = "autoclose_print_tags";
+    public static final String AUTOCLOSE_PRINT_TAGS = "autoclose_print_tags"; //$NON-NLS-1$
 
-    public static final String AUTOCLOSE_STATEMENT_TAGS = "autoclose_statement_tags";
+    public static final String AUTOCLOSE_STATEMENT_TAGS = "autoclose_statement_tags"; //$NON-NLS-1$
 
-    public static final String AUTOCREATE_STATEMENT_TAGS = "autocreate_statement_tags";
+    public static final String AUTOCREATE_STATEMENT_TAGS = "autocreate_statement_tags"; //$NON-NLS-1$
+    
+    public static final String MARK_OCCURRENCES = "mark_occurrences"; //$NON-NLS-1$
 
     public static final String EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX = "semanticHighlighting."; //$NON-NLS-1$
     
@@ -344,6 +346,8 @@ public class PreferenceConstants
      */
     public final static String EDITOR_ADD_PHP_FOR_PHPSTART_TAGS = "autoAddPhpForPhpStartTags"; //$NON-NLS-1$
 
+	
+
     public static void initializeDefaultValues()
     {
 
@@ -395,6 +399,7 @@ public class PreferenceConstants
         store.setDefault(getEnabledPreferenceKey(EDITOR_COMMENT_COLOR), true);
         
         store.setDefault(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, TwigCoreConstants.SYNTAX_IGNORE);
+        store.setDefault(MARK_OCCURRENCES, true);
         
         // code assist
         store.setDefault(AUTOCLOSE_PRINT_TAGS, true);

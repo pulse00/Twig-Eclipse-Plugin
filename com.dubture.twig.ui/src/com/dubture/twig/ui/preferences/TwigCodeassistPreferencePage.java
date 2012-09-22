@@ -39,6 +39,7 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage
     private Button autoclosePrintTags;
     private Button autocloseStatementTags;
     private Button autocreateStatementTags;
+	private Button markOccurrences;
 
     public TwigCodeassistPreferencePage()
     {
@@ -61,6 +62,8 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage
                 .getBoolean(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS));
         autocreateStatementTags.setSelection(store
                 .getBoolean(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS));
+		markOccurrences.setSelection(store
+				.getBoolean(PreferenceConstants.MARK_OCCURRENCES));
     }
 
     @Override
@@ -84,6 +87,7 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage
         store.setValue(PreferenceConstants.AUTOCLOSE_PRINT_TAGS, true);
         store.setValue(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS, true);
         store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS, true);
+        store.setValue(PreferenceConstants.MARK_OCCURRENCES, true);
 
         super.performDefaults();
     }
@@ -100,6 +104,8 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage
                 autocloseStatementTags.getSelection());
         store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS,
                 autocreateStatementTags.getSelection());
+        
+        store.setValue(PreferenceConstants.MARK_OCCURRENCES, markOccurrences.getSelection());
 
         return super.performOk();
 
@@ -134,6 +140,17 @@ public class TwigCodeassistPreferencePage extends AbstractPreferencePage
         autocreateStatementTags = new Button(doubleClickGroup, SWT.CHECK);
         autocreateStatementTags.setText("Autocreate Statements (%)");
         autocreateStatementTags.setLayoutData(gd);
+        
+        Group higlightGroup = new Group(result, SWT.NONE);
+
+        higlightGroup.setLayout(new GridLayout());
+        higlightGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        higlightGroup.setText("Highlighting");
+        
+        markOccurrences = new Button(higlightGroup, SWT.CHECK);
+        markOccurrences.setText("Mark occurrences"); //$NON-NLS-1$
+        markOccurrences.setLayoutData(gd);
+        
 
     }
 
