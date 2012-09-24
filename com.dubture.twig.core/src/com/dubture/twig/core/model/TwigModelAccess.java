@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
@@ -76,6 +77,31 @@ public class TwigModelAccess extends PhpModelAccess
         }
 
         return null;
+    }
+    
+    public List<Template> getTemplates(IScriptProject project) throws ModelException {
+    	
+    	final List<Template> templates = new ArrayList<Template>();
+    	
+        IDLTKSearchScope scope = SearchEngine.createSearchScope(project);
+        ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit
+                .getDefault());
+
+        String qualifier = project.getUnderlyingResource().getFullPath().toString();
+        System.err.println(qualifier);
+        engine.search(ITwigModelElement.TEMPLATE, null, qualifier, 0, 0, 100, SearchFor.REFERENCES, MatchRule.PREFIX, scope, new ISearchRequestor() {
+			
+			@Override
+			public void match(int elementType, int flags, int offset, int length,
+					int nameOffset, int nameLength, String elementName,
+					String metadata, String doc, String qualifier, String parent,
+					ISourceModule sourceModule, boolean isReference) {
+				
+				templates.add(new Template(elementName));
+			}
+		}, null);
+    	
+    	return templates;
     }
 
     public void addTemplate(Template twigTemplate)

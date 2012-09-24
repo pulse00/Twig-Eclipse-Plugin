@@ -18,5 +18,6 @@ public interface ITwigModelElement
     int TEST = 804;
     int BLOCK = 805;
     int EXTENDS = 806;
+	int TEMPLATE = 807;
 
 }

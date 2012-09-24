@@ -31,7 +31,7 @@ com.dubture.twig.core.TwigNature
       <language
             class="com.dubture.twig.core.TwigLanguageToolkit"
             nature="com.dubture.twig.core.TwigNature"
-            priority="10">
+            priority="20">
       </language>
    </extension>
    
@@ -125,5 +125,14 @@ com.dubture.twig.core.TwigNature
             priority="200">
       </selectionEngine>
    </extension>
+   <extension
+         point="org.eclipse.dltk.core.typeHierarchy">
+      <builder
+            class="com.dubture.twig.core.builder.TypeHierarchyBuilder"
+            nature="com.dubture.twig.core.TwigNature"
+            priority="20">
+      </builder>
+   </extension>
+   
 
 </plugin>

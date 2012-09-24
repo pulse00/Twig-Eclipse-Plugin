@@ -254,4 +254,31 @@ public class TwigTextSequenceUtilities
 
         return null;
     }
+
+	public static int readViewPathStartIndex(CharSequence textSequence) {
+
+		int startPosition = textSequence.length() -1;		
+		return readLiteralStartIndex(textSequence, startPosition);
+
+	}
+	
+	public static int readLiteralStartIndex(CharSequence textSequence, int startPosition) {
+		
+		while (startPosition > 0) {
+
+			char ch = textSequence.charAt(startPosition - 1);
+			if (!Character.isLetterOrDigit(ch) && ch != '/' && ch != '.') {
+				break;
+			}
+			startPosition--;
+		}
+		if (startPosition > 0
+				&& (textSequence.charAt(startPosition) == '"' || textSequence.charAt(startPosition) == '\'' )) {
+			startPosition++;
+
+		}
+
+		return startPosition;		
+		
+	}
 }

@@ -26,6 +26,7 @@ import com.dubture.twig.core.codeassist.context.TagContext;
 import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
 import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.codeassist.context.VariableFieldContext;
+import com.dubture.twig.core.codeassist.context.ViewPathContext;
 import com.dubture.twig.core.codeassist.strategies.AbstractTwigCompletionStrategy;
 import com.dubture.twig.core.codeassist.strategies.BlocknameStrategy;
 import com.dubture.twig.core.codeassist.strategies.FilterStrategy;
@@ -34,6 +35,7 @@ import com.dubture.twig.core.codeassist.strategies.KeywordStrategy;
 import com.dubture.twig.core.codeassist.strategies.TagStrategy;
 import com.dubture.twig.core.codeassist.strategies.TemplateVariablesStrategy;
 import com.dubture.twig.core.codeassist.strategies.TestStrategy;
+import com.dubture.twig.core.codeassist.strategies.ViewPathCompletionStrategy;
 import com.dubture.twig.core.log.Logger;
 
 /**
@@ -81,6 +83,8 @@ public class TwigCompletionStrategyFactory implements
                 result.add(new TestStrategy(context));
             } else if (context.getClass() == BlocknameContext.class) {
                 result.add(new BlocknameStrategy(context));
+            } else if (context.getClass() == ViewPathContext.class) {
+            	result.add(new ViewPathCompletionStrategy(context));
             }
         }
 

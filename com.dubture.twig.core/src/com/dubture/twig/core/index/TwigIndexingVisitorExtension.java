@@ -11,6 +11,8 @@ package com.dubture.twig.core.index;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -42,7 +44,9 @@ import com.dubture.twig.core.model.Filter;
 import com.dubture.twig.core.model.Function;
 import com.dubture.twig.core.model.ITwigModelElement;
 import com.dubture.twig.core.model.Tag;
+import com.dubture.twig.core.model.Template;
 import com.dubture.twig.core.model.Test;
+import com.dubture.twig.core.model.TwigModelAccess;
 import com.dubture.twig.core.model.TwigType;
 import com.dubture.twig.core.util.TwigModelUtils;
 
@@ -84,6 +88,23 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
     {
         super.setSourceModule(module);
         visitor = new TwigIndexingVisitor(requestor, sourceModule);
+        
+        try {
+        	
+        	TwigModelAccess model = TwigModelAccess.getDefault();
+        	IResource resource = module.getUnderlyingResource();
+            if (TwigModelUtils.isTwigTemplate(resource.getName())) {
+                model.addTemplate(new Template(sourceModule));
+
+                Logger.debugMSG("adding template reference " + resource.getName());
+                String name = resource.getFullPath().toString();
+                System.err.println(name);
+                ReferenceInfo info = new ReferenceInfo(ITwigModelElement.TEMPLATE, 0, 0, name, null, null);
+                requestor.addReference(info);
+            }
+        } catch (Exception e) {
+            Logger.logException(e);
+        }        
     }
     
 
@@ -99,7 +120,7 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
 
             PHPMethodDeclaration phpMethod = (PHPMethodDeclaration) s;
 
-            if (inTwigExtension&& phpMethod.getName().equals(TwigCoreConstants.GET_FILTERS)) {
+            if (inTwigExtension && phpMethod.getName().equals(TwigCoreConstants.GET_FILTERS)) {
 
                 phpMethod.traverse(new PHPASTVisitor()
                 {

@@ -19,19 +19,29 @@ import org.eclipse.dltk.core.ISourceModule;
  */
 public class Template
 {
-
     private ISourceModule sourceModule;
+    private String path;
 
+    public Template(String path) {
+		this.setPath(path);
+    }
+    
+    public Template(ISourceModule sourceModule)
+    {
+    	this.sourceModule = sourceModule;
+    }
+    
     public ISourceModule getSourceModule()
     {
         return sourceModule;
     }
 
-    public Template(ISourceModule sourceModule)
-    {
+	public String getPath() {
+		return path;
+	}
 
-        this.sourceModule = sourceModule;
-
-    }
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 }

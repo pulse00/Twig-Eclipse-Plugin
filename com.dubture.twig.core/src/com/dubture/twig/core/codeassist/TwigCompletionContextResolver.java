@@ -28,6 +28,7 @@ import com.dubture.twig.core.codeassist.context.TagContext;
 import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
 import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.codeassist.context.VariableFieldContext;
+import com.dubture.twig.core.codeassist.context.ViewPathContext;
 import com.dubture.twig.core.log.Logger;
 
 /**
@@ -64,6 +65,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver
         contexts.add(new TagContext());
         contexts.add(new TestContext());
         contexts.add(new BlocknameContext());
+        contexts.add(new ViewPathContext());
 
         IConfigurationElement[] config = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CONTEXTYFACTORY_ID);
