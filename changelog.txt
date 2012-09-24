@@ -1,3 +1,7 @@
+1.0.11
+
+* added mark occurrences option to preferences
+
 1.0.109
 
 * fixed highlighting error for if statements
