@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.dubture.twig</groupId>
-  <artifactId>parent</artifactId>
-  <version>1.0.12-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-    <module>com.dubture.twig.core</module>
-    <module>com.dubture.twig.core.json</module>
-    <module>com.dubture.twig.ui</module>
-    <module>com.dubture.twig.test</module>	
-    <module>com.dubture.twig.feature</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.dubture.twig</groupId>
+	<artifactId>parent</artifactId>
+	<version>1.0.12-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>com.dubture.twig.core</module>
+		<module>com.dubture.twig.ui</module>
+		<module>com.dubture.twig.test</module>
+		<module>com.dubture.twig.feature</module>
+	</modules>
 
-  <properties>
-    <tycho-version>0.17.0</tycho-version>
-  </properties>
+	<properties>
+		<tycho-version>0.17.0</tycho-version>
+	</properties>
 
-  <repositories>
-   <repository>
-     <id>kepler</id>
-     <layout>p2</layout>
-     <url>http://download.eclipse.org/releases/kepler</url>
-   </repository>	
-  </repositories>
+	<repositories>
+		<repository>
+			<id>kepler</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/kepler</url>
+		</repository>
+		<repository>
+			<id>dubture-osgi</id>
+			<layout>p2</layout>
+			<url>http://dzwiupza59who.cloudfront.net/repository</url>
+		</repository>
+	</repositories>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <extensions>true</extensions>
-      </plugin>
-      <plugin>
-	    <groupId>org.eclipse.tycho</groupId>
-	    <artifactId>tycho-compiler-plugin</artifactId>
-	    <version>${tycho-version}</version>
-	    <configuration>
-		  <source>1.6</source>
-		  <target>1.6</target>
-	    </configuration>
-      </plugin>	  
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
@@ -83,7 +89,7 @@
 				</configuration>
 			</plugin>
 
-    </plugins>
-  </build>
+		</plugins>
+	</build>
 
 </project>

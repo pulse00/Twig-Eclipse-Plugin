@@ -8,7 +8,6 @@ Require-Bundle: com.dubture.twig.core,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.expressions,
- org.eclipse.php,
  org.eclipse.php.core,
  org.eclipse.php.ui,
  org.eclipse.wst.sse.core,
@@ -23,11 +22,10 @@ Require-Bundle: com.dubture.twig.core,
  org.eclipse.ui.ide,
  org.eclipse.dltk.ui,
  org.eclipse.dltk.core,
- org.eclipse.wst.xml.ui
+ org.eclipse.wst.xml.ui,
+ org.eclipse.ui.workbench.texteditor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.eclipse.ui.texteditor.link,
- org.eclipse.ui.texteditor.templates
 Export-Package: com.dubture.twig.ui,
  com.dubture.twig.ui.editor,
  com.dubture.twig.ui.editor.autoEdit,

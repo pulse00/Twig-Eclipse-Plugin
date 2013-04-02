@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.dltk.ui,
  org.eclipse.php.ui,
  org.eclipse.php.core.parser,
- com.dubture.twig.core.json
+ org.json.simple
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.dubture.twig.core,
@@ -34,14 +34,16 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.documentModel.parser.regions,
  com.dubture.twig.core.documentModel.provisional.contenttype,
  com.dubture.twig.core.format,
+ com.dubture.twig.core.format.htmlFormatters,
+ com.dubture.twig.core.index,
  com.dubture.twig.core.log,
  com.dubture.twig.core.model,
  com.dubture.twig.core.parser,
  com.dubture.twig.core.parser.ast,
  com.dubture.twig.core.parser.ast.node,
  com.dubture.twig.core.parser.ast.visitor,
+ com.dubture.twig.core.parser.error,
  com.dubture.twig.core.search,
  com.dubture.twig.core.util,
  com.dubture.twig.core.util.text
 Bundle-Vendor: https://github.com/pulse00
-Import-Package: com.dubture.twig.core.model

@@ -40,10 +40,10 @@
          unpack="false"/>
 
    <plugin
-         id="com.dubture.twig.core.json"
+         id="org.json.simple"
          download-size="0"
          install-size="0"
-         version="1.0.12.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
