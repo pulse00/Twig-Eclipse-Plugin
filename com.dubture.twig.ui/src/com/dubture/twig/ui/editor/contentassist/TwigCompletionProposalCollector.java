@@ -12,6 +12,7 @@ import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.ui.text.completion.CompletionProposalLabelProvider;
+import org.eclipse.dltk.ui.text.completion.ICompletionProposalInfo;
 import org.eclipse.dltk.ui.text.completion.IScriptCompletionProposal;
 import org.eclipse.dltk.ui.text.completion.ProposalInfo;
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposal;
@@ -36,156 +37,132 @@ import com.dubture.twig.ui.extension.ExtensionManager;
 /**
  * {@link TwigCompletionProposalCollector}
  * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigCompletionProposalCollector extends
-        PHPCompletionProposalCollector
-{
-    
+public class TwigCompletionProposalCollector extends PHPCompletionProposalCollector {
 
-    private TwigCompletionProposalLabelProvider lProvider = null;
-    
-    
+	private TwigCompletionProposalLabelProvider lProvider = null;
 
-    public TwigCompletionProposalCollector(IDocument document,
-            ISourceModule cu, boolean explicit)
-    {
-        super(document, cu, explicit);
+	public TwigCompletionProposalCollector(IDocument document, ISourceModule cu, boolean explicit) {
+		super(document, cu, explicit);
 
-    }
+	}
 
-    @Override
-    public CompletionProposalLabelProvider getLabelProvider()
-    {
+	@Override
+	public CompletionProposalLabelProvider getLabelProvider() {
 
-        if (lProvider == null)
-            lProvider = new TwigCompletionProposalLabelProvider();
+		if (lProvider == null) {
+			lProvider = new TwigCompletionProposalLabelProvider();
+		}
 
-        return lProvider;
-    }
+		return lProvider;
+	}
 
-    @Override
-    protected String getNatureId()
-    {
+	@Override
+	protected String getNatureId() {
+		return TwigNature.NATURE_ID;
+	}
 
-        return TwigNature.NATURE_ID;
+	@Override
+	protected IScriptCompletionProposal createScriptCompletionProposal(CompletionProposal proposal) {
 
-    }
+		IModelElement element = proposal.getModelElement();
 
-    @Override
-    protected IScriptCompletionProposal createScriptCompletionProposal(
-            CompletionProposal proposal)
-    {
+		if (element == null) {
+			return null;
+		}
 
-        IModelElement element = proposal.getModelElement();
+		// creates a proposal for a route
+		if (element.getClass() == Tag.class) {
+			return createTagProposal(proposal);
+		} else if (element.getClass() == Filter.class) {
+			return createFilterProposal(proposal);
+		} else if (element.getClass() == Function.class) {
+			return createFunctionProposal(proposal);
+		} else if (element.getClass() == Test.class) {
+			return createTestProposal(proposal);
+		}
 
-        if (element == null) {
-            return null;
-        }
+		for (ICompletionProposalProvider provider : ExtensionManager.getInstance().getProposalExtensions()) {
+			ProposalInfo proposalInfo = provider.createScriptCompletionProposal(proposal, this);
+			ImageDescriptor descriptor = provider.createTypeImageDescriptor(proposal);
 
-        // creates a proposal for a route
-        if (element.getClass() == Tag.class) {
-            return createTagProposal(proposal);
-        } else if (element.getClass() == Filter.class) {
-            return createFilterProposal(proposal);
-        } else if (element.getClass() == Function.class) {
-            return createFunctionProposal(proposal);
-        } else if (element.getClass() == Test.class) {
-            return createTestProposal(proposal);
-        }
-        
-        for (ICompletionProposalProvider provider : ExtensionManager.getInstance().getProposalExtensions()) {
-            ProposalInfo proposalInfo = provider.createScriptCompletionProposal(proposal, this);
-            ImageDescriptor descriptor = provider.createTypeImageDescriptor(proposal);
-            
-            if (proposalInfo != null) {
-                ScriptCompletionProposal twigProposal = generateTwigProposal(proposal, descriptor);
-                twigProposal.setProposalInfo(proposalInfo);
-                twigProposal.setRelevance(computeRelevance(proposal));
-                return twigProposal;                
-            }
-        }
-        
-        return super.createScriptCompletionProposal(proposal);
-    }
+			if (proposalInfo != null) {
+				ScriptCompletionProposal twigProposal = generateTwigProposal(proposal, descriptor);
+				twigProposal.setProposalInfo(proposalInfo);
+				twigProposal.setRelevance(computeRelevance(proposal));
+				return twigProposal;
+			}
+		}
 
-    private IScriptCompletionProposal createTestProposal(
-            CompletionProposal proposal)
-    {
+		return super.createScriptCompletionProposal(proposal);
+	}
 
-        ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
-        scriptProposal.setRelevance(computeRelevance(proposal));
-        scriptProposal.setProposalInfo(new TestProposalInfo(getSourceModule()
-                .getScriptProject(), proposal));
-        return scriptProposal;
+	private IScriptCompletionProposal createTestProposal(CompletionProposal proposal) {
 
-    }
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		ICompletionProposalInfo testProposalInfo = new TestProposalInfo(getSourceModule().getScriptProject(), proposal);
+		scriptProposal.setProposalInfo(testProposalInfo);
+		return scriptProposal;
 
-    private IScriptCompletionProposal createFunctionProposal(
-            CompletionProposal proposal)
-    {
+	}
 
-        ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
-        scriptProposal.setRelevance(computeRelevance(proposal));
-        scriptProposal.setProposalInfo(new FunctionProposalInfo(
-                getSourceModule().getScriptProject(), proposal));
-        return scriptProposal;
+	private IScriptCompletionProposal createFunctionProposal(CompletionProposal proposal) {
 
-    }
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		scriptProposal.setProposalInfo(new FunctionProposalInfo(getSourceModule().getScriptProject(), proposal));
+		return scriptProposal;
 
-    private IScriptCompletionProposal createFilterProposal(
-            CompletionProposal proposal)
-    {
+	}
 
-        ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
-        scriptProposal.setRelevance(computeRelevance(proposal));
-        scriptProposal.setProposalInfo(new FilterProposalInfo(getSourceModule()
-                .getScriptProject(), proposal));
-        return scriptProposal;
+	private IScriptCompletionProposal createFilterProposal(CompletionProposal proposal) {
 
-    }
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
 
-    private IScriptCompletionProposal createTagProposal(
-            CompletionProposal proposal)
-    {
+		ICompletionProposalInfo filterProposal = new FilterProposalInfo(getSourceModule().getScriptProject(), proposal);
 
-        ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
-        scriptProposal.setRelevance(computeRelevance(proposal));
-        scriptProposal.setProposalInfo(new TagProposalInfo(getSourceModule()
-                .getScriptProject(), proposal));
-        return scriptProposal;
+		scriptProposal.setProposalInfo(filterProposal);
+		return scriptProposal;
 
-    }
-    
-    private ScriptCompletionProposal generateTwigProposal(
-            CompletionProposal typeProposal, ImageDescriptor descriptor) {
+	}
 
-        String completion = new String(typeProposal.getCompletion());
-        int replaceStart = typeProposal.getReplaceStart();
-        int length = getLength(typeProposal);
-        Image image = getImage(descriptor);
-        
-        String displayString = ((TwigCompletionProposalLabelProvider) getLabelProvider())
-                .createTypeProposalLabel(typeProposal);
+	private IScriptCompletionProposal createTagProposal(CompletionProposal proposal) {
 
-        ScriptCompletionProposal scriptProposal = new EmptyCompletionProposal(
-                completion, replaceStart, length, image, displayString, 0);
+		ScriptCompletionProposal scriptProposal = generateTwigProposal(proposal);
+		scriptProposal.setRelevance(computeRelevance(proposal));
+		ICompletionProposalInfo tagProposal = new TagProposalInfo(getSourceModule().getScriptProject(), proposal);
 
-        return scriptProposal;
-        
-    }
-    
+		scriptProposal.setProposalInfo(tagProposal);
+		return scriptProposal;
 
-    private ScriptCompletionProposal generateTwigProposal(
-            CompletionProposal typeProposal)
-    {
-        ImageDescriptor descriptor = ((TwigCompletionProposalLabelProvider) getLabelProvider()).createTypeImageDescriptor(typeProposal);
-        return generateTwigProposal(typeProposal, descriptor);
+	}
 
-    }
+	private ScriptCompletionProposal generateTwigProposal(CompletionProposal typeProposal, ImageDescriptor descriptor) {
+
+		String completion = new String(typeProposal.getCompletion());
+		int replaceStart = typeProposal.getReplaceStart();
+		int length = getLength(typeProposal);
+		Image image = getImage(descriptor);
+
+		String displayString = ((TwigCompletionProposalLabelProvider) getLabelProvider())
+				.createTypeProposalLabel(typeProposal);
+
+		ScriptCompletionProposal scriptProposal = new EmptyCompletionProposal(completion, replaceStart, length, image,
+				displayString, 0);
+
+		return scriptProposal;
+
+	}
+
+	private ScriptCompletionProposal generateTwigProposal(CompletionProposal typeProposal) {
+		ImageDescriptor descriptor = ((TwigCompletionProposalLabelProvider) getLabelProvider())
+				.createTypeImageDescriptor(typeProposal);
+		return generateTwigProposal(typeProposal, descriptor);
+
+	}
 }
