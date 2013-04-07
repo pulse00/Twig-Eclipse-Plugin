@@ -141,7 +141,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                             }
 
                             Scalar internal = (Scalar) child;
-                            System.err.println("check child");
 
                             if (filterClass.getClassName().toString().equals(TwigCoreConstants.TWIG_FILTER_FUNCTION)) {
 

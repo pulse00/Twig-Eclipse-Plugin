@@ -2,7 +2,7 @@
 <feature
       id="com.dubture.twig.feature"
       label="Twig Editor Feature"
-      version="1.0.12.qualifier"
+      version="1.0.13.qualifier"
       provider-name="https://github.com/pulse00">
 
    <description url="https://github.com/pulse00/Twig-Eclipse-Plugin">
@@ -22,21 +22,22 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.php"/>
+      <import plugin="org.eclipse.php.core" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.dltk.core" version="5.0.0" match="greaterOrEqual"/>      
    </requires>
 
    <plugin
          id="com.dubture.twig.core"
          download-size="0"
          install-size="0"
-         version="1.0.12.qualifier"
+         version="1.0.13.qualifier"
          unpack="false"/>
 
    <plugin
          id="com.dubture.twig.ui"
          download-size="0"
          install-size="0"
-         version="1.0.12.qualifier"
+         version="1.0.13.qualifier"
          unpack="false"/>
 
    <plugin
