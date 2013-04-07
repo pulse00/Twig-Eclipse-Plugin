@@ -20,9 +20,9 @@
 
     <repositories>
     	<repository>
-		      <id>dubture-osgi</id>
-		      <layout>p2</layout>
-		      <url>http://dzwiupza59who.cloudfront.net/repository</url>
+	    <id>dubture-osgi</id>
+	    <layout>p2</layout>
+	    <url>http://dzwiupza59who.cloudfront.net/repository</url>
         </repository>
         <repository>
             <id>dltk</id>
@@ -30,29 +30,20 @@
             <url>https://hudson.eclipse.org/hudson/job/dltk-nightly/lastSuccessfulBuild/artifact/org.eclipse.dltk.releng/build/update.site/target/site/</url>
         </repository>
         <repository>
-            <id>pex</id>
-            <layout>p2</layout>
-            <url>http://p2-dev.pdt-extensions.org/</url>
-        </repository>
-
-        <repository>
             <id>kepler</id>
             <layout>p2</layout>
             <url>http://download.eclipse.org/releases/kepler</url>
         </repository>
-
         <repository>
             <id>pdt-nightly</id>
             <layout>p2</layout>
             <url>http://download.eclipse.org/tools/pdt/updates/3.2-nightly/</url>
         </repository>
-
         <repository>
             <id>orbit</id>
             <layout>p2</layout>
             <url>http://download.eclipse.org/tools/orbit/downloads/drops/I20130403140131/repository/</url>
         </repository>
-
     </repositories>
 
 	<build>
