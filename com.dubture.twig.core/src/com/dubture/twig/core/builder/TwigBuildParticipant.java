@@ -47,7 +47,7 @@ public class TwigBuildParticipant implements IBuildParticipant
         ISourceModule sourceModule = context.getSourceModule();
 
         try {
-            if (TwigModelUtils.isTwigTemplate(file.getName())) {
+            if (file != null && TwigModelUtils.isTwigTemplate(file.getName())) {
                 model.addTemplate(new Template(sourceModule));
             }
         } catch (Exception e) {
