@@ -2,7 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pulse00&url=https://github.com/pulse00/Twig-Eclipse-Plugin&title=Twig Eclipse Plugin&language=en_GB&tags=github&category=software) 
+
+## Not actively maintained
+
+This project is not actively maintained. Please contact me if you would like to take over.
 
 ### Requirements
 
