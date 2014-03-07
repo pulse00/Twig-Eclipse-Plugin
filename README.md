@@ -3,10 +3,6 @@
 [![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
 
 
-## Not actively maintained
-
-This project is not actively maintained. Please contact me if you would like to take over.
-
 ### Requirements
 
 - Eclipse >= 3.7.2 (aka Indigo SR2)
@@ -16,12 +12,12 @@ This project is not actively maintained. Please contact me if you would like to 
 
 #### Updatesite
 
-You can choose between the stable and the nightly build. Stable version is released in sync with [PDT](http://www.eclipse.org/projects/project.php?id=tools.pdt) (next scheduled release: 3.1.2 / 22 Feb 13).
+You can choose between the stable and the nightly build. Stable version is released in sync with [PDT](https://projects.eclipse.org/projects/tools.pdt/documentation) (next scheduled release: 3.3.0 / 25 Jun 14).
 
 The nightly updatesite is build once a day automatically and published if all tests succeed. I'm using the nightly version myself for my production projects, so you can be quite
 certain that no major bugs make it into the nightly updatesite ;)
 
-If you want to use the nightly build, make sure to also add the __PDT nightly updatesite:__ [http://download.eclipse.org/tools/pdt/updates/nightly](http://download.eclipse.org/tools/pdt/updates/nightly)!
+If you want to use the nightly build, make sure to also add the __PDT nightly updatesite:__ [http://download.eclipse.org/tools/pdt/updates/nightly](http://download.eclipse.org/tools/pdt/updates/3.2-nightly)!
 
 
 #### Updatesite

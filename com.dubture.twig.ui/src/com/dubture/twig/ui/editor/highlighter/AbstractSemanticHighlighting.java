@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of the Twig eclipse plugin.
- * 
+ *
  * (c) Robert Gruendler <r.gruendler@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
@@ -10,12 +10,15 @@ package com.dubture.twig.ui.editor.highlighter;
 
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ISourceRange;
+import org.eclipse.dltk.internal.core.BufferManager;
+import org.eclipse.dltk.internal.ui.editor.DocumentAdapter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Position;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
@@ -86,14 +89,14 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
     public Position[] consumes(ModuleDeclaration program) {
         if (program != null) {
             list = new ArrayList<Position>();
-            
+
             try {
                 AbstractSemanticApply apply = getSemanticApply();
                 program.traverse(apply);
             } catch (Exception e) {
                 Logger.logException(e);
-            } 
-            
+            }
+
             return list.toArray(new Position[list.size()]);
         }
         return new Position[0];
@@ -110,27 +113,19 @@ public abstract class AbstractSemanticHighlighting implements ISemanticHighlight
     protected ModuleDeclaration getProgram(final IStructuredDocumentRegion region) {// region.getParentDocument().get()
         sourceModule = null;
         // resolve current sourceModule
-        PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-            public void run() {
-                IWorkbenchPage page = TwigUICorePlugin.getActivePage();
-                if (page != null) {
-                    IEditorPart editor = page.getActiveEditor();
-                    if (editor instanceof PHPStructuredEditor) {
-                        PHPStructuredEditor phpStructuredEditor = (PHPStructuredEditor) editor;
-                        if (phpStructuredEditor.getTextViewer() != null
-                                && phpStructuredEditor != null
-                                && phpStructuredEditor.getDocument() == region
-                                        .getParentDocument()) {
-                            if (phpStructuredEditor != null
-                                    && phpStructuredEditor.getTextViewer() != null) {
-                                sourceModule = (ISourceModule) phpStructuredEditor
-                                        .getModelElement();
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        Enumeration openBuffers = BufferManager.getDefaultBufferManager()
+				.getOpenBuffers();
+		while (openBuffers.hasMoreElements()) {
+			Object nextElement = openBuffers.nextElement();
+			if (nextElement instanceof DocumentAdapter) {
+				DocumentAdapter adapt = (DocumentAdapter) nextElement;
+				if (adapt.getDocument().equals(region.getParentDocument())
+						&& adapt.getOwner() instanceof ISourceModule) {
+					sourceModule = (ISourceModule) adapt.getOwner();
+					break;
+				}
+			}
+		}
 
         ModuleDeclaration module = null;
         try {
