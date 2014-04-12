@@ -1,6 +1,6 @@
 #Twig Eclipse Plugin
 
-[![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
+[![Build Status](https://ci.pdt-extensions.org/buildStatus/icon?job=Twig Eclipse Plugin)](https://ci.pdt-extensions.org/view/Plugins/job/Twig%20Eclipse%20Plugin/)
 
 
 ### Requirements
