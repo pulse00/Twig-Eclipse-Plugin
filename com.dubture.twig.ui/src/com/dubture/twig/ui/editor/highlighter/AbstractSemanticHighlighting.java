@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor.highlighter;
 
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -21,17 +20,12 @@ import org.eclipse.dltk.internal.core.BufferManager;
 import org.eclipse.dltk.internal.ui.editor.DocumentAdapter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Position;
-import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.ui.ISemanticHighlighting;
 import org.eclipse.wst.sse.ui.ISemanticHighlightingExtension2;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.parser.SourceParserUtil;
-import com.dubture.twig.ui.TwigUICorePlugin;
 import com.dubture.twig.ui.editor.SemanticHighlightingStyle;
 import com.dubture.twig.ui.preferences.PreferenceConstants;
 

@@ -109,9 +109,8 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext
             this.requestor = requestor;
             this.sourceModule = sourceModule;
             this.offset = offset;
-
-            if (sourceModule.getUnderlyingResource() == null
-                    || TwigModelUtils.isTwigTemplate(sourceModule.getUnderlyingResource().getName()) == false) {
+            if (sourceModule.getResource() == null
+                    || TwigModelUtils.isTwigTemplate(sourceModule.getResource().getName()) == false) {
                 return false;
             }
 
