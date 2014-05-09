@@ -17,7 +17,7 @@ You can choose between the stable and the nightly build. Stable version is relea
 The nightly updatesite is build once a day automatically and published if all tests succeed. I'm using the nightly version myself for my production projects, so you can be quite
 certain that no major bugs make it into the nightly updatesite ;)
 
-If you want to use the nightly build, make sure to also add the __PDT nightly updatesite:__ [http://download.eclipse.org/tools/pdt/updates/nightly](http://download.eclipse.org/tools/pdt/updates/3.2-nightly)!
+If you want to use the nightly build, make sure to also add the __PDT nightly updatesite:__ [http://download.eclipse.org/tools/pdt/updates/3.3-nightly](http://download.eclipse.org/tools/pdt/updates/3.3-nightly)!
 
 
 #### Updatesite

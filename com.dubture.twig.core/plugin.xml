@@ -26,14 +26,14 @@ com.dubture.twig.core.TwigNature
    </extension>
    
    <!-- not sure if this is needed at all -->
-   <extension
+   <!--extension
          point="org.eclipse.dltk.core.language">
       <language
             class="com.dubture.twig.core.TwigLanguageToolkit"
             nature="com.dubture.twig.core.TwigNature"
             priority="10">
       </language>
-   </extension>
+   </extension-->
    
    <extension
          point="org.eclipse.dltk.core.buildParticipant">

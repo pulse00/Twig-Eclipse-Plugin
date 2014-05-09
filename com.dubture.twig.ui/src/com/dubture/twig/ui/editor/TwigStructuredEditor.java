@@ -23,6 +23,7 @@ import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.dltk.core.ISourceReference;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.internal.ui.actions.CompositeActionGroup;
+import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
@@ -105,7 +106,7 @@ public class TwigStructuredEditor extends PHPStructuredEditor
 
     public TwigStructuredEditor()
     {
-
+    	setDocumentProvider(DLTKUIPlugin.getDocumentProvider());
     }
 
     private TwigRefactorActionGroup getRefactorGroup()
