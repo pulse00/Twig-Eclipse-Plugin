@@ -57,7 +57,8 @@ public class SelectionEngine extends PHPSelectionEngine
     {
         
         if (TwigModelUtils.isTwigTemplate(sourceUnit.getFileName()) == false) {
-            return super.select(sourceUnit, offset, end);
+            //return super.select(sourceUnit, offset, end);
+        	return new IModelElement[] {};
         }
         
         ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
