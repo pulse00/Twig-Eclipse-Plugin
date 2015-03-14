@@ -10,6 +10,7 @@ package com.dubture.twig.ui.actions;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -17,15 +18,17 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
 public class SurroundWithAction extends Action implements
         ISelectionChangedListener
 {
 
-    private PHPStructuredEditor fEditor;
+    private StructuredTextEditor fEditor;
     private IWorkbenchSite fSite;
 
     private ISelectionProvider fSpecialSelectionProvider;
@@ -38,7 +41,7 @@ public class SurroundWithAction extends Action implements
 
     }
 
-    public SurroundWithAction(PHPStructuredEditor editor)
+    public SurroundWithAction(StructuredTextEditor editor)
     {
 
         this(editor.getEditorSite());
@@ -74,7 +77,7 @@ public class SurroundWithAction extends Action implements
                 }
 
                 newText += "{% endfor %}\n";
-                fEditor.getDocument().replace(sel.getOffset(), sel.getLength(),
+                getDocument().replace(sel.getOffset(), sel.getLength(),
                         newText);
 
             } catch (BadLocationException e) {
@@ -83,6 +86,16 @@ public class SurroundWithAction extends Action implements
 
             }
         }
+    }
+    
+    private IDocument getDocument() {
+    	if (fEditor instanceof PHPStructuredEditor) {
+    		return ((PHPStructuredEditor) fEditor).getDocument();
+    	} else if (fEditor instanceof TwigStructuredEditor) {
+    		return ((TwigStructuredEditor) fEditor).getDocument();
+    	}
+    	
+    	return null;
     }
 
     public ISelection getSelection()

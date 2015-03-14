@@ -31,6 +31,14 @@
       </editor>
    </extension>
    
+   <extension
+		point="org.eclipse.wst.sse.ui.adapterFactoryDescription">
+		<adapterFactoryDescription
+			class="com.dubture.twig.ui.registry.AdapterFactoryProviderForTwig">
+			<contentType id="com.dubture.twig.core.twigtemplate" />
+		</adapterFactoryDescription>
+	</extension>
+   
    
    <!-- SourceEditor configuration-->
    <extension
@@ -59,9 +67,13 @@
 			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalDefinition
 			type="spellingregions"
-			value="XML_COMMENT_TEXT, PHP_CONTENT, TWIG_CONTENT, XML_CONTENT"
+			value="XML_COMMENT_TEXT, TWIG_CONTENT, XML_CONTENT"
 			target="com.dubture.twig.core.twigtemplate" />
-			
+		<provisionalDefinition type="preferencepages"
+			value="com.dubture.twig.ui.preferences.TwigBasePreferencePage,
+			com.dubture.twig.ui.preferences.TwigTemplatesPreferencePage,
+			com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage,
+			com.dubture.twig.ui.preferences.TwigSyntaxcolorPreferencePage" target="com.dubture.twig.core.twigtemplate" />
 		<provisionalDefinition type="activecontexts"
 			value="com.dubture.twig.core.twigtemplate" target="com.dubture.twig.core.twigtemplate" />
 			

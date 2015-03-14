@@ -13,10 +13,10 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.php.internal.core.format.CommentIndentationStrategy;
 import org.eclipse.php.internal.core.format.IIndentationStrategy;
-import org.eclipse.php.internal.core.format.PhpFormatConstraints;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatContraints;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatPreferences;
 import org.eclipse.wst.sse.core.internal.format.IStructuredFormatter;
+import org.eclipse.wst.sse.core.internal.format.StructuredFormatContraints;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -43,11 +43,11 @@ public class TwigFormatter implements IStructuredFormatter
     private final IIndentationStrategy commentIndentationStrategy = new CommentIndentationStrategy();
     private final IIndentationStrategy phpCloseTagIndentationStrategy = new TwigCloseTagIndentationStrategy();
 
-    protected PhpFormatConstraints fFormatContraints = null;
     protected IStructuredFormatPreferences fFormatPreferences = null;
     protected IProgressMonitor fProgressMonitor = null;
     private final int length;
     private final int start;
+	private StructuredFormatContraints fFormatContraints;
 
     private static final byte CHAR_TAB = '\t';
     private static final byte CHAR_SPACE = ' ';
@@ -117,7 +117,7 @@ public class TwigFormatter implements IStructuredFormatter
     public IStructuredFormatContraints getFormatContraints()
     {
         if (fFormatContraints == null) {
-            fFormatContraints = new PhpFormatConstraints();
+            fFormatContraints = new StructuredFormatContraints();
         }
         return fFormatContraints;
     }

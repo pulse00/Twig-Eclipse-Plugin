@@ -48,6 +48,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
+import org.eclipse.php.internal.ui.actions.PHPSearchActionGroup;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
 import org.eclipse.swt.SWT;
@@ -63,6 +64,7 @@ import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.reconcile.ReconcileAnnotationKey;
 import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
@@ -84,7 +86,7 @@ import com.dubture.twig.ui.actions.TwigRefactorActionGroup;
  *
  */
 @SuppressWarnings({"restriction", "unchecked"})
-public class TwigStructuredEditor extends PHPStructuredEditor
+public class TwigStructuredEditor extends StructuredTextEditor
 {
 
     private OccurrencesFinderJob fOccurrencesFinderJob;
@@ -93,9 +95,10 @@ public class TwigStructuredEditor extends PHPStructuredEditor
 
     private ISelection fForcedMarkOccurrencesSelection;
 
-    private CompositeActionGroup contextMenuGroup;
+    private CompositeActionGroup fContextMenuGroup;
 
     private TwigRefactorActionGroup refactorGroup = null;
+    private CompositeActionGroup fActionGroups;
 
     /**
      * Holds the current occurrence annotations.
@@ -123,36 +126,37 @@ public class TwigStructuredEditor extends PHPStructuredEditor
     @Override
     protected void createActions()
     {
+    	
+    	//ActionGroup jsg = new PHPSearchActionGroup(this);
 
+		// We have to keep the context menu group separate to have better
+		// control over positioning
+		fActionGroups = new CompositeActionGroup(new ActionGroup[] { getRefactorGroup() });
+		fContextMenuGroup = new CompositeActionGroup(new ActionGroup[] { getRefactorGroup() });
         super.createActions();
-
-        contextMenuGroup = new CompositeActionGroup(
-                new ActionGroup[]{getRefactorGroup()});
-
     }
 
     public ActionGroup getActionGroup()
     {
-
-        CompositeActionGroup group = (CompositeActionGroup) super
-                .getActionGroup();
-        group.addGroup(getRefactorGroup());
-        return group;
-
+        return fActionGroups;
     }
+    
+    public CompositeActionGroup getContextMenuGroup() {
+		return fContextMenuGroup;
+	}
 
     @Override
     public void editorContextMenuAboutToShow(IMenuManager menu)
     {
         super.editorContextMenuAboutToShow(menu);
-
-        if (contextMenuGroup != null) {
-            ActionContext context = new ActionContext(getSelectionProvider()
-                    .getSelection());
-            contextMenuGroup.setContext(context);
-            contextMenuGroup.fillContextMenu(menu);
-            contextMenuGroup.setContext(null);
-        }
+        
+        if (fContextMenuGroup != null) {
+			ActionContext context = new ActionContext(getSelectionProvider()
+					.getSelection());
+			fContextMenuGroup.setContext(context);
+			fContextMenuGroup.fillContextMenu(menu);
+			fContextMenuGroup.setContext(null);
+		}
     }
 
     /**
@@ -205,9 +209,9 @@ public class TwigStructuredEditor extends PHPStructuredEditor
             setTitleImage(JFaceResources.getResources().createImageWithDefault(
                     imageDescriptor));
         }
-        if (isShowingOverrideIndicators()) {
-            installOverrideIndicator(true);
-        }
+        //if (isShowingOverrideIndicators()) {
+        //    installOverrideIndicator(true);
+        //}
     }
 
     @Override
@@ -471,11 +475,10 @@ public class TwigStructuredEditor extends PHPStructuredEditor
         }
     }
 
-    @Override
     protected void uninstallOccurrencesFinder()
     {
         // TODO Auto-generated method stub
-        super.uninstallOccurrencesFinder();
+        //super.uninstallOccurrencesFinder();
 
         if (fOccurrencesFinderJob != null) {
             fOccurrencesFinderJob.cancel();
@@ -513,8 +516,8 @@ public class TwigStructuredEditor extends PHPStructuredEditor
                 Object firstElement = ((IStructuredSelection) textSelection)
                         .getFirstElement();
                 if (firstElement instanceof IImplForTwig) {
-                    ((IImplForTwig) firstElement)
-                            .setModelElement(getModelElement());
+                    //((IImplForTwig) firstElement)
+                    //        .setModelElement(getModelElement());
                 }
             }
             // PR 39995: [navigation] Forward history cleared after going back
@@ -574,5 +577,21 @@ public class TwigStructuredEditor extends PHPStructuredEditor
             markInNavigationHistory();
         }
     }
+    
+    @Override
+    public void dispose() {
+    	if (fActionGroups != null) {
+			fActionGroups.dispose();
+			fActionGroups = null;
+		}
+    	super.dispose();
+    }
+    
+    public IDocument getDocument() {
+		if (getSourceViewer() != null) {
+			return getSourceViewer().getDocument();
+		}
+		return null;
+	}
 
 }

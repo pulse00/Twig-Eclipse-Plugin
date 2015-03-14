@@ -10,8 +10,12 @@ package com.dubture.twig.core.documentModel.handler;
 
 import org.eclipse.php.internal.core.documentModel.encoding.PHPDocumentCharsetDetector;
 import org.eclipse.php.internal.core.documentModel.handler.PHPModelHandler;
+import org.eclipse.php.internal.core.documentModel.loader.PHPModelLoader;
+import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.internal.document.IDocumentCharsetDetector;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
+import org.eclipse.wst.sse.core.internal.ltk.modelhandler.AbstractModelHandler;
+import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
 
 import com.dubture.twig.core.documentModel.loader.TwigDocumentLoader;
 import com.dubture.twig.core.documentModel.loader.TwigModelLoader;
@@ -54,7 +58,7 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
  *
  */
 @SuppressWarnings("restriction")
-public class TwigModelHandler extends PHPModelHandler
+public class TwigModelHandler extends AbstractModelHandler
 {
 
     private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
@@ -90,5 +94,10 @@ public class TwigModelHandler extends PHPModelHandler
 
         return new TwigDocumentLoader();
     }
+
+	@Override
+	public IModelLoader getModelLoader() {
+		return new TwigModelLoader();
+	}
 
 }

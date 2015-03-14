@@ -16,12 +16,8 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import com.dubture.twig.core.documentModel.DOMModelForTwig;
 
 /**
- * 
- * 
  * Provides the {@link TwigModelLoader} instance and creates the
  * {@link TwigDocumentLoader}.
- * 
- * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 

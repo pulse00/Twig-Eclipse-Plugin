@@ -31,7 +31,7 @@ public class TwigRefactorActionGroup extends ActionGroup
         Assert.isNotNull(editor);
         this.fEditor = editor;
 
-        surroundAction = new SurroundWithAction(editor);
+        surroundAction = new SurroundWithAction(editor );
 
     }
 
