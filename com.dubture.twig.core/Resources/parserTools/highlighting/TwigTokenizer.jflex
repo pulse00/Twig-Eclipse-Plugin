@@ -215,7 +215,7 @@ public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
  * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
  * @throws IOException
  */
-private final String doScan(String searchString, boolean allowPHP, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+private final String doScan(String searchString, boolean allowTwig, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	boolean stillSearching = true;
 	// Disable further block (probably)
 	fIsBlockingEnabled = false;
@@ -242,7 +242,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			if(allowPHP && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+			if(allowTwig && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
 					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || (zzBuffer[zzCurrentPos] == '%'))) {
 				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
 				zzCurrentPos = zzMarkedPos + 1;
@@ -261,7 +261,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a JSP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			else if(allowPHP && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+			else if(allowTwig && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
 					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || zzBuffer[zzCurrentPos] == '%')) {
 				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
 				zzCurrentPos = zzMarkedPos + 1;
@@ -278,7 +278,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// ---
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
 			// since it relies upon zzCurrentPos equaling exactly the previous end +1 to work as designed.
-			else if(allowPHP && zzStartRead != fLastInternalBlockStart && zzStartRead > 0 &&
+			else if(allowTwig && zzStartRead != fLastInternalBlockStart && zzStartRead > 0 &&
 					zzStartRead < zzBuffer.length - 1 && zzBuffer[zzStartRead] == '{' && zzBuffer[zzStartRead + 1] == '{') {
 				fLastInternalBlockStart = zzMarkedPos = zzStartRead;
 				zzCurrentPos = zzMarkedPos + 1;
@@ -564,9 +564,15 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 				// primGetNextToken() calls may throw an IOException
 				// catch and do nothing since the isEOF check below
 				// will properly exit if the input was too short
+				Logger.logException(e);
+				internalContext = null;
+				notFinished = false;
+				break;
 			} catch (Exception f) {
 				// some other exception happened; never should
-				Logger.logException(f);
+				internalContext = null;
+				notFinished = false;
+				break;
 			}
 			boolean isEndingType = yystate() == ST_ABORT_EMBEDDED;
 			if(!isEndingType) {
@@ -929,6 +935,9 @@ private void assembleEmbeddedTwigOpen() {
 %state ST_DHTML_ATTRIBUTE_NAME
 %state ST_DHTML_EQUALS
 %state ST_DHTML_ATTRIBUTE_VALUE
+// NB: considering the current lexical rules, JFlex will assign same
+// value to the states ST_DHTML_TAG_CLOSE, ST_BLOCK_TAG_INTERNAL_SCAN
+// and ST_ABORT_EMBEDDED
 %state ST_DHTML_TAG_CLOSE
 
 
@@ -957,6 +966,9 @@ private void assembleEmbeddedTwigOpen() {
 
 %state ST_XML_ATTRIBUTE_VALUE_SQUOTED
 %state ST_XML_ATTRIBUTE_VALUE_DQUOTED
+// NB: considering the current lexical rules, JFlex will assign same
+// value to the states ST_DHTML_TAG_CLOSE, ST_BLOCK_TAG_INTERNAL_SCAN
+// and ST_ABORT_EMBEDDED
 %state ST_BLOCK_TAG_INTERNAL_SCAN
 %state ST_ABORT_EMBEDDED
 
@@ -1021,15 +1033,15 @@ SystemLiteral = ((\" [^\"]* \") | (\' [^\']* \'))
 // [12] PubidLiteral ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
 PubidLiteral = (\" {PubidChar}* \" | \' ({PubidChar}\')* "'")
 
-// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
-PubidChar = ([\040\015\012] | [a-zA-Z0-9] | [\-\'()\+,.\/:=?;!\*#@\$_%])
+// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;\!*#@$_%]
+PubidChar = ([\040\015\012] | [a-zA-Z0-9] | [\-\'()\+,.\/:=?;\!\*#@\$_%])
 
 // [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 // implement lookahead behavior during action definition
 CharData = ([^<&(\]\]>)]*)
 
-// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
-CommentStart = (<!\-\-)
+// [15] Comment ::= '<\!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+CommentStart = (<\!\-\-)
 CommentEnd   = (\-\->)
 Comment = ({CommentStart}.*{CommentEnd})
 
@@ -1040,8 +1052,8 @@ TwigComment = ({TwigCommentStart}.*{TwigCommentEnd})
 // [18] CDSect ::= CDStart CData CDEnd
 CDSect = ({CDStart}{CData}{CDEnd})
 
-// [19] CDStart ::= '<![CDATA['
-CDStart = <!\[CDATA\[
+// [19] CDStart ::= '<\![CDATA['
+CDStart = <\!\[CDATA\[
 
 // [20] CData ::= (Char* - (Char* ']]>' Char*)) 
 // implement lookahead behavior during action definition
@@ -1068,7 +1080,7 @@ VersionNum = (([a-zA-Z0-9_.:]|\-)+)
 // [27] Misc ::= Comment | S
 Misc = ({Comment} | {S})
 
-// [28] doctypedecl ::= '<!DOCTYPE' S Name (S ExternalID)?  S? ('[' (markupdecl | PEReference | S)* ']' S?)? '>'
+// [28] doctypedecl ::= '<\!DOCTYPE' S Name (S ExternalID)?  S? ('[' (markupdecl | PEReference | S)* ']' S?)? '>'
 doctypedecl = (<\!DOCTYPE{S}{Name} ({S}{ExternalID})? {S}? (\[ ({markupdecl}|{PEReference}|{S})* \]{S}?)?>)
 
 // [29] markupdecl ::= elementdecl | AttlistDecl | EntityDecl | NotationDecl | Comment
@@ -1119,7 +1131,7 @@ content = (({element} | {CharData} | {Reference} | {CDSect} | {Comment})*)
 // [44]  EmptyElemTag  ::= '<' Name (S Attribute)* S? '/>'
 EmptyElemTag = (<{Name}({S}{Attribute})*{S}?\/>)
 
-// [45] elementdecl ::= '<!ELEMENT' S Name S contentspec S? '>'
+// [45] elementdecl ::= '<\!ELEMENT' S Name S contentspec S? '>'
 elementdecl = (<\!ELEMENT{S}{Name}{S}{contentspec}{S}?>)
 
 // [46] contentspec ::= 'EMPTY' | 'ANY' | Mixed | children
@@ -1143,7 +1155,7 @@ seq = (\({S}?{Name}({S}?\,{S}?{Name})*{S}?\))
 // [51] Mixed ::= '(' S? '#PCDATA' (S? '|' S? Name)* S?  ')*' | '(' S? '#PCDATA' S? ')'
 Mixed = ({S}?\#PCDATA({S}?\|{S}?{Name})*{S}?)*\|({S}?\#PCDATA{S}?)
 
-// [52] AttlistDecl ::= '<!ATTLIST' S Name AttDef* S? '>'
+// [52] AttlistDecl ::= '<\!ATTLIST' S Name AttDef* S? '>'
 AttlistDecl = (<\!ATTLIST{S}{Name}{AttDef}*{S}?>)
 
 // [53] AttDef ::= S Name S AttType S DefaultDecl
@@ -1173,16 +1185,16 @@ DefaultDecl = (\#REQUIRED|\#IMPLIED|((\#FIXED{S})?{AttValue}))
 // [61] conditionalSect ::= includeSect | ignoreSect 
 conditionalSect = ({includeSect} | {ignoreSect})
 
-// [62] includeSect ::= '<![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>' 
+// [62] includeSect ::= '<\![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>' 
 includeSect = (<\!\[{S}?INCLUDE{S}?\[{extSubsetDecl}\]\]>)
 
-// [63] ignoreSect ::= '<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
+// [63] ignoreSect ::= '<\![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
 ignoreSect = (<\!\[{S}?IGNORE{S}?\[{ignoreSectContents}*\]\]>)
 
-// [64] ignoreSectContents ::= Ignore ('<![' ignoreSectContents ']]>' Ignore)*
+// [64] ignoreSectContents ::= Ignore ('<\![' ignoreSectContents ']]>' Ignore)*
 ignoreSectContents = ({Ignore}(<\!\[{ignoreSectContents}\]\]>{Ignore})*)
 
-// [65] Ignore ::= Char* - (Char* ('<![' | ']]>') Char*)
+// [65] Ignore ::= Char* - (Char* ('<\![' | ']]>') Char*)
 Ignore =  ([^(\<\!\[|\]\]\>)]*)
 
 // [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
@@ -1200,10 +1212,10 @@ PEReference = (%{Name};)
 // [70] EntityDecl ::= GEDecl | PEDecl
 EntityDecl = ({GEDecl} | {PEDecl})
 
-// [71] GEDecl ::= '<!ENTITY' S Name S EntityDef S? '>'
+// [71] GEDecl ::= '<\!ENTITY' S Name S EntityDef S? '>'
 GEDecl = (<\!ENTITY{S}{Name}{S}{EntityDef}{S}?>)
 
-// [72] PEDecl ::= '<!ENTITY' S '%' S Name S PEDef S? '>'
+// [72] PEDecl ::= '<\!ENTITY' S '%' S Name S PEDef S? '>'
 PEDecl = (<\!ENTITY{S}\%{S}{Name}{S}{PEDef}{S}?>)
 
 // [73] EntityDef ::= EntityValue | (ExternalID NDataDecl?)
@@ -1233,7 +1245,7 @@ EncodingDecl = ({S}encoding{S}*{Eq}{S}*(\"{EncName}\"|\'{EncName}\'))
 // [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
 EncName = ([A-Za-z]([A-Za-z0-9._]|\-)*)
 
-// [82] NotationDecl ::= '<!NOTATION' S Name S (ExternalID |  PublicID) S? '>'
+// [82] NotationDecl ::= '<\!NOTATION' S Name S (ExternalID |  PublicID) S? '>'
 NotationDecl = (<\!NOTATION{S}{Name}{S}({ExternalID}|{PublicID}){S}?>)
 
 // [83] PublicID ::= 'PUBLIC' S PubidLiteral
@@ -1358,7 +1370,7 @@ LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 KEYWORD="not"|"in"|"as"|"with"
 
 TWIG_WHITESPACE=[ \n\r\t]+
-TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
+TOKENS=[:,.\[\]()|\^&+-//*=\!~$<>?@]
 NUMBER=([0-9])+
 
 
@@ -1442,7 +1454,7 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^\{\"\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> [^<\"]+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE X");
@@ -1450,7 +1462,7 @@ NUMBER=([0-9])+
 
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^\{'\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> [^<']+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE XX");
@@ -2169,7 +2181,7 @@ NUMBER=([0-9])+
 }	
 
 //TWIG PROCESSING ACTIONS
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
+<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
 
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
@@ -2201,9 +2213,9 @@ NUMBER=([0-9])+
 		}
 		yybegin(ST_TWIG_CONTENT);
 		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
-		if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
-			yybegin(ST_BLOCK_TAG_SCAN);
-			return BLOCK_TEXT;
+		if(yystate() == ST_ABORT_EMBEDDED) {
+			// leave with unchanged state
+			return PROXY_CONTEXT;
 		}
 		// required help for successive embedded regions
 		if(yystate() == ST_XML_TAG_NAME) {
