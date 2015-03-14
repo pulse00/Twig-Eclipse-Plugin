@@ -35,8 +35,6 @@ import org.eclipse.wst.xml.core.internal.parser.IntStack;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 
-
-
 %%
 
 %{
@@ -230,7 +228,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 		n = 0;
 		// Ensure that enough data from the input exists to compare against the search String.
 		n = yy_advance();
-		while(n != YYEOF && yy_currentPos < searchStringLength)
+		while(n != YYEOF && zzCurrentPos < searchStringLength)
 			n = yy_advance();
 		// If the input was too short or we've exhausted the input, stop immediately.
 		if (n == YYEOF) {
@@ -244,13 +242,13 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || (yy_buffer[yy_currentPos] == '%'))) {
-				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
-				yy_currentPos = yy_markedPos + 1;
+			if(allowPHP && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || (zzBuffer[zzCurrentPos] == '%'))) {
+				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
@@ -258,35 +256,35 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 				return searchContext;
 			}
 			
-			// 2) yy_currentPos - jspstarter.length : There's not searchStringLength of input available; check for a JSP 2 spots back in what we could read
+			// 2) zzCurrentPos - jspstarter.length : There's not searchStringLength of input available; check for a JSP 2 spots back in what we could read
 			// ---
 			// Look for a JSP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || yy_buffer[yy_currentPos] == '%')) {
-				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
-				yy_currentPos = yy_markedPos + 1;
+			else if(allowPHP && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || zzBuffer[zzCurrentPos] == '%')) {
+				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
 				}
 				return searchContext;
 			}
-			// 3) yy_currentPos..(yy_currentPos+jspStartlength-1) : Check at the start of the block one time
+			// 3) zzCurrentPos..(zzCurrentPos+jspStartlength-1) : Check at the start of the block one time
 			// ---
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
-			// since it relies upon yy_currentPos equaling exactly the previous end +1 to work as designed.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
-					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '{' && yy_buffer[yy_startRead + 1] == '{') {
-				fLastInternalBlockStart = yy_markedPos = yy_startRead;
-				yy_currentPos = yy_markedPos + 1;
+			// since it relies upon zzCurrentPos equaling exactly the previous end +1 to work as designed.
+			else if(allowPHP && zzStartRead != fLastInternalBlockStart && zzStartRead > 0 &&
+					zzStartRead < zzBuffer.length - 1 && zzBuffer[zzStartRead] == '{' && zzBuffer[zzStartRead + 1] == '{') {
+				fLastInternalBlockStart = zzMarkedPos = zzStartRead;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
@@ -306,13 +304,13 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 				// Check the characters in the target versus the last targetLength characters read from the buffer
 				// and see if it matches
 				
-				// safety check for array accesses (yy_currentPos is the *last* character we can check against)
-				if(yy_currentPos >= searchStringLength && yy_currentPos <= yy_buffer.length) {
+				// safety check for array accesses (zzCurrentPos is the *last* character we can check against)
+				if(zzCurrentPos >= searchStringLength && zzCurrentPos <= zzBuffer.length) {
 					for(i = 0; i < searchStringLength; i++) {
 						if(same && fIsCaseSensitiveBlocking)
-							same = yy_buffer[i + yy_currentPos - searchStringLength] == searchString.charAt(i);
+							same = zzBuffer[i + zzCurrentPos - searchStringLength] == searchString.charAt(i);
 						else if(same && !fIsCaseSensitiveBlocking)
-							same = Character.toLowerCase(yy_buffer[i + yy_currentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
+							same = Character.toLowerCase(zzBuffer[i + zzCurrentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
 					}
 				}
 				// safety check failed; no match is possible right now
@@ -320,39 +318,39 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 					same = false;
 				}
 			}
-			if (same && requireTailSeparator && yy_currentPos < yy_buffer.length) {
+			if (same && requireTailSeparator && zzCurrentPos < zzBuffer.length) {
 				// Additional check for close tags to ensure that targetString="</script" doesn't match
 				// "</scriptS"
-				lastCheckChar = yy_buffer[yy_currentPos];
+				lastCheckChar = zzBuffer[zzCurrentPos];
 				// Succeed on "</script>" and "</script "
 				if(lastCheckChar == '>' || Character.isWhitespace(lastCheckChar))
 					stillSearching = false;
 			}
 			else {
-				stillSearching = !same || (yy_currentPos < yy_startRead + searchStringLength);
+				stillSearching = !same || (zzCurrentPos < zzStartRead + searchStringLength);
 			}
 		}
 	}
 	if (n != YYEOF || same) {
 		// We've stopped short of the end or definitely found a match
-		yy_markedPos = yy_currentPos - searchStringLength;
-		yy_currentPos = yy_markedPos + 1;
+		zzMarkedPos = zzCurrentPos - searchStringLength;
+		zzCurrentPos = zzMarkedPos + 1;
 		// If the searchString occurs at the very beginning of what would have
 		// been a Block, resume scanning normally immediately
-		if (yy_markedPos == yy_startRead) {
+		if (zzMarkedPos == zzStartRead) {
 			yybegin(immediateFallbackState);
 			return primGetNextToken();
 		}
 	}
 	else {
 		// We ran through the rest of the input
-		yy_markedPos = yy_currentPos;
-		yy_currentPos++;
+		zzMarkedPos = zzCurrentPos;
+		zzCurrentPos++;
 	}
 	yybegin(exitState);
 	// If the ending occurs at the very beginning of what would have
 	// been a Block, resume scanning normally immediately
-	if(yy_markedPos == yy_startRead)
+	if(zzMarkedPos == zzStartRead)
 		return primGetNextToken();
 	return searchContext;
 }
@@ -376,7 +374,7 @@ private ITextRegion bufferedTextRegion = null;
 private final String doScanEndTwig(String searchContext, int exitState, int immediateFallbackState) throws IOException {
 
 	if (Debug.debugTokenizer) {	
-		System.err.println("do scan end twig, current pos: " + yy_currentPos);	
+		System.err.println("do scan end twig, current pos: " + zzCurrentPos);	
 	}
 	
 	yypushback(1); // begin with the last char
@@ -396,11 +394,11 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 		System.err.println("created twig script region between " + bufferedTextRegion.getStart() + " and " + bufferedTextRegion.getEnd());	
 
 	// restore the locations / states
-	reset(yy_reader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
+	reset(zzReader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
 	
 	
 	if (Debug.debugTokenizer) {	
-		System.err.println("end scan, position: " + yy_currentPos);	
+		System.err.println("end scan, position: " + zzCurrentPos);	
 	}
 	
 	
@@ -416,7 +414,7 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
  */
 private AbstractTwigLexer getTwigLexer(String lexerState) {
 
-	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
+	final AbstractTwigLexer lexer = new TwigLexer(zzReader);
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
@@ -426,7 +424,7 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 		Logger.logException(e);
 	}
 	lexer.initialize(currentParameters[6]);
-	lexer.reset(yy_reader, yy_buffer, currentParameters);
+	lexer.reset(zzReader, zzBuffer, currentParameters);
 	lexer.setPatterns(project);
 
 //	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
@@ -628,19 +626,19 @@ public void setProject(IProject project) {
 }
 
 public void reset(java.io.Reader  reader, char[] buffer, int[] parameters){
-	this.yy_reader = reader;
-	this.yy_buffer = buffer;
-	this.yy_markedPos = parameters[0];
-	this.yy_pushbackPos = parameters[1];
-	this.yy_currentPos = parameters[2];
-	this.yy_startRead = parameters[3];
-	this.yy_endRead = parameters[4];
+	this.zzReader = reader;
+	this.zzBuffer = buffer;
+	this.zzMarkedPos = parameters[0];
+	this.zzPushbackPos = parameters[1];
+	this.zzCurrentPos = parameters[2];
+	this.zzStartRead = parameters[3];
+	this.zzEndRead = parameters[4];
 	this.yyline = parameters[5];  
-	this.yychar = this.yy_startRead - this.yy_pushbackPos;
+	this.yychar = this.zzStartRead - this.zzPushbackPos;
 }
 
 public int[] getParamenters(){
-	return new int[]{yy_markedPos, yy_pushbackPos, yy_currentPos, yy_startRead, yy_endRead, yyline, yy_lexical_state};
+	return new int[]{zzMarkedPos, zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
 }
 
 /**
@@ -683,7 +681,7 @@ public final ITextRegion getNextToken() throws IOException {
 		}
 		text = yytext();
 		if (context == XML_TAG_NAME) {
-			if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+			if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 				fCurrentTagName = text;
 			else
 				fCurrentTagName = null;
@@ -696,7 +694,7 @@ public final ITextRegion getNextToken() throws IOException {
 		}
 		start = yychar;
 		textLength = length = yylength();
-		if (yy_atEOF) {
+		if (zzAtEOF) {
 			fTokenCount++;
 			return null;
 		}
@@ -708,7 +706,7 @@ public final ITextRegion getNextToken() throws IOException {
 		fBufferedEmbeddedContainer = fEmbeddedContainer;
 		fShouldLoadBuffered = true;
 	} else if (f_context == XML_TAG_NAME) {
-		if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+		if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 			fCurrentTagName = yytext();
 		else
 			fCurrentTagName = null;
@@ -720,7 +718,7 @@ public final ITextRegion getNextToken() throws IOException {
 	fBufferedContext = f_context;
 	fBufferedText = yytext();
 	if (fBufferedContext == XML_TAG_NAME) {
-		if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+		if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 			fCurrentTagName = fBufferedText;
 		else
 			fCurrentTagName = null;
@@ -806,35 +804,35 @@ public void reset(java.io.Reader in, int newOffset) {
 	fOffset = newOffset;
 
 	/* the input device */
-	yy_reader = in;
+	zzReader = in;
 
 	/* the current state of the DFA */
-	yy_state = 0;
+	zzState = 0;
 
 	/* the current lexical state */
-	yy_lexical_state = YYINITIAL;
+	zzLexicalState = YYINITIAL;
 
 	/* this buffer contains the current text to be matched and is
 	the source of the yytext() string */
-	java.util.Arrays.fill(yy_buffer, (char)0);
+	java.util.Arrays.fill(zzBuffer, (char)0);
 
 	/* the textposition at the last accepting state */
-	yy_markedPos = 0;
+	zzMarkedPos = 0;
 
 	/* the textposition at the last state to be included in yytext */
-	yy_pushbackPos = 0;
+	zzPushbackPos = 0;
 
 	/* the current text position in the buffer */
-	yy_currentPos = 0;
+	zzCurrentPos = 0;
 
 	/* startRead marks the beginning of the yytext() string in the buffer */
-	yy_startRead = 0;
+	zzStartRead = 0;
 
 	/** 
 	 * endRead marks the last character in the buffer, that has been read
 	 * from input 
 	 */
-	yy_endRead = 0;
+	zzEndRead = 0;
 
 	/* number of newlines encountered up to the start of the matched text */
 	yyline = 0;
@@ -842,11 +840,11 @@ public void reset(java.io.Reader in, int newOffset) {
 	/* the number of characters up to the start of the matched text */
 	yychar = 0;
 
-	/* yy_atEOF == true <=> the scanner has returned a value for EOF */
-	yy_atEOF = false;
+	/* zzAtEOF == true <=> the scanner has returned a value for EOF */
+	zzAtEOF = false;
 
 	/* denotes if the user-EOF-code has already been executed */
-	yy_eof_done = false;
+	//yy_eof_done = false;
 
 
 	/* user vars: */
@@ -906,12 +904,12 @@ private void assembleEmbeddedTwigOpen() {
 %eof}
 
 %public
+%char
+%line
 %class TwigTokenizer
 %implements BlockTokenizer, PHPRegionContext, DOMRegionContext, TwigRegionContext
 %function primGetNextToken
 %type String
-%char
-%line
 %unicode
 %pack
 
@@ -980,8 +978,6 @@ genericTagClose      = >
 genericEndTagOpen    = <\/
 genericEmptyTagClose = \/>
 
-PIstart = <\?
-PIend   = \?>
 
 // [1] document ::= prolog element Misc*
 document = ({prolog} {element} {Misc}*)
@@ -1013,9 +1009,9 @@ Nmtokens = ({Nmtoken} ({S} {Nmtoken})*)
 EntityValue = (\" ([^%&\"] | {PEReference} | {Reference})* \" |  \' ([^%&\'] | {PEReference} | {Reference})* \')
 
 // [10] AttValue ::= '"' ([^<&"] | Reference)* '"' |  "'" ([^<&'] | Reference)* "'"
-//AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
-AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+//AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
 //TwigAttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
@@ -1040,13 +1036,6 @@ Comment = ({CommentStart}.*{CommentEnd})
 TwigCommentStart = (\{\#)
 TwigCommentEnd   = (\#\})
 TwigComment = ({TwigCommentStart}.*{TwigCommentEnd})
-
-
-// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
-//PI = (<\?{PITarget} {Char}* \?>)
-
-// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
-//PITarget = ({Name}((X|x)(M|m)(L|l)))
 
 // [18] CDSect ::= CDStart CData CDEnd
 CDSect = ({CDStart}{CData}{CDEnd})
@@ -1939,14 +1928,6 @@ NUMBER=([0-9])+
         yybegin(ST_XML_PI_ATTRIBUTE_NAME);
         return XML_TAG_ATTRIBUTE_VALUE;
 }
-/* the PI's close was found */
-<ST_XML_PI_EQUALS, ST_XML_PI_ATTRIBUTE_NAME, ST_XML_PI_ATTRIBUTE_VALUE> {PIend} {
-	if(Debug.debugTokenizer)
-		dump("XML processing instruction end");//$NON-NLS-1$
-	fEmbeddedHint = UNDEFINED;
-        yybegin(YYINITIAL);
-        return XML_PI_CLOSE;
-}
 // DHTML
 <ST_DHTML_ATTRIBUTE_NAME, ST_DHTML_EQUALS> {Name} {
 	if(Debug.debugTokenizer)
@@ -2299,7 +2280,7 @@ NUMBER=([0-9])+
 
 . {
 	if (Debug.debugTokenizer) {
-		System.out.println("current state " + yy_state);
+		System.out.println("current state " + zzState);
 		System.out.println("!!!unexpected!!!: \"" + yytext() + "\":" + //$NON-NLS-2$//$NON-NLS-1$
 	
 			yychar + "-" + (yychar + yylength()));//$NON-NLS-1$

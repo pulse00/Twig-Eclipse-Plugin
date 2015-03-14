@@ -10,14 +10,17 @@
         Zend Technologies
  -->
 <project name="Builds all parser classes" default="main">
-	
+
 	<target name="main">
-		<dirname property="antfile.dir" file="${ant.file}"/>
+		<dirname property="antfile.dir" file="${ant.file}" />
+
+		<!-- parsers -->
+		<ant dir="${antfile.dir}/parser" antfile="generateCompilerAstParser.xml" />
+		<ant dir="${antfile.dir}/parser" antfile="generateAstScanner.xml" />
 		
-		
-		<ant dir="${antfile.dir}/highlighting/twig" antfile="generateHighlightingScanner.xml" />		
-		<!-- <ant dir="${antfile.dir}/highlighting/" antfile="generatePHPTokenizer.xml" /> -->
-		
+		<ant dir="${antfile.dir}/highlighting/twig" antfile="generateHighlightingScanner.xml" />
+		<ant dir="${antfile.dir}/highlighting/" antfile="generateTwigTokenizer.xml" />
+
 	</target>
-	
+
 </project>

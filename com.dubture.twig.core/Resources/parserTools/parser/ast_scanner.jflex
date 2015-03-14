@@ -41,11 +41,11 @@ import java_cup.sym;
 %{   
        
     protected int getTokenStartPosition() {
-        return yy_startRead - yy_pushbackPos;
+        return zzStartRead - zzPushbackPos;
     }
-    
+
     protected int getTokenLength() {
-        return yy_markedPos - yy_startRead;
+        return zzMarkedPos - zzStartRead;
     }
 
     
@@ -64,7 +64,7 @@ import java_cup.sym;
     }
     
     public boolean isEOF() {
-        return yy_atEOF;
+        return zzAtEOF;
     }
 %}
 

@@ -4,8 +4,7 @@ http://code.google.com/p/smartypdt/source/browse/trunk/org.eclipse.php.smarty.co
 
 which in turn is based on the PHPTokenizer.jflex from PDT.
 
-It can only be compiled with version 1.2.2 of jflex.
-The binary for version 1.2.2 can be found here http://jflex.de/old/jflex-1.2.2.tar.gz .
+It can only be compiled with version 1.4.1 of jflex.
 
 The main modifications of the PHPTokenizer are:
 
