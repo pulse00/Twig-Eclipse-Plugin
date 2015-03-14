@@ -1,3 +1,9 @@
+1.1.0
+
+* use standard WTP model only
+* remove DLTK toolkit
+* enable and extend html outliner with twig tags (blocks)
+
 1.0.11
 
 * added mark occurrences option to preferences

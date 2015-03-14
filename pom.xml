@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dubture.twig</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.13-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>com.dubture.twig.core</module>
@@ -15,7 +15,7 @@
 	</modules>
 
 	<properties>
-		<tycho-version>0.19.0</tycho-version>
+		<tycho-version>0.22.0</tycho-version>
 	</properties>
 
 	<repositories>
@@ -27,7 +27,7 @@
 		<repository>
 			<id>dltk</id>
 			<layout>p2</layout>
-			<url>https://hudson.eclipse.org/hudson/job/dltk-nightly/lastSuccessfulBuild/artifact/org.eclipse.dltk.releng/build/update.site/target/site/</url>
+			<url>https://hudson.eclipse.org/dltk/job/dltk-nightly/lastSuccessfulBuild/artifact/org.eclipse.dltk.releng/build/update.site/target/repository</url>
 		</repository>
 		<repository>
 			<id>luna</id>
@@ -37,7 +37,7 @@
 		<repository>
 			<id>pdt-nightly</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/tools/pdt/updates/3.3-nightly/</url>
+			<url>http://download.eclipse.org/tools/pdt/updates/latest-nightly/</url>
 		</repository>
 		<repository>
 			<id>orbit</id>
