@@ -164,15 +164,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes
         return getZZStartRead() - getZZPushBackPosition();
     }
 
-    /**
-     * reset to a new segment. this do not change the state of the lexer. This
-     * method is used to scan nore than one segment as if the are one segment.
-     */
-    public void reset(final Segment s)
-    {
-        reset(s.array, s.offset, s.count);
-    }
-
     public void initialize(final int state)
     {
         twigStack = new StateStack();
