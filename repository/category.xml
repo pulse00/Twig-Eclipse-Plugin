@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <bundle id="com.dubture.twig.core" version="1.0.13.qualifier">
+   <bundle id="com.dubture.twig.core" version="1.0.14.qualifier">
       <category name="com.dubture.twig"/>
    </bundle>
    <category-def name="com.dubture.twig" label="Twig Feature"/>
