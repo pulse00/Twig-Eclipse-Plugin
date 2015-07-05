@@ -12,6 +12,7 @@
 		<module>com.dubture.twig.ui</module>
 		<module>com.dubture.twig.test</module>
 		<module>com.dubture.twig.feature</module>
+		<module>repository</module>
 	</modules>
 
 	<properties>
