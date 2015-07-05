@@ -29,6 +29,7 @@
 		<dltk.version>latest-nightly</dltk.version>
 		<core-plugin.url>http://pdt-eg.github.io/Core-Plugin/nightly</core-plugin.url>
 		<external-mirror.url>http://pdt-eg.github.io/external-mirror/nightly</external-mirror.url>
+		<test.vmargs>-Xmx512m -XX:MaxPermSize=256m</test.vmargs>
 	</properties>
 
 	<repositories>
@@ -156,6 +157,14 @@
 					<artifactId>maven-deploy-plugin</artifactId>
 					<configuration>
 						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<argLine>${test.vmargs}</argLine>
 					</configuration>
 				</plugin>
 			</plugins>
