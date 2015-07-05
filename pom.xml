@@ -160,5 +160,30 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>release</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<bintray.package>release</bintray.package>
+			</properties>
+		</profile>
+		<profile>
+			<id>nightly</id>
+			<activation>
+				<property>
+					<name>release</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<properties>
+				<bintray.package>nightly</bintray.package>
+			</properties>
+		</profile>
+	</profiles>
 </project>
