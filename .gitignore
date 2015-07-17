@@ -11,6 +11,8 @@ com.dubture.twig.core/Resources/parserTools/parser/output/*
 com.dubture.twig.core.json/bin/*
 com.dubture.twig.core.json/target/*
 com.dubture.twig.feature/target/*
+repository/target
+repository/bin
 .project
 .settings/
 .classpath
