@@ -2,7 +2,6 @@
 
 [![Build Status](https://secure.travis-ci.org/pulse00/Twig-Eclipse-Plugin.png)](http://travis-ci.org/pulse00/Twig-Eclipse-Plugin)
 
-
 ### Requirements
 
 - Eclipse >= 3.7.2 (aka Indigo SR2)
