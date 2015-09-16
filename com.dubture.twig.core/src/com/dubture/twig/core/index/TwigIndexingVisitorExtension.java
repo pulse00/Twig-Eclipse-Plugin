@@ -180,10 +180,10 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension
                             ClassInstanceCreation functionClass = (ClassInstanceCreation) value;
 
                             CallArgumentsList args = functionClass.getCtorParams();
+                            if (!(args.getChilds().get(0) instanceof Scalar)) {
+                            	return true;
+                            }
                             Scalar internalFunction = (Scalar) args.getChilds().get(0);
-
-                            if (internalFunction == null)
-                                return true;
 
                             if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_TEST_FUNCTION)) {
 
