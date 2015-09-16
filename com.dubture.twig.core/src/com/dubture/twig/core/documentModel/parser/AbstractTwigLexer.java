@@ -105,6 +105,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		return rv;
 	}
 
+	@Override
 	public Object createLexicalStateMemento() {
 		// buffered token state
 		if (bufferedTokens != null && !bufferedTokens.isEmpty()) {
@@ -124,6 +125,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	protected abstract IntHashtable getLexerStates();
 
 	// lex to the EOF. and return the ending state.
+	@Override
 	public Object getEndingState() throws IOException {
 		lexToEnd();
 		return createLexicalStateMemento();
@@ -132,14 +134,17 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	/**
 	 * return the index where start we started to lex.
 	 */
+	@Override
 	public int getFirstIndex() {
 		return firstPos;
 	}
 
+	@Override
 	public int getMarkedPos() {
 		return getZZMarkedPos();
 	}
 
+	@Override
 	public void getText(final int start, final int length, final Segment s) {
 		if (start + length > getZZEndRead())
 			throw new RuntimeException("bad segment !!"); //$NON-NLS-1$
@@ -152,6 +157,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		return getZZStartRead() - getZZPushBackPosition();
 	}
 
+	@Override
 	public void initialize(final int state) {
 		twigStack = new StateStack();
 		yybegin(state);
@@ -163,6 +169,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	 */
 
 	// lex to the end of the stream.
+	@Override
 	public String lexToEnd() throws IOException {
 		String curr = yylex();
 		String last = curr;
@@ -173,6 +180,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		return last;
 	}
 
+	@Override
 	public String lexToTokenAt(final int offset) throws IOException {
 		if (firstPos + offset < getZZMarkedPos())
 			throw new RuntimeException("Bad offset"); //$NON-NLS-1$
@@ -191,6 +199,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		yybegin(state);
 	}
 
+	@Override
 	public void setState(final Object state) {
 		((LexerState) state).restoreState(this);
 	}
@@ -218,10 +227,10 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 
 		bufferedState = createLexicalStateMemento();
 		String yylex = yylex();
-		if (PHPPartitionTypes.isPHPDocCommentState(yylex)) {
+		if (yylex == PHPRegionTypes.PHPDOC_COMMENT) {
 			final StringBuffer buffer = new StringBuffer();
 			int length = 0;
-			while (PHPPartitionTypes.isPHPDocCommentState(yylex)) {
+			while (yylex == PHPRegionTypes.PHPDOC_COMMENT) {
 				buffer.append(yytext());
 				yylex = yylex();
 				length++;
@@ -247,7 +256,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	 * @return the last token from buffer
 	 */
 	private String removeFromBuffer() {
-		ITextRegion region = (ITextRegion) bufferedTokens.removeFirst();
+		ITextRegion region = bufferedTokens.removeFirst();
 		bufferedLength = region.getLength();
 		return region.getType();
 	}
@@ -313,7 +322,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		Matcher minimal = null;
 		int size = matchers.size();
 		for (int i = 0; i < size;) {
-			Matcher tmp = (Matcher) matchers.get(i);
+			Matcher tmp = matchers.get(i);
 			if (tmp.find(startPosition)) {
 				if (minimal == null || tmp.start() < minimal.start()) {
 					minimal = tmp;
@@ -355,6 +364,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return twigStack == tmp.twigStack;
 		}
 
+		@Override
 		public boolean equalsCurrentStack(final LexerState obj) {
 			if (obj == this)
 				return true;
@@ -372,6 +382,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return true;
 		}
 
+		@Override
 		public boolean equalsTop(final LexerState obj) {
 			return obj != null && obj.getTopState() == lexicalState;
 		}
@@ -380,10 +391,12 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return twigStack;
 		}
 
+		@Override
 		public int getTopState() {
 			return lexicalState;
 		}
 
+		@Override
 		public boolean isSubstateOf(final int state) {
 			if (lexicalState == state)
 				return true;
@@ -393,6 +406,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return activeStack.contains(state);
 		}
 
+		@Override
 		public void restoreState(final Scanner scanner) {
 			final AbstractTwigLexer lexer = (AbstractTwigLexer) scanner;
 

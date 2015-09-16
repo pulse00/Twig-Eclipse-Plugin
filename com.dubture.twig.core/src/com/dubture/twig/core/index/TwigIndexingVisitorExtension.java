@@ -178,6 +178,9 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 							}
 							Scalar internalFunction = (Scalar) args.getChilds().get(0);
 
+							if (internalFunction == null)
+								return true;
+
 							if (functionClass.getClassName().toString().equals(TwigCoreConstants.TWIG_TEST_FUNCTION)) {
 
 								String elemName = name.getValue().replaceAll("['\"]", "");
