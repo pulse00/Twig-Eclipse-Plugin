@@ -11,27 +11,23 @@ package com.dubture.twig.core.format;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.format.FormatterUtils;
 
-@SuppressWarnings({"restriction"})
-public class FormatPreferencesSupport
-{
+@SuppressWarnings({ "restriction" })
+public class FormatPreferencesSupport {
 
-    private static FormatPreferencesSupport instance = null;
+	private static FormatPreferencesSupport instance = null;
 
-    public static FormatPreferencesSupport getInstance()
-    {
-        if (instance == null) {
-            instance = new FormatPreferencesSupport();
-        }
-        return instance;
-    }
+	public static FormatPreferencesSupport getInstance() {
+		if (instance == null) {
+			instance = new FormatPreferencesSupport();
+		}
+		return instance;
+	}
 
-    public int getIndentationSize(IDocument document)
-    {
-        return FormatterUtils.getFormatterCommonPrferences().getIndentationSize(document);
-    }
+	public int getIndentationSize(IDocument document) {
+		return FormatterUtils.getFormatterCommonPrferences().getIndentationSize(document);
+	}
 
-    public char getIndentationChar(IDocument document)
-    {
-        return FormatterUtils.getFormatterCommonPrferences().getIndentationChar(document);
-    }
+	public char getIndentationChar(IDocument document) {
+		return FormatterUtils.getFormatterCommonPrferences().getIndentationChar(document);
+	}
 }

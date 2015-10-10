@@ -27,46 +27,40 @@ import com.dubture.twig.core.documentModel.parser.partitioner.TwigStructuredText
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigDocumentLoader extends PHPDocumentLoader
-{
+public class TwigDocumentLoader extends PHPDocumentLoader {
 
-    @Override
-    protected IEncodedDocument newEncodedDocument()
-    {
+	@Override
+	protected IEncodedDocument newEncodedDocument() {
 
-        IEncodedDocument doc = super.newEncodedDocument();
-        assert doc instanceof BasicStructuredDocument;
-        ((BasicStructuredDocument) doc)
-                .setReParser(new TwigStructuredDocumentReParser());
+		IEncodedDocument doc = super.newEncodedDocument();
+		assert doc instanceof BasicStructuredDocument;
+		((BasicStructuredDocument) doc).setReParser(new TwigStructuredDocumentReParser());
 
-        // doc.setPreferredLineDelimiter( "\n" );
-        return doc;
-    }
+		// doc.setPreferredLineDelimiter( "\n" );
+		return doc;
+	}
 
-    @Override
-    public RegionParser getParser()
-    {
+	@Override
+	public RegionParser getParser() {
 
-        TwigSourceParser parser = new TwigSourceParser();
+		TwigSourceParser parser = new TwigSourceParser();
 
-        addHTMLishTag(parser, "script");
-        addHTMLishTag(parser, "style");
-        return parser;
+		addHTMLishTag(parser, "script");
+		addHTMLishTag(parser, "style");
+		return parser;
 
-    }
+	}
 
-    @Override
-    public IDocumentLoader newInstance()
-    {
+	@Override
+	public IDocumentLoader newInstance() {
 
-        return new TwigDocumentLoader();
-    }
+		return new TwigDocumentLoader();
+	}
 
-    @Override
-    public IDocumentPartitioner getDefaultDocumentPartitioner()
-    {
+	@Override
+	public IDocumentPartitioner getDefaultDocumentPartitioner() {
 
-        return new TwigStructuredTextPartitioner();
-    }
+		return new TwigStructuredTextPartitioner();
+	}
 
 }

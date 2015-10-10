@@ -21,23 +21,18 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 @SuppressWarnings("restriction")
-public class EmptyCompletionProposal extends PHPCompletionProposal
-{
+public class EmptyCompletionProposal extends PHPCompletionProposal {
 
-    public EmptyCompletionProposal(String replacementString,
-            int replacementOffset, int replacementLength, Image image,
-            String displayString, int relevance)
-    {
-        super(replacementString, replacementOffset, replacementLength, image,
-                displayString, relevance);
+	public EmptyCompletionProposal(String replacementString, int replacementOffset, int replacementLength, Image image,
+			String displayString, int relevance) {
+		super(replacementString, replacementOffset, replacementLength, image, displayString, relevance);
 
-    }
+	}
 
-    @Override
-    public String getAdditionalProposalInfo()
-    {
+	@Override
+	public String getAdditionalProposalInfo() {
 
-        return "";
-    }
+		return "";
+	}
 
 }

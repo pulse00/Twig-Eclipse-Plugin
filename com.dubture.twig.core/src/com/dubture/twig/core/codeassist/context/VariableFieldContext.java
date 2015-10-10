@@ -29,41 +29,37 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  *
  */
 @SuppressWarnings("restriction")
-public class VariableFieldContext extends AbstractTwigCompletionContext
-{
+public class VariableFieldContext extends AbstractTwigCompletionContext {
 
-    private String variable = null;
+	private String variable = null;
 
-    public String getVariable()
-    {
+	public String getVariable() {
 
-        return variable;
+		return variable;
 
-    }
+	}
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+	@Override
+	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
 
-        if (super.isValid(sourceModule, offset, requestor)) {
+		if (super.isValid(sourceModule, offset, requestor)) {
 
-            try {
+			try {
 
-                TextSequence statement = getStatementText();
+				TextSequence statement = getStatementText();
 
-                if (TwigTextSequenceUtilities.isInField(statement)) {
+				if (TwigTextSequenceUtilities.isInField(statement)) {
 
-                    variable = TwigTextSequenceUtilities.getVariable(statement);
-                    return true;
-                }
+					variable = TwigTextSequenceUtilities.getVariable(statement);
+					return true;
+				}
 
-                return true;
+				return true;
 
-            } catch (Exception e) {
-                Logger.logException(e);
-            }
-        }
-        return false;
-    }
+			} catch (Exception e) {
+				Logger.logException(e);
+			}
+		}
+		return false;
+	}
 }

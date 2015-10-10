@@ -19,67 +19,57 @@ import org.json.simple.JSONObject;
  * 
  */
 @SuppressWarnings("restriction")
-public class Tag extends TwigType
-{
+public class Tag extends TwigType {
 
-    private String startTag;
-    private String endTag;
+	private String startTag;
+	private String endTag;
 
-    public Tag(String startTag)
-    {
+	public Tag(String startTag) {
 
-        super(null, startTag);
-        this.startTag = startTag;
+		super(null, startTag);
+		this.startTag = startTag;
 
-    }
+	}
 
-    public Tag()
-    {
+	public Tag() {
 
-        super(null, null);
+		super(null, null);
 
-    }
+	}
 
-    public String getStartTag()
-    {
-        return startTag;
-    }
+	public String getStartTag() {
+		return startTag;
+	}
 
-    public void setStartTag(String startTag)
-    {
+	public void setStartTag(String startTag) {
 
-        this.name = startTag;
-        this.startTag = startTag;
-    }
+		this.name = startTag;
+		this.startTag = startTag;
+	}
 
-    public String getEndTag()
-    {
-        return endTag;
-    }
+	public String getEndTag() {
+		return endTag;
+	}
 
-    public void setEndTag(String endTag)
-    {
-        this.endTag = endTag;
-    }
+	public void setEndTag(String endTag) {
+		this.endTag = endTag;
+	}
 
-    @Override
-    public String toString()
-    {
+	@Override
+	public String toString() {
 
-        return startTag + " : " + endTag;
-    }
+		return startTag + " : " + endTag;
+	}
 
-    @Override
-    public String getMetadata()
-    {
+	@Override
+	public String getMetadata() {
 
-        return "";
-    }
+		return "";
+	}
 
-    @Override
-    public void setMetadata(JSONObject data)
-    {
-        // TODO Auto-generated method stub
+	@Override
+	public void setMetadata(JSONObject data) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 }

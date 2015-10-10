@@ -17,9 +17,8 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public interface ITwigCompletionContextResolver
-{
+public interface ITwigCompletionContextResolver {
 
-    ICompletionContext[] createContexts();
+	ICompletionContext[] createContexts();
 
 }

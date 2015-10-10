@@ -17,37 +17,32 @@ import org.eclipse.dltk.ast.expressions.Literal;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class Variable extends Literal
-{
+public class Variable extends Literal {
 
-    public Variable(int startIndex, int stopIndex, String string)
-    {
-        super(startIndex, stopIndex);
-        fLiteralValue = string;
-    }
+	public Variable(int startIndex, int stopIndex, String string) {
+		super(startIndex, stopIndex);
+		fLiteralValue = string;
+	}
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.IDENTIFIER;
-    }
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.IDENTIFIER;
+	}
 
-    public String toString()
-    {
-        return fLiteralValue;
-    }
+	public String toString() {
+		return fLiteralValue;
+	}
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (!(obj instanceof Variable)) {
-            return false;
-        }
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Variable)) {
+			return false;
+		}
 
-        Variable other = (Variable) obj;
+		Variable other = (Variable) obj;
 
-        return other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
-                && other.getValue() == getValue();
+		return other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
+				&& other.getValue() == getValue();
 
-    }
+	}
 }

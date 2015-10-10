@@ -33,125 +33,107 @@ import com.dubture.twig.ui.TwigUICorePlugin;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigCodeassistPreferencePage extends AbstractPreferencePage
-{
+public class TwigCodeassistPreferencePage extends AbstractPreferencePage {
 
-    private Button autoclosePrintTags;
-    private Button autocloseStatementTags;
-    private Button autocreateStatementTags;
+	private Button autoclosePrintTags;
+	private Button autocloseStatementTags;
+	private Button autocreateStatementTags;
 	private Button markOccurrences;
 
-    public TwigCodeassistPreferencePage()
-    {
+	public TwigCodeassistPreferencePage() {
 
-        setPreferenceStore(TwigUICorePlugin.getDefault().getPreferenceStore());
-        setDescription("Twig codeassist preferences"); //$NON-NLS-1$
+		setPreferenceStore(TwigUICorePlugin.getDefault().getPreferenceStore());
+		setDescription("Twig codeassist preferences"); //$NON-NLS-1$
 
-    }
+	}
 
-    protected void initializeValues()
-    {
+	protected void initializeValues() {
 
-        super.initializeValues();
-        IPreferenceStore store = TwigUICorePlugin.getDefault()
-                .getPreferenceStore();
+		super.initializeValues();
+		IPreferenceStore store = TwigUICorePlugin.getDefault().getPreferenceStore();
 
-        autoclosePrintTags.setSelection(store
-                .getBoolean(PreferenceConstants.AUTOCLOSE_PRINT_TAGS));
-        autocloseStatementTags.setSelection(store
-                .getBoolean(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS));
-        autocreateStatementTags.setSelection(store
-                .getBoolean(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS));
-		markOccurrences.setSelection(store
-				.getBoolean(PreferenceConstants.MARK_OCCURRENCES));
-    }
+		autoclosePrintTags.setSelection(store.getBoolean(PreferenceConstants.AUTOCLOSE_PRINT_TAGS));
+		autocloseStatementTags.setSelection(store.getBoolean(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS));
+		autocreateStatementTags.setSelection(store.getBoolean(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS));
+		markOccurrences.setSelection(store.getBoolean(PreferenceConstants.MARK_OCCURRENCES));
+	}
 
-    @Override
-    protected Control createContents(Composite parent)
-    {
+	@Override
+	protected Control createContents(Composite parent) {
 
-        createMainBlock(parent);
+		createMainBlock(parent);
 
-        initializeValues();
-        PlatformUI.getWorkbench().getHelpSystem()
-                .setHelp(parent, IPHPHelpContextIds.APPEARANCE_PREFERENCES);
-        return null;
+		initializeValues();
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.APPEARANCE_PREFERENCES);
+		return null;
 
-    }
+	}
 
-    protected void performDefaults()
-    {
+	protected void performDefaults() {
 
-        IPreferenceStore store = DLTKUIPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore store = DLTKUIPlugin.getDefault().getPreferenceStore();
 
-        store.setValue(PreferenceConstants.AUTOCLOSE_PRINT_TAGS, true);
-        store.setValue(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS, true);
-        store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS, true);
-        store.setValue(PreferenceConstants.MARK_OCCURRENCES, true);
+		store.setValue(PreferenceConstants.AUTOCLOSE_PRINT_TAGS, true);
+		store.setValue(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS, true);
+		store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS, true);
+		store.setValue(PreferenceConstants.MARK_OCCURRENCES, true);
 
-        super.performDefaults();
-    }
+		super.performDefaults();
+	}
 
-    public boolean performOk()
-    {
+	public boolean performOk() {
 
-        IPreferenceStore store = TwigUICorePlugin.getDefault()
-                .getPreferenceStore();
+		IPreferenceStore store = TwigUICorePlugin.getDefault().getPreferenceStore();
 
-        store.setValue(PreferenceConstants.AUTOCLOSE_PRINT_TAGS,
-                autoclosePrintTags.getSelection());
-        store.setValue(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS,
-                autocloseStatementTags.getSelection());
-        store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS,
-                autocreateStatementTags.getSelection());
-        
-        store.setValue(PreferenceConstants.MARK_OCCURRENCES, markOccurrences.getSelection());
+		store.setValue(PreferenceConstants.AUTOCLOSE_PRINT_TAGS, autoclosePrintTags.getSelection());
+		store.setValue(PreferenceConstants.AUTOCLOSE_STATEMENT_TAGS, autocloseStatementTags.getSelection());
+		store.setValue(PreferenceConstants.AUTOCREATE_STATEMENT_TAGS, autocreateStatementTags.getSelection());
 
-        return super.performOk();
+		store.setValue(PreferenceConstants.MARK_OCCURRENCES, markOccurrences.getSelection());
 
-    }
+		return super.performOk();
 
-    private void createMainBlock(Composite parent)
-    {
+	}
 
-        Composite result = new Composite(parent, SWT.NONE);
-        GridLayout layout = new GridLayout();
-        layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-        layout.marginWidth = 0;
-        layout.verticalSpacing = convertVerticalDLUsToPixels(10);
-        layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-        result.setLayout(layout);
+	private void createMainBlock(Composite parent) {
 
-        Group doubleClickGroup = new Group(result, SWT.NONE);
-        doubleClickGroup.setLayout(new GridLayout());
-        doubleClickGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        doubleClickGroup.setText("Auto-close twig tags");
+		Composite result = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth = 0;
+		layout.verticalSpacing = convertVerticalDLUsToPixels(10);
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		result.setLayout(layout);
 
-        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		Group doubleClickGroup = new Group(result, SWT.NONE);
+		doubleClickGroup.setLayout(new GridLayout());
+		doubleClickGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		doubleClickGroup.setText("Auto-close twig tags");
 
-        autoclosePrintTags = new Button(doubleClickGroup, SWT.CHECK);
-        autoclosePrintTags.setText("Print tags {{ }}"); //$NON-NLS-1$
-        autoclosePrintTags.setLayoutData(gd);
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 
-        autocloseStatementTags = new Button(doubleClickGroup, SWT.CHECK);
-        autocloseStatementTags.setText("Statement tags {% %}");
-        autocloseStatementTags.setLayoutData(gd);
+		autoclosePrintTags = new Button(doubleClickGroup, SWT.CHECK);
+		autoclosePrintTags.setText("Print tags {{ }}"); //$NON-NLS-1$
+		autoclosePrintTags.setLayoutData(gd);
 
-        autocreateStatementTags = new Button(doubleClickGroup, SWT.CHECK);
-        autocreateStatementTags.setText("Autocreate Statements (%)");
-        autocreateStatementTags.setLayoutData(gd);
-        
-        Group higlightGroup = new Group(result, SWT.NONE);
+		autocloseStatementTags = new Button(doubleClickGroup, SWT.CHECK);
+		autocloseStatementTags.setText("Statement tags {% %}");
+		autocloseStatementTags.setLayoutData(gd);
 
-        higlightGroup.setLayout(new GridLayout());
-        higlightGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        higlightGroup.setText("Highlighting");
-        
-        markOccurrences = new Button(higlightGroup, SWT.CHECK);
-        markOccurrences.setText("Mark occurrences"); //$NON-NLS-1$
-        markOccurrences.setLayoutData(gd);
-        
+		autocreateStatementTags = new Button(doubleClickGroup, SWT.CHECK);
+		autocreateStatementTags.setText("Autocreate Statements (%)");
+		autocreateStatementTags.setLayoutData(gd);
 
-    }
+		Group higlightGroup = new Group(result, SWT.NONE);
+
+		higlightGroup.setLayout(new GridLayout());
+		higlightGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		higlightGroup.setText("Highlighting");
+
+		markOccurrences = new Button(higlightGroup, SWT.CHECK);
+		markOccurrences.setText("Mark occurrences"); //$NON-NLS-1$
+		markOccurrences.setLayoutData(gd);
+
+	}
 
 }

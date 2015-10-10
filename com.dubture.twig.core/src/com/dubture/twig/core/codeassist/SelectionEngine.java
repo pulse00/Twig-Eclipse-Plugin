@@ -41,113 +41,109 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * 
  * Selects the following model elements:
  * 
- * - 'block' tags
- * - functions
+ * - 'block' tags - functions
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
 @SuppressWarnings("restriction")
-public class SelectionEngine extends PHPSelectionEngine
-{
+public class SelectionEngine extends PHPSelectionEngine {
 
-    @Override
-    public IModelElement[] select(IModuleSource sourceUnit, final int offset,
-            int end)
-    {
-        
-        if (TwigModelUtils.isTwigTemplate(sourceUnit.getFileName()) == false) {
-            //return super.select(sourceUnit, offset, end);
-        	return new IModelElement[] {};
-        }
-        
-        ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
-        final IScriptProject project = source.getScriptProject();
-        
-        try {
-            
-            final TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule)source);
-            final List<IModelElement> elements = new ArrayList<IModelElement>();
-            
-            if (module == null) {
-                return null;
-            }
-            
-            module.traverse(new TwigASTVisitor()
-            {
-                @Override
-                public boolean visit(TwigCallExpression s) throws Exception
-                {
-                    if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
-                        Function[] functions = TwigModelAccess.getDefault().getFunctions(project);
-                        
-                        for (Function function : functions) {
-                            if (function.getElementName().equals(s.getName())) {
-                                IDLTKSearchScope scope = SearchEngine.createSearchScope(function.getSourceModule());
-                                IMethod[] methods = PhpModelAccess.getDefault().findMethods(function.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
-                                if (methods.length == 1) {
-                                    elements.add(methods[0]);
-                                }
-                                return false;
-                            }
-                        }
-                    }
-                    
-                    return true;
-                }
-                
-                @Override
-                public boolean visit(Variable s) throws Exception
-                {
-                    if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
-                        for (Filter filter : TwigModelAccess.getDefault().getFilters(project)) {
-                            if (filter.getElementName().equals(s.getValue())) {
-                                
-                                IDLTKSearchScope scope = SearchEngine.createSearchScope(filter.getSourceModule());
-                                IMethod[] methods = PhpModelAccess.getDefault().findMethods(filter.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
-                                if (methods.length == 1) {
-                                    elements.add(methods[0]);
-                                }
-                                return false;
-                            }
-                        }
-                    }
-                    return true;
-                }
-                
-                @Override
-                public boolean visit(BlockStatement block) throws Exception
-                {
-                    if (block.isBlock() && block.getBlockName() != null 
-                            && block.sourceStart() <= offset && (block.sourceEnd()+1) >= offset) {
-                        String blockName = block.getBlockName().getValue();
+	@Override
+	public IModelElement[] select(IModuleSource sourceUnit, final int offset, int end) {
 
-                        for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
-                            String path = TwigModelAccess.getDefault().getParentPath(module, project);
-                            SourceModule sourceModule = resolver.revolePath(path, project);
-                            List<com.dubture.twig.core.model.BlockName> blocks = TwigModelAccess.getDefault().findBlocks(sourceModule, project);
-                            if (blocks != null) {
-                                for (com.dubture.twig.core.model.BlockName parentBlockName : blocks) {
-                                    if (blockName.equals(parentBlockName.getElementName())) {
-                                        elements.add(parentBlockName);
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return true;
-                }
-            });
-            
-            if (elements.size() > 0) {
-                return elements.toArray(new IModelElement[elements.size()]);
-            }
-            
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-        
-        return null;
-    }
+		if (TwigModelUtils.isTwigTemplate(sourceUnit.getFileName()) == false) {
+			// return super.select(sourceUnit, offset, end);
+			return new IModelElement[] {};
+		}
+
+		ISourceModule source = (ISourceModule) sourceUnit.getModelElement();
+		final IScriptProject project = source.getScriptProject();
+
+		try {
+
+			final TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil
+					.parseSourceModule((SourceModule) source);
+			final List<IModelElement> elements = new ArrayList<IModelElement>();
+
+			if (module == null) {
+				return null;
+			}
+
+			module.traverse(new TwigASTVisitor() {
+				@Override
+				public boolean visit(TwigCallExpression s) throws Exception {
+					if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
+						Function[] functions = TwigModelAccess.getDefault().getFunctions(project);
+
+						for (Function function : functions) {
+							if (function.getElementName().equals(s.getName())) {
+								IDLTKSearchScope scope = SearchEngine.createSearchScope(function.getSourceModule());
+								IMethod[] methods = PhpModelAccess.getDefault().findMethods(
+										function.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
+								if (methods.length == 1) {
+									elements.add(methods[0]);
+								}
+								return false;
+							}
+						}
+					}
+
+					return true;
+				}
+
+				@Override
+				public boolean visit(Variable s) throws Exception {
+					if (s.sourceStart() <= offset && s.sourceEnd() >= offset) {
+						for (Filter filter : TwigModelAccess.getDefault().getFilters(project)) {
+							if (filter.getElementName().equals(s.getValue())) {
+
+								IDLTKSearchScope scope = SearchEngine.createSearchScope(filter.getSourceModule());
+								IMethod[] methods = PhpModelAccess.getDefault()
+										.findMethods(filter.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
+								if (methods.length == 1) {
+									elements.add(methods[0]);
+								}
+								return false;
+							}
+						}
+					}
+					return true;
+				}
+
+				@Override
+				public boolean visit(BlockStatement block) throws Exception {
+					if (block.isBlock() && block.getBlockName() != null && block.sourceStart() <= offset
+							&& (block.sourceEnd() + 1) >= offset) {
+						String blockName = block.getBlockName().getValue();
+
+						for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
+							String path = TwigModelAccess.getDefault().getParentPath(module, project);
+							SourceModule sourceModule = resolver.revolePath(path, project);
+							List<com.dubture.twig.core.model.BlockName> blocks = TwigModelAccess.getDefault()
+									.findBlocks(sourceModule, project);
+							if (blocks != null) {
+								for (com.dubture.twig.core.model.BlockName parentBlockName : blocks) {
+									if (blockName.equals(parentBlockName.getElementName())) {
+										elements.add(parentBlockName);
+										return false;
+									}
+								}
+							}
+						}
+					}
+					return true;
+				}
+			});
+
+			if (elements.size() > 0) {
+				return elements.toArray(new IModelElement[elements.size()]);
+			}
+
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+
+		return null;
+	}
 }

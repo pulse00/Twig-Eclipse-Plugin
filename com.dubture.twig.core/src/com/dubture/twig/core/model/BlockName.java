@@ -15,24 +15,20 @@ import org.eclipse.dltk.core.model.LocalVariable;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class BlockName extends LocalVariable
-{
-    /**
-     * @param parent
-     * @param name
-     * @param declarationSourceStart
-     * @param declarationSourceEnd
-     * @param nameStart
-     * @param nameEnd
-     * @param type
-     */
-    public BlockName(IModelElement parent, String name,
-            int declarationSourceStart, int declarationSourceEnd,
-            int nameStart, int nameEnd, String type)
-    {
-        super(parent, name, declarationSourceStart, declarationSourceEnd, nameStart,
-                nameEnd, type);
-        // TODO Auto-generated constructor stub
-    }
+public class BlockName extends LocalVariable {
+	/**
+	 * @param parent
+	 * @param name
+	 * @param declarationSourceStart
+	 * @param declarationSourceEnd
+	 * @param nameStart
+	 * @param nameEnd
+	 * @param type
+	 */
+	public BlockName(IModelElement parent, String name, int declarationSourceStart, int declarationSourceEnd,
+			int nameStart, int nameEnd, String type) {
+		super(parent, name, declarationSourceStart, declarationSourceEnd, nameStart, nameEnd, type);
+		// TODO Auto-generated constructor stub
+	}
 
 }

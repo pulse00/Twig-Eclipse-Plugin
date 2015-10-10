@@ -13,8 +13,9 @@ import org.eclipse.dltk.ui.text.completion.ProposalInfo;
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
 import org.eclipse.jface.resource.ImageDescriptor;
 
-public interface ICompletionProposalProvider
-{
-    ProposalInfo createScriptCompletionProposal(CompletionProposal proposal, ScriptCompletionProposalCollector collector);
-    ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal);    
+public interface ICompletionProposalProvider {
+	ProposalInfo createScriptCompletionProposal(CompletionProposal proposal,
+			ScriptCompletionProposalCollector collector);
+
+	ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal);
 }

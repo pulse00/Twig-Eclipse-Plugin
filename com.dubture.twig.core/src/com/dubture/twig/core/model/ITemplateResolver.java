@@ -8,7 +8,6 @@
 */
 package com.dubture.twig.core.model;
 
-
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.SourceModule;
 
@@ -17,9 +16,8 @@ import org.eclipse.dltk.internal.core.SourceModule;
  *
  */
 @SuppressWarnings("restriction")
-public interface ITemplateResolver
-{
-    
-    SourceModule revolePath(String path, IScriptProject project);
+public interface ITemplateResolver {
+
+	SourceModule revolePath(String path, IScriptProject project);
 
 }

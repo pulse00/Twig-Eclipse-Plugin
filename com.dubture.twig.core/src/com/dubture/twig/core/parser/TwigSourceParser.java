@@ -32,67 +32,62 @@ import com.dubture.twig.core.parser.ast.visitor.SourceParserVisitor;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigSourceParser extends AbstractPHPSourceParser implements
-        ISourceParser
-{
+public class TwigSourceParser extends AbstractPHPSourceParser implements ISourceParser {
 
-    // private String fileName;
-    // private IProblemReporter problemReporter;
-    // private TwigErrorReporter reporter;
+	// private String fileName;
+	// private IProblemReporter problemReporter;
+	// private TwigErrorReporter reporter;
 
-    public static final String TWIG_OPEN = "{{";
-    public static final String TWIG_CLOSE = "}}";
+	public static final String TWIG_OPEN = "{{";
+	public static final String TWIG_CLOSE = "}}";
 
-    public static final String STMT_OPEN = "{%";
-    public static final String STMT_CLOSE = "%}";
+	public static final String STMT_OPEN = "{%";
+	public static final String STMT_CLOSE = "%}";
 
-    public TwigSourceParser(String filename)
-    {
-        super(filename);
-    }
-    
-    @Override
-    public IModuleDeclaration parse(IModuleSource input, IProblemReporter reporter)
-    {
-        try {
-            
-            TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(input.getSourceContents());
-            
-            if (module != null) {
-                module.traverse(new SourceParserVisitor(reporter));
-            }            
+	public TwigSourceParser(String filename) {
+		super(filename);
+	}
 
-            return module;
+	@Override
+	public IModuleDeclaration parse(IModuleSource input, IProblemReporter reporter) {
+		try {
 
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
+			TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil
+					.parseSourceModule(input.getSourceContents());
 
-        // return an empty moduledeclaration
-        return new ModuleDeclaration(0);
-        
-    }
+			if (module != null) {
+				module.traverse(new SourceParserVisitor(reporter));
+			}
 
-    @Override
-    public IModuleDeclaration parse(Reader in, IProblemReporter reporter,
-            boolean useShortTags) throws Exception
-    {
-        try {
-            
-            TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(in);
-            
-            if (module != null) {
-                module.traverse(new SourceParserVisitor(reporter));
-            }            
+			return module;
 
-            return module;
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
 
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
+		// return an empty moduledeclaration
+		return new ModuleDeclaration(0);
 
-        // return an empty moduledeclaration
-        return new ModuleDeclaration(0);
+	}
 
-    }
+	@Override
+	public IModuleDeclaration parse(Reader in, IProblemReporter reporter, boolean useShortTags) throws Exception {
+		try {
+
+			TwigModuleDeclaration module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(in);
+
+			if (module != null) {
+				module.traverse(new SourceParserVisitor(reporter));
+			}
+
+			return module;
+
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+
+		// return an empty moduledeclaration
+		return new ModuleDeclaration(0);
+
+	}
 }

@@ -26,50 +26,45 @@ import com.dubture.twig.core.TwigCorePreferences;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigErrorReporter
-{
+public class TwigErrorReporter {
 
-    private IProblemReporter reporter;
-    private int offset;
-    private int line;
-    private String filename;
+	private IProblemReporter reporter;
+	private int offset;
+	private int line;
+	private String filename;
 
-    public TwigErrorReporter(IProblemReporter problemReporter, String filename)
-    {
+	public TwigErrorReporter(IProblemReporter problemReporter, String filename) {
 
-        reporter = problemReporter;
-        this.filename = filename;
+		reporter = problemReporter;
+		this.filename = filename;
 
-    }
+	}
 
-    @SuppressWarnings("deprecation")
-    public void reportError(String header, String message)
-    {
+	@SuppressWarnings("deprecation")
+	public void reportError(String header, String message) {
 
-        // disabled due to 3.6 incompatibility
-        // see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
-        if (!TwigCorePlugin.getDefault().isDLTK3()) {
-            return;
-        }
+		// disabled due to 3.6 incompatibility
+		// see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
+		if (!TwigCorePlugin.getDefault().isDLTK3()) {
+			return;
+		}
 
-        ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
+		ProblemSeverity severity = TwigCorePreferences.getSyntaxErrorSeverity();
 
-        if (severity == null || severity == ProblemSeverity.IGNORE)
-            return;
+		if (severity == null || severity == ProblemSeverity.IGNORE)
+			return;
 
-        IProblem problem = new DefaultProblem(filename, message,
-                IProblem.Syntax, new String[0], severity, offset, offset + 1,
-                line);
+		IProblem problem = new DefaultProblem(filename, message, IProblem.Syntax, new String[0], severity, offset,
+				offset + 1, line);
 
-        reporter.reportProblem(problem);
+		reporter.reportProblem(problem);
 
-    }
+	}
 
-    public void setOffset(int offset2, int line2)
-    {
+	public void setOffset(int offset2, int line2) {
 
-        offset = offset2;
-        line = line2;
+		offset = offset2;
+		line = line2;
 
-    }
+	}
 }

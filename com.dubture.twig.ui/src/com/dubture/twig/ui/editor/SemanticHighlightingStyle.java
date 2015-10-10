@@ -25,10 +25,9 @@ public class SemanticHighlightingStyle {
 	private boolean underlineByDefault = false;
 	private RGB defaultTextColor = new RGB(0, 0, 0);
 	private boolean enabledByDefault = true;
-    private RGB defaultBackgroundColor = new RGB(255, 255, 255);
+	private RGB defaultBackgroundColor = new RGB(255, 255, 255);
 
-	public SemanticHighlightingStyle setDefaultTextColor(int red, int green,
-			int blue) {
+	public SemanticHighlightingStyle setDefaultTextColor(int red, int green, int blue) {
 		return setDefaultTextColor(new RGB(red, green, blue));
 	}
 
@@ -36,26 +35,23 @@ public class SemanticHighlightingStyle {
 		this.defaultTextColor = defaultTextColor;
 		return this;
 	}
-	
+
 	public SemanticHighlightingStyle setDefaultBackgroundColor(int red, int green, int blue) {
-	    return setDefaultBackgroundColor(new RGB(red, green, blue));
+		return setDefaultBackgroundColor(new RGB(red, green, blue));
 	}
-	
+
 	public SemanticHighlightingStyle setDefaultBackgroundColor(RGB defaultBackgroundColor) {
-	    this.defaultBackgroundColor = defaultBackgroundColor;
-	    return this;
+		this.defaultBackgroundColor = defaultBackgroundColor;
+		return this;
 	}
 
 	public SemanticHighlightingStyle(String preferenceKey) {
 		this.preferenceKey = preferenceKey;
-		this.defaultTextColor = findRGB(getThemeColorKey(),
-				getDefaultTextColor());
+		this.defaultTextColor = findRGB(getThemeColorKey(), getDefaultTextColor());
 	}
 
-	public SemanticHighlightingStyle(String preferenceKey, String displayName,
-			boolean boldByDefault, boolean italicByDefault,
-			boolean strikethroughByDefault, boolean underlineByDefault,
-			RGB defaultTextColor) {
+	public SemanticHighlightingStyle(String preferenceKey, String displayName, boolean boldByDefault,
+			boolean italicByDefault, boolean strikethroughByDefault, boolean underlineByDefault, RGB defaultTextColor) {
 		this.preferenceKey = preferenceKey;
 		this.boldByDefault = boldByDefault;
 		this.italicByDefault = italicByDefault;
@@ -74,9 +70,9 @@ public class SemanticHighlightingStyle {
 	protected RGB getDefaultTextColor() {
 		return defaultTextColor;
 	}
-	
+
 	protected RGB getDefaultBackgroundColor() {
-	    return defaultBackgroundColor;
+		return defaultBackgroundColor;
 	}
 
 	private String getThemeColorKey() {
@@ -96,8 +92,7 @@ public class SemanticHighlightingStyle {
 		if (!PlatformUI.isWorkbenchRunning())
 			return defaultRGB;
 
-		ColorRegistry registry = PlatformUI.getWorkbench().getThemeManager()
-				.getCurrentTheme().getColorRegistry();
+		ColorRegistry registry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry();
 		RGB rgb = registry.getRGB(key);
 		if (rgb != null)
 			return rgb;
@@ -126,8 +121,7 @@ public class SemanticHighlightingStyle {
 		return strikethroughByDefault;
 	}
 
-	public SemanticHighlightingStyle setStrikethroughByDefault(
-			boolean strikethroughByDefault) {
+	public SemanticHighlightingStyle setStrikethroughByDefault(boolean strikethroughByDefault) {
 		this.strikethroughByDefault = strikethroughByDefault;
 		return this;
 	}
@@ -136,8 +130,7 @@ public class SemanticHighlightingStyle {
 		return underlineByDefault;
 	}
 
-	public SemanticHighlightingStyle setUnderlineByDefault(
-			boolean underlineByDefault) {
+	public SemanticHighlightingStyle setUnderlineByDefault(boolean underlineByDefault) {
 		this.underlineByDefault = underlineByDefault;
 		return this;
 	}
@@ -151,8 +144,7 @@ public class SemanticHighlightingStyle {
 		return enabledByDefault;
 	}
 
-	public SemanticHighlightingStyle setEnabledByDefault(
-			boolean enabledByDefault) {
+	public SemanticHighlightingStyle setEnabledByDefault(boolean enabledByDefault) {
 		this.enabledByDefault = enabledByDefault;
 		return this;
 	}

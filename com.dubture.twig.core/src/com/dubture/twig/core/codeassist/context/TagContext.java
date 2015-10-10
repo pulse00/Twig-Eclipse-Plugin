@@ -20,23 +20,20 @@ import org.eclipse.dltk.core.ISourceModule;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TagContext extends KeywordContext
-{
+public class TagContext extends KeywordContext {
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+	@Override
+	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
 
-        if (super.isValid(sourceModule, offset, requestor)) {
+		if (super.isValid(sourceModule, offset, requestor)) {
 
-            // TODO: check if we're in a {% %} statement region
+			// TODO: check if we're in a {% %} statement region
 
-            return true;
+			return true;
 
-        }
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 }

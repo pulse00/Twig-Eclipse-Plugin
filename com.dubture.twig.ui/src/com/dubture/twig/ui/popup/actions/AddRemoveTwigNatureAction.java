@@ -33,127 +33,117 @@ import com.dubture.twig.core.log.Logger;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class AddRemoveTwigNatureAction implements IObjectActionDelegate
-{
+public class AddRemoveTwigNatureAction implements IObjectActionDelegate {
 
-    private ISelection selection;
-    private Object[] fTarget;
+	private ISelection selection;
+	private Object[] fTarget;
 
-    /**
-     * Constructor for Action1.
-     */
-    public AddRemoveTwigNatureAction()
-    {
-        super();
-    }
+	/**
+	 * Constructor for Action1.
+	 */
+	public AddRemoveTwigNatureAction() {
+		super();
+	}
 
-    /**
-     * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-     */
-    public void setActivePart(IAction action, IWorkbenchPart targetPart)
-    {
-        targetPart.getSite().getShell();
-    }
+	/**
+	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
+	 */
+	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+		targetPart.getSite().getShell();
+	}
 
-    /**
-     * @see IActionDelegate#run(IAction)
-     */
-    @SuppressWarnings("rawtypes")
-    public void run(IAction action)
-    {
+	/**
+	 * @see IActionDelegate#run(IAction)
+	 */
+	@SuppressWarnings("rawtypes")
+	public void run(IAction action) {
 
-        if (selection instanceof IStructuredSelection) {
-            for (Iterator it = ((IStructuredSelection) selection).iterator(); it
-                    .hasNext();) {
-                Object element = it.next();
-                IProject project = null;
-                if (element instanceof IProject) {
-                    project = (IProject) element;
-                } else if (element instanceof IAdaptable) {
-                    project = (IProject) ((IAdaptable) element)
-                            .getAdapter(IProject.class);
-                }
-                if (project != null) {
-                    toggleNature(project);
-                }
-            }
-        }
+		if (selection instanceof IStructuredSelection) {
+			for (Iterator it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
+				Object element = it.next();
+				IProject project = null;
+				if (element instanceof IProject) {
+					project = (IProject) element;
+				} else if (element instanceof IAdaptable) {
+					project = (IProject) ((IAdaptable) element).getAdapter(IProject.class);
+				}
+				if (project != null) {
+					toggleNature(project);
+				}
+			}
+		}
 
-    }
+	}
 
-    /**
-     * @see IActionDelegate#selectionChanged(IAction, ISelection)
-     */
-    public void selectionChanged(IAction action, ISelection selection)
-    {
+	/**
+	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
 
-        if (selection instanceof IStructuredSelection) {
-            fTarget = ((IStructuredSelection) selection).toArray();
-            boolean enabled = true;
-            for (Object obj : fTarget) {
-                if (!(obj instanceof IProject) && !(obj instanceof IScriptProject)) {
-                    enabled = false;
-                    break;
-                }
+		if (selection instanceof IStructuredSelection) {
+			fTarget = ((IStructuredSelection) selection).toArray();
+			boolean enabled = true;
+			for (Object obj : fTarget) {
+				if (!(obj instanceof IProject) && !(obj instanceof IScriptProject)) {
+					enabled = false;
+					break;
+				}
 
-                IProject project = null;
+				IProject project = null;
 
-                if (obj instanceof IProject) {
-                    project = (IProject) obj;
-                } else {
-                    project = ((IScriptProject)obj).getProject();
-                }
+				if (obj instanceof IProject) {
+					project = (IProject) obj;
+				} else {
+					project = ((IScriptProject) obj).getProject();
+				}
 
-                try {
-                    if (!project.isAccessible()
-                            || project.hasNature(TwigNature.NATURE_ID)) {
-                        enabled = false;
-                        break;
-                    }
-                } catch (CoreException e) {
-                    enabled = false;
-                    Logger.logException(e);
-                }
-            }
-            action.setEnabled(enabled);
-        } else {
-            fTarget = null;
-            action.setEnabled(false);
-        }
+				try {
+					if (!project.isAccessible() || project.hasNature(TwigNature.NATURE_ID)) {
+						enabled = false;
+						break;
+					}
+				} catch (CoreException e) {
+					enabled = false;
+					Logger.logException(e);
+				}
+			}
+			action.setEnabled(enabled);
+		} else {
+			fTarget = null;
+			action.setEnabled(false);
+		}
 
-        this.selection = selection;
-    }
+		this.selection = selection;
+	}
 
-    private void toggleNature(IProject project)
-    {
-        try {
+	private void toggleNature(IProject project) {
+		try {
 
-            IProjectDescription description = project.getDescription();
-            String[] natures = description.getNatureIds();
+			IProjectDescription description = project.getDescription();
+			String[] natures = description.getNatureIds();
 
-            for (int i = 0; i < natures.length; ++i) {
-                if (TwigNature.NATURE_ID.equals(natures[i])) {
-                    // Remove the nature
-                    String[] newNatures = new String[natures.length - 1];
-                    System.arraycopy(natures, 0, newNatures, 0, i);
-                    System.arraycopy(natures, i + 1, newNatures, i,
-                            natures.length - i - 1);
-                    description.setNatureIds(newNatures);
-                    project.setDescription(description, null);
-                    return;
-                }
-            }
+			for (int i = 0; i < natures.length; ++i) {
+				if (TwigNature.NATURE_ID.equals(natures[i])) {
+					// Remove the nature
+					String[] newNatures = new String[natures.length - 1];
+					System.arraycopy(natures, 0, newNatures, 0, i);
+					System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
+					description.setNatureIds(newNatures);
+					project.setDescription(description, null);
+					return;
+				}
+			}
 
-            // Add the nature
-            String[] newNatures = new String[natures.length + 1];
-            System.arraycopy(natures, 0, newNatures, 0, natures.length);
-            newNatures[natures.length] = TwigNature.NATURE_ID;
-            description.setNatureIds(newNatures);
-            project.setDescription(description, null);
+			// Add the nature
+			String[] newNatures = new String[natures.length + 1];
+			System.arraycopy(natures, 0, newNatures, 0, natures.length);
+			newNatures[natures.length] = TwigNature.NATURE_ID;
+			description.setNatureIds(newNatures);
+			project.setDescription(description, null);
 
-        } catch (CoreException e) {
+		} catch (CoreException e) {
 
-            Logger.logException(e);
-        }
-    }
+			Logger.logException(e);
+		}
+	}
 }

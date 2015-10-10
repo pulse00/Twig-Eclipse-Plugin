@@ -27,80 +27,72 @@ import org.w3c.dom.Text;
  * 
  */
 @SuppressWarnings("restriction")
-public class DOMDocumentForTwig extends DocumentStyleImpl
-{
+public class DOMDocumentForTwig extends DocumentStyleImpl {
 
-    public DOMDocumentForTwig()
-    {
-        super();
-    }
+	public DOMDocumentForTwig() {
+		super();
+	}
 
-    protected DOMDocumentForTwig(DocumentImpl that)
-    {
-        super(that);
-    }
+	protected DOMDocumentForTwig(DocumentImpl that) {
+		super(that);
+	}
 
-    public Node cloneNode(boolean deep)
-    {
-        DOMDocumentForTwig cloned = new DOMDocumentForTwig(this);
-        if (deep)
-            cloned.importChildNodes(this, true);
-        return cloned;
-    }
+	public Node cloneNode(boolean deep) {
+		DOMDocumentForTwig cloned = new DOMDocumentForTwig(this);
+		if (deep)
+			cloned.importChildNodes(this, true);
+		return cloned;
+	}
 
-    /**
-     * createElement method
-     * 
-     * @return org.w3c.dom.Element
-     * @param tagName
-     *            java.lang.String
-     */
+	/**
+	 * createElement method
+	 * 
+	 * @return org.w3c.dom.Element
+	 * @param tagName
+	 *            java.lang.String
+	 */
 
-    public Element createElement(String tagName) throws DOMException
-    {
-        checkTagNameValidity(tagName);
+	public Element createElement(String tagName) throws DOMException {
+		checkTagNameValidity(tagName);
 
-        ElementImplForTwig element = new ElementImplForTwig();
-        element.setOwnerDocument(this);
-        element.setTagName(tagName);
+		ElementImplForTwig element = new ElementImplForTwig();
+		element.setOwnerDocument(this);
+		element.setTagName(tagName);
 
-        return element;
-    }
+		return element;
+	}
 
-    /**
-     * createAttribute method
-     * 
-     * @return org.w3c.dom.Attr
-     * @param name
-     *            java.lang.String
-     */
-    public Attr createAttribute(String name) throws DOMException
-    {
+	/**
+	 * createAttribute method
+	 * 
+	 * @return org.w3c.dom.Attr
+	 * @param name
+	 *            java.lang.String
+	 */
+	public Attr createAttribute(String name) throws DOMException {
 
-        AttrImplForTwig attr = new AttrImplForTwig();
-        attr.setOwnerDocument(this);
-        attr.setName(name);
-        return attr;
-    }
+		AttrImplForTwig attr = new AttrImplForTwig();
+		attr.setOwnerDocument(this);
+		attr.setName(name);
+		return attr;
+	}
 
-    /**
-     * createTextNode method
-     * 
-     * @return org.w3c.dom.Text
-     * @param data
-     *            java.lang.String
-     */
-    public Text createTextNode(String data)
-    {
-        TextImplForTwig text = new TextImplForTwig();
-        text.setOwnerDocument(this);
-        text.setData(data);
-        return text;
-    }
+	/**
+	 * createTextNode method
+	 * 
+	 * @return org.w3c.dom.Text
+	 * @param data
+	 *            java.lang.String
+	 */
+	public Text createTextNode(String data) {
+		TextImplForTwig text = new TextImplForTwig();
+		text.setOwnerDocument(this);
+		text.setData(data);
+		return text;
+	}
 
-    public void setModel(IDOMModel model)
-    {
-        super.setModel(model);
-    }
+	public void setModel(IDOMModel model) {
+		super.setModel(model);
+	}
 
 }

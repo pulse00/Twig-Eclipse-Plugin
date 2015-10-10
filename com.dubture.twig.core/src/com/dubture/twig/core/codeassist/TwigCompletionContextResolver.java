@@ -42,50 +42,46 @@ import com.dubture.twig.core.log.Logger;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigCompletionContextResolver extends CompletionContextResolver
-        implements ICompletionContextResolver
-{
+public class TwigCompletionContextResolver extends CompletionContextResolver implements ICompletionContextResolver {
 
-    private static final String CONTEXTYFACTORY_ID = "com.dubture.twig.core.completionContextResolvers";
+	private static final String CONTEXTYFACTORY_ID = "com.dubture.twig.core.completionContextResolvers";
 
-    @Override
-    public ICompletionContext[] createContexts()
-    {
+	@Override
+	public ICompletionContext[] createContexts() {
 
-        List<ICompletionContext> contexts = new ArrayList<ICompletionContext>();
+		List<ICompletionContext> contexts = new ArrayList<ICompletionContext>();
 
-        contexts.add(new AbstractTwigCompletionContext());
-        contexts.add(new KeywordContext());
-        contexts.add(new FilterContext());
-        contexts.add(new VariableFieldContext());
-        contexts.add(new TemplateVariablesContext());
-        contexts.add(new QuotesContext());
-        contexts.add(new FunctionContext());
-        contexts.add(new TagContext());
-        contexts.add(new TestContext());
-        contexts.add(new BlocknameContext());
+		contexts.add(new AbstractTwigCompletionContext());
+		contexts.add(new KeywordContext());
+		contexts.add(new FilterContext());
+		contexts.add(new VariableFieldContext());
+		contexts.add(new TemplateVariablesContext());
+		contexts.add(new QuotesContext());
+		contexts.add(new FunctionContext());
+		contexts.add(new TagContext());
+		contexts.add(new TestContext());
+		contexts.add(new BlocknameContext());
 
-        IConfigurationElement[] config = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(CONTEXTYFACTORY_ID);
+		IConfigurationElement[] config = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(CONTEXTYFACTORY_ID);
 
-        try {
+		try {
 
-            for (IConfigurationElement e : config) {
+			for (IConfigurationElement e : config) {
 
-                final Object object = e.createExecutableExtension("class");
+				final Object object = e.createExecutableExtension("class");
 
-                if (object instanceof ITwigCompletionContextResolver) {
-                    ITwigCompletionContextResolver resolver = (ITwigCompletionContextResolver) object;
-                    contexts.addAll(Arrays.asList(resolver.createContexts()));
-                }
-            }
+				if (object instanceof ITwigCompletionContextResolver) {
+					ITwigCompletionContextResolver resolver = (ITwigCompletionContextResolver) object;
+					contexts.addAll(Arrays.asList(resolver.createContexts()));
+				}
+			}
 
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
 
-        return (ICompletionContext[]) contexts
-                .toArray(new ICompletionContext[contexts.size()]);
+		return (ICompletionContext[]) contexts.toArray(new ICompletionContext[contexts.size()]);
 
-    }
+	}
 }

@@ -34,24 +34,22 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigBuildParticipant implements IBuildParticipant
-{
+public class TwigBuildParticipant implements IBuildParticipant {
 
-    private TwigModelAccess model = TwigModelAccess.getDefault();
+	private TwigModelAccess model = TwigModelAccess.getDefault();
 
-    @Override
-    public void build(IBuildContext context) throws CoreException
-    {
+	@Override
+	public void build(IBuildContext context) throws CoreException {
 
-        IFile file = context.getFile();
-        ISourceModule sourceModule = context.getSourceModule();
+		IFile file = context.getFile();
+		ISourceModule sourceModule = context.getSourceModule();
 
-        try {
-            if (file != null && TwigModelUtils.isTwigTemplate(file.getName())) {
-                model.addTemplate(new Template(sourceModule));
-            }
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-    }
+		try {
+			if (file != null && TwigModelUtils.isTwigTemplate(file.getName())) {
+				model.addTemplate(new Template(sourceModule));
+			}
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }

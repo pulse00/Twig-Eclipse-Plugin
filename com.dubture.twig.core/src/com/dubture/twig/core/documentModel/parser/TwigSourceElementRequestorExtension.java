@@ -37,134 +37,114 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  *
  */
-public class TwigSourceElementRequestorExtension extends
-        PHPSourceElementRequestorExtension
-{
+public class TwigSourceElementRequestorExtension extends PHPSourceElementRequestorExtension {
 
-    public static String PRINT_START = "{{";
-    public static String PRINT_END = "}}";
-    public static String STMT_START = "{%";
-    public static String STMT_END = "%}";
+	public static String PRINT_START = "{{";
+	public static String PRINT_END = "}}";
+	public static String STMT_START = "{%";
+	public static String STMT_END = "%}";
 
+	@Override
+	public void setSourceModule(IModuleSource sourceModule) {
+		try {
 
+			super.setSourceModule(sourceModule);
 
-    @Override
-    public void setSourceModule(IModuleSource sourceModule)
-    {
-        try {
+			if (TwigModelUtils.isTwigTemplate(sourceModule.getFileName()) == false)
+				return;
 
-            super.setSourceModule(sourceModule);
+			String source = sourceModule.getSourceContents();
+			fRequestor.enterModule();
 
-            if (TwigModelUtils.isTwigTemplate(sourceModule.getFileName()) == false)
-                return;
+			final ModuleDeclaration decl = SourceParserUtil.parseSourceModule(new StringReader(source));
 
-            String source = sourceModule.getSourceContents();
-            fRequestor.enterModule();
+			decl.traverse(new TwigASTVisitor() {
+				@Override
+				public boolean visit(BlockStatement block) throws Exception {
+					if (TwigCoreConstants.START_BLOCK.equals(block.getName().getValue())) {
 
-            final ModuleDeclaration decl = SourceParserUtil
-                    .parseSourceModule(new StringReader(source));
+						Variable name = block.getBlockName();
 
-            decl.traverse(new TwigASTVisitor()
-            {
-                @Override
-                public boolean visit(BlockStatement block) throws Exception
-                {
-                    if (TwigCoreConstants.START_BLOCK.equals(block.getName().getValue())) {
+						if (name == null) {
+							return false;
+						}
 
-                        Variable name = block.getBlockName();
+						List<?> statements = block.getChilds();
 
-                        if (name == null) {
-                            return false;
-                        }
+						MethodInfo info = new MethodInfo();
+						info.nameSourceStart = name.sourceStart();
+						info.nameSourceEnd = name.sourceEnd() - 1;
+						info.declarationStart = block.sourceStart();
 
-                        List<?> statements = block.getChilds();
+						info.name = name.getValue();
+						fRequestor.enterMethod(info);
 
-                        MethodInfo info = new MethodInfo();
-                        info.nameSourceStart = name.sourceStart();
-                        info.nameSourceEnd = name.sourceEnd() - 1;
-                        info.declarationStart = block.sourceStart();
+						if (statements.size() > 1) {
+							fRequestor.exitMethod(block.sourceEnd());
+						}
 
-                        info.name = name.getValue();
-                        fRequestor.enterMethod(info);
+					} else if (TwigCoreConstants.EXTENDS.equals(block.getName().getValue())) {
 
-                        if (statements.size() > 1) {
-                            fRequestor.exitMethod(block.sourceEnd());
-                        }
+						Statement first = block.getFirstChild();
 
-                    } else if (TwigCoreConstants.EXTENDS.equals(block.getName().getValue())) {
+						if (first instanceof StringLiteral) {
+							StringLiteral parent = (StringLiteral) first;
+							String display = TwigCoreConstants.EXTENDS + " " + parent.getValue();
+							fRequestor.acceptPackage(block.sourceStart(), block.sourceEnd(), display);
+						}
+					}
+					return false;
+				}
+				/*
+				 * 
+				 * @Override public boolean visit(PrintStatement print) throws
+				 * Exception { System.err.println("request print element");
+				 * MethodInfo info = new MethodInfo(); info.nameSourceStart =
+				 * print.sourceStart(); info.nameSourceEnd = print.sourceEnd();
+				 * info.name = "var"; info.declarationStart =
+				 * print.sourceStart();
+				 * 
+				 * fRequestor.enterMethod(info);
+				 * 
+				 * 
+				 * 
+				 * return true; }
+				 * 
+				 * @Override public boolean endvisit(PrintStatement s) throws
+				 * Exception { fRequestor.exitMethod(s.sourceEnd()); return
+				 * true; }
+				 */
 
-                        Statement first = block.getFirstChild();
+				@Override
+				public boolean endvisit(BlockStatement block) throws Exception {
+					if (TwigCoreConstants.END_BLOCK.equals(block.getName().getValue())) {
+						fRequestor.exitMethod(block.sourceEnd());
+					}
+					return false;
+				}
 
-                        if (first instanceof StringLiteral) {
-                            StringLiteral parent = (StringLiteral) first;
-                            String display = TwigCoreConstants.EXTENDS + " " + parent.getValue();
-                            fRequestor.acceptPackage(block.sourceStart(),
-                                    block.sourceEnd(), display);
-                        }
-                    }
-                    return false;
-                }
-                /*
+				@Override
+				public boolean endvisit(Variable s) throws Exception {
 
-                @Override
-                public boolean visit(PrintStatement print) throws Exception
-                {
-                    System.err.println("request print element");
-                    MethodInfo info = new MethodInfo();
-                    info.nameSourceStart = print.sourceStart();
-                    info.nameSourceEnd = print.sourceEnd();
-                    info.name = "var";
-                    info.declarationStart = print.sourceStart();
+					FieldInfo info = new FieldInfo();
 
-                    fRequestor.enterMethod(info);
+					info.declarationStart = s.sourceStart();
+					info.nameSourceStart = s.sourceStart();
+					info.nameSourceEnd = s.sourceEnd();
+					info.name = s.getValue();
+					info.modifiers = Modifiers.AccPublic;
 
+					fRequestor.enterField(info);
 
+					fRequestor.exitField(s.sourceEnd());
+					return false;
+				}
+			});
 
-                    return true;
-                }
+			fRequestor.exitModule(decl.sourceEnd());
 
-                @Override
-                public boolean endvisit(PrintStatement s) throws Exception
-                {
-                    fRequestor.exitMethod(s.sourceEnd());
-                    return true;
-                }
-                */
-
-                @Override
-                public boolean endvisit(BlockStatement block) throws Exception
-                {
-                    if (TwigCoreConstants.END_BLOCK.equals(block.getName().getValue())) {
-                        fRequestor.exitMethod(block.sourceEnd());
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean endvisit(Variable s) throws Exception
-                {
-
-                    FieldInfo info = new FieldInfo();
-
-                    info.declarationStart =s.sourceStart();
-                    info.nameSourceStart = s.sourceStart();
-                    info.nameSourceEnd = s.sourceEnd();
-                    info.name = s.getValue();
-                    info.modifiers = Modifiers.AccPublic;
-
-                    fRequestor.enterField(info);
-
-                    fRequestor.exitField(s.sourceEnd());
-                    return false;
-                }
-            });
-
-
-
-            fRequestor.exitModule(decl.sourceEnd());
-
-        } catch (Exception e) {
-             Logger.logException(e);
-        }
-    }
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }

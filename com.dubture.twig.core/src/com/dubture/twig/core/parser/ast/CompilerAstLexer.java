@@ -10,11 +10,9 @@ package com.dubture.twig.core.parser.ast;
 
 import java.io.Reader;
 
-public class CompilerAstLexer extends TwigAstLexer
-{
-    public CompilerAstLexer(Reader in)
-    {
-        super(in);
-    }
+public class CompilerAstLexer extends TwigAstLexer {
+	public CompilerAstLexer(Reader in) {
+		super(in);
+	}
 
 }

@@ -24,96 +24,87 @@ import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
-public class SurroundWithAction extends Action implements
-        ISelectionChangedListener
-{
+public class SurroundWithAction extends Action implements ISelectionChangedListener {
 
-    private StructuredTextEditor fEditor;
-    private IWorkbenchSite fSite;
+	private StructuredTextEditor fEditor;
+	private IWorkbenchSite fSite;
 
-    private ISelectionProvider fSpecialSelectionProvider;
+	private ISelectionProvider fSpecialSelectionProvider;
 
-    protected SurroundWithAction(IWorkbenchSite site)
-    {
+	protected SurroundWithAction(IWorkbenchSite site) {
 
-        setText("Surround with...");
-        fSite = site;
+		setText("Surround with...");
+		fSite = site;
 
-    }
+	}
 
-    public SurroundWithAction(StructuredTextEditor editor)
-    {
+	public SurroundWithAction(StructuredTextEditor editor) {
 
-        this(editor.getEditorSite());
+		this(editor.getEditorSite());
 
-        fEditor = editor;
+		fEditor = editor;
 
-    }
+	}
 
-    @Override
-    public void selectionChanged(SelectionChangedEvent event)
-    {
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
 
-    }
+	}
 
-    @Override
-    public void run()
-    {
+	@Override
+	public void run() {
 
-        ISelection selection = getSelection();
+		ISelection selection = getSelection();
 
-        if (selection instanceof ITextSelection) {
+		if (selection instanceof ITextSelection) {
 
-            ITextSelection sel = (ITextSelection) selection;
+			ITextSelection sel = (ITextSelection) selection;
 
-            System.err.println(sel);
+			System.err.println(sel);
 
-            try {
+			try {
 
-                String[] lines = sel.getText().split("\n");
-                String newText = "{% for item in items %}\n";
-                for (String line : lines) {
-                    newText += "\t" + line + "\n";
-                }
+				String[] lines = sel.getText().split("\n");
+				String newText = "{% for item in items %}\n";
+				for (String line : lines) {
+					newText += "\t" + line + "\n";
+				}
 
-                newText += "{% endfor %}\n";
-                getDocument().replace(sel.getOffset(), sel.getLength(),
-                        newText);
+				newText += "{% endfor %}\n";
+				getDocument().replace(sel.getOffset(), sel.getLength(), newText);
 
-            } catch (BadLocationException e) {
+			} catch (BadLocationException e) {
 
-                Logger.logException(e);
+				Logger.logException(e);
 
-            }
-        }
-    }
-    
-    private IDocument getDocument() {
-    	if (fEditor instanceof PHPStructuredEditor) {
-    		return ((PHPStructuredEditor) fEditor).getDocument();
-    	} else if (fEditor instanceof TwigStructuredEditor) {
-    		return ((TwigStructuredEditor) fEditor).getDocument();
-    	}
-    	
-    	return null;
-    }
+			}
+		}
+	}
 
-    public ISelection getSelection()
-    {
-        ISelectionProvider selectionProvider = getSelectionProvider();
-        if (selectionProvider != null)
-            return selectionProvider.getSelection();
-        else
-            return null;
-    }
+	private IDocument getDocument() {
+		if (fEditor instanceof PHPStructuredEditor) {
+			return ((PHPStructuredEditor) fEditor).getDocument();
+		} else if (fEditor instanceof TwigStructuredEditor) {
+			return ((TwigStructuredEditor) fEditor).getDocument();
+		}
 
-    public ISelectionProvider getSelectionProvider()
-    {
+		return null;
+	}
 
-        if (fSpecialSelectionProvider != null) {
-            return fSpecialSelectionProvider;
-        }
-        return fSite.getSelectionProvider();
-    }
+	public ISelection getSelection() {
+		ISelectionProvider selectionProvider = getSelectionProvider();
+		if (selectionProvider != null)
+			return selectionProvider.getSelection();
+		else
+			return null;
+	}
+
+	public ISelectionProvider getSelectionProvider() {
+
+		if (fSpecialSelectionProvider != null) {
+			return fSpecialSelectionProvider;
+		}
+		return fSite.getSelectionProvider();
+	}
 
 }

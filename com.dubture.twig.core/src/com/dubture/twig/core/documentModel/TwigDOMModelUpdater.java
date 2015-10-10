@@ -23,18 +23,14 @@ import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigDOMModelUpdater extends XMLModelUpdater
-{
+public class TwigDOMModelUpdater extends XMLModelUpdater {
 
-    public TwigDOMModelUpdater(DOMModelImpl model)
-    {
-        super(model);
-    }
+	public TwigDOMModelUpdater(DOMModelImpl model) {
+		super(model);
+	}
 
-    protected boolean isNestedTagClose(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_STMT_CLOSE
-                || regionType == TwigRegionContext.TWIG_CLOSE;
-    }
+	protected boolean isNestedTagClose(String regionType) {
+		return regionType == TwigRegionContext.TWIG_STMT_CLOSE || regionType == TwigRegionContext.TWIG_CLOSE;
+	}
 
 }

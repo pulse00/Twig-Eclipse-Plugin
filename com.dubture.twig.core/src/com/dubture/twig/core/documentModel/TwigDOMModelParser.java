@@ -27,99 +27,87 @@ import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigDOMModelParser extends XMLModelParser
-{
+public class TwigDOMModelParser extends XMLModelParser {
 
-    public static final String TWIG_PRINT_TAG = "print"; //$NON-NLS-1$	
-    public static final String TWIG_STMT_TAG = "statement"; //$NON-NLS-1$
+	public static final String TWIG_PRINT_TAG = "print"; //$NON-NLS-1$
+	public static final String TWIG_STMT_TAG = "statement"; //$NON-NLS-1$
 
-    private final LRUCache cache;
+	private final LRUCache cache;
 
-    public TwigDOMModelParser(DOMModelImpl model)
-    {
-        super(model);
+	public TwigDOMModelParser(DOMModelImpl model) {
+		super(model);
 
-        cache = new LRUCache();
+		cache = new LRUCache();
 
-    }
+	}
 
-    protected boolean isNestedContent(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_CONTENT;
-    }
+	protected boolean isNestedContent(String regionType) {
+		return regionType == TwigRegionContext.TWIG_CONTENT;
+	}
 
-    protected boolean isNestedTag(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_STMT_OPEN
-                || regionType == TwigRegionContext.TWIG_OPEN
-                || regionType == TwigRegionContext.TWIG_CLOSE
-                || regionType == TwigRegionContext.TWIG_STMT_CLOSE;
-    }
+	protected boolean isNestedTag(String regionType) {
+		return regionType == TwigRegionContext.TWIG_STMT_OPEN || regionType == TwigRegionContext.TWIG_OPEN
+				|| regionType == TwigRegionContext.TWIG_CLOSE || regionType == TwigRegionContext.TWIG_STMT_CLOSE;
+	}
 
-    protected boolean isNestedTagOpen(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_STMT_OPEN
-                || regionType == TwigRegionContext.TWIG_OPEN;
-    }
+	protected boolean isNestedTagOpen(String regionType) {
+		return regionType == TwigRegionContext.TWIG_STMT_OPEN || regionType == TwigRegionContext.TWIG_OPEN;
+	}
 
-    protected String computeNestedTag(String regionType, String tagName,
-            IStructuredDocumentRegion structuredDocumentRegion,
-            ITextRegion region)
-    {
+	protected String computeNestedTag(String regionType, String tagName,
+			IStructuredDocumentRegion structuredDocumentRegion, ITextRegion region) {
 
-        if (regionType.equals(TwigRegionTypes.TWIG_STMT_OPEN)) {
+		if (regionType.equals(TwigRegionTypes.TWIG_STMT_OPEN)) {
 
-            try {
+			try {
 
-                String text = structuredDocumentRegion.getText();
-                Object cached = cache.get(text);
+				String text = structuredDocumentRegion.getText();
+				Object cached = cache.get(text);
 
-                if (cached != null) {
-                    return (String) cached;
-                }
+				if (cached != null) {
+					return (String) cached;
+				}
 
-                // TODO: REWRITE AFTER PARSER IMPLEMENTATION
-                // CharStream content = new ANTLRStringStream(text);
-                // TwigLexer lexer = new TwigLexer(content);
-                //
-                // TwigParser parser = new TwigParser(new
-                // CommonTokenStream(lexer));
-                //
-                // parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
-                // TwigParser.twig_source_return root;
-                //
-                // root = parser.twig_source();
-                // TwigCommonTree tree = (TwigCommonTree) root.getTree();
-                // TwigStatementVisitor visitor = new TwigStatementVisitor();
-                //
-                // if (tree != null) {
-                //
-                // tree.accept(visitor);
-                //
-                // if (visitor.getStatementType() == TwigParser.TWIG_TAG) {
-                // String tag = visitor.getTag();
-                // cache.put(text, tag);
-                // return tag;
-                // }
-                // }
+				// TODO: REWRITE AFTER PARSER IMPLEMENTATION
+				// CharStream content = new ANTLRStringStream(text);
+				// TwigLexer lexer = new TwigLexer(content);
+				//
+				// TwigParser parser = new TwigParser(new
+				// CommonTokenStream(lexer));
+				//
+				// parser.setTreeAdaptor(new TwigCommonTreeAdaptor());
+				// TwigParser.twig_source_return root;
+				//
+				// root = parser.twig_source();
+				// TwigCommonTree tree = (TwigCommonTree) root.getTree();
+				// TwigStatementVisitor visitor = new TwigStatementVisitor();
+				//
+				// if (tree != null) {
+				//
+				// tree.accept(visitor);
+				//
+				// if (visitor.getStatementType() == TwigParser.TWIG_TAG) {
+				// String tag = visitor.getTag();
+				// cache.put(text, tag);
+				// return tag;
+				// }
+				// }
 
-            } catch (Exception e) {
-                TwigCorePlugin.log(e);
-            }
+			} catch (Exception e) {
+				TwigCorePlugin.log(e);
+			}
 
-            return TWIG_STMT_TAG;
+			return TWIG_STMT_TAG;
 
-        } else if (regionType.equals(TwigRegionTypes.TWIG_OPEN)) {
+		} else if (regionType.equals(TwigRegionTypes.TWIG_OPEN)) {
 
-            return TWIG_PRINT_TAG;
-        }
+			return TWIG_PRINT_TAG;
+		}
 
-        return TWIG_STMT_TAG;
-    }
+		return TWIG_STMT_TAG;
+	}
 
-    protected boolean isNestedTagClose(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_STMT_CLOSE
-                || regionType == TwigRegionContext.TWIG_CLOSE;
-    }
+	protected boolean isNestedTagClose(String regionType) {
+		return regionType == TwigRegionContext.TWIG_STMT_CLOSE || regionType == TwigRegionContext.TWIG_CLOSE;
+	}
 }

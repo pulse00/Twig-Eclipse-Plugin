@@ -24,21 +24,18 @@ import com.dubture.twig.core.util.TwigModelUtils;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigSourceParserFactory extends PHPSourceParserFactory
-{
+public class TwigSourceParserFactory extends PHPSourceParserFactory {
 
-    @Override
-    public IModuleDeclaration parse(IModuleSource module,
-            IProblemReporter reporter)
-    {
+	@Override
+	public IModuleDeclaration parse(IModuleSource module, IProblemReporter reporter) {
 
-        if (TwigModelUtils.isTwigTemplate(module.getFileName()) == false) {
-            return super.parse(module, reporter);
-        }
+		if (TwigModelUtils.isTwigTemplate(module.getFileName()) == false) {
+			return super.parse(module, reporter);
+		}
 
-        final String fileName = module.getFileName();
-        TwigSourceParser parser = new TwigSourceParser(fileName);
-        return parser.parse(module, reporter);
+		final String fileName = module.getFileName();
+		TwigSourceParser parser = new TwigSourceParser(fileName);
+		return parser.parse(module, reporter);
 
-    }
+	}
 }

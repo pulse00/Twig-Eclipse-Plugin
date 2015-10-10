@@ -36,32 +36,29 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  *
  */
 @SuppressWarnings("restriction")
-public class TemplateVariablesContext extends AbstractTwigCompletionContext
-{
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+public class TemplateVariablesContext extends AbstractTwigCompletionContext {
+	@Override
+	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
 
-        if (super.isValid(sourceModule, offset, requestor)) {
+		if (super.isValid(sourceModule, offset, requestor)) {
 
-            try {
+			try {
 
-                if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
-                    return false;
+				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
+					return false;
 
-                TextSequence sequence = getStatementText();
+				TextSequence sequence = getStatementText();
 
-                if (TwigTextSequenceUtilities.isInField(sequence)) {
-                    return false;
-                }
+				if (TwigTextSequenceUtilities.isInField(sequence)) {
+					return false;
+				}
 
-                return true;
+				return true;
 
-            } catch (Exception e) {
-                Logger.logException(e);
-            }
-        }
-        return false;
-    }
+			} catch (Exception e) {
+				Logger.logException(e);
+			}
+		}
+		return false;
+	}
 }

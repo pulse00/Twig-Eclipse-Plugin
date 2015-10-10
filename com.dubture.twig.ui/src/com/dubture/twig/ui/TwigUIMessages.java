@@ -8,9 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.ui;
 
-public class TwigUIMessages
-{
+public class TwigUIMessages {
 
-    public static String ColorPage_CodeExample_0 = Messages.TwigUIMessages_0;
+	public static String ColorPage_CodeExample_0 = Messages.TwigUIMessages_0;
 
 }

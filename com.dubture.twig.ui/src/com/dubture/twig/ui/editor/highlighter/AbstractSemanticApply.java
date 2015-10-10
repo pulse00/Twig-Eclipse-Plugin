@@ -10,8 +10,6 @@ package com.dubture.twig.ui.editor.highlighter;
 
 import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
 
-public class AbstractSemanticApply extends TwigASTVisitor
-{
-    
+public class AbstractSemanticApply extends TwigASTVisitor {
 
 }

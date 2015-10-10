@@ -22,42 +22,38 @@ import com.dubture.twig.core.log.Logger;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class KeywordContext extends AbstractTwigCompletionContext
-{
+public class KeywordContext extends AbstractTwigCompletionContext {
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+	@Override
+	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
 
-        try {
-            if (super.isValid(sourceModule, offset, requestor)) {
+		try {
+			if (super.isValid(sourceModule, offset, requestor)) {
 
-                if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
-                    return false;
-                }
+				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+					return false;
+				}
 
-                String prefix = getStatementText().toString();
+				String prefix = getStatementText().toString();
 
-                if (!prefix.contains(".") && !prefix.contains("\"")
-                        && !prefix.contains("'")) {
-                    
-                    String previous = getPreviousWord();
-                    
-                    // {% block |   <-- we complete parent blocks in here
-                    if (previous != null && "block".equals(previous)) {
-                        return false;
-                    }
-                    
-                    return true;
-                }
+				if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {
 
-            }
-        } catch (Exception e) {
+					String previous = getPreviousWord();
 
-            Logger.logException(e);
-        }
+					// {% block | <-- we complete parent blocks in here
+					if (previous != null && "block".equals(previous)) {
+						return false;
+					}
 
-        return false;
-    }
+					return true;
+				}
+
+			}
+		} catch (Exception e) {
+
+			Logger.logException(e);
+		}
+
+		return false;
+	}
 }

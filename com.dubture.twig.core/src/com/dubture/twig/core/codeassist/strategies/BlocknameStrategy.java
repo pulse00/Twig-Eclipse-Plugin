@@ -28,65 +28,66 @@ import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
-@SuppressWarnings({"restriction", "deprecation"})
-public class BlocknameStrategy extends KeywordStrategy
-{
+@SuppressWarnings({ "restriction", "deprecation" })
+public class BlocknameStrategy extends KeywordStrategy {
 
-    /**
-     * @param context
-     */
-    public BlocknameStrategy(ICompletionContext context)
-    {
-        super(context);
-    }
-    
-    /* (non-Javadoc)
-     * @see com.dubture.twig.core.codeassist.strategies.KeywordStrategy#apply(org.eclipse.php.internal.core.codeassist.ICompletionReporter)
-     */
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
-        
-        BlocknameContext context = (BlocknameContext) getContext();
-        
-        TwigModuleDeclaration module = context.getModule();
-        BlockStatement extendsBlock = module.getExtends();
-        
-        if (extendsBlock == null) {
-            return;
-        }
-        
-        StringLiteral literal = (StringLiteral) extendsBlock.getFirstChild();
-        
-        if (literal == null) {
-            return;
-        }
-        
-        String path = literal.getValue();
-        List<ITemplateResolver> providers = ExtensionManager.getInstance().getTemplateProviders();
-        
-        String prefix = context.getPrefix();
-        SourceRange range = getReplacementRange(context);
-        
-        for (ITemplateResolver resolver : providers) {
-            
-            SourceModule sourceModule = resolver.revolePath(path, context.getSourceModule().getScriptProject());
-            TwigModuleDeclaration parent = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(sourceModule);
-            
-            if (parent != null) {
-                for (BlockStatement block : parent.getBlocks()) {
-                    BlockName name = block.getName();
-                    if (name != null && "block".equals(name.getValue())) {
-                        Variable child = (Variable) block.getFirstChild();
-                        String value = child.getValue();
-                        
-                        if (CodeAssistUtils.startsWithIgnoreCase(value, prefix)) {
-                            FakeField field = new FakeField((ModelElement) context.getSourceModule(), value, 0);
-                            reporter.reportField(field, "", range, false);
-                        }
-                    }
-                }
-            }
-        }
-    }
+	/**
+	 * @param context
+	 */
+	public BlocknameStrategy(ICompletionContext context) {
+		super(context);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dubture.twig.core.codeassist.strategies.KeywordStrategy#apply(org.
+	 * eclipse.php.internal.core.codeassist.ICompletionReporter)
+	 */
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
+
+		BlocknameContext context = (BlocknameContext) getContext();
+
+		TwigModuleDeclaration module = context.getModule();
+		BlockStatement extendsBlock = module.getExtends();
+
+		if (extendsBlock == null) {
+			return;
+		}
+
+		StringLiteral literal = (StringLiteral) extendsBlock.getFirstChild();
+
+		if (literal == null) {
+			return;
+		}
+
+		String path = literal.getValue();
+		List<ITemplateResolver> providers = ExtensionManager.getInstance().getTemplateProviders();
+
+		String prefix = context.getPrefix();
+		SourceRange range = getReplacementRange(context);
+
+		for (ITemplateResolver resolver : providers) {
+
+			SourceModule sourceModule = resolver.revolePath(path, context.getSourceModule().getScriptProject());
+			TwigModuleDeclaration parent = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(sourceModule);
+
+			if (parent != null) {
+				for (BlockStatement block : parent.getBlocks()) {
+					BlockName name = block.getName();
+					if (name != null && "block".equals(name.getValue())) {
+						Variable child = (Variable) block.getFirstChild();
+						String value = child.getValue();
+
+						if (CodeAssistUtils.startsWithIgnoreCase(value, prefix)) {
+							FakeField field = new FakeField((ModelElement) context.getSourceModule(), value, 0);
+							reporter.reportField(field, "", range, false);
+						}
+					}
+				}
+			}
+		}
+	}
 }

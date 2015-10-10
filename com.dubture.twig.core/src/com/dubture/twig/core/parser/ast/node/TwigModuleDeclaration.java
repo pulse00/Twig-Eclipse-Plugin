@@ -14,47 +14,43 @@ import java.util.List;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.statements.Statement;
 
-public class TwigModuleDeclaration extends ModuleDeclaration
-{
-    protected List<BlockStatement> blocks;
+public class TwigModuleDeclaration extends ModuleDeclaration {
+	protected List<BlockStatement> blocks;
 
-    public TwigModuleDeclaration(int length, List<Statement> statements)
-    {
-        super(length);
+	public TwigModuleDeclaration(int length, List<Statement> statements) {
+		super(length);
 
-        for (Statement statement : statements) {
-            addStatement(statement);
-        }
-    }
+		for (Statement statement : statements) {
+			addStatement(statement);
+		}
+	}
 
-    public List<BlockStatement> getBlocks()
-    {
-        if (blocks != null) {
-            return blocks;
-        }
-        
-        blocks = new LinkedList<BlockStatement>();
+	public List<BlockStatement> getBlocks() {
+		if (blocks != null) {
+			return blocks;
+		}
 
-        for (Object o : getStatements()) {
-            if (o instanceof BlockStatement) {
-                blocks.add((BlockStatement) o);
-            }
-        }
-        
-        return blocks;
+		blocks = new LinkedList<BlockStatement>();
 
-    }
-    
-    public BlockStatement getExtends()
-    {
-        for (BlockStatement block : getBlocks()) {
-            BlockName name = block.getName();
-            
-            if (name != null && "extends".equals(name.getValue())) {
-                return block;
-            }
-        }
-        
-        return null;
-    }
+		for (Object o : getStatements()) {
+			if (o instanceof BlockStatement) {
+				blocks.add((BlockStatement) o);
+			}
+		}
+
+		return blocks;
+
+	}
+
+	public BlockStatement getExtends() {
+		for (BlockStatement block : getBlocks()) {
+			BlockName name = block.getName();
+
+			if (name != null && "extends".equals(name.getValue())) {
+				return block;
+			}
+		}
+
+		return null;
+	}
 }

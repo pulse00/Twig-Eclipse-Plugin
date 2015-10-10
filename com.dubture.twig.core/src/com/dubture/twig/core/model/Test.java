@@ -22,83 +22,72 @@ import org.json.simple.JSONObject;
  * 
  */
 @SuppressWarnings("restriction")
-public class Test extends TwigType
-{
+public class Test extends TwigType {
 
-    protected PHPDocBlock doc;
-    private IScriptProject project;
+	protected PHPDocBlock doc;
+	private IScriptProject project;
 
-    public Test(ModelElement parent, String name)
-    {
-        super(parent, name);
+	public Test(ModelElement parent, String name) {
+		super(parent, name);
 
-    }
+	}
 
-    public Test(String elemName)
-    {
+	public Test(String elemName) {
 
-        super(null, elemName);
-    }
+		super(null, elemName);
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public String getMetadata()
-    {
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getMetadata() {
 
-        JSONObject data = new JSONObject();
-        data.put(PHPCLASS, phpClass);
-        data.put(DOC, getDocString());
-        data.put(INTERNAL, internalFunction);
+		JSONObject data = new JSONObject();
+		data.put(PHPCLASS, phpClass);
+		data.put(DOC, getDocString());
+		data.put(INTERNAL, internalFunction);
 
-        return data.toString();
-    }
+		return data.toString();
+	}
 
-    @Override
-    public void setMetadata(JSONObject data)
-    {
+	@Override
+	public void setMetadata(JSONObject data) {
 
-        phpClass = (String) data.get(PHPCLASS);
-        description = (String) data.get(DOC);
-        internalFunction = (String) data.get(INTERNAL);
+		phpClass = (String) data.get(PHPCLASS);
+		description = (String) data.get(DOC);
+		internalFunction = (String) data.get(INTERNAL);
 
-    }
+	}
 
-    public void addDoc(PHPDocBlock doc)
-    {
+	public void addDoc(PHPDocBlock doc) {
 
-        this.doc = doc;
+		this.doc = doc;
 
-    }
+	}
 
-    protected String getDocString()
-    {
+	protected String getDocString() {
 
-        if (description != null)
-            return description;
+		if (description != null)
+			return description;
 
-        if (doc == null)
-            return "";
+		if (doc == null)
+			return "";
 
-        String longDesc = doc.getLongDescription() != null ? doc
-                .getLongDescription() : "";
-        String shortDesc = doc.getShortDescription() != null ? doc
-                .getShortDescription() : "";
+		String longDesc = doc.getLongDescription() != null ? doc.getLongDescription() : "";
+		String shortDesc = doc.getShortDescription() != null ? doc.getShortDescription() : "";
 
-        description = shortDesc + longDesc;
-        return description;
+		description = shortDesc + longDesc;
+		return description;
 
-    }
+	}
 
-    public void setScriptProject(IScriptProject project)
-    {
+	public void setScriptProject(IScriptProject project) {
 
-        this.project = project;
-    }
+		this.project = project;
+	}
 
-    @Override
-    public IScriptProject getScriptProject()
-    {
+	@Override
+	public IScriptProject getScriptProject() {
 
-        return project;
-    }
+		return project;
+	}
 }

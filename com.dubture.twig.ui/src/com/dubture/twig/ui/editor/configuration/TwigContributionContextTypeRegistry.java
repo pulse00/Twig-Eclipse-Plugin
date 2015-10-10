@@ -19,18 +19,15 @@ import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigContributionContextTypeRegistry extends
-        ContributionContextTypeRegistry
-{
+public class TwigContributionContextTypeRegistry extends ContributionContextTypeRegistry {
 
-    @Override
-    public TemplateContextType getContextType(String id)
-    {
+	@Override
+	public TemplateContextType getContextType(String id) {
 
-        // if (id.equals(PhpTemplateContextType.PHP_CONTEXT_TYPE_ID))
-        // id = TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
+		// if (id.equals(PhpTemplateContextType.PHP_CONTEXT_TYPE_ID))
+		// id = TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
 
-        return super.getContextType(id);
-    }
+		return super.getContextType(id);
+	}
 
 }

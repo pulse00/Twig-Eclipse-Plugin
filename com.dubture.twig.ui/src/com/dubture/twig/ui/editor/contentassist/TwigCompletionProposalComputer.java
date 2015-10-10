@@ -23,38 +23,29 @@ import org.eclipse.php.internal.ui.editor.contentassist.PHPContentAssistInvocati
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigCompletionProposalComputer extends
-        PHPCompletionProposalComputer
-{
+public class TwigCompletionProposalComputer extends PHPCompletionProposalComputer {
 
-    public TwigCompletionProposalComputer()
-    {
+	public TwigCompletionProposalComputer() {
 
-    }
+	}
 
-    @Override
-    protected TemplateCompletionProcessor createTemplateProposalComputer(
-            ScriptContentAssistInvocationContext context)
-    {
+	@Override
+	protected TemplateCompletionProcessor createTemplateProposalComputer(ScriptContentAssistInvocationContext context) {
 
-        boolean explicit = false;
-        if (context instanceof PHPContentAssistInvocationContext) {
-            explicit = ((PHPContentAssistInvocationContext) context)
-                    .isExplicit();
-        }
+		boolean explicit = false;
+		if (context instanceof PHPContentAssistInvocationContext) {
+			explicit = ((PHPContentAssistInvocationContext) context).isExplicit();
+		}
 
-        return new TwigTemplateCompletionProcessor(context, explicit);
+		return new TwigTemplateCompletionProcessor(context, explicit);
 
-    }
+	}
 
-    @Override
-    protected ScriptCompletionProposalCollector createCollector(
-            ScriptContentAssistInvocationContext context)
-    {
+	@Override
+	protected ScriptCompletionProposalCollector createCollector(ScriptContentAssistInvocationContext context) {
 
-        return new TwigCompletionProposalCollector(context.getDocument(),
-                context.getSourceModule(), true);
+		return new TwigCompletionProposalCollector(context.getDocument(), context.getSourceModule(), true);
 
-    }
+	}
 
 }

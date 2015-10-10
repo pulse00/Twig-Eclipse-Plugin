@@ -23,15 +23,12 @@ import org.eclipse.dltk.core.builder.IBuildParticipantFactory;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigBuilder implements IBuildParticipantFactory
-{
+public class TwigBuilder implements IBuildParticipantFactory {
 
-    @Override
-    public IBuildParticipant createBuildParticipant(IScriptProject project)
-            throws CoreException
-    {
+	@Override
+	public IBuildParticipant createBuildParticipant(IScriptProject project) throws CoreException {
 
-        return new TwigBuildParticipant();
-    }
+		return new TwigBuildParticipant();
+	}
 
 }

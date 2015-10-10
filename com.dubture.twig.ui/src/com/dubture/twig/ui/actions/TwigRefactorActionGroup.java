@@ -20,55 +20,47 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import com.dubture.twig.ui.editor.TwigStructuredEditor;
 
 @SuppressWarnings("restriction")
-public class TwigRefactorActionGroup extends ActionGroup
-{
+public class TwigRefactorActionGroup extends ActionGroup {
 
-    private SurroundWithAction surroundAction;
-    private TwigStructuredEditor fEditor;
+	private SurroundWithAction surroundAction;
+	private TwigStructuredEditor fEditor;
 
-    public TwigRefactorActionGroup(TwigStructuredEditor editor)
-    {
-        Assert.isNotNull(editor);
-        this.fEditor = editor;
+	public TwigRefactorActionGroup(TwigStructuredEditor editor) {
+		Assert.isNotNull(editor);
+		this.fEditor = editor;
 
-        surroundAction = new SurroundWithAction(editor );
+		surroundAction = new SurroundWithAction(editor);
 
-    }
+	}
 
-    @Override
-    public void fillContextMenu(IMenuManager menu)
-    {
+	@Override
+	public void fillContextMenu(IMenuManager menu) {
 
-        // super.fillContextMenu(menu);
+		// super.fillContextMenu(menu);
 
-//        IMenuManager target = menu;
-        IMenuManager searchSubMenu = null;
-        if (fEditor != null) {
-            String groupName = "SearchMessages.group_search";
-            searchSubMenu = new MenuManager(groupName,
-                    ITextEditorActionConstants.GROUP_FIND);
-            searchSubMenu.add(new GroupMarker(
-                    ITextEditorActionConstants.GROUP_FIND));
-//            target = searchSubMenu;
-        }
+		// IMenuManager target = menu;
+		IMenuManager searchSubMenu = null;
+		if (fEditor != null) {
+			String groupName = "SearchMessages.group_search";
+			searchSubMenu = new MenuManager(groupName, ITextEditorActionConstants.GROUP_FIND);
+			searchSubMenu.add(new GroupMarker(ITextEditorActionConstants.GROUP_FIND));
+			// target = searchSubMenu;
+		}
 
-        // if (searchSubMenu != null) {
-        // fOccurrencesGroup.fillContextMenu(target);
-        // searchSubMenu.add(new Separator());
-        // }
+		// if (searchSubMenu != null) {
+		// fOccurrencesGroup.fillContextMenu(target);
+		// searchSubMenu.add(new Separator());
+		// }
 
-        // no other way to find out if we have added items.
-        if (searchSubMenu != null && searchSubMenu.getItems().length > 2) {
-            menu.appendToGroup(ITextEditorActionConstants.GROUP_FIND,
-                    searchSubMenu);
-        }
+		// no other way to find out if we have added items.
+		if (searchSubMenu != null && searchSubMenu.getItems().length > 2) {
+			menu.appendToGroup(ITextEditorActionConstants.GROUP_FIND, searchSubMenu);
+		}
 
-        IContributionItem item = menu
-                .find(IContextMenuConstants.GROUP_ADDITIONS);
-        if (item != null) {
-            menu.appendToGroup(IContextMenuConstants.GROUP_ADDITIONS,
-                    surroundAction);
-        }
-    }
+		IContributionItem item = menu.find(IContextMenuConstants.GROUP_ADDITIONS);
+		if (item != null) {
+			menu.appendToGroup(IContextMenuConstants.GROUP_ADDITIONS, surroundAction);
+		}
+	}
 
 }

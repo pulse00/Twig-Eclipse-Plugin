@@ -22,42 +22,37 @@ import com.dubture.twig.ui.TwigUICorePlugin;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class TwigTemplateAccess extends ScriptTemplateAccess
-{
+public class TwigTemplateAccess extends ScriptTemplateAccess {
 
-    private static final String CUSTOM_TEMPLATES_KEY = "com.dubture.twig.Templates"; //$NON-NLS-1$
+	private static final String CUSTOM_TEMPLATES_KEY = "com.dubture.twig.Templates"; //$NON-NLS-1$
 
-    private static TwigTemplateAccess instance;
+	private static TwigTemplateAccess instance;
 
-    public static TwigTemplateAccess getInstance()
-    {
-        if (instance == null) {
-            instance = new TwigTemplateAccess();
-        }
+	public static TwigTemplateAccess getInstance() {
+		if (instance == null) {
+			instance = new TwigTemplateAccess();
+		}
 
-        return instance;
-    }
+		return instance;
+	}
 
-    @Override
-    protected String getContextTypeId()
-    {
+	@Override
+	protected String getContextTypeId() {
 
-        return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
-    }
+		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
+	}
 
-    @Override
-    protected String getCustomTemplatesKey()
-    {
+	@Override
+	protected String getCustomTemplatesKey() {
 
-        return CUSTOM_TEMPLATES_KEY;
+		return CUSTOM_TEMPLATES_KEY;
 
-    }
+	}
 
-    @Override
-    protected IPreferenceStore getPreferenceStore()
-    {
+	@Override
+	protected IPreferenceStore getPreferenceStore() {
 
-        return TwigUICorePlugin.getDefault().getPreferenceStore();
-    }
+		return TwigUICorePlugin.getDefault().getPreferenceStore();
+	}
 
 }

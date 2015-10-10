@@ -152,15 +152,12 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
 		IContentAssistProcessor[] processors = null;
 
-		if (partitionType.equals(TwigPartitionTypes.TWIG_DEFAULT) /*
-																 * ||
-																 * partitionType
-																 * .equals(
-																 * IHTMLPartitions
-																 * .
-																 * HTML_DEFAULT
-																 * )
-																 */) {
+		if (partitionType.equals(
+				TwigPartitionTypes.TWIG_DEFAULT) /*
+													 * || partitionType .equals(
+													 * IHTMLPartitions .
+													 * HTML_DEFAULT )
+													 */) {
 			ArrayList processorsList = getTwigDefaultProcessors(sourceViewer);
 			processors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(processors);
@@ -194,13 +191,14 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		// processors.add(new PHPCompletionProcessor(textEditor,
 		// (ContentAssistant) getPHPContentAssistant(sourceViewer),
 		// TwigPartitionTypes.TWIG_DEFAULT));
-		//        String processorsExtensionName = "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
+		// String processorsExtensionName =
+		// "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
 		//
 		// IConfigurationElement[] elements = Platform.getExtensionRegistry()
 		// .getConfigurationElementsFor(processorsExtensionName);
 		// for (int i = 0; i < elements.length; i++) {
 		// IConfigurationElement element = elements[i];
-		//            if (element.getName().equals("processor")) { //$NON-NLS-1$
+		// if (element.getName().equals("processor")) { //$NON-NLS-1$
 		// ElementCreationProxy ecProxy = new ElementCreationProxy(
 		// element, processorsExtensionName);
 		// IContentAssistProcessor processor = (IContentAssistProcessor) ecProxy
@@ -272,7 +270,8 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 
 				if (hoverDescs[i].isEnabled() && hoverDescs[i].getStateMask() == stateMask) {
 
-					return new PHPTextHoverProxy(hoverDescs[i], ((PHPStructuredTextViewer) sourceViewer).getTextEditor(), fPreferenceStore);
+					return new PHPTextHoverProxy(hoverDescs[i],
+							((PHPStructuredTextViewer) sourceViewer).getTextEditor(), fPreferenceStore);
 				}
 				i++;
 			}
@@ -316,7 +315,8 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 			List<IAutoEditStrategy> strategies = new LinkedList<IAutoEditStrategy>();
 			strategies.add(mainAutoEditStrategy);
 			for (IAutoEditStrategy strategy : autoEditStrategies) {
-				if (strategy instanceof org.eclipse.wst.html.ui.internal.autoedit.AutoEditStrategyForTabs || !(strategy instanceof IAutoEditStrategy)) {
+				if (strategy instanceof org.eclipse.wst.html.ui.internal.autoedit.AutoEditStrategyForTabs
+						|| !(strategy instanceof IAutoEditStrategy)) {
 					continue;
 				}
 				strategies.add(strategy);
@@ -527,8 +527,9 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		}
 
 		private boolean isCanceled(IProgressMonitor progressMonitor) {
-			return fCanceled || progressMonitor.isCanceled() || fPostSelectionValidator != null
-					&& !(fPostSelectionValidator.isValid(fSelection) || fForcedMarkOccurrencesSelection == fSelection)
+			return fCanceled || progressMonitor.isCanceled()
+					|| fPostSelectionValidator != null && !(fPostSelectionValidator.isValid(fSelection)
+							|| fForcedMarkOccurrencesSelection == fSelection)
 					|| LinkedModeModel.hasInstalledModel(fDocument);
 		}
 
@@ -566,18 +567,22 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 				Position position = new Position(location.getOffset(), location.getLength());
 
 				String description = location.getDescription();
-				String annotationType = (location.getFlags() == IOccurrencesFinder.F_WRITE_OCCURRENCE) ? "org.eclipse.php.ui.occurrences.write" : "org.eclipse.php.ui.occurrences"; //$NON-NLS-1$ //$NON-NLS-2$
+				String annotationType = (location.getFlags() == IOccurrencesFinder.F_WRITE_OCCURRENCE)
+						? "org.eclipse.php.ui.occurrences.write" : "org.eclipse.php.ui.occurrences"; //$NON-NLS-1$ //$NON-NLS-2$
 
 				// create an annotation to mark the occurrence
-				ReconcileAnnotationKey reconcileAnnotationKey = new ReconcileAnnotationKey(null, PHPPartitionTypes.PHP_DEFAULT, ReconcileAnnotationKey.TOTAL);
-				TemporaryAnnotation annotation = new TemporaryAnnotation(position, annotationType, description, reconcileAnnotationKey) {
+				ReconcileAnnotationKey reconcileAnnotationKey = new ReconcileAnnotationKey(null,
+						PHPPartitionTypes.PHP_DEFAULT, ReconcileAnnotationKey.TOTAL);
+				TemporaryAnnotation annotation = new TemporaryAnnotation(position, annotationType, description,
+						reconcileAnnotationKey) {
 
 					// Supply an occurrence image to display in the vertical
 					// ruler
 					@Override
 					public void paint(GC gc, Canvas canvas, Rectangle r) {
-						ImageUtilities.drawImage(PHPUiPlugin.getImageDescriptorRegistry().get(PHPPluginImages.DESC_OBJS_OCCURRENCES), gc, canvas, r,
-								SWT.CENTER, SWT.TOP);
+						ImageUtilities.drawImage(
+								PHPUiPlugin.getImageDescriptorRegistry().get(PHPPluginImages.DESC_OBJS_OCCURRENCES), gc,
+								canvas, r, SWT.CENTER, SWT.TOP);
 					}
 
 				};
@@ -589,7 +594,8 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 
 			synchronized (getLockObject(annotationModel)) {
 				if (annotationModel instanceof IAnnotationModelExtension) {
-					((IAnnotationModelExtension) annotationModel).replaceAnnotations(fOccurrenceAnnotations, annotationMap);
+					((IAnnotationModelExtension) annotationModel).replaceAnnotations(fOccurrenceAnnotations,
+							annotationMap);
 				} else {
 					removeOccurrenceAnnotations();
 					for (Map.Entry<Annotation, Position> entry : annotationMap.entrySet()) {

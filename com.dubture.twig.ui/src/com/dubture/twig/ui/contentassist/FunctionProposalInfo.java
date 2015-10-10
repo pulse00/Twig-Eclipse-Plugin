@@ -13,34 +13,30 @@ import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
 
-public class FunctionProposalInfo extends MemberProposalInfo
-{
+public class FunctionProposalInfo extends MemberProposalInfo {
 
-    public FunctionProposalInfo(IScriptProject project,
-            CompletionProposal proposal)
-    {
-        super(project, proposal);
-        // TODO Auto-generated constructor stub
-    }
+	public FunctionProposalInfo(IScriptProject project, CompletionProposal proposal) {
+		super(project, proposal);
+		// TODO Auto-generated constructor stub
+	}
 
-    @Override
-    public String getInfo(IProgressMonitor monitor)
-    {
+	@Override
+	public String getInfo(IProgressMonitor monitor) {
 
-        try {
+		try {
 
-//            Function tag = (Function) getModelElement();
+			// Function tag = (Function) getModelElement();
 
-            // if (tag != null && tag.getPHPClass() != null) {
-            // return tag.getPHPClass() + " <br/><br/>";
-            // }
+			// if (tag != null && tag.getPHPClass() != null) {
+			// return tag.getPHPClass() + " <br/><br/>";
+			// }
 
-            return "";
+			return "";
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return "";
-    }
+		return "";
+	}
 }

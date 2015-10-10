@@ -17,45 +17,40 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 
 @SuppressWarnings("restriction")
-public class FunctionHyperlinkDetector extends AbstractHyperlinkDetector
-{
+public class FunctionHyperlinkDetector extends AbstractHyperlinkDetector {
 
-    public FunctionHyperlinkDetector()
-    {
-    }
+	public FunctionHyperlinkDetector() {
+	}
 
-    @Override
-    public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
-            IRegion region, boolean canShowMultipleHyperlinks)
-    {
+	@Override
+	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 
-        final PHPStructuredEditor editor = org.eclipse.php.internal.ui.util.EditorUtility
-                .getPHPEditor(textViewer);
-        if (editor == null) {
-            return null;
-        }
+		final PHPStructuredEditor editor = org.eclipse.php.internal.ui.util.EditorUtility.getPHPEditor(textViewer);
+		if (editor == null) {
+			return null;
+		}
 
-        if (region == null) {
-            return null;
-        }
+		if (region == null) {
+			return null;
+		}
 
-        IModelElement input = EditorUtility.getEditorInputModelElement(editor,
-                false);
-        if (input == null) {
-            return null;
-        }
+		IModelElement input = EditorUtility.getEditorInputModelElement(editor, false);
+		if (input == null) {
+			return null;
+		}
 
-//        PHPVersion phpVersion = ProjectOptions.getPhpVersion(input
-//                .getScriptProject().getProject());
-//        boolean namespacesSupported = phpVersion.isGreaterThan(PHPVersion.PHP5); // PHP
-//                                                                                    // 5.3
-//                                                                                    // and
-//                                                                                    // greater
-//
-//        IDocument document = textViewer.getDocument();
-//        int offset = region.getOffset();
+		// PHPVersion phpVersion = ProjectOptions.getPhpVersion(input
+		// .getScriptProject().getProject());
+		// boolean namespacesSupported =
+		// phpVersion.isGreaterThan(PHPVersion.PHP5); // PHP
+		// // 5.3
+		// // and
+		// // greater
+		//
+		// IDocument document = textViewer.getDocument();
+		// int offset = region.getOffset();
 
-        return null;
-    }
+		return null;
+	}
 
 }

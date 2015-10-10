@@ -27,44 +27,38 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
-public class FunctionStrategy extends AbstractCompletionStrategy
-{
+@SuppressWarnings({ "restriction", "deprecation" })
+public class FunctionStrategy extends AbstractCompletionStrategy {
 
-    public FunctionStrategy(ICompletionContext context)
-    {
-        super(context);
+	public FunctionStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        try {
+		try {
 
-            FunctionContext ctx = (FunctionContext) getContext();
-            TwigModelAccess model = TwigModelAccess.getDefault();
+			FunctionContext ctx = (FunctionContext) getContext();
+			TwigModelAccess model = TwigModelAccess.getDefault();
 
-            String prefix = ctx.getPrefix();
-            SourceRange range = getReplacementRange(getContext());
+			String prefix = ctx.getPrefix();
+			SourceRange range = getReplacementRange(getContext());
 
-            Function[] functions = model.getFunctions(ctx.getSourceModule()
-                    .getScriptProject());
+			Function[] functions = model.getFunctions(ctx.getSourceModule().getScriptProject());
 
-            for (Function function : functions) {
-                if (CodeAssistUtils.startsWithIgnoreCase(
-                        function.getElementName(), prefix)) {
+			for (Function function : functions) {
+				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {
 
-                    function.setScriptProject(ctx.getSourceModule()
-                            .getScriptProject());
+					function.setScriptProject(ctx.getSourceModule().getScriptProject());
 
-                    reporter.reportType(function, "()", range);
-                }
-            }
+					reporter.reportType(function, "()", range);
+				}
+			}
 
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-    }
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }

@@ -20,9 +20,8 @@ import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStr
  * 
  */
 @SuppressWarnings("restriction")
-public interface ITwigCompletionStrategyFactory
-{
+public interface ITwigCompletionStrategyFactory {
 
-    AbstractCompletionStrategy[] create(ICompletionContext[] contexts);
+	AbstractCompletionStrategy[] create(ICompletionContext[] contexts);
 
 }

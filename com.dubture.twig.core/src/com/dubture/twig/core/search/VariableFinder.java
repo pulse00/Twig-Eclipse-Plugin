@@ -16,34 +16,31 @@ import com.dubture.twig.core.parser.ast.node.Variable;
 /**
  * Finds variable occurrences in a twig template.
  */
-public class VariableFinder extends AbstractOccurrencesFinder
-{
-    private Variable selected = null;
+public class VariableFinder extends AbstractOccurrencesFinder {
+	private Variable selected = null;
 
-    @Override
-    public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode)
-    {
-        this.astRoot = astRoot;
-        if (selectedNode instanceof Variable) {
-            selected = (Variable) selectedNode;
-            return null;
-        }
+	@Override
+	public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode) {
+		this.astRoot = astRoot;
+		if (selectedNode instanceof Variable) {
+			selected = (Variable) selectedNode;
+			return null;
+		}
 
-        return "Variable finder"; //$NON-NLS-1$;
+		return "Variable finder"; //$NON-NLS-1$ ;
 
-    }
+	}
 
-    @Override
-    public boolean visit(Variable s) throws Exception
-    {
-        if (selected == null || !selected.getValue().equals(s.getValue())) {
-            return false;
-        }
+	@Override
+	public boolean visit(Variable s) throws Exception {
+		if (selected == null || !selected.getValue().equals(s.getValue())) {
+			return false;
+		}
 
-        int length = s.sourceEnd() - s.sourceStart();
-        OccurrenceLocation location = new OccurrenceLocation(s.sourceStart(),
-                length, 0, "occurrence of " + s.getValue());
-        locations.add(location);
-        return false;
-    }
+		int length = s.sourceEnd() - s.sourceStart();
+		OccurrenceLocation location = new OccurrenceLocation(s.sourceStart(), length, 0,
+				"occurrence of " + s.getValue());
+		locations.add(location);
+		return false;
+	}
 }

@@ -78,7 +78,7 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 		// Custom filter group
 		// if (fCustomFiltersActionGroup == null) {
 		// fCustomFiltersActionGroup = new CustomFiltersActionGroup(
-		//                    OUTLINE_PAGE, viewer); //$NON-NLS-1$
+		// OUTLINE_PAGE, viewer); //$NON-NLS-1$
 		// }
 		//
 		// final IContributionItem filtersItem = new
@@ -95,7 +95,8 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 	protected IContributionItem[] createToolbarContributions(final TreeViewer viewer) {
 		IContributionItem[] items;
 		// fShowGroupsAction = new ShowGroupsAction("Show Groups", viewer);
-		//        final IContributionItem showGroupsItem = new ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
+		// final IContributionItem showGroupsItem = new
+		// ActionContributionItem(fShowGroupsAction); //$NON-NLS-1$
 
 		// fixed bug 174653
 		// use only the toggleLinking menu and dispose the others
@@ -109,7 +110,7 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 
 		items = super.createToolbarContributions(viewer);
 		if (items == null)
-			items = new IContributionItem[] { sortItem /* , showGroupsItem */};
+			items = new IContributionItem[] { sortItem /* , showGroupsItem */ };
 		else {
 			final IContributionItem[] combinedItems = new IContributionItem[items.length + 2];
 			System.arraycopy(items, 0, combinedItems, 0, items.length);
@@ -132,8 +133,10 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 	public ILabelProvider getLabelProvider(final TreeViewer viewer) {
 
 		if (fLabelProvider == null) {
-			fLabelProvider = new DecoratingModelLabelProvider(new TwigAppearanceAwareLabelProvider(AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
-					| ScriptElementLabels.F_APP_TYPE_SIGNATURE | ScriptElementLabels.ALL_CATEGORY, AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS, fStore));
+			fLabelProvider = new DecoratingModelLabelProvider(new TwigAppearanceAwareLabelProvider(
+					AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS | ScriptElementLabels.F_APP_TYPE_SIGNATURE
+							| ScriptElementLabels.ALL_CATEGORY,
+					AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS, fStore));
 		}
 
 		if (fLabelProviderHTML == null) {
@@ -151,10 +154,11 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 	public ILabelProvider getStatusLineLabelProvider(TreeViewer treeViewer) {
 		if (fSimpleLabelProvider == null) {
 			fSimpleLabelProvider = new ScriptUILabelProvider();
-			fSimpleLabelProvider.setTextFlags(ScriptElementLabels.DEFAULT_QUALIFIED | ScriptElementLabels.ROOT_POST_QUALIFIED
-					| ScriptElementLabels.APPEND_ROOT_PATH | ScriptElementLabels.M_PARAMETER_TYPES | ScriptElementLabels.M_PARAMETER_NAMES
-					| ScriptElementLabels.M_APP_RETURNTYPE | ScriptElementLabels.M_EXCEPTIONS | ScriptElementLabels.F_APP_TYPE_SIGNATURE
-					| ScriptElementLabels.T_TYPE_PARAMETERS);
+			fSimpleLabelProvider.setTextFlags(ScriptElementLabels.DEFAULT_QUALIFIED
+					| ScriptElementLabels.ROOT_POST_QUALIFIED | ScriptElementLabels.APPEND_ROOT_PATH
+					| ScriptElementLabels.M_PARAMETER_TYPES | ScriptElementLabels.M_PARAMETER_NAMES
+					| ScriptElementLabels.M_APP_RETURNTYPE | ScriptElementLabels.M_EXCEPTIONS
+					| ScriptElementLabels.F_APP_TYPE_SIGNATURE | ScriptElementLabels.T_TYPE_PARAMETERS);
 		}
 		return fSimpleLabelProvider;
 	}

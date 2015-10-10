@@ -58,42 +58,38 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
  *
  */
 @SuppressWarnings("restriction")
-public class TwigModelHandler extends AbstractModelHandler
-{
+public class TwigModelHandler extends AbstractModelHandler {
 
-    private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
+	private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
 
-    public TwigModelHandler()
-    {
+	public TwigModelHandler() {
 
-        super();
+		super();
 
-        setId(ModelHandlerID);
-        setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
+		setId(ModelHandlerID);
+		setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 
-    }
+	}
 
-    /*
-     * @Override public IModelLoader getModelLoader() {
-     *
-     * return new TwigModelLoader();
-     *
-     * }
-     */
+	/*
+	 * @Override public IModelLoader getModelLoader() {
+	 *
+	 * return new TwigModelLoader();
+	 *
+	 * }
+	 */
 
-    @Override
-    public IDocumentCharsetDetector getEncodingDetector()
-    {
+	@Override
+	public IDocumentCharsetDetector getEncodingDetector() {
 
-        return new PHPDocumentCharsetDetector();
-    }
+		return new PHPDocumentCharsetDetector();
+	}
 
-    @Override
-    public IDocumentLoader getDocumentLoader()
-    {
+	@Override
+	public IDocumentLoader getDocumentLoader() {
 
-        return new TwigDocumentLoader();
-    }
+		return new TwigDocumentLoader();
+	}
 
 	@Override
 	public IModelLoader getModelLoader() {

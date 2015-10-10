@@ -24,33 +24,29 @@ import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigOutlineLabelProvider extends XMLLabelProvider
-{
+public class TwigOutlineLabelProvider extends XMLLabelProvider {
 
-    private ILabelProvider modelElementLabelProvider;
+	private ILabelProvider modelElementLabelProvider;
 
-    public TwigOutlineLabelProvider(ILabelProvider modelElementLabelProvider)
-    {
-        this.modelElementLabelProvider = modelElementLabelProvider;
-    }
+	public TwigOutlineLabelProvider(ILabelProvider modelElementLabelProvider) {
+		this.modelElementLabelProvider = modelElementLabelProvider;
+	}
 
-    public Image getImage(Object o)
-    {
+	public Image getImage(Object o) {
 
-        if (o instanceof IModelElement) {
-            return modelElementLabelProvider.getImage(o);
-        }
-        return super.getImage(o);
-    }
+		if (o instanceof IModelElement) {
+			return modelElementLabelProvider.getImage(o);
+		}
+		return super.getImage(o);
+	}
 
-    public String getText(Object o)
-    {
+	public String getText(Object o) {
 
-        if (o instanceof ElementImplForTwig) {
-            ElementImplForTwig element = (ElementImplForTwig) o;
-            return element.getTagName();
-        }
+		if (o instanceof ElementImplForTwig) {
+			ElementImplForTwig element = (ElementImplForTwig) o;
+			return element.getTagName();
+		}
 
-        return super.getText(o);
-    }
+		return super.getText(o);
+	}
 }

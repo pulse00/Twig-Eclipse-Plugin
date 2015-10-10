@@ -11,50 +11,46 @@ package com.dubture.twig.core;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dltk.compiler.problem.ProblemSeverity;
 
-public class TwigCorePreferences
-{
+public class TwigCorePreferences {
 
-    /**
-     * Get the severity level for annotation problems.
-     * 
-     * 
-     * @return {@link ProblemSeverity}
-     */
-    public static ProblemSeverity getSyntaxErrorSeverity()
-    {
+	/**
+	 * Get the severity level for annotation problems.
+	 * 
+	 * 
+	 * @return {@link ProblemSeverity}
+	 */
+	public static ProblemSeverity getSyntaxErrorSeverity() {
 
-        try {
+		try {
 
-            // see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
-            if (!TwigCorePlugin.getDefault().isDLTK3()) {
-                return null;
-            }
+			// see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
+			if (!TwigCorePlugin.getDefault().isDLTK3()) {
+				return null;
+			}
 
-            // TODO: check if there's a cleaner way to get the preferences from
-            // the ui
-            // plugin than hardcoding the ID
-            String severity = Platform.getPreferencesService().getString(
-                    "com.dubture.twig.ui",
-                    TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY,
-                    TwigCoreConstants.SYNTAX_WARNING, null);
+			// TODO: check if there's a cleaner way to get the preferences from
+			// the ui
+			// plugin than hardcoding the ID
+			String severity = Platform.getPreferencesService().getString("com.dubture.twig.ui",
+					TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, TwigCoreConstants.SYNTAX_WARNING, null);
 
-            if (severity == null) {
-                severity = TwigCoreConstants.SYNTAX_WARNING;
-            }
+			if (severity == null) {
+				severity = TwigCoreConstants.SYNTAX_WARNING;
+			}
 
-            if (severity.equals(TwigCoreConstants.SYNTAX_ERROR)) {
-                return ProblemSeverity.ERROR;
+			if (severity.equals(TwigCoreConstants.SYNTAX_ERROR)) {
+				return ProblemSeverity.ERROR;
 
-            } else if (severity.equals(TwigCoreConstants.SYNTAX_WARNING)) {
-                return ProblemSeverity.WARNING;
-            }
+			} else if (severity.equals(TwigCoreConstants.SYNTAX_WARNING)) {
+				return ProblemSeverity.WARNING;
+			}
 
-            return ProblemSeverity.IGNORE;
+			return ProblemSeverity.IGNORE;
 
-        } catch (Exception e) {
+		} catch (Exception e) {
 
-        }
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

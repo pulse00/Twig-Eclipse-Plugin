@@ -20,137 +20,119 @@ import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigCallExpression;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
-public abstract class TwigASTVisitor extends ASTVisitor
-{
+public abstract class TwigASTVisitor extends ASTVisitor {
 
-    public boolean visit(PrintStatement s) throws Exception
-    {
-        return visitGeneral(s);
-    }
+	public boolean visit(PrintStatement s) throws Exception {
+		return visitGeneral(s);
+	}
 
-    public boolean endvisit(PrintStatement s) throws Exception
-    {
-        endvisitGeneral(s);
-        return false;
-    }
-    
-    public boolean visit(Variable s) throws Exception
-    {
-        return visitGeneral(s);
-    }
+	public boolean endvisit(PrintStatement s) throws Exception {
+		endvisitGeneral(s);
+		return false;
+	}
 
-    public boolean endvisit(Variable s) throws Exception
-    {
-        endvisitGeneral(s);
-        return false;
-    }
-    
-    public boolean visit(StringLiteral s) throws Exception
-    {
-        return visitGeneral(s);
-    }
+	public boolean visit(Variable s) throws Exception {
+		return visitGeneral(s);
+	}
 
-    public boolean endvisit(StringLiteral s) throws Exception
-    {
-        endvisitGeneral(s);
-        return false;
-    }
-    
-    public boolean visit(BlockName s) throws Exception
-    {
-        return visitGeneral(s);
-    }
+	public boolean endvisit(Variable s) throws Exception {
+		endvisitGeneral(s);
+		return false;
+	}
 
-    public boolean endvisit(BlockName s) throws Exception
-    {
-        endvisitGeneral(s);
-        return false;
-    }
-        
-    public boolean visit(BlockStatement block) throws Exception
-    {        
-       return visitGeneral(block);
-    }
-    
-    public boolean endvisit(BlockStatement block) throws Exception
-    {
-        endvisitGeneral(block);
-        return false;
-    }
+	public boolean visit(StringLiteral s) throws Exception {
+		return visitGeneral(s);
+	}
 
-    public boolean visit(TwigCallExpression s) throws Exception
-    {
-        return visitGeneral(s);
-    }
+	public boolean endvisit(StringLiteral s) throws Exception {
+		endvisitGeneral(s);
+		return false;
+	}
 
-    public boolean endvisit(TwigCallExpression s) throws Exception
-    {
-        endvisitGeneral(s);
-        return false;
-    }
-    
-    
-    public boolean visit(Expression s) throws Exception
-    {
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(Variable.class)) {
-            return visit((Variable)s);
-        } else if (nodeClass.equals(BlockName.class)) {
-            return visit((BlockName)s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return visit((TwigCallExpression) s);
-        } else if (nodeClass.equals(StringLiteral.class)) {
-            return visit((StringLiteral)s);
-        }
+	public boolean visit(BlockName s) throws Exception {
+		return visitGeneral(s);
+	}
 
-        return true;
+	public boolean endvisit(BlockName s) throws Exception {
+		endvisitGeneral(s);
+		return false;
+	}
 
-    }
+	public boolean visit(BlockStatement block) throws Exception {
+		return visitGeneral(block);
+	}
 
-    public boolean endvisit(Expression s) throws Exception
-    {
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(Variable.class)) {
-            return endvisit((Variable)s);
-        } else if (nodeClass.equals(BlockName.class)) {
-            return endvisit((BlockName)s);
-        } else if (nodeClass.equals(TwigCallExpression.class)) {
-            return endvisit((TwigCallExpression) s);
-        } else if (nodeClass.equals(StringLiteral.class)) {
-            return endvisit((StringLiteral)s);
-        }
-        return true;
+	public boolean endvisit(BlockStatement block) throws Exception {
+		endvisitGeneral(block);
+		return false;
+	}
 
-    } 
-    
-    public boolean visit(Statement s) throws Exception
-    {
+	public boolean visit(TwigCallExpression s) throws Exception {
+		return visitGeneral(s);
+	}
 
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(PrintStatement.class)) {
-            return visit((PrintStatement) s);
-        } else if (nodeClass.equals(BlockStatement.class)) {
-            return visit((BlockStatement)s);
-        } else if (nodeClass.equals(Variable.class)) {
-            return visit((Variable)s);
-        }
+	public boolean endvisit(TwigCallExpression s) throws Exception {
+		endvisitGeneral(s);
+		return false;
+	}
 
-        return true;
-    }
-    
-    @Override
-    public boolean endvisit(Statement s) throws Exception
-    {
+	public boolean visit(Expression s) throws Exception {
+		Class<? extends ASTNode> nodeClass = s.getClass();
+		if (nodeClass.equals(Variable.class)) {
+			return visit((Variable) s);
+		} else if (nodeClass.equals(BlockName.class)) {
+			return visit((BlockName) s);
+		} else if (nodeClass.equals(TwigCallExpression.class)) {
+			return visit((TwigCallExpression) s);
+		} else if (nodeClass.equals(StringLiteral.class)) {
+			return visit((StringLiteral) s);
+		}
 
-        Class<? extends ASTNode> nodeClass = s.getClass();
-        if (nodeClass.equals(PrintStatement.class)) {
-            return endvisit((PrintStatement) s);
-        } else if (nodeClass.equals(BlockStatement.class)) {
-            return endvisit((BlockStatement)s);
-        } else if (nodeClass.equals(Variable.class)) {
-            return endvisit((Variable)s);
-        }
-        
-        return true;
-    }
+		return true;
+
+	}
+
+	public boolean endvisit(Expression s) throws Exception {
+		Class<? extends ASTNode> nodeClass = s.getClass();
+		if (nodeClass.equals(Variable.class)) {
+			return endvisit((Variable) s);
+		} else if (nodeClass.equals(BlockName.class)) {
+			return endvisit((BlockName) s);
+		} else if (nodeClass.equals(TwigCallExpression.class)) {
+			return endvisit((TwigCallExpression) s);
+		} else if (nodeClass.equals(StringLiteral.class)) {
+			return endvisit((StringLiteral) s);
+		}
+		return true;
+
+	}
+
+	public boolean visit(Statement s) throws Exception {
+
+		Class<? extends ASTNode> nodeClass = s.getClass();
+		if (nodeClass.equals(PrintStatement.class)) {
+			return visit((PrintStatement) s);
+		} else if (nodeClass.equals(BlockStatement.class)) {
+			return visit((BlockStatement) s);
+		} else if (nodeClass.equals(Variable.class)) {
+			return visit((Variable) s);
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean endvisit(Statement s) throws Exception {
+
+		Class<? extends ASTNode> nodeClass = s.getClass();
+		if (nodeClass.equals(PrintStatement.class)) {
+			return endvisit((PrintStatement) s);
+		} else if (nodeClass.equals(BlockStatement.class)) {
+			return endvisit((BlockStatement) s);
+		} else if (nodeClass.equals(Variable.class)) {
+			return endvisit((Variable) s);
+		}
+
+		return true;
+	}
 }

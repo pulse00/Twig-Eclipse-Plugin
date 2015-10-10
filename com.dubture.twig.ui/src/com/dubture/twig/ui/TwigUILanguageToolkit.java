@@ -17,33 +17,27 @@ import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.core.TwigLanguageToolkit;
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 
-public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit
-{
+public class TwigUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
 
-    private static TwigUILanguageToolkit sToolkit = new TwigUILanguageToolkit();
+	private static TwigUILanguageToolkit sToolkit = new TwigUILanguageToolkit();
 
-    public static IDLTKUILanguageToolkit getInstance()
-    {
-        return sToolkit;
-    }
+	public static IDLTKUILanguageToolkit getInstance() {
+		return sToolkit;
+	}
 
-    public IDLTKLanguageToolkit getCoreToolkit()
-    {
-        return TwigLanguageToolkit.getDefault();
-    }
+	public IDLTKLanguageToolkit getCoreToolkit() {
+		return TwigLanguageToolkit.getDefault();
+	}
 
-    public IPreferenceStore getPreferenceStore()
-    {
-        return TwigUICorePlugin.getDefault().getPreferenceStore();
-    }
+	public IPreferenceStore getPreferenceStore() {
+		return TwigUICorePlugin.getDefault().getPreferenceStore();
+	}
 
-    public String getPartitioningId()
-    {
-        return TwigPartitionTypes.TWIG_DEFAULT;
-    }
+	public String getPartitioningId() {
+		return TwigPartitionTypes.TWIG_DEFAULT;
+	}
 
-    public String getEditorId(Object inputElement)
-    {
-        return TwigCorePlugin.EDITOR_ID;
-    }
+	public String getEditorId(Object inputElement) {
+		return TwigCorePlugin.EDITOR_ID;
+	}
 }

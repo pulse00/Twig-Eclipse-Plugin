@@ -17,37 +17,33 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class CallFinder extends AbstractOccurrencesFinder
-{
+public class CallFinder extends AbstractOccurrencesFinder {
 
-    private TwigCallExpression call;
+	private TwigCallExpression call;
 
-    @Override
-    public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode)
-    {
-        this.astRoot = astRoot;
-        if (selectedNode instanceof TwigCallExpression) {
-            call = (TwigCallExpression) selectedNode;
-            return null;
-        }
-        return "Twig call expression finder";
-    }
+	@Override
+	public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode) {
+		this.astRoot = astRoot;
+		if (selectedNode instanceof TwigCallExpression) {
+			call = (TwigCallExpression) selectedNode;
+			return null;
+		}
+		return "Twig call expression finder";
+	}
 
+	@Override
+	public boolean visit(TwigCallExpression s) throws Exception {
+		if (call == null || !call.getName().equals(s.getName())) {
+			// let the visitor traverse deeper inside the call
+			// as there might still be occurrences inside
+			return true;
+		}
 
-    @Override
-    public boolean visit(TwigCallExpression s) throws Exception
-    {
-        if (call == null || !call.getName().equals(s.getName())) {
-            // let the visitor traverse deeper inside the call
-            // as there might still be occurrences inside
-            return true;
-        }
+		int length = s.getName().length();
+		OccurrenceLocation location = new OccurrenceLocation(s.sourceStart(), length, 0,
+				"occurrence of " + s.getName());
+		locations.add(location);
 
-        int length = s.getName().length();
-        OccurrenceLocation location = new OccurrenceLocation(s.sourceStart(),
-                length, 0, "occurrence of " + s.getName());
-        locations.add(location);
-
-        return false;
-    }
+		return false;
+	}
 }

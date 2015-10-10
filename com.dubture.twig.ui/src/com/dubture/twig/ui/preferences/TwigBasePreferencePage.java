@@ -50,18 +50,20 @@ public class TwigBasePreferencePage extends PreferencePage implements IWorkbench
 		Composite result = new Composite(parent, SWT.NONE);
 		GridLayout layout = GridLayoutFactory.fillDefaults().numColumns(1).create();
 		result.setLayout(layout);
-		
+
 		Link link = new Link(result, SWT.WRAP);
-		link.setText("The Twig Editor shares its settings with the PHP formatter options. See the PHP <a>Code Style</a> preference page to configure it.");
+		link.setText(
+				"The Twig Editor shares its settings with the PHP formatter options. See the PHP <a>Code Style</a> preference page to configure it.");
 		link.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String id = "org.eclipse.php.ui.preferences.PHPFormatterPreferencePage";
-				PreferenceDialog preferenceDialog = PreferencesUtil.createPreferenceDialogOn(getShell(), id, new String[] {}, null);
+				PreferenceDialog preferenceDialog = PreferencesUtil.createPreferenceDialogOn(getShell(), id,
+						new String[] {}, null);
 				preferenceDialog.open();
 			}
 		});
-		
+
 		GridDataFactory.fillDefaults().grab(true, false).hint(400, SWT.DEFAULT).applyTo(link);
 
 		return result;

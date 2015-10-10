@@ -23,29 +23,25 @@ import com.dubture.twig.core.documentModel.DOMModelForTwig;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigModelLoader extends HTMLModelLoader
-{
+public class TwigModelLoader extends HTMLModelLoader {
 
-    @Override
-    public IDocumentLoader getDocumentLoader()
-    {
+	@Override
+	public IDocumentLoader getDocumentLoader() {
 
-        if (documentLoaderInstance == null) {
-            documentLoaderInstance = new TwigDocumentLoader();
-        }
-        return documentLoaderInstance;
-    }
+		if (documentLoaderInstance == null) {
+			documentLoaderInstance = new TwigDocumentLoader();
+		}
+		return documentLoaderInstance;
+	}
 
-    @Override
-    public IModelLoader newInstance()
-    {
+	@Override
+	public IModelLoader newInstance() {
 
-        return new TwigModelLoader();
-    }
+		return new TwigModelLoader();
+	}
 
-    public IStructuredModel newModel()
-    {
-        return new DOMModelForTwig();
-    }
+	public IStructuredModel newModel() {
+		return new DOMModelForTwig();
+	}
 
 }

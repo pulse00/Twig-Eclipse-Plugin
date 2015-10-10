@@ -18,34 +18,30 @@ import org.w3c.dom.Document;
 import com.dubture.twig.core.documentModel.dom.DOMDocumentForTwig;
 
 @SuppressWarnings("restriction")
-public class DOMModelForTwig extends DOMModelForPHP
-{
+public class DOMModelForTwig extends DOMModelForPHP {
 
-    protected Document internalCreateDocument()
-    {
-        DOMDocumentForTwig document = new DOMDocumentForTwig();
-        document.setModel(this);
-        return document;
-    }
+	protected Document internalCreateDocument() {
+		DOMDocumentForTwig document = new DOMDocumentForTwig();
+		document.setModel(this);
+		return document;
+	}
 
-    protected XMLModelParser createModelParser()
-    {
+	protected XMLModelParser createModelParser() {
 
-        return new TwigDOMModelParser(this);
-    }
+		return new TwigDOMModelParser(this);
+	}
 
-    protected XMLModelUpdater createModelUpdater()
-    {
-        return new TwigDOMModelUpdater(this);
-    }
-    @Override
-    public IndexedRegion getIndexedRegion(int offset)
-    {
-        IndexedRegion result = super.getIndexedRegion(offset);
-        if (result == null && offset == getDocument().getEndOffset()) {
-            return (IDOMNode) getDocument().getLastChild();
-        }
-        return super.getIndexedRegion(offset);
-    }
+	protected XMLModelUpdater createModelUpdater() {
+		return new TwigDOMModelUpdater(this);
+	}
+
+	@Override
+	public IndexedRegion getIndexedRegion(int offset) {
+		IndexedRegion result = super.getIndexedRegion(offset);
+		if (result == null && offset == getDocument().getEndOffset()) {
+			return (IDOMNode) getDocument().getLastChild();
+		}
+		return super.getIndexedRegion(offset);
+	}
 
 }

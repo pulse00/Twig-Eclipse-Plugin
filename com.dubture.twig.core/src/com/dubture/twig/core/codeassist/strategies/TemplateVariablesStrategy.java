@@ -26,34 +26,29 @@ import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
-public class TemplateVariablesStrategy extends GlobalElementStrategy
-{
+@SuppressWarnings({ "restriction", "deprecation" })
+public class TemplateVariablesStrategy extends GlobalElementStrategy {
 
-    public TemplateVariablesStrategy(ICompletionContext context)
-    {
-        super(context);
+	public TemplateVariablesStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        ICompletionContext context = getContext();
-        AbstractTwigCompletionContext abstractContext = (AbstractTwigCompletionContext) context;
-        String prefix = abstractContext.getPrefix();
+		ICompletionContext context = getContext();
+		AbstractTwigCompletionContext abstractContext = (AbstractTwigCompletionContext) context;
+		String prefix = abstractContext.getPrefix();
 
-        IField[] fields = PHPModelUtils.getFileFields(
-                abstractContext.getSourceModule(), prefix, false, null);
+		IField[] fields = PHPModelUtils.getFileFields(abstractContext.getSourceModule(), prefix, false, null);
 
-        SourceRange replaceRange = getReplacementRange(context);
+		SourceRange replaceRange = getReplacementRange(context);
 
-        for (IModelElement var : fields) {
-            if (CodeAssistUtils.startsWithIgnoreCase(var.getElementName(),
-                    prefix))
-                reporter.reportField((IField) var, "", replaceRange, false);
-        }
+		for (IModelElement var : fields) {
+			if (CodeAssistUtils.startsWithIgnoreCase(var.getElementName(), prefix))
+				reporter.reportField((IField) var, "", replaceRange, false);
+		}
 
-    }
+	}
 }

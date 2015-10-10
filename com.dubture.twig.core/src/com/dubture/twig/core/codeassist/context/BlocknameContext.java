@@ -23,56 +23,56 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
  *
  */
 @SuppressWarnings("restriction")
-public class BlocknameContext extends AbstractTwigCompletionContext
-{
+public class BlocknameContext extends AbstractTwigCompletionContext {
 
-    protected TwigModuleDeclaration module;
-    
-    /* (non-Javadoc)
-     * @see com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext#isValid(org.eclipse.dltk.core.ISourceModule, int, org.eclipse.dltk.core.CompletionRequestor)
-     */
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
-        if (super.isValid(sourceModule, offset, requestor) == false) {
-            return false;
-        }
-        
-        try {
-            if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
-                return false;
-            }
+	protected TwigModuleDeclaration module;
 
-            String prefix = getStatementText().toString();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext#
+	 * isValid(org.eclipse.dltk.core.ISourceModule, int,
+	 * org.eclipse.dltk.core.CompletionRequestor)
+	 */
+	@Override
+	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
+		if (super.isValid(sourceModule, offset, requestor) == false) {
+			return false;
+		}
 
-            if (!prefix.contains(".") && !prefix.contains("\"")
-                    && !prefix.contains("'")) {
-                
-                String previous = getPreviousWord();
-                
-                if (previous == null || "block".equals(previous) == false) {
-                    return false;
-                }
-                
-                module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule) getSourceModule());
-                
-                for(BlockStatement block : module.getBlocks()) {
-                    if ("extends".equals(block.getName().getValue())) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-        
-        return false;
-    }
-    
-    public TwigModuleDeclaration getModule()
-    {
-        return module;
-    }
+		try {
+			if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+				return false;
+			}
+
+			String prefix = getStatementText().toString();
+
+			if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {
+
+				String previous = getPreviousWord();
+
+				if (previous == null || "block".equals(previous) == false) {
+					return false;
+				}
+
+				module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule) getSourceModule());
+
+				for (BlockStatement block : module.getBlocks()) {
+					if ("extends".equals(block.getName().getValue())) {
+						return true;
+					}
+				}
+				return false;
+			}
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+
+		return false;
+	}
+
+	public TwigModuleDeclaration getModule() {
+		return module;
+	}
 }

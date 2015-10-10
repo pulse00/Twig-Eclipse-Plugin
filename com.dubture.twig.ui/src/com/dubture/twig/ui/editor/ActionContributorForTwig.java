@@ -18,15 +18,13 @@ import org.eclipse.php.internal.ui.editor.ActionContributorForPhp;
  * 
  */
 @SuppressWarnings("restriction")
-public class ActionContributorForTwig extends ActionContributorForPhp
-{
+public class ActionContributorForTwig extends ActionContributorForPhp {
 
-    private static final String[] EDITOR_IDS = {
-            "com.dubture.twig.core.twigtemplate", "org.eclipse.wst.sse.ui.StructuredTextEditor"}; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] EDITOR_IDS = { "com.dubture.twig.core.twigtemplate", //$NON-NLS-1$
+			"org.eclipse.wst.sse.ui.StructuredTextEditor" }; //$NON-NLS-1$
 
-    protected String[] getExtensionIDs()
-    {
-        return EDITOR_IDS;
-    }
+	protected String[] getExtensionIDs() {
+		return EDITOR_IDS;
+	}
 
 }

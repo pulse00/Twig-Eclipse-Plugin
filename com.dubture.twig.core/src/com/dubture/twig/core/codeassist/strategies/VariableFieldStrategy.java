@@ -22,20 +22,17 @@ import com.dubture.twig.core.codeassist.context.VariableFieldContext;
  * 
  */
 @SuppressWarnings("restriction")
-public class VariableFieldStrategy extends AbstractTwigCompletionStrategy
-{
+public class VariableFieldStrategy extends AbstractTwigCompletionStrategy {
 
-    public VariableFieldStrategy(ICompletionContext context)
-    {
-        super(context);
+	public VariableFieldStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        // VariableFieldContext ctx = (VariableFieldContext) getContext();
+		// VariableFieldContext ctx = (VariableFieldContext) getContext();
 
-    }
+	}
 }

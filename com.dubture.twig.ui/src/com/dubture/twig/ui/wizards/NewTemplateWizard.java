@@ -17,18 +17,15 @@ import com.dubture.twig.ui.TwigPluginImages;
 /**
  * 
  */
-public class NewTemplateWizard extends NewSourceModuleWizard
-{
+public class NewTemplateWizard extends NewSourceModuleWizard {
 
-    public NewTemplateWizard()
-    {
-        setDefaultPageImageDescriptor(TwigPluginImages.DESC_WIZBAN_ADD_TWIG_FILE);       
-    }
-    
-    @Override
-    protected NewSourceModulePage createNewSourceModulePage()
-    {   
-        Logger.debugMSG("Creating twig wizard first page");
-        return new TwigNewFileWizardPage(getSelection());        
-    }
+	public NewTemplateWizard() {
+		setDefaultPageImageDescriptor(TwigPluginImages.DESC_WIZBAN_ADD_TWIG_FILE);
+	}
+
+	@Override
+	protected NewSourceModulePage createNewSourceModulePage() {
+		Logger.debugMSG("Creating twig wizard first page");
+		return new TwigNewFileWizardPage(getSelection());
+	}
 }

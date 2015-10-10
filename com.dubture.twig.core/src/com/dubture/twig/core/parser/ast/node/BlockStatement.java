@@ -15,112 +15,99 @@ import org.eclipse.dltk.ast.statements.Statement;
 
 import com.dubture.twig.core.TwigCoreConstants;
 
-public class BlockStatement extends Statement
-{
+public class BlockStatement extends Statement {
 
-    protected final BlockName name;
-    private final List<Statement> statements;
+	protected final BlockName name;
+	private final List<Statement> statements;
 
-    public BlockStatement(int startIndex, int stopIndex, BlockName name2,
-            List<Statement> statements)
-    {
-        super(startIndex, stopIndex);        
-        this.name = name2;
-        this.statements = statements;
+	public BlockStatement(int startIndex, int stopIndex, BlockName name2, List<Statement> statements) {
+		super(startIndex, stopIndex);
+		this.name = name2;
+		this.statements = statements;
 
+	}
 
-    }
+	public BlockName getName() {
+		return name;
+	}
 
-    public BlockName getName()
-    {
-        return name;
-    }
+	public void traverse(ASTVisitor visitor) throws Exception {
+		final boolean visit = visitor.visit(this);
+		if (visit) {
 
-    public void traverse(ASTVisitor visitor) throws Exception
-    {
-        final boolean visit = visitor.visit(this);
-        if (visit) {
-            
-            name.traverse(visitor);
-            
-            if (statements != null) {
-                for (Statement exp : statements) {
-                    exp.traverse(visitor);
-                }
-            }
-        }
-        visitor.endvisit(this);
-    }
+			name.traverse(visitor);
 
-    public Statement getFirstChild()
-    {
-        if (statements != null && statements.size() > 0) {
-            return statements.get(0);
-        }
+			if (statements != null) {
+				for (Statement exp : statements) {
+					exp.traverse(visitor);
+				}
+			}
+		}
+		visitor.endvisit(this);
+	}
 
-        return null;
+	public Statement getFirstChild() {
+		if (statements != null && statements.size() > 0) {
+			return statements.get(0);
+		}
 
-    }
-    
-    @Override
-    @SuppressWarnings("rawtypes")
-    public List getChilds()
-    {
-        return statements;
-    }
+		return null;
 
-    /**
-     * Get the BlockName variable: {% block NAME %}
-     * 
-     * @return the first block variable or null if none available
-     */
-    public Variable getBlockName()
-    {
-        Statement first = getFirstChild();
-        
-        if (first == null) {
-            return null;
-        }
-        Statement statement = first;
+	}
 
-        if (statement instanceof Variable) {
-            return (Variable) statement;
-        }
-        return null;
-    }
+	@Override
+	@SuppressWarnings("rawtypes")
+	public List getChilds() {
+		return statements;
+	}
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.BLOCK_STATEMENT;
-    }
-    
-    public boolean isBlock() 
-    {
-        if (name == null) {
-            return false;
-        }
-        
-        return TwigCoreConstants.START_BLOCK.equals(name.getValue());
-    }
-    
-    public boolean isExtends()
-    {
-        if (name == null) {
-            return false;
-        }
-        
-        return TwigCoreConstants.EXTENDS.equals(name.getValue());
-    }
-    
-    public String getTag()
-    {
-        BlockName name = getName();
-        
-        if (name == null) {
-            return "";
-        }
-        
-        return name.getValue();
-    }
+	/**
+	 * Get the BlockName variable: {% block NAME %}
+	 * 
+	 * @return the first block variable or null if none available
+	 */
+	public Variable getBlockName() {
+		Statement first = getFirstChild();
+
+		if (first == null) {
+			return null;
+		}
+		Statement statement = first;
+
+		if (statement instanceof Variable) {
+			return (Variable) statement;
+		}
+		return null;
+	}
+
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.BLOCK_STATEMENT;
+	}
+
+	public boolean isBlock() {
+		if (name == null) {
+			return false;
+		}
+
+		return TwigCoreConstants.START_BLOCK.equals(name.getValue());
+	}
+
+	public boolean isExtends() {
+		if (name == null) {
+			return false;
+		}
+
+		return TwigCoreConstants.EXTENDS.equals(name.getValue());
+	}
+
+	public String getTag() {
+		BlockName name = getName();
+
+		if (name == null) {
+			return "";
+		}
+
+		return name.getValue();
+	}
 }

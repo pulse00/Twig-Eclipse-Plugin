@@ -24,31 +24,27 @@ import com.dubture.twig.core.codeassist.context.KeywordContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
-public class KeywordStrategy extends AbstractTwigCompletionStrategy
-{
+@SuppressWarnings({ "restriction", "deprecation" })
+public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
-    private String[] KEYWORDS = new String[]{"as", "in", "true", "false", "as",
-            "with"};
+	private String[] KEYWORDS = new String[] { "as", "in", "true", "false", "as", "with" };
 
-    public KeywordStrategy(ICompletionContext context)
-    {
-        super(context);
+	public KeywordStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        KeywordContext ctx = (KeywordContext) getContext();
-        String prefix = ctx.getPrefix();
-        SourceRange range = getReplacementRange(getContext());
+		KeywordContext ctx = (KeywordContext) getContext();
+		String prefix = ctx.getPrefix();
+		SourceRange range = getReplacementRange(getContext());
 
-        for (String keyword : KEYWORDS) {
-            if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
-                reporter.reportKeyword(keyword, "", range);
-            }
-        }
-    }
+		for (String keyword : KEYWORDS) {
+			if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
+				reporter.reportKeyword(keyword, "", range);
+			}
+		}
+	}
 }

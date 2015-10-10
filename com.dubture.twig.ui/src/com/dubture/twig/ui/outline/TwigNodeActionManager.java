@@ -18,31 +18,28 @@ import org.eclipse.wst.html.ui.internal.contentoutline.HTMLNodeActionManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 
 @SuppressWarnings("restriction")
-public class TwigNodeActionManager extends HTMLNodeActionManager
-{
+public class TwigNodeActionManager extends HTMLNodeActionManager {
 
-    // An action group used for generating the standard options
-    private CompositeActionGroup fActionGroup = new CompositeActionGroup();
+	// An action group used for generating the standard options
+	private CompositeActionGroup fActionGroup = new CompositeActionGroup();
 
-    public TwigNodeActionManager(IStructuredModel model, Viewer viewer)
-    {
-        super(model, viewer);
-    }
+	public TwigNodeActionManager(IStructuredModel model, Viewer viewer) {
+		super(model, viewer);
+	}
 
-    public void fillContextMenu(IMenuManager menuManager, ISelection selection)
-    {
-        // check the selection type - only if the underlying resource is a
-        // ModelElement
-        // the standard options are propagated
-        if (selection instanceof TreeSelection) {
-            Object firstElement = ((TreeSelection) selection).getFirstElement();
-            if (firstElement instanceof ModelElement) {
-                fActionGroup.fillContextMenu(menuManager);
-                return;
-            }
-        }
-        // if the selection is not a ModelElement - generate the HTML options
-        super.fillContextMenu(menuManager, selection);
-    }
+	public void fillContextMenu(IMenuManager menuManager, ISelection selection) {
+		// check the selection type - only if the underlying resource is a
+		// ModelElement
+		// the standard options are propagated
+		if (selection instanceof TreeSelection) {
+			Object firstElement = ((TreeSelection) selection).getFirstElement();
+			if (firstElement instanceof ModelElement) {
+				fActionGroup.fillContextMenu(menuManager);
+				return;
+			}
+		}
+		// if the selection is not a ModelElement - generate the HTML options
+		super.fillContextMenu(menuManager, selection);
+	}
 
 }

@@ -24,80 +24,68 @@ import org.json.simple.JSONObject;
  * 
  */
 @SuppressWarnings("restriction")
-public abstract class TwigType extends SourceType
-{
+public abstract class TwigType extends SourceType {
 
-    public static final String PHPCLASS = "phpClass";
-    public static final String DOC = "doc";
-    public static final String ARGS = "args";
-    public static final String INTERNAL = "internal";
-    public static final String IS_OPEN_CLOSE = "is_open_close";
+	public static final String PHPCLASS = "phpClass";
+	public static final String DOC = "doc";
+	public static final String ARGS = "args";
+	public static final String INTERNAL = "internal";
+	public static final String IS_OPEN_CLOSE = "is_open_close";
 
-    protected String phpClass;
-    protected String internalFunction;
-    protected String description;
+	protected String phpClass;
+	protected String internalFunction;
+	protected String description;
 
-    public TwigType(ModelElement parent, String name)
-    {
-        super(parent, name);
+	public TwigType(ModelElement parent, String name) {
+		super(parent, name);
 
-    }
+	}
 
-    public String getPhpClass()
-    {
-        return phpClass;
-    }
+	public String getPhpClass() {
+		return phpClass;
+	}
 
-    public void setPhpClass(String phpClass)
-    {
-        this.phpClass = phpClass;
-    }
+	public void setPhpClass(String phpClass) {
+		this.phpClass = phpClass;
+	}
 
-    public String getInternalFunction()
-    {
-        return internalFunction;
-    }
+	public String getInternalFunction() {
+		return internalFunction;
+	}
 
-    public void setInternalFunction(String internalFunction)
-    {
-        this.internalFunction = internalFunction;
-    }
+	public void setInternalFunction(String internalFunction) {
+		this.internalFunction = internalFunction;
+	}
 
-    @Override
-    public int getFlags() throws ModelException
-    {
+	@Override
+	public int getFlags() throws ModelException {
 
-        return Modifiers.AccPublic;
-    }
+		return Modifiers.AccPublic;
+	}
 
-    @Override
-    public Object getElementInfo() throws ModelException
-    {
+	@Override
+	public Object getElementInfo() throws ModelException {
 
-        return new FakeTypeElementInfo();
-    }
+		return new FakeTypeElementInfo();
+	}
 
-    @Override
-    protected Object openWhenClosed(Object info, IProgressMonitor monitor)
-            throws ModelException
-    {
+	@Override
+	protected Object openWhenClosed(Object info, IProgressMonitor monitor) throws ModelException {
 
-        return new FakeTypeElementInfo();
+		return new FakeTypeElementInfo();
 
-    }
+	}
 
-    public String getDescription()
-    {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public abstract String getMetadata();
+	public abstract String getMetadata();
 
-    public abstract void setMetadata(JSONObject data);
+	public abstract void setMetadata(JSONObject data);
 
 }

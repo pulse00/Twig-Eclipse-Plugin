@@ -23,144 +23,130 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 @SuppressWarnings("restriction")
-public abstract class TwigCallable extends TwigType
-{
+public abstract class TwigCallable extends TwigType {
 
-    protected PHPDocBlock doc;
-    protected JSONArray filterArguments = new JSONArray();
-    protected Map<String, String> arguments = new HashMap<String, String>();
-    protected IScriptProject _project;
+	protected PHPDocBlock doc;
+	protected JSONArray filterArguments = new JSONArray();
+	protected Map<String, String> arguments = new HashMap<String, String>();
+	protected IScriptProject _project;
 
-    public TwigCallable(ModelElement parent, String name)
-    {
-        super(parent, name);
+	public TwigCallable(ModelElement parent, String name) {
+		super(parent, name);
 
-    }
+	}
 
-    protected String getDocString()
-    {
+	protected String getDocString() {
 
-        if (description != null)
-            return description;
+		if (description != null)
+			return description;
 
-        if (doc == null)
-            return "";
+		if (doc == null)
+			return "";
 
-        String longDesc = doc.getLongDescription() != null ? doc
-                .getLongDescription() : "";
-        String shortDesc = doc.getShortDescription() != null ? doc
-                .getShortDescription() : "";
+		String longDesc = doc.getLongDescription() != null ? doc.getLongDescription() : "";
+		String shortDesc = doc.getShortDescription() != null ? doc.getShortDescription() : "";
 
-        description = longDesc + shortDesc;
-        return description;
+		description = longDesc + shortDesc;
+		return description;
 
-    }
+	}
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void setMetadata(JSONObject data)
-    {
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void setMetadata(JSONObject data) {
 
-        phpClass = (String) data.get(PHPCLASS);
-        description = (String) data.get(DOC);
-        filterArguments = (JSONArray) data.get(ARGS);
-        internalFunction = (String) data.get(INTERNAL);
+		phpClass = (String) data.get(PHPCLASS);
+		description = (String) data.get(DOC);
+		filterArguments = (JSONArray) data.get(ARGS);
+		internalFunction = (String) data.get(INTERNAL);
 
-        for (Object o : filterArguments) {
+		for (Object o : filterArguments) {
 
-            JSONObject json = (JSONObject) o;
+			JSONObject json = (JSONObject) o;
 
-            if (json == null)
-                continue;
+			if (json == null)
+				continue;
 
-            Iterator it = json.keySet().iterator();
+			Iterator it = json.keySet().iterator();
 
-            while (it.hasNext()) {
+			while (it.hasNext()) {
 
-                String param = (String) it.next();
-                String def = (String) json.get(param);
-                arguments.put(param, def);
+				String param = (String) it.next();
+				String def = (String) json.get(param);
+				arguments.put(param, def);
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public void addArgs(List arguments)
-    {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void addArgs(List arguments) {
 
-        JSONArray args = new JSONArray();
+		JSONArray args = new JSONArray();
 
-        for (Object o : arguments) {
+		for (Object o : arguments) {
 
-            FormalParameter param = (FormalParameter) o;
+			FormalParameter param = (FormalParameter) o;
 
-            if (param == null)
-                continue;
+			if (param == null)
+				continue;
 
-            JSONObject arg = new JSONObject();
-            ASTNode init = param.getInitialization();
+			JSONObject arg = new JSONObject();
+			ASTNode init = param.getInitialization();
 
-            String defaultValue = init != null
-                    ? init.getClass().toString()
-                    : "";
+			String defaultValue = init != null ? init.getClass().toString() : "";
 
-            if (init instanceof Scalar) {
-                Scalar scalar = (Scalar) init;
-                defaultValue = scalar.getValue();
+			if (init instanceof Scalar) {
+				Scalar scalar = (Scalar) init;
+				defaultValue = scalar.getValue();
 
-            }
+			}
 
-            this.arguments.put(param.getName(), defaultValue);
-            arg.put(param.getName(), defaultValue);
-            args.add(arg);
+			this.arguments.put(param.getName(), defaultValue);
+			arg.put(param.getName(), defaultValue);
+			args.add(arg);
 
-        }
+		}
 
-        filterArguments = args;
+		filterArguments = args;
 
-    }
+	}
 
-    public Map<String, String> getArguments()
-    {
+	public Map<String, String> getArguments() {
 
-        return arguments;
+		return arguments;
 
-    }
+	}
 
-    public void setScriptProject(IScriptProject scriptProject)
-    {
+	public void setScriptProject(IScriptProject scriptProject) {
 
-        _project = scriptProject;
+		_project = scriptProject;
 
-    }
+	}
 
-    public IScriptProject getScriptProject()
-    {
-        return _project;
-    }
+	public IScriptProject getScriptProject() {
+		return _project;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public String getMetadata()
-    {
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getMetadata() {
 
-        JSONObject data = new JSONObject();
-        data.put(PHPCLASS, phpClass);
-        data.put(DOC, getDocString());
-        data.put(ARGS, filterArguments);
-        data.put(INTERNAL, internalFunction);
+		JSONObject data = new JSONObject();
+		data.put(PHPCLASS, phpClass);
+		data.put(DOC, getDocString());
+		data.put(ARGS, filterArguments);
+		data.put(INTERNAL, internalFunction);
 
-        return data.toString();
-    }
+		return data.toString();
+	}
 
-    public void addDoc(PHPDocBlock doc)
-    {
+	public void addDoc(PHPDocBlock doc) {
 
-        this.doc = doc;
+		this.doc = doc;
 
-    }
+	}
 
 }
