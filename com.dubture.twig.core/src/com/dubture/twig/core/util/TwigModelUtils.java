@@ -23,8 +23,6 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
-import org.eclipse.ui.IFileEditorMapping;
-import org.eclipse.ui.PlatformUI;
 
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.log.Logger;
@@ -49,19 +47,6 @@ public class TwigModelUtils {
 			}
 		}
 
-		IFileEditorMapping[] editorMappings = PlatformUI.getWorkbench().getEditorRegistry().getFileEditorMappings();
-		String extension = filename.substring(0, filename.lastIndexOf("."));
-
-		if (extension == null) {
-			return false;
-		}
-
-		for (IFileEditorMapping mapping : editorMappings) {
-			if (mapping.getExtension().equals(extension)) {
-				return true;
-			}
-		}
-
 		return false;
 	}
 
@@ -81,6 +66,7 @@ public class TwigModelUtils {
 		try {
 			method.traverse(new PHPASTVisitor() {
 
+				@Override
 				public boolean visit(ReturnStatement s) throws Exception {
 
 					if (s.getExpr() instanceof PHPCallExpression) {
@@ -124,7 +110,7 @@ public class TwigModelUtils {
 			Logger.logException(e);
 		}
 
-		return (String[]) statements.toArray(new String[statements.size()]);
+		return statements.toArray(new String[statements.size()]);
 
 	}
 }
