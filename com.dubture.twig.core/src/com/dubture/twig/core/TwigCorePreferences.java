@@ -24,9 +24,6 @@ public class TwigCorePreferences {
 		try {
 
 			// see https://github.com/pulse00/Twig-Eclipse-Plugin/issues/8
-			if (!TwigCorePlugin.getDefault().isDLTK3()) {
-				return null;
-			}
 
 			// TODO: check if there's a cleaner way to get the preferences from
 			// the ui

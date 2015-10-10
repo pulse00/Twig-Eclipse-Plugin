@@ -42,7 +42,6 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.parser.ast,
  com.dubture.twig.core.parser.ast.node,
  com.dubture.twig.core.parser.ast.visitor,
- com.dubture.twig.core.parser.error,
  com.dubture.twig.core.search,
  com.dubture.twig.core.util,
  com.dubture.twig.core.util.text

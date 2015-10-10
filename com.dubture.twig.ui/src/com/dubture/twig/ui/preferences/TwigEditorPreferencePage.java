@@ -26,7 +26,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.dubture.twig.core.TwigCoreConstants;
-import com.dubture.twig.core.TwigCorePlugin;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
@@ -64,6 +63,7 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage implemen
 		Link link = new Link(contents, SWT.NONE);
 		link.setText(text);
 		link.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(shell,
 						"org.eclipse.php.ui.preferences.PHPEditorPreferencePage", null, null); //$NON-NLS-1$
@@ -89,19 +89,8 @@ public class TwigEditorPreferencePage extends FieldEditorPreferencePage implemen
 
 		String[][] options;
 
-		// ProblemSeverity does not work in dltk < 3
-		// so we disable it
-		if (!TwigCorePlugin.getDefault().isDLTK3()) {
-
-			MessageDialog.openWarning(getShell(), Messages.TwigEditorPreferencePage_2,
-					Messages.TwigEditorPreferencePage_3);
-			options = new String[][] { { TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE }, };
-
-		} else {
-			options = new String[][] { { TwigCoreConstants.SYNTAX_ERROR, TwigCoreConstants.SYNTAX_ERROR },
-					{ TwigCoreConstants.SYNTAX_WARNING, TwigCoreConstants.SYNTAX_WARNING },
-					{ TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE }, };
-		}
+		MessageDialog.openWarning(getShell(), Messages.TwigEditorPreferencePage_2, Messages.TwigEditorPreferencePage_3);
+		options = new String[][] { { TwigCoreConstants.SYNTAX_IGNORE, TwigCoreConstants.SYNTAX_IGNORE }, };
 
 		addField(new ComboFieldEditor(TwigCoreConstants.SYNTAX_PROBLEM_SEVERITY, Messages.TwigEditorPreferencePage_4,
 				options, getFieldEditorParent()));

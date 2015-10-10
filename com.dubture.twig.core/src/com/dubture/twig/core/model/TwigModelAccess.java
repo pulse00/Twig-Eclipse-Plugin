@@ -125,7 +125,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return (Function[]) functions.toArray(new Function[functions.size()]);
+		return functions.toArray(new Function[functions.size()]);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return (Filter[]) filters.toArray(new Filter[filters.size()]);
+		return filters.toArray(new Filter[filters.size()]);
 
 	}
 
@@ -337,9 +337,7 @@ public class TwigModelAccess extends PhpModelAccess {
 	}
 
 	public void clearCache() {
-
 		clearTagCache();
-
 	}
 
 	/**
@@ -421,7 +419,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return (Tag[]) tags.toArray(new Tag[tags.size()]);
+		return tags.toArray(new Tag[tags.size()]);
 
 	}
 
@@ -458,7 +456,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return (Test[]) tests.toArray(new Test[tests.size()]);
+		return tests.toArray(new Test[tests.size()]);
 
 	}
 

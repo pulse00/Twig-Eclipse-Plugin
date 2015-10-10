@@ -29,18 +29,10 @@ public class TwigCorePlugin extends Plugin {
 
 	public static final int INTERNAL_ERROR = 10001;
 
-	private Boolean _isDltk3 = null;
-
 	// The shared instance
 	private static TwigCorePlugin plugin;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-	 * )
-	 */
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		super.start(bundleContext);
 		plugin = this;
@@ -55,48 +47,25 @@ public class TwigCorePlugin extends Plugin {
 
 			}
 		};
-
 		workspace.addResourceChangeListener(listener, IResourceChangeEvent.PRE_BUILD);
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		super.stop(bundleContext);
 		plugin = null;
 	}
 
 	public static TwigCorePlugin getDefault() {
-
 		return plugin;
-
 	}
 
 	public static void log(Exception e) {
-
-		log(new Status(IStatus.ERROR, PLUGIN_ID, INTERNAL_ERROR, "PHPCore plugin internal error", e)); //$NON-NLS-1$
-
+		log(new Status(IStatus.ERROR, PLUGIN_ID, INTERNAL_ERROR, "Twig core plugin internal error", e)); //$NON-NLS-1$
 	}
 
 	private static void log(Status status) {
 		getDefault().getLog().log(status);
-
-	}
-
-	public boolean isDLTK3() {
-
-		if (_isDltk3 != null)
-			return _isDltk3;
-
-		String version = Platform.getBundle("org.eclipse.dltk.core").getHeaders().get("Bundle-Version");
-		int v = Character.digit(version.charAt(0), 10);
-		return _isDltk3 = v >= 3;
-
 	}
 
 	private static final String isDebugMode = "com.dubture.twig.core/debug";
