@@ -29,6 +29,7 @@
 		<dltk.version>latest-nightly</dltk.version>
 		<core-plugin.url>http://pdt-eg.github.io/Core-Plugin/nightly</core-plugin.url>
 		<external-mirror.url>http://pdt-eg.github.io/external-mirror/nightly</external-mirror.url>
+		<indexing.url>http://pulse00.github.io/eclipse-indexing-framework/nightly</indexing.url>
 		<test.vmargs>-Xmx512m -XX:MaxPermSize=256m</test.vmargs>
 	</properties>
 
@@ -70,6 +71,11 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>indexing</id>
+			<layout>p2</layout>
+			<url>${indexing.url}</url>
 		</repository>
 	</repositories>
 	<dependencies>
