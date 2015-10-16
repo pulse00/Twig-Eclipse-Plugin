@@ -7,6 +7,7 @@
 	<target name="generateTokenizer" depends="checkUpToDate,getJFlexJar" unless="upToDate">
 		<property name="destination" value="../../../src/com/dubture/twig/core/documentModel/parser" />
 		<java jar="${jflexJar}" fork="true">
+			<arg value="--legacydot" /> 
 			<arg value="-d" />
 			<arg value="${destination}" />
 			<arg value="-skel" />

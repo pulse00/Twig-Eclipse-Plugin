@@ -38,9 +38,6 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 %%
 
 %{
-	// where the last internal container block was found
-	private int fLastInternalBlockStart = -1;
-
 	private int fTokenCount = 0;
  
 	// required holders for white-space compacting
@@ -97,6 +94,225 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	public static String stateHint;	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
+	
+	/** are we inside a raw tag? **/
+	private boolean insideRaw = false;
+	
+	public void startRaw() {
+        insideRaw = true;
+    }
+    public void endRaw() {
+        insideRaw = false;
+    }
+	/**
+	 * user method - skeleton.sed
+	 */
+	protected final boolean containsTagName(char[] markerTagName, int offset, int tagnameLength) {
+		for(int j = 0; j < fBlockMarkers.size(); j++) {
+			BlockMarker marker = (BlockMarker)fBlockMarkers.get(j);
+			if(marker.getTagName().length() == tagnameLength) {
+				boolean matchesSoFar = true;
+				for(int i = 0; i < tagnameLength && matchesSoFar; i++) {
+					if(marker.isCaseSensitive()) {
+						if(marker.getTagName().charAt(i) != markerTagName[i + offset])
+							matchesSoFar = false;
+					}
+					else {
+						if(Character.toLowerCase(marker.getTagName().charAt(i)) != Character.toLowerCase(markerTagName[i + offset]))
+							matchesSoFar = false;
+					}
+				}
+				if(matchesSoFar)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/* user method - skeleton.sed */
+	protected final boolean containsTagName(String markerTagName) {
+		Iterator blocks = fBlockMarkers.iterator();
+		while(blocks.hasNext()) {
+			BlockMarker marker = (BlockMarker)blocks.next();
+			if(marker.isCaseSensitive()) {
+				if(marker.getTagName().equals(markerTagName))
+					return true;
+			}
+			else {
+				if(marker.getTagName().equalsIgnoreCase(markerTagName))
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/* user method - skeleton.sse */
+	protected final String findTwigDelimiter(String text, String insideOf, String delim, String delimType, int afterDelimType) {
+
+	    int current = -1;
+	    int firstOccurence = text.length();
+	    int delimiter = -1;
+
+	    for (int i=0; i < leftDelimiters.length; i++) {
+
+	        current = text.indexOf(leftDelimiters[i]);
+
+	        if (current > -1 && current < firstOccurence) {
+	            firstOccurence = current;
+	            delimiter = i;
+	        }
+	    }
+
+	    if (delimiter <= -1)
+	        return insideOf;
+
+	    switch (delimiter) {
+
+	        case 0:
+
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
+
+	            delim = "{{";
+
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
+
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                stateHint = "ST_TWIG_IN_PRINT";
+	                fStateStack.push(yystate());
+	                yybegin(afterDelimType);
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return delimType;
+	            }
+
+	        case 1:
+
+	            delim = "{%";
+
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
+
+	            if (firstOccurence != -1) {
+
+	                if (Debug.debugTokenizer)
+	                    System.err.println("a");
+	                //go to the char right before the text, so it doesnt mark the whole thing red...
+	                if (firstOccurence > 0){
+
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("b");
+
+	                    //push to right before the delim
+	                    yypushback(yylength() - firstOccurence);
+	                    return insideOf;
+	                    //return YYINITIAL;
+	                } else {
+
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("c");
+	                    
+	                    fStateStack.push(yystate());
+	                    yybegin(afterDelimType);
+	                    stateHint = "ST_TWIG_IN_STATEMENT";
+	                    // pushback to just after the closing bracket
+	                    int delemLen = delim.length();
+	                    yypushback(yylength() - firstOccurence - delemLen);
+	                    return TWIG_STMT_OPEN;
+	                }
+	            }
+
+
+
+	            break;
+
+	        case 2:
+
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
+
+	            // search for comments first
+	            delim = "{#";
+
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                fStateStack.push(yystate());
+	                yybegin(ST_TWIG_COMMENT);
+	                stateHint = "ST_TWIG_COMMENT";
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return TWIG_COMMENT_OPEN;
+	            }
+
+
+	        default:
+	            return insideOf;
+
+	    }
+
+
+	    return insideOf;
+	}
+
+
+		
+
+	/**
+	 * user method - skeleton.sed
+	 *
+	 * Return ALL of the regions scannable within the remaining text
+	 * Note: for verification use
+	 */
+	public final List getRegions() {
+		List tokens = new ArrayList();
+		ITextRegion region = null;
+		try {
+			region = getNextToken();
+			while(region != null) {
+				if (region != null) {
+					tokens.add(region);
+				}
+				region = getNextToken();
+			}
+		}
+		catch (StackOverflowError e) {
+			Logger.logException(getClass().getName()+": input could not be tokenized correctly at position " + getOffset(), e);//$NON-NLS-1$
+			throw e;
+		}
+		catch (Exception e) {
+			// Since this is convenience method and NOT the recommended 
+			// way of getting tokens, many errors are simply hidden
+			Logger.logException("Exception not handled retrieving regions: " + e.getLocalizedMessage(), e);//$NON-NLS-1$
+		}
+		return tokens;
+	}
+
 /**
  * user method 
  */
@@ -634,17 +850,18 @@ public void setProject(IProject project) {
 public void reset(java.io.Reader  reader, char[] buffer, int[] parameters){
 	this.zzReader = reader;
 	this.zzBuffer = buffer;
+	this.zzFinalHighSurrogate = 0;
 	this.zzMarkedPos = parameters[0];
-	this.zzPushbackPos = parameters[1];
+	this._zzPushbackPos = parameters[1];
 	this.zzCurrentPos = parameters[2];
 	this.zzStartRead = parameters[3];
 	this.zzEndRead = parameters[4];
 	this.yyline = parameters[5];  
-	this.yychar = this.zzStartRead - this.zzPushbackPos;
+	this.yychar = this.zzStartRead - this._zzPushbackPos;
 }
 
 public int[] getParamenters(){
-	return new int[]{zzMarkedPos, zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
+	return new int[]{zzMarkedPos, _zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
 }
 
 /**
@@ -721,7 +938,7 @@ public final ITextRegion getNextToken() throws IOException {
 	} else if (f_context == XML_END_TAG_OPEN) {
 		fIsBlockingEnabled = false;
 	}
-	fBufferedContext = f_context;
+	fBufferedContext = f_context; 
 	fBufferedText = yytext();
 	if (fBufferedContext == XML_TAG_NAME) {
 		if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
@@ -745,6 +962,9 @@ public final ITextRegion getNextToken() throws IOException {
 	}
 	if (context == null) {
 		// EOF
+		if (Debug.debugTokenizer) {
+			System.out.println(getClass().getName() + " discovered " + fTokenCount + " tokens."); //$NON-NLS-2$//$NON-NLS-1$
+		}
 		return null;
 	}
 	fTokenCount++;
@@ -764,6 +984,7 @@ public final ITextRegion getNextToken() throws IOException {
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 	}
 }
+
 
 /* user method */
 public TwigTokenizer(){
@@ -810,7 +1031,7 @@ public void reset(java.io.Reader in, int newOffset) {
 	fOffset = newOffset;
 
 	/* the input device */
-	zzReader = in;
+	zzReader = in; 
 
 	/* the current state of the DFA */
 	zzState = 0;
@@ -826,7 +1047,7 @@ public void reset(java.io.Reader in, int newOffset) {
 	zzMarkedPos = 0;
 
 	/* the textposition at the last state to be included in yytext */
-	zzPushbackPos = 0;
+	_zzPushbackPos = 0;
 
 	/* the current text position in the buffer */
 	zzCurrentPos = 0;
@@ -840,17 +1061,20 @@ public void reset(java.io.Reader in, int newOffset) {
 	 */
 	zzEndRead = 0;
 
+	/* The number of occupied positions in zzBuffer beyond zzEndRead */
+	zzFinalHighSurrogate = 0;
+
 	/* number of newlines encountered up to the start of the matched text */
 	yyline = 0;
 
 	/* the number of characters up to the start of the matched text */
 	yychar = 0;
 
-	/* zzAtEOF == true <=> the scanner has returned a value for EOF */
-	zzAtEOF = false;
+	/* zzAtBOL == true <=> the scanner is currently at the beginning of a line */
+	//zzAtBOL = true;
 
-	/* denotes if the user-EOF-code has already been executed */
-	//yy_eof_done = false;
+	/* zzAtEOF == true <=> the scanner has returned a value for EOF */
+	zzAtEOF = false; 
 
 
 	/* user vars: */
@@ -895,6 +1119,8 @@ private final String scanXMLCommentText() throws IOException {
 	//  context as usual.
 	return doScan("-->", true, false,  XML_COMMENT_TEXT, ST_XML_COMMENT_END, ST_XML_COMMENT_END);
 }
+
+
 
 
 private void assembleEmbeddedTwigOpen() {

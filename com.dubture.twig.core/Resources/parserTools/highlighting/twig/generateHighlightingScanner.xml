@@ -22,8 +22,11 @@
 
 	<target name="generateScanner" depends="checkUpToDate,getJFlexJar" unless="upToDate">
 		<java jar="${jflexJar}" fork="true">
+			<arg value="--legacydot" />
 			<arg value="-d" />
 			<arg value="../../../../src/com/dubture/twig/core/documentModel/parser" />
+			<arg value="-skel" />
+			<arg value="common.skeleton" />
 			<arg value="-nobak" />
 			<arg value="highlighting_scanner.jflex" />
 		</java>
