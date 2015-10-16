@@ -8,16 +8,18 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import java.io.IOException;
 
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.junit.Test;
 
 import com.dubture.twig.core.parser.SourceParserUtil;
 
-public class TwigParserTest extends TestCase {
+public class TwigParserTest {
 
 	@Test
 	public void testStringLiterals() {
