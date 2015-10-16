@@ -35,6 +35,7 @@ import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
+@SuppressWarnings("restriction")
 public class TokenizerTest {
 
 	private TwigTokenizer tokenizer;
@@ -61,7 +62,7 @@ public class TokenizerTest {
 			while ((ch = input.read()) != -1) {
 				buffer.append((char) ch);
 			}
-
+			input.close();
 			return buffer.toString();
 
 		} catch (Exception e) {
@@ -134,7 +135,7 @@ public class TokenizerTest {
 					"XML_CONTENT", "TWIG_STMT_OPEN", "TWIG_CONTENT", "TWIG_STMT_CLOSE", "TWIG_STMT_OPEN",
 					"TWIG_CONTENT", "TWIG_STMT_CLOSE", "XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME",
 					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE",
-					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE", "WHITE_SPACE",
+					"XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE",
 					"XML_EMPTY_TAG_CLOSE", "XML_CONTENT", "XML_END_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE",
 					"XML_CONTENT", "XML_TAG_OPEN", "XML_TAG_NAME", "XML_TAG_CLOSE", "XML_CONTENT", "XML_TAG_OPEN",
 					"XML_TAG_NAME", "XML_TAG_ATTRIBUTE_NAME", "XML_TAG_ATTRIBUTE_EQUALS", "XML_TAG_ATTRIBUTE_VALUE",
@@ -153,15 +154,14 @@ public class TokenizerTest {
 			textRegions = new Stack<ITextRegion>();
 			assertTrue(textRegions.size() == 0);
 
-			while (!tokenizer.isEOF()) {
-				ITextRegion region = tokenizer.getNextToken();
-				textRegions.push(region);
-			}
-
-			int i = 0;
-
 			for (String region : regions) {
-				assertEquals(region, textRegions.get(i++).getType());
+				if (!tokenizer.isEOF()) {
+					ITextRegion reg = tokenizer.getNextToken();
+					textRegions.push(reg);
+					assertEquals(region, reg.getType());
+				} else {
+					fail();
+				}
 			}
 
 		} catch (Exception e) {

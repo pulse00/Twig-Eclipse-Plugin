@@ -639,7 +639,6 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 	} catch (Exception e) {
 		Logger.logException(e);
 	}
-	lexer.initialize(currentParameters[6]);
 	lexer.reset(zzReader, zzBuffer, currentParameters);
 	lexer.setPatterns(project);
 
@@ -1595,7 +1594,6 @@ LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"with"
 
-TWIG_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=\!~$<>?@]
 NUMBER=([0-9])+
 
@@ -1680,7 +1678,7 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> [^<\"]+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^<\"\x24\x23]|[\x24\x23][^\x7b])+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE X");
@@ -1688,7 +1686,7 @@ NUMBER=([0-9])+
 
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> [^<']+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^<'\x24\x23]|[\x24\x23][^\x7b])+ {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE XX");
