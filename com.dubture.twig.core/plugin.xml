@@ -25,16 +25,6 @@ com.dubture.twig.core.TwigNature
       </content-type>
    </extension>
    
-   <extension
-         point="org.eclipse.dltk.core.buildParticipant">
-      <buildParticipant
-            class="com.dubture.twig.core.builder.TwigBuilder"
-            id="com.dubture.twig.core.builder"
-            name="Twig template builder"
-            nature="org.eclipse.php.core.PHPNature">
-      </buildParticipant>
-   </extension>
-   
    <!--
    	org.eclipse.wst.html.core.htmlsource
    	org.eclipse.php.core.phpsource
@@ -69,5 +59,14 @@ com.dubture.twig.core.TwigNature
             class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory"
             contentTypeId="com.dubture.twig.core.twigtemplate">
       </factory>
+   </extension>
+   <extension
+         point="com.dubture.indexing.core.buildParticipant">
+      <participant
+            file_extensions="twig"
+            name="Twig Indexer"
+            nature_id="com.dubture.twig.core.TwigNature"
+            visitor="com.dubture.twig.core.index.IndexingVisitor">
+      </participant>
    </extension>
 </plugin>

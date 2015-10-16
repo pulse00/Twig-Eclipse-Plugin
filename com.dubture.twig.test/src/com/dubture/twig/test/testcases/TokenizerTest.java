@@ -8,17 +8,18 @@
  ******************************************************************************/
 package com.dubture.twig.test.testcases;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Stack;
 
-import junit.framework.TestCase;
-
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
@@ -34,24 +35,12 @@ import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-@SuppressWarnings("restriction")
-public class TokenizerTest extends TestCase {
+public class TokenizerTest {
 
 	private TwigTokenizer tokenizer;
 	private Stack<ContextRegion> contextRegions;
 	private Stack<ITextRegion> textRegions;
 	private String tokens;
-
-	@Before
-	protected void setUp() throws Exception {
-		super.setUp();
-
-	}
-
-	@After
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
 
 	/**
 	 * Load a test template.
