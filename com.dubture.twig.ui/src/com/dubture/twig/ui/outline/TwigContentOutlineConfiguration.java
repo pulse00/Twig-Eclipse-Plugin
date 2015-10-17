@@ -8,13 +8,7 @@
  ******************************************************************************/
 package com.dubture.twig.ui.outline;
 
-import org.eclipse.dltk.core.ModelException;
-import org.eclipse.dltk.internal.core.SourceMethod;
 import org.eclipse.dltk.ui.DLTKUIPlugin;
-import org.eclipse.dltk.ui.ScriptElementLabels;
-import org.eclipse.dltk.ui.viewsupport.AppearanceAwareLabelProvider;
-import org.eclipse.dltk.ui.viewsupport.DecoratingModelLabelProvider;
-import org.eclipse.dltk.ui.viewsupport.ScriptUILabelProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -23,13 +17,11 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.php.internal.ui.actions.SortAction;
 import org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.ui.internal.contentoutline.JFaceNodeContentProvider;
 import org.eclipse.wst.xml.ui.internal.contentoutline.XMLNodeActionManager;
 
-import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
@@ -47,11 +39,9 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 	private static final String OUTLINE_FILTER_PREF = "com.dubture.twig.ui.OutlinePage"; //$NON-NLS-1$
 	protected TwigOutlineContentProvider fContentProvider = null;
 	protected JFaceNodeContentProvider fContentProviderHTML = null;
-	protected ILabelProvider fLabelProvider = null;
 	protected TwigOutlineLabelProvider fLabelProviderHTML = null;
 	static Object[] NO_CHILDREN = new Object[0];
 	private SortAction sortAction;
-	private ScriptUILabelProvider fSimpleLabelProvider;
 	// private ShowGroupsAction fShowGroupsAction;
 	private boolean fShowAttributes = false;
 	protected IPreferenceStore fStore = DLTKUIPlugin.getDefault().getPreferenceStore();
@@ -72,6 +62,7 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 		return OUTLINE_FILTER_PREF;
 	}
 
+	@Override
 	protected IContributionItem[] createMenuContributions(final TreeViewer viewer) {
 		IContributionItem[] items;
 
@@ -92,6 +83,7 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 		return items;
 	}
 
+	@Override
 	protected IContributionItem[] createToolbarContributions(final TreeViewer viewer) {
 		IContributionItem[] items;
 		// fShowGroupsAction = new ShowGroupsAction("Show Groups", viewer);
@@ -123,6 +115,7 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 
 	}
 
+	@Override
 	public void unconfigure(TreeViewer viewer) {
 		// if (fShowGroupsAction != null) {
 		// fShowGroupsAction.dispose();
@@ -130,43 +123,27 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 		super.unconfigure(viewer);
 	}
 
+	@Override
 	public ILabelProvider getLabelProvider(final TreeViewer viewer) {
 
-		if (fLabelProvider == null) {
-			fLabelProvider = new DecoratingModelLabelProvider(new TwigAppearanceAwareLabelProvider(
-					AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS | ScriptElementLabels.F_APP_TYPE_SIGNATURE
-							| ScriptElementLabels.ALL_CATEGORY,
-					AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS, fStore));
-		}
-
 		if (fLabelProviderHTML == null) {
-			fLabelProviderHTML = new TwigOutlineLabelProvider(fLabelProvider);
+			fLabelProviderHTML = new TwigOutlineLabelProvider();
 			fLabelProviderHTML.fShowAttributes = fShowAttributes;
 		}
 		return fLabelProviderHTML;
 	}
 
+	@Override
 	public ISelection getSelection(final TreeViewer viewer, final ISelection selection) {
-
 		return super.getSelection(viewer, selection);
 	}
 
-	public ILabelProvider getStatusLineLabelProvider(TreeViewer treeViewer) {
-		if (fSimpleLabelProvider == null) {
-			fSimpleLabelProvider = new ScriptUILabelProvider();
-			fSimpleLabelProvider.setTextFlags(ScriptElementLabels.DEFAULT_QUALIFIED
-					| ScriptElementLabels.ROOT_POST_QUALIFIED | ScriptElementLabels.APPEND_ROOT_PATH
-					| ScriptElementLabels.M_PARAMETER_TYPES | ScriptElementLabels.M_PARAMETER_NAMES
-					| ScriptElementLabels.M_APP_RETURNTYPE | ScriptElementLabels.M_EXCEPTIONS
-					| ScriptElementLabels.F_APP_TYPE_SIGNATURE | ScriptElementLabels.T_TYPE_PARAMETERS);
-		}
-		return fSimpleLabelProvider;
-	}
-
+	@Override
 	protected XMLNodeActionManager createNodeActionManager(TreeViewer treeViewer) {
 		return new TwigNodeActionManager((IStructuredModel) treeViewer.getInput(), treeViewer);
 	}
 
+	@Override
 	protected void enableShowAttributes(boolean showAttributes, TreeViewer treeViewer) {
 		super.enableShowAttributes(showAttributes, treeViewer);
 		// fix bug #241111 - show attributes in outline
@@ -175,51 +152,6 @@ public class TwigContentOutlineConfiguration extends HTMLContentOutlineConfigura
 			fLabelProviderHTML.fShowAttributes = showAttributes;
 		}
 		fShowAttributes = showAttributes;
-	}
-
-	class TwigAppearanceAwareLabelProvider extends AppearanceAwareLabelProvider {
-
-		public TwigAppearanceAwareLabelProvider(IPreferenceStore store) {
-			super(store);
-
-		}
-
-		public TwigAppearanceAwareLabelProvider(long textFlags, int imageFlags, IPreferenceStore store) {
-			super(textFlags, imageFlags, store);
-
-		}
-
-		public String getText(Object element) {
-
-			if (element instanceof SourceMethod) {
-
-				SourceMethod m = (SourceMethod) element;
-				String[] parameters;
-
-				try {
-					parameters = m.getParameterNames();
-
-					if (parameters != null && parameters.length > 0) {
-						return m.getElementName() + " - " + parameters[0];
-					}
-
-				} catch (ModelException e) {
-
-					Logger.logException(e);
-				}
-
-				return m.getElementName();
-
-			}
-
-			return super.getText(element);
-		}
-
-		@Override
-		public Image getImage(Object element) {
-
-			return super.getImage(element);
-		}
 	}
 
 	/*

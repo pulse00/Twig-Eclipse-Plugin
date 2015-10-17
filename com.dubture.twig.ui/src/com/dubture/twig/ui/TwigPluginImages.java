@@ -10,12 +10,14 @@ package com.dubture.twig.ui;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.Bundle;
 
 public class TwigPluginImages {
@@ -31,15 +33,19 @@ public class TwigPluginImages {
 	private static HashMap<String, ImageDescriptor> fgAvoidSWTErrorMap = null;
 	private static final String T_OBJ = "obj16"; //$NON-NLS-1$
 
-	public static final String IMG_OBJS_TAG = NAME_PREFIX + "block-small-icon.gif";
-	public static final String IMG_OBJS_FILTER = NAME_PREFIX + "filter-icon.gif";
-	public static final String IMG_OBJS_FUNCTION = NAME_PREFIX + "paren.gif";
-	public static final String IMG_OBJS_TEST = NAME_PREFIX + "question-small-icon.gif";
+	public static final String IMG_OBJS_TAG = NAME_PREFIX + "block-small-icon.gif"; //$NON-NLS-1$
+	public static final String IMG_OBJS_FILTER = NAME_PREFIX + "filter-icon.gif"; //$NON-NLS-1$
+	public static final String IMG_OBJS_FUNCTION = NAME_PREFIX + "paren.gif"; //$NON-NLS-1$
+	public static final String IMG_OBJS_TEST = NAME_PREFIX + "question-small-icon.gif"; //$NON-NLS-1$
+	public static final String IMG_OBJS_STATEMENT = NAME_PREFIX + "statement.png"; // $NON-NLS-N$
+	public static final String IMG_OBJS_PRINT = NAME_PREFIX + "print.png"; // $NON-NLS-N$
 
 	public static final ImageDescriptor DESC_OBJS_TAG = createManagedFromKey(T_OBJ, IMG_OBJS_TAG);
 	public static final ImageDescriptor DESC_OBJS_FILTER = createManagedFromKey(T_OBJ, IMG_OBJS_FILTER);
 	public static final ImageDescriptor DESC_OBJS_FUNCTION = createManagedFromKey(T_OBJ, IMG_OBJS_FUNCTION);
 	public static final ImageDescriptor DESC_OBJS_TEST = createManagedFromKey(T_OBJ, IMG_OBJS_TEST);
+	public static final ImageDescriptor DESC_OBJS_STATEMENT = createManagedFromKey(T_OBJ, IMG_OBJS_STATEMENT);
+	public static final ImageDescriptor DESC_OBJS_PRINT = createManagedFromKey(T_OBJ, IMG_OBJS_PRINT);
 
 	private static final String T_WIZBAN = "wizban"; //$NON-NLS-1$
 
@@ -105,6 +111,31 @@ public class TwigPluginImages {
 			return ImageDescriptor.getMissingImageDescriptor();
 		}
 		return null;
+	}
+
+	/*
+	 * Helper method to access the image registry from the PHPPlugin class.
+	 */
+	static ImageRegistry getImageRegistry() {
+		if (fgImageRegistry == null) {
+			fgImageRegistry = new ImageRegistry();
+			for (Entry<String, ImageDescriptor> entry : fgAvoidSWTErrorMap.entrySet()) {
+				fgImageRegistry.put(entry.getKey(), entry.getValue());
+			}
+			fgAvoidSWTErrorMap = null;
+		}
+		return fgImageRegistry;
+	}
+
+	/**
+	 * Returns the image managed under the given key in this registry.
+	 * 
+	 * @param key
+	 *            the image's key
+	 * @return the image managed under the given key
+	 */
+	public static Image get(String key) {
+		return getImageRegistry().get(key);
 	}
 
 }

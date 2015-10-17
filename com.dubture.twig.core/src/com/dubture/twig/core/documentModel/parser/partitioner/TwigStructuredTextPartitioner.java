@@ -10,7 +10,7 @@ package com.dubture.twig.core.documentModel.parser.partitioner;
 
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITypedRegion;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
+import org.eclipse.wst.html.core.internal.text.StructuredTextPartitionerForHTML;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
@@ -25,9 +25,8 @@ import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner {
+public class TwigStructuredTextPartitioner extends StructuredTextPartitionerForHTML {
 
-	@Override
 	public String getContentType(int offset, boolean preferOpenPartitions) {
 
 		final ITypedRegion partition = getPartition(offset);
@@ -65,6 +64,22 @@ public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner 
 
 	}
 
+	/**
+	 * to be abstract eventually
+	 */
+	@Override
+	protected void initLegalContentTypes() {
+		super.initLegalContentTypes();
+
+		final int length = fSupportedTypes.length;
+		final String[] types = new String[fSupportedTypes.length + 1];
+
+		System.arraycopy(fSupportedTypes, 0, types, 0, length);
+		types[length] = TwigPartitionTypes.TWIG_DEFAULT;
+
+		fSupportedTypes = types;
+	}
+
 	public static String[] getConfiguredContentTypes() {
 		return TwigPartitionTypes.configuredPartitions;
 	}
@@ -86,6 +101,17 @@ public class TwigStructuredTextPartitioner extends PHPStructuredTextPartitioner 
 		}
 		return super.getPartition(offset);
 
+	}
+
+	@Override
+	public ITypedRegion[] computePartitioning(int offset, int length) {
+		// workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=268930
+		ITypedRegion[] result = new ITypedRegion[0];
+		try {
+			result = super.computePartitioning(offset, length);
+		} catch (NullPointerException e) {
+		}
+		return result;
 	}
 
 }

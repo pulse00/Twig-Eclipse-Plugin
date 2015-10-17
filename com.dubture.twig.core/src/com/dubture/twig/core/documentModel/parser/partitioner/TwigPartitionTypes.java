@@ -18,8 +18,6 @@ import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
 import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 
 /**
- * 
- * 
  * @see http ://code.google.com/p/smartypdt/source/browse/trunk/org.eclipse.php.
  *      smarty
  *      .core/src/org/eclipse/php/smarty/internal/core/documentModel/parser/

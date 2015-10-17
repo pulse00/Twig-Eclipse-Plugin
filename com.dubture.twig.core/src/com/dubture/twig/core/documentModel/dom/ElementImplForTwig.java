@@ -35,7 +35,7 @@ import com.dubture.twig.core.model.TwigModelAccess;
 @SuppressWarnings("restriction")
 public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, IImplForTwig {
 
-	private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter";
+	private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter"; //$NON-NLS-1$
 	private IModelElement modelElement;
 	private TwigModelAccess model = TwigModelAccess.getDefault();
 
@@ -43,6 +43,7 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 		super();
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter) {
 		if (adapter != null && adapter.getName().equals(WORKBENCH_ADAPTER)) {
@@ -55,10 +56,12 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 		super(that);
 	}
 
+	@Override
 	protected boolean isNestedClosed(String regionType) {
 		return regionType == TwigRegionContext.TWIG_STMT_CLOSE;
 	}
 
+	@Override
 	public Node cloneNode(boolean deep) {
 		ElementImpl cloned = new ElementImplForTwig(this);
 		if (deep)
@@ -70,6 +73,7 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 	 * @see ElementStyleImpl#setOwnerDocument(Document) make this method package
 	 *      visible
 	 */
+	@Override
 	protected void setOwnerDocument(Document ownerDocument) {
 		super.setOwnerDocument(ownerDocument);
 	}
@@ -77,10 +81,12 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 	/**
 	 * @see setTagName(String) make this method package visible
 	 */
-	protected void setTagName(String tagName) {
+	@Override
+	public void setTagName(String tagName) {
 		super.setTagName(tagName);
 	}
 
+	@Override
 	public boolean isGlobalTag() {
 		return isTwigTag() ? false : super.isGlobalTag();
 	}
@@ -88,6 +94,7 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 	/**
 	 * @return true if it is a twig element
 	 */
+	@Override
 	public boolean isTwigTag() {
 
 		boolean isTag = TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
@@ -106,6 +113,7 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public INodeAdapter getExistingAdapter(Object type) {
 
@@ -118,21 +126,13 @@ public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, 
 
 	private final static ValidationComponent nullValidator = new NullValidator();
 
+	@Override
 	public String getPrefix() {
 		final String prefix = super.getPrefix();
 		if (prefix == null && isTwigTag()) {
 			return ""; //$NON-NLS-1$
 		}
 		return prefix;
-	}
-
-	public IModelElement getModelElement() {
-		return modelElement;
-	}
-
-	public void setModelElement(IModelElement modelElement) {
-
-		this.modelElement = modelElement;
 	}
 
 	@Override

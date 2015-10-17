@@ -18,11 +18,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * 
- * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
@@ -37,6 +32,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 		super(that);
 	}
 
+	@Override
 	public Node cloneNode(boolean deep) {
 		DOMDocumentForTwig cloned = new DOMDocumentForTwig(this);
 		if (deep)
@@ -52,6 +48,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 	 *            java.lang.String
 	 */
 
+	@Override
 	public Element createElement(String tagName) throws DOMException {
 		checkTagNameValidity(tagName);
 
@@ -69,6 +66,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 	 * @param name
 	 *            java.lang.String
 	 */
+	@Override
 	public Attr createAttribute(String name) throws DOMException {
 
 		AttrImplForTwig attr = new AttrImplForTwig();
@@ -84,6 +82,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 	 * @param data
 	 *            java.lang.String
 	 */
+	@Override
 	public Text createTextNode(String data) {
 		TextImplForTwig text = new TextImplForTwig();
 		text.setOwnerDocument(this);
@@ -91,6 +90,7 @@ public class DOMDocumentForTwig extends DocumentStyleImpl {
 		return text;
 	}
 
+	@Override
 	public void setModel(IDOMModel model) {
 		super.setModel(model);
 	}
