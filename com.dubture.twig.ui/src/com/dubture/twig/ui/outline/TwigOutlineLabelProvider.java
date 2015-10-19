@@ -15,6 +15,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 import com.dubture.twig.core.documentModel.TwigDOMModelParser;
 import com.dubture.twig.core.documentModel.dom.ElementImplForTwig;
+import com.dubture.twig.core.documentModel.parser.regions.TwigRegionTypes;
 import com.dubture.twig.core.documentModel.parser.regions.TwigScriptRegion;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.TwigPluginImages;
@@ -56,9 +57,17 @@ public class TwigOutlineLabelProvider extends XMLLabelProvider {
 						TwigScriptRegion twig = (TwigScriptRegion) scriptRegion;
 						if (twig.getTokenCount() > 0) {
 							try {
+								ITextRegion nameRegion = null;
+								for (int i = 0; i < twig.getTokenCount(); i++) {
+									if (TwigRegionTypes.TWIG_BLOCKNAME.equals(twig.getTwigTokenType(i))) {
+										nameRegion = twig.getTwigToken(i);
+									}
+								}
+								if (nameRegion == null) {
+									return element.getTagName();
+								}
 								return flatNode.getText(scriptRegion)
-										.substring(twig.getTwigToken(0).getStart(), twig.getTwigToken(0).getEnd())
-										.trim();
+										.substring(nameRegion.getStart(), nameRegion.getEnd()).trim();
 							} catch (BadLocationException e) {
 								Logger.logException(e);
 							}
