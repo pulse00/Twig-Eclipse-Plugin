@@ -1246,7 +1246,7 @@ Nmtokens = ({Nmtoken} ({S} {Nmtoken})*)
 EntityValue = (\" ([^%&\"] | {PEReference} | {Reference})* \" |  \' ([^%&\'] | {PEReference} | {Reference})* \')
 
 // [10] AttValue ::= '"' ([^<&"] | Reference)* '"' |  "'" ([^<&'] | Reference)* "'"
-AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+AttValue = ( \" ([^<{\"] | {Reference})* \" | \' ([^<{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015{<>/]|\/+[^\'\"\040\011\012\015{<>/] )* )
 
 //AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
@@ -1678,7 +1678,7 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^<\"\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> (([^<{\"\x24\x23]|[\x24\x23][^\x7b]|[{][^<{%#'\x24\x23])+|[{]) {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE X");
@@ -1686,7 +1686,7 @@ NUMBER=([0-9])+
 
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^<'\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> (([^<{'\x24\x23]|[\x24\x23][^\x7b]|[{][^<{%#'\x24\x23])+|[{]) {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE XX");
@@ -1929,15 +1929,6 @@ NUMBER=([0-9])+
 // END NESTED XML
 
 
-<ST_XML_ATTRIBUTE_VALUE> "{{" {
-
-	if (Debug.debugTokenizer) {	
-	   dump("TW START");//$NON-NLS-1$
-	
-	}
-
-}
-
 <ST_TWIG_COMMENT> .|\n|\r {
 
 	if (Debug.debugTokenizer) {	
@@ -1946,7 +1937,6 @@ NUMBER=([0-9])+
 
 	// twig comment scan
 	return doScanEndTwig(TWIG_COMMENT, ST_TWIG_COMMENT, ST_TWIG_COMMENT);	
-
 }
 
 {TW_STMT_DEL_LEFT} {
@@ -1985,6 +1975,53 @@ NUMBER=([0-9])+
 			yybegin(ST_BLOCK_TAG_SCAN);
 			return BLOCK_TEXT;
 		}
+		// required help for successive embedded regions
+		if (yystate() == ST_XML_TAG_NAME) {
+			fEmbeddedHint = XML_TAG_NAME;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		} else if ((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+			fEmbeddedPostState = ST_XML_EQUALS;
+		} else if (yystate() == ST_XML_ATTRIBUTE_VALUE) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		return PROXY_CONTEXT;
+	}
+}
+
+{TW_START} {
+
+	stateHint = "ST_TWIG_IN_PRINT";	
+	if(Debug.debugTokenizer) {
+		dump("twig processing print instruction start");//$NON-NLS-1$
+	}
+	
+	// removeing trailing whitespaces for the php open
+	String phpStart = yytext();
+	int i = phpStart.length() - 1;
+	while (i >= 0
+			&& Character.isWhitespace(phpStart.charAt(i--))) {
+		yypushback(1);
+	}
+	fStateStack.push(yystate());// YYINITIAL
+	if (fStateStack.peek() == YYINITIAL) {
+		// the simple case, just a regular scriptlet out in
+		// content
+		yybegin(ST_TWIG_CONTENT);
+		stateHint = "ST_TWIG_IN_PRINT";
+		return TWIG_OPEN;
+	} else {
+		if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+		else if (yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+		else if (yystate() == ST_CDATA_TEXT) {
+			fEmbeddedPostState = ST_CDATA_TEXT;
+			fEmbeddedHint = XML_CDATA_TEXT;
+		}
+		yybegin(ST_TWIG_CONTENT);
+		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
 		// required help for successive embedded regions
 		if (yystate() == ST_XML_TAG_NAME) {
 			fEmbeddedHint = XML_TAG_NAME;
@@ -2405,7 +2442,7 @@ NUMBER=([0-9])+
 }	
 
 //TWIG PROCESSING ACTIONS
-<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
+<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN> {TW_START} {
 
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
@@ -2458,7 +2495,7 @@ NUMBER=([0-9])+
 	}
 }
 
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_STMT_DEL_LEFT} {
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN> {TW_STMT_DEL_LEFT} {
 
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
