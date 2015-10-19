@@ -23,9 +23,6 @@ import org.eclipse.wst.xml.core.internal.parser.XMLSourceParser;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 
 /**
- * 
- * 
- * 
  * @see http ://code.google.com/p/smartypdt/source/browse/trunk/org.eclipse.php.
  *      smarty
  *      .core/src/org/eclipse/php/smarty/internal/core/documentModel/parser/

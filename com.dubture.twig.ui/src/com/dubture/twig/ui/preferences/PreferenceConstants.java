@@ -9,7 +9,6 @@
 package com.dubture.twig.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
@@ -327,6 +326,62 @@ public class PreferenceConstants {
 	 * </p>
 	 */
 	public final static String EDITOR_ADD_PHP_FOR_PHPSTART_TAGS = "autoAddPhpForPhpStartTags"; //$NON-NLS-1$
+
+	/**
+	 * <p>
+	 * preference key used for saving which categories should not display on the
+	 * default page
+	 * </p>
+	 * 
+	 * <p>
+	 * Value is of type {@link String} consisting of
+	 * <tt>org.eclipse.wst.sse.ui.completionProposal/proposalCategory/@id</tt>s
+	 * separated by the null character (<tt>\0</tt>), ordered is ignored
+	 * </p>
+	 */
+	public static final String CONTENT_ASSIST_DO_NOT_DISPLAY_ON_DEFAULT_PAGE = "twig_content_assist_display_on_default_page"; //$NON-NLS-1$
+
+	/**
+	 * <p>
+	 * preference key used for saving which categories should not display on
+	 * their own page
+	 * </p>
+	 * 
+	 * <p>
+	 * Value is of type {@link String} consisting of
+	 * <tt>org.eclipse.wst.sse.ui.completionProposal/proposalCategory/@id</tt>s
+	 * separated by the null character (<tt>\0</tt>), order is ignored
+	 * </p>
+	 */
+	public static final String CONTENT_ASSIST_DO_NOT_DISPLAY_ON_OWN_PAGE = "twig_content_assist_display_on_own_page"; //$NON-NLS-1$
+
+	/**
+	 * <p>
+	 * preference key for saving the sort order of the categories when
+	 * displaying them on their own page
+	 * </p>
+	 * 
+	 * <p>
+	 * Value is of type {@link String} consisting of
+	 * <tt>org.eclipse.wst.sse.ui.completionProposal/proposalCategory/@id</tt>s
+	 * separated by the null character (<tt>\0</tt>) in the desired sort order.
+	 * </p>
+	 */
+	public static final String CONTENT_ASSIST_OWN_PAGE_SORT_ORDER = "twig_content_assist_own_page_sort_order"; //$NON-NLS-1$
+
+	/**
+	 * <p>
+	 * preference key for saving the sort order of the categories when
+	 * displaying them on the default page
+	 * </p>
+	 * 
+	 * <p>
+	 * Value is of type {@link String} consisting of
+	 * <tt>org.eclipse.wst.sse.ui.completionProposal/proposalCategory/@id</tt>s
+	 * separated by the null character (<tt>\0</tt>) in the desired sort order.
+	 * </p>
+	 */
+	public static final String CONTENT_ASSIST_DEFAULT_PAGE_SORT_ORDER = "twig_content_assist_default_page_sort_order"; //$NON-NLS-1$
 
 	public static void initializeDefaultValues() {
 

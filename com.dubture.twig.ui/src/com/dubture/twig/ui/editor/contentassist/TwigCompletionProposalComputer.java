@@ -8,43 +8,46 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor.contentassist;
 
-import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
-import org.eclipse.dltk.ui.text.completion.ScriptContentAssistInvocationContext;
-import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
-import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalComputer;
-import org.eclipse.php.internal.ui.editor.contentassist.PHPContentAssistInvocationContext;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
+import org.eclipse.wst.sse.ui.contentassist.ICompletionProposalComputer;
 
 /**
- * 
- * Creates the {@link TwigTemplateCompletionProcessor}
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings("restriction")
-public class TwigCompletionProposalComputer extends PHPCompletionProposalComputer {
+@SuppressWarnings("rawtypes")
+public class TwigCompletionProposalComputer implements ICompletionProposalComputer {
 
 	public TwigCompletionProposalComputer() {
 
 	}
 
 	@Override
-	protected TemplateCompletionProcessor createTemplateProposalComputer(ScriptContentAssistInvocationContext context) {
-
-		boolean explicit = false;
-		if (context instanceof PHPContentAssistInvocationContext) {
-			explicit = ((PHPContentAssistInvocationContext) context).isExplicit();
-		}
-
-		return new TwigTemplateCompletionProcessor(context, explicit);
-
+	public void sessionStarted() {
+		;
 	}
 
 	@Override
-	protected ScriptCompletionProposalCollector createCollector(ScriptContentAssistInvocationContext context) {
+	public List computeCompletionProposals(CompletionProposalInvocationContext context, IProgressMonitor monitor) {
+		return Collections.EMPTY_LIST;
+	}
 
-		return new TwigCompletionProposalCollector(context.getDocument(), context.getSourceModule(), true);
+	@Override
+	public List computeContextInformation(CompletionProposalInvocationContext context, IProgressMonitor monitor) {
+		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	public String getErrorMessage() {
+		return null;
+	}
+
+	@Override
+	public void sessionEnded() {
 
 	}
 

@@ -14,7 +14,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
 /**
- * 
  * Provide access to the eclipse code templates from the
  * {@link IPreferenceStore} .
  * 
@@ -51,7 +50,6 @@ public class TwigTemplateAccess extends ScriptTemplateAccess {
 
 	@Override
 	protected IPreferenceStore getPreferenceStore() {
-
 		return TwigUICorePlugin.getDefault().getPreferenceStore();
 	}
 

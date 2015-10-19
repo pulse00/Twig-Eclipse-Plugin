@@ -8,25 +8,17 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor;
 
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
-import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
-import org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration;
-import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProcessor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 
-import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
-import com.dubture.twig.ui.editor.configuration.TwigStructuredTextViewerConfiguration;
-
 /**
  * 
  * {@link TwigStructuredTextViewer} can be used to override viewer behavior or
- * the {@link PHPStructuredTextViewer}.
+ * the {@link StructuredTextViewer}.
  * 
  * Not used at the moment.
  * 
@@ -46,19 +38,22 @@ public class TwigStructuredTextViewer extends StructuredTextViewer {
 
 	@Override
 	public void doOperation(int operation) {
-		switch (operation) {
-		case CONTENTASSIST_PROPOSALS:
-			if (fViewerConfiguration != null) {
-				TwigStructuredTextViewerConfiguration structuredTextViewerConfiguration = (TwigStructuredTextViewerConfiguration) fViewerConfiguration;
-				IContentAssistProcessor[] all = structuredTextViewerConfiguration.getContentAssistProcessors(this,
-						TwigPartitionTypes.TWIG_DEFAULT);
-				for (IContentAssistProcessor element : all) {
-					if (element instanceof PHPCompletionProcessor) {
-						((PHPCompletionProcessor) element).setExplicit(true);
-					}
-				}
-			}
-		}
+		// switch (operation) {
+		// case CONTENTASSIST_PROPOSALS:
+		// if (fViewerConfiguration != null) {
+		// TwigStructuredTextViewerConfiguration
+		// structuredTextViewerConfiguration =
+		// (TwigStructuredTextViewerConfiguration) fViewerConfiguration;
+		// IContentAssistProcessor[] all =
+		// structuredTextViewerConfiguration.getContentAssistProcessors(this,
+		// TwigPartitionTypes.TWIG_DEFAULT);
+		// for (IContentAssistProcessor element : all) {
+		// if (element instanceof PHPCompletionProcessor) {
+		// ((PHPCompletionProcessor) element).setExplicit(true);
+		// }
+		// }
+		// }
+		// }
 		super.doOperation(operation);
 	}
 
@@ -66,6 +61,10 @@ public class TwigStructuredTextViewer extends StructuredTextViewer {
 	public void configure(SourceViewerConfiguration configuration) {
 		super.configure(configuration);
 		fViewerConfiguration = configuration;
+	}
+
+	public SourceViewerConfiguration getViewerConfiguration() {
+		return fViewerConfiguration;
 	}
 
 }

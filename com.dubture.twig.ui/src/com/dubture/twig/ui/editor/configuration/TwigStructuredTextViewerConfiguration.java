@@ -8,7 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor.configuration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +33,6 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.link.LinkedModeModel;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.source.Annotation;
@@ -56,7 +54,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.wst.html.core.text.IHTMLPartitions;
 import org.eclipse.wst.html.ui.StructuredTextViewerConfigurationHTML;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
@@ -148,69 +145,7 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		return super.getLineStyleProviders(sourceViewer, partitionType);
 	}
 
-	@Override
-	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
-		IContentAssistProcessor[] processors = null;
-
-		if (partitionType.equals(
-				TwigPartitionTypes.TWIG_DEFAULT) /*
-													 * || partitionType .equals(
-													 * IHTMLPartitions .
-													 * HTML_DEFAULT )
-													 */) {
-			ArrayList processorsList = getTwigDefaultProcessors(sourceViewer);
-			processors = new IContentAssistProcessor[processorsList.size()];
-			processorsList.toArray(processors);
-
-		} else if (partitionType.equals(IHTMLPartitions.HTML_DEFAULT)) {
-			ArrayList processorsList = getTwigDefaultProcessors(sourceViewer);
-			IContentAssistProcessor[] twigProcessors = new IContentAssistProcessor[processorsList.size()];
-			processorsList.toArray(twigProcessors);
-			IContentAssistProcessor[] phpProcessors = super.getContentAssistProcessors(sourceViewer, partitionType);
-			processors = new IContentAssistProcessor[twigProcessors.length + phpProcessors.length];
-			System.arraycopy(twigProcessors, 0, processors, 0, twigProcessors.length);
-			System.arraycopy(phpProcessors, 0, processors, twigProcessors.length, phpProcessors.length);
-		} else {
-			processors = super.getContentAssistProcessors(sourceViewer, partitionType);
-		}
-		return processors;
-
-	}
-
-	private ArrayList processors = null;
-
 	private ISourceViewer sourceViewer;
-
-	private ArrayList getTwigDefaultProcessors(ISourceViewer sourceViewer) {
-		if (processors != null) {
-			return processors;
-		}
-		processors = new ArrayList();
-		// ITextEditor textEditor = ((PHPStructuredTextViewer) sourceViewer)
-		// .getTextEditor();
-		// processors.add(new PHPCompletionProcessor(textEditor,
-		// (ContentAssistant) getPHPContentAssistant(sourceViewer),
-		// TwigPartitionTypes.TWIG_DEFAULT));
-		// String processorsExtensionName =
-		// "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
-		//
-		// IConfigurationElement[] elements = Platform.getExtensionRegistry()
-		// .getConfigurationElementsFor(processorsExtensionName);
-		// for (int i = 0; i < elements.length; i++) {
-		// IConfigurationElement element = elements[i];
-		// if (element.getName().equals("processor")) { //$NON-NLS-1$
-		// ElementCreationProxy ecProxy = new ElementCreationProxy(
-		// element, processorsExtensionName);
-		// IContentAssistProcessor processor = (IContentAssistProcessor) ecProxy
-		// .getObject();
-		// if (processor != null) {
-		// processors.add(processor);
-		// }
-		// }
-		// }
-
-		return processors;
-	}
 
 	@Override
 	public String[] getDefaultPrefixes(ISourceViewer sourceViewer, String contentType) {
@@ -248,6 +183,7 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		return shortenedStateMasks;
 	}
 
+	@Override
 	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
 
 		return getTextHover(sourceViewer, contentType, ITextViewerExtension2.DEFAULT_HOVER_STATE_MASK);
@@ -416,6 +352,7 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		return reconciler;
 	}
 
+	@Override
 	public void setHighlighter(ReconcilerHighlighter highlighter) {
 		fHighlighter = highlighter;
 		super.setHighlighter(highlighter);
@@ -536,6 +473,7 @@ public class TwigStructuredTextViewerConfiguration extends StructuredTextViewerC
 		/*
 		 * @see Job#run(org.eclipse.core.runtime.IProgressMonitor)
 		 */
+		@Override
 		public IStatus run(IProgressMonitor progressMonitor) {
 			if (isCanceled(progressMonitor))
 				return Status.CANCEL_STATUS;
