@@ -8,27 +8,23 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-import org.eclipse.dltk.internal.core.SourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.FunctionContext;
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.model.Function;
+import com.dubture.twig.core.model.IFunction;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
  * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({ "restriction", "deprecation" })
-public class FunctionStrategy extends AbstractCompletionStrategy {
+@SuppressWarnings({ "restriction" })
+public class FunctionStrategy extends AbstractTwigCompletionStrategy {
 
 	public FunctionStrategy(ICompletionContext context) {
 		super(context);
@@ -44,16 +40,14 @@ public class FunctionStrategy extends AbstractCompletionStrategy {
 			TwigModelAccess model = TwigModelAccess.getDefault();
 
 			String prefix = ctx.getPrefix();
-			SourceRange range = getReplacementRange(getContext());
+			ISourceRange range = getReplacementRange(getContext());
 
-			Function[] functions = model.getFunctions(ctx.getSourceModule().getScriptProject());
+			IFunction[] functions = model.getFunctions(ctx.getScriptProject());
 
-			for (Function function : functions) {
+			for (IFunction function : functions) {
 				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {
 
-					function.setScriptProject(ctx.getSourceModule().getScriptProject());
-
-					reporter.reportType(function, "()", range);
+					reporter.reportFunction(function, range);
 				}
 			}
 

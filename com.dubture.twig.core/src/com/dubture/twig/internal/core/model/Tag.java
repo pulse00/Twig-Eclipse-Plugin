@@ -6,9 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
-package com.dubture.twig.core.model;
+package com.dubture.twig.internal.core.model;
 
 import org.json.simple.JSONObject;
+
+import com.dubture.twig.core.model.ITag;
 
 /**
  * 
@@ -19,7 +21,7 @@ import org.json.simple.JSONObject;
  * 
  */
 @SuppressWarnings("restriction")
-public class Tag extends TwigType {
+public class Tag extends TwigType implements ITag {
 
 	private String startTag;
 	private String endTag;
@@ -71,5 +73,10 @@ public class Tag extends TwigType {
 	public void setMetadata(JSONObject data) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getKind() {
+		return TAG;
 	}
 }

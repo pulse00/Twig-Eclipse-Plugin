@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.log.Logger;
@@ -25,30 +25,30 @@ import com.dubture.twig.core.log.Logger;
 public class KeywordContext extends AbstractTwigCompletionContext {
 
 	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
-
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
 		try {
-			if (super.isValid(sourceModule, offset, requestor)) {
 
-				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+			if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+				return false;
+			}
+
+			String prefix = getStatementText().toString();
+
+			if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {
+
+				String previous = getPreviousWord();
+
+				// {% block | <-- we complete parent blocks in here
+				if (previous != null && "block".equals(previous)) {
 					return false;
 				}
 
-				String prefix = getStatementText().toString();
-
-				if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {
-
-					String previous = getPreviousWord();
-
-					// {% block | <-- we complete parent blocks in here
-					if (previous != null && "block".equals(previous)) {
-						return false;
-					}
-
-					return true;
-				}
-
+				return true;
 			}
+
 		} catch (Exception e) {
 
 			Logger.logException(e);

@@ -6,10 +6,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
-package com.dubture.twig.core.model;
+package com.dubture.twig.internal.core.model;
 
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
+
+import com.dubture.twig.core.model.IFilter;
 
 /**
  * 
@@ -22,7 +24,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
  * 
  */
 @SuppressWarnings("restriction")
-public class Filter extends TwigCallable {
+public class Filter extends TwigCallable implements IFilter {
 
 	public Filter(ModelElement parent, String name) {
 		super(parent, name);
@@ -38,5 +40,10 @@ public class Filter extends TwigCallable {
 
 	public Filter(String elementName) {
 		super(null, elementName);
+	}
+
+	@Override
+	public int getKind() {
+		return FILTER;
 	}
 }

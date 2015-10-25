@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.dubture.twig.core
 Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -41,5 +41,6 @@ Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.parser.ast.visitor,
  com.dubture.twig.core.search,
  com.dubture.twig.core.util,
- com.dubture.twig.core.util.text
+ com.dubture.twig.core.util.text,
+ com.dubture.twig.internal.core.model;x-internal:=true
 Bundle-Vendor: https://github.com/pulse00

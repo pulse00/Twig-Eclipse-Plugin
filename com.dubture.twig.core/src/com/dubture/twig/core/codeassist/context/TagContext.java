@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 
 /**
  * 
@@ -23,17 +23,12 @@ import org.eclipse.dltk.core.ISourceModule;
 public class TagContext extends KeywordContext {
 
 	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
-
-		if (super.isValid(sourceModule, offset, requestor)) {
-
-			// TODO: check if we're in a {% %} statement region
-
-			return true;
-
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 }

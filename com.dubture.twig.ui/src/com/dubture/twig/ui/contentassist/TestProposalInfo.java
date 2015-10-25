@@ -14,7 +14,7 @@ import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
 
-import com.dubture.twig.core.model.Test;
+import com.dubture.twig.internal.core.model.Test;
 import com.dubture.twig.ui.utils.HTMLUtils;
 
 public class TestProposalInfo extends MemberProposalInfo {

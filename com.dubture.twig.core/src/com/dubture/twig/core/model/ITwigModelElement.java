@@ -8,6 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.model;
 
+import org.eclipse.dltk.core.IScriptProject;
+
 public interface ITwigModelElement {
 
 	int START_TAG = 800;
@@ -17,5 +19,15 @@ public interface ITwigModelElement {
 	int TEST = 804;
 	int BLOCK = 805;
 	int EXTENDS = 806;
+	int TAG = 807;
 
+	public String getElementName();
+
+	public int getKind();
+
+	public String getPhpClass();
+
+	public String getDescription();
+
+	public IScriptProject getScriptProject();
 }

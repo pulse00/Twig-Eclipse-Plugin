@@ -8,9 +8,8 @@
  */
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.internal.core.SourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.log.Logger;
@@ -22,22 +21,13 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-@SuppressWarnings("restriction")
 public class BlocknameContext extends AbstractTwigCompletionContext {
 
 	protected TwigModuleDeclaration module;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext#
-	 * isValid(org.eclipse.dltk.core.ISourceModule, int,
-	 * org.eclipse.dltk.core.CompletionRequestor)
-	 */
 	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
-		if (super.isValid(sourceModule, offset, requestor) == false) {
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
 			return false;
 		}
 
@@ -56,7 +46,7 @@ public class BlocknameContext extends AbstractTwigCompletionContext {
 					return false;
 				}
 
-				module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule((SourceModule) getSourceModule());
+				module = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(template.get());
 
 				for (BlockStatement block : module.getBlocks()) {
 					if ("extends".equals(block.getName().getValue())) {

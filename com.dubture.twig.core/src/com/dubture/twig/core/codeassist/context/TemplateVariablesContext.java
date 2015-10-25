@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
@@ -38,26 +38,26 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 @SuppressWarnings("restriction")
 public class TemplateVariablesContext extends AbstractTwigCompletionContext {
 	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
 
-		if (super.isValid(sourceModule, offset, requestor)) {
+		try {
 
-			try {
+			if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
+				return false;
 
-				if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING)
-					return false;
+			TextSequence sequence = getStatementText();
 
-				TextSequence sequence = getStatementText();
-
-				if (TwigTextSequenceUtilities.isInField(sequence)) {
-					return false;
-				}
-
-				return true;
-
-			} catch (Exception e) {
-				Logger.logException(e);
+			if (TwigTextSequenceUtilities.isInField(sequence)) {
+				return false;
 			}
+
+			return true;
+
+		} catch (Exception e) {
+			Logger.logException(e);
 		}
 		return false;
 	}

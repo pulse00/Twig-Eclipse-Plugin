@@ -9,10 +9,7 @@
 package com.dubture.twig.core;
 
 /**
- * 
  * CoreConstants.
- * 
- * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 

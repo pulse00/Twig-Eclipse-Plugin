@@ -8,14 +8,16 @@
 */
 package com.dubture.twig.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+import com.dubture.twig.core.codeassist.ITwigCompletionContextResolver;
+import com.dubture.twig.core.codeassist.ITwigCompletionStrategyFactory;
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.model.ITemplateResolver;
 
@@ -25,25 +27,31 @@ import com.dubture.twig.core.model.ITemplateResolver;
  */
 public class ExtensionManager {
 
-	public static final String TEMPLATE_RESOLVER_ID = "com.dubture.twig.core.templateResolvers";
+	public static final String TEMPLATE_RESOLVER_ID = "com.dubture.twig.core.templateResolvers"; //$NON-NLS-1$
 
-	private Map<String, List<?>> extensions = new HashMap<String, List<?>>();
+	public static final String COMPLETION_CONTEXT_RESOLVERS = "com.dubture.twig.core.completionContextResolvers"; //$NON-NLS-1$
+
+	public static final String COMPLETION_STRATEGY_RESOLVERS = "com.dubture.twig.core.completionStrategyResolvers"; //$NON-NLS-1$
+
+	private static final String ATTR_CLASS = "class"; //$NON-NLS-1$
+
+	private Map<String, Object[]> extensions = new HashMap<String, Object[]>();
 	private static ExtensionManager instance = null;
 
 	private ExtensionManager() {
-		initResolvers();
+
 	}
 
-	private void initResolvers() {
+	private void initTemplateResolvers() {
 
 		IConfigurationElement[] config = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(TEMPLATE_RESOLVER_ID);
 
-		ArrayList<ITemplateResolver> resolvers = new ArrayList<ITemplateResolver>();
+		List<ITemplateResolver> resolvers = new LinkedList<ITemplateResolver>();
 
 		try {
 			for (IConfigurationElement e : config) {
-				final Object object = e.createExecutableExtension("class");
+				final Object object = e.createExecutableExtension(ATTR_CLASS);
 				if (object instanceof ITemplateResolver) {
 					ITemplateResolver provider = (ITemplateResolver) object;
 					resolvers.add(provider);
@@ -52,9 +60,55 @@ public class ExtensionManager {
 		} catch (Exception e) {
 			Logger.logException(e);
 		}
+		extensions.put(TEMPLATE_RESOLVER_ID, resolvers.toArray(new ITemplateResolver[resolvers.size()]));
+	}
 
-		extensions.put(TEMPLATE_RESOLVER_ID, resolvers);
+	private void initContextResolvers() {
 
+		IConfigurationElement[] config = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(COMPLETION_CONTEXT_RESOLVERS);
+
+		List<ITwigCompletionContextResolver> resolvers = new LinkedList<ITwigCompletionContextResolver>();
+
+		try {
+			for (IConfigurationElement e : config) {
+				final Object object = e.createExecutableExtension(ATTR_CLASS);
+				if (object instanceof ITwigCompletionContextResolver) {
+					resolvers.add((ITwigCompletionContextResolver) object);
+				} else {
+					Logger.log(Logger.ERROR,
+							"Invalid class for TwigCompletionContextResolvers : " + object.getClass().getName());
+				}
+			}
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+		extensions.put(COMPLETION_CONTEXT_RESOLVERS,
+				resolvers.toArray(new ITwigCompletionContextResolver[resolvers.size()]));
+	}
+
+	private void initStrategyResolvers() {
+
+		IConfigurationElement[] config = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(COMPLETION_STRATEGY_RESOLVERS);
+
+		List<ITwigCompletionStrategyFactory> resolvers = new LinkedList<ITwigCompletionStrategyFactory>();
+
+		try {
+			for (IConfigurationElement e : config) {
+				final Object object = e.createExecutableExtension(ATTR_CLASS);
+				if (object instanceof ITwigCompletionStrategyFactory) {
+					resolvers.add((ITwigCompletionStrategyFactory) object);
+				} else {
+					Logger.log(Logger.ERROR,
+							"Invalid class for TwigCompletionStrategyResolvers : " + object.getClass().getName());
+				}
+			}
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+		extensions.put(COMPLETION_STRATEGY_RESOLVERS,
+				resolvers.toArray(new ITwigCompletionStrategyFactory[resolvers.size()]));
 	}
 
 	public static ExtensionManager getInstance() {
@@ -65,36 +119,25 @@ public class ExtensionManager {
 		return instance;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<ITemplateResolver> getProposalExtensions() {
-		return (List<ITemplateResolver>) extensions.get(TEMPLATE_RESOLVER_ID);
+	public ITemplateResolver[] getTemplateProviders() {
+		if (!extensions.containsKey(TEMPLATE_RESOLVER_ID)) {
+			initTemplateResolvers();
+		}
+		return (ITemplateResolver[]) extensions.get(TEMPLATE_RESOLVER_ID);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<ITemplateResolver> getTemplateProviders() {
-		if (extensions.containsKey(TEMPLATE_RESOLVER_ID)) {
-			return (List<ITemplateResolver>) extensions.get(TEMPLATE_RESOLVER_ID);
+	public ITwigCompletionContextResolver[] getCompletionContextResolvers() {
+		if (!extensions.containsKey(COMPLETION_CONTEXT_RESOLVERS)) {
+			initContextResolvers();
 		}
+		return (ITwigCompletionContextResolver[]) extensions.get(COMPLETION_CONTEXT_RESOLVERS);
+	}
 
-		IConfigurationElement[] config = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(TEMPLATE_RESOLVER_ID);
-
-		ArrayList<ITemplateResolver> providers = new ArrayList<ITemplateResolver>();
-
-		try {
-			for (IConfigurationElement e : config) {
-				final Object object = e.createExecutableExtension("class");
-				if (object instanceof ITemplateResolver) {
-					ITemplateResolver provider = (ITemplateResolver) object;
-					providers.add(provider);
-				}
-			}
-		} catch (Exception e) {
-			Logger.logException(e);
+	public ITwigCompletionStrategyFactory[] getCompletionStrategyResolvers() {
+		if (!extensions.containsKey(COMPLETION_STRATEGY_RESOLVERS)) {
+			initStrategyResolvers();
 		}
-
-		extensions.put(TEMPLATE_RESOLVER_ID, providers);
-		return providers;
+		return (ITwigCompletionStrategyFactory[]) extensions.get(COMPLETION_STRATEGY_RESOLVERS);
 	}
 
 }

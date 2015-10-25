@@ -8,7 +8,7 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist;
 
-import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.core.resources.IProject;
 
 /**
  * Interface for the completionContextResolvers extension point.
@@ -18,7 +18,8 @@ import org.eclipse.php.core.codeassist.ICompletionContext;
  * 
  */
 public interface ITwigCompletionContextResolver {
+	public static ICompletionContext[] NO_CONTEXTS = {};
 
-	ICompletionContext[] createContexts();
+	ICompletionContext[] createContexts(IProject project);
 
 }

@@ -6,12 +6,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
-package com.dubture.twig.core.model;
+package com.dubture.twig.internal.core.model;
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
 import org.json.simple.JSONObject;
+
+import com.dubture.twig.core.model.ITest;
 
 /**
  * 
@@ -22,7 +24,7 @@ import org.json.simple.JSONObject;
  * 
  */
 @SuppressWarnings("restriction")
-public class Test extends TwigType {
+public class Test extends TwigType implements ITest {
 
 	protected PHPDocBlock doc;
 	private IScriptProject project;
@@ -89,5 +91,10 @@ public class Test extends TwigType {
 	public IScriptProject getScriptProject() {
 
 		return project;
+	}
+
+	@Override
+	public int getKind() {
+		return TEST;
 	}
 }

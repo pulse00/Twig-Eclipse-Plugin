@@ -13,10 +13,10 @@ import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLabelProvider;
 
-import com.dubture.twig.core.model.Filter;
-import com.dubture.twig.core.model.Function;
-import com.dubture.twig.core.model.Tag;
-import com.dubture.twig.core.model.Test;
+import com.dubture.twig.internal.core.model.Filter;
+import com.dubture.twig.internal.core.model.Function;
+import com.dubture.twig.internal.core.model.Tag;
+import com.dubture.twig.internal.core.model.Test;
 import com.dubture.twig.ui.TwigPluginImages;
 
 /**

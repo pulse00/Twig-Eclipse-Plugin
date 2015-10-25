@@ -31,6 +31,7 @@ public class BlockStatement extends Statement {
 		return name;
 	}
 
+	@Override
 	public void traverse(ASTVisitor visitor) throws Exception {
 		final boolean visit = visitor.visit(this);
 		if (visit) {

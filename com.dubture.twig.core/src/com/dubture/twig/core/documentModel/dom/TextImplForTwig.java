@@ -39,7 +39,7 @@ public class TextImplForTwig extends TextImpl implements IAdaptable, IImplForTwi
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object getAdapter(Class adapter) {
 		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}

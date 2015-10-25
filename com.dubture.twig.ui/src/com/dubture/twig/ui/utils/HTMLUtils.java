@@ -28,9 +28,9 @@ import org.eclipse.php.internal.ui.documentation.PHPDocumentationContentAccess;
 import org.eclipse.swt.graphics.FontData;
 import org.osgi.framework.Bundle;
 
-import com.dubture.twig.core.model.Filter;
-import com.dubture.twig.core.model.Tag;
-import com.dubture.twig.core.model.Test;
+import com.dubture.twig.core.model.IFilter;
+import com.dubture.twig.core.model.ITag;
+import com.dubture.twig.core.model.ITest;
 import com.dubture.twig.ui.TwigPluginImages;
 import com.dubture.twig.ui.TwigUICorePlugin;
 
@@ -47,8 +47,7 @@ public class HTMLUtils {
 
 	private static String fgStyleSheet;
 
-	public static String tag2Html(Tag tag) {
-
+	public static String tag2Html(ITag tag) {
 		StringBuffer info = new StringBuffer();
 		String styles = getStyleSheet();
 		HTMLPrinter.insertPageProlog(info, 0, styles);
@@ -81,7 +80,7 @@ public class HTMLUtils {
 
 	}
 
-	public static String test2Html(Test test) {
+	public static String test2Html(ITest test) {
 
 		StringBuffer info = new StringBuffer();
 		String styles = getStyleSheet();
@@ -114,7 +113,7 @@ public class HTMLUtils {
 		return info.toString();
 	}
 
-	public static String filter2Html(Filter filter) {
+	public static String filter2Html(IFilter filter) {
 
 		StringBuffer info = new StringBuffer();
 		String styles = getStyleSheet();

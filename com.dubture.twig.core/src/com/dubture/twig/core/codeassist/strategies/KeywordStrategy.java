@@ -8,11 +8,11 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-import org.eclipse.dltk.internal.core.SourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.KeywordContext;
 
 /**
@@ -24,10 +24,10 @@ import com.dubture.twig.core.codeassist.context.KeywordContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({ "restriction", "deprecation" })
+@SuppressWarnings({ "restriction" })
 public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
-	private String[] KEYWORDS = new String[] { "as", "in", "true", "false", "as", "with" };
+	private String[] KEYWORDS = new String[] { "as", "in", "true", "false", "with" };
 
 	public KeywordStrategy(ICompletionContext context) {
 		super(context);
@@ -39,12 +39,13 @@ public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
 		KeywordContext ctx = (KeywordContext) getContext();
 		String prefix = ctx.getPrefix();
-		SourceRange range = getReplacementRange(getContext());
+		ISourceRange range = getReplacementRange(getContext());
 
 		for (String keyword : KEYWORDS) {
 			if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
-				reporter.reportKeyword(keyword, "", range);
+				reporter.reportKeyword(keyword, range);
 			}
 		}
 	}
+
 }

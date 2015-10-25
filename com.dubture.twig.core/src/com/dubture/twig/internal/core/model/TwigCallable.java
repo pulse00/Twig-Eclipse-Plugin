@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
-package com.dubture.twig.core.model;
+package com.dubture.twig.internal.core.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -126,6 +126,7 @@ public abstract class TwigCallable extends TwigType {
 
 	}
 
+	@Override
 	public IScriptProject getScriptProject() {
 		return _project;
 	}
@@ -147,6 +148,10 @@ public abstract class TwigCallable extends TwigType {
 
 		this.doc = doc;
 
+	}
+
+	public String[] getParameterNames() {
+		return getArguments().keySet().toArray(new String[getArguments().size()]);
 	}
 
 }

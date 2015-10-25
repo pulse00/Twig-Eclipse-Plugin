@@ -10,13 +10,13 @@ package com.dubture.twig.ui.extension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import com.dubture.twig.core.log.Logger;
+import com.dubture.twig.ui.editor.contentassist.DefaultCompletionProposalProvider;
 import com.dubture.twig.ui.editor.contentassist.ICompletionProposalProvider;
 import com.dubture.twig.ui.wizards.ITemplateProvider;
 
@@ -30,7 +30,7 @@ public class ExtensionManager {
 	public static final String PROPOSAL_PROVIDER_ID = "com.dubture.twig.ui.completionProposalProvider";
 	public static final String TEMPLATE_PROVIDER_ID = "com.dubture.twig.ui.templateProvider";
 
-	private Map<String, List<?>> extensions = new HashMap<String, List<?>>();
+	private Map<String, Object[]> extensions = new HashMap<String, Object[]>();
 	private static ExtensionManager instance = null;
 
 	private ExtensionManager() {
@@ -55,8 +55,10 @@ public class ExtensionManager {
 		} catch (Exception e) {
 			Logger.logException(e);
 		}
+		proposals.add(new DefaultCompletionProposalProvider()); // hardocde as
+																// last
 
-		extensions.put(PROPOSAL_PROVIDER_ID, proposals);
+		extensions.put(PROPOSAL_PROVIDER_ID, proposals.toArray(new ICompletionProposalProvider[proposals.size()]));
 
 	}
 
@@ -68,35 +70,32 @@ public class ExtensionManager {
 		return instance;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<ICompletionProposalProvider> getProposalExtensions() {
-		return (List<ICompletionProposalProvider>) extensions.get(PROPOSAL_PROVIDER_ID);
+	public ICompletionProposalProvider[] getProposalExtensions() {
+		return (ICompletionProposalProvider[]) extensions.get(PROPOSAL_PROVIDER_ID);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<ITemplateProvider> getTemplateProviders() {
-		if (extensions.containsKey(TEMPLATE_PROVIDER_ID)) {
-			return (List<ITemplateProvider>) extensions.get(TEMPLATE_PROVIDER_ID);
-		}
+	public ITemplateProvider[] getTemplateProviders() {
+		if (!extensions.containsKey(TEMPLATE_PROVIDER_ID)) {
 
-		IConfigurationElement[] config = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);
+			IConfigurationElement[] config = Platform.getExtensionRegistry()
+					.getConfigurationElementsFor(TEMPLATE_PROVIDER_ID);
 
-		ArrayList<ITemplateProvider> providers = new ArrayList<ITemplateProvider>();
+			ArrayList<ITemplateProvider> providers = new ArrayList<ITemplateProvider>();
 
-		try {
-			for (IConfigurationElement e : config) {
-				final Object object = e.createExecutableExtension("class");
-				if (object instanceof ITemplateProvider) {
-					ITemplateProvider provider = (ITemplateProvider) object;
-					providers.add(provider);
+			try {
+				for (IConfigurationElement e : config) {
+					final Object object = e.createExecutableExtension("class");
+					if (object instanceof ITemplateProvider) {
+						ITemplateProvider provider = (ITemplateProvider) object;
+						providers.add(provider);
+					}
 				}
+			} catch (Exception e) {
+				Logger.logException(e);
 			}
-		} catch (Exception e) {
-			Logger.logException(e);
-		}
 
-		extensions.put(TEMPLATE_PROVIDER_ID, providers);
-		return providers;
+			extensions.put(TEMPLATE_PROVIDER_ID, providers.toArray(new ITemplateProvider[providers.size()]));
+		}
+		return (ITemplateProvider[]) extensions.get(TEMPLATE_PROVIDER_ID);
 	}
 }

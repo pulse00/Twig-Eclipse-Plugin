@@ -11,6 +11,7 @@ package com.dubture.twig.core.index;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -37,14 +38,15 @@ import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.json.simple.JSONObject;
 
 import com.dubture.twig.core.TwigCoreConstants;
+import com.dubture.twig.core.TwigNature;
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.model.Filter;
-import com.dubture.twig.core.model.Function;
 import com.dubture.twig.core.model.ITwigModelElement;
-import com.dubture.twig.core.model.Tag;
-import com.dubture.twig.core.model.Test;
-import com.dubture.twig.core.model.TwigType;
 import com.dubture.twig.core.util.TwigModelUtils;
+import com.dubture.twig.internal.core.model.Filter;
+import com.dubture.twig.internal.core.model.Function;
+import com.dubture.twig.internal.core.model.Tag;
+import com.dubture.twig.internal.core.model.Test;
+import com.dubture.twig.internal.core.model.TwigType;
 
 /**
  * 
@@ -70,8 +72,6 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	protected List<Filter> filters = new ArrayList<Filter>();
 	protected List<Test> tests = new ArrayList<Test>();
 
-	protected TwigIndexingVisitor visitor;
-
 	public TwigIndexingVisitorExtension() {
 
 	}
@@ -79,13 +79,15 @@ public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
 	@Override
 	public void setSourceModule(ISourceModule module) {
 		super.setSourceModule(module);
-		visitor = new TwigIndexingVisitor(requestor, sourceModule);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean visit(MethodDeclaration s) throws Exception {
-
+		IProject project = sourceModule.getScriptProject().getProject();
+		if (project == null || !project.isAccessible() || !project.hasNature(TwigNature.NATURE_ID)) {
+			return false;
+		}
 		if (!methods.contains(s))
 			methods.add(s);
 

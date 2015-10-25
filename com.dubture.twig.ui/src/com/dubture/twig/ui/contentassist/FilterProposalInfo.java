@@ -13,7 +13,7 @@ import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.ui.text.completion.MemberProposalInfo;
 
-import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.internal.core.model.Filter;
 import com.dubture.twig.ui.utils.HTMLUtils;
 
 /**

@@ -18,7 +18,7 @@
 		<property name="jflex.work.dir" value="${java.io.tmpdir}/PDT_JFlex_files" />
 
 		<mkdir dir="${jflex.work.dir}" />
-		<property name="cupParser" value="${jflex.work.dir}/org.eclipse.php.parser.jar" />
+		<property name="cupParser" value="${jflex.work.dir}/org.eclipse.php.parser_3.6.jar" />
 	</target>
 
 	<target name="getParserJar" depends="init">
@@ -32,7 +32,7 @@
 		<setproxy proxyhost="${http.proxyHost}" proxyport="${http.proxyPort}" />
 	</target>
 	<target name="downloadParser" unless="jarParserExists">
-		<get src="http://download.eclipse.org/tools/pdt/updates/3.4/plugins/org.eclipse.php.core.parser_3.4.0.201502171754.jar" dest="${cupParser}" verbose="true" usetimestamp="true" />
+		<get src="http://download.eclipse.org/tools/pdt/updates/3.6/plugins/org.eclipse.php.core.parser_3.6.0.201509151953.jar" dest="${cupParser}" verbose="true" usetimestamp="true" />
 	</target>
 
 </project>

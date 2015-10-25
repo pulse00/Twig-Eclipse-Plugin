@@ -14,8 +14,8 @@ public class IndexingVisitor extends AbstractIndexingVisitor
 
 	@Override
 	public void visit(Object file) {
-		System.out.println(getResource().getFullPath().toString());
-		System.out.println(file);
+		// System.out.println(getResource().getFullPath().toString());
+		// System.out.println(file);
 	}
 
 }

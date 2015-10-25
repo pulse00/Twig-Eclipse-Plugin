@@ -8,14 +8,12 @@
  ******************************************************************************/
 package com.dubture.twig.core.model;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.core.index2.search.ISearchEngine;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
 import org.eclipse.dltk.core.index2.search.ISearchEngine.SearchFor;
@@ -27,28 +25,24 @@ import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceModule;
 import org.eclipse.dltk.internal.core.util.LRUCache;
 import org.eclipse.php.internal.core.PHPLanguageToolkit;
-import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.dubture.twig.core.ExtensionManager;
-import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.parser.SourceParserUtil;
 import com.dubture.twig.core.parser.ast.node.BlockStatement;
 import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
+import com.dubture.twig.internal.core.model.Filter;
+import com.dubture.twig.internal.core.model.Function;
+import com.dubture.twig.internal.core.model.Tag;
+import com.dubture.twig.internal.core.model.Test;
+import com.dubture.twig.internal.core.model.TwigType;
 
 /**
- * 
- * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
 @SuppressWarnings("restriction")
-public class TwigModelAccess extends PhpModelAccess {
+public class TwigModelAccess {
 	private static TwigModelAccess instance = null;
 	private List<Template> templates = new ArrayList<Template>();
 	private LRUCache tagCache = new LRUCache();
@@ -62,16 +56,6 @@ public class TwigModelAccess extends PhpModelAccess {
 		}
 
 		return instance;
-	}
-
-	public Template getTemplate(ISourceModule sourceModule) {
-
-		for (Template template : templates) {
-			if (template.getSourceModule().equals(sourceModule))
-				return template;
-		}
-
-		return null;
 	}
 
 	public void addTemplate(Template twigTemplate) {
@@ -91,7 +75,7 @@ public class TwigModelAccess extends PhpModelAccess {
 	 * @param scriptProject
 	 * @return
 	 */
-	public Function[] getFunctions(IScriptProject scriptProject) {
+	public IFunction[] getFunctions(IScriptProject scriptProject) {
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
 
@@ -125,7 +109,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return functions.toArray(new Function[functions.size()]);
+		return functions.toArray(new IFunction[functions.size()]);
 	}
 
 	/**
@@ -136,7 +120,7 @@ public class TwigModelAccess extends PhpModelAccess {
 	 * @param scriptProject
 	 * @return
 	 */
-	public Filter[] getFilters(IScriptProject scriptProject) {
+	public IFilter[] getFilters(IScriptProject scriptProject) {
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
 
@@ -167,7 +151,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return filters.toArray(new Filter[filters.size()]);
+		return filters.toArray(new IFilter[filters.size()]);
 
 	}
 
@@ -348,7 +332,7 @@ public class TwigModelAccess extends PhpModelAccess {
 	 * @param scriptProject
 	 * @return
 	 */
-	public Tag[] findTags(IScriptProject scriptProject) {
+	public ITag[] findTags(IScriptProject scriptProject) {
 
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
@@ -419,11 +403,11 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return tags.toArray(new Tag[tags.size()]);
+		return tags.toArray(new ITag[tags.size()]);
 
 	}
 
-	public Test[] getTests(IScriptProject scriptProject) {
+	public ITest[] getTests(IScriptProject scriptProject) {
 
 		IDLTKSearchScope scope = SearchEngine.createSearchScope(scriptProject);
 		ISearchEngine engine = ModelAccess.getSearchEngine(PHPLanguageToolkit.getDefault());
@@ -456,7 +440,7 @@ public class TwigModelAccess extends PhpModelAccess {
 					}
 				}, null);
 
-		return tests.toArray(new Test[tests.size()]);
+		return tests.toArray(new ITest[tests.size()]);
 
 	}
 
@@ -483,22 +467,23 @@ public class TwigModelAccess extends PhpModelAccess {
 
 		for (ITemplateResolver resolver : ExtensionManager.getInstance().getTemplateProviders()) {
 
-			SourceModule module = resolver.revolePath(path, project);
-
-			if (module != null) {
-
-				try {
-					parent = (TwigModuleDeclaration) SourceParserUtil.parseSourceModule(module);
-				} catch (ModelException e) {
-					Logger.logException(e);
-				} catch (IOException e) {
-					Logger.logException(e);
-				}
-
-				if (parent != null) {
-					return parent;
-				}
-			}
+			// SourceModule module = resolver.revolePath(path, project);
+			//
+			// if (module != null) {
+			//
+			// try {
+			// parent = (TwigModuleDeclaration)
+			// SourceParserUtil.parseSourceModule(module);
+			// } catch (ModelException e) {
+			// Logger.logException(e);
+			// } catch (IOException e) {
+			// Logger.logException(e);
+			// }
+			//
+			// if (parent != null) {
+			// return parent;
+			// }
+			// }
 		}
 
 		return parent;

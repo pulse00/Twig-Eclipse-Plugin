@@ -11,6 +11,9 @@ package com.dubture.twig.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
@@ -45,6 +48,21 @@ public class TwigModelUtils {
 			if (ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG.equals(type.getId())) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	public static boolean isTwigTemplate(IResource resource) {
+		assert resource != null;
+		if (resource.getType() != IResource.FILE) {
+			return false;
+		}
+		try {
+			return ((IFile) resource).getContentDescription().getContentType().isKindOf(
+					Platform.getContentTypeManager().getContentType(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG));
+		} catch (CoreException e) {
+			Logger.logException(e);
 		}
 
 		return false;

@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 
 import com.dubture.twig.core.log.Logger;
@@ -40,25 +40,25 @@ public class VariableFieldContext extends AbstractTwigCompletionContext {
 	}
 
 	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
 
-		if (super.isValid(sourceModule, offset, requestor)) {
+		try {
 
-			try {
+			TextSequence statement = getStatementText();
 
-				TextSequence statement = getStatementText();
+			if (TwigTextSequenceUtilities.isInField(statement)) {
 
-				if (TwigTextSequenceUtilities.isInField(statement)) {
-
-					variable = TwigTextSequenceUtilities.getVariable(statement);
-					return true;
-				}
-
+				variable = TwigTextSequenceUtilities.getVariable(statement);
 				return true;
-
-			} catch (Exception e) {
-				Logger.logException(e);
 			}
+
+			return true;
+
+		} catch (Exception e) {
+			Logger.logException(e);
 		}
 		return false;
 	}

@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="com.dubture.twig.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="com.dubture.twig.core" id="completionContextResolvers" name="The Twig Completion Context Resolver Extension"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          This extension enables plugins to provide CompletionContexts for the Twig completion engine.
       </documentation>
@@ -12,9 +12,9 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <choice>
@@ -39,9 +39,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -54,29 +54,29 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn=":com.dubture.twig.core.codeassist.ITwigCompletionContextResolver"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          1.0.7
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="examples"/>
-      </appinfo>
+      </appInfo>
       <documentation>
-            &lt;extension
+         &lt;extension
          point=&quot;com.dubture.twig.core.completionContextResolvers&quot;&gt;
       &lt;resolver
             class=&quot;com.dubture.symfony.twig.codeassist.TwigCompletionContextResolver&quot;&gt;
@@ -86,18 +86,18 @@
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="apiinfo"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          The extension class must implement the ITwigCompletionContextResolver interface.
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="implementation"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          See the Symfony plugin for examples: https://github.com/pulse00/Symfony-2-Eclipse-Plugin.
       </documentation>

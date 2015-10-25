@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  ******************************************************************************/
-package com.dubture.twig.core.model;
+package com.dubture.twig.internal.core.model;
 
 import org.eclipse.dltk.internal.core.SourceTypeElementInfo;
 

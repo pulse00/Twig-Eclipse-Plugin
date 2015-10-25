@@ -318,7 +318,7 @@
 					<iterate operator="or">
 						<equals value="com.dubture.twig.editor"/>
 					</iterate>
-				</with>			   
+				</with>
 			</or>
 				
 			</activeWhen>

@@ -8,15 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.php.core.codeassist.ICompletionContext;
-import org.eclipse.php.core.codeassist.ICompletionStrategy;
-import org.eclipse.php.core.codeassist.ICompletionStrategyFactory;
 
 import com.dubture.twig.core.codeassist.context.BlocknameContext;
 import com.dubture.twig.core.codeassist.context.FilterContext;
@@ -34,7 +27,6 @@ import com.dubture.twig.core.codeassist.strategies.KeywordStrategy;
 import com.dubture.twig.core.codeassist.strategies.TagStrategy;
 import com.dubture.twig.core.codeassist.strategies.TemplateVariablesStrategy;
 import com.dubture.twig.core.codeassist.strategies.TestStrategy;
-import com.dubture.twig.core.log.Logger;
 
 /**
  * 
@@ -50,9 +42,7 @@ import com.dubture.twig.core.log.Logger;
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  * 
  */
-public class TwigCompletionStrategyFactory implements ICompletionStrategyFactory {
-
-	private static final String STRATEGYFACTORY_ID = "com.dubture.twig.core.completionStrategyResolvers";
+public class TwigCompletionStrategyFactory implements ITwigCompletionStrategyFactory {
 
 	@Override
 	public ICompletionStrategy[] create(ICompletionContext[] contexts) {
@@ -81,28 +71,6 @@ public class TwigCompletionStrategyFactory implements ICompletionStrategyFactory
 			}
 		}
 
-		// load the strategies from extensions
-		IConfigurationElement[] config = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(STRATEGYFACTORY_ID);
-
-		try {
-
-			for (IConfigurationElement e : config) {
-
-				final Object object = e.createExecutableExtension("class");
-
-				if (object instanceof ITwigCompletionStrategyFactory) {
-					ITwigCompletionStrategyFactory factory = (ITwigCompletionStrategyFactory) object;
-					result.addAll(Arrays.asList(factory.create(contexts)));
-
-				}
-			}
-
-		} catch (Exception e) {
-			Logger.logException(e);
-		}
-
-		return (ICompletionStrategy[]) result.toArray(new ICompletionStrategy[result.size()]);
-
+		return result.toArray(new ICompletionStrategy[result.size()]);
 	}
 }

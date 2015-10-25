@@ -11,15 +11,16 @@ package com.dubture.twig.core.codeassist.context;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.core.CompletionRequestor;
+import org.eclipse.dltk.core.DLTKCore;
+import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.core.PHPVersion;
-import org.eclipse.php.internal.core.codeassist.CompletionCompanion;
 import org.eclipse.php.internal.core.codeassist.IPHPCompletionRequestor;
-import org.eclipse.php.internal.core.codeassist.contexts.AbstractCompletionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
@@ -34,10 +35,9 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionContainer;
 
 import com.dubture.twig.core.TwigCorePlugin;
+import com.dubture.twig.core.codeassist.ICompletionCompanion;
+import com.dubture.twig.core.codeassist.ICompletionContext;
 import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
-import com.dubture.twig.core.model.Template;
-import com.dubture.twig.core.model.TwigModelAccess;
-import com.dubture.twig.core.util.TwigModelUtils;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
@@ -61,83 +61,18 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  *
  */
 @SuppressWarnings("restriction")
-public class AbstractTwigCompletionContext extends AbstractCompletionContext {
+public class AbstractTwigCompletionContext implements ICompletionContext {
 
 	private IStructuredDocument document;
-	private CompletionCompanion companion;
-	private CompletionRequestor requestor;
-	private ISourceModule sourceModule;
 	private int offset;
-	private PHPVersion phpVersion;
 	private IStructuredDocumentRegion structuredDocumentRegion;
 	private ITextRegionCollection regionCollection;
 	private ITwigScriptRegion twigScriptRegion;
 	private String partitionType;
-	private Template twigTemplate;
-
-	public void init(CompletionCompanion companion) {
-		this.companion = companion;
-		phpVersion = PHPVersion.PHP5_4;
-	}
-
-	protected CompletionCompanion getCompanion() {
-		return companion;
-	}
+	private ICompletionCompanion companion;
 
 	public ITwigScriptRegion getTwigScriptRegion() {
 		return twigScriptRegion;
-	}
-
-	public Template getTemplate() {
-
-		return twigTemplate;
-
-	}
-
-	@Override
-	public boolean isValid(ISourceModule sourceModule, int offset, CompletionRequestor requestor) {
-
-		try {
-
-			this.requestor = requestor;
-			this.sourceModule = sourceModule;
-			this.offset = offset;
-			if (sourceModule.getResource() == null
-					|| TwigModelUtils.isTwigTemplate(sourceModule.getResource().getName()) == false) {
-				return false;
-			}
-
-			document = determineDocument(sourceModule, requestor);
-
-			if (document != null) {
-
-				structuredDocumentRegion = determineStructuredDocumentRegion(document, offset);
-
-				if (structuredDocumentRegion != null) {
-
-					regionCollection = determineRegionCollection(document, structuredDocumentRegion, offset);
-
-					if (regionCollection != null) {
-
-						twigScriptRegion = determineTwigRegion(document, regionCollection, offset);
-
-						if (twigScriptRegion != null) {
-
-							partitionType = determinePartitionType(regionCollection, twigScriptRegion, offset);
-
-							twigTemplate = TwigModelAccess.getDefault().getTemplate(sourceModule);
-							return true;
-
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			TwigCorePlugin.log(e);
-		}
-
-		return false;
-
 	}
 
 	protected String determinePartitionType(ITextRegionCollection regionCollection, ITwigScriptRegion twigScriptRegion,
@@ -173,6 +108,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 		return twigScriptRegion;
 	}
 
+	@Override
 	public boolean isExclusive() {
 		return false;
 	}
@@ -285,26 +221,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	}
 
 	/**
-	 * Returns PHP version of the file where code assist was requested
-	 *
-	 * @return PHP version
-	 * @see #isValid(ISourceModule, int, CompletionRequestor)
-	 */
-	public PHPVersion getPhpVersion() {
-		return phpVersion;
-	}
-
-	/**
-	 * Returns the file where code assist was requested
-	 *
-	 * @return source module
-	 * @see #isValid(ISourceModule, int, CompletionRequestor)
-	 */
-	public ISourceModule getSourceModule() {
-		return sourceModule;
-	}
-
-	/**
 	 * Returns document associated with the editor where code assist was
 	 * requested
 	 *
@@ -324,16 +240,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	 */
 	public ITextRegionCollection getRegionCollection() {
 		return regionCollection;
-	}
-
-	/**
-	 * Returns the PHP script region of PHP code where completion was requested
-	 *
-	 * @return php script region (see {@link ItwigScriptRegion})
-	 * @see #isValid(ISourceModule, int, CompletionRequestor)
-	 */
-	public ITwigScriptRegion gettwigScriptRegion() {
-		return twigScriptRegion;
 	}
 
 	/**
@@ -376,16 +282,6 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	}
 
 	/**
-	 * Returns completion requestor
-	 *
-	 * @return completion requestor (see {@link CompletionRequestor})
-	 * @see #isValid(ISourceModule, int, CompletionRequestor)
-	 */
-	public CompletionRequestor getCompletionRequestor() {
-		return requestor;
-	}
-
-	/**
 	 * Returns offset of the cursor position when code assist was invoked
 	 *
 	 * @return offset
@@ -405,7 +301,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 		int statementLength = statementText.length();
 		int wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(statementText, statementLength); // read
 																									// whitespace
-		int wordStart = PHPTextSequenceUtilities.readIdentifierStartIndex(phpVersion, statementText, wordEnd, true);
+		int wordStart = PHPTextSequenceUtilities.readNamespaceStartIndex(statementText, wordEnd, true);
 		if (wordStart < 0 || wordEnd < 0 || wordStart > wordEnd) {
 			return "";
 		}
@@ -417,7 +313,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 
 		wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(statementText, wordStart - 1); // read
 																								// whitespace
-		wordStart = PHPTextSequenceUtilities.readIdentifierStartIndex(phpVersion, statementText, wordEnd, true);
+		wordStart = PHPTextSequenceUtilities.readNamespaceStartIndex(statementText, wordEnd, true);
 		if (wordStart < 0 || wordEnd < 0 || wordStart > wordEnd) {
 			return "";
 		}
@@ -437,13 +333,13 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 		int statementLength = statementText.length();
 		int wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(statementText, statementLength); // read
 																									// whitespace
-		int wordStart = PHPTextSequenceUtilities.readIdentifierStartIndex(phpVersion, statementText, wordEnd, true);
+		int wordStart = PHPTextSequenceUtilities.readNamespaceStartIndex(statementText, wordEnd, true);
 
 		for (int i = 0; i < times - 1; i++) {
 			statementLength = wordStart;
 			wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(statementText, statementLength); // read
 																									// whitespace
-			wordStart = PHPTextSequenceUtilities.readIdentifierStartIndex(phpVersion, statementText, wordEnd, true);
+			wordStart = PHPTextSequenceUtilities.readNamespaceStartIndex(statementText, wordEnd, true);
 
 		}
 		if (wordStart < 0 || wordEnd < 0 || wordStart > wordEnd) {
@@ -457,7 +353,7 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 
 		wordEnd = PHPTextSequenceUtilities.readBackwardSpaces(statementText, wordStart - 1); // read
 																								// whitespace
-		wordStart = PHPTextSequenceUtilities.readIdentifierStartIndex(phpVersion, statementText, wordEnd, true);
+		wordStart = PHPTextSequenceUtilities.readNamespaceStartIndex(statementText, wordEnd, true);
 		if (wordStart < 0 || wordEnd < 0 || wordStart > wordEnd) {
 			return "";
 		}
@@ -587,11 +483,63 @@ public class AbstractTwigCompletionContext extends AbstractCompletionContext {
 	 * @throws BadLocationException
 	 */
 	public char getNextChar() throws BadLocationException {
-		// if the current location is the end of the document,we return ' ' to
-		// avoid the BadLocationException
 		if (document.getLength() == offset) {
 			return ' ';
 		}
 		return document.getChar(offset);
+	}
+
+	@Override
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		this.offset = offset;
+		if (!(template instanceof IStructuredDocument)) {
+			return true;
+		}
+		document = (IStructuredDocument) template;
+		try {
+			if (this.document != null) {
+				structuredDocumentRegion = determineStructuredDocumentRegion(document, offset);
+				if (structuredDocumentRegion != null) {
+
+					regionCollection = determineRegionCollection(document, structuredDocumentRegion, offset);
+
+					if (regionCollection != null) {
+						twigScriptRegion = determineTwigRegion(document, regionCollection, offset);
+
+						if (twigScriptRegion != null) {
+							partitionType = determinePartitionType(regionCollection, twigScriptRegion, offset);
+							return true;
+
+						}
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			TwigCorePlugin.log(e);
+		}
+
+		return false;
+	}
+
+	@Override
+	public void init(ICompletionCompanion companion) {
+		this.companion = companion;
+	}
+
+	public ICompletionCompanion getCompletionCompanion() {
+		return companion;
+	}
+
+	public IProject getProject() {
+		return companion.getProject();
+	}
+
+	public IScriptProject getScriptProject() {
+		IProject project = getProject();
+		if (project != null) {
+			return DLTKCore.create(project);
+		}
+		return null;
 	}
 }

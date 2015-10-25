@@ -8,14 +8,11 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor.contentassist;
 
-import org.eclipse.dltk.core.CompletionProposal;
-import org.eclipse.dltk.ui.text.completion.ProposalInfo;
-import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+
+import com.dubture.twig.core.codeassist.CompletionProposal;
 
 public interface ICompletionProposalProvider {
-	ProposalInfo createScriptCompletionProposal(CompletionProposal proposal,
-			ScriptCompletionProposalCollector collector);
 
-	ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal);
+	ICompletionProposal createCompletionProposal(CompletionProposal proposal);
 }

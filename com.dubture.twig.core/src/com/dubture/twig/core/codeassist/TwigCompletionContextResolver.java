@@ -9,14 +9,9 @@
 package com.dubture.twig.core.codeassist;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.php.core.codeassist.ICompletionContext;
-import org.eclipse.php.core.codeassist.ICompletionContextResolver;
-import org.eclipse.php.internal.core.codeassist.contexts.CompletionContextResolver;
+import org.eclipse.core.resources.IProject;
 
 import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
 import com.dubture.twig.core.codeassist.context.BlocknameContext;
@@ -28,11 +23,10 @@ import com.dubture.twig.core.codeassist.context.TagContext;
 import com.dubture.twig.core.codeassist.context.TemplateVariablesContext;
 import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.codeassist.context.VariableFieldContext;
-import com.dubture.twig.core.log.Logger;
 
 /**
  * 
- * Factory for the {@link AbstractTwigCompletionContext}.
+ * Factory for the {@link ICompletionContext}.
  * 
  * 
  * Collects CompletionContexts from extension points and merges them to the
@@ -41,13 +35,13 @@ import com.dubture.twig.core.log.Logger;
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  * 
  */
-@SuppressWarnings("restriction")
-public class TwigCompletionContextResolver extends CompletionContextResolver implements ICompletionContextResolver {
+public class TwigCompletionContextResolver implements ITwigCompletionContextResolver {
 
-	private static final String CONTEXTYFACTORY_ID = "com.dubture.twig.core.completionContextResolvers";
+	public TwigCompletionContextResolver() {
+	}
 
 	@Override
-	public ICompletionContext[] createContexts() {
+	public ICompletionContext[] createContexts(IProject project) {
 
 		List<ICompletionContext> contexts = new ArrayList<ICompletionContext>();
 
@@ -62,26 +56,7 @@ public class TwigCompletionContextResolver extends CompletionContextResolver imp
 		contexts.add(new TestContext());
 		contexts.add(new BlocknameContext());
 
-		IConfigurationElement[] config = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(CONTEXTYFACTORY_ID);
-
-		try {
-
-			for (IConfigurationElement e : config) {
-
-				final Object object = e.createExecutableExtension("class");
-
-				if (object instanceof ITwigCompletionContextResolver) {
-					ITwigCompletionContextResolver resolver = (ITwigCompletionContextResolver) object;
-					contexts.addAll(Arrays.asList(resolver.createContexts()));
-				}
-			}
-
-		} catch (Exception e) {
-			Logger.logException(e);
-		}
-
-		return (ICompletionContext[]) contexts.toArray(new ICompletionContext[contexts.size()]);
+		return contexts.toArray(new ICompletionContext[contexts.size()]);
 
 	}
 }

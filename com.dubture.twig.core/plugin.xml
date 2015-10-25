@@ -69,4 +69,22 @@ com.dubture.twig.core.TwigNature
             visitor="com.dubture.twig.core.index.IndexingVisitor">
       </participant>
    </extension>
+   <extension
+         point="com.dubture.twig.core.completionContextResolvers">
+      <resolver
+            class="com.dubture.twig.core.codeassist.TwigCompletionContextResolver">
+      </resolver>
+   </extension>
+   <extension
+         point="com.dubture.twig.core.completionStrategyResolvers">
+      <resolver
+            class="com.dubture.twig.core.codeassist.TwigCompletionStrategyFactory">
+      </resolver>
+   </extension>
+   <extension
+         point="org.eclipse.php.core.phpIndexingVisitors">
+      <visitor
+            class="com.dubture.twig.core.index.TwigIndexingVisitorExtension">
+      </visitor>
+   </extension>
 </plugin>

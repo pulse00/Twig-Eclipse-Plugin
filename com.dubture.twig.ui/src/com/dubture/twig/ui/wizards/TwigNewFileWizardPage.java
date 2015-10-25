@@ -8,8 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.ui.wizards;
 
-import java.util.List;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -58,7 +56,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 
 	private String filename = "";
 
-	private List<ITemplateProvider> extensions;
+	private ITemplateProvider[] extensions;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -79,6 +77,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		containerText.setLayoutData(gd);
 		containerText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -87,6 +86,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}
@@ -98,6 +98,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		fileText.setLayoutData(gd);
 		fileText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				filename = fileText.getText();
 				dialogChanged();
@@ -255,6 +256,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 		return getScriptFolderText();
 	}
 
+	@Override
 	public String getFileName() {
 		return filename;
 	}
@@ -277,7 +279,7 @@ public class TwigNewFileWizardPage extends NewSourceModulePage {
 	@Override
 	protected String getFileContent(ISourceModule module) throws CoreException {
 
-		if (extensions == null || extensions.size() == 0) {
+		if (extensions == null || extensions.length == 0) {
 			return "";
 		}
 

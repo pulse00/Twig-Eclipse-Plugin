@@ -20,7 +20,7 @@ abstract class AbstractAstParser extends lr_parser {
 
 	/** Default constructor. */
 	public AbstractAstParser() {
-
+		super();
 	}
 
 	/** Constructor which sets the default scanner. */

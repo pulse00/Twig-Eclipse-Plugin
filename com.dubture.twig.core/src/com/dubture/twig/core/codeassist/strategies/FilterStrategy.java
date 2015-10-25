@@ -8,15 +8,14 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-import org.eclipse.dltk.internal.core.SourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.FilterContext;
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.IFilter;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
@@ -28,8 +27,8 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({ "restriction", "deprecation" })
-public class FilterStrategy extends AbstractCompletionStrategy {
+@SuppressWarnings({ "restriction" })
+public class FilterStrategy extends AbstractTwigCompletionStrategy {
 
 	public FilterStrategy(ICompletionContext context) {
 		super(context);
@@ -45,15 +44,13 @@ public class FilterStrategy extends AbstractCompletionStrategy {
 			TwigModelAccess model = TwigModelAccess.getDefault();
 
 			String prefix = ctx.getPrefix();
-			SourceRange range = getReplacementRange(getContext());
+			ISourceRange range = getReplacementRange(getContext());
 
-			Filter[] filters = model.getFilters(ctx.getSourceModule().getScriptProject());
+			IFilter[] filters = model.getFilters(ctx.getScriptProject());
 
-			for (Filter filter : filters) {
+			for (IFilter filter : filters) {
 				if (CodeAssistUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {
-
-					filter.setScriptProject(ctx.getSourceModule().getScriptProject());
-					reporter.reportType(filter, "", range);
+					reporter.reportFilter(filter, range);
 				}
 			}
 
