@@ -9,7 +9,7 @@
 package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.ISourceModule;
-import org.eclipse.dltk.internal.core.SourceRange;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
@@ -26,7 +26,7 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction"})
 public class TagStrategy extends AbstractTwigCompletionStrategy
 {
 
@@ -44,7 +44,7 @@ public class TagStrategy extends AbstractTwigCompletionStrategy
         ISourceModule module = ctx.getSourceModule();
         Tag[] tags = TwigModelAccess.getDefault().findTags(
                 module.getScriptProject());
-        SourceRange range = getReplacementRange(ctx);
+        ISourceRange range = getReplacementRange(ctx);
 
         String prefix = ctx.getPrefix();
 

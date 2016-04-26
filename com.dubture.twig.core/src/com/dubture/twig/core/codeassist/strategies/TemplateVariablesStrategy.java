@@ -10,7 +10,7 @@ package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.IField;
 import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.dltk.internal.core.SourceRange;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
@@ -26,7 +26,7 @@ import com.dubture.twig.core.codeassist.context.AbstractTwigCompletionContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction"})
 public class TemplateVariablesStrategy extends GlobalElementStrategy
 {
 
@@ -47,7 +47,7 @@ public class TemplateVariablesStrategy extends GlobalElementStrategy
         IField[] fields = PHPModelUtils.getFileFields(
                 abstractContext.getSourceModule(), prefix, false, null);
 
-        SourceRange replaceRange = getReplacementRange(context);
+        ISourceRange replaceRange = getReplacementRange(context);
 
         for (IModelElement var : fields) {
             if (CodeAssistUtils.startsWithIgnoreCase(var.getElementName(),

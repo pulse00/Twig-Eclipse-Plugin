@@ -10,9 +10,9 @@ package com.dubture.twig.core.codeassist.strategies;
 
 import java.util.List;
 
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.SourceModule;
-import org.eclipse.dltk.internal.core.SourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
@@ -28,7 +28,7 @@ import com.dubture.twig.core.parser.ast.node.StringLiteral;
 import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 import com.dubture.twig.core.parser.ast.node.Variable;
 
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction"})
 public class BlocknameStrategy extends KeywordStrategy
 {
 
@@ -66,7 +66,7 @@ public class BlocknameStrategy extends KeywordStrategy
         List<ITemplateResolver> providers = ExtensionManager.getInstance().getTemplateProviders();
         
         String prefix = context.getPrefix();
-        SourceRange range = getReplacementRange(context);
+        ISourceRange range = getReplacementRange(context);
         
         for (ITemplateResolver resolver : providers) {
             

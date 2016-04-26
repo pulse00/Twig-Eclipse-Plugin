@@ -22,8 +22,8 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.php.core" version="3.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.dltk.core" version="5.0.0" match="greaterOrEqual"/>      
+      <import plugin="org.eclipse.php.core" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.dltk.core" version="5.4.0" match="greaterOrEqual"/>      
    </requires>
 
    <plugin

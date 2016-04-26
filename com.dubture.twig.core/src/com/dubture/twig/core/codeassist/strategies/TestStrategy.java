@@ -9,7 +9,7 @@
 package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.IScriptProject;
-import org.eclipse.dltk.internal.core.SourceRange;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
@@ -18,7 +18,7 @@ import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.model.Test;
 import com.dubture.twig.core.model.TwigModelAccess;
 
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction"})
 public class TestStrategy extends KeywordStrategy
 {
 
@@ -36,7 +36,7 @@ public class TestStrategy extends KeywordStrategy
 
         IScriptProject project = ctx.getSourceModule().getScriptProject();
         Test[] tests = TwigModelAccess.getDefault().getTests(project);
-        SourceRange range = getReplacementRange(ctx);
+        ISourceRange range = getReplacementRange(ctx);
         String prefix = ctx.getPrefix();
 
         for (Test test : tests) {

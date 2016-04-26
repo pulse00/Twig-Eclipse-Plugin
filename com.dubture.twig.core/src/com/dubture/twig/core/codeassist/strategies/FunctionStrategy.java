@@ -8,7 +8,7 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-import org.eclipse.dltk.internal.core.SourceRange;
+import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
@@ -27,7 +27,7 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction"})
 public class FunctionStrategy extends AbstractCompletionStrategy
 {
 
@@ -47,7 +47,7 @@ public class FunctionStrategy extends AbstractCompletionStrategy
             TwigModelAccess model = TwigModelAccess.getDefault();
 
             String prefix = ctx.getPrefix();
-            SourceRange range = getReplacementRange(getContext());
+            ISourceRange range = getReplacementRange(getContext());
 
             Function[] functions = model.getFunctions(ctx.getSourceModule()
                     .getScriptProject());
