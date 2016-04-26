@@ -3,6 +3,8 @@ package com.dubture.twig.ui.editor.contentassist;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import com.dubture.twig.core.codeassist.CompletionProposal;
+import com.dubture.twig.core.model.IFunction;
+import com.dubture.twig.ui.editor.contentassist.proposals.FunctionCompletionProposal;
 import com.dubture.twig.ui.editor.contentassist.proposals.KeywordCompletionProposal;
 
 public class DefaultCompletionProposalProvider implements ICompletionProposalProvider {
@@ -13,8 +15,8 @@ public class DefaultCompletionProposalProvider implements ICompletionProposalPro
 		case CompletionProposal.KEYWORD:
 			return new KeywordCompletionProposal(proposal.getName(), proposal.getReplaceStart(),
 					proposal.getReplaceEnd(), proposal.getRelevance());
-		case CompletionProposal.TAG_REF:
-			return new KeywordCompletionProposal(proposal.getName() + " ", proposal.getReplaceStart(),
+		case CompletionProposal.METHOD_REF:
+			return new FunctionCompletionProposal((IFunction) proposal.getModelElement(), proposal.getReplaceStart(),
 					proposal.getReplaceEnd(), proposal.getRelevance());
 		}
 		return null;
