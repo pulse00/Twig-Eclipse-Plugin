@@ -238,10 +238,10 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes
 
         bufferedState = createLexicalStateMemento();
         String yylex = yylex();
-        if (PHPPartitionTypes.isPHPDocCommentState(yylex)) {
+        if (yylex == PHPRegionTypes.PHPDOC_COMMENT) {
             final StringBuffer buffer = new StringBuffer();
             int length = 0;
-            while (PHPPartitionTypes.isPHPDocCommentState(yylex)) {
+            while (yylex == PHPRegionTypes.PHPDOC_COMMENT) {
                 buffer.append(yytext());
                 yylex = yylex();
                 length++;
