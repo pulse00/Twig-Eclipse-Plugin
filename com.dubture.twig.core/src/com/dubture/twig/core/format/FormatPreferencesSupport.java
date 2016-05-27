@@ -9,9 +9,7 @@
 package com.dubture.twig.core.format;
 
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.core.format.FormatterUtils;
 
-@SuppressWarnings({ "restriction" })
 public class FormatPreferencesSupport {
 
 	private static FormatPreferencesSupport instance = null;
@@ -24,10 +22,10 @@ public class FormatPreferencesSupport {
 	}
 
 	public int getIndentationSize(IDocument document) {
-		return FormatterUtils.getFormatterCommonPrferences().getIndentationSize(document);
+		return 4;
 	}
 
 	public char getIndentationChar(IDocument document) {
-		return FormatterUtils.getFormatterCommonPrferences().getIndentationChar(document);
+		return ' ';
 	}
 }

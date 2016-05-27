@@ -8,11 +8,7 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import java.io.IOException;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.DLTKCore;
@@ -20,14 +16,10 @@ import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.php.internal.core.codeassist.IPHPCompletionRequestor;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.util.text.PHPTextSequenceUtilities;
 import org.eclipse.php.internal.core.util.text.TextSequence;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.exceptions.ResourceAlreadyExists;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -41,24 +33,18 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
- *
  * The {@link AbstractTwigCompletionContext} checks if we're inside a twig
  * structure:
- *
+ * 
  * <pre>
- *
  *     {{ ... | ... }}
- *
  *  or
- *
  *  {% ... | .. %}
- *
  * </pre>
  *
  *
  *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
  */
 @SuppressWarnings("restriction")
 public class AbstractTwigCompletionContext implements ICompletionContext {
@@ -168,56 +154,6 @@ public class AbstractTwigCompletionContext implements ICompletionContext {
 			textRegion = regionCollection.getRegionAtCharacterOffset(offset);
 		}
 		return textRegion;
-	}
-
-	/**
-	 * Determines the document associated with the editor where code assist has
-	 * been invoked.
-	 *
-	 * @param module
-	 *            Source module ({@link ISourceModule})
-	 * @param requestor
-	 *            Completion requestor ({@link CompletionRequestor})
-	 * @return structured document or <code>null</code> if it couldn't be found
-	 * @throws CoreException
-	 * @throws IOException
-	 * @throws ResourceAlreadyExists
-	 */
-	protected IStructuredDocument determineDocument(ISourceModule module, CompletionRequestor requestor)
-			throws ResourceAlreadyExists, IOException, CoreException {
-		IStructuredDocument document = null;
-
-		if (requestor instanceof IPHPCompletionRequestor) {
-			IDocument d = ((IPHPCompletionRequestor) requestor).getDocument();
-			if (d instanceof IStructuredDocument) {
-				document = (IStructuredDocument) d;
-			}
-		}
-		if (document == null) {
-			IStructuredModel structuredModel = null;
-			try {
-				IFile file = (IFile) module.getResource();
-				if (file != null) {
-					if (file.exists()) {
-						structuredModel = StructuredModelManager.getModelManager().getExistingModelForRead(file);
-						if (structuredModel != null) {
-							document = structuredModel.getStructuredDocument();
-						} else {
-							document = StructuredModelManager.getModelManager().createStructuredDocumentFor(file);
-						}
-					} else {
-						document = StructuredModelManager.getModelManager().createNewStructuredDocumentFor(file);
-						document.set(module.getSource());
-					}
-				}
-			} finally {
-				if (structuredModel != null) {
-					structuredModel.releaseFromRead();
-				}
-			}
-		}
-
-		return document;
 	}
 
 	/**
