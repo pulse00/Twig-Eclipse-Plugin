@@ -55,7 +55,6 @@ public class TwigCompletionProposalComputer implements ICompletionProposalComput
 			}
 		}
 		twigCompletionEngine.complete(context.getDocument());
-
 		return Arrays.asList(collector.getProposals());
 	}
 

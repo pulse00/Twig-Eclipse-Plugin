@@ -26,6 +26,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.osgi.framework.Bundle;
 
+import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.ui.editor.contentassist.ICompletionProposalInfo;
 import com.dubture.twig.ui.editor.contentassist.ITwigCompletionProposal;
 
@@ -245,7 +246,34 @@ public class AbstractTwigCompletionProposal implements ITwigCompletionProposal, 
 		if (offset < getReplacementOffset()) {
 			return false;
 		}
+
+		return validate(document, offset);
+	}
+
+	public boolean validate(IDocument document, int offset) {
+		if (offset < getReplacementOffset()) {
+			return false;
+		}
+		if (offset > getReplacementOffset()) {
+			try {
+				String prefix = document.get(getReplacementOffset(), offset - getReplacementOffset());
+				if (!isValidPrefix(prefix, offset)) {
+					return false;
+				}
+			} catch (BadLocationException e) {
+				Logger.logException(e);
+			}
+		}
+
 		return true;
+	}
+
+	public String getStringToCompute() {
+		return getDisplayString();
+	}
+
+	public boolean isValidPrefix(String prefix, int offset) {
+		return getStringToCompute().toLowerCase().startsWith(prefix.toLowerCase());
 	}
 
 	@Override
