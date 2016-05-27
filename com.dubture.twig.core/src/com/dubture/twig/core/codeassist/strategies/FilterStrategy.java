@@ -19,13 +19,9 @@ import com.dubture.twig.core.model.IFilter;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
- * 
  * {@link FilterStrategy} for filter completion.
  * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
 @SuppressWarnings({ "restriction" })
 public class FilterStrategy extends AbstractTwigCompletionStrategy {

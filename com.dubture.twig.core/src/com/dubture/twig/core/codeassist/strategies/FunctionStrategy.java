@@ -19,9 +19,7 @@ import com.dubture.twig.core.model.IFunction;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
 @SuppressWarnings({ "restriction" })
 public class FunctionStrategy extends AbstractTwigCompletionStrategy {
@@ -46,7 +44,6 @@ public class FunctionStrategy extends AbstractTwigCompletionStrategy {
 
 			for (IFunction function : functions) {
 				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {
-
 					reporter.reportFunction(function, range);
 				}
 			}

@@ -16,7 +16,6 @@ import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
- *
  * A {@link VariableFieldContext} detects completion of twig variables:
  *
  * <pre>
@@ -26,7 +25,6 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  * </pre>
  *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
  */
 @SuppressWarnings("restriction")
 public class VariableFieldContext extends AbstractTwigCompletionContext {
@@ -34,9 +32,7 @@ public class VariableFieldContext extends AbstractTwigCompletionContext {
 	private String variable = null;
 
 	public String getVariable() {
-
 		return variable;
-
 	}
 
 	@Override
@@ -46,20 +42,17 @@ public class VariableFieldContext extends AbstractTwigCompletionContext {
 		}
 
 		try {
-
 			TextSequence statement = getStatementText();
-
 			if (TwigTextSequenceUtilities.isInField(statement)) {
-
 				variable = TwigTextSequenceUtilities.getVariable(statement);
 				return true;
 			}
 
 			return true;
-
 		} catch (Exception e) {
 			Logger.logException(e);
 		}
+
 		return false;
 	}
 }

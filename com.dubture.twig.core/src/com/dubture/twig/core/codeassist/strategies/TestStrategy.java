@@ -18,7 +18,7 @@ import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.model.ITest;
 import com.dubture.twig.core.model.TwigModelAccess;
 
-@SuppressWarnings({ "restriction", "deprecation" })
+@SuppressWarnings({ "restriction" })
 public class TestStrategy extends KeywordStrategy {
 
 	public TestStrategy(ICompletionContext context) {

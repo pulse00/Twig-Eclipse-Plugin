@@ -9,9 +9,6 @@
 package com.dubture.twig.core.documentModel.handler;
 
 import org.eclipse.php.internal.core.documentModel.encoding.PHPDocumentCharsetDetector;
-import org.eclipse.php.internal.core.documentModel.handler.PHPModelHandler;
-import org.eclipse.php.internal.core.documentModel.loader.PHPModelLoader;
-import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.internal.document.IDocumentCharsetDetector;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 import org.eclipse.wst.sse.core.internal.ltk.modelhandler.AbstractModelHandler;
@@ -22,8 +19,6 @@ import com.dubture.twig.core.documentModel.loader.TwigModelLoader;
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 
 /**
- *
- *
  * The {@link TwigModelHandler} is the main entry point of the
  * org.eclipse.wst.sse.core.modelHandler extension point.
  *

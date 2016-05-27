@@ -252,7 +252,7 @@
       </perspectiveExtension>
    </extension>
    
-   <extension
+   <!--extension
          point="org.eclipse.php.ui.foldingStructureProviders">
       <provider
             class="com.dubture.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
@@ -260,7 +260,7 @@
             name="Twig Code Folding"
             preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">
       </provider>
-   </extension>
+   </extension-->
    
 	<extension point="org.eclipse.ui.contexts">
 		<context name="%context.editingTwigSource.name" description="%context.editingTwigSource.description"

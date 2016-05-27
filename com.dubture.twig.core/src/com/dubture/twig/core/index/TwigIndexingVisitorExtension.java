@@ -49,7 +49,6 @@ import com.dubture.twig.internal.core.model.Test;
 import com.dubture.twig.internal.core.model.TwigType;
 
 /**
- * 
  * {@link TwigIndexingVisitorExtension} indexes:
  * 
  * - Filters - Functions - TokenParsers (used to detect start/end tags like
@@ -57,7 +56,6 @@ import com.dubture.twig.internal.core.model.TwigType;
  * 
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
 @SuppressWarnings("restriction")
 public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {

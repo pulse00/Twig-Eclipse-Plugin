@@ -8,14 +8,9 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.dltk.core.DLTKCore;
-import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceRange;
 import org.eclipse.dltk.core.SourceRange;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
 
 import com.dubture.twig.core.codeassist.ICompletionCompanion;
 import com.dubture.twig.core.codeassist.ICompletionContext;

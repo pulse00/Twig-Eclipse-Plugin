@@ -18,12 +18,7 @@ import com.dubture.twig.core.model.ITag;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
- * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
 @SuppressWarnings({ "restriction" })
 public class TagStrategy extends AbstractTwigCompletionStrategy {
@@ -43,8 +38,9 @@ public class TagStrategy extends AbstractTwigCompletionStrategy {
 		String prefix = ctx.getPrefix();
 
 		for (ITag tag : tags) {
-			if (CodeAssistUtils.startsWithIgnoreCase(tag.getElementName(), prefix))
+			if (CodeAssistUtils.startsWithIgnoreCase(tag.getElementName(), prefix)) {
 				reporter.reportTag(tag, range);
+			}
 		}
 	}
 }
