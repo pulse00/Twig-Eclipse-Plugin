@@ -1,8 +1,12 @@
-1.1.0
+2.0.0
 
+* Twig editor is now sub HTML editor
+* Twig files arent ISourceModules since now
+* fresh completion engine
 * use standard WTP model only
 * remove DLTK toolkit
 * enable and extend html outliner with twig tags (blocks)
+* migrate to recent jFlex (same as PDT version)
 
 1.0.11
 
