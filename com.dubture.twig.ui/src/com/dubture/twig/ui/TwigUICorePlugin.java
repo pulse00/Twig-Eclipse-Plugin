@@ -36,153 +36,136 @@ import com.dubture.twig.ui.viewsupport.ImagesOnFileSystemRegistry;
  * The activator class controls the plug-in life cycle
  */
 @SuppressWarnings("restriction")
-public class TwigUICorePlugin extends AbstractUIPlugin
-{
+public class TwigUICorePlugin extends AbstractUIPlugin {
 
-    // The plug-in ID
-    public static final String PLUGIN_ID = "com.dubture.twig.ui"; //$NON-NLS-1$
+	// The plug-in ID
+	public static final String PLUGIN_ID = "com.dubture.twig.ui"; //$NON-NLS-1$
 
-    // The shared instance
-    private static TwigUICorePlugin plugin;
+	// The shared instance
+	private static TwigUICorePlugin plugin;
 
-    protected ContextTypeRegistry contentTypeRegistry = null;
-    protected TemplateStore templateStore = null;
+	protected ContextTypeRegistry contentTypeRegistry = null;
+	protected TemplateStore templateStore = null;
 
-    private ImageDescriptorRegistry fImageDescriptorRegistry;
+	private ImageDescriptorRegistry fImageDescriptorRegistry;
 
-    private ImagesOnFileSystemRegistry fImagesOnFSRegistry;
+	private ImagesOnFileSystemRegistry fImagesOnFSRegistry;
 
-    /**
-     * The constructor
-     */
-    public TwigUICorePlugin()
-    {
-    }
+	/**
+	 * The constructor
+	 */
+	public TwigUICorePlugin() {
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-     * )
-     */
-    public void start(BundleContext context) throws Exception
-    {
-        super.start(context);
-        plugin = this;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
+	 * BundleContext )
+	 */
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		plugin = this;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-     * )
-     */
-    public void stop(BundleContext context) throws Exception
-    {
-        plugin = null;
-        super.stop(context);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.
+	 * BundleContext )
+	 */
+	public void stop(BundleContext context) throws Exception {
+		plugin = null;
+		super.stop(context);
+	}
 
-    /**
-     * Returns the shared instance
-     * 
-     * @return the shared instance
-     */
-    public static TwigUICorePlugin getDefault()
-    {
-        return plugin;
-    }
+	/**
+	 * Returns the shared instance
+	 * 
+	 * @return the shared instance
+	 */
+	public static TwigUICorePlugin getDefault() {
+		return plugin;
+	}
 
-    public static ImageDescriptorRegistry getImageDescriptorRegistry()
-    {
-        return getDefault().internalGetImageDescriptorRegistry();
-    }
+	public static ImageDescriptorRegistry getImageDescriptorRegistry() {
+		return getDefault().internalGetImageDescriptorRegistry();
+	}
 
-    private synchronized ImageDescriptorRegistry internalGetImageDescriptorRegistry()
-    {
-        if (fImageDescriptorRegistry == null)
-            fImageDescriptorRegistry = new ImageDescriptorRegistry();
-        return fImageDescriptorRegistry;
-    }
+	private synchronized ImageDescriptorRegistry internalGetImageDescriptorRegistry() {
+		if (fImageDescriptorRegistry == null)
+			fImageDescriptorRegistry = new ImageDescriptorRegistry();
+		return fImageDescriptorRegistry;
+	}
 
-    public ContextTypeRegistry getTemplateContextRegistry()
-    {
+	public ContextTypeRegistry getTemplateContextRegistry() {
 
-        if (contentTypeRegistry == null) {
-            ContributionContextTypeRegistry registry = new TwigContributionContextTypeRegistry();
+		if (contentTypeRegistry == null) {
+			ContributionContextTypeRegistry registry = new TwigContributionContextTypeRegistry();
 
-            registry.addContextType(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
+			registry.addContextType(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
 
-            contentTypeRegistry = registry;
-        }
+			contentTypeRegistry = registry;
+		}
 
-        return contentTypeRegistry;
+		return contentTypeRegistry;
 
-    }
+	}
 
-    public TemplateStore getTemplateStore()
-    {
+	public TemplateStore getTemplateStore() {
 
-        if (templateStore == null) {
+		if (templateStore == null) {
 
-            templateStore = new PHPTemplateStore(getTemplateContextRegistry(),
-                    getPreferenceStore(), PreferenceConstants.TEMPLATES_KEY);
+			templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(),
+					PreferenceConstants.TEMPLATES_KEY);
 
-            try {
-                templateStore.load();
+			try {
+				templateStore.load();
 
-            } catch (IOException e) {
+			} catch (IOException e) {
 
-                Logger.logException(e);
-            }
-        }
-        return templateStore;
+				Logger.logException(e);
+			}
+		}
+		return templateStore;
 
-    }
+	}
 
-    public ImagesOnFileSystemRegistry getImagesOnFSRegistry()
-    {
-        if (fImagesOnFSRegistry == null) {
-            fImagesOnFSRegistry = new ImagesOnFileSystemRegistry();
-        }
-        return fImagesOnFSRegistry;
-    }
+	public ImagesOnFileSystemRegistry getImagesOnFSRegistry() {
+		if (fImagesOnFSRegistry == null) {
+			fImagesOnFSRegistry = new ImagesOnFileSystemRegistry();
+		}
+		return fImagesOnFSRegistry;
+	}
 
-    public IFile getFile(IDocument document)
-    {
-        IFile file = null;
-        IStructuredModel structuredModel = null;
-        try {
-            structuredModel = StructuredModelManager.getModelManager()
-                    .getExistingModelForRead(document);
-            if (structuredModel != null) {
-                String location = structuredModel.getBaseLocation();
-                if (location != null) {
-                    file = ResourcesPlugin.getWorkspace().getRoot()
-                            .getFile(new Path(location));
-                }
-            }
-        } finally {
-            if (structuredModel != null) {
-                structuredModel.releaseFromRead();
-            }
-        }
-        return file;
-    }
-    
-    public static IWorkbenchPage getActivePage() {
-        return getDefault().internalGetActivePage();
-    }
-    
-    private IWorkbenchPage internalGetActivePage() {
-        IWorkbenchWindow window = getWorkbench().getActiveWorkbenchWindow();
-        if (window == null)
-            return null;
-        return getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    }
-    
-    
+	public IFile getFile(IDocument document) {
+		IFile file = null;
+		IStructuredModel structuredModel = null;
+		try {
+			structuredModel = StructuredModelManager.getModelManager().getExistingModelForRead(document);
+			if (structuredModel != null) {
+				String location = structuredModel.getBaseLocation();
+				if (location != null) {
+					file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(location));
+				}
+			}
+		} finally {
+			if (structuredModel != null) {
+				structuredModel.releaseFromRead();
+			}
+		}
+		return file;
+	}
+
+	public static IWorkbenchPage getActivePage() {
+		return getDefault().internalGetActivePage();
+	}
+
+	private IWorkbenchPage internalGetActivePage() {
+		IWorkbenchWindow window = getWorkbench().getActiveWorkbenchWindow();
+		if (window == null)
+			return null;
+		return getWorkbench().getActiveWorkbenchWindow().getActivePage();
+	}
 
 }

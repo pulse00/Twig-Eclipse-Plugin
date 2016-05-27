@@ -22,50 +22,45 @@ import com.dubture.twig.core.parser.ast.CompilerAstLexer;
 import com.dubture.twig.core.parser.ast.TwigAstParser;
 
 @SuppressWarnings("restriction")
-public class SourceParserUtil
-{
-    public static ModuleDeclaration parseSourceModule(Reader in)
-            throws IOException
-    {
+public class SourceParserUtil {
+	public static ModuleDeclaration parseSourceModule(Reader in) throws IOException {
 
-        CompilerAstLexer lexer = new CompilerAstLexer(in);
-        TwigAstParser parser = new TwigAstParser(lexer);
+		CompilerAstLexer lexer = new CompilerAstLexer(in);
+		TwigAstParser parser = new TwigAstParser(lexer);
 
-        // parser.setFileName(fileName);
-        try {
-            parser.parse();
-        } catch (Exception e) {
-            // TODO: add recovery
-            e.printStackTrace();
-            return new ModuleDeclaration(0);
-        }
-        
-        return parser.getModuleDeclaration();
+		// parser.setFileName(fileName);
+		try {
+			parser.parse();
+		} catch (Exception e) {
+			// TODO: add recovery
+			e.printStackTrace();
+			return new ModuleDeclaration(0);
+		}
 
-    }
+		return parser.getModuleDeclaration();
 
-    /**
-     * @param module
-     * @return 
-     * @throws IOException 
-     * @throws ModelException 
-     */
-    public static ModuleDeclaration parseSourceModule(SourceModule module) throws ModelException, IOException
-    {
-        Assert.isNotNull(module);
-        return parseSourceModule(new StringReader(module.getSource()));
-        
-    }
+	}
 
-    /**
-     * @param tokens
-     * @return 
-     * @throws IOException 
-     */
-    public static ModuleDeclaration parseSourceModule(String tokens) throws IOException
-    {
-        Assert.isNotNull(tokens);
-        return parseSourceModule(new StringReader(tokens));
-        
-    }
+	/**
+	 * @param module
+	 * @return
+	 * @throws IOException
+	 * @throws ModelException
+	 */
+	public static ModuleDeclaration parseSourceModule(SourceModule module) throws ModelException, IOException {
+		Assert.isNotNull(module);
+		return parseSourceModule(new StringReader(module.getSource()));
+
+	}
+
+	/**
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	public static ModuleDeclaration parseSourceModule(String tokens) throws IOException {
+		Assert.isNotNull(tokens);
+		return parseSourceModule(new StringReader(tokens));
+
+	}
 }

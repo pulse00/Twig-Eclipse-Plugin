@@ -8,7 +8,7 @@
  ******************************************************************************/
 package com.dubture.twig.core.documentModel;
 
-import org.eclipse.php.internal.core.documentModel.DOMModelForPHP;
+import org.eclipse.wst.html.core.internal.document.DOMStyleModelImpl;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.xml.core.internal.document.XMLModelParser;
 import org.eclipse.wst.xml.core.internal.document.XMLModelUpdater;
@@ -18,34 +18,33 @@ import org.w3c.dom.Document;
 import com.dubture.twig.core.documentModel.dom.DOMDocumentForTwig;
 
 @SuppressWarnings("restriction")
-public class DOMModelForTwig extends DOMModelForPHP
-{
+public class DOMModelForTwig extends DOMStyleModelImpl {
 
-    protected Document internalCreateDocument()
-    {
-        DOMDocumentForTwig document = new DOMDocumentForTwig();
-        document.setModel(this);
-        return document;
-    }
+	@Override
+	protected Document internalCreateDocument() {
+		DOMDocumentForTwig document = new DOMDocumentForTwig();
+		document.setModel(this);
+		return document;
+	}
 
-    protected XMLModelParser createModelParser()
-    {
+	@Override
+	protected XMLModelParser createModelParser() {
 
-        return new TwigDOMModelParser(this);
-    }
+		return new TwigDOMModelParser(this);
+	}
 
-    protected XMLModelUpdater createModelUpdater()
-    {
-        return new TwigDOMModelUpdater(this);
-    }
-    @Override
-    public IndexedRegion getIndexedRegion(int offset)
-    {
-        IndexedRegion result = super.getIndexedRegion(offset);
-        if (result == null && offset == getDocument().getEndOffset()) {
-            return (IDOMNode) getDocument().getLastChild();
-        }
-        return super.getIndexedRegion(offset);
-    }
+	@Override
+	protected XMLModelUpdater createModelUpdater() {
+		return new TwigDOMModelUpdater(this);
+	}
+
+	@Override
+	public IndexedRegion getIndexedRegion(int offset) {
+		IndexedRegion result = super.getIndexedRegion(offset);
+		if (result == null && offset == getDocument().getEndOffset()) {
+			return (IDOMNode) getDocument().getLastChild();
+		}
+		return super.getIndexedRegion(offset);
+	}
 
 }

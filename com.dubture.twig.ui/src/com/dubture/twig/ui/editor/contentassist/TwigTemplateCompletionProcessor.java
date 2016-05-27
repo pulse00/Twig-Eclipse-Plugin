@@ -43,103 +43,90 @@ import com.dubture.twig.ui.editor.templates.TwigTemplateContextType;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigTemplateCompletionProcessor extends
-        PhpTemplateCompletionProcessor
-{
+public class TwigTemplateCompletionProcessor extends PhpTemplateCompletionProcessor {
 
-    public TwigTemplateCompletionProcessor(
-            ScriptContentAssistInvocationContext context, boolean explicit)
-    {
+	public TwigTemplateCompletionProcessor(ScriptContentAssistInvocationContext context, boolean explicit) {
 
-        super(context, explicit);
-        setContextTypeId(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
+		super(context, explicit);
+		setContextTypeId(TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID);
 
-    }
+	}
 
-    @Override
-    protected ScriptTemplateAccess getTemplateAccess()
-    {
+	@Override
+	protected ScriptTemplateAccess getTemplateAccess() {
 
-        return TwigTemplateAccess.getInstance();
-    }
+		return TwigTemplateAccess.getInstance();
+	}
 
-    @Override
-    public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
-            int offset)
-    {
+	@Override
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 
-        ITextSelection selection = (ITextSelection) viewer
-                .getSelectionProvider().getSelection();
+		ITextSelection selection = (ITextSelection) viewer.getSelectionProvider().getSelection();
 
-        // adjust offset to end of normalized selection
-        if (selection.getOffset() == offset)
-            offset = selection.getOffset() + selection.getLength();
+		// adjust offset to end of normalized selection
+		if (selection.getOffset() == offset)
+			offset = selection.getOffset() + selection.getLength();
 
-        String prefix = extractPrefix(viewer, offset);
-        if (!isValidPrefix(prefix)) {
-            return new ICompletionProposal[0];
-        }
-        IRegion region = new Region(offset - prefix.length(), prefix.length());
+		String prefix = extractPrefix(viewer, offset);
+		if (!isValidPrefix(prefix)) {
+			return new ICompletionProposal[0];
+		}
+		IRegion region = new Region(offset - prefix.length(), prefix.length());
 
-        TemplateContext context = createContext(viewer, region);
-        if (context == null) {
-            return new ICompletionProposal[0];
-        }
-        List<TemplateProposal> matches = new ArrayList<TemplateProposal>();
+		TemplateContext context = createContext(viewer, region);
+		if (context == null) {
+			return new ICompletionProposal[0];
+		}
+		List<TemplateProposal> matches = new ArrayList<TemplateProposal>();
 
-        Template[] templates = getTemplates(context.getContextType().getId());
-        for (int i = 0; i < templates.length; i++) {
-            Template template = templates[i];
-            try {
-                context.getContextType().validate(template.getPattern());
-            } catch (TemplateException e) {
-                continue;
-            }
-            if (isMatchingTemplate(template, prefix, context))
-                matches.add((TemplateProposal) createProposal(template,
-                        context, region, getRelevance(template, prefix)));
-        }
+		Template[] templates = getTemplates(context.getContextType().getId());
+		for (int i = 0; i < templates.length; i++) {
+			Template template = templates[i];
+			try {
+				context.getContextType().validate(template.getPattern());
+			} catch (TemplateException e) {
+				continue;
+			}
+			if (isMatchingTemplate(template, prefix, context))
+				matches.add(
+						(TemplateProposal) createProposal(template, context, region, getRelevance(template, prefix)));
+		}
 
-        // Collections.sort(matches, comparator);
+		// Collections.sort(matches, comparator);
 
-        final IInformationControlCreator controlCreator = getInformationControlCreator();
-        for (TemplateProposal proposal : matches) {
-            proposal.setInformationControlCreator(controlCreator);
-        }
+		final IInformationControlCreator controlCreator = getInformationControlCreator();
+		for (TemplateProposal proposal : matches) {
+			proposal.setInformationControlCreator(controlCreator);
+		}
 
-        return matches.toArray(new ICompletionProposal[matches.size()]);
+		return matches.toArray(new ICompletionProposal[matches.size()]);
 
-    }
+	}
 
-    @Override
-    protected String getContextTypeId()
-    {
+	@Override
+	protected String getContextTypeId() {
 
-        return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
-    }
+		return TwigTemplateContextType.TWIG_CONTEXT_TYPE_ID;
+	}
 
-    @Override
-    protected Image getImage(Template template)
-    {
+	@Override
+	protected Image getImage(Template template) {
 
-        return TwigUICorePlugin.getImageDescriptorRegistry().get(
-                PHPPluginImages.DESC_TEMPLATE);
+		return TwigUICorePlugin.getImageDescriptorRegistry().get(PHPPluginImages.DESC_TEMPLATE);
 
-    }
+	}
 
-    @Override
-    protected ContextTypeRegistry getTemplateContextRegistry()
-    {
+	@Override
+	protected ContextTypeRegistry getTemplateContextRegistry() {
 
-        return TwigUICorePlugin.getDefault().getTemplateContextRegistry();
+		return TwigUICorePlugin.getDefault().getTemplateContextRegistry();
 
-    }
+	}
 
-    @Override
-    protected TemplateStore getTemplateStore()
-    {
+	@Override
+	protected TemplateStore getTemplateStore() {
 
-        return TwigUICorePlugin.getDefault().getTemplateStore();
-    }
+		return TwigUICorePlugin.getDefault().getTemplateStore();
+	}
 
 }

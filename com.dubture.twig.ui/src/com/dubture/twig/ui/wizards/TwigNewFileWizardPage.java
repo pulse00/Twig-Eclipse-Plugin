@@ -8,8 +8,6 @@
  ******************************************************************************/
 package com.dubture.twig.ui.wizards;
 
-import java.util.List;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -49,269 +47,248 @@ import com.dubture.twig.ui.extension.ExtensionManager;
  */
 
 @SuppressWarnings("restriction")
-public class TwigNewFileWizardPage extends NewSourceModulePage
-{
-    private Text containerText;
+public class TwigNewFileWizardPage extends NewSourceModulePage {
+	private Text containerText;
 
-    private Text fileText;
+	private Text fileText;
 
-    private ISelection selection;
+	private ISelection selection;
 
-    private String filename = "";
+	private String filename = "";
 
-    private List<ITemplateProvider> extensions;
+	private ITemplateProvider[] extensions;
 
+	/**
+	 * Constructor for SampleNewWizardPage.
+	 *
+	 * @param pageName
+	 */
+	public TwigNewFileWizardPage(ISelection selection) {
+		this.selection = selection;
+	}
 
+	@Override
+	protected void createContentControls(Composite container, int nColumns) {
 
-    /**
-     * Constructor for SampleNewWizardPage.
-     *
-     * @param pageName
-     */
-    public TwigNewFileWizardPage(ISelection selection)
-    {
-        this.selection = selection;
-    }
+		Label label = new Label(container, SWT.NULL);
+		label.setText("&Source folder:");
 
-    @Override
-    protected void createContentControls(Composite container, int nColumns)
-    {
+		containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		containerText.setLayoutData(gd);
+		containerText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        Label label = new Label(container, SWT.NULL);
-        label.setText("&Source folder:");
+		Button button = new Button(container, SWT.PUSH);
+		button.setText("Browse...");
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleBrowse();
+			}
+		});
+		label = new Label(container, SWT.NULL);
+		label.setText("&File name:");
 
-        containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        containerText.setLayoutData(gd);
-        containerText.addModifyListener(new ModifyListener()
-        {
-            public void modifyText(ModifyEvent e)
-            {
-                dialogChanged();
-            }
-        });
+		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		fileText.setLayoutData(gd);
+		fileText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				filename = fileText.getText();
+				dialogChanged();
+			}
+		});
 
-        Button button = new Button(container, SWT.PUSH);
-        button.setText("Browse...");
-        button.addSelectionListener(new SelectionAdapter()
-        {
-            public void widgetSelected(SelectionEvent e)
-            {
-                handleBrowse();
-            }
-        });
-        label = new Label(container, SWT.NULL);
-        label.setText("&File name:");
+		Label label2 = new Label(container, SWT.NONE);
+		label2.setVisible(false);
 
-        fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fileText.setLayoutData(gd);
-        fileText.addModifyListener(new ModifyListener()
-        {
-            public void modifyText(ModifyEvent e)
-            {
-                filename = fileText.getText();
-                dialogChanged();
-            }
-        });
+		extensions = ExtensionManager.getInstance().getTemplateProviders();
 
-        Label label2 = new Label(container, SWT.NONE);
-        label2.setVisible(false);
+		Logger.debugMSG("Creating extension controls");
+		for (ITemplateProvider provider : extensions) {
+			provider.createContentControls(getScriptFolder(), container);
+		}
 
-        extensions = ExtensionManager.getInstance().getTemplateProviders();
+		initialize();
+		dialogChanged();
+		setControl(container);
+	}
 
-        Logger.debugMSG("Creating extension controls");
-        for (ITemplateProvider provider : extensions) {
-            provider.createContentControls(getScriptFolder(), container);
-        }
+	/**
+	 * Tests if the current workbench selection is a suitable container to use.
+	 */
 
-        initialize();
-        dialogChanged();
-        setControl(container);
-    }
+	private void initialize() {
+		Logger.debugMSG("Initializing twig file wizard");
 
-    /**
-     * Tests if the current workbench selection is a suitable container to use.
-     */
+		if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
 
-    private void initialize()
-    {
-        Logger.debugMSG("Initializing twig file wizard");
+			IStructuredSelection ssel = (IStructuredSelection) selection;
 
-        if (selection != null && selection.isEmpty() == false
-                && selection instanceof IStructuredSelection) {
+			if (ssel.size() > 1) {
+				Logger.debugMSG("Selection container more than one elements.");
+				return;
+			}
 
-            IStructuredSelection ssel = (IStructuredSelection) selection;
+			Object obj = ssel.getFirstElement();
 
-            if (ssel.size() > 1) {
-                Logger.debugMSG("Selection container more than one elements.");
-                return;
-            }
+			if (obj instanceof IScriptFolder) {
 
-            Object obj = ssel.getFirstElement();
+				Logger.debugMSG("Selection is scriptfolder");
 
-            if (obj instanceof IScriptFolder) {
+				IScriptFolder folder = (IScriptFolder) obj;
+				try {
+					String fullPath = folder.getUnderlyingResource().getFullPath().toString();
+					Logger.debugMSG("Setting container text to " + fullPath);
+					containerText.setText(fullPath);
+				} catch (ModelException e) {
+					Logger.logException(e);
+				}
+			} else if (obj instanceof ProjectFragment) {
 
-                Logger.debugMSG("Selection is scriptfolder");
+				IProjectFragment fragment = (IProjectFragment) obj;
+				Logger.debugMSG("Selection is projectfragment");
 
-                IScriptFolder folder = (IScriptFolder) obj;
-                try {
-                    String fullPath = folder.getUnderlyingResource().getFullPath().toString();
-                    Logger.debugMSG("Setting container text to " + fullPath);
-                    containerText.setText(fullPath);
-                } catch (ModelException e) {
-                    Logger.logException(e);
-                }
-            } else if (obj instanceof ProjectFragment) {
+				try {
+					String fullPath = fragment.getUnderlyingResource().getFullPath().toString();
+					Logger.debugMSG("Setting container text to " + fullPath);
+					containerText.setText(fullPath);
+				} catch (ModelException e) {
+					Logger.logException(e);
+				}
 
-                IProjectFragment fragment = (IProjectFragment) obj;
-                Logger.debugMSG("Selection is projectfragment");
+			} else if (obj instanceof IScriptProject) {
+				IScriptProject proj = (IScriptProject) obj;
+				Logger.debugMSG("Selection is scriptproject");
+				containerText.setText(proj.getPath().toString());
 
-                try {
-                    String fullPath = fragment.getUnderlyingResource().getFullPath().toString();
-                    Logger.debugMSG("Setting container text to " + fullPath);
-                    containerText.setText(fullPath);
-                } catch (ModelException e) {
-                    Logger.logException(e);
-                }
+			} else if (obj instanceof IFolder) {
+				IFolder folder = (IFolder) obj;
+				Logger.debugMSG("Selection is folder");
+				containerText.setText(folder.getFullPath().toString());
+			} else {
+				Logger.debugMSG("Could not determine selection type");
+				if (obj != null) {
+					Logger.debugMSG("type was " + obj.getClass());
+				} else {
+					Logger.debugMSG("type was null");
+				}
+			}
+		} else {
+			Logger.debugMSG("File wizard couldn't retrieve selection");
+		}
 
-            } else if (obj instanceof IScriptProject) {
-                IScriptProject proj = (IScriptProject) obj;
-                Logger.debugMSG("Selection is scriptproject");
-                containerText.setText(proj.getPath().toString());
+		Logger.debugMSG("Final container text: " + containerText.getText());
 
-            } else if (obj instanceof IFolder) {
-                IFolder folder = (IFolder) obj;
-                Logger.debugMSG("Selection is folder");
-                containerText.setText(folder.getFullPath().toString());
-            } else {
-                Logger.debugMSG("Could not determine selection type");
-                if (obj != null) {
-                    Logger.debugMSG("type was " + obj.getClass());
-                } else {
-                    Logger.debugMSG("type was null");
-                }
-            }
-        } else {
-            Logger.debugMSG("File wizard couldn't retrieve selection");
-        }
+		fileText.setText("template.twig");
+		fileText.forceFocus();
+		fileText.setSelection(0, 8);
 
-        Logger.debugMSG("Final container text: " + containerText.getText());
+	}
 
-        fileText.setText("template.twig");
-        fileText.forceFocus();
-        fileText.setSelection(0, 8);
+	/**
+	 * Uses the standard container selection dialog to choose the new value for
+	 * the container field.
+	 */
 
-    }
+	private void handleBrowse() {
+		ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(),
+				ResourcesPlugin.getWorkspace().getRoot(), false, "Select new folder");
+		if (dialog.open() == ContainerSelectionDialog.OK) {
+			Object[] result = dialog.getResult();
+			if (result.length == 1) {
+				containerText.setText(((Path) result[0]).toString());
+			}
+		}
+	}
 
-    /**
-     * Uses the standard container selection dialog to choose the new value for
-     * the container field.
-     */
+	/**
+	 * Ensures that both text fields are set.
+	 */
 
-    private void handleBrowse()
-    {
-        ContainerSelectionDialog dialog = new ContainerSelectionDialog(
-                getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-                "Select new folder");
-        if (dialog.open() == ContainerSelectionDialog.OK) {
-            Object[] result = dialog.getResult();
-            if (result.length == 1) {
-                containerText.setText(((Path) result[0]).toString());
-            }
-        }
-    }
+	private void dialogChanged() {
+		IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(getContainerName()));
+		String fileName = getFileName();
 
-    /**
-     * Ensures that both text fields are set.
-     */
+		if (getContainerName().length() == 0) {
+			updateStatus("Folder must be specified");
+			return;
+		}
+		if (container == null || (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+			updateStatus("Folder must exist");
+			return;
+		}
+		if (!container.isAccessible()) {
+			updateStatus("Project must be writable");
+			return;
+		}
+		if (fileName.length() == 0) {
+			updateStatus("File name must be specified");
+			return;
+		}
+		if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
+			updateStatus("File name must be valid");
+			return;
+		}
+		// int dotLoc = fileName.lastIndexOf('.');
+		// if (dotLoc != -1) {
+		// String ext = fileName.substring(dotLoc + 1);
+		// if (ext.equalsIgnoreCase("twig") == false) {
+		// updateStatus("File extension must be \"twig\"");
+		// return;
+		// }
+		// }
+		updateStatus(new IStatus[] { new StatusInfo() });
+	}
 
-    private void dialogChanged()
-    {
-        IResource container = ResourcesPlugin.getWorkspace().getRoot()
-                .findMember(new Path(getContainerName()));
-        String fileName = getFileName();
+	private void updateStatus(String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
+	}
 
-        if (getContainerName().length() == 0) {
-            updateStatus("Folder must be specified");
-            return;
-        }
-        if (container == null
-                || (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-            updateStatus("Folder must exist");
-            return;
-        }
-        if (!container.isAccessible()) {
-            updateStatus("Project must be writable");
-            return;
-        }
-        if (fileName.length() == 0) {
-            updateStatus("File name must be specified");
-            return;
-        }
-        if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
-            updateStatus("File name must be valid");
-            return;
-        }
-        // int dotLoc = fileName.lastIndexOf('.');
-        // if (dotLoc != -1) {
-        // String ext = fileName.substring(dotLoc + 1);
-        // if (ext.equalsIgnoreCase("twig") == false) {
-        // updateStatus("File extension must be \"twig\"");
-        // return;
-        // }
-        // }
-        updateStatus(new IStatus[]{new StatusInfo()});
-    }
+	public String getContainerName() {
+		return getScriptFolderText();
+	}
 
-    private void updateStatus(String message)
-    {
-        setErrorMessage(message);
-        setPageComplete(message == null);
-    }
+	@Override
+	public String getFileName() {
+		return filename;
+	}
 
-    public String getContainerName()
-    {
-        return getScriptFolderText();
-    }
+	@Override
+	protected String getPageTitle() {
+		return "New Twig template";
+	}
 
-    public String getFileName()
-    {
-        return filename;
-    }
+	@Override
+	protected String getPageDescription() {
+		return "Create a new twig template.";
+	}
 
-    @Override
-    protected String getPageTitle()
-    {
-        return "New Twig template";
-    }
+	@Override
+	protected String getRequiredNature() {
+		return TwigNature.NATURE_ID;
+	}
 
-    @Override
-    protected String getPageDescription()
-    {
-        return "Create a new twig template.";
-    }
+	@Override
+	protected String getFileContent(ISourceModule module) throws CoreException {
 
-    @Override
-    protected String getRequiredNature()
-    {
-        return TwigNature.NATURE_ID;
-    }
+		if (extensions == null || extensions.length == 0) {
+			return "";
+		}
 
-    @Override
-    protected String getFileContent(ISourceModule module) throws CoreException
-    {
+		String content = "";
 
-        if (extensions == null || extensions.size() == 0) {
-            return "";
-        }
+		for (ITemplateProvider provider : extensions) {
+			content += provider.getContents();
+		}
+		return content;
 
-        String content = "";
-
-        for (ITemplateProvider provider : extensions) {
-            content += provider.getContents();
-        }
-        return content;
-
-    }
+	}
 }

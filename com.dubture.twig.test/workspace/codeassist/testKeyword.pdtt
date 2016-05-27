@@ -1,0 +1,6 @@
+--TEST--
+Test keyword
+--FILE--
+{% a| %}
+--EXPECT--
+keyword(as)

@@ -8,25 +8,21 @@
  ******************************************************************************/
 package com.dubture.twig.ui.editor;
 
-import org.eclipse.php.internal.ui.editor.ActionContributorForPhp;
+import org.eclipse.wst.html.ui.internal.edit.ui.ActionContributorHTML;
 
 /**
- * 
- * 
- * 
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
  * 
  */
 @SuppressWarnings("restriction")
-public class ActionContributorForTwig extends ActionContributorForPhp
-{
+public class ActionContributorForTwig extends ActionContributorHTML {
 
-    private static final String[] EDITOR_IDS = {
-            "com.dubture.twig.core.twigtemplate", "org.eclipse.wst.sse.ui.StructuredTextEditor"}; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] EDITOR_IDS = { "com.dubture.twig.core.twigtemplate", //$NON-NLS-1$
+			"org.eclipse.wst.sse.ui.StructuredTextEditor" }; //$NON-NLS-1$
 
-    protected String[] getExtensionIDs()
-    {
-        return EDITOR_IDS;
-    }
+	@Override
+	protected String[] getExtensionIDs() {
+		return EDITOR_IDS;
+	}
 
 }

@@ -22,50 +22,41 @@ import org.eclipse.wst.sse.ui.internal.format.StructuredFormattingStrategy;
 import com.dubture.twig.core.format.TwigFormatProcessorImpl;
 
 @SuppressWarnings("restriction")
-public class TwigContentFormatter implements IContentFormatter
-{
-    @Override
-    public void format(IDocument document, IRegion region)
-    {
-        if (isFormatFile()) {
-            MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
-                    IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
-                    IHTMLPartitions.HTML_DEFAULT);
-            pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(
-                    new HTMLFormatProcessorImpl()));
-            pdtFormatter.format(document, region);
-        } else {
-            StructuredTextMultiPassContentFormatter pdtFormatter = new StructuredTextMultiPassContentFormatter(
-                    IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING,
-                    IHTMLPartitions.HTML_DEFAULT);
-            pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(
-                    new TwigFormatProcessorImpl()));
-            pdtFormatter.format(document, region);
-            // pdtFormatter.format(document, region);
-        }
+public class TwigContentFormatter implements IContentFormatter {
+	@Override
+	public void format(IDocument document, IRegion region) {
+		if (isFormatFile()) {
+			MultiPassContentFormatter pdtFormatter = new MultiPassContentFormatter(
+					IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING, IHTMLPartitions.HTML_DEFAULT);
+			pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(new HTMLFormatProcessorImpl()));
+			pdtFormatter.format(document, region);
+		} else {
+			StructuredTextMultiPassContentFormatter pdtFormatter = new StructuredTextMultiPassContentFormatter(
+					IStructuredPartitioning.DEFAULT_STRUCTURED_PARTITIONING, IHTMLPartitions.HTML_DEFAULT);
+			pdtFormatter.setMasterStrategy(new StructuredFormattingStrategy(new TwigFormatProcessorImpl()));
+			pdtFormatter.format(document, region);
+			// pdtFormatter.format(document, region);
+		}
 
-    }
+	}
 
-    @Override
-    public IFormattingStrategy getFormattingStrategy(String contentType)
-    {
-        // TODO Auto-generated method stub
-        return null;
+	@Override
+	public IFormattingStrategy getFormattingStrategy(String contentType) {
+		// TODO Auto-generated method stub
+		return null;
 
-    }
+	}
 
-    private boolean isFormatFile()
-    {
-        StackTraceElement[] stackTraces = new Exception().getStackTrace();
-        for (StackTraceElement stackTrace : stackTraces) {
-            if (stackTrace.getClassName().equals(
-                    PHPFormatProcessorProxy.class.getName())) {
-                if (stackTrace.getMethodName().equals("formatFile")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+	private boolean isFormatFile() {
+		StackTraceElement[] stackTraces = new Exception().getStackTrace();
+		for (StackTraceElement stackTrace : stackTraces) {
+			if (stackTrace.getClassName().equals(PHPFormatProcessorProxy.class.getName())) {
+				if (stackTrace.getMethodName().equals("formatFile")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

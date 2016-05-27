@@ -1,0 +1,38 @@
+<!--
+    Copyright (c) 2010 IBM Corporation and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+        IBM Corporation - initial API and implementation
+        Zend Technologies
+ -->
+<project name="Downloading php parser from eclipse.org" default="getParserJar">
+
+	<target name="init">
+		<!-- if dir exists, then it'll be used to get jflex -->
+		<available file="/shared/tools/php" property="jflex.work.dir" value="/shared/tools/php" />
+		<!-- otherwise, tmpdir will be used. -->
+		<property name="jflex.work.dir" value="${java.io.tmpdir}/PDT_JFlex_files" />
+
+		<mkdir dir="${jflex.work.dir}" />
+		<property name="cupParser" value="${jflex.work.dir}/org.eclipse.php.parser_3.6.jar" />
+	</target>
+
+	<target name="getParserJar" depends="init">
+		<available property="jarParserExists" file="${cupParser}" />
+		<antcall target="setHttpProxy" />
+		<antcall target="downloadParser" />
+	</target>
+
+	<target name="setHttpProxy" if="http.proxyHost">
+		<echo message="proxy: - ${http.proxyHost}:${http.proxyPort}" />
+		<setproxy proxyhost="${http.proxyHost}" proxyport="${http.proxyPort}" />
+	</target>
+	<target name="downloadParser" unless="jarParserExists">
+		<get src="http://download.eclipse.org/tools/pdt/updates/3.6/plugins/org.eclipse.php.core.parser_3.6.0.201509151953.jar" dest="${cupParser}" verbose="true" usetimestamp="true" />
+	</target>
+
+</project>

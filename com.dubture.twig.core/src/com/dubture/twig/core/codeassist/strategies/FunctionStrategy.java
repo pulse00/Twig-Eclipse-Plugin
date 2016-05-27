@@ -9,62 +9,47 @@
 package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.FunctionContext;
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.model.Function;
+import com.dubture.twig.core.model.IFunction;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
- * 
- * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
-@SuppressWarnings({"restriction"})
-public class FunctionStrategy extends AbstractCompletionStrategy
-{
+@SuppressWarnings({ "restriction" })
+public class FunctionStrategy extends AbstractTwigCompletionStrategy {
 
-    public FunctionStrategy(ICompletionContext context)
-    {
-        super(context);
+	public FunctionStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        try {
+		try {
 
-            FunctionContext ctx = (FunctionContext) getContext();
-            TwigModelAccess model = TwigModelAccess.getDefault();
+			FunctionContext ctx = (FunctionContext) getContext();
+			TwigModelAccess model = TwigModelAccess.getDefault();
 
-            String prefix = ctx.getPrefix();
-            ISourceRange range = getReplacementRange(getContext());
+			String prefix = ctx.getPrefix();
+			ISourceRange range = getReplacementRange(getContext());
 
-            Function[] functions = model.getFunctions(ctx.getSourceModule()
-                    .getScriptProject());
+			IFunction[] functions = model.getFunctions(ctx.getScriptProject());
 
-            for (Function function : functions) {
-                if (CodeAssistUtils.startsWithIgnoreCase(
-                        function.getElementName(), prefix)) {
+			for (IFunction function : functions) {
+				if (CodeAssistUtils.startsWithIgnoreCase(function.getElementName(), prefix)) {
+					reporter.reportFunction(function, range);
+				}
+			}
 
-                    function.setScriptProject(ctx.getSourceModule()
-                            .getScriptProject());
-
-                    reporter.reportType(function, "()", range);
-                }
-            }
-
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-    }
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }

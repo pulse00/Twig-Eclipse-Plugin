@@ -8,24 +8,18 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 
-public class TestContext extends KeywordContext
-{
+public class TestContext extends KeywordContext {
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+	@Override
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
 
-        if (super.isValid(sourceModule, offset, requestor)) {
-
-            return true;
-        }
-
-        return false;
-
-    }
+		return true;
+	}
 
 }

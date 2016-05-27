@@ -16,31 +16,26 @@ import com.dubture.twig.core.parser.ast.node.TwigModuleDeclaration;
 
 import java_cup.runtime.lr_parser;
 
-abstract class AbstractAstParser extends lr_parser
-{
+abstract class AbstractAstParser extends lr_parser {
 
-    /** Default constructor. */
-    public AbstractAstParser()
-    {
+	/** Default constructor. */
+	public AbstractAstParser() {
+		super();
+	}
 
-    }
+	/** Constructor which sets the default scanner. */
+	public AbstractAstParser(java_cup.runtime.Scanner s) {
+		super(s);
+	}
 
-    /** Constructor which sets the default scanner. */
-    public AbstractAstParser(java_cup.runtime.Scanner s)
-    {
-        super(s);
-    }
+	private TwigModuleDeclaration module = new TwigModuleDeclaration(0, new LinkedList<Statement>());
 
-    private TwigModuleDeclaration module = new TwigModuleDeclaration(0, new LinkedList<Statement>());
-    
-    public TwigModuleDeclaration getModuleDeclaration()
-    {
-        return module;
-    }
-    
-    public void addStatement(Statement s)
-    {        
-        module.addStatement(s);       
-    }
-    
+	public TwigModuleDeclaration getModuleDeclaration() {
+		return module;
+	}
+
+	public void addStatement(Statement s) {
+		module.addStatement(s);
+	}
+
 }

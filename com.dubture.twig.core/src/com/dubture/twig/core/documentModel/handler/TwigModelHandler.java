@@ -9,17 +9,16 @@
 package com.dubture.twig.core.documentModel.handler;
 
 import org.eclipse.php.internal.core.documentModel.encoding.PHPDocumentCharsetDetector;
-import org.eclipse.php.internal.core.documentModel.handler.PHPModelHandler;
 import org.eclipse.wst.sse.core.internal.document.IDocumentCharsetDetector;
 import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
+import org.eclipse.wst.sse.core.internal.ltk.modelhandler.AbstractModelHandler;
+import org.eclipse.wst.sse.core.internal.provisional.IModelLoader;
 
 import com.dubture.twig.core.documentModel.loader.TwigDocumentLoader;
 import com.dubture.twig.core.documentModel.loader.TwigModelLoader;
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 
 /**
- *
- *
  * The {@link TwigModelHandler} is the main entry point of the
  * org.eclipse.wst.sse.core.modelHandler extension point.
  *
@@ -54,41 +53,42 @@ import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeId
  *
  */
 @SuppressWarnings("restriction")
-public class TwigModelHandler extends PHPModelHandler
-{
+public class TwigModelHandler extends AbstractModelHandler {
 
-    private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
+	private static String ModelHandlerID = "com.dubture.twig.core.documentModel.handler"; //$NON-NLS-1$
 
-    public TwigModelHandler()
-    {
+	public TwigModelHandler() {
 
-        super();
+		super();
 
-        setId(ModelHandlerID);
-        setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
+		setId(ModelHandlerID);
+		setAssociatedContentTypeId(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG);
 
-    }
+	}
 
-    /*
-     * @Override public IModelLoader getModelLoader() {
-     *
-     * return new TwigModelLoader();
-     *
-     * }
-     */
+	/*
+	 * @Override public IModelLoader getModelLoader() {
+	 *
+	 * return new TwigModelLoader();
+	 *
+	 * }
+	 */
 
-    @Override
-    public IDocumentCharsetDetector getEncodingDetector()
-    {
+	@Override
+	public IDocumentCharsetDetector getEncodingDetector() {
 
-        return new PHPDocumentCharsetDetector();
-    }
+		return new PHPDocumentCharsetDetector();
+	}
 
-    @Override
-    public IDocumentLoader getDocumentLoader()
-    {
+	@Override
+	public IDocumentLoader getDocumentLoader() {
 
-        return new TwigDocumentLoader();
-    }
+		return new TwigDocumentLoader();
+	}
+
+	@Override
+	public IModelLoader getModelLoader() {
+		return new TwigModelLoader();
+	}
 
 }

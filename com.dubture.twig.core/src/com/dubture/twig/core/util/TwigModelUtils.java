@@ -11,6 +11,9 @@ package com.dubture.twig.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
@@ -23,8 +26,6 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
-import org.eclipse.ui.IFileEditorMapping;
-import org.eclipse.ui.PlatformUI;
 
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.log.Logger;
@@ -37,104 +38,97 @@ import com.dubture.twig.core.log.Logger;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigModelUtils
-{
-    
-    public static boolean isTwigTemplate(String filename)
-    {
-        IContentTypeManager manager = Platform.getContentTypeManager();
-        IContentType[] contentTypes = manager.findContentTypesFor(filename);
-        
-        for (IContentType type : contentTypes) {
-            if (ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG.equals(type.getId())) {
-                return true;
-            }
-        }
-        
-        IFileEditorMapping[] editorMappings = PlatformUI.getWorkbench().getEditorRegistry().getFileEditorMappings();
-        String extension = filename.substring(0, filename.lastIndexOf("."));
-        
-        if (extension == null) {
-            return false;
-        }
-        
-        for (IFileEditorMapping mapping : editorMappings) {
-            if (mapping.getExtension().equals(extension)) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
+public class TwigModelUtils {
 
-    /***
-     * 
-     * Retrieve the block-endstatements (endif, endblock, etc) from a
-     * PHPMethodDeclaration.
-     * 
-     * 
-     * @param method
-     * @return
-     */
-    public static String[] getEndStatements(PHPMethodDeclaration method)
-    {
+	public static boolean isTwigTemplate(String filename) {
+		IContentTypeManager manager = Platform.getContentTypeManager();
+		IContentType[] contentTypes = manager.findContentTypesFor(filename);
 
-        final List<String> statements = new ArrayList<String>();
+		for (IContentType type : contentTypes) {
+			if (ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG.equals(type.getId())) {
+				return true;
+			}
+		}
 
-        try {
-            method.traverse(new PHPASTVisitor()
-            {
+		return false;
+	}
 
-                public boolean visit(ReturnStatement s) throws Exception
-                {
+	public static boolean isTwigTemplate(IResource resource) {
+		assert resource != null;
+		if (resource.getType() != IResource.FILE) {
+			return false;
+		}
+		try {
+			return ((IFile) resource).getContentDescription().getContentType().isKindOf(
+					Platform.getContentTypeManager().getContentType(ContentTypeIdForTwig.CONTENT_TYPE_ID_TWIG));
+		} catch (CoreException e) {
+			Logger.logException(e);
+		}
 
-                    if (s.getExpr() instanceof PHPCallExpression) {
+		return false;
+	}
 
-                        PHPCallExpression call = (PHPCallExpression) s
-                                .getExpr();
-                        CallArgumentsList args = call.getArgs();
+	/***
+	 * 
+	 * Retrieve the block-endstatements (endif, endblock, etc) from a
+	 * PHPMethodDeclaration.
+	 * 
+	 * 
+	 * @param method
+	 * @return
+	 */
+	public static String[] getEndStatements(PHPMethodDeclaration method) {
 
-                        if ("test".equals(call.getName())
-                                && args.getChilds().size() == 1) {
+		final List<String> statements = new ArrayList<String>();
 
-                            Object arg = args.getChilds().get(0);
+		try {
+			method.traverse(new PHPASTVisitor() {
 
-                            if (arg instanceof Scalar) {
+				@Override
+				public boolean visit(ReturnStatement s) throws Exception {
 
-                                Scalar scalar = (Scalar) arg;
-                                statements.add(scalar.getValue().replaceAll(
-                                        "['\"]", ""));
+					if (s.getExpr() instanceof PHPCallExpression) {
 
-                            } else if (arg instanceof ArrayCreation) {
+						PHPCallExpression call = (PHPCallExpression) s.getExpr();
+						CallArgumentsList args = call.getArgs();
 
-                                ArrayCreation array = (ArrayCreation) arg;
+						if ("test".equals(call.getName()) && args.getChilds().size() == 1) {
 
-                                for (ArrayElement key : array.getElements()) {
+							Object arg = args.getChilds().get(0);
 
-                                    Expression value = key.getValue();
+							if (arg instanceof Scalar) {
 
-                                    if (value != null
-                                            && value instanceof Scalar) {
+								Scalar scalar = (Scalar) arg;
+								statements.add(scalar.getValue().replaceAll("['\"]", ""));
 
-                                        Scalar scalar = (Scalar) value;
-                                        statements.add(scalar.getValue()
-                                                .replaceAll("['\"]", ""));
-                                    }
-                                }
-                            }
-                        }
-                    }
+							} else if (arg instanceof ArrayCreation) {
 
-                    return false;
-                };
+								ArrayCreation array = (ArrayCreation) arg;
 
-            });
-        } catch (Exception e) {
+								for (ArrayElement key : array.getElements()) {
 
-            Logger.logException(e);
-        }
+									Expression value = key.getValue();
 
-        return (String[]) statements.toArray(new String[statements.size()]);
+									if (value != null && value instanceof Scalar) {
 
-    }
+										Scalar scalar = (Scalar) value;
+										statements.add(scalar.getValue().replaceAll("['\"]", ""));
+									}
+								}
+							}
+						}
+					}
+
+					return false;
+				};
+
+			});
+		} catch (Exception e) {
+
+			Logger.logException(e);
+		}
+
+		return statements.toArray(new String[statements.size()]);
+
+	}
 }

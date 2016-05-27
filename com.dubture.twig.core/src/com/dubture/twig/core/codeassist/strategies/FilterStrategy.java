@@ -9,62 +9,50 @@
 package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
-import org.eclipse.php.internal.core.codeassist.strategies.AbstractCompletionStrategy;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.FilterContext;
 import com.dubture.twig.core.log.Logger;
-import com.dubture.twig.core.model.Filter;
+import com.dubture.twig.core.model.IFilter;
 import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
- * 
  * {@link FilterStrategy} for filter completion.
  * 
- * 
- * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
- * 
  */
-@SuppressWarnings({"restriction"})
-public class FilterStrategy extends AbstractCompletionStrategy
-{
 
-    public FilterStrategy(ICompletionContext context)
-    {
-        super(context);
+@SuppressWarnings({ "restriction" })
+public class FilterStrategy extends AbstractTwigCompletionStrategy {
 
-    }
+	public FilterStrategy(ICompletionContext context) {
+		super(context);
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	}
 
-        try {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-            FilterContext ctx = (FilterContext) getContext();
-            TwigModelAccess model = TwigModelAccess.getDefault();
+		try {
 
-            String prefix = ctx.getPrefix();
-            ISourceRange range = getReplacementRange(getContext());
+			FilterContext ctx = (FilterContext) getContext();
+			TwigModelAccess model = TwigModelAccess.getDefault();
 
-            Filter[] filters = model.getFilters(ctx.getSourceModule()
-                    .getScriptProject());
+			String prefix = ctx.getPrefix();
+			ISourceRange range = getReplacementRange(getContext());
 
-            for (Filter filter : filters) {
-                if (CodeAssistUtils.startsWithIgnoreCase(
-                        filter.getElementName(), prefix)) {
+			IFilter[] filters = model.getFilters(ctx.getScriptProject());
 
-                    filter.setScriptProject(ctx.getSourceModule()
-                            .getScriptProject());
-                    reporter.reportType(filter, "", range);
-                }
-            }
+			for (IFilter filter : filters) {
+				if (CodeAssistUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {
+					reporter.reportFilter(filter, range);
+				}
+			}
 
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-    }
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }

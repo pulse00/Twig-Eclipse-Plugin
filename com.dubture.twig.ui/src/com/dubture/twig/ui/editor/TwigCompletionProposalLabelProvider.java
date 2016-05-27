@@ -13,10 +13,10 @@ import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.php.internal.ui.editor.contentassist.PHPCompletionProposalLabelProvider;
 
-import com.dubture.twig.core.model.Filter;
-import com.dubture.twig.core.model.Function;
-import com.dubture.twig.core.model.Tag;
-import com.dubture.twig.core.model.Test;
+import com.dubture.twig.internal.core.model.Filter;
+import com.dubture.twig.internal.core.model.Function;
+import com.dubture.twig.internal.core.model.Tag;
+import com.dubture.twig.internal.core.model.Test;
 import com.dubture.twig.ui.TwigPluginImages;
 
 /**
@@ -28,31 +28,28 @@ import com.dubture.twig.ui.TwigPluginImages;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigCompletionProposalLabelProvider extends
-        PHPCompletionProposalLabelProvider
-{
+public class TwigCompletionProposalLabelProvider extends PHPCompletionProposalLabelProvider {
 
-    @Override
-    public ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal)
-    {
+	@Override
+	public ImageDescriptor createTypeImageDescriptor(CompletionProposal proposal) {
 
-        IModelElement element = proposal.getModelElement();
+		IModelElement element = proposal.getModelElement();
 
-        if (element.getClass() == Tag.class) {
+		if (element.getClass() == Tag.class) {
 
-            return TwigPluginImages.DESC_OBJS_TAG;
+			return TwigPluginImages.DESC_OBJS_TAG;
 
-        } else if (element.getClass() == Filter.class) {
+		} else if (element.getClass() == Filter.class) {
 
-            return TwigPluginImages.DESC_OBJS_FILTER;
-        } else if (element.getClass() == Function.class) {
+			return TwigPluginImages.DESC_OBJS_FILTER;
+		} else if (element.getClass() == Function.class) {
 
-            return TwigPluginImages.DESC_OBJS_FUNCTION;
-        } else if (element.getClass() == Test.class) {
+			return TwigPluginImages.DESC_OBJS_FUNCTION;
+		} else if (element.getClass() == Test.class) {
 
-            return TwigPluginImages.DESC_OBJS_TEST;
-        }
+			return TwigPluginImages.DESC_OBJS_TEST;
+		}
 
-        return super.createTypeImageDescriptor(proposal);
-    }
+		return super.createTypeImageDescriptor(proposal);
+	}
 }

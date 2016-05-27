@@ -12,24 +12,21 @@ import java.util.List;
 
 import org.eclipse.dltk.ast.expressions.Expression;
 
-public class Hash extends Expression
-{
-    private final List<Expression> expressions;
+public class Hash extends Expression {
+	private final List<Expression> expressions;
 
-    public Hash(int startIndex, int stopIndex, List<Expression> expressions)
-    {
-        super(startIndex, stopIndex);
-        this.expressions = expressions;
-    }
+	public Hash(int startIndex, int stopIndex, List<Expression> expressions) {
+		super(startIndex, stopIndex);
+		this.expressions = expressions;
+	}
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.HASH;
-    }
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.HASH;
+	}
 
-    public Iterable<Expression> getExpressions() {
-        return expressions;
-    }
+	public Iterable<Expression> getExpressions() {
+		return expressions;
+	}
 
 }

@@ -14,26 +14,25 @@ import org.eclipse.dltk.ast.statements.Statement;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class InLineHtml extends Statement
-{
+public class InLineHtml extends Statement {
 
-    /**
-     * @param htmlleft
-     * @param htmlright
-     */
-    public InLineHtml(int htmlleft, int htmlright)
-    {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @param htmlleft
+	 * @param htmlright
+	 */
+	public InLineHtml(int htmlleft, int htmlright) {
+		// TODO Auto-generated constructor stub
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.dltk.ast.statements.Statement#getKind()
-     */
-    @Override
-    public int getKind()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.dltk.ast.statements.Statement#getKind()
+	 */
+	@Override
+	public int getKind() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

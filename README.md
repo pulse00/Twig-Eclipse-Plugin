@@ -21,7 +21,7 @@ If you want to use the nightly build, make sure to also add the __PDT nightly up
 
 It's inside the "Text Editors / Productivity Tools" category:
 
-[http://p2.pdt-extensions.org/](http://p2-dev.pdt-extensions.org/)
+[http://p2.pdt-extensions.org/](http://p2.pdt-extensions.org/)
 
 #### Nightly Updatesite
 

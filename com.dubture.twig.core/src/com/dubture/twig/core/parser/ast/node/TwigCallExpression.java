@@ -15,62 +15,53 @@ import org.eclipse.dltk.ast.expressions.Expression;
 
 /**
  * 
- * Anything in the form: foo(..) 
+ * Anything in the form: foo(..)
  * 
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-public class TwigCallExpression extends Expression
-{
-    protected final List<Expression> arguments;
-    protected final String name;
+public class TwigCallExpression extends Expression {
+	protected final List<Expression> arguments;
+	protected final String name;
 
-    public TwigCallExpression(int startIndex, int stopIndex, String name,
-            List<Expression> arguments)
-    {
-        super(startIndex, stopIndex);
-        this.name = name;
-        this.arguments = arguments;
-    }
-    
-    
-    @Override
-    public void traverse(ASTVisitor visitor) throws Exception
-    {
-        if (visitor.visit(this)) {
+	public TwigCallExpression(int startIndex, int stopIndex, String name, List<Expression> arguments) {
+		super(startIndex, stopIndex);
+		this.name = name;
+		this.arguments = arguments;
+	}
 
-            if (arguments != null) {
-                for (Expression exp : arguments) {
+	@Override
+	public void traverse(ASTVisitor visitor) throws Exception {
+		if (visitor.visit(this)) {
 
-                    if (exp != null) {
-                        exp.traverse(visitor);
-                    }
-                }
-            }
-            visitor.endvisit(this);
-        }
-    }
+			if (arguments != null) {
+				for (Expression exp : arguments) {
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.CALL_EXPRESSION;
-    }
+					if (exp != null) {
+						exp.traverse(visitor);
+					}
+				}
+			}
+			visitor.endvisit(this);
+		}
+	}
 
-    public List<Expression> getArguments()
-    {
-        return arguments;
-    }
-    
-    @SuppressWarnings("rawtypes")
-    @Override
-    public List getChilds()
-    {
-        return arguments;
-    }
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.CALL_EXPRESSION;
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public List<Expression> getArguments() {
+		return arguments;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List getChilds() {
+		return arguments;
+	}
+
+	public String getName() {
+		return name;
+	}
 }

@@ -31,6 +31,20 @@
       </editor>
    </extension>
    
+   <extension point="org.eclipse.core.runtime.adapters">
+		<factory
+			adaptableType="com.dubture.twig.core.documentModel.dom.ElementImplForTwig"
+			class="com.dubture.twig.ui.editor.adapter.TwigElementAdapterFactory">
+			<adapter type="org.eclipse.ui.IActionFilter" />
+		</factory>
+	</extension>
+	<extension
+		point="org.eclipse.wst.sse.ui.adapterFactoryDescription">
+		<adapterFactoryDescription
+			class="com.dubture.twig.ui.editor.adapter.AdapterFactoryProviderForTwig">
+			<contentType id="com.dubture.twig.core.twigtemplate" />
+		</adapterFactoryDescription>
+	</extension>
    
    <!-- SourceEditor configuration-->
    <extension
@@ -59,9 +73,13 @@
 			target="com.dubture.twig.core.twigtemplate" />
 		<provisionalDefinition
 			type="spellingregions"
-			value="XML_COMMENT_TEXT, PHP_CONTENT, TWIG_CONTENT, XML_CONTENT"
+			value="XML_COMMENT_TEXT, TWIG_CONTENT, XML_CONTENT"
 			target="com.dubture.twig.core.twigtemplate" />
-			
+		<provisionalDefinition type="preferencepages"
+			value="com.dubture.twig.ui.preferences.TwigBasePreferencePage,
+			com.dubture.twig.ui.preferences.TwigTemplatesPreferencePage,
+			com.dubture.twig.ui.preferences.TwigCodeassistPreferencePage,
+			com.dubture.twig.ui.preferences.TwigSyntaxcolorPreferencePage" target="com.dubture.twig.core.twigtemplate" />
 		<provisionalDefinition type="activecontexts"
 			value="com.dubture.twig.core.twigtemplate" target="com.dubture.twig.core.twigtemplate" />
 			
@@ -152,18 +170,6 @@
    </extension>
    
    <!-- ProposalComputer for CodeAssist and Templates -->
-   <extension
-         id="TwigCompletionProposalComputer"
-         point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
-      <scriptCompletionProposalComputer
-            categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
-            class="com.dubture.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
-            toolkitId="org.eclipse.php.core.PHPNature">
-         <partition
-               type="com.dubture.twig.TWIG_DEFAULT">
-         </partition>
-      </scriptCompletionProposalComputer>
-   </extension>
    
 	<extension point="org.eclipse.ui.menus">
 	
@@ -246,7 +252,7 @@
       </perspectiveExtension>
    </extension>
    
-   <extension
+   <!--extension
          point="org.eclipse.php.ui.foldingStructureProviders">
       <provider
             class="com.dubture.twig.ui.editor.folding.StructuredTextFoldingProviderTwig"
@@ -254,11 +260,11 @@
             name="Twig Code Folding"
             preferencesClass="org.eclipse.php.internal.ui.folding.DefaultPHPFoldingPreferenceBlock">
       </provider>
-   </extension>
+   </extension-->
    
 	<extension point="org.eclipse.ui.contexts">
 		<context name="%context.editingTwigSource.name" description="%context.editingTwigSource.description"
-			parentId="org.eclipse.php.ui.phpEditorScope" id="com.dubture.ui.phpEditorScope" />
+			parentId="org.eclipse.wst.sse.ui.structuredTextEditorScope" id="com.dubture.ui.twigEditorScope" />
 		<context name="%context.editingPhpSource.name"
 			parentId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
 			description="%context.editingTwigSource.description" id="com.dubture.twig.core.twigtemplate">
@@ -312,7 +318,7 @@
 					<iterate operator="or">
 						<equals value="com.dubture.twig.editor"/>
 					</iterate>
-				</with>			   
+				</with>
 			</or>
 				
 			</activeWhen>
@@ -321,6 +327,43 @@
 			</enabledWhen>
 		</handler>
 	</extension>
+ <extension
+       id="com.dubture.twig.ui.proposalCategory"
+       point="org.eclipse.wst.sse.ui.completionProposalCategoriesConfiguration">
+    <categoriesConfiguration
+          class="com.dubture.twig.ui.editor.contentassist.TwigCompletionProposalCategoriesConfiguration"
+          contentTypeID="com.dubture.twig.core.twigtemplate">
+    </categoriesConfiguration>
+ </extension>
+ <extension
+       point="org.eclipse.wst.sse.ui.completionProposal">
+    <proposalCategory
+          id="com.dubture.twig.ui.defaultProposalCategory"
+          name="Default Twig Proposals">
+    </proposalCategory>
+    <proposalComputer
+          activate="true"
+          categoryId="org.eclipse.wst.sse.ui.defaultProposalCategory"
+          class="com.dubture.twig.ui.editor.contentassist.TwigCompletionProposalComputer"
+          id="com.dubture.twig.ui.twigProposalComputer"
+          name="Twig Completion Proposal Computer">
+       <contentType
+             id="com.dubture.twig.core.twigtemplate">
+          <partitionType
+                id="com.dubture.twig.TWIG_DEFAULT">
+          </partitionType>
+          <partitionType
+                id="com.dubture.twig.TWIG_COMMENT_TEXT">
+          </partitionType>
+          <partitionType
+                id="com.dubture.twig.TWIG_STRING">
+          </partitionType>
+          <partitionType
+                id="com.dubture.twig.TWIG_QUOTED_STRING">
+          </partitionType>
+       </contentType>
+    </proposalComputer>
+ </extension>
    
 
 </plugin>

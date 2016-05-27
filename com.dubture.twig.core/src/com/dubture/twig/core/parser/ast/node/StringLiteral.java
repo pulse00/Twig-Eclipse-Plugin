@@ -9,58 +9,52 @@
 package com.dubture.twig.core.parser.ast.node;
 
 import org.eclipse.dltk.ast.expressions.Literal;
-public class StringLiteral extends Literal
-{
 
-    /**
-     * @param start
-     * @param end
-     * @param string
-     */
-    public StringLiteral(int start, int end, String string)
-    {
-        super(start, end);
-        fLiteralValue = string;
-    }
+public class StringLiteral extends Literal {
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.STRING_LITERAL;
-    }
+	/**
+	 * @param start
+	 * @param end
+	 * @param string
+	 */
+	public StringLiteral(int start, int end, String string) {
+		super(start, end);
+		fLiteralValue = string;
+	}
 
-    @Override
-    public String toString()
-    {
-        return String.format("[StringLiteral %d - %d] : %s", sourceStart(), sourceEnd(),
-                fLiteralValue);
-    }
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.STRING_LITERAL;
+	}
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (!(obj instanceof StringLiteral)) {
-            return false;
-        }
+	@Override
+	public String toString() {
+		return String.format("[StringLiteral %d - %d] : %s", sourceStart(), sourceEnd(), fLiteralValue);
+	}
 
-        StringLiteral other = (StringLiteral) obj;
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof StringLiteral)) {
+			return false;
+		}
 
-        boolean equal = other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
-                && other.getValue().equals(getValue());
+		StringLiteral other = (StringLiteral) obj;
 
-        return equal;
+		boolean equal = other.sourceStart() == sourceStart() && other.sourceEnd() == sourceEnd()
+				&& other.getValue().equals(getValue());
 
-    }
+		return equal;
 
-    @Override
-    public String getValue()
-    {
-        String val = super.getValue();
+	}
 
-        if (val != null) {
-            val = val.replaceAll("'", "").replaceAll("\"", "");
-        }
+	@Override
+	public String getValue() {
+		String val = super.getValue();
 
-        return val;
-    }
+		if (val != null) {
+			val = val.replaceAll("'", "").replaceAll("\"", "");
+		}
+
+		return val;
+	}
 }

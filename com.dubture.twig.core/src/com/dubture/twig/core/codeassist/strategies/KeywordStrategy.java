@@ -9,10 +9,10 @@
 package com.dubture.twig.core.codeassist.strategies;
 
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.core.codeassist.ICompletionContext;
 import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
-import org.eclipse.php.internal.core.codeassist.ICompletionReporter;
 
+import com.dubture.twig.core.codeassist.ICompletionContext;
+import com.dubture.twig.core.codeassist.ICompletionReporter;
 import com.dubture.twig.core.codeassist.context.KeywordContext;
 
 /**
@@ -24,31 +24,27 @@ import com.dubture.twig.core.codeassist.context.KeywordContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({"restriction"})
-public class KeywordStrategy extends AbstractTwigCompletionStrategy
-{
+@SuppressWarnings({ "restriction" })
+public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
-    private String[] KEYWORDS = new String[]{"as", "in", "true", "false", "as",
-            "with"};
+	private String[] KEYWORDS = new String[] { "as", "in", "true", "false", "with" };
 
-    public KeywordStrategy(ICompletionContext context)
-    {
-        super(context);
+	public KeywordStrategy(ICompletionContext context) {
+		super(context);
 
-    }
+	}
 
-    @Override
-    public void apply(ICompletionReporter reporter) throws Exception
-    {
+	@Override
+	public void apply(ICompletionReporter reporter) throws Exception {
 
-        KeywordContext ctx = (KeywordContext) getContext();
-        String prefix = ctx.getPrefix();
-        ISourceRange range = getReplacementRange(getContext());
+		KeywordContext ctx = (KeywordContext) getContext();
+		String prefix = ctx.getPrefix();
+		ISourceRange range = getReplacementRange(getContext());
 
-        for (String keyword : KEYWORDS) {
-            if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
-                reporter.reportKeyword(keyword, "", range);
-            }
-        }
-    }
+		for (String keyword : KEYWORDS) {
+			if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
+				reporter.reportKeyword(keyword, range);
+			}
+		}
+	}
 }

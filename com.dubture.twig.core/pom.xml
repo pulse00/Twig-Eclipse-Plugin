@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.dubture.twig</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0.15-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>com.dubture.twig.core</artifactId>
@@ -21,101 +21,20 @@
 				<version>1.5</version>
 				<executions>
 
-					<!-- generates the AST lexer -->
 					<execution>
-						<id>generate-lexer</id>
+						<id>replace-build-token</id>
 						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<ant antfile="Resources/parserTools/build.xml" />
+							</tasks>
+						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-
-						<configuration>
-							<target name="generateLexer">
-								<property name="runtime_classpath" refid="maven.runtime.classpath" />
-
-								<property name="destination"
-									value="${project.basedir}/src/com/dubture/twig/core/parser/ast" />
-
-								<java classpath="JFlex.jar" classname="JFlex.Main">
-									<classpath>
-										<pathelement path="${basedir}/Resources/parserTools/lib/JFlex.jar" />
-										<pathelement path="${runtime_classpath}" />
-									</classpath>
-									<arg
-										value="${basedir}/Resources/parserTools/parser/ast_scanner.jflex" />
-								</java>
-								<move
-									file="${basedir}/Resources/parserTools/parser/TwigAstLexer.java"
-									todir="${destination}" />
-							</target>
-						</configuration>
-					</execution>
-
-					<!-- generated the AST parser -->
-					<execution>
-						<id>generate-parser</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-
-						<configuration>
-							<target>
-								<property name="runtime_classpath" refid="maven.runtime.classpath" />
-								<property name="destination"
-									value="${project.basedir}/src/com/dubture/twig/core/parser/ast" />
-
-								<java classname="java_cup.Main" fork="true" failonerror="true"
-									maxmemory="512m">
-									<classpath>
-										<pathelement
-											path="${basedir}/Resources/parserTools/lib/java-cup-10k.jar" />
-										<pathelement path="${runtime_classpath}" />
-									</classpath>
-									<arg value="-compact_red" />
-									<arg value="-parser" />
-									<arg value="TwigAstParser" />
-									<arg value="-symbols" />
-									<arg value="ParserConstants" />
-									<arg value="-interface" />
-
-									<arg
-										value="${project.basedir}/Resources/parserTools/parser/compiler_ast_parser.cup" />
-								</java>
-
-								<move file="${basedir}/TwigAstParser.java" todir="${destination}" />
-								<move file="${basedir}/ParserConstants.java" todir="${destination}" />
-
-							</target>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- fix the generated inheritance -->
-			<plugin>
-				<groupId>com.google.code.maven-replacer-plugin</groupId>
-				<artifactId>maven-replacer-plugin</artifactId>
-				<version>1.4.0</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<ignoreMissingFile>false</ignoreMissingFile>
-					<file>src/com/dubture/twig/core/parser/ast/TwigAstParser.java</file>
-					<outputFile>src/com/dubture/twig/core/parser/ast/TwigAstParser.java</outputFile>
-					<regex>false</regex>
-					<token>extends java_cup.runtime.lr_parser </token>
-					<value>extends AbstractAstParser</value>
-				</configuration>
-			</plugin>
-
-			<!-- now we're good... -->
 
 		</plugins>
 		<pluginManagement>

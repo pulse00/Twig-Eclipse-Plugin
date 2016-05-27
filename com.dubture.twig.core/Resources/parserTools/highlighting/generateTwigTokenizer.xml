@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<project name="twigTokenizer" default="generateTokenizer" basedir=".">
+	<import file="../jflex/build.xml" />
+	<target name="checkUpToDate">
+		<uptodate property="upToDate" srcfile="TwigTokenizer.jflex" targetfile="../../../src/com/dubture/twig/core/documentModel/parser/TwigTokenizer.java" />
+	</target>
+	<target name="generateTokenizer" depends="checkUpToDate,getJFlexJar" unless="upToDate">
+		<property name="destination" value="../../../src/com/dubture/twig/core/documentModel/parser" />
+		<java jar="${jflexJar}" fork="true">
+			<arg value="--legacydot" /> 
+			<arg value="-d" />
+			<arg value="${destination}" />
+			<arg value="-skel" />
+			<arg value="skeleton.sse" />
+			<arg value="TwigTokenizer.jflex" />
+		</java>
+		<delete file="${destination}/TwigTokenizer.java~" />
+	</target>
+</project>

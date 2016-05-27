@@ -10,8 +10,6 @@ package com.dubture.twig.core.documentModel.dom;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.dltk.core.IModelElement;
-import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.php.internal.core.documentModel.dom.NullValidator;
 import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
@@ -23,7 +21,6 @@ import org.w3c.dom.Node;
 
 import com.dubture.twig.core.documentModel.TwigDOMModelParser;
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
-import com.dubture.twig.core.model.TwigModelAccess;
 
 /**
  * 
@@ -33,128 +30,97 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * 
  */
 @SuppressWarnings("restriction")
-public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable,
-        IImplForTwig
-{
+public class ElementImplForTwig extends ElementStyleImpl implements IAdaptable, IImplForTwig {
 
-    private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter";
-    private IModelElement modelElement;
-    private TwigModelAccess model = TwigModelAccess.getDefault();
+	private static final String WORKBENCH_ADAPTER = "org.eclipse.ui.model.IWorkbenchAdapter"; //$NON-NLS-1$
 
-    public ElementImplForTwig()
-    {
-        super();
-    }
+	public ElementImplForTwig() {
+		super();
+	}
 
-    @SuppressWarnings("rawtypes")
-    public Object getAdapter(Class adapter)
-    {
-        if (adapter != null && adapter.getName().equals(WORKBENCH_ADAPTER)) {
-            return null;
-        }
-        return Platform.getAdapterManager().getAdapter(this, adapter);
-    }
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Object getAdapter(Class adapter) {
+		if (adapter != null && adapter.getName().equals(WORKBENCH_ADAPTER)) {
+			return null;
+		}
+		return Platform.getAdapterManager().getAdapter(this, adapter);
+	}
 
-    public ElementImplForTwig(ElementStyleImpl that)
-    {
-        super(that);
-    }
+	public ElementImplForTwig(ElementStyleImpl that) {
+		super(that);
+	}
 
-    protected boolean isNestedClosed(String regionType)
-    {
-        return regionType == TwigRegionContext.TWIG_STMT_CLOSE;
-    }
+	@Override
+	protected boolean isNestedClosed(String regionType) {
+		return regionType == TwigRegionContext.TWIG_STMT_CLOSE;
+	}
 
-    public Node cloneNode(boolean deep)
-    {
-        ElementImpl cloned = new ElementImplForTwig(this);
-        if (deep)
-            cloneChildNodes(cloned, deep);
-        return cloned;
-    }
+	@Override
+	public Node cloneNode(boolean deep) {
+		ElementImpl cloned = new ElementImplForTwig(this);
+		if (deep)
+			cloneChildNodes(cloned, deep);
+		return cloned;
+	}
 
-    /**
-     * @see ElementStyleImpl#setOwnerDocument(Document) make this method package
-     *      visible
-     */
-    protected void setOwnerDocument(Document ownerDocument)
-    {
-        super.setOwnerDocument(ownerDocument);
-    }
+	/**
+	 * @see ElementStyleImpl#setOwnerDocument(Document) make this method package
+	 *      visible
+	 */
+	@Override
+	protected void setOwnerDocument(Document ownerDocument) {
+		super.setOwnerDocument(ownerDocument);
+	}
 
-    /**
-     * @see setTagName(String) make this method package visible
-     */
-    protected void setTagName(String tagName)
-    {
-        super.setTagName(tagName);
-    }
+	/**
+	 * @see setTagName(String) make this method package visible
+	 */
+	@Override
+	public void setTagName(String tagName) {
+		super.setTagName(tagName);
+	}
 
-    public boolean isGlobalTag()
-    {
-        return isTwigTag() ? false : super.isGlobalTag();
-    }
+	@Override
+	public boolean isGlobalTag() {
+		return isTwigTag() ? false : super.isGlobalTag();
+	}
 
-    /**
-     * @return true if it is a twig element
-     */
-    public boolean isTwigTag()
-    {
+	/**
+	 * @return true if it is a twig element
+	 */
+	@Override
+	public boolean isTwigTag() {
 
-        boolean isTag = TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
-                || TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName());
+		return TwigDOMModelParser.TWIG_STMT_TAG.equals(getNodeName())
+				|| TwigDOMModelParser.TWIG_PRINT_TAG.equals(getNodeName());
 
-        if (isTag)
-            return true;
+	}
 
-        IScriptProject project = modelElement != null ? modelElement
-                .getScriptProject() : null;
+	@Override
+	@SuppressWarnings("rawtypes")
+	public INodeAdapter getExistingAdapter(Object type) {
 
-        if (project == null) {
-            return false;
-        }
+		// no validation or validation propagation for PHP tags
+		if (isTwigTag() && type instanceof Class && ValidationAdapter.class.isAssignableFrom((Class) type)) {
+			return nullValidator;
+		}
+		return super.getExistingAdapter(type);
+	}
 
-        return model.isTwigTag(project, getNodeName());
+	private final static ValidationComponent nullValidator = new NullValidator();
 
-    }
+	@Override
+	public String getPrefix() {
+		final String prefix = super.getPrefix();
+		if (prefix == null && isTwigTag()) {
+			return ""; //$NON-NLS-1$
+		}
+		return prefix;
+	}
 
-    @SuppressWarnings("rawtypes")
-    public INodeAdapter getExistingAdapter(Object type)
-    {
-
-        // no validation or validation propagation for PHP tags
-        if (isTwigTag() && type instanceof Class
-                && ValidationAdapter.class.isAssignableFrom((Class) type)) {
-            return nullValidator;
-        }
-        return super.getExistingAdapter(type);
-    }
-
-    private final static ValidationComponent nullValidator = new NullValidator();
-
-    public String getPrefix()
-    {
-        final String prefix = super.getPrefix();
-        if (prefix == null && isTwigTag()) {
-            return ""; //$NON-NLS-1$
-        }
-        return prefix;
-    }
-
-    public IModelElement getModelElement()
-    {
-        return modelElement;
-    }
-
-    public void setModelElement(IModelElement modelElement)
-    {
-
-        this.modelElement = modelElement;
-    }
-
-    @Override
-    public boolean isStartTagClosed()
-    {
-        return isTwigTag() ? true : super.isStartTagClosed();
-    }
+	@Override
+	public boolean isStartTagClosed() {
+		return isTwigTag() ? true : super.isStartTagClosed();
+	}
 }

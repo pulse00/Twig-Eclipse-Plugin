@@ -9,7 +9,6 @@
  *   Zend and IBM - Initial implementation
  *   Robert Gruendler <r.gruendler@gmail.com> - Twig additions
  ********************************************************************************/
-
 package com.dubture.twig.core.documentModel.parser;
 
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
@@ -47,7 +46,7 @@ import com.dubture.twig.core.util.Debug;
         this.zzBuffer = array;
         this.zzCurrentPos = offset;
         this.zzMarkedPos = offset;
-        this.zzPushbackPos = offset;
+        this._zzPushbackPos = offset;
         this.yychar = offset;
         this.zzEndRead = offset + length;
         this.zzStartRead = offset;
@@ -59,7 +58,7 @@ import com.dubture.twig.core.util.Debug;
     	this.zzReader = reader;
     	this.zzBuffer = buffer;
     	this.zzMarkedPos = parameters[0];
-    	this.zzPushbackPos = parameters[1];
+    	this._zzPushbackPos = parameters[1];
     	this.zzCurrentPos = parameters[2];
     	this.zzStartRead = parameters[3];
     	this.zzEndRead = parameters[4];
@@ -69,7 +68,7 @@ import com.dubture.twig.core.util.Debug;
 
     
     public int[] getParamenters(){
-    	return new int[]{zzMarkedPos, zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
+    	return new int[]{zzMarkedPos, _zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
     }
 
     protected int getZZLexicalState() {
@@ -93,7 +92,7 @@ import com.dubture.twig.core.util.Debug;
     }
 
     protected int getZZPushBackPosition() {
-    	return this.zzPushbackPos;
+    	return this._zzPushbackPos;
     }
 
 	protected void pushBack(int i) {

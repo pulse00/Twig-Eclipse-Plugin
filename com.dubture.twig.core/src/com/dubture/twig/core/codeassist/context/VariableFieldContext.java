@@ -8,15 +8,14 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.util.text.TextSequence;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
 
 /**
- *
  * A {@link VariableFieldContext} detects completion of twig variables:
  *
  * <pre>
@@ -26,44 +25,34 @@ import com.dubture.twig.core.util.text.TwigTextSequenceUtilities;
  * </pre>
  *
  * @author "Robert Gruendler <r.gruendler@gmail.com>"
- *
  */
 @SuppressWarnings("restriction")
-public class VariableFieldContext extends AbstractTwigCompletionContext
-{
+public class VariableFieldContext extends AbstractTwigCompletionContext {
 
-    private String variable = null;
+	private String variable = null;
 
-    public String getVariable()
-    {
+	public String getVariable() {
+		return variable;
+	}
 
-        return variable;
+	@Override
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
 
-    }
+		try {
+			TextSequence statement = getStatementText();
+			if (TwigTextSequenceUtilities.isInField(statement)) {
+				variable = TwigTextSequenceUtilities.getVariable(statement);
+				return true;
+			}
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+			return true;
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
 
-        if (super.isValid(sourceModule, offset, requestor)) {
-
-            try {
-
-                TextSequence statement = getStatementText();
-
-                if (TwigTextSequenceUtilities.isInField(statement)) {
-
-                    variable = TwigTextSequenceUtilities.getVariable(statement);
-                    return true;
-                }
-
-                return true;
-
-            } catch (Exception e) {
-                Logger.logException(e);
-            }
-        }
-        return false;
-    }
+		return false;
+	}
 }

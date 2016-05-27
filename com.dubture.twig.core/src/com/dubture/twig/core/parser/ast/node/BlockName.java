@@ -12,18 +12,16 @@ package com.dubture.twig.core.parser.ast.node;
  * @author sobert
  *
  */
-public class BlockName extends Variable
-{
+public class BlockName extends Variable {
 
-    /**
-     * @param startIndex
-     * @param stopIndex
-     * @param string
-     */
-    public BlockName(int startIndex, int stopIndex, String string)
-    {
-        super(startIndex, stopIndex, string);
+	/**
+	 * @param startIndex
+	 * @param stopIndex
+	 * @param string
+	 */
+	public BlockName(int startIndex, int stopIndex, String string) {
+		super(startIndex, stopIndex, string);
 
-    }
+	}
 
 }

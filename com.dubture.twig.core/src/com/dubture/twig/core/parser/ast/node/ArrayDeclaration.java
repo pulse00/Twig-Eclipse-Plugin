@@ -14,26 +14,21 @@ import org.eclipse.dltk.ast.expressions.Expression;
 
 import com.dubture.twig.core.util.Debug;
 
-public class ArrayDeclaration extends Expression
-{
+public class ArrayDeclaration extends Expression {
 
-    protected final List<Expression> arguments;
+	protected final List<Expression> arguments;
 
-    public ArrayDeclaration(int startIndex, int endIndex,
-            List<Expression> arguments)
-    {
-        super(startIndex, endIndex);
-        this.arguments = arguments;
+	public ArrayDeclaration(int startIndex, int endIndex, List<Expression> arguments) {
+		super(startIndex, endIndex);
+		this.arguments = arguments;
 
-        if (Debug.debugLexer) {
-            System.err.println("creating array with " + arguments.size()
-                    + " arguments");
-        }
-    }
+		if (Debug.debugLexer) {
+			System.err.println("creating array with " + arguments.size() + " arguments");
+		}
+	}
 
-    @Override
-    public int getKind()
-    {
-        return ASTNodeKinds.ARRAY;
-    }
+	@Override
+	public int getKind() {
+		return ASTNodeKinds.ARRAY;
+	}
 }

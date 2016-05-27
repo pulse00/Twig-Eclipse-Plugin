@@ -26,27 +26,21 @@ import com.dubture.twig.ui.TwigUICorePlugin;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigTemplatePreferencePage extends TemplatePreferencePage
-{
+public class TwigTemplatePreferencePage extends TemplatePreferencePage {
 
-    public TwigTemplatePreferencePage()
-    {
+	public TwigTemplatePreferencePage() {
 
-        TwigUICorePlugin plugin = TwigUICorePlugin.getDefault();
+		TwigUICorePlugin plugin = TwigUICorePlugin.getDefault();
 
-        setPreferenceStore(plugin.getPreferenceStore());
-        setTemplateStore(plugin.getTemplateStore());
-        setContextTypeRegistry(plugin.getTemplateContextRegistry());
+		setPreferenceStore(plugin.getPreferenceStore());
+		setTemplateStore(plugin.getTemplateStore());
+		setContextTypeRegistry(plugin.getTemplateContextRegistry());
 
-    }
+	}
 
-    public void performHelp()
-    {
-        PlatformUI
-                .getWorkbench()
-                .getHelpSystem()
-                .setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
-        getControl().notifyListeners(SWT.Help, new Event());
-    }
+	public void performHelp() {
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
+		getControl().notifyListeners(SWT.Help, new Event());
+	}
 
 }

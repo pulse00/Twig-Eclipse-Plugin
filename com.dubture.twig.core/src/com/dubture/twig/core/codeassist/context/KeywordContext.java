@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.context;
 
-import org.eclipse.dltk.core.CompletionRequestor;
-import org.eclipse.dltk.core.ISourceModule;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 
 import com.dubture.twig.core.documentModel.parser.partitioner.TwigPartitionTypes;
 import com.dubture.twig.core.log.Logger;
@@ -22,42 +22,38 @@ import com.dubture.twig.core.log.Logger;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-public class KeywordContext extends AbstractTwigCompletionContext
-{
+public class KeywordContext extends AbstractTwigCompletionContext {
 
-    @Override
-    public boolean isValid(ISourceModule sourceModule, int offset,
-            CompletionRequestor requestor)
-    {
+	@Override
+	public boolean isValid(IDocument template, int offset, IProgressMonitor monitor) {
+		if (!super.isValid(template, offset, monitor)) {
+			return false;
+		}
+		try {
 
-        try {
-            if (super.isValid(sourceModule, offset, requestor)) {
+			if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
+				return false;
+			}
 
-                if (getPartitionType() == TwigPartitionTypes.TWIG_QUOTED_STRING) {
-                    return false;
-                }
+			String prefix = getStatementText().toString();
 
-                String prefix = getStatementText().toString();
+			if (!prefix.contains(".") && !prefix.contains("\"") && !prefix.contains("'")) {
 
-                if (!prefix.contains(".") && !prefix.contains("\"")
-                        && !prefix.contains("'")) {
-                    
-                    String previous = getPreviousWord();
-                    
-                    // {% block |   <-- we complete parent blocks in here
-                    if (previous != null && "block".equals(previous)) {
-                        return false;
-                    }
-                    
-                    return true;
-                }
+				String previous = getPreviousWord();
 
-            }
-        } catch (Exception e) {
+				// {% block | <-- we complete parent blocks in here
+				if (previous != null && "block".equals(previous)) {
+					return false;
+				}
 
-            Logger.logException(e);
-        }
+				return true;
+			}
 
-        return false;
-    }
+		} catch (Exception e) {
+
+			Logger.logException(e);
+		}
+
+		return false;
+	}
 }

@@ -35,14 +35,9 @@ import org.eclipse.wst.xml.core.internal.parser.IntStack;
 import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 
-
-
 %%
 
 %{
-	// where the last internal container block was found
-	private int fLastInternalBlockStart = -1;
-
 	private int fTokenCount = 0;
  
 	// required holders for white-space compacting
@@ -99,6 +94,225 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	public static String stateHint;	
 	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
+	
+	/** are we inside a raw tag? **/
+	private boolean insideRaw = false;
+	
+	public void startRaw() {
+        insideRaw = true;
+    }
+    public void endRaw() {
+        insideRaw = false;
+    }
+	/**
+	 * user method - skeleton.sed
+	 */
+	protected final boolean containsTagName(char[] markerTagName, int offset, int tagnameLength) {
+		for(int j = 0; j < fBlockMarkers.size(); j++) {
+			BlockMarker marker = (BlockMarker)fBlockMarkers.get(j);
+			if(marker.getTagName().length() == tagnameLength) {
+				boolean matchesSoFar = true;
+				for(int i = 0; i < tagnameLength && matchesSoFar; i++) {
+					if(marker.isCaseSensitive()) {
+						if(marker.getTagName().charAt(i) != markerTagName[i + offset])
+							matchesSoFar = false;
+					}
+					else {
+						if(Character.toLowerCase(marker.getTagName().charAt(i)) != Character.toLowerCase(markerTagName[i + offset]))
+							matchesSoFar = false;
+					}
+				}
+				if(matchesSoFar)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/* user method - skeleton.sed */
+	protected final boolean containsTagName(String markerTagName) {
+		Iterator blocks = fBlockMarkers.iterator();
+		while(blocks.hasNext()) {
+			BlockMarker marker = (BlockMarker)blocks.next();
+			if(marker.isCaseSensitive()) {
+				if(marker.getTagName().equals(markerTagName))
+					return true;
+			}
+			else {
+				if(marker.getTagName().equalsIgnoreCase(markerTagName))
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/* user method - skeleton.sse */
+	protected final String findTwigDelimiter(String text, String insideOf, String delim, String delimType, int afterDelimType) {
+
+	    int current = -1;
+	    int firstOccurence = text.length();
+	    int delimiter = -1;
+
+	    for (int i=0; i < leftDelimiters.length; i++) {
+
+	        current = text.indexOf(leftDelimiters[i]);
+
+	        if (current > -1 && current < firstOccurence) {
+	            firstOccurence = current;
+	            delimiter = i;
+	        }
+	    }
+
+	    if (delimiter <= -1)
+	        return insideOf;
+
+	    switch (delimiter) {
+
+	        case 0:
+
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
+
+	            delim = "{{";
+
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
+
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                stateHint = "ST_TWIG_IN_PRINT";
+	                fStateStack.push(yystate());
+	                yybegin(afterDelimType);
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return delimType;
+	            }
+
+	        case 1:
+
+	            delim = "{%";
+
+	            if (Debug.debugTokenizer) {
+	                // System.err.println("Delim: "+delim+" looking in: '"+text+"' startchar: "+startChar);
+	            }
+
+	            if (firstOccurence != -1) {
+
+	                if (Debug.debugTokenizer)
+	                    System.err.println("a");
+	                //go to the char right before the text, so it doesnt mark the whole thing red...
+	                if (firstOccurence > 0){
+
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("b");
+
+	                    //push to right before the delim
+	                    yypushback(yylength() - firstOccurence);
+	                    return insideOf;
+	                    //return YYINITIAL;
+	                } else {
+
+	                    if (Debug.debugTokenizer)
+	                        System.err.println("c");
+	                    
+	                    fStateStack.push(yystate());
+	                    yybegin(afterDelimType);
+	                    stateHint = "ST_TWIG_IN_STATEMENT";
+	                    // pushback to just after the closing bracket
+	                    int delemLen = delim.length();
+	                    yypushback(yylength() - firstOccurence - delemLen);
+	                    return TWIG_STMT_OPEN;
+	                }
+	            }
+
+
+
+	            break;
+
+	        case 2:
+
+	            // don't evaluate inside raw blocks
+	            if (insideRaw) {
+	                return insideOf;
+	            }
+
+	            // search for comments first
+	            delim = "{#";
+
+	            //System.err.println("a");
+	            //go to the char right before the text, so it doesnt mark the whole thing red...
+	            if (firstOccurence > 0){
+	                // System.err.println("b");
+	                //push to right before the delim
+	                yypushback(yylength() - firstOccurence);
+	                return insideOf;
+	                //return YYINITIAL;
+	            } else {
+	                // System.err.println("c");
+	                fStateStack.push(yystate());
+	                yybegin(ST_TWIG_COMMENT);
+	                stateHint = "ST_TWIG_COMMENT";
+	                // pushback to just after the closing bracket
+	                int delemLen = delim.length();
+	                yypushback(yylength() - firstOccurence - delemLen);
+	                return TWIG_COMMENT_OPEN;
+	            }
+
+
+	        default:
+	            return insideOf;
+
+	    }
+
+
+	    return insideOf;
+	}
+
+
+		
+
+	/**
+	 * user method - skeleton.sed
+	 *
+	 * Return ALL of the regions scannable within the remaining text
+	 * Note: for verification use
+	 */
+	public final List getRegions() {
+		List tokens = new ArrayList();
+		ITextRegion region = null;
+		try {
+			region = getNextToken();
+			while(region != null) {
+				if (region != null) {
+					tokens.add(region);
+				}
+				region = getNextToken();
+			}
+		}
+		catch (StackOverflowError e) {
+			Logger.logException(getClass().getName()+": input could not be tokenized correctly at position " + getOffset(), e);//$NON-NLS-1$
+			throw e;
+		}
+		catch (Exception e) {
+			// Since this is convenience method and NOT the recommended 
+			// way of getting tokens, many errors are simply hidden
+			Logger.logException("Exception not handled retrieving regions: " + e.getLocalizedMessage(), e);//$NON-NLS-1$
+		}
+		return tokens;
+	}
+
 /**
  * user method 
  */
@@ -217,7 +431,7 @@ public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
  * @return String - the context found: the desired context on a non-zero length match, the abortContext on immediate success
  * @throws IOException
  */
-private final String doScan(String searchString, boolean allowPHP, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
+private final String doScan(String searchString, boolean allowTwig, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	boolean stillSearching = true;
 	// Disable further block (probably)
 	fIsBlockingEnabled = false;
@@ -230,7 +444,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 		n = 0;
 		// Ensure that enough data from the input exists to compare against the search String.
 		n = yy_advance();
-		while(n != YYEOF && yy_currentPos < searchStringLength)
+		while(n != YYEOF && zzCurrentPos < searchStringLength)
 			n = yy_advance();
 		// If the input was too short or we've exhausted the input, stop immediately.
 		if (n == YYEOF) {
@@ -244,13 +458,13 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// Look for a PHP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || (yy_buffer[yy_currentPos] == '%'))) {
-				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
-				yy_currentPos = yy_markedPos + 1;
+			if(allowTwig && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || (zzBuffer[zzCurrentPos] == '%'))) {
+				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
@@ -258,35 +472,35 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 				return searchContext;
 			}
 			
-			// 2) yy_currentPos - jspstarter.length : There's not searchStringLength of input available; check for a JSP 2 spots back in what we could read
+			// 2) zzCurrentPos - jspstarter.length : There's not searchStringLength of input available; check for a JSP 2 spots back in what we could read
 			// ---
 			// Look for a JSP beginning at the current position; this case wouldn't be handled by the preceding section
 			// since it relies upon *having* closeTagStringLength amount of input to work as designed.  Must be sure we don't
 			// spill over the end of the buffer while checking.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
-					yy_buffer[yy_currentPos - 1] == '{' && (yy_buffer[yy_currentPos] == '{' || yy_buffer[yy_currentPos] == '%')) {
-				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
-				yy_currentPos = yy_markedPos + 1;
+			else if(allowTwig && zzStartRead != fLastInternalBlockStart && zzCurrentPos > 0 && zzCurrentPos < zzBuffer.length - 1 &&
+					zzBuffer[zzCurrentPos - 1] == '{' && (zzBuffer[zzCurrentPos] == '{' || zzBuffer[zzCurrentPos] == '%')) {
+				fLastInternalBlockStart = zzMarkedPos = zzCurrentPos - 1;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
 				}
 				return searchContext;
 			}
-			// 3) yy_currentPos..(yy_currentPos+jspStartlength-1) : Check at the start of the block one time
+			// 3) zzCurrentPos..(zzCurrentPos+jspStartlength-1) : Check at the start of the block one time
 			// ---
 			// Look for a JSP beginning immediately in the block area; this case wouldn't be handled by the preceding section
-			// since it relies upon yy_currentPos equaling exactly the previous end +1 to work as designed.
-			else if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_startRead > 0 &&
-					yy_startRead < yy_buffer.length - 1 && yy_buffer[yy_startRead] == '{' && yy_buffer[yy_startRead + 1] == '{') {
-				fLastInternalBlockStart = yy_markedPos = yy_startRead;
-				yy_currentPos = yy_markedPos + 1;
+			// since it relies upon zzCurrentPos equaling exactly the previous end +1 to work as designed.
+			else if(allowTwig && zzStartRead != fLastInternalBlockStart && zzStartRead > 0 &&
+					zzStartRead < zzBuffer.length - 1 && zzBuffer[zzStartRead] == '{' && zzBuffer[zzStartRead + 1] == '{') {
+				fLastInternalBlockStart = zzMarkedPos = zzStartRead;
+				zzCurrentPos = zzMarkedPos + 1;
 				int resumeState = yystate();
 				yybegin(ST_BLOCK_TAG_INTERNAL_SCAN);
-				if(yy_markedPos == yy_startRead) {
+				if(zzMarkedPos == zzStartRead) {
 					String jspContext = primGetNextToken();
 					yybegin(resumeState);
 					return jspContext;
@@ -306,13 +520,13 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 				// Check the characters in the target versus the last targetLength characters read from the buffer
 				// and see if it matches
 				
-				// safety check for array accesses (yy_currentPos is the *last* character we can check against)
-				if(yy_currentPos >= searchStringLength && yy_currentPos <= yy_buffer.length) {
+				// safety check for array accesses (zzCurrentPos is the *last* character we can check against)
+				if(zzCurrentPos >= searchStringLength && zzCurrentPos <= zzBuffer.length) {
 					for(i = 0; i < searchStringLength; i++) {
 						if(same && fIsCaseSensitiveBlocking)
-							same = yy_buffer[i + yy_currentPos - searchStringLength] == searchString.charAt(i);
+							same = zzBuffer[i + zzCurrentPos - searchStringLength] == searchString.charAt(i);
 						else if(same && !fIsCaseSensitiveBlocking)
-							same = Character.toLowerCase(yy_buffer[i + yy_currentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
+							same = Character.toLowerCase(zzBuffer[i + zzCurrentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
 					}
 				}
 				// safety check failed; no match is possible right now
@@ -320,39 +534,39 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 					same = false;
 				}
 			}
-			if (same && requireTailSeparator && yy_currentPos < yy_buffer.length) {
+			if (same && requireTailSeparator && zzCurrentPos < zzBuffer.length) {
 				// Additional check for close tags to ensure that targetString="</script" doesn't match
 				// "</scriptS"
-				lastCheckChar = yy_buffer[yy_currentPos];
+				lastCheckChar = zzBuffer[zzCurrentPos];
 				// Succeed on "</script>" and "</script "
 				if(lastCheckChar == '>' || Character.isWhitespace(lastCheckChar))
 					stillSearching = false;
 			}
 			else {
-				stillSearching = !same || (yy_currentPos < yy_startRead + searchStringLength);
+				stillSearching = !same || (zzCurrentPos < zzStartRead + searchStringLength);
 			}
 		}
 	}
 	if (n != YYEOF || same) {
 		// We've stopped short of the end or definitely found a match
-		yy_markedPos = yy_currentPos - searchStringLength;
-		yy_currentPos = yy_markedPos + 1;
+		zzMarkedPos = zzCurrentPos - searchStringLength;
+		zzCurrentPos = zzMarkedPos + 1;
 		// If the searchString occurs at the very beginning of what would have
 		// been a Block, resume scanning normally immediately
-		if (yy_markedPos == yy_startRead) {
+		if (zzMarkedPos == zzStartRead) {
 			yybegin(immediateFallbackState);
 			return primGetNextToken();
 		}
 	}
 	else {
 		// We ran through the rest of the input
-		yy_markedPos = yy_currentPos;
-		yy_currentPos++;
+		zzMarkedPos = zzCurrentPos;
+		zzCurrentPos++;
 	}
 	yybegin(exitState);
 	// If the ending occurs at the very beginning of what would have
 	// been a Block, resume scanning normally immediately
-	if(yy_markedPos == yy_startRead)
+	if(zzMarkedPos == zzStartRead)
 		return primGetNextToken();
 	return searchContext;
 }
@@ -376,7 +590,7 @@ private ITextRegion bufferedTextRegion = null;
 private final String doScanEndTwig(String searchContext, int exitState, int immediateFallbackState) throws IOException {
 
 	if (Debug.debugTokenizer) {	
-		System.err.println("do scan end twig, current pos: " + yy_currentPos);	
+		System.err.println("do scan end twig, current pos: " + zzCurrentPos);	
 	}
 	
 	yypushback(1); // begin with the last char
@@ -396,11 +610,11 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
 		System.err.println("created twig script region between " + bufferedTextRegion.getStart() + " and " + bufferedTextRegion.getEnd());	
 
 	// restore the locations / states
-	reset(yy_reader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
+	reset(zzReader, twigLexer.getZZBuffer(), twigLexer.getParamenters());
 	
 	
 	if (Debug.debugTokenizer) {	
-		System.err.println("end scan, position: " + yy_currentPos);	
+		System.err.println("end scan, position: " + zzCurrentPos);	
 	}
 	
 	
@@ -416,7 +630,7 @@ private final String doScanEndTwig(String searchContext, int exitState, int imme
  */
 private AbstractTwigLexer getTwigLexer(String lexerState) {
 
-	final AbstractTwigLexer lexer = new TwigLexer(yy_reader);
+	final AbstractTwigLexer lexer = new TwigLexer(zzReader);
 	int[] currentParameters = getParamenters();
 	try {
 		// set initial lexer state - we use reflection here since we don't know the constant value of 
@@ -425,8 +639,7 @@ private AbstractTwigLexer getTwigLexer(String lexerState) {
 	} catch (Exception e) {
 		Logger.logException(e);
 	}
-	lexer.initialize(currentParameters[6]);
-	lexer.reset(yy_reader, yy_buffer, currentParameters);
+	lexer.reset(zzReader, zzBuffer, currentParameters);
 	lexer.setPatterns(project);
 
 //	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
@@ -566,9 +779,15 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
 				// primGetNextToken() calls may throw an IOException
 				// catch and do nothing since the isEOF check below
 				// will properly exit if the input was too short
+				Logger.logException(e);
+				internalContext = null;
+				notFinished = false;
+				break;
 			} catch (Exception f) {
 				// some other exception happened; never should
-				Logger.logException(f);
+				internalContext = null;
+				notFinished = false;
+				break;
 			}
 			boolean isEndingType = yystate() == ST_ABORT_EMBEDDED;
 			if(!isEndingType) {
@@ -628,19 +847,20 @@ public void setProject(IProject project) {
 }
 
 public void reset(java.io.Reader  reader, char[] buffer, int[] parameters){
-	this.yy_reader = reader;
-	this.yy_buffer = buffer;
-	this.yy_markedPos = parameters[0];
-	this.yy_pushbackPos = parameters[1];
-	this.yy_currentPos = parameters[2];
-	this.yy_startRead = parameters[3];
-	this.yy_endRead = parameters[4];
+	this.zzReader = reader;
+	this.zzBuffer = buffer;
+	this.zzFinalHighSurrogate = 0;
+	this.zzMarkedPos = parameters[0];
+	this._zzPushbackPos = parameters[1];
+	this.zzCurrentPos = parameters[2];
+	this.zzStartRead = parameters[3];
+	this.zzEndRead = parameters[4];
 	this.yyline = parameters[5];  
-	this.yychar = this.yy_startRead - this.yy_pushbackPos;
+	this.yychar = this.zzStartRead - this._zzPushbackPos;
 }
 
 public int[] getParamenters(){
-	return new int[]{yy_markedPos, yy_pushbackPos, yy_currentPos, yy_startRead, yy_endRead, yyline, yy_lexical_state};
+	return new int[]{zzMarkedPos, _zzPushbackPos, zzCurrentPos, zzStartRead, zzEndRead, yyline, zzLexicalState};
 }
 
 /**
@@ -683,7 +903,7 @@ public final ITextRegion getNextToken() throws IOException {
 		}
 		text = yytext();
 		if (context == XML_TAG_NAME) {
-			if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+			if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 				fCurrentTagName = text;
 			else
 				fCurrentTagName = null;
@@ -696,7 +916,7 @@ public final ITextRegion getNextToken() throws IOException {
 		}
 		start = yychar;
 		textLength = length = yylength();
-		if (yy_atEOF) {
+		if (zzAtEOF) {
 			fTokenCount++;
 			return null;
 		}
@@ -708,7 +928,7 @@ public final ITextRegion getNextToken() throws IOException {
 		fBufferedEmbeddedContainer = fEmbeddedContainer;
 		fShouldLoadBuffered = true;
 	} else if (f_context == XML_TAG_NAME) {
-		if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+		if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 			fCurrentTagName = yytext();
 		else
 			fCurrentTagName = null;
@@ -717,10 +937,10 @@ public final ITextRegion getNextToken() throws IOException {
 	} else if (f_context == XML_END_TAG_OPEN) {
 		fIsBlockingEnabled = false;
 	}
-	fBufferedContext = f_context;
+	fBufferedContext = f_context; 
 	fBufferedText = yytext();
 	if (fBufferedContext == XML_TAG_NAME) {
-		if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+		if(containsTagName(zzBuffer, zzStartRead, zzMarkedPos-zzStartRead))
 			fCurrentTagName = fBufferedText;
 		else
 			fCurrentTagName = null;
@@ -741,6 +961,9 @@ public final ITextRegion getNextToken() throws IOException {
 	}
 	if (context == null) {
 		// EOF
+		if (Debug.debugTokenizer) {
+			System.out.println(getClass().getName() + " discovered " + fTokenCount + " tokens."); //$NON-NLS-2$//$NON-NLS-1$
+		}
 		return null;
 	}
 	fTokenCount++;
@@ -760,6 +983,7 @@ public final ITextRegion getNextToken() throws IOException {
 		return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 	}
 }
+
 
 /* user method */
 public TwigTokenizer(){
@@ -806,35 +1030,38 @@ public void reset(java.io.Reader in, int newOffset) {
 	fOffset = newOffset;
 
 	/* the input device */
-	yy_reader = in;
+	zzReader = in; 
 
 	/* the current state of the DFA */
-	yy_state = 0;
+	zzState = 0;
 
 	/* the current lexical state */
-	yy_lexical_state = YYINITIAL;
+	zzLexicalState = YYINITIAL;
 
 	/* this buffer contains the current text to be matched and is
 	the source of the yytext() string */
-	java.util.Arrays.fill(yy_buffer, (char)0);
+	java.util.Arrays.fill(zzBuffer, (char)0);
 
 	/* the textposition at the last accepting state */
-	yy_markedPos = 0;
+	zzMarkedPos = 0;
 
 	/* the textposition at the last state to be included in yytext */
-	yy_pushbackPos = 0;
+	_zzPushbackPos = 0;
 
 	/* the current text position in the buffer */
-	yy_currentPos = 0;
+	zzCurrentPos = 0;
 
 	/* startRead marks the beginning of the yytext() string in the buffer */
-	yy_startRead = 0;
+	zzStartRead = 0;
 
 	/** 
 	 * endRead marks the last character in the buffer, that has been read
 	 * from input 
 	 */
-	yy_endRead = 0;
+	zzEndRead = 0;
+
+	/* The number of occupied positions in zzBuffer beyond zzEndRead */
+	zzFinalHighSurrogate = 0;
 
 	/* number of newlines encountered up to the start of the matched text */
 	yyline = 0;
@@ -842,11 +1069,11 @@ public void reset(java.io.Reader in, int newOffset) {
 	/* the number of characters up to the start of the matched text */
 	yychar = 0;
 
-	/* yy_atEOF == true <=> the scanner has returned a value for EOF */
-	yy_atEOF = false;
+	/* zzAtBOL == true <=> the scanner is currently at the beginning of a line */
+	//zzAtBOL = true;
 
-	/* denotes if the user-EOF-code has already been executed */
-	yy_eof_done = false;
+	/* zzAtEOF == true <=> the scanner has returned a value for EOF */
+	zzAtEOF = false; 
 
 
 	/* user vars: */
@@ -893,6 +1120,8 @@ private final String scanXMLCommentText() throws IOException {
 }
 
 
+
+
 private void assembleEmbeddedTwigOpen() {
 	
 	
@@ -906,12 +1135,12 @@ private void assembleEmbeddedTwigOpen() {
 %eof}
 
 %public
+%char
+%line
 %class TwigTokenizer
 %implements BlockTokenizer, PHPRegionContext, DOMRegionContext, TwigRegionContext
 %function primGetNextToken
 %type String
-%char
-%line
 %unicode
 %pack
 
@@ -931,6 +1160,9 @@ private void assembleEmbeddedTwigOpen() {
 %state ST_DHTML_ATTRIBUTE_NAME
 %state ST_DHTML_EQUALS
 %state ST_DHTML_ATTRIBUTE_VALUE
+// NB: considering the current lexical rules, JFlex will assign same
+// value to the states ST_DHTML_TAG_CLOSE, ST_BLOCK_TAG_INTERNAL_SCAN
+// and ST_ABORT_EMBEDDED
 %state ST_DHTML_TAG_CLOSE
 
 
@@ -959,6 +1191,9 @@ private void assembleEmbeddedTwigOpen() {
 
 %state ST_XML_ATTRIBUTE_VALUE_SQUOTED
 %state ST_XML_ATTRIBUTE_VALUE_DQUOTED
+// NB: considering the current lexical rules, JFlex will assign same
+// value to the states ST_DHTML_TAG_CLOSE, ST_BLOCK_TAG_INTERNAL_SCAN
+// and ST_ABORT_EMBEDDED
 %state ST_BLOCK_TAG_INTERNAL_SCAN
 %state ST_ABORT_EMBEDDED
 
@@ -980,8 +1215,6 @@ genericTagClose      = >
 genericEndTagOpen    = <\/
 genericEmptyTagClose = \/>
 
-PIstart = <\?
-PIend   = \?>
 
 // [1] document ::= prolog element Misc*
 document = ({prolog} {element} {Misc}*)
@@ -1013,9 +1246,9 @@ Nmtokens = ({Nmtoken} ({S} {Nmtoken})*)
 EntityValue = (\" ([^%&\"] | {PEReference} | {Reference})* \" |  \' ([^%&\'] | {PEReference} | {Reference})* \')
 
 // [10] AttValue ::= '"' ([^<&"] | Reference)* '"' |  "'" ([^<&'] | Reference)* "'"
-//AttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+AttValue = ( \" ([^<{\"] | {Reference})* \" | \' ([^<{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015{<>/]|\/+[^\'\"\040\011\012\015{<>/] )* )
 
-AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
+//AttValue = ( \" ([^\{\"] | {Reference})* \" | \' ([^\{\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
 //TwigAttValue = ( \" ([^<\"] | {Reference})* \" | \' ([^<\'] | {Reference})* \'  | ([^\'\"\040\011\012\015<>/]|\/+[^\'\"\040\011\012\015<>/] )* )
 
@@ -1025,15 +1258,15 @@ SystemLiteral = ((\" [^\"]* \") | (\' [^\']* \'))
 // [12] PubidLiteral ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
 PubidLiteral = (\" {PubidChar}* \" | \' ({PubidChar}\')* "'")
 
-// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
-PubidChar = ([\040\015\012] | [a-zA-Z0-9] | [\-\'()\+,.\/:=?;!\*#@\$_%])
+// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;\!*#@$_%]
+PubidChar = ([\040\015\012] | [a-zA-Z0-9] | [\-\'()\+,.\/:=?;\!\*#@\$_%])
 
 // [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 // implement lookahead behavior during action definition
 CharData = ([^<&(\]\]>)]*)
 
-// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
-CommentStart = (<!\-\-)
+// [15] Comment ::= '<\!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+CommentStart = (<\!\-\-)
 CommentEnd   = (\-\->)
 Comment = ({CommentStart}.*{CommentEnd})
 
@@ -1041,18 +1274,11 @@ TwigCommentStart = (\{\#)
 TwigCommentEnd   = (\#\})
 TwigComment = ({TwigCommentStart}.*{TwigCommentEnd})
 
-
-// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
-//PI = (<\?{PITarget} {Char}* \?>)
-
-// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
-//PITarget = ({Name}((X|x)(M|m)(L|l)))
-
 // [18] CDSect ::= CDStart CData CDEnd
 CDSect = ({CDStart}{CData}{CDEnd})
 
-// [19] CDStart ::= '<![CDATA['
-CDStart = <!\[CDATA\[
+// [19] CDStart ::= '<\![CDATA['
+CDStart = <\!\[CDATA\[
 
 // [20] CData ::= (Char* - (Char* ']]>' Char*)) 
 // implement lookahead behavior during action definition
@@ -1079,7 +1305,7 @@ VersionNum = (([a-zA-Z0-9_.:]|\-)+)
 // [27] Misc ::= Comment | S
 Misc = ({Comment} | {S})
 
-// [28] doctypedecl ::= '<!DOCTYPE' S Name (S ExternalID)?  S? ('[' (markupdecl | PEReference | S)* ']' S?)? '>'
+// [28] doctypedecl ::= '<\!DOCTYPE' S Name (S ExternalID)?  S? ('[' (markupdecl | PEReference | S)* ']' S?)? '>'
 doctypedecl = (<\!DOCTYPE{S}{Name} ({S}{ExternalID})? {S}? (\[ ({markupdecl}|{PEReference}|{S})* \]{S}?)?>)
 
 // [29] markupdecl ::= elementdecl | AttlistDecl | EntityDecl | NotationDecl | Comment
@@ -1130,7 +1356,7 @@ content = (({element} | {CharData} | {Reference} | {CDSect} | {Comment})*)
 // [44]  EmptyElemTag  ::= '<' Name (S Attribute)* S? '/>'
 EmptyElemTag = (<{Name}({S}{Attribute})*{S}?\/>)
 
-// [45] elementdecl ::= '<!ELEMENT' S Name S contentspec S? '>'
+// [45] elementdecl ::= '<\!ELEMENT' S Name S contentspec S? '>'
 elementdecl = (<\!ELEMENT{S}{Name}{S}{contentspec}{S}?>)
 
 // [46] contentspec ::= 'EMPTY' | 'ANY' | Mixed | children
@@ -1154,7 +1380,7 @@ seq = (\({S}?{Name}({S}?\,{S}?{Name})*{S}?\))
 // [51] Mixed ::= '(' S? '#PCDATA' (S? '|' S? Name)* S?  ')*' | '(' S? '#PCDATA' S? ')'
 Mixed = ({S}?\#PCDATA({S}?\|{S}?{Name})*{S}?)*\|({S}?\#PCDATA{S}?)
 
-// [52] AttlistDecl ::= '<!ATTLIST' S Name AttDef* S? '>'
+// [52] AttlistDecl ::= '<\!ATTLIST' S Name AttDef* S? '>'
 AttlistDecl = (<\!ATTLIST{S}{Name}{AttDef}*{S}?>)
 
 // [53] AttDef ::= S Name S AttType S DefaultDecl
@@ -1184,16 +1410,16 @@ DefaultDecl = (\#REQUIRED|\#IMPLIED|((\#FIXED{S})?{AttValue}))
 // [61] conditionalSect ::= includeSect | ignoreSect 
 conditionalSect = ({includeSect} | {ignoreSect})
 
-// [62] includeSect ::= '<![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>' 
+// [62] includeSect ::= '<\![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>' 
 includeSect = (<\!\[{S}?INCLUDE{S}?\[{extSubsetDecl}\]\]>)
 
-// [63] ignoreSect ::= '<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
+// [63] ignoreSect ::= '<\![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
 ignoreSect = (<\!\[{S}?IGNORE{S}?\[{ignoreSectContents}*\]\]>)
 
-// [64] ignoreSectContents ::= Ignore ('<![' ignoreSectContents ']]>' Ignore)*
+// [64] ignoreSectContents ::= Ignore ('<\![' ignoreSectContents ']]>' Ignore)*
 ignoreSectContents = ({Ignore}(<\!\[{ignoreSectContents}\]\]>{Ignore})*)
 
-// [65] Ignore ::= Char* - (Char* ('<![' | ']]>') Char*)
+// [65] Ignore ::= Char* - (Char* ('<\![' | ']]>') Char*)
 Ignore =  ([^(\<\!\[|\]\]\>)]*)
 
 // [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
@@ -1211,10 +1437,10 @@ PEReference = (%{Name};)
 // [70] EntityDecl ::= GEDecl | PEDecl
 EntityDecl = ({GEDecl} | {PEDecl})
 
-// [71] GEDecl ::= '<!ENTITY' S Name S EntityDef S? '>'
+// [71] GEDecl ::= '<\!ENTITY' S Name S EntityDef S? '>'
 GEDecl = (<\!ENTITY{S}{Name}{S}{EntityDef}{S}?>)
 
-// [72] PEDecl ::= '<!ENTITY' S '%' S Name S PEDef S? '>'
+// [72] PEDecl ::= '<\!ENTITY' S '%' S Name S PEDef S? '>'
 PEDecl = (<\!ENTITY{S}\%{S}{Name}{S}{PEDef}{S}?>)
 
 // [73] EntityDef ::= EntityValue | (ExternalID NDataDecl?)
@@ -1244,7 +1470,7 @@ EncodingDecl = ({S}encoding{S}*{Eq}{S}*(\"{EncName}\"|\'{EncName}\'))
 // [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
 EncName = ([A-Za-z]([A-Za-z0-9._]|\-)*)
 
-// [82] NotationDecl ::= '<!NOTATION' S Name S (ExternalID |  PublicID) S? '>'
+// [82] NotationDecl ::= '<\!NOTATION' S Name S (ExternalID |  PublicID) S? '>'
 NotationDecl = (<\!NOTATION{S}{Name}{S}({ExternalID}|{PublicID}){S}?>)
 
 // [83] PublicID ::= 'PUBLIC' S PubidLiteral
@@ -1368,8 +1594,7 @@ LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 KEYWORD="not"|"in"|"as"|"with"
 
-TWIG_WHITESPACE=[ \n\r\t]+
-TOKENS=[:,.\[\]()|\^&+-//*=!~$<>?@]
+TOKENS=[:,.\[\]()|\^&+-//*=\!~$<>?@]
 NUMBER=([0-9])+
 
 
@@ -1453,7 +1678,7 @@ NUMBER=([0-9])+
 	return PROXY_CONTEXT;
 }
 
-<ST_XML_ATTRIBUTE_VALUE_DQUOTED> ([^\{\"\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_DQUOTED> (([^<{\"\x24\x23]|[\x24\x23][^\x7b]|[{][^<{%#'\x24\x23])+|[{]) {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE X");
@@ -1461,7 +1686,7 @@ NUMBER=([0-9])+
 
 	return XML_TAG_ATTRIBUTE_VALUE;
 }
-<ST_XML_ATTRIBUTE_VALUE_SQUOTED> ([^\{'\x24\x23]|[\x24\x23][^\x7b])+ {
+<ST_XML_ATTRIBUTE_VALUE_SQUOTED> (([^<{'\x24\x23]|[\x24\x23][^\x7b]|[{][^<{%#'\x24\x23])+|[{]) {
 
 	if (Debug.debugTokenizer) {
 	   dump("XML ATTR VALUE XX");
@@ -1704,15 +1929,6 @@ NUMBER=([0-9])+
 // END NESTED XML
 
 
-<ST_XML_ATTRIBUTE_VALUE> "{{" {
-
-	if (Debug.debugTokenizer) {	
-	   dump("TW START");//$NON-NLS-1$
-	
-	}
-
-}
-
 <ST_TWIG_COMMENT> .|\n|\r {
 
 	if (Debug.debugTokenizer) {	
@@ -1721,7 +1937,6 @@ NUMBER=([0-9])+
 
 	// twig comment scan
 	return doScanEndTwig(TWIG_COMMENT, ST_TWIG_COMMENT, ST_TWIG_COMMENT);	
-
 }
 
 {TW_STMT_DEL_LEFT} {
@@ -1760,6 +1975,53 @@ NUMBER=([0-9])+
 			yybegin(ST_BLOCK_TAG_SCAN);
 			return BLOCK_TEXT;
 		}
+		// required help for successive embedded regions
+		if (yystate() == ST_XML_TAG_NAME) {
+			fEmbeddedHint = XML_TAG_NAME;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		} else if ((yystate() == ST_XML_ATTRIBUTE_NAME || yystate() == ST_XML_EQUALS)) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_NAME;
+			fEmbeddedPostState = ST_XML_EQUALS;
+		} else if (yystate() == ST_XML_ATTRIBUTE_VALUE) {
+			fEmbeddedHint = XML_TAG_ATTRIBUTE_VALUE;
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_NAME;
+		}
+		return PROXY_CONTEXT;
+	}
+}
+
+{TW_START} {
+
+	stateHint = "ST_TWIG_IN_PRINT";	
+	if(Debug.debugTokenizer) {
+		dump("twig processing print instruction start");//$NON-NLS-1$
+	}
+	
+	// removeing trailing whitespaces for the php open
+	String phpStart = yytext();
+	int i = phpStart.length() - 1;
+	while (i >= 0
+			&& Character.isWhitespace(phpStart.charAt(i--))) {
+		yypushback(1);
+	}
+	fStateStack.push(yystate());// YYINITIAL
+	if (fStateStack.peek() == YYINITIAL) {
+		// the simple case, just a regular scriptlet out in
+		// content
+		yybegin(ST_TWIG_CONTENT);
+		stateHint = "ST_TWIG_IN_PRINT";
+		return TWIG_OPEN;
+	} else {
+		if (yystate() == ST_XML_ATTRIBUTE_VALUE_DQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_DQUOTED;
+		else if (yystate() == ST_XML_ATTRIBUTE_VALUE_SQUOTED)
+			fEmbeddedPostState = ST_XML_ATTRIBUTE_VALUE_SQUOTED;
+		else if (yystate() == ST_CDATA_TEXT) {
+			fEmbeddedPostState = ST_CDATA_TEXT;
+			fEmbeddedHint = XML_CDATA_TEXT;
+		}
+		yybegin(ST_TWIG_CONTENT);
+		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
 		// required help for successive embedded regions
 		if (yystate() == ST_XML_TAG_NAME) {
 			fEmbeddedHint = XML_TAG_NAME;
@@ -1938,14 +2200,6 @@ NUMBER=([0-9])+
 	fEmbeddedPostState = ST_XML_EQUALS;
         yybegin(ST_XML_PI_ATTRIBUTE_NAME);
         return XML_TAG_ATTRIBUTE_VALUE;
-}
-/* the PI's close was found */
-<ST_XML_PI_EQUALS, ST_XML_PI_ATTRIBUTE_NAME, ST_XML_PI_ATTRIBUTE_VALUE> {PIend} {
-	if(Debug.debugTokenizer)
-		dump("XML processing instruction end");//$NON-NLS-1$
-	fEmbeddedHint = UNDEFINED;
-        yybegin(YYINITIAL);
-        return XML_PI_CLOSE;
 }
 // DHTML
 <ST_DHTML_ATTRIBUTE_NAME, ST_DHTML_EQUALS> {Name} {
@@ -2188,7 +2442,7 @@ NUMBER=([0-9])+
 }	
 
 //TWIG PROCESSING ACTIONS
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_START} {
+<YYINITIAL,ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN> {TW_START} {
 
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
@@ -2220,9 +2474,9 @@ NUMBER=([0-9])+
 		}
 		yybegin(ST_TWIG_CONTENT);
 		assembleEmbeddedContainer(TWIG_OPEN, TWIG_CLOSE);
-		if(yystate() == ST_BLOCK_TAG_INTERNAL_SCAN) {
-			yybegin(ST_BLOCK_TAG_SCAN);
-			return BLOCK_TEXT;
+		if(yystate() == ST_ABORT_EMBEDDED) {
+			// leave with unchanged state
+			return PROXY_CONTEXT;
 		}
 		// required help for successive embedded regions
 		if(yystate() == ST_XML_TAG_NAME) {
@@ -2241,7 +2495,7 @@ NUMBER=([0-9])+
 	}
 }
 
-<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN>{WHITESPACE}* {TW_STMT_DEL_LEFT} {
+<YYINITIAL, ST_XML_TAG_NAME, ST_XML_EQUALS, ST_XML_ATTRIBUTE_NAME, ST_XML_ATTRIBUTE_VALUE, ST_XML_DECLARATION, ST_XML_DOCTYPE_DECLARATION, ST_XML_ELEMENT_DECLARATION, ST_XML_ATTLIST_DECLARATION, ST_XML_DECLARATION_CLOSE, ST_XML_DOCTYPE_ID_PUBLIC, ST_XML_DOCTYPE_ID_SYSTEM, ST_XML_DOCTYPE_EXTERNAL_ID, ST_XML_COMMENT, ST_XML_ATTRIBUTE_VALUE_DQUOTED, ST_XML_ATTRIBUTE_VALUE_SQUOTED, ST_BLOCK_TAG_INTERNAL_SCAN> {TW_STMT_DEL_LEFT} {
 
 	if (Debug.debugTokenizer) {	
 	  dump("TW START EMBEDDED");
@@ -2299,7 +2553,7 @@ NUMBER=([0-9])+
 
 . {
 	if (Debug.debugTokenizer) {
-		System.out.println("current state " + yy_state);
+		System.out.println("current state " + zzState);
 		System.out.println("!!!unexpected!!!: \"" + yytext() + "\":" + //$NON-NLS-2$//$NON-NLS-1$
 	
 			yychar + "-" + (yychar + yylength()));//$NON-NLS-1$

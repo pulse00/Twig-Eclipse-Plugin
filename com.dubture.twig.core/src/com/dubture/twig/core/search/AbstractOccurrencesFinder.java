@@ -26,42 +26,37 @@ import com.dubture.twig.core.parser.ast.visitor.TwigASTVisitor;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  *
  */
-abstract public class AbstractOccurrencesFinder extends TwigASTVisitor
-        implements IOccurrencesFinder
-{
+abstract public class AbstractOccurrencesFinder extends TwigASTVisitor implements IOccurrencesFinder {
 
-    protected List<OccurrenceLocation> locations = new ArrayList<OccurrenceLocation>();
-    protected TwigModuleDeclaration astRoot;
-    protected ASTNode selectedNode;
+	protected List<OccurrenceLocation> locations = new ArrayList<OccurrenceLocation>();
+	protected TwigModuleDeclaration astRoot;
+	protected ASTNode selectedNode;
 
-    public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode)
-    {
+	public String initialize(TwigModuleDeclaration astRoot, ASTNode selectedNode) {
 
-        this.astRoot = astRoot;
-        this.selectedNode = selectedNode;
-        return null;
-    }
+		this.astRoot = astRoot;
+		this.selectedNode = selectedNode;
+		return null;
+	}
 
-    @Override
-    public OccurrenceLocation[] getOccurrences()
-    {
-        locations = new ArrayList<OccurrenceLocation>();
-        findOccurrences();
-        if (locations.isEmpty())
-            return null;
+	@Override
+	public OccurrenceLocation[] getOccurrences() {
+		locations = new ArrayList<OccurrenceLocation>();
+		findOccurrences();
+		if (locations.isEmpty())
+			return null;
 
-        return locations.toArray(new OccurrenceLocation[locations.size()]);
+		return locations.toArray(new OccurrenceLocation[locations.size()]);
 
-    }
+	}
 
-    protected void findOccurrences()
-    {
-        try {
-            if (astRoot != null) {
-                astRoot.traverse(this);
-            }
-        } catch (Exception e) {
-            Logger.logException(e);
-        }
-    }
+	protected void findOccurrences() {
+		try {
+			if (astRoot != null) {
+				astRoot.traverse(this);
+			}
+		} catch (Exception e) {
+			Logger.logException(e);
+		}
+	}
 }
