@@ -37,6 +37,7 @@ import com.dubture.twig.core.format.FormatterUtils;
 @SuppressWarnings("restriction")
 public class QuotesAutoEditStrategy extends MatchingCharAutoEditStrategy {
 
+	@Override
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 
 		if (/* TypingPreferences.closeQuotes && */command.text != null) {
@@ -286,7 +287,7 @@ public class QuotesAutoEditStrategy extends MatchingCharAutoEditStrategy {
 		}
 
 		// fixed bug 197412
-		if (sdRegion.getFullText().charAt(offset - sdRegion.getStartOffset()) != BACK_QOUTE) {
+		if (sdRegion.getFullText().charAt(offset - sdRegion.getStartOffset()) != BACK_QUOTE) {
 			return false;
 		}
 
@@ -296,7 +297,7 @@ public class QuotesAutoEditStrategy extends MatchingCharAutoEditStrategy {
 		}
 
 		// fixed bug 197412
-		if (sdRegion.getFullText().charAt(offset + 1 - sdRegion.getStartOffset()) != BACK_QOUTE) {
+		if (sdRegion.getFullText().charAt(offset + 1 - sdRegion.getStartOffset()) != BACK_QUOTE) {
 			return false;
 		}
 		return true;
