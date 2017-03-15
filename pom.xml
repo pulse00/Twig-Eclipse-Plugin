@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dubture.twig</groupId>
 	<artifactId>parent</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>com.dubture.twig.core</module>
@@ -16,9 +16,9 @@
 	</modules>
 
 	<properties>
-		<tycho-version>0.23.1</tycho-version>
+		<tycho-version>1.0.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse.name>mars</eclipse.name>
+		<eclipse.name>neon</eclipse.name>
 		<release>false</release>
 		<bintray.user></bintray.user>
 		<bintray.apikey></bintray.apikey>
