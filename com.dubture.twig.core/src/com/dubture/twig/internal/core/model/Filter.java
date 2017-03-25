@@ -9,7 +9,7 @@
 package com.dubture.twig.internal.core.model;
 
 import org.eclipse.dltk.internal.core.ModelElement;
-import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
+import org.eclipse.php.core.compiler.ast.nodes.Scalar;
 
 import com.dubture.twig.core.model.IFilter;
 

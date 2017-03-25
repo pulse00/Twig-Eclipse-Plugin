@@ -16,9 +16,9 @@ import java.util.Map;
 import org.eclipse.dltk.ast.ASTNode;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.ModelElement;
-import org.eclipse.php.internal.core.compiler.ast.nodes.FormalParameter;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
-import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
+import org.eclipse.php.core.compiler.ast.nodes.FormalParameter;
+import org.eclipse.php.core.compiler.ast.nodes.PHPDocBlock;
+import org.eclipse.php.core.compiler.ast.nodes.Scalar;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

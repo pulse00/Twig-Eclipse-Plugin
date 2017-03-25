@@ -10,7 +10,7 @@ package com.dubture.twig.internal.core.model;
 
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.internal.core.ModelElement;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
+import org.eclipse.php.core.compiler.ast.nodes.PHPDocBlock;
 import org.json.simple.JSONObject;
 
 import com.dubture.twig.core.model.ITest;

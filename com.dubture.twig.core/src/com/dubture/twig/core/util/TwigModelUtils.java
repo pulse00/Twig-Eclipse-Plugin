@@ -19,12 +19,12 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.dltk.ast.expressions.CallArgumentsList;
 import org.eclipse.dltk.ast.expressions.Expression;
-import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayCreation;
-import org.eclipse.php.internal.core.compiler.ast.nodes.ArrayElement;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPCallExpression;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPMethodDeclaration;
-import org.eclipse.php.internal.core.compiler.ast.nodes.ReturnStatement;
-import org.eclipse.php.internal.core.compiler.ast.nodes.Scalar;
+import org.eclipse.php.core.compiler.ast.nodes.ArrayCreation;
+import org.eclipse.php.core.compiler.ast.nodes.ArrayElement;
+import org.eclipse.php.core.compiler.ast.nodes.PHPCallExpression;
+import org.eclipse.php.core.compiler.ast.nodes.PHPMethodDeclaration;
+import org.eclipse.php.core.compiler.ast.nodes.ReturnStatement;
+import org.eclipse.php.core.compiler.ast.nodes.Scalar;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;

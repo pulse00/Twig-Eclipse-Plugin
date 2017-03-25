@@ -22,7 +22,6 @@ import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
 import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
-import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
