@@ -8,9 +8,9 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 
 import com.dubture.twig.core.codeassist.ICompletionContext;
 import com.dubture.twig.core.codeassist.ICompletionReporter;
@@ -18,7 +18,6 @@ import com.dubture.twig.core.codeassist.context.TestContext;
 import com.dubture.twig.core.model.ITest;
 import com.dubture.twig.core.model.TwigModelAccess;
 
-@SuppressWarnings({ "restriction" })
 public class TestStrategy extends KeywordStrategy {
 
 	public TestStrategy(ICompletionContext context) {
@@ -37,7 +36,7 @@ public class TestStrategy extends KeywordStrategy {
 		String prefix = ctx.getPrefix();
 
 		for (ITest test : tests) {
-			if (CodeAssistUtils.startsWithIgnoreCase(test.getElementName(), prefix)) {
+			if (StringUtils.startsWithIgnoreCase(test.getElementName(), prefix)) {
 				reporter.reportTest(test, range);
 			}
 

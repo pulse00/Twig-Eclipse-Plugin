@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 
 import com.dubture.twig.core.codeassist.ICompletionContext;
 import com.dubture.twig.core.codeassist.ICompletionReporter;
@@ -24,7 +24,6 @@ import com.dubture.twig.core.codeassist.context.KeywordContext;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  * 
  */
-@SuppressWarnings({ "restriction" })
 public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 
 	private String[] KEYWORDS = new String[] { "as", "in", "true", "false", "with" };
@@ -42,7 +41,7 @@ public class KeywordStrategy extends AbstractTwigCompletionStrategy {
 		ISourceRange range = getReplacementRange(getContext());
 
 		for (String keyword : KEYWORDS) {
-			if (CodeAssistUtils.startsWithIgnoreCase(keyword, prefix)) {
+			if (StringUtils.startsWithIgnoreCase(keyword, prefix)) {
 				reporter.reportKeyword(keyword, range);
 			}
 		}

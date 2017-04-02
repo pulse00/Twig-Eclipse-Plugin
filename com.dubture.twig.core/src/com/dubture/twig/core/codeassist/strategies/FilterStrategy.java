@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 
 import com.dubture.twig.core.codeassist.ICompletionContext;
 import com.dubture.twig.core.codeassist.ICompletionReporter;
@@ -24,7 +24,6 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  */
 
-@SuppressWarnings({ "restriction" })
 public class FilterStrategy extends AbstractTwigCompletionStrategy {
 
 	public FilterStrategy(ICompletionContext context) {
@@ -46,7 +45,7 @@ public class FilterStrategy extends AbstractTwigCompletionStrategy {
 			IFilter[] filters = model.getFilters(ctx.getScriptProject());
 
 			for (IFilter filter : filters) {
-				if (CodeAssistUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {
+				if (StringUtils.startsWithIgnoreCase(filter.getElementName(), prefix)) {
 					reporter.reportFilter(filter, range);
 				}
 			}

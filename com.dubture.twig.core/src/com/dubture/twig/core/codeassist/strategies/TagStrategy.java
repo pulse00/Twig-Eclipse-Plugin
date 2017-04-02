@@ -8,8 +8,8 @@
  ******************************************************************************/
 package com.dubture.twig.core.codeassist.strategies;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.dltk.core.ISourceRange;
-import org.eclipse.php.internal.core.codeassist.CodeAssistUtils;
 
 import com.dubture.twig.core.codeassist.ICompletionContext;
 import com.dubture.twig.core.codeassist.ICompletionReporter;
@@ -21,7 +21,6 @@ import com.dubture.twig.core.model.TwigModelAccess;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  */
 
-@SuppressWarnings({ "restriction" })
 public class TagStrategy extends AbstractTwigCompletionStrategy {
 
 	public TagStrategy(ICompletionContext context) {
@@ -39,7 +38,7 @@ public class TagStrategy extends AbstractTwigCompletionStrategy {
 		String prefix = ctx.getPrefix();
 
 		for (ITag tag : tags) {
-			if (CodeAssistUtils.startsWithIgnoreCase(tag.getElementName(), prefix)) {
+			if (StringUtils.startsWithIgnoreCase(tag.getElementName(), prefix)) {
 				reporter.reportTag(tag, range);
 			}
 		}
