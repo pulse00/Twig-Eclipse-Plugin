@@ -25,7 +25,7 @@ import org.eclipse.php.core.compiler.ast.nodes.PHPCallExpression;
 import org.eclipse.php.core.compiler.ast.nodes.PHPMethodDeclaration;
 import org.eclipse.php.core.compiler.ast.nodes.ReturnStatement;
 import org.eclipse.php.core.compiler.ast.nodes.Scalar;
-import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
+import org.eclipse.php.core.compiler.ast.visitor.PHPASTVisitor;
 
 import com.dubture.twig.core.documentModel.provisional.contenttype.ContentTypeIdForTwig;
 import com.dubture.twig.core.log.Logger;
