@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -236,12 +235,10 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 				length++;
 			}
 			bufferedTokens = new LinkedList<ITextRegion>();
-			checkForTodo(bufferedTokens, PHPRegionTypes.PHPDOC_COMMENT, 0, length, buffer.toString());
 			bufferedTokens.add(new ContextRegion(yylex, 0, yylength(), yylength()));
 			yylex = removeFromBuffer();
 		} else if (PHPPartitionTypes.isPHPCommentState(yylex)) {
 			bufferedTokens = new LinkedList<ITextRegion>();
-			checkForTodo(bufferedTokens, yylex, 0, yylength(), yytext());
 			yylex = removeFromBuffer();
 		}
 
@@ -271,42 +268,7 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		if (project != null) {
 			todos = TaskPatternsProvider.getInstance().getPatternsForProject(project);
 		} else {
-			todos = TaskPatternsProvider.getInstance().getPetternsForWorkspace();
-		}
-	}
-
-	/**
-	 * @param bufferedTokens2
-	 * @param token
-	 * @param commentStart
-	 * @param commentLength
-	 * @param comment
-	 * @return a list of todo ITextRegion
-	 */
-	private void checkForTodo(List<ITextRegion> result, String token, int commentStart, int commentLength,
-			String comment) {
-		ArrayList<Matcher> matchers = createMatcherList(comment);
-		int startPosition = 0;
-
-		Matcher matcher = getMinimalMatcher(matchers, startPosition);
-		ITextRegion tRegion = null;
-		while (matcher != null) {
-			int startIndex = matcher.start();
-			int endIndex = matcher.end();
-			if (startIndex != startPosition) {
-				tRegion = new ContextRegion(token, commentStart + startPosition, startIndex - startPosition,
-						startIndex - startPosition);
-				result.add(tRegion);
-			}
-			tRegion = new ContextRegion(PHPRegionTypes.PHPDOC_TODO, commentStart + startIndex, endIndex - startIndex,
-					endIndex - startIndex);
-			result.add(tRegion);
-			startPosition = endIndex;
-			matcher = getMinimalMatcher(matchers, startPosition);
-		}
-		final int length = commentLength - startPosition;
-		if (length != 0) {
-			result.add(new ContextRegion(token, commentStart + startPosition, length, length));
+			todos = TaskPatternsProvider.getInstance().getPatternsForWorkspace();
 		}
 	}
 
@@ -423,6 +385,19 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			final StateStack stack = getActiveStack();
 			final String stackStr = stack == null ? "null" : stack.toString(); //$NON-NLS-1$
 			return "Stack: " + stackStr + ", currState: " + lexicalState; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		@Override
+		public int getFirstState() {
+			if (twigStack != null && !twigStack.isEmpty()) {
+				return twigStack.get(twigStack.size() - 1);
+			}
+			return lexicalState;
+		}
+
+		@Override
+		public boolean equalsFirstState(LexerState obj) {
+			return obj != null && obj.getFirstState() == getFirstState();
 		}
 
 	}
