@@ -21,13 +21,14 @@ import com.dubture.twig.core.log.Logger;
 @SuppressWarnings("restriction")
 public class CurlyCloseAutoEditStrategy extends CurlyCloseIndentationStrategy implements IAutoEditStrategy {
 
+	@Override
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 		if (command.text != null && command.text.trim().endsWith("}")) { //$NON-NLS-1$
 			autoIndentAfterCurlyClose((IStructuredDocument) document, command);
 		}
 	}
 
-	private StringBuffer helpBuffer = new StringBuffer();
+	private StringBuilder helpBuffer = new StringBuilder();
 
 	private void autoIndentAfterCurlyClose(IStructuredDocument document, DocumentCommand command) {
 		helpBuffer.setLength(0);

@@ -56,10 +56,12 @@ public class TwigFormatter implements IStructuredFormatter {
 		this.length = length;
 	}
 
+	@Override
 	public void format(Node node) {
 		format(node, getFormatContraints());
 	}
 
+	@Override
 	public void format(Node node, IStructuredFormatContraints formatContraints) {
 		if (node instanceof IDOMNode) {
 			formatNode((IDOMNode) node, formatContraints);
@@ -106,6 +108,7 @@ public class TwigFormatter implements IStructuredFormatter {
 		}
 	}
 
+	@Override
 	public IStructuredFormatContraints getFormatContraints() {
 		if (fFormatContraints == null) {
 			fFormatContraints = new StructuredFormatContraints();
@@ -113,14 +116,17 @@ public class TwigFormatter implements IStructuredFormatter {
 		return fFormatContraints;
 	}
 
+	@Override
 	public IStructuredFormatPreferences getFormatPreferences() {
 		return fFormatPreferences;
 	}
 
+	@Override
 	public void setFormatPreferences(IStructuredFormatPreferences formatPreferences) {
 		this.fFormatPreferences = formatPreferences;
 	}
 
+	@Override
 	public void setProgressMonitor(IProgressMonitor monitor) {
 		this.fProgressMonitor = monitor;
 	}
@@ -202,7 +208,7 @@ public class TwigFormatter implements IStructuredFormatter {
 
 	}
 
-	private final StringBuffer resultBuffer = new StringBuffer();
+	private final StringBuilder resultBuffer = new StringBuilder();
 
 	/**
 	 * formats a PHP line according to the strategies and formatting conventions

@@ -11,9 +11,12 @@
  ********************************************************************************/
 package com.dubture.twig.core.documentModel.parser;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.php.internal.core.util.collections.IntHashtable;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import com.dubture.twig.core.util.Debug;
+import org.eclipse.php.core.compiler.ast.nodes.PHPDocTag.TagKind;
 
 
 %%
@@ -100,9 +103,9 @@ import com.dubture.twig.core.util.Debug;
 	}
 
 	// A pool of states. To avoid creation of a new state on each createMemento.
-	private static final IntHashtable lexerStates = new IntHashtable(100);
+	private static final Map<LexerState, LexerState> lexerStates = new HashMap<>();
 	
-	protected IntHashtable getLexerStates() {
+	protected Map<LexerState, LexerState> getLexerStates() {
 		return lexerStates;
 	}
 	

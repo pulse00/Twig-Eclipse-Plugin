@@ -226,13 +226,14 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 		return beginState == TwigPartitionTypes.TWIG_DEFAULT || endState == TwigPartitionTypes.TWIG_DEFAULT;
 	}
 
-	public void placeMatchingBlanks(final IStructuredDocument document, final StringBuffer result, final int lineNumber,
-			final int forOffset) throws BadLocationException {
+	@Override
+	public void placeMatchingBlanks(final IStructuredDocument document, final StringBuilder result,
+			final int lineNumber, final int forOffset) throws BadLocationException {
 		placeMatchingBlanksForStructuredDocument(document, result, lineNumber, forOffset);
 	}
 
 	public static void placeMatchingBlanksForStructuredDocument(final IStructuredDocument document,
-			final StringBuffer result, final int lineNumber, final int forOffset) throws BadLocationException {
+			final StringBuilder result, final int lineNumber, final int forOffset) throws BadLocationException {
 		boolean enterKeyPressed = document.getLineDelimiter().equals(result.toString());
 		int lastNonEmptyLineIndex = getIndentationBaseLine(document, lineNumber, forOffset, false);
 		final int indentationBaseLineIndex = getIndentationBaseLine(document, lineNumber, forOffset, true);
@@ -311,7 +312,7 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 	}
 
 	private static void placeStringIndentation(final IStructuredDocument document, int lineNumber,
-			StringBuffer result) {
+			StringBuilder result) {
 		try {
 
 			IRegion lineInfo = document.getLineInformation(lineNumber);

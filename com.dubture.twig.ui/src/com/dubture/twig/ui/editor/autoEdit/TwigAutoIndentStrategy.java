@@ -42,6 +42,7 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	/*
 	 * (non-Javadoc) Method declared on IAutoIndentStrategy
 	 */
+	@Override
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
 		// when user typing c.text.length()==1 except enter key,
 		// if user type enter key,we may add some indentation spaces/tabs for
@@ -68,7 +69,7 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	protected void smartPaste(IDocument document, DocumentCommand command) {
 		if (command.offset == -1 || document.getLength() == 0)
 			return;
-		StringBuffer helpBuffer = new StringBuffer();
+		StringBuilder helpBuffer = new StringBuilder();
 		try {
 			if (document instanceof IStructuredDocument) {
 				DefaultIndentationStrategy.placeMatchingBlanksForStructuredDocument((IStructuredDocument) document,
@@ -108,7 +109,7 @@ public class TwigAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		TwigFormatter formatter = new TwigFormatter(0, newdocument.getLength());
 		formatter.format(newdocument.getFirstStructuredDocumentRegion());
 
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		try {
 			int lineNumber = newdocument.getNumberOfLines();
 			for (int i = 0; i < lineNumber; i++) {

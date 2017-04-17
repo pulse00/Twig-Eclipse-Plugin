@@ -12,18 +12,19 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.text.Segment;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.dltk.annotations.NonNull;
 import org.eclipse.php.internal.core.documentModel.parser.Scanner;
-import org.eclipse.php.internal.core.documentModel.parser.StateStack;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.preferences.TaskPatternsProvider;
-import org.eclipse.php.internal.core.util.collections.IntHashtable;
+import org.eclipse.php.internal.core.util.collections.StateStack;
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
@@ -105,27 +106,33 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	}
 
 	@Override
-	public Object createLexicalStateMemento() {
+	@SuppressWarnings("null")
+	public @NonNull LexerState createLexicalStateMemento() {
 		// buffered token state
 		if (bufferedTokens != null && !bufferedTokens.isEmpty()) {
+			assert bufferedState != null;
 			return bufferedState;
 		}
-
-		final int key = buildStateKey();
-		Object state = getLexerStates().get(key);
-		if (state == null) {
-			state = new BasicLexerState(this);
-			getLexerStates().put(key, state);
+		LexerState currentState = buildLexerState();
+		LexerState cachedState = getLexerStates().get(currentState);
+		if (cachedState != null) {
+			return cachedState;
 		}
+		getLexerStates().put(currentState, currentState);
+		return currentState;
+	}
+
+	private LexerState buildLexerState() {
+		LexerState state = new BasicLexerState(this);
 		return state;
 	}
 
 	// A pool of states. To avoid creation of a new state on each createMemento.
-	protected abstract IntHashtable getLexerStates();
+	protected abstract Map<LexerState, LexerState> getLexerStates();
 
 	// lex to the EOF. and return the ending state.
 	@Override
-	public Object getEndingState() throws IOException {
+	public LexerState getEndingState() throws IOException {
 		lexToEnd();
 		return createLexicalStateMemento();
 	}
@@ -133,7 +140,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	/**
 	 * return the index where start we started to lex.
 	 */
-	@Override
 	public int getFirstIndex() {
 		return firstPos;
 	}
@@ -179,7 +185,6 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 		return last;
 	}
 
-	@Override
 	public String lexToTokenAt(final int offset) throws IOException {
 		if (firstPos + offset < getZZMarkedPos())
 			throw new RuntimeException("Bad offset"); //$NON-NLS-1$
@@ -208,8 +213,8 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 	}
 
 	public LinkedList<ITextRegion> bufferedTokens = null;
-	public int bufferedLength;
-	public Object bufferedState;
+	public int bufferedLength = 0;
+	public LexerState bufferedState = null;
 
 	/**
 	 * @return the next token from the php lexer
@@ -387,17 +392,11 @@ public abstract class AbstractTwigLexer implements Scanner, TwigRegionTypes {
 			return "Stack: " + stackStr + ", currState: " + lexicalState; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		@Override
 		public int getFirstState() {
 			if (twigStack != null && !twigStack.isEmpty()) {
 				return twigStack.get(twigStack.size() - 1);
 			}
 			return lexicalState;
-		}
-
-		@Override
-		public boolean equalsFirstState(LexerState obj) {
-			return obj != null && obj.getFirstState() == getFirstState();
 		}
 
 	}

@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.dubture.indexing.core,
  org.json.simple
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.dubture.twig.core,
  com.dubture.twig.core.codeassist,
  com.dubture.twig.core.codeassist.context,

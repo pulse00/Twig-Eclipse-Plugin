@@ -25,11 +25,12 @@ public class TabAutoEditStrategy implements IAutoEditStrategy {
 
 	private int lastIndentSize = 0;
 	private String lastIndentString = ""; //$NON-NLS-1$
-	private StringBuffer helpBuffer = new StringBuffer();
+	private StringBuilder helpBuffer = new StringBuilder();
 	private IStructuredDocument document;
 	private DocumentCommand command;
 	private IndentLineAutoEditStrategy autoIndentLineStrategy = new IndentLineAutoEditStrategy();
 
+	@Override
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 		if ((command.text != null) && command.text.equals("\t")) { //$NON-NLS-1$
 			// override original tab command

@@ -27,7 +27,7 @@ public class IndentLineAutoEditStrategy extends DefaultIndentationStrategy imple
 
 	private final CurlyCloseAutoEditStrategy curlyCloseAutoEditStrategy = new CurlyCloseAutoEditStrategy();
 
-	private final StringBuffer helpBuffer = new StringBuffer();
+	private final StringBuilder helpBuffer = new StringBuilder();
 
 	IAfterNewLineAutoEditStrategy pairCurlyBracketAutoEditStrategy = new PairCurlyBracketAutoEditStrategy();
 
@@ -94,6 +94,7 @@ public class IndentLineAutoEditStrategy extends DefaultIndentationStrategy imple
 		}
 	}
 
+	@Override
 	public void customizeDocumentCommand(final IDocument document, final DocumentCommand command) {
 
 		if (command.text != null && TextUtilities.endsWith(document.getLegalLineDelimiters(), command.text) != -1)
@@ -138,8 +139,8 @@ public class IndentLineAutoEditStrategy extends DefaultIndentationStrategy imple
 		}
 	}
 
-	public void placeMatchingBlanks(final IStructuredDocument document, final StringBuffer result, final int lineNumber,
-			final DocumentCommand command) throws BadLocationException {
+	public void placeMatchingBlanks(final IStructuredDocument document, final StringBuilder result,
+			final int lineNumber, final DocumentCommand command) throws BadLocationException {
 		final int forOffset = command.offset;
 		final IRegion lineInfo = document.getLineInformation(lineNumber);
 		// read the rest of the line

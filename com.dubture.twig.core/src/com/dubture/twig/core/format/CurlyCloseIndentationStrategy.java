@@ -23,7 +23,8 @@ import com.dubture.twig.core.documentModel.parser.regions.ITwigScriptRegion;
 @SuppressWarnings("restriction")
 public class CurlyCloseIndentationStrategy implements IIndentationStrategy {
 
-	public void placeMatchingBlanks(IStructuredDocument document, StringBuffer result, int lineNumber, int forOffset)
+	@Override
+	public void placeMatchingBlanks(IStructuredDocument document, StringBuilder result, int lineNumber, int forOffset)
 			throws BadLocationException {
 		final IRegion curlyOpenLine = getCurlyOpenLineInformation(document, forOffset);
 		if (curlyOpenLine == null) {
