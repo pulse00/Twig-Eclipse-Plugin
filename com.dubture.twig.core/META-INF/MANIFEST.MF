@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.lang3,
  org.eclipse.php.core;bundle-version="4.0.0",
  org.eclipse.dltk.core,
+ org.eclipse.dltk.annotations,
  org.eclipse.php.core.parser,
  com.dubture.indexing.core,
  org.json.simple
