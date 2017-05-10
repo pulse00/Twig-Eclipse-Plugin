@@ -17,7 +17,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.php.internal.ui.Logger;
-import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
+import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPHP;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
@@ -42,11 +42,11 @@ import com.dubture.twig.ui.preferences.PreferenceConstants;
  *
  */
 @SuppressWarnings({ "restriction", "unchecked" })
-public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
+public class LineStyleProviderForTwig extends LineStyleProviderForPHP {
 
 	private IPreferenceStore twigColorPreferences;
 
-	private static final Map<String, String> fTwigColorTypes = new HashMap<String, String>();
+	private static final Map<String, String> fTwigColorTypes = new HashMap<>();
 
 	static {
 
@@ -100,6 +100,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		return super.getAttributeFor(type);
 	}
 
+	@Override
 	public boolean prepareTextRegion(ITextRegionCollection blockedRegion, int partitionStartOffset, int partitionLength,
 			Collection<StyleRange> holdResults) {
 
@@ -347,6 +348,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		return fTwigColorTypes;
 	}
 
+	@Override
 	protected void handlePropertyChange(PropertyChangeEvent event) {
 		if (event != null) {
 			String prefKey = event.getProperty();
@@ -402,6 +404,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		}
 	}
 
+	@Override
 	public void loadColors() {
 
 		addTextAttribute(PreferenceConstants.EDITOR_NORMAL_COLOR);
@@ -422,10 +425,12 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		addTextAttribute(PreferenceConstants.EDITOR_TASK_COLOR);
 	}
 
+	@Override
 	protected void clearColors() {
 		getTextAttributes().clear();
 	}
 
+	@Override
 	protected void addTextAttribute(String colorKey) {
 		if (getColorPreferences() != null) {
 			String prefString = getColorPreferences().getString(colorKey);
@@ -436,6 +441,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 		}
 	}
 
+	@Override
 	protected void addDefaultTextAttribute(String colorKey) {
 		if (getColorPreferences() != null) {
 			String prefString = PreferenceConstants.EDITOR_NORMAL_DEFAULT_COLOR;
@@ -450,6 +456,7 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 	/*
 	 * Creates TextAttribute from the given style description array string
 	 */
+	@Override
 	protected TextAttribute createTextAttribute(String[] stylePrefs) {
 		int fontModifier = SWT.NORMAL;
 		if (Boolean.valueOf(stylePrefs[2]).booleanValue()) { // bold
@@ -468,14 +475,17 @@ public class LineStyleProviderForTwig extends LineStyleProviderForPhp {
 				EditorUtility.getColor(ColorHelper.toRGB(stylePrefs[1])), fontModifier);
 	}
 
+	@Override
 	public TextAttribute getTextAttributeForColor(String colorKey) {
 		return (TextAttribute) getTextAttributes().get(colorKey);
 	}
 
+	@Override
 	public void setColorPreferences(IPreferenceStore preferenceStore) {
 		twigColorPreferences = preferenceStore;
 	}
 
+	@Override
 	public IPreferenceStore getColorPreferences() {
 		if (twigColorPreferences != null) {
 			return twigColorPreferences;

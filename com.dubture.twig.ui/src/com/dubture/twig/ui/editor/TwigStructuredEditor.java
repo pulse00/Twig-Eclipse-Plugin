@@ -45,10 +45,8 @@ import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.ImageUtilities;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.php.internal.core.documentModel.parser.PhpSourceParser;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
-import org.eclipse.php.internal.ui.actions.PHPSearchActionGroup;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
 import org.eclipse.swt.SWT;
@@ -249,6 +247,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 		 * org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged
 		 * (org.eclipse.jface.text.DocumentEvent)
 		 */
+		@Override
 		public void documentAboutToBeChanged(DocumentEvent event) {
 			if (fOccurrencesFinderJob != null)
 				fOccurrencesFinderJob.doCancel();
@@ -259,6 +258,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 		 * org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse
 		 * .jface.text.DocumentEvent)
 		 */
+		@Override
 		public void documentChanged(DocumentEvent event) {
 		}
 
@@ -267,6 +267,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 		 * inputDocumentAboutToBeChanged (org.eclipse.jface.text.IDocument,
 		 * org.eclipse.jface.text.IDocument)
 		 */
+		@Override
 		public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
 			if (oldInput == null)
 				return;
@@ -279,6 +280,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 		 * org.eclipse.jface.text.ITextInputListener#inputDocumentChanged(org
 		 * .eclipse.jface.text.IDocument, org.eclipse.jface.text.IDocument)
 		 */
+		@Override
 		public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
 			if (newInput == null)
 				return;
@@ -318,15 +320,15 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 		}
 
 		private boolean isCanceled(IProgressMonitor progressMonitor) {
-			return fCanceled || progressMonitor.isCanceled()
-					|| fPostSelectionValidator != null && !(fPostSelectionValidator.isValid(fSelection)
-							|| fForcedMarkOccurrencesSelection == fSelection)
+			return fCanceled || progressMonitor.isCanceled() || fPostSelectionValidator != null
+					&& !(fPostSelectionValidator.isValid(fSelection) || fForcedMarkOccurrencesSelection == fSelection)
 					|| LinkedModeModel.hasInstalledModel(fDocument);
 		}
 
 		/*
 		 * @see Job#run(org.eclipse.core.runtime.IProgressMonitor)
 		 */
+		@Override
 		public IStatus run(IProgressMonitor progressMonitor) {
 			if (isCanceled(progressMonitor))
 				return Status.CANCEL_STATUS;
@@ -349,7 +351,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 
 			// Add occurrence annotations
 			int length = fLocations.length;
-			Map<Annotation, Position> annotationMap = new HashMap<Annotation, Position>(length);
+			Map<Annotation, Position> annotationMap = new HashMap<>(length);
 			for (int i = 0; i < length; i++) {
 
 				if (isCanceled(progressMonitor))
@@ -454,6 +456,7 @@ public class TwigStructuredEditor extends StructuredTextEditor {
 
 		final ISelection[] selections = new ISelection[1];
 		Display.getDefault().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				selections[0] = getSelectionProvider().getSelection();
 			}

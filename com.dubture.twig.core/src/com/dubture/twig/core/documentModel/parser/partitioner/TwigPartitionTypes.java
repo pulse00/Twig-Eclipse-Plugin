@@ -11,7 +11,7 @@ package com.dubture.twig.core.documentModel.parser.partitioner;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TypedRegion;
-import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
+import org.eclipse.php.internal.core.documentModel.parser.regions.IPHPScriptRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
 import com.dubture.twig.core.documentModel.parser.TwigRegionContext;
@@ -50,13 +50,13 @@ public class TwigPartitionTypes {
 	 * @return Starting region of the current partition
 	 * @throws BadLocationException
 	 */
-	public static final ITextRegion getPartitionStartRegion(IPhpScriptRegion region, int offset)
+	public static final ITextRegion getPartitionStartRegion(IPHPScriptRegion region, int offset)
 			throws BadLocationException {
 		String partitionType = region.getPartition(offset);
-		ITextRegion internalRegion = region.getPhpToken(offset);
+		ITextRegion internalRegion = region.getPHPToken(offset);
 		ITextRegion startRegion = internalRegion;
 		while (internalRegion.getStart() != 0) {
-			internalRegion = region.getPhpToken(internalRegion.getStart() - 1);
+			internalRegion = region.getPHPToken(internalRegion.getStart() - 1);
 			if (region.getPartition(internalRegion.getStart()) != partitionType) {
 				break;
 			}
@@ -75,7 +75,7 @@ public class TwigPartitionTypes {
 	 * @return Starting offset of the current partition
 	 * @throws BadLocationException
 	 */
-	public static final int getPartitionStart(IPhpScriptRegion region, int offset) throws BadLocationException {
+	public static final int getPartitionStart(IPHPScriptRegion region, int offset) throws BadLocationException {
 		ITextRegion startRegion = getPartitionStartRegion(region, offset);
 		return startRegion.getStart();
 	}
@@ -90,13 +90,13 @@ public class TwigPartitionTypes {
 	 * @return Ending region of the current partition
 	 * @throws BadLocationException
 	 */
-	public static final ITextRegion getPartitionEndRegion(IPhpScriptRegion region, int offset)
+	public static final ITextRegion getPartitionEndRegion(IPHPScriptRegion region, int offset)
 			throws BadLocationException {
 		String partitionType = region.getPartition(offset);
-		ITextRegion internalRegion = region.getPhpToken(offset);
+		ITextRegion internalRegion = region.getPHPToken(offset);
 		ITextRegion endRegion = internalRegion;
 		while (internalRegion.getEnd() != region.getLength()) {
-			internalRegion = region.getPhpToken(internalRegion.getEnd());
+			internalRegion = region.getPHPToken(internalRegion.getEnd());
 			if (region.getPartition(internalRegion.getStart()) != partitionType) {
 				break;
 			}
@@ -115,7 +115,7 @@ public class TwigPartitionTypes {
 	 * @return Ending offset of the current partition
 	 * @throws BadLocationException
 	 */
-	public static final int getPartitionEnd(IPhpScriptRegion region, int offset) throws BadLocationException {
+	public static final int getPartitionEnd(IPHPScriptRegion region, int offset) throws BadLocationException {
 		ITextRegion endRegion = getPartitionEndRegion(region, offset);
 		return endRegion.getEnd();
 	}
@@ -130,7 +130,7 @@ public class TwigPartitionTypes {
 	 * @return typed region containing partition
 	 * @throws BadLocationException
 	 */
-	public static final ITypedRegion getPartition(IPhpScriptRegion region, int offset) throws BadLocationException {
+	public static final ITypedRegion getPartition(IPHPScriptRegion region, int offset) throws BadLocationException {
 		String partitionType = region.getPartition(offset);
 		int startOffset = getPartitionStart(region, offset);
 		int endOffset = getPartitionEnd(region, offset);

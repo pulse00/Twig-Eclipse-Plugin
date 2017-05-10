@@ -23,7 +23,7 @@ import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.ast.statements.Statement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.index2.IIndexingRequestor.ReferenceInfo;
-import org.eclipse.php.core.index.PhpIndexingVisitorExtension;
+import org.eclipse.php.core.index.PHPIndexingVisitorExtension;
 import org.eclipse.php.core.compiler.ast.nodes.ArrayCreation;
 import org.eclipse.php.core.compiler.ast.nodes.ArrayElement;
 import org.eclipse.php.core.compiler.ast.nodes.ClassDeclaration;
@@ -58,7 +58,7 @@ import com.dubture.twig.internal.core.model.TwigType;
  * @author Robert Gruendler <r.gruendler@gmail.com>
  */
 @SuppressWarnings("restriction")
-public class TwigIndexingVisitorExtension extends PhpIndexingVisitorExtension {
+public class TwigIndexingVisitorExtension extends PHPIndexingVisitorExtension {
 
 	protected boolean inTwigExtension;
 	protected boolean inTokenParser;

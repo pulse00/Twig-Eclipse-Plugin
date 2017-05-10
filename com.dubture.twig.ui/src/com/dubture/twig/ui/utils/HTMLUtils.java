@@ -23,7 +23,7 @@ import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.ui.PreferenceConstants;
 import org.eclipse.jface.internal.text.html.HTMLPrinter;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.php.internal.core.model.PhpModelAccess;
+import org.eclipse.php.internal.core.model.PHPModelAccess;
 import org.eclipse.php.internal.ui.documentation.PHPDocumentationContentAccess;
 import org.eclipse.swt.graphics.FontData;
 import org.osgi.framework.Bundle;
@@ -132,7 +132,7 @@ public class HTMLUtils {
 			String name = filter.getElementName() + " (" + filter.getPhpClass() + ")";
 
 			IDLTKSearchScope scope = SearchEngine.createSearchScope(project);
-			IMethod[] methods = PhpModelAccess.getDefault().findMethods(filter.getInternalFunction(), MatchRule.EXACT,
+			IMethod[] methods = PHPModelAccess.getDefault().findMethods(filter.getInternalFunction(), MatchRule.EXACT,
 					0, 0, scope, null);
 
 			if (methods.length > 0 && filter.getInternalFunction().length() > 0) {

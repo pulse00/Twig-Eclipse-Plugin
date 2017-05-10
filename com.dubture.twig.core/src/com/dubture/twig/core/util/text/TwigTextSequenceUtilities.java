@@ -52,17 +52,17 @@ public class TwigTextSequenceUtilities {
 			tRegion = container.getRegionAtCharacterOffset(container.getStartOffset() + tRegion.getStart() - 1);
 		}
 
-		// This text region must be of type PhpScriptRegion:
+		// This text region must be of type PHPScriptRegion:
 		if (tRegion != null && TwigTextSequenceUtilities.isTwigRegion(tRegion.getType())) {
 			ITwigScriptRegion twigScriptRegion = (ITwigScriptRegion) tRegion;
 
 			try {
 				// Set default starting position to the beginning of the
-				// PhpScriptRegion:
+				// PHPScriptRegion:
 				int startOffset = container.getStartOffset() + twigScriptRegion.getStart();
 
 				// Now, search backwards for the statement start (in this
-				// PhpScriptRegion):
+				// PHPScriptRegion):
 				ITextRegion startTokenRegion;
 				if (documentOffset == startOffset) {
 					startTokenRegion = twigScriptRegion.getTwigToken(0);

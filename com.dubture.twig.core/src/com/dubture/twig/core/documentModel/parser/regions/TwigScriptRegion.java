@@ -17,7 +17,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.php.internal.core.PHPCorePlugin;
 import org.eclipse.php.internal.core.documentModel.parser.Scanner.LexerState;
-import org.eclipse.php.internal.core.documentModel.parser.regions.IPhpScriptRegion;
+import org.eclipse.php.internal.core.documentModel.parser.regions.IPHPScriptRegion;
 import org.eclipse.wst.sse.core.internal.parser.ForeignRegion;
 import org.eclipse.wst.sse.core.internal.provisional.events.StructuredDocumentEvent;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
@@ -293,7 +293,7 @@ public class TwigScriptRegion extends ForeignRegion implements ITwigScriptRegion
 	}
 
 	/**
-	 * @see IPhpScriptRegion#getPhpTokens(int, int)
+	 * @see IPHPScriptRegion#getPHPTokens(int, int)
 	 */
 	public final ITextRegion[] getTwigTokens(int offset, int length) throws BadLocationException {
 		return tokensContainer.getTokens(offset, length);

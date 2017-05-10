@@ -21,7 +21,7 @@ import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
 import org.eclipse.dltk.internal.core.SourceModule;
 import org.eclipse.php.internal.core.codeassist.PHPSelectionEngine;
-import org.eclipse.php.internal.core.model.PhpModelAccess;
+import org.eclipse.php.internal.core.model.PHPModelAccess;
 
 import com.dubture.twig.core.log.Logger;
 import com.dubture.twig.core.model.IFilter;
@@ -77,7 +77,7 @@ public class SelectionEngine extends PHPSelectionEngine {
 						for (IFunction function : functions) {
 							if (function.getElementName().equals(s.getName())) {
 								IDLTKSearchScope scope = SearchEngine.createSearchScope(function.getScriptProject());
-								IMethod[] methods = PhpModelAccess.getDefault().findMethods(
+								IMethod[] methods = PHPModelAccess.getDefault().findMethods(
 										function.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
 								if (methods.length == 1) {
 									elements.add(methods[0]);
@@ -97,7 +97,7 @@ public class SelectionEngine extends PHPSelectionEngine {
 							if (filter.getElementName().equals(s.getValue())) {
 
 								IDLTKSearchScope scope = SearchEngine.createSearchScope(filter.getScriptProject());
-								IMethod[] methods = PhpModelAccess.getDefault()
+								IMethod[] methods = PHPModelAccess.getDefault()
 										.findMethods(filter.getInternalFunction(), MatchRule.EXACT, 0, 0, scope, null);
 								if (methods.length == 1) {
 									elements.add(methods[0]);

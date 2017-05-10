@@ -74,7 +74,7 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 		}
 		int regionStart = sdRegion.getStartOffset(tRegion);
 
-		// in case of container we have the extract the PhpScriptRegion
+		// in case of container we have the extract the PHPScriptRegion
 		if (tRegion instanceof ITextRegionContainer) {
 			ITextRegionContainer container = (ITextRegionContainer) tRegion;
 			tRegion = container.getRegionAtCharacterOffset(offset);
@@ -142,17 +142,17 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 			// the whole document
 			final IStructuredDocumentRegion sdRegion = document.getRegionAtCharacterOffset(lineStart);
 			// the whole PHP script
-			ITextRegion phpScriptRegion = sdRegion.getRegionAtCharacterOffset(lineStart);
-			int phpContentStartOffset = sdRegion.getStartOffset(phpScriptRegion);
+			ITextRegion PHPScriptRegion = sdRegion.getRegionAtCharacterOffset(lineStart);
+			int phpContentStartOffset = sdRegion.getStartOffset(PHPScriptRegion);
 
-			if (phpScriptRegion instanceof ITextRegionContainer) {
-				ITextRegionContainer container = (ITextRegionContainer) phpScriptRegion;
-				phpScriptRegion = container.getRegionAtCharacterOffset(lineStart);
-				phpContentStartOffset += phpScriptRegion.getStart();
+			if (PHPScriptRegion instanceof ITextRegionContainer) {
+				ITextRegionContainer container = (ITextRegionContainer) PHPScriptRegion;
+				PHPScriptRegion = container.getRegionAtCharacterOffset(lineStart);
+				phpContentStartOffset += PHPScriptRegion.getStart();
 			}
 
-			if (phpScriptRegion instanceof ITwigScriptRegion) {
-				ITwigScriptRegion scriptRegion = (ITwigScriptRegion) phpScriptRegion;
+			if (PHPScriptRegion instanceof ITwigScriptRegion) {
+				ITwigScriptRegion scriptRegion = (ITwigScriptRegion) PHPScriptRegion;
 				// the region we are trying to check if it is the indent base
 				// for the line we need to format
 				ContextRegion checkedRegion = (ContextRegion) scriptRegion
@@ -332,7 +332,7 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 				scriptRegion = sdRegion.getRegionAtCharacterOffset(offset);
 			}
 			int regionStart = sdRegion.getStartOffset(scriptRegion);
-			// in case of container we have the extract the PhpScriptRegion
+			// in case of container we have the extract the PHPScriptRegion
 			if (scriptRegion instanceof ITextRegionContainer) {
 				ITextRegionContainer container = (ITextRegionContainer) scriptRegion;
 				scriptRegion = container.getRegionAtCharacterOffset(offset);
@@ -385,7 +385,7 @@ public class DefaultIndentationStrategy implements IIndentationStrategy {
 				scriptRegion = sdRegion.getRegionAtCharacterOffset(offset);
 			}
 			int regionStart = sdRegion.getStartOffset(scriptRegion);
-			// in case of container we have the extract the PhpScriptRegion
+			// in case of container we have the extract the PHPScriptRegion
 			if (scriptRegion instanceof ITextRegionContainer) {
 				ITextRegionContainer container = (ITextRegionContainer) scriptRegion;
 				scriptRegion = container.getRegionAtCharacterOffset(offset);

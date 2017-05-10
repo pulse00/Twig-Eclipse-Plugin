@@ -332,13 +332,13 @@ public class CloseTagAutoEditStrategyTwig implements IAutoEditStrategy {
 				ITextRegion tRegion = sdRegion.getRegionAtCharacterOffset(currOffset);
 
 				// in case the cursor on the beginning of '?>' tag
-				// we decrease the offset to get the PhpScriptRegion
+				// we decrease the offset to get the PHPScriptRegion
 				if (tRegion.getType().equals(PHPRegionContext.PHP_CLOSE)) {
 					tRegion = sdRegion.getRegionAtCharacterOffset(currOffset - 1);
 				}
 
 				int regionStart = sdRegion.getStartOffset(tRegion);
-				// in case of container we have the extract the PhpScriptRegion
+				// in case of container we have the extract the PHPScriptRegion
 				if (tRegion instanceof ITextRegionContainer) {
 					ITextRegionContainer container = (ITextRegionContainer) tRegion;
 					tRegion = container.getRegionAtCharacterOffset(currOffset);

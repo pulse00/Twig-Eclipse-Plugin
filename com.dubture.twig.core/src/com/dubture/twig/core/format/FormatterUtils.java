@@ -50,7 +50,7 @@ public class FormatterUtils {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset);
 			}
 			// in case the cursor on the beginning of '?>' tag
-			// we decrease the offset to get the PhpScriptRegion
+			// we decrease the offset to get the PHPScriptRegion
 			if (tRegion.getType().equals(TwigRegionContext.TWIG_CLOSE)
 					|| tRegion.getType().equals(TwigRegionContext.TWIG_STMT_CLOSE)) {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset - 1);
@@ -92,7 +92,7 @@ public class FormatterUtils {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset);
 			}
 			// in case the cursor on the beginning of '?>' tag
-			// we decrease the offset to get the PhpScriptRegion
+			// we decrease the offset to get the PHPScriptRegion
 			if (tRegion.getType().equals(TwigRegionContext.TWIG_CLOSE)
 					|| tRegion.getType().equals(TwigRegionContext.TWIG_STMT_CLOSE)) {
 				tRegion = sdRegion.getRegionAtCharacterOffset(offset - 1);
@@ -100,7 +100,7 @@ public class FormatterUtils {
 
 			int regionStart = sdRegion.getStartOffset(tRegion);
 
-			// in case of container we have the extract the PhpScriptRegion
+			// in case of container we have the extract the PHPScriptRegion
 			if (tRegion != null && tRegion instanceof ITextRegionContainer) {
 				ITextRegionContainer container = (ITextRegionContainer) tRegion;
 				tRegion = container.getRegionAtCharacterOffset(offset);

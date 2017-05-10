@@ -25,7 +25,7 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
-import org.eclipse.php.internal.ui.editor.templates.PhpTemplateCompletionProcessor;
+import org.eclipse.php.internal.ui.editor.templates.PHPTemplateCompletionProcessor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
 import org.eclipse.swt.graphics.Image;
 
@@ -43,7 +43,7 @@ import com.dubture.twig.ui.editor.templates.TwigTemplateContextType;
  * 
  */
 @SuppressWarnings("restriction")
-public class TwigTemplateCompletionProcessor extends PhpTemplateCompletionProcessor {
+public class TwigTemplateCompletionProcessor extends PHPTemplateCompletionProcessor {
 
 	public TwigTemplateCompletionProcessor(ScriptContentAssistInvocationContext context, boolean explicit) {
 
@@ -77,7 +77,7 @@ public class TwigTemplateCompletionProcessor extends PhpTemplateCompletionProces
 		if (context == null) {
 			return new ICompletionProposal[0];
 		}
-		List<TemplateProposal> matches = new ArrayList<TemplateProposal>();
+		List<TemplateProposal> matches = new ArrayList<>();
 
 		Template[] templates = getTemplates(context.getContextType().getId());
 		for (int i = 0; i < templates.length; i++) {
