@@ -15,8 +15,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dltk.core.SourceRange;
-import org.eclipse.php.core.tests.PHPCoreTests;
 import org.eclipse.php.core.tests.PdttFile;
+import org.eclipse.php.core.tests.TestUtils;
 import org.eclipse.php.core.tests.runner.AbstractPDTTRunner.Context;
 import org.eclipse.php.core.tests.runner.PDTTList;
 import org.eclipse.php.core.tests.runner.PDTTList.AfterList;
@@ -47,8 +47,8 @@ public class CodeAssistTest {
 		return TwigCoreTestPlugin.getDefault().getBundle();
 	}
 
-	protected Map<String, IFile> files = new HashMap<String, IFile>();
-	protected Map<String, PdttFile> pdttFiles = new HashMap<String, PdttFile>();
+	protected Map<String, IFile> files = new HashMap<>();
+	protected Map<String, PdttFile> pdttFiles = new HashMap<>();
 	private int count = 0;
 
 	private String[] fileNames;
@@ -79,7 +79,7 @@ public class CodeAssistTest {
 
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		PHPCoreTests.getDefault().waitForIndexer();
+		TestUtils.waitForIndexer();
 	}
 
 	private IFile createFile(String data) throws CoreException {
@@ -104,7 +104,7 @@ public class CodeAssistTest {
 		engine.setMonitor(new NullProgressMonitor());
 		engine.setProject(project);
 		engine.setSourceRange(new SourceRange(pdttFiles.get(fileName).getFile().trim().lastIndexOf(OFFSET_CHAR), 0));
-		final List<CompletionProposal> proposals = new LinkedList<CompletionProposal>();
+		final List<CompletionProposal> proposals = new LinkedList<>();
 		engine.setRequestor(new CompletionRequestor() {
 
 			@Override
