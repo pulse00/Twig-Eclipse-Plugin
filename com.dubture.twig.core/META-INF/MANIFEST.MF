@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.dubture.twig.core
 Bundle-SymbolicName: com.dubture.twig.core;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.1.1.qualifier
 Bundle-Activator: com.dubture.twig.core.TwigCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,

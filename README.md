@@ -4,8 +4,8 @@
 
 ### Requirements
 
-- Eclipse >= 3.7.2 (aka Indigo SR2)
-- Java >= 6
+- Eclipse >= 4.6.0 (aka Neon)
+- Java >= 8
 
 ### INSTALLATION
 
