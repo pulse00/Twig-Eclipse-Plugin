@@ -6,7 +6,7 @@
     <property name="p2.timestamp" value="1243822502445"/>
   </properties>
   <children size="1">
-    <child location="http://dl.bintray.com/zulus/twig-plugin/release/2.0.1/"/>
+    <child location="http://dl.bintray.com/zulus/twig-plugin/release/2.1.0/"/>
   </children>
 </repository>
 
