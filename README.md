@@ -4,7 +4,7 @@
 
 ### Requirements
 
-- Eclipse >= 4.6.0 (aka Neon)
+- Eclipse >= 4.10.0 (aka 2019-06)
 - Java >= 8
 
 ### INSTALLATION
