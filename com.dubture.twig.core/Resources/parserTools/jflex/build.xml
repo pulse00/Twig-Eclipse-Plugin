@@ -35,7 +35,7 @@
 	</target>
 
 	<target name="downloadAndUnpack" unless="jarExists">
-		<get src="http://jflex.de/jflex-${jflexVersion}.zip" dest="${jflex.work.dir}/jflex-${jflexVersion}.zip" verbose="true" usetimestamp="true" />
+		<get src="https://jflex.de/jflex-${jflexVersion}.zip" dest="${jflex.work.dir}/jflex-${jflexVersion}.zip" verbose="true" usetimestamp="true" />
 		<unzip src="${jflex.work.dir}/jflex-${jflexVersion}.zip" dest="${jflex.work.dir}" />
 	</target>
 </project>

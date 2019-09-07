@@ -32,7 +32,7 @@
 		<setproxy proxyhost="${http.proxyHost}" proxyport="${http.proxyPort}" />
 	</target>
 	<target name="downloadParser" unless="jarParserExists">
-		<get src="http://download.eclipse.org/tools/pdt/updates/3.6/plugins/org.eclipse.php.core.parser_3.6.0.201509151953.jar" dest="${cupParser}" verbose="true" usetimestamp="true" />
+		<get src="https://download.eclipse.org/tools/pdt/updates/3.6/plugins/org.eclipse.php.core.parser_3.6.0.201509151953.jar" dest="${cupParser}" verbose="true" usetimestamp="true" />
 	</target>
 
 </project>
