@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.dubture.twig</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>2.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>com.dubture.twig.core</artifactId>
@@ -39,7 +38,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -50,15 +49,9 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-antrun-plugin
-										</artifactId>
-										<versionRange>
-											[1.5,)
-										</versionRange>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.5,)</versionRange>
 										<goals>
 											<goal>run</goal>
 										</goals>
@@ -69,15 +62,9 @@
 								</pluginExecution>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>
-											com.google.code.maven-replacer-plugin
-										</groupId>
-										<artifactId>
-											maven-replacer-plugin
-										</artifactId>
-										<versionRange>
-											[1.4.0,)
-										</versionRange>
+										<groupId>com.google.code.maven-replacer-plugin</groupId>
+										<artifactId>maven-replacer-plugin</artifactId>
+										<versionRange>[1.4.0,)</versionRange>
 										<goals>
 											<goal>replace</goal>
 										</goals>
@@ -93,27 +80,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-
-	<profiles>
-		<profile>
-			<id>deploy</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<packaging.type>eclipse-test-plugin</packaging.type>
-			</properties>
-		</profile>
-
-		<!-- enable faster parser builds by packaging to jar -->
-		<profile>
-			<id>parser</id>
-			<properties>
-				<packaging.type>jar</packaging.type>
-			</properties>
-		</profile>
-	</profiles>
-
 </project>
-

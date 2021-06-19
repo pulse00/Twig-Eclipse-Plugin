@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dubture.twig</groupId>
 	<artifactId>parent</artifactId>
-	<version>2.2.0-SNAPSHOT</version>
+	<version>2.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>com.dubture.twig.core</module>
@@ -16,28 +15,30 @@
 	</modules>
 
 	<properties>
-		<tycho-version>1.6.0</tycho-version>
+		<tycho-version>2.3.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse.name>2020-03</eclipse.name>
-		<release>false</release>
-		<bintray.user></bintray.user>
-		<bintray.apikey></bintray.apikey>
-		<bintray.owner></bintray.owner>
-		<bintray.repo>twig-plugin</bintray.repo>
-		<bintray.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bintray.version>
+
+		<enforcer.requireMavenVersion>[3.8.1,4.0.0)</enforcer.requireMavenVersion>
+
 		<pdt.version>latest-nightly</pdt.version>
 		<dltk.version>latest-nightly</dltk.version>
 		<core-plugin.url>http://pdt-eg.github.io/Core-Plugin/nightly</core-plugin.url>
 		<external-mirror.url>http://pdt-eg.github.io/external-mirror/nightly</external-mirror.url>
-		<indexing.url>http://pulse00.github.io/eclipse-indexing-framework/nightly</indexing.url>
+		<!-- note: the "glhez." must be changed on root repo... -->
+		<indexing.url>https://glhez.github.io/eclipse-indexing-framework</indexing.url>
 		<test.vmargs>-Xmx512m -XX:MaxPermSize=256m</test.vmargs>
 	</properties>
 
 	<repositories>
 		<repository>
-			<id>eclipse</id>
+			<id>eclipse.org-2021-06</id>
+			<url>https://download.eclipse.org/releases/2021-06</url>
 			<layout>p2</layout>
-			<url>https://download.eclipse.org/releases/${eclipse.name}</url>
+		</repository>
+		<repository>
+			<id>eclipse.org-updates-4.20</id>
+			<url>https://download.eclipse.org/eclipse/updates/4.20</url>
+			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>dltk</id>
@@ -49,7 +50,7 @@
 			<layout>p2</layout>
 			<url>https://download.eclipse.org/tools/pdt/updates/${pdt.version}/</url>
 		</repository>
-		<repository>
+		<!-- <repository>
 			<id>core-plugin</id>
 			<layout>p2</layout>
 			<url>${core-plugin.url}</url>
@@ -58,11 +59,11 @@
 			<id>external-mirror</id>
 			<layout>p2</layout>
 			<url>${external-mirror.url}</url>
-		</repository>
+		</repository>-->
 		<repository>
 			<id>orbit</id>
 			<layout>p2</layout>
-			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
+			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20210602031627/repository/</url>
 		</repository>
 		<repository>
 			<id>sonatype</id>
@@ -86,7 +87,114 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.9.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>3.0.0-M3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-maven-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>target-platform-configuration</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-p2-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<version>${tycho-version}</version>
+					<artifactId>tycho-p2-publisher-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-p2-repository-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<argLine>${test.vmargs}</argLine>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<inherited>true</inherited>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${enforcer.requireMavenVersion}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
@@ -98,8 +206,8 @@
 				<artifactId>tycho-compiler-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -137,64 +245,6 @@
 					</environments>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<id>parse-version</id>
-						<goals>
-							<goal>parse-version</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-surefire-plugin</artifactId>
-					<version>${tycho-version}</version>
-					<configuration>
-						<argLine>${test.vmargs}</argLine>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-	<profiles>
-		<profile>
-			<id>release</id>
-			<activation>
-				<property>
-					<name>release</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<properties>
-				<bintray.package>release</bintray.package>
-			</properties>
-		</profile>
-		<profile>
-			<id>nightly</id>
-			<activation>
-				<property>
-					<name>release</name>
-					<value>false</value>
-				</property>
-			</activation>
-			<properties>
-				<bintray.package>nightly</bintray.package>
-			</properties>
-		</profile>
-	</profiles>
 </project>
