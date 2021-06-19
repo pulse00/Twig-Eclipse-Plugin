@@ -1,4 +1,4 @@
-name: Update P2 Repository
+name: Deploy P2 Repository to GitHub Pages
 on:
   workflow_dispatch:
 jobs:
