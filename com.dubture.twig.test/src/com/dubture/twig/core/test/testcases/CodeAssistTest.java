@@ -1,6 +1,7 @@
 package com.dubture.twig.core.test.testcases;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.eclipse.php.core.tests.runner.PDTTList.AfterList;
 import org.eclipse.php.core.tests.runner.PDTTList.BeforeList;
 import org.eclipse.php.core.tests.runner.PDTTList.Parameters;
 import org.eclipse.php.internal.core.project.PHPNature;
-import org.eclipse.wst.sse.core.internal.FileBufferModelManager;
+import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,8 +98,9 @@ public class CodeAssistTest {
 	}
 
 	@Test
-	public void assist(String fileName) throws CoreException {
-		IStructuredModel model = FileBufferModelManager.getInstance().getModel(files.get(fileName));
+	public void assist(String fileName) throws CoreException, IOException {
+		IStructuredModel model = StructuredModelManager.getModelManager()
+				.createUnManagedStructuredModelFor(files.get(fileName));
 
 		TwigCompletionEngine engine = new TwigCompletionEngine();
 		engine.setMonitor(new NullProgressMonitor());

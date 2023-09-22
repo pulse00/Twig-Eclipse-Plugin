@@ -29,7 +29,7 @@ com.dubture.twig.core.TwigNature
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             base-type="org.eclipse.wst.html.core.htmlsource"
-            file-extensions="twig"
+            file-extensions="twigold"
             id="twigtemplate"
             name="Twig Template"
             priority="high">
