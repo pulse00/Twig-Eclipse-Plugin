@@ -27,9 +27,9 @@
 		<bintray.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bintray.version>
 		<pdt.version>latest-nightly</pdt.version>
 		<dltk.version>latest-nightly</dltk.version>
-		<core-plugin.url>http://pdt-eg.github.io/Core-Plugin/nightly</core-plugin.url>
-		<external-mirror.url>http://pdt-eg.github.io/external-mirror/nightly</external-mirror.url>
-		<indexing.url>http://pulse00.github.io/eclipse-indexing-framework/nightly</indexing.url>
+		<core-plugin.url>https://pdt-eg.github.io/Core-Plugin/nightly</core-plugin.url>
+		<external-mirror.url>https://pdt-eg.github.io/external-mirror/nightly</external-mirror.url>
+		<indexing.url>https://pulse00.github.io/eclipse-indexing-framework/nightly</indexing.url>
 		<test.vmargs>-Xmx512m</test.vmargs>
 	</properties>
 
